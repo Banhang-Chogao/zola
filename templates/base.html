@@ -1276,38 +1276,76 @@
         </section>
         {% endif %}
 
-        <div class="container site-footer__main">
-            <div class="site-footer__left">
-                <a href="{{ config.base_url | safe }}/admin-countdown/" class="site-footer__author-mgmt"
-                   title="Cấu hình đếm ngược footer">
-                    ⏱ Countdown
-                </a>
+        {# ===== FOOTER BRAND — modern 3-column layout (self-contained) =====
+           Giữ NGUYÊN container hiện có (.site-footer / .container / .site-footer__main);
+           chỉ thay phần ruột bằng grid 3 cột (gập 1 cột trên mobile). KHÔNG tạo class
+           .scss mới — layout đặt inline, còn :hover + responsive (không inline được)
+           gói trong 1 <style> scoped theo .site-footer__main + data-attr. Biến theme
+           (--primary/--accent/--text-muted/--border-color) kèm fallback khớp palette
+           footer tối để không đảo màu ở dark-mode. GA pill "pending" đã gỡ hoàn toàn;
+           chỉ giữ link Analytics khi đã cấu hình Measurement ID. #}
+        <div class="container site-footer__main" style="display:block; text-align:left;">
+            <div data-footer-grid
+                 style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:2.5rem; border-top:2px solid var(--accent, #5b9bff); padding-top:2rem;">
+                <div>
+                    <h4 style="color:var(--primary, #fff); font-size:1rem; margin:0 0 0.75rem;">Về chúng tôi</h4>
+                    <p style="color:var(--text-muted, #9aa4b2); font-size:0.9rem; line-height:1.8; margin:0 0 1rem;">
+                        <strong style="color:#fff;">{{ config.title }}</strong> — Nền tảng SEO &amp; phân tích
+                        dữ liệu hàng đầu. Powered by Zola.
+                    </p>
+                    <a href="{{ config.base_url | safe }}/admin-countdown/" class="site-footer__author-mgmt"
+                       title="Cấu hình đếm ngược footer">
+                        ⏱ Countdown
+                    </a>
+                </div>
+                <div>
+                    <h4 style="color:var(--primary, #fff); font-size:1rem; margin:0 0 0.75rem;">Liên kết</h4>
+                    <ul style="list-style:none; padding:0; margin:0; color:var(--text-muted, #9aa4b2); font-size:0.9rem; line-height:1.95;">
+                        <li><a href="{{ config.base_url | safe }}/about/">Giới thiệu</a></li>
+                        <li><a href="{{ config.base_url | safe }}/contact/">Liên hệ</a></li>
+                        <li><a href="{{ config.base_url | safe }}/privacy/">Chính sách bảo mật</a></li>
+                        <li><a href="{{ config.base_url | safe }}/terms/">Điều khoản &amp; Miễn trừ</a></li>
+                        <li><a href="{{ config.base_url | safe }}/copyright/">Bản quyền</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color:var(--primary, #fff); font-size:1rem; margin:0 0 0.75rem;">Theo dõi</h4>
+                    <div data-footer-social style="display:flex; gap:1rem; font-size:1.5rem;">
+                        <a href="#" aria-label="Facebook" title="Facebook">📘</a>
+                        <a href="#" aria-label="Twitter" title="Twitter">🐦</a>
+                        <a href="#" aria-label="YouTube" title="YouTube">📺</a>
+                        <a href="#" aria-label="LinkedIn" title="LinkedIn">💼</a>
+                    </div>
+                    {# GA status pill → click mở GA dashboard. URL từ config
+                       (ga_dashboard_url, account-agnostic #/p<id>/) — property 542421812.
+                       Chỉ hiện khi đã cấu hình Measurement ID (bỏ trạng thái pending). #}
+                    {% if config.extra.ga_measurement_id %}
+                    <a class="ga-status ga-status--active" style="margin-top:1rem;"
+                       href="{{ config.extra.ga_dashboard_url | default(value='https://analytics.google.com/') }}"
+                       target="_blank" rel="noopener"
+                       title="Mở Google Analytics dashboard — Measurement ID: {{ config.extra.ga_measurement_id }}">
+                        📊 Analytics: <code>{{ config.extra.ga_measurement_id }}</code>
+                    </a>
+                    {% endif %}
+                </div>
             </div>
-            <div class="site-footer__center">
-                <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola</p>
-                <p class="site-footer__legal">
-                    <a href="{{ config.base_url | safe }}/about/">Giới thiệu</a> ·
-                    <a href="{{ config.base_url | safe }}/contact/">Liên hệ</a> ·
-                    <a href="{{ config.base_url | safe }}/privacy/">Chính sách bảo mật</a> ·
-                    <a href="{{ config.base_url | safe }}/terms/">Điều khoản &amp; Miễn trừ</a> ·
-                    <a href="{{ config.base_url | safe }}/copyright/">Bản quyền</a>
-                </p>
-                {# GA status pill → click mở GA dashboard. URL từ config
-                   (ga_dashboard_url, account-agnostic #/p<id>/) — property 542421812. #}
-                {% if config.extra.ga_measurement_id %}
-                <a class="ga-status ga-status--active"
-                   href="{{ config.extra.ga_dashboard_url | default(value='https://analytics.google.com/') }}"
-                   target="_blank" rel="noopener"
-                   title="Mở Google Analytics dashboard — Measurement ID: {{ config.extra.ga_measurement_id }}">
-                    📊 Analytics: <code>{{ config.extra.ga_measurement_id }}</code>
-                </a>
-                {% else %}
-                <span class="ga-status ga-status--pending" title="Chưa cấu hình Google Analytics — sửa config.toml ga_measurement_id để bật">
-                    ⏳ ĐANG CHỜ MEASUREMENT ID
-                </span>
-                {% endif %}
+            <div style="text-align:center; border-top:1px solid var(--border-color, rgba(255,255,255,0.1)); margin-top:2rem; padding-top:1.5rem; color:var(--text-muted, #9aa4b2); font-size:0.85rem;">
+                <p style="margin:0;">©2026 <strong style="color:#fff;">{{ config.title }}</strong> — Powered by Zola</p>
             </div>
         </div>
+        {# Hover + responsive cho footer brand (không biểu diễn được bằng inline).
+           Scoped theo .site-footer__main — KHÔNG thêm class .scss mới. #}
+        <style>
+            .site-footer__main a { text-decoration:none; transition:color .15s ease, transform .15s ease; }
+            .site-footer__main ul li a,
+            .site-footer__main [data-footer-social] a { color:var(--text-muted, #9aa4b2); }
+            .site-footer__main ul li a:hover,
+            .site-footer__main [data-footer-social] a:hover { color:var(--accent, #5b9bff); }
+            .site-footer__main [data-footer-social] a:hover { transform:translateY(-2px); }
+            @media (max-width:768px) {
+                .site-footer__main [data-footer-grid] { grid-template-columns:1fr; gap:1.75rem; }
+            }
+        </style>
 
         {# CATEGORIES — compact footer navigation (moved from sidebar) #}
         <nav class="footer-categories" aria-label="Danh mục bài viết">
