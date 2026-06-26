@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "feat(worldcup-2026): add WorldCup 2026 News Hub with static content",
+      "tag": "chore",
+      "lines_added": 1326,
+      "lines_removed": 0,
+      "highlights": [
+        "Layout mobile-first responsive với hero section, stats cards, filter tabs",
+        "5 section chính: Tin mới, Lịch thi đấu, Đội tuyển, Bên lề & Đời sống, FAQ",
+        "Data structure tĩnh trong data/worldcup_2026.json cho phép mở rộng sau",
+        "Client-side filtering với JS nhẹ, không phụ thuộc framework",
+        "Semantic tokens var(--c-*) cho light/dark mode tự động"
+      ],
+      "pr": 1029
+    },
+    {
+      "date": "2026-06-26",
       "title": "audit(content): comprehensive recovery audit — all 174 posts verified…",
       "tag": "chore",
       "lines_added": 742,
