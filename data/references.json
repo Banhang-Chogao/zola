@@ -2134,6 +2134,19 @@
     "external_count": 0,
     "internal_count": 12
   },
+  "content/posting/deploy-mon-tera-scoping-fix-2026.md": {
+    "external": [
+      {
+        "title": "Zola static site generator",
+        "url": "https://www.getzola.org/",
+        "kind": "external"
+      }
+    ],
+    "internal": [],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Zola static site generator. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 0
+  },
   "content/posting/derado-va-neunda-haedo-tieng-han.md": {
     "external": [],
     "internal": [
@@ -5222,6 +5235,146 @@
     ],
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ TOPIK. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
+    "internal_count": 4
+  },
+  "content/posting/pr-management-series-part-1.md": {
+    "external": [
+      {
+        "title": "GitHub's PR best practices guide",
+        "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests",
+        "kind": "external"
+      },
+      {
+        "title": "Atlassian's CI/CD fundamentals",
+        "url": "https://www.atlassian.com/continuous-delivery",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Part 2 - The Framework",
+        "url": "https://seomoney.org/posting/pr-management-series-part-2/",
+        "kind": "internal"
+      },
+      {
+        "title": "Part 3 - Automation Breakthrough",
+        "url": "https://seomoney.org/posting/pr-management-series-part-3/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub's PR best practices guide và Atlassian's CI/CD fundamentals. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 2
+  },
+  "content/posting/pr-management-series-part-2.md": {
+    "external": [
+      {
+        "title": "GitHub Flow guide",
+        "url": "https://guides.github.com/introduction/flow",
+        "kind": "external"
+      },
+      {
+        "title": "Kubernetes merge strategies",
+        "url": "https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/merge-patch",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Part 3 - Automation Breakthrough",
+        "url": "https://seomoney.org/posting/pr-management-series-part-3/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Flow guide và Kubernetes merge strategies. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 1
+  },
+  "content/posting/pr-management-series-part-3.md": {
+    "external": [
+      {
+        "title": "Exponential backoff strategy",
+        "url": "https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter",
+        "kind": "external"
+      },
+      {
+        "title": "Git cherry-pick documentation",
+        "url": "https://git-scm.com/docs/git-cherry-pick",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Part 4 - The Knowledge Base",
+        "url": "https://seomoney.org/posting/pr-management-series-part-4/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Exponential backoff strategy và Git cherry-pick documentation. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 1
+  },
+  "content/posting/pr-management-series-part-4.md": {
+    "external": [
+      {
+        "title": "Code review best practices",
+        "url": "https://google.github.io/eng-practices/review",
+        "kind": "external"
+      },
+      {
+        "title": "OWASP's risk rating methodology",
+        "url": "https://owasp.org/www-community/OWASP_Risk_Rating_Methodology",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Part 5 - Rules & Metrics",
+        "url": "https://seomoney.org/posting/pr-management-series-part-5/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Code review best practices và OWASP's risk rating methodology. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 1
+  },
+  "content/posting/pr-management-series-part-5.md": {
+    "external": [
+      {
+        "title": "GitHub's engineering practices",
+        "url": "https://google.github.io/eng-practices",
+        "kind": "external"
+      },
+      {
+        "title": "The DevOps Handbook",
+        "url": "https://itrevolution.com/the-devops-handbook",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Part 1 - The Crisis",
+        "url": "https://seomoney.org/posting/pr-management-series-part-1/",
+        "kind": "internal"
+      },
+      {
+        "title": "Part 2 - Framework",
+        "url": "https://seomoney.org/posting/pr-management-series-part-2/",
+        "kind": "internal"
+      },
+      {
+        "title": "Part 3 - Automation",
+        "url": "https://seomoney.org/posting/pr-management-series-part-3/",
+        "kind": "internal"
+      },
+      {
+        "title": "Part 4 - Knowledge Base",
+        "url": "https://seomoney.org/posting/pr-management-series-part-4/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub's engineering practices và The DevOps Handbook. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
     "internal_count": 4
   },
   "content/posting/pull-request-quy-trinh-cong-tac-github.md": {
