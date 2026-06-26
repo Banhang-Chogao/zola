@@ -1,23 +1,42 @@
 {
-  "updated_at": "2026-06-26T08:48:15Z",
+  "updated_at": "2026-06-26T09:08:39Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 50,
-    "this_week": 184,
+    "today": 51,
+    "this_week": 185,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 109,
-      "unknown": 40,
+      "unknown": 41,
+      "fix": 108,
       "ci": 5,
       "feature": 38,
       "chore": 8
     }
   },
   "merges": [
+    {
+      "pr_number": 968,
+      "pr_title": "Merge remote-tracking branch 'origin/main' into claude/7pr-monorepo-conflicts-zfvwy3 [claude/7pr-monorepo-conflicts-zfvwy3]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/968",
+      "merged_at": "2026-06-26T09:02:15Z",
+      "merge_commit_sha": "3c841d8f07bb04f07503d7004c22106b12820f5f",
+      "merge_commit_short": "3c841d8",
+      "head_branch": "claude/7pr-monorepo-conflicts-zfvwy3",
+      "summary_vi": "- feat: publish 5-part blog series on PR management — complete automation framework",
+      "change_type": "unknown",
+      "files_changed": 11,
+      "additions": 1686,
+      "deletions": 142,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1195,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28228246662",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 989,
       "pr_title": "fix: hide empty header-rotator on mobile [fix/header-rotator-mobile-gap]",
@@ -35,7 +54,7 @@
       "auto_merged": false,
       "build_run_number": 1194,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28227184077",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 988,
@@ -187,7 +206,7 @@
       "auto_merged": false,
       "build_run_number": 1186,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28225911951",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 983,
@@ -964,9 +983,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1165,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28210014667",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 930,
@@ -1073,9 +1092,9 @@
       "head_branch": "claude/zulma-zola-theme-setup-qxhc6b",
       "summary_vi": "feat: setup Zulma theme for Zola with search, dark mode, and navigation menu",
       "change_type": "feature",
-      "files_changed": null,
-      "additions": null,
-      "deletions": null,
+      "files_changed": 17,
+      "additions": 1135,
+      "deletions": 115,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
@@ -3793,25 +3812,6 @@
       "files_changed": 18,
       "additions": 973,
       "deletions": 23,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 550,
-      "pr_title": "fix(vaccine-hotfix): claude/uptime-me",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/550",
-      "merged_at": "2026-06-20T09:43:09Z",
-      "merge_commit_sha": "d104a1b68b8cdeb7f17d451f9fcf44aea65a475c",
-      "merge_commit_short": "d104a1b",
-      "head_branch": "vaccine-hotfix/claude-uptime-me",
-      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
-      "change_type": "fix",
-      "files_changed": 20,
-      "additions": 1006,
-      "deletions": 33,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
