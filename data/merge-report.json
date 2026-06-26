@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-26T10:01:26Z",
+  "updated_at": "2026-06-26T10:06:59Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 53,
-    "this_week": 187,
+    "today": 54,
+    "this_week": 188,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "unknown": 42,
+      "unknown": 43,
       "content": 1,
-      "fix": 106,
+      "fix": 105,
       "ci": 5,
       "feature": 38,
       "chore": 8
     }
   },
   "merges": [
+    {
+      "pr_number": 991,
+      "pr_title": "chore: revert seo-qa-scores to main version [claude/build-smoke-blog-post-wwj8v8]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/991",
+      "merged_at": "2026-06-26T10:00:20Z",
+      "merge_commit_sha": "8be39169fd3d0b5246170d3617c66720d4a4fce4",
+      "merge_commit_short": "8be3916",
+      "head_branch": "claude/build-smoke-blog-post-wwj8v8",
+      "summary_vi": "- fix: correct taxonomy format in frontmatter",
+      "change_type": "unknown",
+      "files_changed": 0,
+      "additions": 0,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1199,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28231065846",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 995,
       "pr_title": "Merge main: resolve conflicts, keep PR blog posts, take main SEO scores [claude/7pr-monorepo-conflicts-zfvwy3]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1198,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28230738187",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 969,
@@ -908,9 +927,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1169,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28210944305",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1176,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28211877000",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 938,
@@ -3794,25 +3813,6 @@
       "files_changed": 4,
       "additions": 437,
       "deletions": 3,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 611,
-      "pr_title": "fix: avoid secret scanner false positive in GA tests [vaccine-hotfix/claude-busy-curie-wrig6g]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/611",
-      "merged_at": "2026-06-21T04:11:44Z",
-      "merge_commit_sha": "3f1502fa82e7b6ce07a7d5a5b44f9d111dca3bc7",
-      "merge_commit_short": "3f1502f",
-      "head_branch": "vaccine-hotfix/claude-busy-curie-wrig6g",
-      "summary_vi": "- feat(ga): migrate GA module to seomoney.org property 542421812 + GA Vacxin + B-DNA redesign",
-      "change_type": "fix",
-      "files_changed": 18,
-      "additions": 1775,
-      "deletions": 501,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
