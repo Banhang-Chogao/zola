@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Theme log | {{ config.title }}{% endblock %}
+{% block description %}Theme log — sổ ghi mốc rollback theme/blog UI của SEOMONEY, dựng từ dữ liệu git thật.{% endblock %}
+
+{% block main %}
+    {# Dữ liệu sinh bởi scripts/theme_audit.py (git history thật → verify từng
+       commit). KHÔNG hardcode hàng ví dụ. required=false → trang vẫn render
+       empty-state nếu file chưa tồn tại. #}
+    {% set data = load_data(path="data/theme-log.json", required=false) %}
+
+    <section class="theme-log">
+        <header class="theme-log__header">
+            <h1 class="theme-log__title">Theme log</h1>
+            <p class="theme-log__note">Use this table as rollback milestones.</p>
+        </header>
+
+        {% if data %}
+        {# ===== Tóm tắt theme production hiện tại ===== #}
+        <div class="theme-log__summary">
+            <div class="theme-log__summary-row">
+                <span class="theme-log__summary-key">Production</span>
+                <a class="theme-log__summary-val" href="{{ data.production_url }}" target="_blank" rel="noopener">{{ data.production_url }}</a>
+            </div>
+            <div class="theme-log__summary-row">
+                <span class="theme-log__summary-key">Repo</span>
+                <span class="theme-log__summary-val"><code>{{ data.repo }}</code></span>
+            </div>
+            <div class="theme-log__summary-row">
+                <span class="theme-log__summary-key">Current HEAD</span>
+                <span class="theme-log__summary-val"><code>{{ data.current_head | truncate(length=12, end="") }}</code></span>
+            </div>
+            {% if data.current_theme %}
+            <div class="theme-log__summary-row">
+                <span class="theme-log__summary-key">Theme</span>
+                <span class="theme-log__summary-val">{{ data.current_theme.theme_name | default(value="unknown") }}</span>
+            </div>
+            <div class="theme-log__summary-row">
+                <span class="theme-log__summary-key">Color</span>
+                <span class="theme-log__summary-val">{{ data.current_theme.color_system | default(value="unknown") }}</span>
+            </div>
+            <div class="theme-log__summary-row">
+                <span class="theme-log__summary-key">Font</span>
+                <span class="theme-log__summary-val">{{ data.current_theme.font_system | default(value="unknown") }}</span>
+            </div>
+            {% endif %}
+            {% if data.generated_at %}
+            <div class="theme-log__summary-row">
+                <span class="theme-log__summary-key">Generated</span>
+                <span class="theme-log__summary-val"><time datetime="{{ data.generated_at }}">{{ data.generated_at }}</time></span>
+            </div>
+            {% endif %}
+        </div>
+
+        {# ===== Chú thích status badge ===== #}
+        <div class="theme-log__legend">
+            <span class="theme-log__badge theme-log__badge--live">live</span>
+            <span class="theme-log__badge theme-log__badge--rollback">rollback target</span>
+            <span class="theme-log__badge theme-log__badge--reference">reference</span>
+            <span class="theme-log__badge theme-log__badge--archived">archived</span>
+            <span class="theme-log__badge theme-log__badge--pending">pending</span>
+        </div>
+
+        {% if data.themes and data.themes | length > 0 %}
+        {# ===== Bảng 9 cột — rollback milestone ledger ===== #}
+        <div class="theme-log__table-wrap" role="region" aria-label="Theme rollback milestones" tabindex="0">
+            <table class="theme-log__table">
+                <thead>
+                    <tr>
+                        <th scope="col">Theme ID</th>
+                        <th scope="col">Commit hash</th>
+                        <th scope="col">Date/time</th>
+                        <th scope="col">Theme name</th>
+                        <th scope="col">Layout/style</th>
+                        <th scope="col">Color system</th>
+                        <th scope="col">Font system</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in data.themes %}
+                    {% set st = t.status | default(value="pending") %}
+                    {% set st_class = st | replace(from=" ", to="-") %}
+                    <tr>
+                        <td><code>{{ t.theme_id | default(value="unknown") }}</code></td>
+                        <td>
+                            {% if t.commit_hash and t.commit_hash != "unknown" %}
+                            <a href="https://github.com/{{ data.repo }}/commit/{{ t.commit_hash }}" target="_blank" rel="noopener"><code>{{ t.commit_hash }}</code></a>
+                            {% else %}<code>unknown</code>{% endif %}
+                        </td>
+                        <td><time datetime="{{ t.datetime }}">{{ t.datetime | truncate(length=16, end="") }}</time></td>
+                        <td>{{ t.theme_name | default(value="unknown") }}</td>
+                        <td>{{ t.layout_style | default(value="unknown") }}</td>
+                        <td>{{ t.color_system | default(value="unknown") }}</td>
+                        <td>{{ t.font_system | default(value="unknown") }}</td>
+                        <td><span class="theme-log__badge theme-log__badge--{{ st_class }}">{{ st }}</span></td>
+                        <td class="theme-log__notes">{{ t.notes | default(value="") }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="theme-log__empty">Chưa có mốc theme nào. Chạy <code>python3 scripts/theme_audit.py</code> để sinh dữ liệu.</p>
+        {% endif %}
+
+        {# ===== Excluded / unverified ===== #}
+        {% if data.excluded and data.excluded | length > 0 %}
+        <section class="theme-log__excluded">
+            <h2 class="theme-log__excluded-title">Excluded / unverified ({{ data.excluded | length }})</h2>
+            <ul class="theme-log__excluded-list">
+                {% for e in data.excluded %}
+                <li><code>{{ e.commit_hash | default(value="unknown") }}</code> — {{ e.reason | default(value="unknown") }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+        {% endif %}
+
+        <footer class="theme-log__footer">
+            <p>Dữ liệu sinh bởi <code>scripts/theme_audit.py</code> từ git history thật (mỗi commit verify bằng <code>git rev-parse --verify</code> trước khi vào bảng). Không hardcode ví dụ.</p>
+        </footer>
+        {% else %}
+        <p class="theme-log__empty">Chưa có <code>data/theme-log.json</code>. Chạy <code>python3 scripts/theme_audit.py</code> trước khi <code>zola build</code>.</p>
+        {% endif %}
+    </section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

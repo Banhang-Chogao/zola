@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}Font Audit | {{ config.title }}{% endblock %}
+{% block description %}Font Audit — kiểm tra font thật đang render trên production qua CLI Playwright/Chromium.{% endblock %}
+
+{% block main %}
+    {% set data = load_data(path="data/font-audit-latest.json", required=false) %}
+
+    <section class="font-audit">
+        <header class="font-audit__header">
+            <h1 class="font-audit__title">Font Audit</h1>
+            <p class="font-audit__lead">
+                Công cụ audit font giúp kiểm tra <strong>font thật</strong> đang render trên production.
+                Khai báo <code>font-family</code> trong CSS chưa chắc là font browser đang dùng —
+                cần <em>computed style</em> hoặc render thật qua Chromium.
+            </p>
+        </header>
+
+        <div class="font-audit__card">
+            <h2 class="font-audit__section-title">Vì sao không có form nhập URL?</h2>
+            <p>
+                Blog deploy trên GitHub Pages (static-only). JavaScript phía client
+                <strong>không thể</strong> đọc computed style của trang cross-origin vì same-origin/CORS.
+                Audit URL bất kỳ cần browser automation — chạy qua CLI trên máy bạn hoặc CI.
+            </p>
+        </div>
+
+        <div class="font-audit__card">
+            <h2 class="font-audit__section-title">Cách chạy</h2>
+            <p>Cài Playwright (khuyến nghị) để lấy computed font thật:</p>
+            <pre class="font-audit__code"><code>pip install -r scripts/requirements-font-audit.txt
+playwright install chromium</code></pre>
+            <p>Audit một URL và lưu JSON cho trang này:</p>
+            <pre class="font-audit__code"><code>python3 scripts/font_audit.py "https://seomoney.org/baochi/bi-kip-xin-visa-han-quoc-5-nam-de-baochi/" \
+  --json data/font-audit-latest.json</code></pre>
+            <p class="font-audit__muted">
+                Nếu Playwright chưa cài, script vẫn chạy ở chế độ fallback (chỉ parse CSS/HTML)
+                và đánh dấu computed font là <code>unknown</code>.
+            </p>
+        </div>
+
+        {% if data %}
+        <div class="font-audit__meta">
+            <div class="font-audit__meta-row">
+                <span class="font-audit__meta-key">Audited URL</span>
+                <a class="font-audit__meta-val" href="{{ data.audited_url }}" target="_blank" rel="noopener">{{ data.audited_url }}</a>
+            </div>
+            <div class="font-audit__meta-row">
+                <span class="font-audit__meta-key">Engine</span>
+                <span class="font-audit__meta-val"><code>{{ data.engine }}</code></span>
+            </div>
+            {% if data.generated_at %}
+            <div class="font-audit__meta-row">
+                <span class="font-audit__meta-key">Generated</span>
+                <span class="font-audit__meta-val"><time datetime="{{ data.generated_at }}">{{ data.generated_at }}</time></span>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if data.summary %}
+        <div class="font-audit__tldr">
+            <h2 class="font-audit__section-title">TL;DR</h2>
+            <ul class="font-audit__tldr-list">
+                <li><strong>Real loaded font:</strong> {{ data.summary.real_loaded_font | default(value="unknown") }}</li>
+                <li><strong>Declared preferred:</strong>
+                    {% if data.summary.declared_preferred_fonts %}
+                        {{ data.summary.declared_preferred_fonts | join(sep=", ") }}
+                    {% else %}—{% endif %}
+                </li>
+                <li><strong>Stack only (not loaded):</strong>
+                    {% if data.summary.fonts_only_in_stack %}
+                        {{ data.summary.fonts_only_in_stack | join(sep=", ") }}
+                    {% else %}—{% endif %}
+                </li>
+                <li><strong>Fallback:</strong> {{ data.summary.fallback | default(value="unknown") }}</li>
+                <li><strong>Notes:</strong> {{ data.summary.notes | default(value="") }}</li>
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if data.areas %}
+        <div class="font-audit__table-wrap" role="region" aria-label="Font audit by area" tabindex="0">
+            <h2 class="font-audit__section-title">Theo vùng trang</h2>
+            <table class="font-audit__table">
+                <thead>
+                    <tr>
+                        <th>Area</th>
+                        <th>CSS declared</th>
+                        <th>Computed</th>
+                        <th>Source</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in data.areas %}
+                    <tr>
+                        <td>{{ a.area }}</td>
+                        <td><code>{{ a.css_font_family_declared | default(value="—") }}</code></td>
+                        <td><code>{{ a.actual_computed_font | default(value="—") }}</code></td>
+                        <td class="font-audit__source">{{ a.source_file | default(value="—") }}</td>
+                        <td class="font-audit__notes">{{ a.notes | default(value="") }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        {% if data.fonts %}
+        <div class="font-audit__table-wrap" role="region" aria-label="Font summary" tabindex="0">
+            <h2 class="font-audit__section-title">Tổng hợp font</h2>
+            <table class="font-audit__table">
+                <thead>
+                    <tr>
+                        <th>Font</th>
+                        <th>In stack?</th>
+                        <th>Loaded?</th>
+                        <th>Used?</th>
+                        <th>Source</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for f in data.fonts %}
+                    <tr>
+                        <td>{{ f.font }}</td>
+                        <td>{% if f.appears_in_stack %}yes{% else %}no{% endif %}</td>
+                        <td>
+                            {% if f.font == "system-ui" or f.font == "sans-serif" or f.font == "serif" %}n/a
+                            {% elif f.loaded_as_webfont %}yes{% else %}no{% endif %}
+                        </td>
+                        <td>
+                            {% if f.actually_used == true %}yes
+                            {% elif f.actually_used == false %}no
+                            {% else %}unknown{% endif %}
+                        </td>
+                        <td class="font-audit__source">{{ f.source | default(value="—") }}</td>
+                        <td class="font-audit__notes">{{ f.notes | default(value="") }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <p class="font-audit__empty">
+            Chưa có báo cáo. Chạy CLI ở trên với <code>--json data/font-audit-latest.json</code>
+            rồi build lại site để hiển thị bảng tại đây.
+        </p>
+        {% endif %}
+
+        <footer class="font-audit__footer">
+            <p>Script: <code>scripts/font_audit.py</code> · Chỉ audit/báo cáo — không thay đổi typography site.</p>
+        </footer>
+    </section>
+{% endblock %}

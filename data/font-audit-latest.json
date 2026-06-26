@@ -1,0 +1,207 @@
+{
+  "audited_url": "https://seomoney.org/baochi/bi-kip-xin-visa-han-quoc-5-nam-de-baochi/",
+  "generated_at": "2026-06-26T21:46:48+07:00",
+  "engine": "playwright",
+  "areas": [
+    {
+      "area": "Body",
+      "selector": "body",
+      "css_font_family_declared": "\"Ericsson Hilda\", Manrope, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "actual_computed_font": "\"Ericsson Hilda\", Manrope, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "source_file": "https://seomoney.org/site.css?v=1782480891",
+      "notes": ""
+    },
+    {
+      "area": "H1/title",
+      "selector": "h1",
+      "css_font_family_declared": "\"Ericsson Hilda\", Manrope, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+      "actual_computed_font": "\"Ericsson Hilda\", Manrope, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, sans-serif",
+      "source_file": "https://seomoney.org/site.css?v=1782480891",
+      "notes": ""
+    },
+    {
+      "area": "Article text",
+      "selector": "main",
+      "css_font_family_declared": "\"Ericsson Hilda\", Manrope, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "actual_computed_font": "\"Ericsson Hilda\", Manrope, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "source_file": "computed (no explicit rule)",
+      "notes": ""
+    },
+    {
+      "area": "Nav",
+      "selector": "nav",
+      "css_font_family_declared": "\"Ericsson Hilda\", Manrope, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "actual_computed_font": "\"Ericsson Hilda\", Manrope, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "source_file": "computed (no explicit rule)",
+      "notes": ""
+    },
+    {
+      "area": "Footer",
+      "selector": "footer",
+      "css_font_family_declared": "\"Ericsson Hilda\", Manrope, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "actual_computed_font": "\"Ericsson Hilda\", Manrope, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "source_file": "computed (no explicit rule)",
+      "notes": ""
+    },
+    {
+      "area": "Card",
+      "selector": ".card, .post-card, .tool-card",
+      "css_font_family_declared": "not found",
+      "actual_computed_font": "not found",
+      "source_file": "—",
+      "notes": "No matching element"
+    },
+    {
+      "area": "FAQ",
+      "selector": "details",
+      "css_font_family_declared": "\"Ericsson Hilda\", Manrope, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "actual_computed_font": "\"Ericsson Hilda\", Manrope, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "source_file": "computed (no explicit rule)",
+      "notes": ""
+    },
+    {
+      "area": "Code/pre",
+      "selector": "code",
+      "css_font_family_declared": "monospace",
+      "actual_computed_font": "monospace",
+      "source_file": "computed (no explicit rule)",
+      "notes": ""
+    }
+  ],
+  "fonts": [
+    {
+      "font": "Google Sans",
+      "appears_in_stack": false,
+      "loaded_as_webfont": false,
+      "actually_used": false,
+      "source": "—",
+      "notes": ""
+    },
+    {
+      "font": "Google Sans Text",
+      "appears_in_stack": false,
+      "loaded_as_webfont": false,
+      "actually_used": false,
+      "source": "—",
+      "notes": ""
+    },
+    {
+      "font": "Google Sans Flex",
+      "appears_in_stack": false,
+      "loaded_as_webfont": false,
+      "actually_used": false,
+      "source": "—",
+      "notes": ""
+    },
+    {
+      "font": "Google Sans Code",
+      "appears_in_stack": false,
+      "loaded_as_webfont": false,
+      "actually_used": false,
+      "source": "—",
+      "notes": ""
+    },
+    {
+      "font": "FreightSans",
+      "appears_in_stack": true,
+      "loaded_as_webfont": true,
+      "actually_used": false,
+      "source": "https://seomoney.org/site.css?v=1782480891",
+      "notes": "status: loaded"
+    },
+    {
+      "font": "FreightSans Pro",
+      "appears_in_stack": true,
+      "loaded_as_webfont": true,
+      "actually_used": false,
+      "source": "https://seomoney.org/site.css?v=1782480891",
+      "notes": "status: loaded"
+    },
+    {
+      "font": "Hilda",
+      "appears_in_stack": true,
+      "loaded_as_webfont": true,
+      "actually_used": true,
+      "source": "https://seomoney.org/site.css?v=1782480891",
+      "notes": "status: loaded; computed match"
+    },
+    {
+      "font": "Inter",
+      "appears_in_stack": true,
+      "loaded_as_webfont": true,
+      "actually_used": false,
+      "source": "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@500;600;700&family=Be+Vietnam+Pro:wght@400;500&display=swap",
+      "notes": "status: unloaded"
+    },
+    {
+      "font": "Roboto",
+      "appears_in_stack": true,
+      "loaded_as_webfont": false,
+      "actually_used": true,
+      "source": "—",
+      "notes": "in stack only; computed match"
+    },
+    {
+      "font": "system-ui",
+      "appears_in_stack": true,
+      "loaded_as_webfont": false,
+      "actually_used": true,
+      "source": "browser",
+      "notes": "computed match"
+    },
+    {
+      "font": "Segoe UI",
+      "appears_in_stack": true,
+      "loaded_as_webfont": false,
+      "actually_used": true,
+      "source": "browser",
+      "notes": "computed match"
+    },
+    {
+      "font": "Arial",
+      "appears_in_stack": true,
+      "loaded_as_webfont": false,
+      "actually_used": true,
+      "source": "browser",
+      "notes": "computed match"
+    },
+    {
+      "font": "sans-serif",
+      "appears_in_stack": true,
+      "loaded_as_webfont": false,
+      "actually_used": true,
+      "source": "browser",
+      "notes": "computed match"
+    },
+    {
+      "font": "serif",
+      "appears_in_stack": true,
+      "loaded_as_webfont": false,
+      "actually_used": true,
+      "source": "browser",
+      "notes": "computed match"
+    }
+  ],
+  "summary": {
+    "real_loaded_font": "Be Vietnam Pro, Ericsson Hilda, FreightSans Pro, Inter, Manrope",
+    "declared_preferred_fonts": [
+      "Ericsson Hilda",
+      "Inter",
+      "Roboto",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      "Segoe UI",
+      "sans-serif",
+      "Manrope",
+      "Helvetica Neue",
+      "Arial",
+      "inherit",
+      "ui-monospace"
+    ],
+    "fonts_only_in_stack": [
+      "Roboto"
+    ],
+    "fallback": "sans-serif",
+    "notes": "Fonts declared but not loaded: Roboto"
+  }
+}

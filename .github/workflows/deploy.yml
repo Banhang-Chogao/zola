@@ -80,6 +80,12 @@ jobs:
       - name: Strip premium content before build
         run: python3 scripts/paywall_prepare_build.py --strip
 
+      - name: Build theme log (rollback milestones from git)
+        # Sinh data/theme-log.json từ git history thật trước zola build. Script
+        # tự bảo vệ: nếu checkout shallow (history thiếu) → GIỮ NGUYÊN file đã
+        # commit, không ghi đè (không bao giờ fail hard).
+        run: python3 scripts/theme_audit.py
+
       - name: Build site
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

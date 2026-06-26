@@ -71,22 +71,16 @@ menu = [
         { url = "$BASE_URL/categories/bao-hiem",  name = "Bảo hiểm" },
         { url = "$BASE_URL/categories/premium",   name = "⭐ Premium" },
     ] },
-    { name = "Công cụ", url = "$BASE_URL/editor", children = [
-        { url = "$BASE_URL/editor",    name = "Viết bài" },
-        { url = "$BASE_URL/tools/content-creator", name = "Content Creator" },
-        { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" },
-        { url = "$BASE_URL/converter", name = "Korean Converter" },
-        { url = "$BASE_URL/changelog", name = "Changelog" },
-        { url = "$BASE_URL/insights",  name = "Insights" },
-        { url = "$BASE_URL/scoring",   name = "Scoring" },
-        { url = "$BASE_URL/tools/f-dashboard", name = "F-Dashboard" },
-        { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" },
-        { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
-        { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" },
-        { url = "$BASE_URL/prompt-support", name = "Prompt Support" },
-        { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" },
-        { url = "$BASE_URL/tools/s-dna", name = "S-DNA" },
-        { url = "$BASE_URL/font",      name = "Font Guideline" },
+    # "Công cụ" dùng MEGA MENU: 'groups' = các nhóm (mỗi nhóm có heading + children).
+    # base.html render groups → mega menu (desktop) / accordion (mobile). KHÔNG xoá/
+    # đổi URL tool nào — chỉ nhóm lại cho gọn. Mỗi group là 1 inline-table 1 dòng
+    # (ràng buộc TOML: inline table không xuống dòng được).
+    { name = "Công cụ", url = "$BASE_URL/editor", groups = [
+        { name = "Viết & biên tập", children = [ { url = "$BASE_URL/editor", name = "Viết bài" }, { url = "$BASE_URL/tools/content-creator", name = "Content Creator" }, { url = "$BASE_URL/prompt-support", name = "Prompt Support" } ] },
+        { name = "SEO & phân tích", children = [ { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" }, { url = "$BASE_URL/insights", name = "Insights" }, { url = "$BASE_URL/scoring", name = "Scoring" }, { url = "$BASE_URL/tools/theme-log", name = "Theme log" }, { url = "$BASE_URL/tools/font-audit", name = "Font Audit" } ] },
+        { name = "Dashboard", children = [ { url = "$BASE_URL/tools/f-dashboard", name = "F-Dashboard" }, { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" }, { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" }, { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" } ] },
+        { name = "Hệ thống & guideline", children = [ { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" }, { url = "$BASE_URL/tools/s-dna", name = "S-DNA" }, { url = "$BASE_URL/font", name = "Font Guideline" } ] },
+        { name = "Công cụ phụ", children = [ { url = "$BASE_URL/converter", name = "Korean Converter" }, { url = "$BASE_URL/changelog", name = "Changelog" } ] },
     ] },
     { name = "Giới thiệu", url = "$BASE_URL/about", children = [
         { url = "$BASE_URL/about",            name = "Giới thiệu" },

@@ -121,4 +121,38 @@
       if (t) t.classList.add("is-active");
     }
   });
+
+  /* ===== Mega menu — accordion nhóm (mobile) =====
+     Mỗi .navbar__megagroup-toggle xổ/đóng .navbar__megagroup chứa nó. Trên
+     desktop CSS ép body luôn hiện nên toggle vô hại; trên mobile (≤720px) CSS
+     ẩn body trừ khi .is-open. aria-expanded đồng bộ cho screen reader.
+     Mặc định: nhóm chứa link active mở sẵn, còn lại đóng. */
+  var megaToggles = Array.prototype.slice.call(
+    document.querySelectorAll(".navbar__megagroup-toggle")
+  );
+  megaToggles.forEach(function (btn) {
+    var group = btn.closest(".navbar__megagroup");
+    if (!group) return;
+
+    /* Mở sẵn nhóm có link trùng URL hiện tại. */
+    var groupLinks = group.querySelectorAll(".navbar__megagroup-body a");
+    Array.prototype.forEach.call(groupLinks, function (a) {
+      try {
+        var lp = new URL(a.href).pathname.replace(/\/$/, "") || "/";
+        if (lp === path) {
+          group.classList.add("is-open");
+          btn.setAttribute("aria-expanded", "true");
+        }
+      } catch (err) {
+        /* href lỗi → bỏ qua */
+      }
+    });
+
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var open = group.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  });
 })();
