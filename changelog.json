@@ -1,6 +1,21 @@
 {
   "items": [
     {
+      "date": "2026-06-26",
+      "title": "feat(tools): Theme log + Công cụ mega menu",
+      "tag": "chore",
+      "lines_added": 1244,
+      "lines_removed": 17,
+      "highlights": [
+        "Theme log (/tools/theme-log/): rollback milestone ledger sinh từ git history thật qua scripts/theme_audit.py → data/theme-log.json. CI chạy script trước zola build (deploy.yml).",
+        "Công cụ mega menu: nhóm lại menu navbar thành 5 nhóm (Viết & biên tập · SEO & phân tích · Dashboard · Hệ thống · Công cụ phụ) — desktop panel nhiều cột, mobile accordion. Không đổi URL tool nào.",
+        "Font Audit — không làm trong PR này.",
+        "python3 scripts/theme_audit.py → sinh data/theme-log.json",
+        "Navbar: mở \"Công cụ\" → mega menu, Theme log trong nhóm SEO & phân tích"
+      ],
+      "pr": 1004
+    },
+    {
       "date": "2026-06-19",
       "title": "feat(stats): Sembcorp investor-slide UI + bugfixes for /stats/",
       "tag": "chore",
