@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "feat(changelog): production snapshot panel (shortcut ??)",
+      "tag": "chore",
+      "lines_added": 1349,
+      "lines_removed": 0,
+      "highlights": [
+        "main HEAD (git rev-parse trong CI)",
+        "deploy SHA từ deploy-monitor",
+        "backend SHA từ blog-vipzone-api.onrender.com/health",
+        "drift verdict (green/yellow/red) + gợi ý tiếng Việt",
+        "python3 -m unittest scripts.test_prod_snapshot -v — 4/4 PASS"
+      ],
+      "pr": 1020
+    },
+    {
+      "date": "2026-06-26",
       "title": "fix(paywall): disable premium lock — all SEOMONEY content free",
       "tag": "fix",
       "lines_added": 4668,
