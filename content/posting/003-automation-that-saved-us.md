@@ -5,7 +5,8 @@ description = "PR #951 là bằng chứng: hệ thống tự động hóa không
 date = 2026-06-26
 updated = 2026-06-26
 slug = "automation-merge-conflict-saved-us"
-category = "Công nghệ"
+[taxonomies]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["CI/CD", "automation", "merge-conflict", "zero-barrier"]
 series = "merge-conflict-preflight"
 extra.series_part = 3
