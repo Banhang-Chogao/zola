@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "fix(paywall): disable premium lock — all SEOMONEY content free",
+      "tag": "fix",
+      "lines_added": 4668,
+      "lines_removed": 1344,
+      "highlights": [
+        "Set enable_premium_lock = false, premium_hidden = false, clear paywall_api_url",
+        "Remove locked overlay, paywall box, and paywall.js from page.html",
+        "Remove locked overlay from taxonomy_single.html",
+        "Disable static locked stub at content/categories-premium.md (render = false)",
+        "Upgrade paywall_prepare_build.py: when lock off, --strip publishes full content from private_content/"
+      ],
+      "pr": 1016
+    },
+    {
+      "date": "2026-06-26",
       "title": "fix(editor): suppress stale google_disabled warning when /auth/config…",
       "tag": "fix",
       "lines_added": 75,
