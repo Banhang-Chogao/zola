@@ -1265,6 +1265,45 @@
     "external_count": 1,
     "internal_count": 3
   },
+  "content/posting/git-ra-doi-tu-bitkeeper.md": {
+    "external": [
+      {
+        "title": "Git",
+        "url": "https://git-scm.com/",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Git là gì — version control cho người mới bắt đầu",
+        "url": "https://seomoney.org/posting/git-la-gi-version-control-cho-nguoi-moi/",
+        "kind": "internal"
+      },
+      {
+        "title": "các lệnh Git cơ bản: init, add, commit",
+        "url": "https://seomoney.org/posting/lenh-git-co-ban-init-add-commit-status/",
+        "kind": "internal"
+      },
+      {
+        "title": "làm việc với nhánh",
+        "url": "https://seomoney.org/posting/git-branch-lam-viec-voi-nhanh/",
+        "kind": "internal"
+      },
+      {
+        "title": "Công nghệ",
+        "url": "https://seomoney.org/categories/cong-nghe/",
+        "kind": "internal"
+      },
+      {
+        "title": "Git workflow chuyên nghiệp: Git Flow và GitHub Flow",
+        "url": "https://seomoney.org/posting/git-workflow-chuyen-nghiep-gitflow-github-flow/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Git. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 5
+  },
   "content/posting/git-rebase-lam-sach-lich-su-commit.md": {
     "external": [
       {
@@ -2094,6 +2133,29 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ TOPIK và Viện Quốc ngữ Quốc gia Hàn Quốc. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 2,
     "internal_count": 4
+  },
+  "content/posting/lam-theme-log-sua-menu-cong-cu.md": {
+    "external": [
+      {
+        "title": "GitHub Pages quản lý deployment history",
+        "url": "https://docs.github.com/en/pages",
+        "kind": "external"
+      },
+      {
+        "title": "Zola",
+        "url": "https://www.getzola.org/documentation",
+        "kind": "external"
+      },
+      {
+        "title": "Git documentation",
+        "url": "https://git-scm.com/book/en/v2/Git-Basics-Undoing-Things",
+        "kind": "external"
+      }
+    ],
+    "internal": [],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Pages quản lý deployment history, Zola và Git documentation. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
+    "internal_count": 0
   },
   "content/posting/lenh-git-co-ban-init-add-commit-status.md": {
     "external": [
