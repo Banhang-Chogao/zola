@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-26T01:40:35Z",
+  "updated_at": "2026-06-26T01:51:44Z",
   "score": 86.9,
   "grade": "B",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "warn",
-          "detail": "787/1069 in range"
+          "detail": "790/1073 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "1041/1069 complete"
+          "detail": "1045/1073 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "1067/1069 set"
+          "detail": "1071/1073 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "1058/1069 single H1"
+          "detail": "1062/1073 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "1067/1069 with lang"
+          "detail": "1071/1073 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "1067/1069 ready"
+          "detail": "1071/1073 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "1067/1069 pages"
+          "detail": "1071/1073 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "1068/1069 pages covered"
+          "detail": "1072/1073 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "278/278 articles"
+          "detail": "279/279 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "272/278 tagged"
+          "detail": "273/279 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "276/278 substantive"
+          "detail": "277/279 substantive"
         },
         {
           "label": "Unique titles",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "warn",
-          "detail": "1 broken / 1241 unique",
+          "detail": "1 broken / 1246 unique",
           "broken": [
             {
               "source_page": "/bai-viet-dau-tien/",
@@ -368,7 +368,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "1063/1069 pages"
+          "detail": "1067/1073 pages"
         },
         {
           "label": "Skip navigation",
@@ -404,16 +404,16 @@
       "text": "Metadata: Descriptions"
     }
   ],
-  "pages_scanned": 1069,
-  "articles_scanned": 285,
+  "pages_scanned": 1073,
+  "articles_scanned": 286,
   "fix_log": [
     {
       "category": "Metadata",
       "label": "Page titles",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (787/1069 in range). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T01:40:35Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (790/1073 in range). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-26T01:51:44Z"
     },
     {
       "category": "Media",
@@ -421,7 +421,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T01:40:35Z"
+      "at": "2026-06-26T01:51:44Z"
     },
     {
       "category": "Content",
@@ -429,7 +429,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T01:40:35Z"
+      "at": "2026-06-26T01:51:44Z"
     },
     {
       "category": "Content",
@@ -437,15 +437,15 @@
       "check_status": "fail",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T01:40:35Z"
+      "at": "2026-06-26T01:51:44Z"
     },
     {
       "category": "Links",
       "label": "Internal links",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Còn 280 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/bai-viet-dau-tien/index.html → /blog/ (Target not found in public/ after zola build); public/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/index.html → /blog/ (Target not found in public/ after zola build); public/baochi/bidv-flagship-private-banking-tphcm/index.html → /blog/ (Target not found in public/ after zola build)",
-      "at": "2026-06-26T01:40:35Z"
+      "message": "Còn 281 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/bai-viet-dau-tien/index.html → /blog/ (Target not found in public/ after zola build); public/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/index.html → /blog/ (Target not found in public/ after zola build); public/baochi/bidv-flagship-private-banking-tphcm/index.html → /blog/ (Target not found in public/ after zola build)",
+      "at": "2026-06-26T01:51:45Z"
     }
   ],
   "fix_summary": {

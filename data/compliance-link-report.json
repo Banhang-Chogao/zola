@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-26T01:40:35Z",
+  "updated_at": "2026-06-26T01:51:44Z",
   "summary": {
     "broken_count": 1,
-    "checked_unique": 1241,
+    "checked_unique": 1246,
     "status": "warn"
   },
   "links": [
@@ -1800,6 +1800,15 @@
     {
       "source_page": "/posting/solo-travel-khoabug-phan-tich-xu-huong/",
       "source_file": "public/posting/solo-travel-khoabug-phan-tich-xu-huong/index.html",
+      "href": "https://seomoney.org/blog/",
+      "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/sua-7-pr-ci-cd-that-bai-zola/",
+      "source_file": "public/posting/sua-7-pr-ci-cd-that-bai-zola/index.html",
       "href": "https://seomoney.org/blog/",
       "target": "/blog/",
       "status": "404",
