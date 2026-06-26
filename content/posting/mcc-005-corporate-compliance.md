@@ -3,12 +3,12 @@ draft = false
 title = "MCC for Finance Teams: Corporate Expense Automation and Tax Rules"
 description = "How corporate finance teams use MCCs for auto-categorizing expenses, VAT reclaim, and ensuring policy compliance without manual audit."
 date = 2026-06-26
+aliases = ["/mcc-005-corporate-compliance/"]
 updated = 2026-06-26
 slug = "mcc-corporate-compliance-expenses"
 [taxonomies]
 categories = ["Tất cả", "Tài chính", "Công nghệ"]
-tags = ["MCC", "corporate-cards", "expense-reporting", "tax"]
-
+tags = ["corporate-cards", "expense-reporting", "mcc", "tax"]
 [extra]
 series = "merchant-category-codes-series"
 series_part = 5

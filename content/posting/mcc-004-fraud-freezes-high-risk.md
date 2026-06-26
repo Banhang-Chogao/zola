@@ -3,12 +3,12 @@ draft = false
 title = "MCC Fraud Flags: Why Your Card Gets Blocked Abroad"
 description = "How banks use MCCs to trigger fraud detection. High-risk categories like casinos and crypto that cause automatic blocks, and how to prevent declines."
 date = 2026-06-26
+aliases = ["/mcc-004-fraud-freezes-high-risk/"]
 updated = 2026-06-26
 slug = "mcc-fraud-blocks-international"
 [taxonomies]
 categories = ["Tất cả", "Tài chính"]
-tags = ["MCC", "fraud", "card-blocks", "international"]
-
+tags = ["card-blocks", "fraud", "international", "mcc"]
 [extra]
 series = "merchant-category-codes-series"
 series_part = 4

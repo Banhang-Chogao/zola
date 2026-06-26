@@ -3,12 +3,12 @@ draft = false
 title = "MCC and Cross-Border Fees: Why Hotels Cost More Than Casinos"
 description = "Deep dive into how Merchant Category Codes determine interchange fees, cross-border surcharges, and why some merchant types pay 5x more than others."
 date = 2026-06-26
+aliases = ["/mcc-002-fee-trap-interchange/"]
 updated = 2026-06-26
 slug = "mcc-cross-border-fees-interchange"
 [taxonomies]
 categories = ["Tất cả", "Tài chính"]
-tags = ["MCC", "interchange-fees", "cross-border", "merchant-costs"]
-
+tags = ["cross-border", "interchange-fees", "mcc", "merchant-costs"]
 [extra]
 series = "merchant-category-codes-series"
 series_part = 2

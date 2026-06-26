@@ -3,12 +3,12 @@ draft = false
 title = "MCC for Merchants: Choosing the Right Code for International Sales"
 description = "Guide for online and offline merchants on selecting the optimal MCC, negotiating with acquirers, and avoiding high fees that chase away international customers."
 date = 2026-06-26
+aliases = ["/mcc-007-merchant-dilemma/"]
 updated = 2026-06-26
 slug = "mcc-merchant-choosing-code"
 [taxonomies]
 categories = ["Tất cả", "Tài chính", "Công nghệ"]
-tags = ["MCC", "merchants", "payment-processing", "fees"]
-
+tags = ["fees", "mcc", "merchants", "payment-processing"]
 [extra]
 series = "merchant-category-codes-series"
 series_part = 7

@@ -5,7 +5,7 @@ date = 2026-06-26
 aliases = ["/git-ra-doi-tu-bitkeeper/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "bitkeeper", "linus torvalds", "version control", "lịch sử git"]
+tags = ["bitkeeper", "git", "linus torvalds", "lịch sử git", "version control"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "git ra đời"

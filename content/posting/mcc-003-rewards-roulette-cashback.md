@@ -3,12 +3,12 @@ draft = false
 title = "Credit Card Rewards and MCC: Maximize Your International Cashback"
 description = "How banks use MCCs to define bonus categories. Real strategies to pair multiple cards and avoid the 3% cashback loss from miscoded merchants."
 date = 2026-06-26
+aliases = ["/mcc-003-rewards-roulette-cashback/"]
 updated = 2026-06-26
 slug = "mcc-rewards-cashback-international"
 [taxonomies]
 categories = ["Tất cả", "Tài chính"]
-tags = ["MCC", "rewards", "cashback", "credit-cards"]
-
+tags = ["cashback", "credit-cards", "mcc", "rewards"]
 [extra]
 series = "merchant-category-codes-series"
 series_part = 3

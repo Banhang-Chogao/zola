@@ -2,9 +2,10 @@
 title = "Theme log rollback: an toàn cho blog tĩnh"
 description = "Kinh nghiệm xây trang Theme log để lưu mốc rollback theo commit thật, và refactor menu Công cụ thành mega menu gọn gàng, dễ dùng trên desktop và mobile."
 date = 2026-06-26
+aliases = ["/lam-theme-log-sua-menu-cong-cu/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["Zola", "GitHub Pages", "Rollback", "UX", "Theme Log", "Static Site", "Blog"]
+tags = ["blog", "github pages", "rollback", "static site", "theme log", "ux", "zola"]
 [extra]
 image_source = "seomoney-generated"
 image_license = "owned"

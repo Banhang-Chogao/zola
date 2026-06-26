@@ -3,12 +3,12 @@ draft = false
 title = "MCC Decoded: What International Travelers Need to Know"
 description = "Understand Merchant Category Codes—how Visa, Mastercard, and Amex use MCCs to determine your cross-border fees, fraud blocks, and rewards eligibility."
 date = 2026-06-26
+aliases = ["/mcc-001-decoded-4-digit-code/"]
 updated = 2026-06-26
 slug = "mcc-decoded-international-spending"
 [taxonomies]
 categories = ["Tất cả", "Tài chính", "Du lịch"]
-tags = ["MCC", "credit-cards", "international-payments", "cross-border-fees"]
-
+tags = ["credit-cards", "cross-border-fees", "international-payments", "mcc"]
 [extra]
 series = "merchant-category-codes-series"
 series_part = 1

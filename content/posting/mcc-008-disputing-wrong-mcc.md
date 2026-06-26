@@ -3,12 +3,12 @@ draft = false
 title = "Disputing a Wrong MCC: Your Rights as an International Cardholder"
 description = "Step-by-step guide to dispute incorrect MCCs. Includes sample dispute letter template, timelines, evidence requirements, and escalation procedures."
 date = 2026-06-26
+aliases = ["/mcc-008-disputing-wrong-mcc/"]
 updated = 2026-06-26
 slug = "mcc-dispute-process-template"
 [taxonomies]
 categories = ["Tất cả", "Tài chính"]
-tags = ["MCC", "disputes", "credit-cards", "consumer-rights"]
-
+tags = ["consumer-rights", "credit-cards", "disputes", "mcc"]
 [extra]
 series = "merchant-category-codes-series"
 series_part = 8

@@ -3,12 +3,12 @@ draft = false
 title = "MCC Masterclass: Build Your Personal International Spending Strategy"
 description = "Consolidate everything. Create your MCC audit, optimize card portfolio, monthly review process, and master scripts for international negotiations."
 date = 2026-06-26
+aliases = ["/mcc-010-masterclass-strategy/"]
 updated = 2026-06-26
 slug = "mcc-masterclass-personal-strategy"
 [taxonomies]
 categories = ["Tất cả", "Du lịch", "Tài chính"]
-tags = ["MCC", "strategy", "credit-cards", "optimization"]
-
+tags = ["credit-cards", "mcc", "optimization", "strategy"]
 [extra]
 series = "merchant-category-codes-series"
 series_part = 10

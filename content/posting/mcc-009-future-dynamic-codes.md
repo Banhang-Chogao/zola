@@ -3,12 +3,12 @@ draft = false
 title = "The Future of MCCs: Dynamic Codes and AI-Powered Categorization"
 description = "How payment networks are moving beyond 4-digit codes. Emerging innovations in Visa tokenization, machine learning, and real-time merchant classification."
 date = 2026-06-26
+aliases = ["/mcc-009-future-dynamic-codes/"]
 updated = 2026-06-26
 slug = "mcc-future-dynamic-ai-codes"
 [taxonomies]
 categories = ["Tất cả", "Tài chính", "Công nghệ"]
-tags = ["MCC", "fintech", "AI", "innovation"]
-
+tags = ["ai", "fintech", "innovation", "mcc"]
 [extra]
 series = "merchant-category-codes-series"
 series_part = 9

@@ -3,12 +3,12 @@ draft = false
 title = "MCC Cheat Sheet: 50+ Codes Every Traveler Should Know"
 description = "Complete reference guide to common MCCs you'll encounter abroad. Understand the difference between similar codes and how each affects your rewards."
 date = 2026-06-26
+aliases = ["/mcc-006-travelers-cheat-sheet/"]
 updated = 2026-06-26
 slug = "mcc-travelers-cheat-sheet"
 [taxonomies]
 categories = ["Tất cả", "Du lịch"]
-tags = ["MCC", "travel", "reference", "international"]
-
+tags = ["international", "mcc", "reference", "travel"]
 [extra]
 series = "merchant-category-codes-series"
 series_part = 6
