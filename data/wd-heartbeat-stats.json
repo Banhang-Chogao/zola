@@ -1,24 +1,20 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-26T01:19:03.536080Z",
+  "generated_at": "2026-06-26T01:21:20.597451Z",
   "repository": "Banhang-Chogao/zola",
   "window_days": 30,
-  "configured": true,
+  "configured": false,
+  "pending_reason": "no completed deploy runs available",
   "totals": {
-    "total": 119,
-    "success": 74,
-    "failed": 45,
-    "cancelled": 79,
-    "success_rate_pct": 62
+    "total": 0,
+    "success": 0,
+    "failed": 0,
+    "cancelled": 0,
+    "success_rate_pct": 0
   },
-  "last_deploy": {
-    "status": "cancelled",
-    "at": "2026-06-26T01:18:29Z",
-    "sha": "025175d",
-    "duration_s": 0
-  },
+  "last_deploy": null,
   "heatmap": {
-    "max": 38,
+    "max": 0,
     "days": [
       {
         "date": "2026-05-28",
@@ -197,38 +193,38 @@
       },
       {
         "date": "2026-06-22",
-        "count": 15,
-        "success": 8,
-        "failed": 7,
-        "level": 2
+        "count": 0,
+        "success": 0,
+        "failed": 0,
+        "level": 0
       },
       {
         "date": "2026-06-23",
-        "count": 30,
-        "success": 16,
-        "failed": 14,
-        "level": 4
+        "count": 0,
+        "success": 0,
+        "failed": 0,
+        "level": 0
       },
       {
         "date": "2026-06-24",
-        "count": 38,
-        "success": 19,
-        "failed": 19,
-        "level": 4
+        "count": 0,
+        "success": 0,
+        "failed": 0,
+        "level": 0
       },
       {
         "date": "2026-06-25",
-        "count": 34,
-        "success": 29,
-        "failed": 5,
-        "level": 4
+        "count": 0,
+        "success": 0,
+        "failed": 0,
+        "level": 0
       },
       {
         "date": "2026-06-26",
-        "count": 2,
-        "success": 2,
+        "count": 0,
+        "success": 0,
         "failed": 0,
-        "level": 1
+        "level": 0
       }
     ]
   }
