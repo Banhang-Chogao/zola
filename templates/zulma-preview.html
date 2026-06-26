@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="vi" class="sdna-on">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {# Prototype/preview page — keep out of search index. #}
+  <meta name="robots" content="noindex, nofollow">
+  <title>Zulma Preview — {{ config.title }}</title>
+  <meta name="description" content="Bản xem thử giao diện Bulma + theme switcher kiểu Zulma cho {{ config.title }} (prototype nội bộ).">
+
+  {# Active theme stylesheet — swapped by the switcher (vendored Bulmaswatch, no CDN). #}
+  <link id="bulmaswatch" rel="stylesheet" href="/zulma-themes/default.min.css">
+
+  <style id="sdna-style">
+    :root{
+      --sdna-blue:#003784; --sdna-blue-dk:#002566; --sdna-teal:#00a69d;
+      --sdna-red:#e30613; --sdna-ink:#000; --sdna-body:#333; --sdna-muted:#666;
+      --sdna-mist:#f4f4f4; --sdna-edge:#e0e0e0;
+    }
+
+    /* ---- Layout-neutral helpers (apply to every theme) ---- */
+    body{ display:flex; flex-direction:column; min-height:100vh; }
+    .main-wrap{ flex:1 0 auto; }
+    .preview-ribbon{
+      font-size:.78rem; letter-spacing:.04em; text-transform:uppercase;
+      text-align:center; padding:.35rem .75rem; font-weight:600;
+      background:var(--sdna-red); color:#fff;
+    }
+    .article-card{ height:100%; display:flex; flex-direction:column; }
+    .article-card .card-content{ flex:1 0 auto; }
+    .article-card .card-image-fallback{
+      height:160px; display:flex; align-items:center; justify-content:center;
+      font-weight:700; font-size:1.1rem; letter-spacing:.03em; color:#fff;
+      background:linear-gradient(135deg,#3273dc,#23d160);
+    }
+    .kpi-num{ font-size:2.25rem; font-weight:800; line-height:1; }
+    .kpi-label{ font-size:.85rem; text-transform:uppercase; letter-spacing:.05em; opacity:.75; }
+    .switcher-dot{
+      display:inline-block; width:.7rem; height:.7rem; border-radius:50%;
+      margin-right:.5rem; vertical-align:middle; border:1px solid rgba(0,0,0,.15);
+    }
+    .navbar-item.is-active{ font-weight:700; }
+
+    /* ---- S-DNA brand skin: only active when <html class="sdna-on"> ---- */
+    html.sdna-on body{
+      font-family:Inter,Roboto,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+      color:var(--sdna-body); background:#fff;
+    }
+    html.sdna-on .navbar.is-primary{ background:var(--sdna-blue); }
+    html.sdna-on .navbar.is-primary .navbar-item,
+    html.sdna-on .navbar.is-primary .navbar-link{ color:#fff; }
+    html.sdna-on .navbar.is-primary .navbar-item:hover,
+    html.sdna-on .navbar.is-primary .navbar-link:hover{ background:var(--sdna-blue-dk); color:#fff; }
+    html.sdna-on .navbar-dropdown .navbar-item{ color:var(--sdna-body); }
+    html.sdna-on .navbar-dropdown .navbar-item:hover{ background:var(--sdna-mist); color:var(--sdna-blue); }
+    html.sdna-on .hero.is-primary{
+      background:linear-gradient(135deg,var(--sdna-blue) 0%,var(--sdna-blue-dk) 100%);
+      color:#fff;
+    }
+    html.sdna-on .hero.is-primary .title,
+    html.sdna-on .hero.is-primary .subtitle{ color:#fff; }
+    html.sdna-on a{ color:var(--sdna-blue); }
+    html.sdna-on a:hover{ color:var(--sdna-teal); }
+    html.sdna-on .title{ color:var(--sdna-ink); }
+    html.sdna-on .subtitle{ color:var(--sdna-muted); }
+    html.sdna-on .button.is-primary{ background:var(--sdna-blue); border-color:transparent; }
+    html.sdna-on .button.is-primary:hover{ background:var(--sdna-blue-dk); }
+    html.sdna-on .button.is-link{ background:var(--sdna-teal); border-color:transparent; color:#fff; }
+    html.sdna-on .button.is-link:hover{ filter:brightness(.92); }
+    html.sdna-on .button.is-danger{ background:var(--sdna-red); border-color:transparent; }
+    html.sdna-on .tag.is-primary{ background:var(--sdna-blue); color:#fff; }
+    html.sdna-on .tag.is-info{ background:var(--sdna-teal); color:#fff; }
+    html.sdna-on .tag.is-danger{ background:var(--sdna-red); color:#fff; }
+    html.sdna-on .card{
+      border:1px solid var(--sdna-edge); border-radius:10px; overflow:hidden;
+      box-shadow:0 2px 4px rgba(0,55,132,.08); transition:box-shadow .18s ease, transform .18s ease;
+    }
+    html.sdna-on .card:hover{ box-shadow:0 8px 16px rgba(0,55,132,.12); transform:translateY(-2px); }
+    html.sdna-on .box{ border-radius:10px; border:1px solid var(--sdna-edge); }
+    html.sdna-on .article-card .card-image-fallback{ background:linear-gradient(135deg,var(--sdna-blue),var(--sdna-teal)); }
+    html.sdna-on .kpi-num{ color:var(--sdna-blue); }
+    html.sdna-on .footer{ background:var(--sdna-ink); color:#cfd8e3; }
+    html.sdna-on .footer a{ color:#fff; }
+    html.sdna-on .footer strong{ color:#fff; }
+  </style>
+</head>
+<body>
+  <div class="preview-ribbon">Preview · Bulma + Theme Switcher (kiểu Zulma) · trang prototype, không ảnh hưởng site live</div>
+
+  <div class="main-wrap">
+    <!-- ===== Navbar ===== -->
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+      <div class="container">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="#top">
+            <strong style="font-size:1.25rem;letter-spacing:.02em;">{{ config.title }}</strong>
+          </a>
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+
+        <div id="navMenu" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item is-active" href="#top">Trang chủ</a>
+            <a class="navbar-item" href="#bai-viet">Công nghệ</a>
+            <a class="navbar-item" href="#bai-viet">Tài chính</a>
+            <a class="navbar-item" href="#bai-viet">Du lịch</a>
+            <a class="navbar-item" href="#bai-viet">SEO</a>
+          </div>
+
+          <div class="navbar-end">
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link">Giao diện: <span id="current-theme" style="margin-left:.35rem;">S-DNA</span></a>
+              <div class="navbar-dropdown is-right">
+                <a class="navbar-item" data-theme="sdna"><span class="switcher-dot" style="background:#003784;"></span>S-DNA (SEOMONEY)</a>
+                <a class="navbar-item" data-theme="default"><span class="switcher-dot" style="background:#00d1b2;"></span>Default</a>
+                <hr class="navbar-divider">
+                <a class="navbar-item" data-theme="darkly"><span class="switcher-dot" style="background:#375a7f;"></span>Darkly</a>
+                <a class="navbar-item" data-theme="cyborg"><span class="switcher-dot" style="background:#2a9fd6;"></span>Cyborg</a>
+                <a class="navbar-item" data-theme="slate"><span class="switcher-dot" style="background:#3a3f44;"></span>Slate</a>
+                <a class="navbar-item" data-theme="superhero"><span class="switcher-dot" style="background:#df691a;"></span>Superhero</a>
+                <a class="navbar-item" data-theme="solar"><span class="switcher-dot" style="background:#b58900;"></span>Solar</a>
+                <hr class="navbar-divider">
+                <a class="navbar-item" data-theme="flatly"><span class="switcher-dot" style="background:#2c3e50;"></span>Flatly</a>
+                <a class="navbar-item" data-theme="lux"><span class="switcher-dot" style="background:#1a1a1a;"></span>Lux</a>
+                <a class="navbar-item" data-theme="pulse"><span class="switcher-dot" style="background:#593196;"></span>Pulse</a>
+                <a class="navbar-item" data-theme="simplex"><span class="switcher-dot" style="background:#d9230f;"></span>Simplex</a>
+              </div>
+            </div>
+            <div class="navbar-item">
+              <a class="button is-light" href="#bai-viet"><strong>Đọc blog</strong></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== Hero ===== -->
+    <section class="hero is-primary is-medium" id="top">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title is-1">{{ config.title }}</h1>
+          <h2 class="subtitle is-4">{{ config.extra.tagline | default(value="SEO · Công nghệ · Tài chính cá nhân") }}</h2>
+          <p class="content" style="max-width:680px;margin:1.25rem auto 0;">
+            {{ config.description }}
+          </p>
+          <div class="buttons is-centered" style="margin-top:1.5rem;">
+            <a class="button is-light is-medium" href="#bai-viet"><strong>Bài viết mới nhất</strong></a>
+            <a class="button is-link is-medium" href="#doc-thu">Trải nghiệm đọc</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== KPI cards (S-DNA) ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="columns is-multiline">
+          <div class="column is-3">
+            <div class="box has-text-centered">
+              <div class="kpi-num">333</div>
+              <div class="kpi-label">Bài viết</div>
+            </div>
+          </div>
+          <div class="column is-3">
+            <div class="box has-text-centered">
+              <div class="kpi-num">16</div>
+              <div class="kpi-label">Chuyên mục</div>
+            </div>
+          </div>
+          <div class="column is-3">
+            <div class="box has-text-centered">
+              <div class="kpi-num">10</div>
+              <div class="kpi-label">Giao diện</div>
+            </div>
+          </div>
+          <div class="column is-3">
+            <div class="box has-text-centered">
+              <div class="kpi-num">0.9</div>
+              <div class="kpi-label">Bulma framework</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Article grid + sidebar ===== -->
+    <section class="section" id="bai-viet" style="padding-top:0;">
+      <div class="container">
+        <div class="columns">
+          <!-- Main -->
+          <div class="column is-8">
+            <h2 class="title is-3">Bài viết mới nhất</h2>
+            <div class="columns is-multiline">
+
+              <div class="column is-6">
+                <div class="card article-card">
+                  <div class="card-image"><div class="card-image-fallback">Công nghệ</div></div>
+                  <div class="card-content">
+                    <span class="tag is-primary is-light">Công nghệ</span>
+                    <p class="title is-5" style="margin-top:.6rem;">Tối ưu Core Web Vitals cho site Zola</p>
+                    <p class="subtitle is-6">LCP, CLS, INP và cách giữ điểm xanh trên site tĩnh.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="column is-6">
+                <div class="card article-card">
+                  <div class="card-image"><div class="card-image-fallback">SEO</div></div>
+                  <div class="card-content">
+                    <span class="tag is-info is-light">SEO</span>
+                    <p class="title is-5" style="margin-top:.6rem;">Cấu trúc internal link kéo traffic organic</p>
+                    <p class="subtitle is-6">Topic cluster, anchor và phân bổ liên kết hợp lý.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="column is-6">
+                <div class="card article-card">
+                  <div class="card-image"><div class="card-image-fallback">Tài chính</div></div>
+                  <div class="card-content">
+                    <span class="tag is-success is-light">Tài chính</span>
+                    <p class="title is-5" style="margin-top:.6rem;">Quản lý tài chính cá nhân với bảng tự động</p>
+                    <p class="subtitle is-6">Theo dõi dòng tiền, ngân sách và mục tiêu tiết kiệm.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="column is-6">
+                <div class="card article-card">
+                  <div class="card-image"><div class="card-image-fallback">Du lịch</div></div>
+                  <div class="card-content">
+                    <span class="tag is-warning is-light">Du lịch</span>
+                    <p class="title is-5" style="margin-top:.6rem;">Kinh nghiệm xin visa Hàn Quốc 5 năm</p>
+                    <p class="subtitle is-6">Hồ sơ, lịch hẹn và những lưu ý để đậu visa dài hạn.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="column is-6">
+                <div class="card article-card">
+                  <div class="card-image"><div class="card-image-fallback">Công nghệ</div></div>
+                  <div class="card-content">
+                    <span class="tag is-primary is-light">Công nghệ</span>
+                    <p class="title is-5" style="margin-top:.6rem;">CI/CD ZERO_BARRIER cho blog tĩnh</p>
+                    <p class="subtitle is-6">Tự kiểm thử, tự merge, tự deploy — không babysit.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="column is-6">
+                <div class="card article-card">
+                  <div class="card-image"><div class="card-image-fallback">SEO</div></div>
+                  <div class="card-content">
+                    <span class="tag is-info is-light">SEO</span>
+                    <p class="title is-5" style="margin-top:.6rem;">Schema &amp; sitemap: nền tảng SEO kỹ thuật</p>
+                    <p class="subtitle is-6">Dữ liệu có cấu trúc giúp Google hiểu nội dung.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <nav class="pagination is-centered" role="navigation" aria-label="pagination" style="margin-top:1rem;">
+              <a class="pagination-previous" disabled>Trước</a>
+              <a class="pagination-next">Sau</a>
+              <ul class="pagination-list">
+                <li><a class="pagination-link is-current">1</a></li>
+                <li><a class="pagination-link">2</a></li>
+                <li><a class="pagination-link">3</a></li>
+              </ul>
+            </nav>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="column is-4">
+            <div class="box">
+              <h3 class="title is-5">Về tác giả</h3>
+              <p class="content">
+                Blog của <strong>{{ config.extra.author | default(value="Duy Nguyen") }}</strong> — chia sẻ về SEO,
+                công nghệ, tài chính cá nhân và những chuyến đi.
+              </p>
+              <a class="button is-primary is-fullwidth">Theo dõi</a>
+            </div>
+
+            <div class="box">
+              <h3 class="title is-5">Chuyên mục</h3>
+              <aside class="menu">
+                <ul class="menu-list">
+                  <li><a>Công nghệ</a></li>
+                  <li><a>SEO</a></li>
+                  <li><a>Tài chính cá nhân</a></li>
+                  <li><a>Du lịch</a></li>
+                </ul>
+              </aside>
+            </div>
+
+            <div class="box">
+              <h3 class="title is-5">Thẻ phổ biến</h3>
+              <div class="tags">
+                <span class="tag is-primary">zola</span>
+                <span class="tag is-info">bulma</span>
+                <span class="tag">seo</span>
+                <span class="tag">core-web-vitals</span>
+                <span class="tag">ci-cd</span>
+                <span class="tag">visa</span>
+                <span class="tag">đầu tư</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Reading view (typography demo) ===== -->
+    <section class="section" id="doc-thu" style="padding-top:0;">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-9">
+            <div class="box">
+              <span class="tag is-primary">Công nghệ</span>
+              <span class="tag">5 phút đọc</span>
+              <div class="content" style="margin-top:1rem;">
+                <h1>Trải nghiệm đọc với Bulma <code>.content</code></h1>
+                <p class="subtitle is-6">Khối typography mẫu để bạn đánh giá khả năng đọc của theme.</p>
+                <p>
+                  Đây là đoạn văn minh hoạ. Bulma cung cấp lớp <code>.content</code> để định kiểu
+                  cho nội dung văn bản dài: tiêu đề, đoạn văn, danh sách, trích dẫn và bảng — tất cả
+                  đồng bộ với theme đang chọn. Hãy đổi giao diện ở góc phải trên để xem nội dung này
+                  thay đổi theo từng theme.
+                </p>
+                <h2>Tiêu đề cấp 2</h2>
+                <p>Một đoạn với <a href="#doc-thu">liên kết</a>, chữ <strong>in đậm</strong> và <em>in nghiêng</em>.</p>
+                <blockquote>
+                  Máy kiểm tra. Máy sửa lỗi. Máy merge. Con người chỉ quyết định sản phẩm.
+                </blockquote>
+                <h3>Danh sách</h3>
+                <ul>
+                  <li>Nền tảng Bulma vững chắc, responsive.</li>
+                  <li>Nhiều giao diện chuyển đổi tức thì (Bulmaswatch).</li>
+                  <li>Lớp da S-DNA giữ nhận diện thương hiệu SEOMONEY.</li>
+                </ul>
+                <pre><code>zola build &amp;&amp; zola serve   # xem thử trên máy</code></pre>
+                <table class="table is-bordered is-striped is-fullwidth">
+                  <thead><tr><th>Thành phần</th><th>Trạng thái</th></tr></thead>
+                  <tbody>
+                    <tr><td>Navbar + dropdown</td><td><span class="tag is-success">OK</span></td></tr>
+                    <tr><td>Theme switcher</td><td><span class="tag is-success">OK</span></td></tr>
+                    <tr><td>S-DNA skin</td><td><span class="tag is-primary">Bật</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container has-text-centered content">
+      <p><strong>{{ config.title }}</strong> — {{ config.extra.tagline | default(value="SEO · Công nghệ · Tài chính cá nhân") }}</p>
+      <p>Prototype giao diện Bulma + theme switcher (kiểu Zulma). Lớp da S-DNA dùng bảng màu Hilda/Ericsson:
+        Blue <code>#003784</code> · Teal <code>#00a69d</code> · Red <code>#e30613</code>.</p>
+      <p class="is-size-7">Trang nội bộ, không index. Không thay đổi giao diện thật của site.</p>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    var THEMES = {
+      sdna:      { css: 'default',   label: 'S-DNA' },
+      default:   { css: 'default',   label: 'Default' },
+      darkly:    { css: 'darkly',    label: 'Darkly' },
+      cyborg:    { css: 'cyborg',    label: 'Cyborg' },
+      slate:     { css: 'slate',     label: 'Slate' },
+      superhero: { css: 'superhero', label: 'Superhero' },
+      solar:     { css: 'solar',     label: 'Solar' },
+      flatly:    { css: 'flatly',    label: 'Flatly' },
+      lux:       { css: 'lux',       label: 'Lux' },
+      pulse:     { css: 'pulse',     label: 'Pulse' },
+      simplex:   { css: 'simplex',   label: 'Simplex' }
+    };
+    var KEY = 'zulma-preview-theme';
+    var link = document.getElementById('bulmaswatch');
+    var html = document.documentElement;
+    var label = document.getElementById('current-theme');
+
+    function apply(id) {
+      var t = THEMES[id] || THEMES.sdna;
+      link.setAttribute('href', '/zulma-themes/' + t.css + '.min.css');
+      html.classList.toggle('sdna-on', id === 'sdna');
+      if (label) { label.textContent = t.label; }
+      var items = document.querySelectorAll('[data-theme]');
+      for (var i = 0; i < items.length; i++) {
+        items[i].classList.toggle('is-active', items[i].getAttribute('data-theme') === id);
+      }
+      try { localStorage.setItem(KEY, id); } catch (e) {}
+    }
+
+    var items = document.querySelectorAll('[data-theme]');
+    for (var i = 0; i < items.length; i++) {
+      items[i].addEventListener('click', function (e) {
+        e.preventDefault();
+        apply(this.getAttribute('data-theme'));
+      });
+    }
+
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    apply(saved && THEMES[saved] ? saved : 'sdna');
+
+    // Mobile burger
+    var burger = document.querySelector('.navbar-burger');
+    if (burger) {
+      burger.addEventListener('click', function () {
+        var target = document.getElementById(burger.getAttribute('data-target'));
+        burger.classList.toggle('is-active');
+        if (target) { target.classList.toggle('is-active'); }
+      });
+    }
+  })();
+  </script>
+</body>
+</html>

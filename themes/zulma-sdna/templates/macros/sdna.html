@@ -1,0 +1,37 @@
+{# Reusable Bulma post card for listings (home, section, taxonomy). #}
+{% macro post_card(page) %}
+{% set cats = page.taxonomies.categories | default(value=["Bài viết"]) %}
+{% set label = cats | last %}
+<div class="column is-4">
+  <div class="card article-card">
+    <a href="{{ page.permalink | safe }}" class="card-image-fallback" aria-label="{{ page.title }}">
+      {% if page.extra.thumbnail %}
+        <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}" loading="lazy" onerror="this.style.display='none'">
+      {% else %}
+        <span>{{ label }}</span>
+      {% endif %}
+    </a>
+    <div class="card-content">
+      {% for c in cats %}{% if c != "Tất cả" %}<span class="tag is-primary is-light">{{ c }}</span> {% endif %}{% endfor %}
+      <p class="title is-5" style="margin-top:.5rem;"><a href="{{ page.permalink | safe }}">{{ page.title }}</a></p>
+      {% if page.description %}<p class="subtitle is-6">{{ page.description | striptags | truncate(length=110) }}</p>{% endif %}
+      {% if page.date %}<p class="is-size-7 has-text-grey">{{ page.date | date(format="%d/%m/%Y") }}</p>{% endif %}
+    </div>
+  </div>
+</div>
+{% endmacro post_card %}
+
+{# Pagination control shared by section + taxonomy listings. #}
+{% macro pager(paginator) %}
+{% if paginator.number_pagers and paginator.number_pagers > 1 %}
+<nav class="pagination is-centered" role="navigation" aria-label="pagination" style="margin-top:1.5rem;">
+  {% if paginator.previous %}<a class="pagination-previous" href="{{ paginator.previous | safe }}">Trước</a>{% else %}<a class="pagination-previous" disabled>Trước</a>{% endif %}
+  {% if paginator.next %}<a class="pagination-next" href="{{ paginator.next | safe }}">Sau</a>{% else %}<a class="pagination-next" disabled>Sau</a>{% endif %}
+  <ul class="pagination-list">
+    {% for pager in range(start=1, end=paginator.number_pagers + 1) %}
+      <li><a class="pagination-link {% if pager == paginator.current_index %}is-current{% endif %}" href="{{ paginator.base_url | safe }}{% if pager > 1 %}{{ pager }}/{% endif %}">{{ pager }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
+{% endif %}
+{% endmacro pager %}

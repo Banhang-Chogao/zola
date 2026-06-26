@@ -279,6 +279,13 @@ def check_scss_syntax(path, content):
     """
     if path.suffix not in {".scss", ".css"}:
         return []
+    # Vendored minified CSS (*.min.css) is third-party build output, not authored
+    # SCSS. Naive comment/string stripping miscounts on minified content (e.g.
+    # `url(https://…)` — the unquoted `//` is misread as a line comment, eating the
+    # rest of the single minified line and its closing parens). Skip it: it is
+    # already valid CSS and is not our source to lint.
+    if path.name.endswith(".min.css"):
+        return []
     issues = []
     stripped = _scss_strip_noise(content)
 

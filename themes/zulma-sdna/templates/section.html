@@ -1,0 +1,26 @@
+{% extends "zsdna_base.html" %}
+{% import "macros/sdna.html" as m %}
+
+{% block page_title %}{{ section.title }} | {{ config.title }}{% endblock page_title %}
+{% block page_description %}{{ section.description | default(value=config.description) }}{% endblock page_description %}
+{% block og_title %}{{ section.title }}{% endblock og_title %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+    <h1 class="title is-2">{{ section.title }}</h1>
+    {% if section.description %}<p class="subtitle is-5">{{ section.description }}</p>{% endif %}
+
+    {% if paginator %}
+      <div class="columns is-multiline">
+        {% for page in paginator.pages %}{{ m::post_card(page=page) }}{% endfor %}
+      </div>
+      {{ m::pager(paginator=paginator) }}
+    {% else %}
+      <div class="columns is-multiline">
+        {% for page in section.pages %}{{ m::post_card(page=page) }}{% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock content %}
