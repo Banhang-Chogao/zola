@@ -24216,6 +24216,201 @@
         }
       ]
     },
+    "content/posting/test-blog-footer-redesign.md": {
+      "title": "Test: Blog Footer UI Redesign",
+      "slug": "test-blog-footer-redesign",
+      "keyword": "blog footer UI redesign test",
+      "score": 67.8,
+      "grade": "D",
+      "word_count": 119,
+      "published": true,
+      "scored_at": "2026-06-26T07:01:43.861808+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 0.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 0.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 4.8,
+          "max": 8
+        },
+        "word_count": {
+          "got": 3.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 0.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 0.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "từ khoá 'blog footer UI redesign test' chưa có trong đoạn mở đầu",
+        "từ khoá 'blog footer UI redesign test' chưa xuất hiện trong heading H2 nào",
+        "nên có ≥ 2 heading H2 để chia mục rõ ràng",
+        "bài quá ngắn 119 từ (nên ≥ 300)",
+        "thiếu internal link (liên kết tới bài/section khác trong blog)",
+        "thiếu external link tới nguồn uy tín"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-26T06:48:26.639975+07:00",
+          "score": 67.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T07:01:43.861808+07:00",
+          "score": 67.8,
+          "grade": "D"
+        }
+      ]
+    },
+    "content/posting/sua-7-pr-ci-cd-that-bai-zola.md": {
+      "title": "Khắc Phục 7 PR CI/CD Thất Bại Trên Blog Zola",
+      "slug": "sua-7-pr-ci-cd-that-bai-zola",
+      "keyword": "khắc phục 7 PR CI/CD thất bại",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 2303,
+      "published": true,
+      "scored_at": "2026-06-26T08:18:10.991875+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [],
+      "history": [
+        {
+          "scored_at": "2026-06-26T08:17:15.014824+07:00",
+          "score": 63.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T08:17:44.288265+07:00",
+          "score": 80.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-26T08:18:04.917362+07:00",
+          "score": 96.8,
+          "grade": "A+"
+        },
+        {
+          "scored_at": "2026-06-26T08:18:10.991875+07:00",
+          "score": 100.0,
+          "grade": "A+"
+        }
+      ]
+    },
     "content/posting/deploy-mon-tera-scoping-fix-2026.md": {
       "title": "Tera Scoping: Why {% set_global %} Fixed DEPLOY-MON Widget",
       "slug": "tera-scoping-deploy-monitor-fix",

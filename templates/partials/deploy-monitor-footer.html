@@ -1,0 +1,18 @@
+{# Deploy Monitor Footer Widget
+   Minimal footer indicator linking to /tools/deploy-monitor/ ─ #}
+
+{% set deploy_data = load_data(path="data/deploy-monitor.json", required=false) %}
+{% if deploy_data and deploy_data.summary %}
+  <div class="deploy-watch deploy-monitor-footer" role="region" aria-label="Deploy Monitor">
+    <a href="/tools/deploy-monitor/" title="Xem Deploy Monitor" class="deploy-monitor-footer__link">
+      {% set pending = deploy_data.summary.pending_count | default(value=0) %}
+      {% if pending > 0 %}
+        <span class="deploy-monitor-footer__badge deploy-monitor-footer__badge--pending">{{ pending }}</span>
+      {% endif %}
+      <span class="deploy-monitor-footer__text">
+        {% set status = deploy_data.summary.prod_status | default(value="") %}
+        {% if status == "green" %}✓ Deploy{% elif status == "yellow" %}⟳ Deploying{% elif status == "red" %}✗ Error{% else %}Deploy Monitor{% endif %}
+      </span>
+    </a>
+  </div>
+{% endif %}

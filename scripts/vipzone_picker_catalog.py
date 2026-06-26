@@ -32,7 +32,6 @@ EXCLUDE_SLUGS = frozenset({
 EXCLUDE_PATH_PREFIXES = (
     "/admin",
     "/admin-author",
-    "/admin-countdown",
     "/insights",
     "/bao-cao-tong-ket",
     "/shortensea/admin",

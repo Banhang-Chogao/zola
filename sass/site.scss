@@ -19,13 +19,16 @@
 @import "home-clusters";
 @import "single";
 @import "faq";
+@import "article-footer";
+@import "related-posts";
+@import "copyright";
 @import "references";
 @import "banner";
 @import "footer";
 @import "ga-stats";
 @import "footer-tags";
-@import "footer-countdown";
 @import "deploy-watch";
+@import "deploy-monitor-footer";
 @import "wd-heartbeat";
 @import "editor";
 @import "admin-zone";
@@ -86,6 +89,13 @@
 @import "oasis";
 @import "island-v2";
 /* @import "island"; — replaced by island-v2 (WWDC redesign) */
+
+/* Article ending sections — breadcrumb, FAQ, related posts, copyright, heartbeat */
+@import "breadcrumb-article";
+@import "faq-accordion";
+@import "related-posts-thumbnail";
+@import "copyright-notice";
+@import "pipeline-heartbeat-inline";
 
 /* Mobile readability hardening — MUST stay last so its defensive
    overflow/wrapping guards win over earlier component rules. */

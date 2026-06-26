@@ -1,3 +1,7 @@
+{% import "macros/breadcrumb-article.html" as bc %}
+{% import "macros/related-posts-thumbnail.html" as rp %}
+{% import "macros/copyright-notice.html" as cp %}
+{% import "macros/pipeline-heartbeat-inline.html" as hb %}
 {% extends "index.html" %}
 {%- block meta %}
   {%- set g_is_article = true %}
@@ -38,7 +42,7 @@
     </span>
   </a>
 
-  {# ===== Breadcrumb (MoMo theme test): Trang chủ › Chuyên mục › bài ===== #}
+  {# ===== Breadcrumb (MoMo theme test + Semantic article breadcrumb) ===== #}
   <nav class="oasis__crumb" aria-label="Breadcrumb">
     <a href="{{ config.base_url | safe }}/">Trang chủ</a>
     <span class="oasis__crumb-sep" aria-hidden="true">›</span>
@@ -48,6 +52,19 @@
     {%- endif %}
     <span class="oasis__crumb-current">{{ page.title | truncate(length=48) }}</span>
   </nav>
+
+  {# Semantic breadcrumb-article (for JSON-LD & SEO) #}
+  {%- if page.taxonomies.categories and page.taxonomies.categories | length > 0 %}
+  {% set cat_name = page.taxonomies.categories[0] %}
+  {%- else %}
+  {% set cat_name = "Tất cả" %}
+  {%- endif %}
+  {{ bc::article(
+    base_url=config.base_url,
+    category_name=cat_name,
+    category_url=get_taxonomy_url(kind='categories', name=cat_name),
+    post_title=page.title
+  ) }}
 
   {# ===== Hero — eyebrow / title / sub / stats ===== #}
   <header class="oasis__hero">
@@ -86,6 +103,10 @@
     {% include "partials/toc.html" %}
     <!-- Content -->
     <section class="oasis__body post-single__content">{{ page.content | safe }}</section>
+
+    {# FAQ — styled accordion, immediately after post content, before breadcrumb/post navigation #}
+    {% include "partials/faq.html" %}
+
     <hr />
     {% include "partials/post_taxonomies.html" %}
     {%- if page.lower or page.higher %}
@@ -94,6 +115,27 @@
     {%- if page.extra.comment | default(value=config.extra.comment) %}
     {% include "partials/comment.html" %}
     {%- endif %}
+
+    <!-- Article Ending Sections -->
+    {# Related Posts with Thumbnail #}
+    {%- if page.extra.related_posts and page.extra.related_posts | length > 0 %}
+    {{ rp::grid(
+      base_url=config.base_url,
+      posts=page.extra.related_posts,
+      current_slug=page.slug
+    ) }}
+    {%- endif %}
+
+    {# Copyright Notice #}
+    {{ cp::article(
+      year="2026",
+      site_name=config.title,
+      author=config.extra.author | default(value="")
+    ) }}
+
+    {# Pipeline Heartbeat #}
+    {{ hb::compact() }}
+
     <!-- Begin Page End inject -->
     {% include "injects/page_end.html" ignore missing %}
     <!-- End Page End inject -->
