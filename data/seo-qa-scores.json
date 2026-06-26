@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-26T16:25:45.139014+07:00",
+  "updated_at": "2026-06-26T16:29:52.487838+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -25648,11 +25648,11 @@
       "title": "Cách Fix Build-Smoke Fail: 3 Bài Học Từ Kinh Nghiệm Zola",
       "slug": "kinh-nghiem-xu-ly-build-smoke-fail",
       "keyword": "build-smoke fail zola fix",
-      "score": 92.8,
-      "grade": "A",
+      "score": 86.8,
+      "grade": "B",
       "word_count": 818,
       "published": true,
-      "scored_at": "2026-06-26T16:25:45.139014+07:00",
+      "scored_at": "2026-06-26T16:29:52.487838+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -25691,7 +25691,7 @@
           "max": 10
         },
         "og_image": {
-          "got": 6.0,
+          "got": 0.0,
           "max": 6
         },
         "img_alt": {
@@ -25721,6 +25721,7 @@
       },
       "issues": [
         "không nên dùng H1 (#) trong body — title đã là H1",
+        "thiếu [extra] thumbnail (og:image) → share mạng xã hội kém",
         "chưa gắn tag nào"
       ],
       "history": [
@@ -25778,6 +25779,11 @@
           "scored_at": "2026-06-26T16:25:45.139014+07:00",
           "score": 92.8,
           "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-26T16:29:52.487838+07:00",
+          "score": 86.8,
+          "grade": "B"
         }
       ]
     }

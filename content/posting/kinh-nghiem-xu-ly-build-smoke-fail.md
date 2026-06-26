@@ -7,7 +7,6 @@ tags = ["zola", "build", "ci-cd", "debug", "pr-management"]
 
 [extra]
 seo_keyword = "build-smoke fail zola fix"
-thumbnail = "https://seomoney.org/images/build-smoke-fail.jpg"
 +++
 
 ## Mở đầu
