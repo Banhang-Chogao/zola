@@ -32,7 +32,7 @@ q = "Vì sao bài học là nội dung Premium?"
 a = "Mỗi ngày là một bài biên soạn riêng có bảng tra, mẹo nhớ, ví dụ phiên âm và bài tập kèm đáp án — gọn để học trong 20–30 phút/ngày. Bạn mở khóa qua Momo để đọc toàn bộ phần luyện tập và đáp án."
 +++
 
-# 🇰🇷 Ngày 1 — Bảng chữ Hangul & 10 nguyên âm cơ bản
+## 🇰🇷 Ngày 1 — Bảng chữ Hangul & 10 nguyên âm cơ bản
 
 > **Mục tiêu hôm nay (20–30 phút):** Hiểu Hangul được cấu tạo thế nào, đọc – viết được **10 nguyên âm cơ bản**, và ghép chúng với phụ âm câm `ㅇ` để đọc thành chữ thật (아, 어, 오, 우…). Cuối bài có **15 câu bài tập + đáp án**.
 

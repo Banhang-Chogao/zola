@@ -33,7 +33,7 @@ q = "Phủ định động từ 하다 (như 공부하다) trong tiếng Hàn th
 a = "Với động từ 하다, 안/못 chen vào GIỮA danh từ và 하다: 공부 안 해요 (không học), 공부 못 해요 (không học được). Ngoài ra có cặp phủ định đặc biệt: 있다→없다, 알다→모르다. Ngày 18 giải thích kỹ."
 +++
 
-# 🇰🇷 Ngày 18 — Phủ định 안 / 못 & -지 않다
+## 🇰🇷 Ngày 18 — Phủ định 안 / 못 & -지 않다
 
 > **Mục tiêu hôm nay (20–30 phút):** Nói "KHÔNG" đúng sắc thái: **안** (không — ý chí/sự thật) vs **못** (không thể — bất khả), dạng dài **-지 않다 / -지 못하다**, ca đặc biệt **하다**, và cặp phủ định bất quy tắc 있다→없다, 알다→모르다. Cuối bài có **15 câu bài tập + đáp án**.
 

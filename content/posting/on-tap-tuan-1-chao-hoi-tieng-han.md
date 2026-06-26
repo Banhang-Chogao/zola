@@ -33,7 +33,7 @@ q = "Sau khi học hết Hangul tuần 1 thì học gì tiếp?"
 a = "Sau khi đọc – viết thành thạo Hangul và biết chào hỏi cơ bản, tuần 2 chuyển sang ngữ pháp: cấu trúc 입니다/예요 để giới thiệu bản thân, các trợ từ, và câu đơn giản. Ngày 8 bắt đầu với cấu trúc -입니다 và cách giới thiệu bản thân."
 +++
 
-# 🇰🇷 Ngày 7 — Ôn tập tuần 1 & chào hỏi cơ bản
+## 🇰🇷 Ngày 7 — Ôn tập tuần 1 & chào hỏi cơ bản
 
 > **Mục tiêu hôm nay (20–30 phút):** **Củng cố toàn bộ Hangul** đã học (nguyên âm, phụ âm, patchim, quy tắc biến âm) qua bảng tổng + bài đọc thử, RỒI học **bộ câu chào hỏi thiết yếu** để bắt đầu giao tiếp thật. Cuối bài có **15 câu bài tập + đáp án**.
 

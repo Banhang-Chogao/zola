@@ -33,7 +33,7 @@ q = "Cấu trúc hỏi vị trí 어디에 있어요 dùng thế nào?"
 a = "어디에 있어요? nghĩa là 'ở đâu?'. Trả lời theo mẫu A는 B 위에 있어요 (A ở trên B). Ví dụ: 고양이가 어디에 있어요? → 의자 아래에 있어요 (Con mèo ở đâu? → Ở dưới ghế)."
 +++
 
-# 🇰🇷 Ngày 10 — 있다/없다 & diễn đạt vị trí
+## 🇰🇷 Ngày 10 — 있다/없다 & diễn đạt vị trí
 
 > **Mục tiêu hôm nay (20–30 phút):** Làm chủ cặp động từ **있다 (có/ở) · 없다 (không có)**, dùng cấu trúc **N이/가 있어요** cho cả **sở hữu** lẫn **tồn tại**, học **9 danh từ chỉ vị trí** (위·아래·앞·뒤·옆·안·밖·사이·오른쪽/왼쪽) và ráp mẫu câu **A는 B 위에 있어요**. Cuối bài có **13 câu bài tập + đáp án**.
 

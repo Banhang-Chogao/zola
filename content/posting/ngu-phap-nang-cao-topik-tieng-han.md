@@ -33,7 +33,7 @@ q = "Cấu trúc -(으)ㄴ/는 것 같다 nghĩa là gì?"
 a = "-(으)ㄴ/는 것 같다 nghĩa là 'có vẻ/hình như', dùng để suy đoán. Hiện tại: 비가 오는 것 같아요 (hình như trời mưa); quá khứ -(으)ㄴ 것 같다; tương lai -(으)ㄹ 것 같다. Đây là cách diễn đạt suy đoán lịch sự, rất hay gặp trong TOPIK."
 +++
 
-# 🇰🇷 Ngày 29 — Ngữ pháp nâng cao: -는데, -니까, -잖아요, -것 같다
+## 🇰🇷 Ngày 29 — Ngữ pháp nâng cao: -는데, -니까, -잖아요, -것 같다
 
 > **Mục tiêu hôm nay (20–30 phút):** Làm chủ 4 cấu trúc **bắc cầu sang TOPIK II**: **-는데/-(으)ㄴ데** (bối cảnh/tương phản), **-(으)니까** (lý do, dùng được với mệnh lệnh), **-잖아요** (nhắc điều cả hai cùng biết), **-(으)ㄴ/는/(으)ㄹ 것 같다** (suy đoán "có vẻ"). Cuối bài có **15 câu bài tập + đáp án**.
 

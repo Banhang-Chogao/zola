@@ -1,4 +1,4 @@
-# 🇰🇷 Ngày 13 — Số đếm Hán-Hàn & thuần Hàn
+## 🇰🇷 Ngày 13 — Số đếm Hán-Hàn & thuần Hàn
 
 > **Mục tiêu hôm nay (20–30 phút):** Phân biệt **hai hệ số đếm** tiếng Hàn — **Hán-Hàn** (일이삼) và **thuần Hàn** (하나둘셋) — biết dùng hệ nào cho việc gì, thuộc các **đơn vị đếm** 개·명·살·시·잔, và nói được **giờ + phút** (세 시 삼십 분). Cuối bài có **15 câu bài tập + đáp án**.
 

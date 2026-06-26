@@ -1,4 +1,4 @@
-# 🇰🇷 Ngày 18 — Phủ định 안 / 못 & -지 않다
+## 🇰🇷 Ngày 18 — Phủ định 안 / 못 & -지 않다
 
 > **Mục tiêu hôm nay (20–30 phút):** Nói "KHÔNG" đúng sắc thái: **안** (không — ý chí/sự thật) vs **못** (không thể — bất khả), dạng dài **-지 않다 / -지 못하다**, ca đặc biệt **하다**, và cặp phủ định bất quy tắc 있다→없다, 알다→모르다. Cuối bài có **15 câu bài tập + đáp án**.
 

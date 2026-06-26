@@ -1,4 +1,4 @@
-# 🇰🇷 Ngày 27 — Điều kiện & nghĩa vụ: -(으)면, -아야 하다, -(으)면 되다
+## 🇰🇷 Ngày 27 — Điều kiện & nghĩa vụ: -(으)면, -아야 하다, -(으)면 되다
 
 > **Mục tiêu hôm nay (20–30 phút):** Làm chủ bộ ngữ pháp "luật chơi" tiếng Hàn: **-(으)면** (nếu… thì…), **-아/어야 하다/되다** (phải…), **-(으)면 되다** (… là được), **-(으)면 안 되다** (không được…) và bonus **-아/어도 되다** (được phép…). Cuối bài có **15 câu bài tập + đáp án**.
 

@@ -33,7 +33,7 @@ q = "Sau TOPIK I (cấp 1–2) thì học tiếp lên cấp mấy?"
 a = "Sau khi vững cấp 1–2, bạn chuyển sang TOPIK II (cấp 3–6), bổ sung phần 쓰기 (Viết) và ngữ pháp trung cấp. Nguồn ôn uy tín: 국립국어원 (Viện Quốc ngữ), 세종학당 (sejonghakdang.org) và đề công khai topik.go.kr."
 +++
 
-# 🇰🇷 Ngày 30 — Tổng ôn & chiến lược thi TOPIK I
+## 🇰🇷 Ngày 30 — Tổng ôn & chiến lược thi TOPIK I
 
 > **Mục tiêu hôm nay (30–40 phút):** Tổng ôn toàn bộ hành trình 30 ngày qua **bảng checklist ngữ pháp theo tuần**, giải mã **cấu trúc đề TOPIK I** (듣기 + 읽기, 200 điểm), nắm **chiến lược làm bài & quản lý thời gian**, soát **checklist must-know cấp 1–2** và vạch **lộ trình lên cấp 3–4 (TOPIK II)**. Cuối bài có **15 câu bài tập tổng hợp + đáp án**.
 

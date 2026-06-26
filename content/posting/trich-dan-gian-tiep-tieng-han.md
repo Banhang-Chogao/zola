@@ -33,7 +33,7 @@ q = "Các dạng rút gọn của trích dẫn gián tiếp tiếng Hàn khi nó
 a = "Khi nói chuyện, người Hàn rút gọn: -다고 해요 → -대요, -(이)라고 해요 → -(이)래요, -냐고 해요 → -냬요, -(으)라고 해요 → -(으)래요, -자고 해요 → -재요. Các dạng này nghe rất tự nhiên và xuất hiện nhiều trong hội thoại đời thường."
 +++
 
-# 🇰🇷 Ngày 28 — Trích dẫn gián tiếp (간접화법)
+## 🇰🇷 Ngày 28 — Trích dẫn gián tiếp (간접화법)
 
 > **Mục tiêu hôm nay (20–30 phút):** Thuật lại lời người khác bằng **trích dẫn gián tiếp** tiếng Hàn: câu trần thuật **-다고 하다**, câu hỏi **-(느)냐고 하다**, câu mệnh lệnh **-(으)라고 하다**, câu rủ rê **-자고 하다**, cùng các dạng **rút gọn văn nói** (-대요, -래요, -냬요…). Cuối bài có **15 câu bài tập + đáp án**.
 

@@ -33,7 +33,7 @@ q = "Tại sao 옷 lại đọc là [옫] trong tiếng Hàn?"
 a = "Vì patchim ㅅ khi đứng cuối âm tiết không bật thành 's' mà quy về âm đại diện [ㄷ] (ngậm lưỡi ở lợi, không bung hơi). Nên 옷 (áo) đọc là [옫] = 'ot'. Đây là quy tắc 7 âm đại diện, bài đầy đủ giải thích kỹ kèm bảng."
 +++
 
-# 🇰🇷 Ngày 5 — Patchim (받침) & 7 âm đại diện
+## 🇰🇷 Ngày 5 — Patchim (받침) & 7 âm đại diện
 
 > **Mục tiêu hôm nay (20–30 phút):** Hiểu **patchim** (받침) là gì, nắm quy tắc **7 âm đại diện** [ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅇ], biết mọi phụ âm cuối quy về 7 âm này thế nào, và làm quen **patchim đôi** (겹받침). Sau bài này bạn đọc được **MỌI** chữ Hangul! Cuối bài có **15 câu bài tập + đáp án**.
 
@@ -66,7 +66,7 @@ Ví dụ chữ 밥 (cơm):
 
 Dù bạn viết patchim bằng phụ âm gì, khi **phát âm** nó chỉ vang lên thành **một trong 7 âm đại diện** (대표음):
 
-# [ ㄱ · ㄴ · ㄷ · ㄹ · ㅁ · ㅂ · ㅇ ]
+## [ ㄱ · ㄴ · ㄷ · ㄹ · ㅁ · ㅂ · ㅇ ]
 
 Bảng quy đổi (HỌC CHỖ NÀY!):
 

@@ -33,7 +33,7 @@ q = "Phủ định của 이다 (là) trong tiếng Hàn là gì?"
 a = "Phủ định 'không phải là' dùng 아니다 → 아니에요 (thân mật) / 아닙니다 (trang trọng), theo cấu trúc N이/가 아니에요. Ví dụ: 학생이 아니에요 = 'không phải học sinh'."
 +++
 
-# 🇰🇷 Ngày 8 — 이다/입니다 & giới thiệu bản thân
+## 🇰🇷 Ngày 8 — 이다/입니다 & giới thiệu bản thân
 
 > **Mục tiêu hôm nay (20–30 phút):** Làm chủ động từ **이다 ("là")** ở cả ba mức lịch sự (`입니다` · `이에요/예요`), biết **phủ định** "không phải là" (`아니에요/아닙니다`), và ráp được một bài **tự giới thiệu** hoàn chỉnh: tên · quốc tịch · nghề nghiệp. Cuối bài có **12 câu bài tập + đáp án**.
 

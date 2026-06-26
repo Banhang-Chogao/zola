@@ -1,4 +1,4 @@
-# 🇰🇷 Ngày 16 — Thì quá khứ 았/었어요
+## 🇰🇷 Ngày 16 — Thì quá khứ 았/었어요
 
 > **Mục tiêu hôm nay (20–30 phút):** Chia **động từ & tính từ** sang **thì quá khứ** với đuôi **았어요/었어요** (và 했어요), nắm các dạng rút gọn, dạng trang trọng **-았/었습니다**, cùng **từ chỉ thời gian** quá khứ. Cuối bài có một câu chuyện "hôm qua" + **15 câu bài tập + đáp án**.
 

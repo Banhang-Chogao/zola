@@ -1,4 +1,4 @@
-# 🇰🇷 Ngày 28 — Trích dẫn gián tiếp (간접화법)
+## 🇰🇷 Ngày 28 — Trích dẫn gián tiếp (간접화법)
 
 > **Mục tiêu hôm nay (20–30 phút):** Thuật lại lời người khác bằng **trích dẫn gián tiếp** tiếng Hàn: câu trần thuật **-다고 하다**, câu hỏi **-(느)냐고 하다**, câu mệnh lệnh **-(으)라고 하다**, câu rủ rê **-자고 하다**, cùng các dạng **rút gọn văn nói** (-대요, -래요, -냬요…). Cuối bài có **15 câu bài tập + đáp án**.
 

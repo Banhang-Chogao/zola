@@ -33,7 +33,7 @@ q = "Trật tự từ của định ngữ tiếng Hàn có khó không?"
 a = "Định ngữ tiếng Hàn đứng TRƯỚC danh từ (giống tính từ tiếng Anh nhưng NGƯỢC tiếng Việt). 'Người tôi gặp hôm qua' trong tiếng Hàn là 어제 만난 사람 — cả cụm bổ nghĩa nằm trước 사람 (người). Quen trật tự này là nói được câu dài tự nhiên."
 +++
 
-# 🇰🇷 Ngày 22 — Định ngữ (관형사형): -는, -은/ㄴ, -을/ㄹ
+## 🇰🇷 Ngày 22 — Định ngữ (관형사형): -는, -은/ㄴ, -을/ㄹ
 
 > **Mục tiêu hôm nay (20–30 phút):** Hiểu **định ngữ** (관형사형) — biến cả một mệnh đề thành cụm bổ nghĩa cho danh từ. Phân biệt thì của định ngữ **động từ** (-는 hiện tại, -(으)ㄴ quá khứ, -(으)ㄹ tương lai), **tính từ** (-(으)ㄴ), và các trường hợp đặc biệt 있다/없다, 이다. Cuối bài có **14 câu bài tập + đáp án**.
 

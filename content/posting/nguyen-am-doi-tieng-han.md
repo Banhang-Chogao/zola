@@ -33,7 +33,7 @@ q = "ㅢ (ui) trong tiếng Hàn đọc thế nào?"
 a = "ㅢ có 3 cách đọc tùy vị trí: đầu từ đọc đầy đủ 'ưi' (의사 = bác sĩ); khi là âm tiết không đầu thường đọc 'i' (회의 → hwe-i); khi là trợ từ sở hữu '의' đọc 'ê' (e). Đây là chữ linh hoạt nhất bảng nguyên âm."
 +++
 
-# 🇰🇷 Ngày 4 — Nguyên âm đôi & nguyên âm ghép
+## 🇰🇷 Ngày 4 — Nguyên âm đôi & nguyên âm ghép
 
 > **Mục tiêu hôm nay (20–30 phút):** Đọc – viết được **11 nguyên âm đôi/ghép** (ㅐ ㅔ ㅒ ㅖ ㅘ ㅙ ㅚ ㅝ ㅞ ㅟ ㅢ), hiểu chúng **ghép từ nguyên âm gốc** thế nào, và đọc được hàng loạt từ thông dụng (사과, 의사, 회사…). Cuối bài có **14 câu bài tập + đáp án**.
 

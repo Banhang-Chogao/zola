@@ -33,7 +33,7 @@ q = "반말 và 존댓말 trong tiếng Hàn khác nhau thế nào?"
 a = "반말 (thân mật) bỏ 요, chỉ còn 아/어 (가, 먹어) — dùng với bạn thân, người nhỏ tuổi. 존댓말 (lịch sự) thêm 요 (가요, 먹어요) hoặc trang trọng hơn là ㅂ니다/습니다. Người mới nên dùng đuôi 아요/어요 cho an toàn."
 +++
 
-# 🇰🇷 Ngày 15 — Động từ + đuôi 아요/어요 (hiện tại)
+## 🇰🇷 Ngày 15 — Động từ + đuôi 아요/어요 (hiện tại)
 
 > **Mục tiêu hôm nay (20–30 phút):** Nắm chắc quy tắc chia **động từ & tính từ** sang đuôi hiện tại lịch sự **아요/어요** (해요체): khi nào +아요, khi nào +어요, ca đặc biệt 하다→해요, và các **dạng rút gọn** hay gặp. Cuối bài có **15 câu bài tập + đáp án**.
 

@@ -1,4 +1,4 @@
-# 🇰🇷 Ngày 23 — Khả năng & kinh nghiệm: -ㄹ 수 있다, -은 적이 있다
+## 🇰🇷 Ngày 23 — Khả năng & kinh nghiệm: -ㄹ 수 있다, -은 적이 있다
 
 > **Mục tiêu hôm nay (20–30 phút):** Nói được **khả năng** với -(으)ㄹ 수 있다/없다 (làm được/không được), **kỹ năng học được** với -(으)ㄹ 줄 알다/모르다 (biết cách), **kinh nghiệm** với -아/어 본 적이 있다/없다 (đã/chưa từng), và mẫu **-아/어 보다** (thử làm). Cuối bài có **13 câu bài tập + đáp án**.
 

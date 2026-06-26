@@ -33,7 +33,7 @@ q = "저 và 나 đều là 'tôi', dùng khi nào trong tiếng Hàn?"
 a = "저 là 'tôi' khiêm tốn, dùng với người lớn, người lạ, nơi trang trọng (số nhiều 저희). 나 là 'tôi' thân mật, dùng với bạn bè cùng tuổi hoặc nhỏ hơn (số nhiều 우리). Chọn sai dễ bị coi là bất lịch sự."
 +++
 
-# 🇰🇷 Ngày 9 — Đại từ & chỉ định 이/그/저
+## 🇰🇷 Ngày 9 — Đại từ & chỉ định 이/그/저
 
 > **Mục tiêu hôm nay (20–30 phút):** Làm chủ bộ ba chỉ định **이 (này) · 그 (đó) · 저 (kia)**, dùng được **이것·그것·저것** (cái này/đó/kia) và **여기·거기·저기** (nơi này/đó/kia), thuộc lòng các **từ để hỏi** 무엇·누구·어디, và phân biệt **đại từ nhân xưng** 저/나 · 저희/우리. Cuối bài có **12 câu bài tập + đáp án**.
 

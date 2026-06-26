@@ -1,4 +1,4 @@
-# 🇰🇷 Ngày 25 — Động từ bất quy tắc (불규칙)
+## 🇰🇷 Ngày 25 — Động từ bất quy tắc (불규칙)
 
 > **Mục tiêu hôm nay (20–30 phút):** Chinh phục **7 loại bất quy tắc** (불규칙) — ㅂ, ㄷ, ㅡ, 르, ㄹ, ㅅ, ㅎ. Mỗi loại có quy luật riêng + ngoại lệ chia ĐỀU dễ nhầm. Cuối bài có **15 câu bài tập + đáp án**.
 
