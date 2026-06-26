@@ -1,24 +1,119 @@
 {
-  "updated_at": "2026-06-26T03:56:10Z",
+  "updated_at": "2026-06-26T04:57:07Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 28,
+    "today": 33,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "unknown": 42,
+      "fix": 101,
+      "feature": 45,
+      "unknown": 37,
       "ci": 4,
-      "feature": 42,
-      "fix": 99,
       "chore": 9,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 972,
+      "pr_title": "fix: resolve zola build hang caused by missing series manifest & duplicate rendering [claude/blog-build-status-mifbme]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/972",
+      "merged_at": "2026-06-26T04:50:30Z",
+      "merge_commit_sha": "f4cf2bf21f5bbcc022fd63047e83cb343e6f0464",
+      "merge_commit_short": "f4cf2bf",
+      "head_branch": "claude/blog-build-status-mifbme",
+      "summary_vi": "fix: resolve zola build hang caused by missing series manifest & duplicate rendering",
+      "change_type": "fix",
+      "files_changed": 2,
+      "additions": 45,
+      "deletions": 9,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1178,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28217886106",
+      "build_conclusion": "in_progress"
+    },
+    {
+      "pr_number": 971,
+      "pr_title": "chore: hold 5-part blog series as draft for content review [feat/hold-blog-posts-for-review]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/971",
+      "merged_at": "2026-06-26T04:17:59Z",
+      "merge_commit_sha": "a44ec026866f6ed972d4940f59dbcb53fdb0766f",
+      "merge_commit_short": "a44ec02",
+      "head_branch": "feat/hold-blog-posts-for-review",
+      "summary_vi": "chore: hold 5-part blog series as draft for content review",
+      "change_type": "feature",
+      "files_changed": 5,
+      "additions": 5,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 966,
+      "pr_title": "fix: resolve base.html conflict PR #963 — keep OG hotlink guard + main updates [feat/owned-image-fallback-clean]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/966",
+      "merged_at": "2026-06-26T03:56:53Z",
+      "merge_commit_sha": "2a1f1aaa1972aeed16e24dbf5cea7c50c4e2c523",
+      "merge_commit_short": "2a1f1aa",
+      "head_branch": "feat/owned-image-fallback-clean",
+      "summary_vi": "- feat(images): owned-image fallback chain, remove Pixabay (clean rebase)",
+      "change_type": "fix",
+      "files_changed": 0,
+      "additions": 0,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 970,
+      "pr_title": "feat: 5-part blog series on merge conflict resolution automation",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/970",
+      "merged_at": "2026-06-26T03:56:35Z",
+      "merge_commit_sha": "ca0acc299081cbf01d29015c4fab56a5e3fa5b0f",
+      "merge_commit_short": "ca0acc2",
+      "head_branch": "claude/merge-conflict-preflight-tcagtl",
+      "summary_vi": "**Topic:** From merge conflict crisis (#945, #951) to fully automated resolution system",
+      "change_type": "feature",
+      "files_changed": 15,
+      "additions": 3600,
+      "deletions": 2,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 965,
+      "pr_title": "feat: auto-log conflict resolution experiences to Merge Conflict Preflight [claude/auto-bot-experience-logging-j1ubpk]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/965",
+      "merged_at": "2026-06-26T03:53:10Z",
+      "merge_commit_sha": "0f47bad1d92af254da6d96fe066ecd6e129bdac8",
+      "merge_commit_short": "0f47bad",
+      "head_branch": "claude/auto-bot-experience-logging-j1ubpk",
+      "summary_vi": "feat: auto-log conflict resolution experiences to Merge Conflict Preflight",
+      "change_type": "feature",
+      "files_changed": 6,
+      "additions": 412,
+      "deletions": 1,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
     {
       "pr_number": 964,
       "pr_title": "docs: add implementation completion summary [claude/merge-conflict-preflight-tcagtl]",
@@ -36,7 +131,7 @@
       "auto_merged": false,
       "build_run_number": 1177,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28215851320",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 951,
@@ -55,7 +150,7 @@
       "auto_merged": false,
       "build_run_number": 1177,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28215851320",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 962,
@@ -74,7 +169,7 @@
       "auto_merged": false,
       "build_run_number": 1177,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28215851320",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 961,
@@ -93,7 +188,7 @@
       "auto_merged": false,
       "build_run_number": 1177,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28215851320",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 960,
@@ -112,7 +207,7 @@
       "auto_merged": false,
       "build_run_number": 1177,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28215851320",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 959,
@@ -131,7 +226,7 @@
       "auto_merged": false,
       "build_run_number": 1177,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28215851320",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 946,
@@ -794,9 +889,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1148,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28174213157",
-      "build_conclusion": "success"
+      "build_run_number": 1151,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28175968991",
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 910,
@@ -3421,25 +3516,6 @@
       "build_conclusion": ""
     },
     {
-      "pr_number": 729,
-      "pr_title": "Merge remote-tracking branch 'origin/main' into claude/failed-checks-conflict-report-f99tyu [claude/failed-checks-conflict-report-f99tyu]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/729",
-      "merged_at": "2026-06-22T19:45:51Z",
-      "merge_commit_sha": "d454b68e38bc6fff5b99c5017fa8f191faf1d286",
-      "merge_commit_short": "d454b68",
-      "head_branch": "claude/failed-checks-conflict-report-f99tyu",
-      "summary_vi": "- docs(reports): add failed checks/conflict/hotfix history memory map",
-      "change_type": "unknown",
-      "files_changed": 1,
-      "additions": 342,
-      "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
       "pr_number": 727,
       "pr_title": "fix(conflict): resolve V10/V12 merge conflict — index.html + seo-qa-scores [vaccine-hotfix/claude-happy-hopper-tp7w7f]",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/727",
@@ -3737,82 +3813,6 @@
       "files_changed": 11,
       "additions": 1284,
       "deletions": 2,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 728,
-      "pr_title": "chore: update QA reports after link audit and SEO fixes [claude/serene-hypatia-7ogn7w]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/728",
-      "merged_at": "2026-06-22T08:31:40Z",
-      "merge_commit_sha": "fc12b562e52af6f9ef72fc8e1a341bea1bbe4562",
-      "merge_commit_short": "fc12b56",
-      "head_branch": "claude/serene-hypatia-7ogn7w",
-      "summary_vi": "- fix(QA): Reduce vaccine warnings; fix article categories and SEO titles",
-      "change_type": "unknown",
-      "files_changed": 7,
-      "additions": 319,
-      "deletions": 10,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 726,
-      "pr_title": "Optimize article layout width for better desktop balance [claude/confident-noether-bukhv2]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/726",
-      "merged_at": "2026-06-22T07:47:27Z",
-      "merge_commit_sha": "e9ea9181551940d28d87818665bd8fdc7f2db4a6",
-      "merge_commit_short": "e9ea918",
-      "head_branch": "claude/confident-noether-bukhv2",
-      "summary_vi": "Optimize article layout width for better desktop balance",
-      "change_type": "unknown",
-      "files_changed": 2,
-      "additions": 110,
-      "deletions": 15,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 725,
-      "pr_title": "Update SEO QA scores after OECD article revision [claude/great-heisenberg-g9e5ay]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/725",
-      "merged_at": "2026-06-22T07:36:28Z",
-      "merge_commit_sha": "881e54169c243f918f553e86c7062656a6f1f7ba",
-      "merge_commit_short": "881e541",
-      "head_branch": "claude/great-heisenberg-g9e5ay",
-      "summary_vi": "- Viết bài OECD (Tổ chức Hợp tác và Phát triển Kinh tế): lịch sử, mục tiêu, cơ cấu, vai trò toàn cầu và ảnh hưởng Việt Nam.",
-      "change_type": "unknown",
-      "files_changed": 2,
-      "additions": 278,
-      "deletions": 1,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 712,
-      "pr_title": "Merge origin/main into PR #712 branch (resolve conflicts) [claude/funny-cray-9xwe1e]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/712",
-      "merged_at": "2026-06-22T07:35:00Z",
-      "merge_commit_sha": "d843b2d8aa805d6e27e14b4066be5a5185d5bb24",
-      "merge_commit_short": "d843b2d",
-      "head_branch": "claude/funny-cray-9xwe1e",
-      "summary_vi": "- fix(shortcuts): restore `bb` as a first-class shortcut + V31 registry guard",
-      "change_type": "unknown",
-      "files_changed": 4,
-      "additions": 38,
-      "deletions": 113,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
