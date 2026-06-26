@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "fix(editor): suppress stale google_disabled warning when /auth/config…",
+      "tag": "fix",
+      "lines_added": 75,
+      "lines_removed": 12,
+      "highlights": [
+        "Add providerAvailable(cfg, name): robust parse of /auth/config — new nested shape {enabled,configured} gated by provider ∈ {dual,<name>}, plus backward- compatible legacy boolean shapes (google:true /",
+        "applyAuthProviders() now returns availability and demotes GitHub to secondary when Google is primary; self-clears contradicted *_disabled warnings.",
+        "init() consumes ?auth_error (always strips it via replaceState), then fetches /auth/config FIRST and only shows a *_disabled warning when the backend actually confirms that provider is disabled/not co",
+        "showLoginError records the code; clearLoginErrorCodes() dismisses only the listed provider-disabled codes so genuine errors stay visible."
+      ],
+      "pr": 1017
+    },
+    {
+      "date": "2026-06-26",
       "title": "fix(backend): restore VIPZone backend + Google OAuth in VIPZone; drop visitor-counter",
       "tag": "remove",
       "lines_added": 6237,
