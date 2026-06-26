@@ -241,7 +241,7 @@ def build_snapshot() -> dict:
         },
         "backend": backend,
         "drift": drift,
-        "open_prs": open_prs,
+        "open_prs_count": open_prs if open_prs is not None else 0,
         "deploy_monitor_stale": bool(dm.get("stale")),
         "deploy_monitor_ok": bool(dm.get("ok", True)),
     }

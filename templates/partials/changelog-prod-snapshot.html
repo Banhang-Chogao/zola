@@ -56,10 +56,10 @@
             </span>
         </article>
 
-        {% if snap.open_prs is defined and snap.open_prs is not none %}
+        {% if snap.open_prs_count is defined %}
         <article class="changelog-snapshot__card changelog-snapshot__card--prs">
             <span class="changelog-snapshot__label">PR đang mở</span>
-            <span class="changelog-snapshot__value">{{ snap.open_prs }}</span>
+            <span class="changelog-snapshot__value">{{ snap.open_prs_count }}</span>
             <span class="changelog-snapshot__hint">Chưa merge → chưa live</span>
         </article>
         {% endif %}
