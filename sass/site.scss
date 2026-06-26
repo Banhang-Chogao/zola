@@ -102,6 +102,11 @@
 @import "mobile-blog-momo-spirit";
 @import "mobile-hardening";
 
+/* MoMo blog skin — site-wide brand re-skin (pink/teal on bright white).
+   MUST stay last so its :root token overrides win by source order.
+   Revert the whole MoMo theme by removing this single import. */
+@import "momo-skin";
+
 
 /* Homepage Blog Heart Beat JSON card */
 .home-heartbeat {

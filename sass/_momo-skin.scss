@@ -1,29 +1,34 @@
 /* ============================================================
-   MoMo Theme Test — experimental skin
-   (branch: feat/momo-theme-test — NOT for production merge as-is)
+   MoMo Blog Skin — site-wide brand re-skin (ACTIVE)
 
-   Re-skins the site accent to MoMo magenta/pink (#A50064) with a
-   teal secondary (#00AEC7) for category "eyebrow" labels, echoing
-   the Blog MoMo design notes (docs/momo-blog-design-notes.md).
+   Re-skins SEOMONEY to the MoMo blog visual identity: MoMo
+   magenta/pink (#A50064) as the primary accent, teal (#00AEC7)
+   as the secondary "eyebrow" colour, on a clean bright-white
+   base — echoing docs/momo-blog-design-notes.md.
 
-   Strategy: TOKEN-ONLY overrides. The whole site reads
-   --c-accent (→ --wwdc-accent → .island --w-blue, and → .oasis
-   --o-blue), so re-pointing the root tokens cascades site-wide
-   with near-zero risk to layout/JS/responsive behaviour.
+   Strategy: TOKEN-ONLY overrides. The whole site reads the
+   semantic --c-* tokens defined in _themes.scss (Hilda). By
+   re-pointing the root tokens here we recolour every component
+   site-wide (home, articles, listings, header, footer) with
+   near-zero risk to layout / JS / responsive behaviour.
 
-   Imported LAST in site.scss (after oasis / island-v2) so the
-   scoped token overrides win by source order.
+   Scope: COLOURS + bright-white background only. No layout or
+   template restructuring.
+
+   Imported LAST in site.scss (after mobile-hardening) so these
+   :root overrides win by source order.
    Revert = delete `@import "momo-skin";` from site.scss.
    ============================================================ */
 
 // ----- MoMo brand palette -----
 $momo-pink:        #a50064; // primary magenta (brand)
-$momo-pink-bright: #d82d8b;
+$momo-pink-bright: #d82d8b; // bright pink — CTA / decoration
 $momo-pink-deep:   #7d004c; // hover / pressed
 $momo-teal:        #00aec7; // secondary — category eyebrows
 
-/* ===== Root accent tokens (light) — cascades to 355+ usages ===== */
+/* ===== Root tokens — recolours 355+ usages site-wide ===== */
 :root {
+  /* Primary accent → MoMo magenta */
   --c-accent:        #{$momo-pink};
   --c-accent-hover:  #{$momo-pink-deep};
   --c-accent-soft:   rgba(165, 0, 100, 0.10);
@@ -31,22 +36,51 @@ $momo-teal:        #00aec7; // secondary — category eyebrows
   --c-shadow-md:     0 2px 4px rgba(165, 0, 100, 0.08);
   --c-shadow-lg:     0 8px 16px rgba(165, 0, 100, 0.12);
 
-  /* MoMo secondary (new token used by eyebrow overrides below) */
+  /* Decoration / action buttons (was Ericsson red) → MoMo bright pink
+     so CTAs join the brand instead of clashing red. */
+  --c-decoration:    #{$momo-pink-bright};
+
+  /* MoMo secondary (teal) — category eyebrows / accents */
   --c-accent-2:      #{$momo-teal};
   --c-accent-2-soft: rgba(0, 174, 199, 0.12);
   --momo-pink-bright: #{$momo-pink-bright};
+
+  /* Bright-white MoMo base (Hilda default was #f4f4f4 light-gray). */
+  --c-bg-page:       #ffffff;
 }
 
-/* ===== Dark mode — keep MoMo identity, brighten for contrast ===== */
-@media (prefers-color-scheme: dark) {
-  :root[data-theme="hilda"] {
-    --c-accent:        #ff63b0;
-    --c-accent-hover:  #ff8cc6;
-    --c-accent-soft:   rgba(255, 99, 176, 0.16);
-    --c-focus-ring:    rgba(255, 99, 176, 0.45);
-    --c-accent-2:      #2fd0e0;
-    --c-accent-2-soft: rgba(47, 208, 224, 0.18);
-  }
+/* ============================================================
+   Subtle MoMo watermark — faint brand wash behind all content.
+   Fixed, non-interactive, very low opacity → adds brand texture
+   without touching layout or readability.
+   ============================================================ */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 88% 6%, rgba(165, 0, 100, 0.045), transparent 38%),
+    radial-gradient(circle at 6% 92%, rgba(0, 174, 199, 0.05), transparent 40%);
+}
+/* Keep real content above the wash (it only needs to sit over the
+   fixed pseudo-layer; normal stacking on .site-header/main/footer). */
+.site-header,
+main,
+.site-footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   Static-CSS holdouts — wwdc-style.css hardcodes Ericsson blue
+   on two hover states and loads BEFORE site.css, so re-point them
+   to the MoMo accent here (site.css wins by load order).
+   ============================================================ */
+.card-title a:hover,
+.wwdc-pagination a:hover {
+  color: var(--c-accent);
 }
 
 /* ============================================================
