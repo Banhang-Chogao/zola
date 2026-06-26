@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-26T08:58:56Z",
+  "updated_at": "2026-06-26T10:01:51Z",
   "score": 87.0,
   "grade": "B",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "warn",
-          "detail": "795/1086 in range"
+          "detail": "816/1113 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "1058/1086 complete"
+          "detail": "1085/1113 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "1083/1086 set"
+          "detail": "1110/1113 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "1074/1086 single H1"
+          "detail": "1101/1113 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "1084/1086 with lang"
+          "detail": "1111/1113 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "1084/1086 ready"
+          "detail": "1111/1113 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "1083/1086 pages"
+          "detail": "1110/1113 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "1085/1086 pages covered"
+          "detail": "1112/1113 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "287/287 articles"
+          "detail": "293/293 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "281/287 tagged"
+          "detail": "287/293 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "285/287 substantive"
+          "detail": "291/293 substantive"
         },
         {
           "label": "Unique titles",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "fail",
-          "detail": "7 broken / 1265 unique",
+          "detail": "13 broken / 1298 unique",
           "broken": [
             {
               "source_page": "/bai-viet-dau-tien/",
@@ -286,6 +286,24 @@
               "auto_fix_status": "pending"
             },
             {
+              "source_page": "/baochi/incheon-airport-remote-baggage-2026/",
+              "source_file": "public/baochi/incheon-airport-remote-baggage-2026/index.html",
+              "href": "https://seomoney.org/blog/",
+              "target": "/blog/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/incheon-airport-remote-baggage-2026/",
+              "source_file": "public/baochi/incheon-airport-remote-baggage-2026/index.html",
+              "href": "/@/posting/ai-thay-doi-lap-ke-hoach-du-lich",
+              "target": "/@/posting/ai-thay-doi-lap-ke-hoach-du-lich/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
               "source_page": "/baochi/iran-uranium-destruction-what-it-means/",
               "source_file": "public/baochi/iran-uranium-destruction-what-it-means/index.html",
               "href": "https://seomoney.org/blog/",
@@ -329,24 +347,6 @@
               "status": "404",
               "reason": "Target not found in public/ after zola build",
               "auto_fix_status": "pending"
-            },
-            {
-              "source_page": "/baochi/mo-the-techcombank-eco-digital-mien-phi/",
-              "source_file": "public/baochi/mo-the-techcombank-eco-digital-mien-phi/index.html",
-              "href": "https://seomoney.org/blog/",
-              "target": "/blog/",
-              "status": "404",
-              "reason": "Target not found in public/ after zola build",
-              "auto_fix_status": "pending"
-            },
-            {
-              "source_page": "/baochi/mo-the-tin-dung-liobank-online-nhanh/",
-              "source_file": "public/baochi/mo-the-tin-dung-liobank-online-nhanh/index.html",
-              "href": "https://seomoney.org/blog/",
-              "target": "/blog/",
-              "status": "404",
-              "reason": "Target not found in public/ after zola build",
-              "auto_fix_status": "pending"
             }
           ]
         },
@@ -368,7 +368,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "1079/1086 pages"
+          "detail": "1106/1113 pages"
         },
         {
           "label": "Skip navigation",
@@ -404,16 +404,16 @@
       "text": "Metadata: Canonical URLs"
     }
   ],
-  "pages_scanned": 1086,
-  "articles_scanned": 294,
+  "pages_scanned": 1113,
+  "articles_scanned": 300,
   "fix_log": [
     {
       "category": "Metadata",
       "label": "Page titles",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (795/1086 in range). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T08:58:56Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (816/1113 in range). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-26T10:01:51Z"
     },
     {
       "category": "Content",
@@ -421,7 +421,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T08:58:56Z"
+      "at": "2026-06-26T10:01:51Z"
     },
     {
       "category": "Content",
@@ -429,15 +429,15 @@
       "check_status": "fail",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T08:58:56Z"
+      "at": "2026-06-26T10:01:51Z"
     },
     {
       "category": "Links",
       "label": "Internal links",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Còn 299 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/bai-viet-dau-tien/index.html → /blog/ (Target not found in public/ after zola build); public/baochi/bi-kip-xin-visa-han-quoc-5-nam-de-baochi/index.html → /blog/ (Target not found in public/ after zola build); public/baochi/bidv-flagship-private-banking-tphcm/index.html → /blog/ (Target not found in public/ after zola build)",
-      "at": "2026-06-26T08:58:56Z"
+      "message": "Còn 315 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/bai-viet-dau-tien/index.html → /blog/ (Target not found in public/ after zola build); public/baochi/bi-kip-xin-visa-han-quoc-5-nam-de-baochi/index.html → /blog/ (Target not found in public/ after zola build); public/baochi/bidv-flagship-private-banking-tphcm/index.html → /blog/ (Target not found in public/ after zola build)",
+      "at": "2026-06-26T10:01:51Z"
     }
   ],
   "fix_summary": {

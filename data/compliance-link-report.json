@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-26T08:58:56Z",
+  "updated_at": "2026-06-26T10:01:51Z",
   "summary": {
-    "broken_count": 7,
-    "checked_unique": 1265,
+    "broken_count": 13,
+    "checked_unique": 1298,
     "status": "fail"
   },
   "links": [
@@ -119,6 +119,24 @@
       "source_file": "public/baochi/huong-dan-xac-thuc-cccd-msb-digital-bank/index.html",
       "href": "https://seomoney.org/blog/",
       "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/baochi/incheon-airport-remote-baggage-2026/",
+      "source_file": "public/baochi/incheon-airport-remote-baggage-2026/index.html",
+      "href": "https://seomoney.org/blog/",
+      "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/baochi/incheon-airport-remote-baggage-2026/",
+      "source_file": "public/baochi/incheon-airport-remote-baggage-2026/index.html",
+      "href": "/@/posting/ai-thay-doi-lap-ke-hoach-du-lich",
+      "target": "/@/posting/ai-thay-doi-lap-ke-hoach-du-lich/",
       "status": "404",
       "reason": "Target not found in public/ after zola build",
       "auto_fix_status": "pending"
@@ -1766,6 +1784,132 @@
       "source_file": "public/posting/phu-dinh-an-mot-tieng-han/index.html",
       "href": "https://seomoney.org/blog/",
       "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/pr-crisis-part-1-the-day-7-prs-failed/",
+      "source_file": "public/posting/pr-crisis-part-1-the-day-7-prs-failed/index.html",
+      "href": "https://seomoney.org/blog/",
+      "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/pr-crisis-part-1-the-day-7-prs-failed/",
+      "source_file": "public/posting/pr-crisis-part-1-the-day-7-prs-failed/index.html",
+      "href": "/pr-crisis-part-2-framework/",
+      "target": "/pr-crisis-part-2-framework/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/pr-crisis-part-2-framework/",
+      "source_file": "public/posting/pr-crisis-part-2-framework/index.html",
+      "href": "https://seomoney.org/blog/",
+      "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/pr-crisis-part-2-framework/",
+      "source_file": "public/posting/pr-crisis-part-2-framework/index.html",
+      "href": "/pr-crisis-part-3-automation/",
+      "target": "/pr-crisis-part-3-automation/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/pr-crisis-part-3-automation/",
+      "source_file": "public/posting/pr-crisis-part-3-automation/index.html",
+      "href": "https://seomoney.org/blog/",
+      "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/pr-crisis-part-3-automation/",
+      "source_file": "public/posting/pr-crisis-part-3-automation/index.html",
+      "href": "/pr-crisis-part-4-metrics/",
+      "target": "/pr-crisis-part-4-metrics/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/pr-crisis-part-4-metrics/",
+      "source_file": "public/posting/pr-crisis-part-4-metrics/index.html",
+      "href": "https://seomoney.org/blog/",
+      "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/pr-crisis-part-4-metrics/",
+      "source_file": "public/posting/pr-crisis-part-4-metrics/index.html",
+      "href": "/pr-crisis-part-5-lessons/",
+      "target": "/pr-crisis-part-5-lessons/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/pr-crisis-part-5-lessons/",
+      "source_file": "public/posting/pr-crisis-part-5-lessons/index.html",
+      "href": "https://seomoney.org/blog/",
+      "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/pr-crisis-part-5-lessons/",
+      "source_file": "public/posting/pr-crisis-part-5-lessons/index.html",
+      "href": "/pr-crisis-part-1-the-day-7-prs-failed/",
+      "target": "/pr-crisis-part-1-the-day-7-prs-failed/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/pr-crisis-part-5-lessons/",
+      "source_file": "public/posting/pr-crisis-part-5-lessons/index.html",
+      "href": "/pr-crisis-part-2-framework/",
+      "target": "/pr-crisis-part-2-framework/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/pr-crisis-part-5-lessons/",
+      "source_file": "public/posting/pr-crisis-part-5-lessons/index.html",
+      "href": "/pr-crisis-part-3-automation/",
+      "target": "/pr-crisis-part-3-automation/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/pr-crisis-part-5-lessons/",
+      "source_file": "public/posting/pr-crisis-part-5-lessons/index.html",
+      "href": "/pr-crisis-part-4-metrics/",
+      "target": "/pr-crisis-part-4-metrics/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/pr-crisis-part-5-lessons/",
+      "source_file": "public/posting/pr-crisis-part-5-lessons/index.html",
+      "href": "/pr-crisis-part-5-lessons/",
+      "target": "/pr-crisis-part-5-lessons/",
       "status": "404",
       "reason": "Target not found in public/ after zola build",
       "auto_fix_status": "pending"
