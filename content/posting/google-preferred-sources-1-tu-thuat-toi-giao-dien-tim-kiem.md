@@ -1,34 +1,14 @@
 +++
 title = "Google Preferred Sources: Từ thuật toán sang tùy chọn của người dùng"
-description = "Hiểu về Preferred Sources trong Google Search — cách Google đưa quyền lựa chọn cho người dùng, tác động đến E-E-A-T và SEO."
 date = 2026-06-26
-aliases = ["/google-preferred-sources-1-tu-thuat-toi-giao-dien-tim-kiem/"]
+
 [taxonomies]
-categories = ["Tất cả", "SEO"]
+categories = ["Tất cả"]
 tags = ["google search", "preferred sources", "e-e-a-t", "seo", "brand"]
+
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
-seo_keyword = "google preferred sources"
-featured = false
-series = "google-preferred-sources"
-series_part = 1
-series_total = 6
-
-[[extra.faq]]
-q = "Preferred Sources là gì?"
-a = "Preferred Sources là tính năng Google Search cho phép người dùng chọn các nguồn (trang web) mà họ muốn ưu tiên trong kết quả tìm kiếm. Khi được chọn, nội dung từ trang web đó sẽ xuất hiện ở vị trí cao hơn và có dấu hiệu đặc biệt trong kết quả tìm kiếm."
-
-[[extra.faq]]
-q = "Preferred Sources khác gì với thuật toán PageRank?"
-a = "PageRank dựa vào liên kết backlink để xếp hạng — một hình thức xếp hạng tự động. Preferred Sources là quyền kiểm soát của người dùng — họ tự chọn những trang web họ tin tưởng, độc lập với thuật toán."
-
-[[extra.faq]]
-q = "Preferred Sources hoạt động ở những nước nào?"
-a = "Preferred Sources có sẵn trên toàn cầu, hỗ trợ mọi ngôn ngữ và quốc gia. Bạn có thể sử dụng tính năng này trên Google Search (kết quả thường), Top Stories, và Google AI Overviews."
-
-[[extra.faq]]
-q = "Tại sao Google lại thêm tính năng này?"
-a = "Google muốn khôi phục tin tưởng từ người dùng bằng cách cho họ kiểm soát trực tiếp. Thay vì chỉ dựa vào thuật toán, Preferred Sources cho phép người dùng được nghe tiếng nói của các trang web họ thích."
+sticky = true
 +++
 
 > 📍 **Google Preferred Sources Series (Bài 1/6)** — Tìm hiểu tính năng mới của Google Search cho phép người dùng tự chọn những trang web họ ưa thích.
