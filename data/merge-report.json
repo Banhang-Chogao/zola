@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-26T18:30:14Z",
+  "updated_at": "2026-06-26T18:38:58Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
@@ -10,15 +10,34 @@
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 101,
+      "fix": 102,
       "feature": 41,
       "content": 4,
-      "unknown": 44,
+      "unknown": 43,
       "ci": 3,
       "chore": 7
     }
   },
   "merges": [
+    {
+      "pr_number": 1016,
+      "pr_title": "fix(paywall): disable premium lock — all SEOMONEY content free",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1016",
+      "merged_at": "2026-06-26T18:22:14Z",
+      "merge_commit_sha": "988af47abb77b6c0f820675df9abbbb7c9af51e3",
+      "merge_commit_short": "988af47",
+      "head_branch": "fix/disable-paywall-premium-free",
+      "summary_vi": "Hotfix for seomoney.org: disable paywall completely and make all `premium` category content free and fully visible.",
+      "change_type": "fix",
+      "files_changed": 39,
+      "additions": 4668,
+      "deletions": 1344,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1210,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28257192124",
+      "build_conclusion": "queued"
+    },
     {
       "pr_number": 1017,
       "pr_title": "fix(editor): suppress stale google_disabled warning when /auth/config…",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1209,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28257172197",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 1015,
@@ -53,8 +72,8 @@
       "deletions": 73,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1209,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28257172197",
+      "build_run_number": 1210,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28257192124",
       "build_conclusion": "in_progress"
     },
     {
@@ -511,25 +530,6 @@
       "auto_merged": false,
       "build_run_number": 1189,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28226501920",
-      "build_conclusion": "cancelled"
-    },
-    {
-      "pr_number": 986,
-      "pr_title": "Pr 977 head",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/986",
-      "merged_at": "2026-06-26T08:25:19Z",
-      "merge_commit_sha": "d2f3870720d33072af0af8f7117555e1748b4446",
-      "merge_commit_short": "d2f3870",
-      "head_branch": "pr-977-head",
-      "summary_vi": "Pr 977 head",
-      "change_type": "unknown",
-      "files_changed": 1,
-      "additions": 129,
-      "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": 1188,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28226476869",
       "build_conclusion": "cancelled"
     },
     {
