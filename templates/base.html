@@ -57,8 +57,8 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <link rel="stylesheet" href="/css/wwdc-style.css">
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/wwdc-style.css">
     {# Zero-flash font + theme (PHẢI là script đầu tiên trong <head>):
        Hilda là theme DUY NHẤT → set data-theme="hilda" NGAY trước khi CSS
        render để các rule [data-theme="hilda"] (font vars, smoothing, UX polish)
@@ -243,7 +243,7 @@
     {% elif og_image is ending_with(".jpg") or og_image is ending_with(".jpeg") %}{% set_global og_image_type = "image/jpeg" %}
     {% endif %}
 
-    <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}" loading="lazy" decoding="async">
+    <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
     <meta name="author" content="{{ config.extra.author }}">
 
     {# ===== Robots: cho phép index + bật rich preview lớn (tốt cho Google Discover & CTR) ===== #}
