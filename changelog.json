@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "feat(auth): Google/Gmail login for CMS with dual-provider rollout",
+      "tag": "chore",
+      "lines_added": 508,
+      "lines_removed": 26,
+      "highlights": [
+        "templates/editor.html: nút Đăng nhập bằng Google (chính) + GitHub (phụ).",
+        "static/js/editor.js: handler Google, ẩn/hiện nút theo /auth/config, thông báo lỗi Google.",
+        "static/js/auth.js: link Admin ở footer tự định tuyến tới provider đang bật.",
+        "OAuth client type: Web application",
+        "JavaScript origins: https://seomoney.org, https://blog-visitor-api.onrender.com"
+      ],
+      "pr": 1010
+    },
+    {
+      "date": "2026-06-26",
       "title": "feat(images): SEOMONEY owned-image fallback chain, drop external stock images",
       "tag": "remove",
       "lines_added": 3642,
