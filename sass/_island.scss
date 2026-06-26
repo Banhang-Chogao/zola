@@ -11,7 +11,7 @@
 
 /* Home goes full-width (the dashboard owns the whole canvas). */
 .layout-grid:has(.island) { grid-template-columns: minmax(0, 1fr); }
-main.container:has(.island) { max-width: 1240px; }
+main.container:has(.island) { max-width: 1240px; padding: 0 0.5rem; }
 
 .island {
   --isl-teal:          #00A7A0;
