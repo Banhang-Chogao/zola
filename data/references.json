@@ -1,4 +1,109 @@
 {
+  "content/posting/001-khi-7-pull-request-that-do.md": {
+    "external": [
+      {
+        "title": "GitHub Merge Conflict Documentation",
+        "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts",
+        "kind": "external"
+      },
+      {
+        "title": "CI/CD Best Practices",
+        "url": "https://www.atlassian.com/continuous-delivery/ci-cd-best-practices",
+        "kind": "external"
+      },
+      {
+        "title": "Git Merge Documentation",
+        "url": "https://git-scm.com/docs/git-merge",
+        "kind": "external"
+      }
+    ],
+    "internal": [],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Merge Conflict Documentation, CI/CD Best Practices và Git Merge Documentation. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
+    "internal_count": 0
+  },
+  "content/posting/002-xay-dung-conflict-resolution-framework.md": {
+    "external": [
+      {
+        "title": "Exponential Backoff Pattern",
+        "url": "https://en.wikipedia.org/wiki/Exponential_backoff",
+        "kind": "external"
+      },
+      {
+        "title": "GitHub Actions Workflows",
+        "url": "https://docs.github.com/en/actions/using-workflows",
+        "kind": "external"
+      },
+      {
+        "title": "Git Merge Strategies",
+        "url": "https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging",
+        "kind": "external"
+      }
+    ],
+    "internal": [],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Exponential Backoff Pattern, GitHub Actions Workflows và Git Merge Strategies. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
+    "internal_count": 0
+  },
+  "content/posting/003-automation-that-saved-us.md": {
+    "external": [
+      {
+        "title": "GitHub Actions Automation",
+        "url": "https://docs.github.com/en/actions",
+        "kind": "external"
+      },
+      {
+        "title": "Zero-barrier CI/CD",
+        "url": "https://www.atlassian.com/continuous-delivery",
+        "kind": "external"
+      }
+    ],
+    "internal": [],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Actions Automation và Zero-barrier CI/CD. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 0
+  },
+  "content/posting/004-preflight-catching-conflicts-before-merge.md": {
+    "external": [
+      {
+        "title": "GitHub Actions Workflows",
+        "url": "https://docs.github.com/en/actions",
+        "kind": "external"
+      },
+      {
+        "title": "Git Merge Documentation",
+        "url": "https://git-scm.com/docs/git-merge",
+        "kind": "external"
+      }
+    ],
+    "internal": [],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Actions Workflows và Git Merge Documentation. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 0
+  },
+  "content/posting/005-lessons-learned-future-proofing.md": {
+    "external": [
+      {
+        "title": "CLAUDE.md — Full System Rules",
+        "url": "https://github.com/Banhang-Chogao/zola",
+        "kind": "external"
+      },
+      {
+        "title": "GitHub Actions Documentation",
+        "url": "https://docs.github.com/en/actions",
+        "kind": "external"
+      },
+      {
+        "title": "Zero-Barrier CI/CD",
+        "url": "https://en.wikipedia.org/wiki/Zero-barrier_design",
+        "kind": "external"
+      }
+    ],
+    "internal": [],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ CLAUDE.md — Full System Rules, GitHub Actions Documentation và Zero-Barrier CI/CD. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
+    "internal_count": 0
+  },
   "content/posting/10-meo-vietinbank-ipay-nang-cao.md": {
     "external": [],
     "internal": [
@@ -2133,6 +2238,19 @@
     "copyright": "",
     "external_count": 0,
     "internal_count": 12
+  },
+  "content/posting/deploy-mon-tera-scoping-fix-2026.md": {
+    "external": [
+      {
+        "title": "Zola static site generator",
+        "url": "https://www.getzola.org/",
+        "kind": "external"
+      }
+    ],
+    "internal": [],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Zola static site generator. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 0
   },
   "content/posting/derado-va-neunda-haedo-tieng-han.md": {
     "external": [],
@@ -6467,6 +6585,25 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ TOPIK. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
     "internal_count": 4
+  },
+  "content/posting/thumbnail-hover-touch-guard-reduced-motion-easing.md": {
+    "external": [
+      {
+        "title": "hướng dẫn WCAG 2.1",
+        "url": "https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "redesign homepage với cấu trúc 3-column",
+        "url": "https://seomoney.org/posting/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ hướng dẫn WCAG 2.1. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 1
   },
   "content/posting/tien-ich-so-vietinbank-chua-tan-dung-het.md": {
     "external": [

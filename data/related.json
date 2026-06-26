@@ -263,6 +263,50 @@
       "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
     }
   ],
+  "automation-merge-conflict-saved-us": [
+    {
+      "score": 0.6913,
+      "slug": "bai-hoc-merge-conflict-future"
+    },
+    {
+      "score": 0.6456,
+      "slug": "merge-conflict-khung-hoang-7-pr-that-bai"
+    },
+    {
+      "score": 0.6174,
+      "slug": "merge-conflict-preflight-catch-early"
+    },
+    {
+      "score": 0.3246,
+      "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe"
+    },
+    {
+      "score": 0.3097,
+      "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan"
+    }
+  ],
+  "bai-hoc-merge-conflict-future": [
+    {
+      "score": 0.6913,
+      "slug": "automation-merge-conflict-saved-us"
+    },
+    {
+      "score": 0.6844,
+      "slug": "merge-conflict-khung-hoang-7-pr-that-bai"
+    },
+    {
+      "score": 0.6392,
+      "slug": "merge-conflict-preflight-catch-early"
+    },
+    {
+      "score": 0.3224,
+      "slug": "ngu-phap-gia-dinh-nang-cao-topik"
+    },
+    {
+      "score": 0.3152,
+      "slug": "gon-hada-ki-mareonida-tieng-han"
+    }
+  ],
   "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog": [
     {
       "score": 0.8342,
@@ -396,6 +440,28 @@
     }
   ],
   "bi-kip-xin-visa-han-quoc-5-nam-de": [
+    {
+      "score": 0.9354,
+      "slug": "bi-kip-xin-visa-han-quoc-5-nam-de-baochi"
+    },
+    {
+      "score": 0.6389,
+      "slug": "di-han-mua-nao-re-nhat"
+    },
+    {
+      "score": 0.6347,
+      "slug": "di-han-het-bao-nhieu-tien"
+    },
+    {
+      "score": 0.6135,
+      "slug": "summer-korea-4-diem-dung-mua-he"
+    },
+    {
+      "score": 0.6076,
+      "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem"
+    }
+  ],
+  "bi-kip-xin-visa-han-quoc-5-nam-de-baochi": [
     {
       "score": 0.9354,
       "slug": "bi-kip-xin-visa-han-quoc-5-nam-de"
@@ -1536,7 +1602,7 @@
     },
     {
       "score": 0.6402,
-      "slug": "bi-kip-xin-visa-han-quoc-5-nam-de"
+      "slug": "bi-kip-xin-visa-han-quoc-5-nam-de-baochi"
     }
   ],
   "di-tho-co-than-kinh-hanh-dong-nao": [
@@ -2768,7 +2834,7 @@
     },
     {
       "score": 0.6196,
-      "slug": "bi-kip-xin-visa-han-quoc-5-nam-de"
+      "slug": "bi-kip-xin-visa-han-quoc-5-nam-de-baochi"
     }
   ],
   "lien-tu-cau-tieng-han": [
@@ -2967,6 +3033,50 @@
     {
       "score": 0.3223,
       "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac"
+    }
+  ],
+  "merge-conflict-khung-hoang-7-pr-that-bai": [
+    {
+      "score": 0.6844,
+      "slug": "bai-hoc-merge-conflict-future"
+    },
+    {
+      "score": 0.6456,
+      "slug": "automation-merge-conflict-saved-us"
+    },
+    {
+      "score": 0.5765,
+      "slug": "merge-conflict-preflight-catch-early"
+    },
+    {
+      "score": 0.3288,
+      "slug": "50-mau-cau-topik-nang-cao"
+    },
+    {
+      "score": 0.2953,
+      "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su"
+    }
+  ],
+  "merge-conflict-preflight-catch-early": [
+    {
+      "score": 0.6392,
+      "slug": "bai-hoc-merge-conflict-future"
+    },
+    {
+      "score": 0.6174,
+      "slug": "automation-merge-conflict-saved-us"
+    },
+    {
+      "score": 0.5765,
+      "slug": "merge-conflict-khung-hoang-7-pr-that-bai"
+    },
+    {
+      "score": 0.2525,
+      "slug": "derado-va-neunda-haedo-tieng-han"
+    },
+    {
+      "score": 0.2441,
+      "slug": "ngu-phap-gia-dinh-nang-cao-topik"
     }
   ],
   "merge-conflict-preflight-workflow-github-actions": [
@@ -4681,6 +4791,28 @@
       "slug": "macos-27-golden-gate-co-gi-moi"
     }
   ],
+  "tera-scoping-deploy-monitor-fix": [
+    {
+      "score": 0.5704,
+      "slug": "tu-dong-deploy-zola-github-actions"
+    },
+    {
+      "score": 0.5007,
+      "slug": "cai-thien-qa-ci-cd"
+    },
+    {
+      "score": 0.4994,
+      "slug": "sua-7-pr-ci-cd-that-bai-zola"
+    },
+    {
+      "score": 0.4683,
+      "slug": "cac-lenh-git-dua-blog-len-production"
+    },
+    {
+      "score": 0.4665,
+      "slug": "tao-blog-voi-zola"
+    }
+  ],
   "test-blog-footer-redesign": [
     {
       "score": 0.5033,
@@ -4835,6 +4967,28 @@
       "slug": "dai-tu-chi-dinh-tieng-han"
     }
   ],
+  "thiet-ke-framework-giai-quyet-merge-conflict": [
+    {
+      "score": 0.5928,
+      "slug": "kinh-nghiem-fix-conflict-github-actions-tu-pr-bi-ket-en-build-xanh"
+    },
+    {
+      "score": 0.5662,
+      "slug": "merge-conflict-preflight-workflow-github-actions"
+    },
+    {
+      "score": 0.5466,
+      "slug": "he-thong-prompt-zola-blog"
+    },
+    {
+      "score": 0.5329,
+      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
+    },
+    {
+      "score": 0.5223,
+      "slug": "kinh-nghiem-xu-ly-pr-conflict-github-actions-yaml"
+    }
+  ],
   "thiet-ke-phan-quyen-role-single-source-of-truth": [
     {
       "score": 0.4331,
@@ -4855,6 +5009,28 @@
     {
       "score": 0.3676,
       "slug": "kinh-nghiem-fix-conflict-github-actions-tu-pr-bi-ket-en-build-xanh"
+    }
+  ],
+  "thumbnail-hover-touch-guard-reduced-motion-easing": [
+    {
+      "score": 0.2581,
+      "slug": "automation-merge-conflict-saved-us"
+    },
+    {
+      "score": 0.1898,
+      "slug": "patchim-phu-am-cuoi-tieng-han"
+    },
+    {
+      "score": 0.181,
+      "slug": "cau-truc-ipnida-gioi-thieu-ban-than-tieng-han"
+    },
+    {
+      "score": 0.1711,
+      "slug": "merge-conflict-preflight-catch-early"
+    },
+    {
+      "score": 0.1692,
+      "slug": "on-tap-tuan-1-chao-hoi-tieng-han"
     }
   ],
   "tien-ich-so-vietinbank-chua-tan-dung-het": [
