@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "feat(content): recover and publish hidden posts after rollback",
+      "tag": "chore",
+      "lines_added": 438,
+      "lines_removed": 22,
+      "highlights": [
+        "paginator.number_pagers = 1 → feed_pages = 1",
+        "Thanh phân trang không bao giờ render",
+        "Grid \"Bài mới nhất\" chỉ hiện 10 bài mới nhất",
+        "164 bài còn lại chỉ vào được qua /categories/tat-ca/ (18 trang) — không thấy từ trang chủ",
+        "Trang chủ — CTA Xem tất cả 174 bài viết → ngay dưới grid bài mới"
+      ],
+      "pr": 1032
+    },
+    {
+      "date": "2026-06-26",
       "title": "fix(tools): render MoMo URL admin UI on /tools/momo-url/",
       "tag": "fix",
       "lines_added": 6,
