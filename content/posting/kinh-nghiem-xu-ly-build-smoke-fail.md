@@ -150,4 +150,4 @@ Sự khác biệt giữa developer mất 2 giờ debug với developer mất 10 
 
 ---
 
-*Liên quan: Tìm hiểu thêm về [PR management best practices](/zola/pr-management/) và [CI/CD workflows](/zola/ci-cd-best-practices/) để tránh các lỗi này từ lần đầu tiên.*
+*Liên quan: Tìm hiểu thêm về [Pull Request và quy trình cộng tác GitHub](/pull-request-quy-trinh-cong-tac-github/) và [Deploy Zola tự động với GitHub Actions](/tu-dong-deploy-zola-github-actions/) để tránh các lỗi này từ lần đầu tiên.*
