@@ -2,6 +2,111 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "PIPELINE HEARTBEAT placeholder section from blog footer [claude/pipeline-heartbeat-placeholder-718rnt]",
+      "tag": "remove",
+      "lines_added": 0,
+      "lines_removed": 3,
+      "highlights": [
+        "templates/base.html (modified, +0/-3)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch claude/pipeline-heartbeat-placeholder-718rnt là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 984
+    },
+    {
+      "date": "2026-06-26",
+      "title": "remove unused CSS for carousel arrow buttons [claude/remove-carousel-nav-buttons-5hmtx8]",
+      "tag": "fix",
+      "lines_added": 0,
+      "lines_removed": 41,
+      "highlights": [
+        "sass/_banner.scss (modified, +0/-41)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch claude/remove-carousel-nav-buttons-5hmtx8 là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 983
+    },
+    {
+      "date": "2026-06-26",
+      "title": "correct broken cross-links in 5-part merge-conflict series [fix/blog-series-crosslinks]",
+      "tag": "fix",
+      "lines_added": 5,
+      "lines_removed": 5,
+      "highlights": [
+        "content/posting/001-khi-7-pull-request-that-do.md (modified, +1/-1)",
+        "content/posting/002-xay-dung-conflict-resolution-framework.md (modified, +1/-1)",
+        "content/posting/003-automation-that-saved-us.md (modified, +1/-1)",
+        "content/posting/004-preflight-catching-conflicts-before-merge.md (modified, +1/-1)",
+        "content/posting/005-lessons-learned-future-proofing.md (modified, +1/-1)"
+      ],
+      "pr": 981
+    },
+    {
+      "date": "2026-06-26",
+      "title": "update vipzone comments to reflect gsc_routes migration",
+      "tag": "chore",
+      "lines_added": 3,
+      "lines_removed": 4,
+      "highlights": [],
+      "commit": "42e2e1964399",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-26",
+      "title": "re-enable Cloudflare R2 connection (opt-out kill-switch + CDN endpoint)",
+      "tag": "fix",
+      "lines_added": 21,
+      "lines_removed": 7,
+      "highlights": [
+        "scripts/r2_migrate.py — flip the kill-switch to opt-out: R2 is enabled by default; set CLOUDFLARE_R2_DISABLED=true (or R2_ENABLED=false) to pause in an emergency. Credentials are still read from envir",
+        "config.toml [extra] — define the public CDN endpoint cdn = \"https://cdn.seomoney.org\" so read_cdn_base() resolves and report URLs are correct without requiring CDN_BASE in the environment.",
+        "✅ Default dry-run now plans 91 media files → https://cdn.seomoney.org/...",
+        "✅ Missing credentials still exit cleanly (code 2), no traceback",
+        "✅ Kill-switch opt-out still works (CLOUDFLARE_R2_DISABLED=true → paused)"
+      ],
+      "pr": 979
+    },
+    {
+      "date": "2026-06-26",
+      "title": "Publish: 5-part Merge Conflict Preflight blog series",
+      "tag": "chore",
+      "lines_added": 5,
+      "lines_removed": 5,
+      "highlights": [],
+      "commit": "bf7fa956f8c7",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-26",
+      "title": "comprehensive README for seomoney.org [claude/seomoney-readme-gen-titho2]",
+      "tag": "chore",
+      "lines_added": 177,
+      "lines_removed": 1,
+      "highlights": [
+        "README.md (modified, +177/-1)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch claude/seomoney-readme-gen-titho2 là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 954
+    },
+    {
+      "date": "2026-06-26",
+      "title": "revert: remove duplicate Merge Conflict Preflight automation",
+      "tag": "remove",
+      "lines_added": 0,
+      "lines_removed": 510,
+      "highlights": [],
+      "commit": "d4fd09a81683",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-26",
       "title": "resolve zola build hang caused by missing series manifest & duplicate rendering [claude/blog-build-status-mifbme]",
       "tag": "fix",
       "lines_added": 45,

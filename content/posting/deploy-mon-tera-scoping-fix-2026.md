@@ -1,6 +1,6 @@
 +++
-title = "Tera Scoping: Why {% set_global %} Fixed DEPLOY-MON Widget"
-description = "Template variable scoping fix that enabled deployment monitoring widget across all pages in Zola static site"
+title = "Tera Template Scoping & {% set_global %}: Zola Widget Fix"
+description = "Khắc phục lỗi Tera template variable scoping Zola set_global: sử dụng {% set_global %} thay vì {% set %} để kích hoạt widget deployment trên toàn site"
 date = 2026-06-26
 updated = 2026-06-26T01:15:06Z
 slug = "tera-scoping-deploy-monitor-fix"
@@ -16,15 +16,15 @@ series = ""
 internal_notes = "Technical case study - DEPLOY-MON infrastructure fix from 2026-06-26"
 +++
 
-## Widget Failure: Tera Template Variable Scoping Issue
+## Lỗi Widget: Vấn Đề Tera Template Variable Scoping
 
-Vừa rồi chúng tôi triển khai DEPLOY-MON widget (deployment monitoring dashboard) trong footer của blog. Widget này hiển thị số lượng deployment đang chờ xử lý trong pipeline. Nhưng lúc deploy lên production, trang chủ bị đỏ — widget không render được. 
+Vừa rồi chúng tôi gặp vấn đề về "Tera template variable scoping Zola set_global" khi triển khai DEPLOY-MON widget (deployment monitoring dashboard) trong footer của blog. Widget này hiển thị số lượng deployment đang chờ xử lý trong pipeline. Nhưng lúc deploy lên production, trang chủ bị đỏ — widget không render được. 
 
-**Root cause:** Lỗi **Tera template variable scoping** — cụ thể là sử dụng `{% set %}` thay vì `{% set_global %}` khi khai báo biến dữ liệu. Đây là một chi tiết dễ bị bỏ qua khi làm việc với [Zola static site generator](https://www.getzola.org/), nhưng ảnh hưởng lớn tới maintenance toàn site.
+**Root cause:** Lỗi **Tera template variable scoping Zola set_global** — cụ thể là sử dụng `{% set %}` thay vì `{% set_global %}` khi khai báo biến dữ liệu. Đây là một chi tiết dễ bị bỏ qua khi làm việc với [Zola static site generator](https://www.getzola.org/), nhưng ảnh hưởng lớn tới maintenance toàn site. Bài viết này sẽ giải thích về Tera template variable scoping Zola set_global và cách sửa lỗi này.
 
 Bài viết này tìm hiểu **Tera template variable scoping** trong Zola, cách nó gây ra vấn đề, và cách dùng `{% set_global %}` để fix.
 
-## Understanding Tera Template Variable Scoping in Zola
+## Hiểu Rõ Về Tera Template Variable Scoping Zola Và {% set_global %}
 
 Triệu chứng của lỗi variable scoping:
 - Footer widget (deploy-monitor) load thành công (API call ok, JSON parse ok)
@@ -45,7 +45,7 @@ Lệnh `{% set %}` trong Tera tạo ra một **local variable** — chỉ tồn 
 
 Hệ quả: Bất kỳ template nào cố gọi `dm.pending_count` trong một trang extend từ `base.html` sẽ gặp lỗi "variable không định nghĩa".
 
-## Root Cause Analysis: Tera Variable Scope Rules
+## Phân Tích Nguyên Nhân: Quy Tắc Tera Variable Scope
 
 Tera có 3 cấp độ scope:
 
@@ -60,7 +60,7 @@ Tera có 3 cấp độ scope:
 - Template con (page.html) extend base.html nhưng KHÔNG thừa kế biến local
 - Footer render được (local scope của footer block), nhưng các template khác không thấy `dm`
 
-## Fix: Sử Dụng `{% set_global %}`
+## Cách Sửa: Sử Dụng `{% set_global %}`
 
 ```html
 <!-- ✅ CORRECT: Global scope -->
@@ -76,7 +76,7 @@ Tera có 3 cấp độ scope:
 
 `{% set_global %}` làm cho biến `dm` có sẵn toàn bộ render session, kể cả trong các template con và page-specific templates.
 
-## Secondary Issue: JSON Path Mismatch
+## Vấn Đề Thứ Hai: JSON Path Không Khớp
 
 Sau khi fix scoping, ta phát hiện lỗi thứ hai:
 
@@ -104,7 +104,7 @@ Nhưng code template gọi `dm.pending_count` (bỏ qua `summary` layer).
 {{ dm.summary.pending_count }}
 ```
 
-## Tertiary Issue: Tera Filter Syntax Limitation
+## Vấn Đề Thứ Ba: Giới Hạn Cú Pháp Tera Filter
 
 Ban đầu, tôi cố gắng provide a default value:
 
@@ -126,7 +126,7 @@ Ban đầu, tôi cố gắng provide a default value:
 
 Tham số `required=false` trả về `null` nếu file không tồn tại, an toàn hơn cố gắng fallback với object literal.
 
-## Impact & Verification
+## Tác Động & Xác Minh
 
 Sau fix:
 1. **Widget render**: ✅ Deploy-monitor widget hiển thị trên footer (tất cả trang)
@@ -135,7 +135,7 @@ Sau fix:
 4. **QA gates**: ✅ Static-checks, qa-check all pass
 5. **Production**: ✅ Deploy thành công, widget live trên seomoney.org
 
-## Lessons for Future: Preventing This Pattern
+## Bài Học Cho Tương Lai: Ngăn Chặn Pattern Này
 
 **Vaccine Detector (V-series):**
 ```python
@@ -168,7 +168,7 @@ def check_v34_global_template_variables(template_path):
    - Archive (taxonomy.html)
    - Custom pages (about.html)
 
-## Deployment Timeline
+## Dòng Thời Gian Deployment
 
 - **00:47:30 UTC** — PR #941 merged (fixes applied)
 - **00:55:02 UTC** — Deploy started
@@ -179,7 +179,7 @@ Full deployment pipeline:
 Code → QA ✅ → Auto-merge ✅ → Deploy ✅ → Live ✅
 ```
 
-## Kết Luận
+## Kết Luận: Scoping Là Khoá Để Fix Widget Template
 
 Tera template variable scoping không phải lỗi lớn, nhưng khi debug nó khó phát hiện vì:
 - Widget "vẫn hoạt động" ở footer block

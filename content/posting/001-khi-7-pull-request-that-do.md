@@ -1,5 +1,5 @@
 +++
-draft = true  # held for content review — flip to false to publish
+draft = false
 title = "Merge Conflict Khủng Hoảng: 7 PR Thất Bại Cùng Lúc"
 description = "Câu chuyện thực tế: Ngày 18/6, 7 PR đều conflict đồng thời. Đó là lúc chúng tôi tự động hóa toàn bộ conflict resolution."
 date = 2026-06-26
@@ -198,7 +198,7 @@ Tôi có:
 
 ## Phần Tiếp Theo
 
-[Part 2: Xây dựng Conflict Resolution Framework](../xay-dung-conflict-resolution-framework) — Tôi thiết kế hệ thống và viết code.
+[Part 2: Xây dựng Conflict Resolution Framework](../thiet-ke-framework-giai-quyet-merge-conflict) — Tôi thiết kế hệ thống và viết code.
 
 ---
 

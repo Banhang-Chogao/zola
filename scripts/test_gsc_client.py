@@ -9,7 +9,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-CLIENT = ROOT / "services" / "visitor-counter" / "gsc_client.py"
+CLIENT = ROOT / "services" / "vipzone" / "gsc_client.py"
 
 
 def _load_gsc_client():
@@ -39,7 +39,7 @@ def _load_gsc_client():
     sys.modules["googleapiclient.errors"].HttpError = _HttpError
     sys.modules["googleapiclient.discovery"].build = lambda *a, **k: None
 
-    sys.path.insert(0, str(ROOT / "services" / "visitor-counter"))
+    sys.path.insert(0, str(ROOT / "services" / "vipzone"))
     _spec = importlib.util.spec_from_file_location("gsc_client", CLIENT)
     mod = importlib.util.module_from_spec(_spec)
     assert _spec and _spec.loader

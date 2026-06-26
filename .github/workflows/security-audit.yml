@@ -45,13 +45,15 @@ jobs:
       - name: Install pip-audit
         run: pip install --quiet pip-audit
 
-      - name: Scan services/visitor-counter/requirements.txt
+      - name: Scan services/vipzone/requirements.txt
         id: pip_audit_be
         continue-on-error: true
         run: |
-          pip-audit -r services/visitor-counter/requirements.txt \
-            --format json --output be-vulns.json || true
-          cat be-vulns.json
+          if [ -f services/vipzone/requirements.txt ]; then
+            pip-audit -r services/vipzone/requirements.txt \
+              --format json --output be-vulns.json || true
+            cat be-vulns.json
+          fi
 
       - name: Scan scripts/requirements.txt
         id: pip_audit_scripts
