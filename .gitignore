@@ -27,6 +27,9 @@ ghp_*
 data/paywall.db
 data/.paywall-content-backup.json
 
+# VIPZone backend local/test SQLite (default path khi không set VIPZONE_DB_PATH)
+data/vipzone.db
+
 # ff.py AI-Agent — logs + teach feedback (local only)
 .ff/
 

@@ -2,7 +2,7 @@
  * CMS auth gate — GitHub OAuth là cổng đăng nhập duy nhất.
  *
  * Trước đây: OTP modal (4 số hashed SHA-256). Giờ thay bằng full OAuth flow
- * qua backend FastAPI (services/visitor-counter/main.py).
+ * qua backend FastAPI (services/vipzone/cms_auth.py).
  *
  * Flow:
  *   1. User click [data-auth-trigger] (link Admin ở footer)

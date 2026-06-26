@@ -1137,9 +1137,9 @@ Thứ tự ưu tiên (resolver `img::cover_src(page=...)` + `img::cover_alt(page
   mới được copy nguyên trạng lên site → KHÔNG đặt file nhạy cảm trong `static/`.
 - **Báo cáo (`??`) đã chuyển sang BACKEND-GATED (chặn THẬT, 16/06/2026):** file
   `.md` KHÔNG còn nằm trong `static/` hay repo public nữa. Nội dung lưu trong
-  Redis của backend FastAPI (`services/visitor-counter/main.py`), chỉ tải được
-  qua endpoint `GET /reports/{file}` sau khi `require_session` pass (OAuth GitHub
-  + email whitelist `ADMIN_EMAILS`). Trang `/bao-cao-tong-ket/` + `bao-cao.js`
+  backend FastAPI VIPZone (`services/vipzone`, `blog-vipzone-api.onrender.com`),
+  chỉ tải được qua endpoint `GET /reports/{file}` sau khi `require_session` pass
+  (OAuth GitHub/Google + email whitelist `ADMIN_EMAILS`). Trang `/bao-cao-tong-ket/` + `bao-cao.js`
   gọi backend (login → `/auth/me` → `/reports`), tải bằng fetch+Blob (Bearer sid).
   - Đẩy báo cáo mới lên backend: `POST /reports` (auth). Phím tắt `??` sinh file
     `.md` rồi dùng `python3 scripts/push_report.py <file> --sid <sid>` để đẩy
@@ -1585,7 +1585,7 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 | Config | Vị trí | Ghi chú |
 |--------|--------|---------|
 | `cms_auth_url` | `config.toml` → **`[extra]`** (không nest trong `[extra.giscus]`) | Render meta `zola-cms-auth-api` |
-| Backend | `services/visitor-counter` (`blog-visitor-api.onrender.com`) | `/auth/login`, `/auth/callback`, `/auth/me` |
+| Backend | `services/vipzone` (`blog-vipzone-api.onrender.com`) | `/auth/login`, `/auth/callback`, `/auth/google/start`, `/auth/google/callback`, `/auth/me` |
 | Session key | `sessionStorage` → `zola-cms-session-id` | Chung CMS + F-Dashboard |
 | `return_to` | Client gửi `location.pathname` (vd `/zola/tools/f-dashboard/`) | Backend strip `/zola` prefix → redirect `#sid=...` |
 | Whitelist | `ADMIN_EMAILS` + `ADMIN_USERNAMES` (Render env) | Email verified **hoặc** GitHub login `banhang-chogao` |
