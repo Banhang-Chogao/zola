@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "implement MoMo URL admin management page",
+      "tag": "feat",
+      "lines_added": 2044,
+      "lines_removed": 1,
+      "highlights": [
+        "Route: /tools/momo-url/",
+        "Auth: Google OAuth (bắt buộc), whitelist email admin",
+        "Features: View all MoMo URLs → locations → replace link (single/all scope)",
+        "GET /admin/momo-links — scan repo, trả danh sách MoMo URL + vị trí",
+        "POST /admin/momo-links/replace — thay link, validate, update file + re-audit"
+      ],
+      "pr": 1025
+    },
+    {
+      "date": "2026-06-26",
       "title": "add bb article — incheon-airport-remote-baggage-2026 (inspired by Korea Times) [claude/bb-n9sjpq]",
       "tag": "feat",
       "lines_added": 521,
