@@ -1,5 +1,5 @@
 +++
-draft = true  # held for content review — flip to false to publish
+draft = false
 title = "Merge Conflict Khủng Hoảng: 7 PR Thất Bại Cùng Lúc"
 description = "Câu chuyện thực tế: Ngày 18/6, 7 PR đều conflict đồng thời. Đó là lúc chúng tôi tự động hóa toàn bộ conflict resolution."
 date = 2026-06-26

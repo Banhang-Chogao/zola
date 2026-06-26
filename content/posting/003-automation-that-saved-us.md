@@ -1,5 +1,5 @@
 +++
-draft = true  # held for content review — flip to false to publish
+draft = false
 title = "Hệ Thống Tự Động Hóa Giải Quyết Merge Conflict Đã Cứu Chúng Tôi"
 description = "PR #951 là bằng chứng: hệ thống tự động hóa không chỉ tiết kiệm thời gian, mà còn không bao giờ mắc lỗi như con người."
 date = 2026-06-26
