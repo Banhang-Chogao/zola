@@ -37,6 +37,11 @@ Required environment variables
     CDN_BASE              public CDN base, e.g. https://cdn.seomoney.org
                           (optional; defaults to config.toml [extra].cdn)
 
+Kill-switch (optional)
+----------------------
+    R2 connections are ENABLED by default. To pause them in an emergency, set
+    CLOUDFLARE_R2_DISABLED=true (or R2_ENABLED=false). Unset/false re-enables.
+
 Usage
 -----
     python3 scripts/r2_migrate.py --dry-run
@@ -86,11 +91,13 @@ CONTENT_TYPES = {
 
 REQUIRED_ENV = ("R2_BUCKET", "R2_ENDPOINT", "R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY")
 
-# Emergency kill-switch — R2/S3 uploads disabled unless explicitly re-enabled.
-# Set R2_ENABLED=true AND unset CLOUDFLARE_R2_DISABLED to opt back in.
+# Cloudflare R2/S3 uploads are ENABLED by default. The emergency kill-switch is
+# preserved as an opt-out: set CLOUDFLARE_R2_DISABLED=true (or R2_ENABLED=false)
+# to pause all R2 connections. Credentials are still required from the
+# environment (see REQUIRED_ENV) — nothing is hardcoded or committed.
 R2_DISABLED = (
-    os.environ.get("CLOUDFLARE_R2_DISABLED", "true").lower() in ("1", "true", "yes")
-    or os.environ.get("R2_ENABLED", "false").lower() not in ("1", "true", "yes")
+    os.environ.get("CLOUDFLARE_R2_DISABLED", "false").lower() in ("1", "true", "yes")
+    or os.environ.get("R2_ENABLED", "true").lower() not in ("1", "true", "yes")
 )
 
 
@@ -163,7 +170,8 @@ def collect_files(roots: list[str]) -> list[tuple[Path, str]]:
 
 def make_client(env: dict[str, str]):
     if r2_connections_disabled():
-        log("ERROR: Cloudflare R2 connections are disabled (R2_ENABLED=false / CLOUDFLARE_R2_DISABLED=true).")
+        log("ERROR: Cloudflare R2 connections are paused by kill-switch "
+            "(CLOUDFLARE_R2_DISABLED=true / R2_ENABLED=false).")
         sys.exit(3)
     try:
         import boto3
@@ -255,8 +263,9 @@ def upload_one(client, bucket: str, fp: Path, key: str, force: bool,
 
 def main() -> int:
     if r2_connections_disabled():
-        log("R2 migration disabled — no Cloudflare R2/S3 connections will be made.")
-        log("Re-enable with R2_ENABLED=true and CLOUDFLARE_R2_DISABLED unset/false.")
+        log("R2 migration paused via kill-switch — no Cloudflare R2/S3 connections will be made.")
+        log("R2 is enabled by default; it was opted out (CLOUDFLARE_R2_DISABLED=true or R2_ENABLED=false).")
+        log("Unset CLOUDFLARE_R2_DISABLED (or set it false) and ensure R2_ENABLED is not false to resume.")
         return 0
 
     ap = argparse.ArgumentParser(description="Upload static media assets to Cloudflare R2.")
