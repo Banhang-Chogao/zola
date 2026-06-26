@@ -1,23 +1,42 @@
 {
-  "updated_at": "2026-06-26T08:19:46Z",
+  "updated_at": "2026-06-26T08:31:50Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 42,
+    "today": 43,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "unknown": 40,
-      "fix": 103,
+      "unknown": 42,
+      "fix": 102,
       "ci": 5,
       "feature": 43,
-      "chore": 9
+      "chore": 8
     }
   },
   "merges": [
+    {
+      "pr_number": 985,
+      "pr_title": "Remove unused wd-heartbeat.html partial file [claude/pipeline-heartbeat-placeholder-718rnt]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/985",
+      "merged_at": "2026-06-26T08:24:49Z",
+      "merge_commit_sha": "58e5a24c907dc7a71c9d7bb153966df86cdaf291",
+      "merge_commit_short": "58e5a24",
+      "head_branch": "claude/pipeline-heartbeat-placeholder-718rnt",
+      "summary_vi": "- Remove PIPELINE HEARTBEAT placeholder section from blog footer",
+      "change_type": "unknown",
+      "files_changed": 2,
+      "additions": 0,
+      "deletions": 94,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1187,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28226452817",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 984,
       "pr_title": "Remove PIPELINE HEARTBEAT placeholder section from blog footer [claude/pipeline-heartbeat-placeholder-718rnt]",
@@ -35,7 +54,7 @@
       "auto_merged": false,
       "build_run_number": 1186,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28225911951",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 983,
@@ -73,7 +92,7 @@
       "auto_merged": false,
       "build_run_number": 1184,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28225448163",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 982,
@@ -90,8 +109,8 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1186,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28225911951",
+      "build_run_number": 1187,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28226452817",
       "build_conclusion": "pending"
     },
     {
@@ -888,9 +907,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1159,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28205302043",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 923,
@@ -907,9 +926,9 @@
       "deletions": 3,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1158,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28195264209",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 921,
@@ -926,9 +945,9 @@
       "deletions": 115,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1158,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28195264209",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 909,
@@ -1304,6 +1323,25 @@
       "files_changed": 4,
       "additions": 411,
       "deletions": 70,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 896,
+      "pr_title": "Merge origin/main into claude/oasis-wwdc-aurora (clear stale-base qa-404) [claude/oasis-wwdc-aurora]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/896",
+      "merged_at": "2026-06-25T09:17:14Z",
+      "merge_commit_sha": "3cfbea850f60959241a9902966bbda74a212444b",
+      "merge_commit_short": "3cfbea8",
+      "head_branch": "claude/oasis-wwdc-aurora",
+      "summary_vi": "- feat(ui): WWDC26 Aurora-Glass redesign for Oasis catalogue",
+      "change_type": "unknown",
+      "files_changed": 1,
+      "additions": 208,
+      "deletions": 128,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
@@ -3774,44 +3812,6 @@
       "files_changed": 11,
       "additions": 228,
       "deletions": 68,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 740,
-      "pr_title": "Hotfix: /tools/calendar/ - fix stuck auth state, optimize admin check, widen layout, improve note UX [claude/trusting-cori-db6sew]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/740",
-      "merged_at": "2026-06-22T18:50:32Z",
-      "merge_commit_sha": "ca43ea22d0a9f370c7690c8db6aa32b659a15821",
-      "merge_commit_short": "ca43ea2",
-      "head_branch": "claude/trusting-cori-db6sew",
-      "summary_vi": "Hotfix: /tools/calendar/ - fix stuck auth state, optimize admin check, widen layout, improve note UX",
-      "change_type": "fix",
-      "files_changed": 4,
-      "additions": 82,
-      "deletions": 25,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 739,
-      "pr_title": "chore(vaccine): Daily Vaccine Autofixer run",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/739",
-      "merged_at": "2026-06-22T18:41:11Z",
-      "merge_commit_sha": "a4d06884ab03bc869f7a7902f1f43011ae0e58b2",
-      "merge_commit_short": "a4d0688",
-      "head_branch": "chore/vaccine-autofixer-20260622-162740",
-      "summary_vi": "Automated run of the Daily Vaccine Autofixer (Vaccine V11). Auto-merges when QA passes.",
-      "change_type": "chore",
-      "files_changed": 2,
-      "additions": 210,
-      "deletions": 17,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
