@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-19T06:12:02.049524+07:00",
+  "updated_at": "2026-06-26T21:08:41.009259+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -15166,6 +15166,132 @@
         }
       ],
       "published": true
+    },
+    "content/posting/lam-theme-log-sua-menu-cong-cu.md": {
+      "title": "Theme log rollback: an toàn cho blog tĩnh",
+      "slug": "lam-theme-log-sua-menu-cong-cu",
+      "keyword": "theme log rollback",
+      "score": 94.0,
+      "grade": "A",
+      "word_count": 1643,
+      "published": true,
+      "scored_at": "2026-06-26T21:08:41.009259+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 0.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "thiếu internal link (liên kết tới bài/section khác trong blog)"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-26T21:07:44.893482+07:00",
+          "score": 75.0,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-26T21:07:52.012425+07:00",
+          "score": 78.0,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-26T21:08:00.353321+07:00",
+          "score": 84.0,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-26T21:08:04.954648+07:00",
+          "score": 90.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-26T21:08:17.871873+07:00",
+          "score": 90.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-26T21:08:23.792922+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-26T21:08:29.036878+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-26T21:08:35.661462+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-26T21:08:41.009259+07:00",
+          "score": 94.0,
+          "grade": "A"
+        }
+      ]
     }
   }
 }
