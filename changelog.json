@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "feat(images): SEOMONEY owned-image fallback chain, drop external stock images",
+      "tag": "remove",
+      "lines_added": 3642,
+      "lines_removed": 31,
+      "highlights": [
+        "scripts/build_owned_covers.py — sinh cover + category placeholder + manifest data/owned-covers.json (stdlib, không mạng, deterministic; --check cho CI). Test scripts/test_build_owned_covers.py (7/7).",
+        "Templates dùng resolver: index, section, taxonomy_single, page (hero + related), base (sidebar featured/random + posts-data JSON + OG/JSON-LD).",
+        "OG/JSON-LD (base.html): chỉ ảnh raster local; bài cover-sinh giữ og-default.webp → không bao giờ broken/hotlink. og:image == JSON-LD image.",
+        "Gỡ fallback picsum.photos trong scripts/momo_crawler.py.",
+        "Gỡ 2 thumbnail picsum ngoài khỏi content (lam-theme-log-sua-menu-cong-cu, bi-kip-xin-visa-han-quoc-5-nam-de) → rơi về cover owned tự sinh."
+      ],
+      "pr": 1008
+    },
+    {
+      "date": "2026-06-26",
       "title": "refactor(nav): Bài viết → compact category mega menu (grouped)",
       "tag": "refactor",
       "lines_added": 11,
