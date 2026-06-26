@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-26T00:51:37.695923Z",
+  "generated_at": "2026-06-26T00:55:16.715640Z",
   "repository": "Banhang-Chogao/zola",
   "window_days": 30,
   "configured": true,
   "totals": {
-    "total": 122,
-    "success": 75,
+    "total": 123,
+    "success": 76,
     "failed": 47,
     "cancelled": 76,
-    "success_rate_pct": 61
+    "success_rate_pct": 62
   },
   "last_deploy": {
     "status": "cancelled",
@@ -225,10 +225,10 @@
       },
       {
         "date": "2026-06-26",
-        "count": 0,
-        "success": 0,
+        "count": 1,
+        "success": 1,
         "failed": 0,
-        "level": 0
+        "level": 1
       }
     ]
   }
