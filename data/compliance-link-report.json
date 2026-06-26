@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-06-26T02:13:30Z",
+  "updated_at": "2026-06-26T04:55:54Z",
   "summary": {
-    "broken_count": 1,
-    "checked_unique": 1246,
-    "status": "warn"
+    "broken_count": 6,
+    "checked_unique": 1255,
+    "status": "fail"
   },
   "links": [
     {
@@ -16,8 +16,8 @@
       "auto_fix_status": "pending"
     },
     {
-      "source_page": "/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/",
-      "source_file": "public/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/index.html",
+      "source_page": "/baochi/bi-kip-xin-visa-han-quoc-5-nam-de-baochi/",
+      "source_file": "public/baochi/bi-kip-xin-visa-han-quoc-5-nam-de-baochi/index.html",
       "href": "https://seomoney.org/blog/",
       "target": "/blog/",
       "status": "404",
@@ -1996,6 +1996,15 @@
       "auto_fix_status": "pending"
     },
     {
+      "source_page": "/posting/tera-scoping-deploy-monitor-fix/",
+      "source_file": "public/posting/tera-scoping-deploy-monitor-fix/index.html",
+      "href": "https://seomoney.org/blog/",
+      "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
       "source_page": "/posting/test-blog-footer-redesign/",
       "source_file": "public/posting/test-blog-footer-redesign/index.html",
       "href": "https://seomoney.org/blog/",
@@ -2043,6 +2052,15 @@
     {
       "source_page": "/posting/thi-tuong-lai-y-dinh-tieng-han/",
       "source_file": "public/posting/thi-tuong-lai-y-dinh-tieng-han/index.html",
+      "href": "https://seomoney.org/blog/",
+      "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/thumbnail-hover-touch-guard-reduced-motion-easing/",
+      "source_file": "public/posting/thumbnail-hover-touch-guard-reduced-motion-easing/index.html",
       "href": "https://seomoney.org/blog/",
       "target": "/blog/",
       "status": "404",
@@ -2459,6 +2477,51 @@
       "source_file": "public/posting/zola-vs-hugo/index.html",
       "href": "https://seomoney.org/blog/",
       "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/scoring/",
+      "source_file": "public/scoring/index.html",
+      "href": "https://seomoney.org/posting/thiet-ke-framework-giai-quyet-merge-conflict/",
+      "target": "/posting/thiet-ke-framework-giai-quyet-merge-conflict/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/scoring/",
+      "source_file": "public/scoring/index.html",
+      "href": "https://seomoney.org/posting/bai-hoc-merge-conflict-future/",
+      "target": "/posting/bai-hoc-merge-conflict-future/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/scoring/",
+      "source_file": "public/scoring/index.html",
+      "href": "https://seomoney.org/posting/automation-merge-conflict-saved-us/",
+      "target": "/posting/automation-merge-conflict-saved-us/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/scoring/",
+      "source_file": "public/scoring/index.html",
+      "href": "https://seomoney.org/posting/merge-conflict-khung-hoang-7-pr-that-bai/",
+      "target": "/posting/merge-conflict-khung-hoang-7-pr-that-bai/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/scoring/",
+      "source_file": "public/scoring/index.html",
+      "href": "https://seomoney.org/posting/merge-conflict-preflight-catch-early/",
+      "target": "/posting/merge-conflict-preflight-catch-early/",
       "status": "404",
       "reason": "Target not found in public/ after zola build",
       "auto_fix_status": "pending"
