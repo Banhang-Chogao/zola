@@ -239,7 +239,7 @@
     posts: [],          // unified display list: { slug, title, date, category, featured, isNew? }
     bakeMetadata: [],   // raw bake từ <script id="posts-metadata">, immutable trong session
     editing: null,      // { path, sha, wasFeatured, featuredAt }
-    filter: { query: "", sort: "date-desc" },
+    filter: { query: "", sort: "date-desc", placement: "" },
   };
 
   function $(sel, parent) { return (parent || root).querySelector(sel); }
@@ -350,10 +350,14 @@
   function getDisplayPosts() {
     const posts = state.posts.slice();
     const q = normalizeStr(state.filter.query);
-    const filtered = q ? posts.filter((p) => {
+    let filtered = q ? posts.filter((p) => {
       const hay = normalizeStr((p.title || "") + " " + (p.slug || "") + " " + (p.category || ""));
       return hay.includes(q);
     }) : posts;
+
+    const pf = state.filter.placement;
+    if (pf === "sticky") filtered = filtered.filter((p) => p.sticky);
+    else if (pf === "featured") filtered = filtered.filter((p) => p.featured);
 
     switch (state.filter.sort) {
       case "date-asc":
@@ -641,9 +645,7 @@ tags = ${tagsStr}
     if (!show && input) input.value = "";
   }
 
-  // ============= STICKY VALIDATION — chỉ 1 bài ghim tại 1 thời điểm =============
-  // Trả về slug của bài KHÁC đang sticky (nếu có), hoặc null. Dùng state.posts
-  // (đã gộp bake + local). Bỏ qua chính bài đang sửa (currentSlug).
+  // ============= HOMEPAGE PLACEMENT — Sticky / Featured (single-active) =============
   function findOtherSticky(currentSlug) {
     for (const p of state.posts) {
       if (p.sticky && p.slug !== currentSlug) return p;
@@ -651,19 +653,180 @@ tags = ${tagsStr}
     return null;
   }
 
-  // Nếu user tick Sticky nhưng đã có bài khác sticky → báo lỗi ra màn hình +
-  // trả về false (chặn save). title/slug bài đang xung đột hiển thị rõ.
-  function ensureStickyAllowed(isSticky, currentSlug) {
-    if (!isSticky) return true;
-    const other = findOtherSticky(currentSlug);
+  function findOtherFeatured(currentSlug) {
+    for (const p of state.posts) {
+      if (p.featured && p.slug !== currentSlug) return p;
+    }
+    return null;
+  }
+
+  function confirmSlotReplace(slot, other) {
     if (!other) return true;
     const name = other.title || other.slug;
-    const msg = "⚠️ Chỉ được ghim (Sticky) 1 bài tại một thời điểm. " +
-      'Bài "' + name + '" đang được ghim. ' +
-      "Hãy bỏ ghim bài đó trước, rồi ghim bài này.";
-    setStatus("save-status", msg, "error");
-    alert(msg);
-    return false;
+    const label = slot === "sticky" ? "Sticky" : "Featured";
+    return confirm(
+      'Bài "' + name + '" đang là ' + label + ".\n\n" +
+      "Thao tác này sẽ thay thế bài " + label + " hiện tại. Tiếp tục?"
+    );
+  }
+
+  function reconcileDualPlacement(fm, enabling) {
+    if (enabling === "sticky" && fm.featured) {
+      if (!confirm("Bài không thể vừa Sticky vừa Featured.\n\nBỏ Featured và đặt làm Sticky?")) return false;
+      fm.featured = false;
+      fm.featured_at = "";
+    }
+    if (enabling === "featured" && fm.sticky) {
+      if (!confirm("Bài không thể vừa Sticky vừa Featured.\n\nBỏ Sticky và đặt làm Featured?")) return false;
+      fm.sticky = false;
+    }
+    return true;
+  }
+
+  function validatePlacementBeforeSave(fm, slug) {
+    if (fm.sticky) {
+      if (!reconcileDualPlacement(fm, "sticky")) return false;
+      if (!confirmSlotReplace("sticky", findOtherSticky(slug))) return false;
+    }
+    if (fm.featured) {
+      if (!reconcileDualPlacement(fm, "featured")) return false;
+      if (!confirmSlotReplace("featured", findOtherFeatured(slug))) return false;
+    }
+    return true;
+  }
+
+  function syncPlacementCheckboxes(form, fm) {
+    if (form.featured) form.featured.checked = !!fm.featured;
+    if (form.sticky) form.sticky.checked = !!fm.sticky;
+    updatePlacementUI();
+  }
+
+  function updatePlacementUI() {
+    const form = $("[data-form='post']");
+    if (!form) return;
+    const stickyOn = !!(form.sticky && form.sticky.checked);
+    const featuredOn = !!(form.featured && form.featured.checked);
+
+    const stickyBadge = $("[data-placement-badge='sticky']");
+    const featuredBadge = $("[data-placement-badge='featured']");
+    if (stickyBadge) {
+      stickyBadge.textContent = stickyOn ? "Currently Sticky" : "Not sticky";
+      stickyBadge.classList.toggle("is-active", stickyOn);
+    }
+    if (featuredBadge) {
+      featuredBadge.textContent = featuredOn ? "Currently Featured" : "Not featured";
+      featuredBadge.classList.toggle("is-active", featuredOn);
+    }
+
+    const stickyOnBtn = $("[data-action='placement-sticky-on']");
+    const stickyOffBtn = $("[data-action='placement-sticky-off']");
+    const featuredOnBtn = $("[data-action='placement-featured-on']");
+    const featuredOffBtn = $("[data-action='placement-featured-off']");
+    if (stickyOnBtn) stickyOnBtn.hidden = stickyOn;
+    if (stickyOffBtn) stickyOffBtn.hidden = !stickyOn;
+    if (featuredOnBtn) featuredOnBtn.hidden = featuredOn;
+    if (featuredOffBtn) featuredOffBtn.hidden = !featuredOn;
+  }
+
+  function applySavedPostState(slug, fm) {
+    if (fm.sticky) {
+      state.posts.forEach((p) => { if (p.slug !== slug) p.sticky = false; });
+    }
+    if (fm.featured) {
+      state.posts.forEach((p) => { if (p.slug !== slug) p.featured = false; });
+    }
+    const savedPost = {
+      slug: slug,
+      title: fm.title,
+      permalink: postPermalink({ slug: slug }),
+      date: fm.date,
+      category: fm.category,
+      featured: fm.featured,
+      sticky: fm.sticky,
+      isNew: !state.editing,
+    };
+    const idx = state.posts.findIndex((p) => p.slug === slug);
+    if (idx >= 0) state.posts[idx] = savedPost;
+    else state.posts.unshift(savedPost);
+    invalidateListCache();
+    discardDraft(slug);
+    lastDraftSlug = slug;
+    updatePlacementUI();
+  }
+
+  function formatPlacementSaveNote(data) {
+    let note = "";
+    if (data.demoted_sticky) note += " (đã bỏ ghim " + data.demoted_sticky + " bài cũ)";
+    if (data.demoted_featured) note += " (đã bỏ Featured " + data.demoted_featured + " bài cũ)";
+    return note;
+  }
+
+  async function quickPlacement(slug, mode) {
+    const sid = getSid();
+    if (!sid || !AUTH_API) {
+      alert("Cần đăng nhập để cập nhật placement.");
+      return;
+    }
+
+    const path = CONTENT_DIR + "/" + slug + ".md";
+    setStatus("[data-status]", "Đang cập nhật placement…", "info");
+
+    try {
+      const data = await getPost(path);
+      const { fm, body } = parseFrontmatter(data.content);
+
+      if (mode === "sticky-on") {
+        if (!reconcileDualPlacement(fm, "sticky")) return;
+        if (!confirmSlotReplace("sticky", findOtherSticky(slug))) return;
+        fm.sticky = true;
+      } else if (mode === "sticky-off") {
+        fm.sticky = false;
+      } else if (mode === "featured-on") {
+        if (!reconcileDualPlacement(fm, "featured")) return;
+        if (!confirmSlotReplace("featured", findOtherFeatured(slug))) return;
+        fm.featured = true;
+        fm.featured_at = new Date().toISOString();
+      } else if (mode === "featured-off") {
+        fm.featured = false;
+        fm.featured_at = "";
+      }
+
+      const content = buildFrontmatter(fm, body);
+      const message = "CMS: placement " + mode + " — " + (fm.title || slug);
+
+      const res = await fetch(AUTH_API + "/cms/save-post", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + sid,
+          "Content-Type": "application/json",
+        },
+        credentials: "omit",
+        body: JSON.stringify({ slug, content, message, sha: data.sha }),
+      });
+
+      if (res.status === 401) {
+        clearSid();
+        alert("Phiên hết hạn. Đăng nhập lại.");
+        showView("login");
+        return;
+      }
+
+      const payload = await res.json();
+      if (!res.ok) {
+        setStatus("[data-status]", "✗ " + (payload.detail || "Lỗi lưu placement"), "error");
+        return;
+      }
+
+      applySavedPostState(slug, fm);
+      renderPostList();
+      setStatus(
+        "[data-status]",
+        "✓ Đã cập nhật placement cho \"" + (fm.title || slug) + "\"" + formatPlacementSaveNote(payload),
+        "success"
+      );
+    } catch (err) {
+      setStatus("[data-status]", "✗ " + err.message, "error");
+    }
   }
 
   // ============= LOGIN BUTTONS → REDIRECT OAUTH (GitHub / Google) =============
@@ -846,23 +1009,41 @@ tags = ${tagsStr}
 
     tbody.innerHTML = displayPosts.map((p) => {
       const badges = [];
-      if (p.sticky) badges.push('<span class="editor-badge editor-badge--sticky" title="Bài ghim (Sticky)">📌</span>');
-      if (p.featured) badges.push('<span class="editor-badge editor-badge--featured" title="Bài nổi bật">⭐</span>');
-      if (p.isNew) badges.push('<span class="editor-badge editor-badge--new" title="Vừa publish, đang build (~1 phút)">🆕</span>');
+      if (p.sticky) badges.push('<span class="editor-badge editor-badge--sticky" title="Sticky — hero trang chủ">Sticky</span>');
+      if (p.featured) badges.push('<span class="editor-badge editor-badge--featured" title="Featured — sidebar phải">Featured</span>');
+      if (p.isNew) badges.push('<span class="editor-badge editor-badge--new" title="Vừa publish, đang build (~1 phút)">New</span>');
       const path = CONTENT_DIR + "/" + p.slug + ".md";
       const dateCell = p.date ? escapeHtml(p.date) : '<em class="editor-pending">đang build…</em>';
       const checked = selectedSlugs.has(p.slug) ? " checked" : "";
+      const slugEsc = escapeHtml(p.slug);
+      let quick = "";
+      if (p.sticky) {
+        quick += '<button type="button" class="editor-btn editor-btn--ghost editor-btn--small" data-quick-placement="sticky-off" data-slug="' + slugEsc + '">Unset</button>';
+      } else {
+        quick += '<button type="button" class="editor-btn editor-btn--ghost editor-btn--small" data-quick-placement="sticky-on" data-slug="' + slugEsc + '">Set Sticky</button>';
+      }
+      if (p.featured) {
+        quick += '<button type="button" class="editor-btn editor-btn--ghost editor-btn--small" data-quick-placement="featured-off" data-slug="' + slugEsc + '">Unset</button>';
+      } else {
+        quick += '<button type="button" class="editor-btn editor-btn--ghost editor-btn--small" data-quick-placement="featured-on" data-slug="' + slugEsc + '">Set Featured</button>';
+      }
       return '<tr>' +
-        '<td class="editor-table__check"><input type="checkbox" data-row-select value="' + escapeHtml(p.slug) + '" aria-label="Chọn bài \'' + escapeHtml(p.title || p.slug) + '\'"' + checked + '></td>' +
-        '<td><strong>' + escapeHtml(p.title || p.slug) + '</strong>' + badges.join("") + '</td>' +
+        '<td class="editor-table__check"><input type="checkbox" data-row-select value="' + slugEsc + '" aria-label="Chọn bài \'' + escapeHtml(p.title || p.slug) + '\'"' + checked + '></td>' +
+        '<td><strong>' + escapeHtml(p.title || p.slug) + '</strong> ' + badges.join(" ") + '<br><small class="editor-slug-hint">/' + slugEsc + '</small></td>' +
         '<td>' + dateCell + '</td>' +
         '<td>' + escapeHtml(p.category || "—") + '</td>' +
-        '<td><button class="editor-btn editor-btn--small" data-edit="' + escapeHtml(path) + '">Sửa</button></td>' +
+        '<td><div class="editor-table__actions"><button class="editor-btn editor-btn--small" data-edit="' + escapeHtml(path) + '">Edit</button>' + quick + '</div></td>' +
       '</tr>';
     }).join("");
 
     tbody.querySelectorAll("[data-edit]").forEach((btn) => {
       btn.addEventListener("click", () => openEditor(btn.dataset.edit));
+    });
+    tbody.querySelectorAll("[data-quick-placement]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        quickPlacement(btn.dataset.slug, btn.dataset.quickPlacement);
+      });
     });
     tbody.querySelectorAll("[data-row-select]").forEach((cb) => {
       cb.addEventListener("change", () => {
@@ -1054,6 +1235,64 @@ tags = ${tagsStr}
       renderPostList();
     });
   }
+
+  $$("[data-filter-placement]").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      state.filter.placement = chip.dataset.filterPlacement || "";
+      $$("[data-filter-placement]").forEach((c) => {
+        c.classList.toggle("is-active", c === chip);
+      });
+      renderPostList();
+    });
+  });
+
+  function bindPlacementRail() {
+    const form = $("[data-form='post']");
+    if (!form) return;
+
+    const stickyOn = $("[data-action='placement-sticky-on']");
+    const stickyOff = $("[data-action='placement-sticky-off']");
+    const featuredOn = $("[data-action='placement-featured-on']");
+    const featuredOff = $("[data-action='placement-featured-off']");
+
+    if (stickyOn) {
+      stickyOn.addEventListener("click", () => {
+        const slug = (form.slug.value.trim() || slugify(form.title.value)).toLowerCase();
+        const fm = collectFormFrontmatter(form);
+        fm.sticky = true;
+        if (!reconcileDualPlacement(fm, "sticky")) return;
+        if (!confirmSlotReplace("sticky", findOtherSticky(slug))) return;
+        if (form.sticky) form.sticky.checked = true;
+        if (form.featured && !fm.featured) form.featured.checked = false;
+        updatePlacementUI();
+      });
+    }
+    if (stickyOff) {
+      stickyOff.addEventListener("click", () => {
+        if (form.sticky) form.sticky.checked = false;
+        updatePlacementUI();
+      });
+    }
+    if (featuredOn) {
+      featuredOn.addEventListener("click", () => {
+        const slug = (form.slug.value.trim() || slugify(form.title.value)).toLowerCase();
+        const fm = collectFormFrontmatter(form);
+        fm.featured = true;
+        if (!reconcileDualPlacement(fm, "featured")) return;
+        if (!confirmSlotReplace("featured", findOtherFeatured(slug))) return;
+        if (form.featured) form.featured.checked = true;
+        if (form.sticky && !fm.sticky) form.sticky.checked = false;
+        updatePlacementUI();
+      });
+    }
+    if (featuredOff) {
+      featuredOff.addEventListener("click", () => {
+        if (form.featured) form.featured.checked = false;
+        updatePlacementUI();
+      });
+    }
+  }
+  bindPlacementRail();
 
   $("[data-action='logout']").addEventListener("click", async () => {
     if (!confirm("Đăng xuất khỏi CMS?")) return;
@@ -1269,6 +1508,7 @@ tags = ${tagsStr}
       updateCounter();
       lastRenderedBody = null;
       renderPreview();
+      updatePlacementUI();
       showView("edit");
       return;
     }
@@ -1304,6 +1544,7 @@ tags = ${tagsStr}
       updateCounter();
       lastRenderedBody = null;
       renderPreview();
+      updatePlacementUI();
       setStatus("save-status", "✓ Đã tải bài", "success");
       // Check có draft chưa lưu cho slug này không — hiển thị banner khôi phục
       checkDraftFor(slug);
@@ -1317,13 +1558,13 @@ tags = ${tagsStr}
     const form = e.target;
 
     const fm = collectFormFrontmatter(form);
-    const isSticky = fm.sticky;
     const body = form.body.value;
     const slug = (form.slug.value.trim() || slugify(fm.title));
 
     if (!slug) { alert("Cần tiêu đề hoặc slug"); return; }
     if (!fm.title || !fm.date) { alert("Thiếu tiêu đề hoặc ngày"); return; }
-    if (!ensureStickyAllowed(isSticky, slug)) return;
+    if (!validatePlacementBeforeSave(fm, slug)) return;
+    syncPlacementCheckboxes(form, fm);
 
     // Validate body có nội dung text thực sự — tránh case Zola không trích được
     // summary → page.summary = null → templates crash với `striptags` filter →
@@ -1357,30 +1598,7 @@ tags = ${tagsStr}
         "✓ File '" + slug + ".md' đã tải về. Chạy local: " +
         "git add " + path + " && git commit -m \"" + message + "\" && git push",
         "success");
-      // Update state.posts in-place — preserve UI position khi user "Quay lại" list.
-      // Bake metadata stale ~1 phút cho đến rebuild, nhưng UI hiển thị metadata mới gõ.
-      // Nếu bài này được ghim → bỏ sticky mọi bài khác trong state (đồng bộ UI
-      // với rule "chỉ 1 sticky"; file .md các bài cũ sẽ được sửa khi user mở/lưu).
-      if (fm.sticky) {
-        state.posts.forEach((p) => { if (p.slug !== slug) p.sticky = false; });
-      }
-      const savedPost = {
-        slug: slug,
-        title: fm.title,
-        permalink: postPermalink({ slug: slug }),
-        date: fm.date,
-        category: fm.category,
-        featured: fm.featured,
-        sticky: fm.sticky,
-        isNew: !state.editing,
-      };
-      const idx = state.posts.findIndex((p) => p.slug === slug);
-      if (idx >= 0) state.posts[idx] = savedPost;
-      else state.posts.unshift(savedPost);
-      invalidateListCache(); // ép background refresh tiếp theo fetch tươi
-      // Cleanup draft localStorage — bài đã commit lên repo, không cần giữ draft
-      discardDraft(slug);
-      lastDraftSlug = slug;
+      applySavedPostState(slug, fm);
     } catch (err) {
       setStatus("save-status", "✗ " + err.message, "error");
     }
@@ -1390,7 +1608,7 @@ tags = ${tagsStr}
   // Đẩy bài trực tiếp lên repo qua backend /cms/save-post. Backend dùng
   // access_token GitHub (Redis-side) để PUT content/posting/{slug}.md.
   // Sau push: GitHub Actions auto-build + deploy ~1-2 phút.
-  $("[data-action='publish']").addEventListener("click", async (e) => {
+  async function handlePublishClick(e) {
     e.preventDefault();
     const form = $("[data-form='post']");
     if (!form.reportValidity()) return; // browser native validation
@@ -1405,14 +1623,14 @@ tags = ${tagsStr}
     // handleSessionExpired() lưu draft + báo + về login.
 
     const fm = collectFormFrontmatter(form);
-    const isSticky = fm.sticky;
     const body = form.body.value;
     const slug = (form.slug.value.trim() || slugify(fm.title)).toLowerCase();
     if (!slug || !fm.title || !fm.date) {
       alert("Thiếu tiêu đề, slug hoặc ngày.");
       return;
     }
-    if (!ensureStickyAllowed(isSticky, slug)) return;
+    if (!validatePlacementBeforeSave(fm, slug)) return;
+    syncPlacementCheckboxes(form, fm);
 
     // Same body length validate as Tải .md submit
     const plainText = body
@@ -1473,32 +1691,21 @@ tags = ${tagsStr}
       const statusEl = $("[data-target='save-status']");
       statusEl.className = "editor-status editor-status--success";
       statusEl.innerHTML = "✓ Đã " + (data.action === "updated" ? "cập nhật" : "đăng mới") +
-        " <strong>" + escapeHtml(data.path) + "</strong>. " +
+        " <strong>" + escapeHtml(data.path) + "</strong>" + formatPlacementSaveNote(data) + ". " +
         "Deploy ETA: " + escapeHtml(data.deploy_eta) + commitLink;
 
-      // Update state.posts in-place — preserve UI position
-      if (fm.sticky) {
-        state.posts.forEach((p) => { if (p.slug !== slug) p.sticky = false; });
+      applySavedPostState(slug, fm);
+      const railStatus = $("[data-rail-status]");
+      if (railStatus) {
+        railStatus.textContent = "Đã đăng — deploy ~1–2 phút.";
       }
-      const savedPost = {
-        slug: slug,
-        title: fm.title,
-        permalink: postPermalink({ slug: slug }),
-        date: fm.date,
-        category: fm.category,
-        featured: fm.featured,
-        sticky: fm.sticky,
-        isNew: !state.editing,
-      };
-      const idx = state.posts.findIndex((p) => p.slug === slug);
-      if (idx >= 0) state.posts[idx] = savedPost;
-      else state.posts.unshift(savedPost);
-      invalidateListCache();
-      discardDraft(slug);
-      lastDraftSlug = slug;
     } catch (err) {
       setStatus("save-status", "✗ Lỗi mạng: " + err.message, "error");
     }
+  }
+
+  $$("[data-action='publish']").forEach((btn) => {
+    btn.addEventListener("click", handlePublishClick);
   });
 
   $("[data-action='delete']").addEventListener("click", async () => {
