@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-26T15:12:01Z",
+  "updated_at": "2026-06-26T15:32:43Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 58,
-    "this_week": 192,
+    "today": 59,
+    "this_week": 193,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "fix": 101,
       "feature": 40,
       "unknown": 45,
       "content": 1,
-      "fix": 101,
       "ci": 5,
       "chore": 8
     }
   },
   "merges": [
+    {
+      "pr_number": 1005,
+      "pr_title": "fix(tools): backfill theme log from 14 Jun 2026",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1005",
+      "merged_at": "2026-06-26T15:23:59Z",
+      "merge_commit_sha": "dec23a1fe3c99618964a2aa73dc72c0443084bb7",
+      "merge_commit_short": "dec23a1",
+      "head_branch": "fix/theme-log-backfill-2026-06-14",
+      "summary_vi": "Extend **Theme Log** (`/tools/theme-log/`) to become a **long-term rollback/audit ledger** with backfill capability from **2026-06-14 00:00 Asia/Ho_Chi_Minh** onward.",
+      "change_type": "fix",
+      "files_changed": 3,
+      "additions": 72,
+      "deletions": 14,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1202,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28247667940",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 1004,
       "pr_title": "feat(tools): Theme log + Công cụ mega menu",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1201,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28246614121",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 1003,
@@ -946,9 +965,9 @@
       "deletions": 21,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1172,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28211061894",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1176,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28211877000",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 935,
@@ -3794,25 +3813,6 @@
       "files_changed": 1,
       "additions": 1,
       "deletions": 6,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 662,
-      "pr_title": "fix(vaccine-hotfix): deploy_fail-27907151018",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/662",
-      "merged_at": "2026-06-21T14:23:35Z",
-      "merge_commit_sha": "261f89a6554e79c050773c2fb15b02d2d0831b03",
-      "merge_commit_short": "261f89a",
-      "head_branch": "vaccine-hotfix/deploy_fail-27907151018",
-      "summary_vi": "Automated **Vaccine Hotfix** (`deploy_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by Vacxin\").",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 0,
-      "deletions": 19,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
