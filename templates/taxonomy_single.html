@@ -35,11 +35,11 @@
                         {% endif %}
                         {# LCP: bài đầu tiên load eager + high priority, rest lazy. #}
                         {% if loop.first %}
-                            <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                            <img src="{{ img::card_image(page=page, base_url=config.base_url) }}" alt="{{ img::card_image_alt(page=page) }}"
                                  width="800" height="450"
                                  loading="eager" fetchpriority="high" decoding="async">
                         {% else %}
-                            <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                            <img src="{{ img::card_image(page=page, base_url=config.base_url) }}" alt="{{ img::card_image_alt(page=page) }}"
                                  width="800" height="450"
                                  loading="lazy" decoding="async">
                         {% endif %}

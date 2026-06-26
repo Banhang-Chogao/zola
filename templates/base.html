@@ -216,7 +216,7 @@
             {% if og_src == "" and not loop.first and chunk is containing('src="') %}
                 {% set cand = chunk | split(pat='src="') | nth(n=1) | split(pat='"') | first %}
                 {# bỏ qua ảnh không-phải-nội-dung: placeholder generic + QR donate (momo) #}
-                {% if cand and not (cand is containing("/placeholder/")) and not (cand is containing("momo-qr")) %}
+                {% if cand and (cand is starting_with("/") or cand is containing("seomoney.org/") or cand is containing("assets.seomoney")) and not (cand is containing("/placeholder")) and not (cand is containing("momo-qr")) %}
                     {% set_global og_src = cand %}
                 {% endif %}
             {% endif %}
@@ -234,6 +234,13 @@
         {% endif %}
         {% if og_thumb and not (og_thumb is containing("/placeholder/")) %}
             {% set_global og_src = og_thumb %}
+        {% endif %}
+    {% endif %}
+    {# 3b) ẢNH SỞ HỮU theo slug: cover vẽ sẵn /img/covers/<slug>.svg (twin .og.webp đã commit) #}
+    {% if og_src == "" and page and page.slug %}
+        {% set og_covers = load_data(path="data/covers-manifest.json", required=false) %}
+        {% if og_covers and og_covers.slugs and page.slug in og_covers.slugs %}
+            {% set_global og_src = "/img/covers/" ~ page.slug ~ ".svg" %}
         {% endif %}
     {% endif %}
     {# 4) normalize → absolute HTTPS .webp; rỗng/unknown → card S-DNA mặc định #}

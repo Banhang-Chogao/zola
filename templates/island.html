@@ -226,7 +226,7 @@
         {% if p.taxonomies.categories %}{% for c in p.taxonomies.categories %}{% if pcat == "" and c != "Tất cả" and c != "premium" %}{% set_global pcat = c %}{% endif %}{% endfor %}{% endif %}
         <a class="island__ncard island__ncard--{{ loop.index0 % 8 }}" href="{{ p.permalink }}">
           <span class="island__ncard-thumb">
-            <img src="{{ img::thumb_src(thumb=p.extra.thumbnail | default(value='')) }}" alt="{{ p.title }}" loading="lazy" decoding="async" width="300" height="180">
+            <img src="{{ img::card_image(page=p, base_url=config.base_url) }}" alt="{{ img::card_image_alt(page=p) }}" loading="lazy" decoding="async" width="300" height="180">
           </span>
           <span class="island__ncard-title">
             {% if pcat %}<span class="island__ncard-cat">{{ pcat }}</span>{% endif %}
