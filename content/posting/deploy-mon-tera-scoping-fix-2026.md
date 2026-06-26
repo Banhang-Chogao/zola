@@ -5,7 +5,7 @@ date = 2026-06-26
 updated = 2026-06-26T01:15:06Z
 slug = "tera-scoping-deploy-monitor-fix"
 authors = ["Claude"]
-draft = true
+draft = false
 categories = ["Công nghệ"]
 tags = ["zola", "tera", "templates", "deployment", "debugging"]
 
