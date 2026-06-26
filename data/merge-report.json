@@ -1,24 +1,62 @@
 {
-  "updated_at": "2026-06-26T00:50:20Z",
+  "updated_at": "2026-06-26T01:14:31Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 2,
-    "this_week": 180,
+    "today": 4,
+    "this_week": 181,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 106,
+      "fix": 107,
       "feature": 42,
-      "unknown": 35,
+      "unknown": 34,
       "ci": 3,
       "chore": 10,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 942,
+      "pr_title": "fix: Use hardcoded year in copyright notice [claude/blog-post-ending-complete]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/942",
+      "merged_at": "2026-06-26T01:08:02Z",
+      "merge_commit_sha": "019a39a3a760d804ccfeec9d5674037b24961c4d",
+      "merge_commit_short": "019a39a",
+      "head_branch": "claude/blog-post-ending-complete",
+      "summary_vi": "- 🎨 Redesign GA4 module with vibrant colors & responsive layout",
+      "change_type": "fix",
+      "files_changed": 15,
+      "additions": 1223,
+      "deletions": 97,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1166,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28210591731",
+      "build_conclusion": "pending"
+    },
+    {
+      "pr_number": 941,
+      "pr_title": "feat: add qa-check job for auto-merge gate (try_auto_merge.py requirement) [claude/homepage-deploy-qa-check-8hscgi]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/941",
+      "merged_at": "2026-06-26T00:47:31Z",
+      "merge_commit_sha": "c81c792bab4ab85fd1f08eae75e9a44dfea2604c",
+      "merge_commit_short": "c81c792",
+      "head_branch": "claude/homepage-deploy-qa-check-8hscgi",
+      "summary_vi": "- chore: trigger qa-check for homepage deployment",
+      "change_type": "feature",
+      "files_changed": 3,
+      "additions": 42,
+      "deletions": 5,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1166,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28210591731",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 933,
       "pr_title": "Fix: inline breadcrumb HTML instead of using macro import [claude/blog-footer-ui-redesign-ptw66i]",
@@ -36,7 +74,7 @@
       "auto_merged": false,
       "build_run_number": 1164,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28209562491",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 940,
@@ -55,7 +93,7 @@
       "auto_merged": false,
       "build_run_number": 1163,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28209482988",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 930,
@@ -528,8 +566,8 @@
       "deletions": 188,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1136,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28161570746",
+      "build_run_number": 1137,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28161880543",
       "build_conclusion": "success"
     },
     {
@@ -547,8 +585,8 @@
       "deletions": 70,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1135,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28160585999",
+      "build_run_number": 1137,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28161880543",
       "build_conclusion": "success"
     },
     {
@@ -566,9 +604,9 @@
       "deletions": 128,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1136,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28161570746",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 888,
@@ -585,9 +623,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1135,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28160585999",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 894,
@@ -3022,25 +3060,6 @@
       "build_conclusion": ""
     },
     {
-      "pr_number": 741,
-      "pr_title": "refactor(seo): rename Google Rank → Internal SEO Health, clarify GSC status [claude/trusting-cori-db6sew]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/741",
-      "merged_at": "2026-06-22T19:10:47Z",
-      "merge_commit_sha": "29e87168a6845aca609eb3133aaae8fbe274c4bb",
-      "merge_commit_short": "29e8716",
-      "head_branch": "claude/trusting-cori-db6sew",
-      "summary_vi": "- Hotfix: /tools/calendar/ - fix stuck auth state, optimize admin check, widen layout, improve note UX",
-      "change_type": "unknown",
-      "files_changed": 11,
-      "additions": 228,
-      "deletions": 68,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
       "pr_number": 740,
       "pr_title": "Hotfix: /tools/calendar/ - fix stuck auth state, optimize admin check, widen layout, improve note UX [claude/trusting-cori-db6sew]",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/740",
@@ -3547,25 +3566,6 @@
       "files_changed": 4,
       "additions": 290,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 701,
-      "pr_title": "feat(images): owned-folder watermark policy + restore third-party covers + article [feat/watermark-owned-policy]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/701",
-      "merged_at": "2026-06-21T22:14:31Z",
-      "merge_commit_sha": "3cad6c8d6ece6c547aa4f499a2b227772c1d2962",
-      "merge_commit_short": "3cad6c8",
-      "head_branch": "feat/watermark-owned-policy",
-      "summary_vi": "Watermark giờ theo **chính sách thư mục, bảo thủ**: chỉ đóng dấu ảnh **SEOMONEY sở hữu**, không bao giờ stamp lên ảnh bên thứ ba. Kèm 1 bài case-study SEO.",
-      "change_type": "feature",
-      "files_changed": 9,
-      "additions": 381,
-      "deletions": 131,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
