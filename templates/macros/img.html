@@ -53,12 +53,18 @@
 {%- if slug in data.covers -%}
 {{- get_url(path=data.covers[slug].image) -}}
 {%- else -%}
-{%- set ph = data.default_placeholder -%}
-{%- for c in page.taxonomies.categories | default(value=[]) -%}
-{%- set key = c | lower -%}
-{%- if key in data.category_map -%}{%- set_global ph = data.category_map[key] -%}{%- endif -%}
-{%- endfor -%}
-{{- get_url(path=ph) -}}
+{# Bài CHƯA có trong manifest (vd feed-anchor, bài mới chưa chạy script) →
+   placeholder owned theo chuyên mục (if/elif, KHÔNG index map động — Tera lỗi
+   với key non-ASCII có dấu cách). Chạy build_owned_covers.py để có cover riêng. #}
+{%- set cat = page.taxonomies.categories | default(value=[]) -%}
+{%- set primary = "" -%}
+{%- for c in cat -%}{%- if c != "Tất cả" and not primary -%}{%- set_global primary = c -%}{%- endif -%}{%- endfor -%}
+{%- if primary == "Công nghệ" -%}{{- get_url(path="img/placeholders/category-tech.svg") -}}
+{%- elif primary == "Ngân hàng" or primary == "Bảo hiểm" -%}{{- get_url(path="img/placeholders/category-finance.svg") -}}
+{%- elif primary == "Khoa học" -%}{{- get_url(path="img/placeholders/category-ai.svg") -}}
+{%- elif primary == "làm affiliate" -%}{{- get_url(path="img/placeholders/category-seo.svg") -}}
+{%- else -%}{{- get_url(path="img/placeholders/category-default.svg") -}}
+{%- endif -%}
 {%- endif -%}
 {%- endif -%}
 {%- endmacro cover_src %}
