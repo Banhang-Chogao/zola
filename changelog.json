@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "correct broken cross-links in 5-part merge-conflict series [fix/blog-series-crosslinks]",
+      "tag": "fix",
+      "lines_added": 5,
+      "lines_removed": 5,
+      "highlights": [
+        "content/posting/001-khi-7-pull-request-that-do.md (modified, +1/-1)",
+        "content/posting/002-xay-dung-conflict-resolution-framework.md (modified, +1/-1)",
+        "content/posting/003-automation-that-saved-us.md (modified, +1/-1)",
+        "content/posting/004-preflight-catching-conflicts-before-merge.md (modified, +1/-1)",
+        "content/posting/005-lessons-learned-future-proofing.md (modified, +1/-1)"
+      ],
+      "pr": 981
+    },
+    {
+      "date": "2026-06-26",
       "title": "update vipzone comments to reflect gsc_routes migration",
       "tag": "chore",
       "lines_added": 3,
