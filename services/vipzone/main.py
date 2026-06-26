@@ -238,6 +238,17 @@ except Exception as exc:  # pragma: no cover - defensive: keep the rest of the A
     print(f"[vipzone] reports router not mounted: {exc!r}")
 
 
+# ============= MoMo Links Admin (manage payment links) =============
+try:
+    import momo_links
+
+    app.include_router(momo_links.router)
+    MOMO_LINKS_MOUNTED = True
+except Exception as exc:  # pragma: no cover - defensive: keep the rest of the API up
+    MOMO_LINKS_MOUNTED = False
+    print(f"[vipzone] momo_links router not mounted: {exc!r}")
+
+
 async def require_admin(profile: dict[str, Any] = Depends(session_dep)) -> dict[str, Any]:
     # A public commenter session can never be an admin (defense-in-depth on top of
     # the is_admin/is_super checks, which are already false for them).
