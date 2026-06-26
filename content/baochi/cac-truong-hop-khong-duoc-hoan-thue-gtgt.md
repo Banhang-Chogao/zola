@@ -6,7 +6,7 @@ date = 2026-06-18
 categories = ["Tất cả", "Ngân hàng", "Báo chí"]
 tags = ["thuế", "hoàn thuế gtgt", "thuế gtgt", "kế toán", "tài chính doanh nghiệp"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "không được hoàn thuế GTGT"
 featured = false
 

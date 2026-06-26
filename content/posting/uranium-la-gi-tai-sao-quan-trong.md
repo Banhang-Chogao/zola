@@ -7,7 +7,7 @@ aliases = ["/uranium-la-gi-tai-sao-quan-trong/"]
 categories = ["Tất cả", "Khoa học"]
 tags = ["hạt nhân", "khoa học", "năng lượng", "science uranium series", "uranium"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
+thumbnail = "https://seomoney.org/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "uranium là gì"
 featured = false
 series = "science-uranium"

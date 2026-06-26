@@ -7,7 +7,7 @@ aliases = ["/tien-ich-so-vietinbank-chua-tan-dung-het/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["tiện ích số", "vietinbank", "vietinbank ipay", "vietinbank series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "tiện ích số VietinBank"
 featured = false
 series = "vietinbank"
@@ -33,7 +33,7 @@ a = "Có. Theo thông tin công bố, ứng dụng ngân hàng số của Vietin
 
 <!-- more -->
 
-![Checklist các tiện ích số VietinBank trên ứng dụng iPay](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg "Tiện ích số VietinBank")
+![Checklist các tiện ích số VietinBank trên ứng dụng iPay](https://seomoney.org/img/placeholder/placeholder-wide.svg "Tiện ích số VietinBank")
 
 ## Vì sao nhiều tiện ích bị bỏ quên
 

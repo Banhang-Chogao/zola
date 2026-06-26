@@ -7,7 +7,7 @@ aliases = ["/he-sinh-thai-san-pham-vietinbank/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["dịch vụ ngân hàng", "sản phẩm ngân hàng", "vietinbank", "vietinbank series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "sản phẩm VietinBank"
 featured = false
 series = "vietinbank"
@@ -31,7 +31,7 @@ a = "Có. Ngoài mảng khách hàng cá nhân, VietinBank phục vụ doanh ngh
 
 <!-- more -->
 
-![Sơ đồ hệ sinh thái sản phẩm VietinBank chia theo nhóm cho cá nhân và doanh nghiệp](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg "Hệ sinh thái sản phẩm VietinBank")
+![Sơ đồ hệ sinh thái sản phẩm VietinBank chia theo nhóm cho cá nhân và doanh nghiệp](https://seomoney.org/img/placeholder/placeholder-wide.svg "Hệ sinh thái sản phẩm VietinBank")
 
 ## Vì sao nên nhìn theo hệ sinh thái
 

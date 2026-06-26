@@ -7,7 +7,7 @@ aliases = ["/vietinbank-hien-dai-hoa-core-banking/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["core banking", "ngân hàng lõi", "vietinbank", "vietinbank series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "core banking VietinBank"
 featured = false
 series = "vietinbank"
@@ -37,7 +37,7 @@ a = "Không trực tiếp. Core banking chạy ngầm phía sau, khách hàng ch
 
 <!-- more -->
 
-![Minh họa core banking VietinBank như bộ não trung tâm xử lý giao dịch](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg "Core banking VietinBank")
+![Minh họa core banking VietinBank như bộ não trung tâm xử lý giao dịch](https://seomoney.org/img/placeholder/placeholder-wide.svg "Core banking VietinBank")
 
 ## Core banking là gì, nói cho dễ hiểu
 

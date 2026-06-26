@@ -7,7 +7,7 @@ aliases = ["/vietinbank-cuoc-dua-ngan-hang-so-big4/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["big 4", "ngân hàng số", "vietinbank", "vietinbank series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số VietinBank"
 featured = false
 series = "vietinbank"
@@ -33,7 +33,7 @@ a = "Theo thông tin công bố, điểm mạnh truyền thống của VietinBan
 
 <!-- more -->
 
-![So sánh ngân hàng số VietinBank với các ngân hàng Big 4 khác](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg "Ngân hàng số VietinBank và Big 4")
+![So sánh ngân hàng số VietinBank với các ngân hàng Big 4 khác](https://seomoney.org/img/placeholder/placeholder-wide.svg "Ngân hàng số VietinBank và Big 4")
 
 ## Big 4 và bốn cách làm ngân hàng số
 

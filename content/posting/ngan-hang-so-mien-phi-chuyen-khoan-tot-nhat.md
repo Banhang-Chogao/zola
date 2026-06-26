@@ -7,7 +7,7 @@ aliases = ["/ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["miễn phí chuyển khoản", "ngân hàng số", "ngân hàng số series", "phí chuyển khoản", "tnex"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số miễn phí chuyển khoản"
 featured = false
 series = "ngan-hang-so"

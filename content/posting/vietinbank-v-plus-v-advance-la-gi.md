@@ -7,7 +7,7 @@ aliases = ["/vietinbank-v-plus-v-advance-la-gi/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["ipay mobile", "ngân hàng số", "v-advance", "v-plus", "vietinbank", "vietinbank v-plus v-advance series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-square.og.webp"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder-square.og.webp"
 seo_keyword = "V-Plus V-Advance VietinBank là gì"
 series = "nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb"
 series_part = 1

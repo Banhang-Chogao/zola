@@ -3,7 +3,7 @@
 Post-build checker: detect internal hrefs missing GitHub Pages /zola/ prefix.
 
 Scans public/*.html for href="/..." that would 404 on
-https://banhang-chogao.github.io/zola/ (browser resolves to github.io root).
+https://seomoney.org/ (browser resolves to github.io root).
 
 Exit 0 if clean, 1 if any bad links found.
 Stdlib only.
@@ -19,7 +19,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 PUBLIC = REPO / "public"
 SITE_PREFIX = "/zola"
-BASE_URL = "https://banhang-chogao.github.io/zola"
+BASE_URL = "https://seomoney.org"
 
 # href="/foo" but not href="/zola/..." or href="//..."
 _BAD_HREF_RE = re.compile(

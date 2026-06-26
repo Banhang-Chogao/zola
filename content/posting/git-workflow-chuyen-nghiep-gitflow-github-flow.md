@@ -7,7 +7,7 @@ aliases = ["/git-workflow-chuyen-nghiep-gitflow-github-flow/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["git", "git github series", "git workflow", "github", "lập trình"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "git workflow"
 featured = false
 series = "git-github"

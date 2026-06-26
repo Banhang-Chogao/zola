@@ -9,7 +9,7 @@ categories = ["Tất cả", "Công nghệ"]
 tags = ["blog", "github actions", "github pages", "markdown", "rust", "static site generator", "tutorial", "zola"]
 [extra]
 seo_keyword = "tạo blog với Zola"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
+thumbnail = "https://seomoney.org/img/covers/tao-blog-voi-zola.svg"
 [[extra.faq]]
 q = "Zola là gì?"
 a = "Zola là một static site generator (công cụ tạo trang tĩnh) viết bằng Rust, đóng gói thành một file thực thi duy nhất, không cần cài runtime. Nó biến file Markdown cùng template Tera thành các trang HTML tĩnh, build cực nhanh và host được miễn phí."

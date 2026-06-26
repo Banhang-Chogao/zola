@@ -9,11 +9,11 @@ categories = ["Tất cả"]
 tags = ["du lịch", "review", "street food", "sài gòn", "tp hcm", "ăn tối", "ẩm thực"]
 
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/toi-nay-sai-gon-an-gi.svg"
+thumbnail = "https://seomoney.org/img/covers/toi-nay-sai-gon-an-gi.svg"
 seo_keyword = "tối nay Sài Gòn ăn gì"
 +++
 
-![Tối nay Sài Gòn ăn gì — gợi ý quán ăn tối và khuya](https://banhang-chogao.github.io/zola/img/covers/toi-nay-sai-gon-an-gi.svg)
+![Tối nay Sài Gòn ăn gì — gợi ý quán ăn tối và khuya](https://seomoney.org/img/covers/toi-nay-sai-gon-an-gi.svg)
 
 ## Tối nay Sài Gòn ăn gì? Gợi ý nhanh
 

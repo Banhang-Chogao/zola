@@ -7,7 +7,7 @@ aliases = ["/rui-ro-khi-su-dung-ngan-hang-so/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["bảo mật ngân hàng số", "lừa đảo otp", "ngân hàng số", "ngân hàng số series", "rủi ro ngân hàng số"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "rủi ro ngân hàng số"
 featured = false
 series = "ngan-hang-so"

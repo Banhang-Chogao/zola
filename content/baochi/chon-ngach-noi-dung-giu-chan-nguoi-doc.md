@@ -7,7 +7,7 @@ categories = ["Tất cả", "Công nghệ", "Báo chí"]
 tags = ["blog", "content-strategy", "seo", "engagement", "mobile-ux"]
 [extra]
 seo_keyword = "ngách nội dung"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/chon-ngach-noi-dung-giu-chan-nguoi-doc.svg"
+thumbnail = "https://seomoney.org/img/covers/chon-ngach-noi-dung-giu-chan-nguoi-doc.svg"
 featured = false
 +++
 

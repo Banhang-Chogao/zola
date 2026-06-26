@@ -7,7 +7,7 @@ aliases = ["/vietinbank-v-plus-chi-tiet-quyen-loi/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["hoàn tiền", "ipay mobile", "v-advance", "v-plus", "vietinbank", "vietinbank v-plus v-advance series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-square.og.webp"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder-square.og.webp"
 seo_keyword = "V-Plus VietinBank quyền lợi"
 series = "nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb"
 series_part = 2

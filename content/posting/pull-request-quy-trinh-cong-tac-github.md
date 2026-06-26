@@ -7,7 +7,7 @@ aliases = ["/pull-request-quy-trinh-cong-tac-github/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["git", "git github series", "github", "lập trình", "pull request"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "pull request"
 featured = false
 series = "git-github"

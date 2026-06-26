@@ -7,7 +7,7 @@ aliases = ["/bao-lau-de-thay-ket-qua-seo/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["blog", "google search", "search console", "seo", "seo foundation series", "zola"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
+thumbnail = "https://seomoney.org/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "bao lâu để thấy kết quả seo"
 featured = false
 series = "seo-foundation"

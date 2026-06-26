@@ -7,7 +7,7 @@ categories = ["Tất cả", "Báo chí", "Ngân hàng"]
 tags = ["techcombank", "thẻ ngân hàng", "ngân hàng số", "thẻ digital", "mở thẻ online"]
 [extra]
 seo_keyword = "thẻ Techcombank Eco Digital"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/mo-the-techcombank-eco-digital-mien-phi.webp"
+thumbnail = "https://seomoney.org/img/covers/mo-the-techcombank-eco-digital-mien-phi.webp"
 featured = false
 
 [[extra.faq]]
@@ -37,7 +37,7 @@ Hôm trước lướt Threads, mình thấy một bạn đăng đúng nỗi băn
 
 > 💡 **Lưu ý:** Bài viết là chia sẻ trải nghiệm cá nhân, mang tính tham khảo, **không phải lời khuyên tài chính**. Biểu phí, ưu đãi và điều kiện có thể thay đổi theo từng thời kỳ — bạn hãy đối chiếu thông tin chính thức trên app và [website Techcombank](https://techcombank.com.vn/) trước khi quyết định. Xem thêm [Điều khoản & Miễn trừ](/zola/terms/) của blog.
 
-![Thẻ Techcombank Eco Digital tông xanh thiên nhiên hiển thị trong app](https://banhang-chogao.github.io/zola/img/covers/mo-the-techcombank-eco-digital-mien-phi.webp)
+![Thẻ Techcombank Eco Digital tông xanh thiên nhiên hiển thị trong app](https://seomoney.org/img/covers/mo-the-techcombank-eco-digital-mien-phi.webp)
 
 ## Thẻ Techcombank Eco Digital là gì?
 

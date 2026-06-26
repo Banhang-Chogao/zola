@@ -7,7 +7,7 @@ aliases = ["/ung-ho-du-an-ai-ten-mien-ai/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["donate website", "gây quỹ cộng đồng", "hỗ trợ mua tên miền ai", "phi lợi nhuận", "đóng góp duy trì website", "ủng hộ dự án ai"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/ung-ho-du-an-ai.svg"
+thumbnail = "https://seomoney.org/img/covers/ung-ho-du-an-ai.svg"
 seo_keyword = "ủng hộ dự án AI"
 featured = false
 sticky = true

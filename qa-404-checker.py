@@ -64,7 +64,7 @@ DATA = REPO / "data"
 OUT_FILE = DATA / "qa-404-report.json"
 
 VN_TZ = timezone(timedelta(hours=7))
-BASE_URL = "https://banhang-chogao.github.io/zola"
+BASE_URL = "https://seomoney.org"
 SITE_PREFIX = "/zola"  # GitHub Pages subpath — strip from internal hrefs
 
 EXTERNAL_TIMEOUT = 8  # seconds, per URL

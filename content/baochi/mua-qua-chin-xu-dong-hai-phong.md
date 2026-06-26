@@ -7,7 +7,7 @@ categories = ["Tất cả", "Báo chí", "Du lịch"]
 tags = ["du lịch", "hải phòng", "vải thiều thanh hà", "du lịch nông nghiệp", "xứ đông"]
 [extra]
 seo_keyword = "Mùa quả chín xứ Đông"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/mua-qua-chin-xu-dong-hai-phong.svg"
+thumbnail = "https://seomoney.org/img/covers/mua-qua-chin-xu-dong-hai-phong.svg"
 featured = false
 
 [[extra.faq]]

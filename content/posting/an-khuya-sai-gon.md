@@ -9,7 +9,7 @@ categories = ["Tất cả", "Ẩm thực"]
 tags = ["món ngon", "sài gòn", "tphcm", "ăn khuya", "ăn đêm", "ẩm thực"]
 
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/an-khuya-sai-gon.svg"
+thumbnail = "https://seomoney.org/img/covers/an-khuya-sai-gon.svg"
 seo_keyword = "ăn khuya Sài Gòn"
 +++
 

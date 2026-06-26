@@ -7,7 +7,7 @@ aliases = ["/faq-toan-tap-ngan-hang-so/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["faq ngân hàng số", "hỏi đáp ngân hàng số", "liobank", "ngân hàng số", "ngân hàng số series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "faq ngân hàng số"
 featured = false
 series = "ngan-hang-so"

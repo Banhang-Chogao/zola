@@ -7,7 +7,7 @@ categories = ["Tất cả", "Ngân hàng", "Báo chí"]
 tags = ["ngân hàng", "tài chính", "private-banking", "bidv", "đầu tư"]
 [extra]
 seo_keyword = "Private Banking"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/bidv-flagship-private-banking-tphcm.svg"
+thumbnail = "https://seomoney.org/img/covers/bidv-flagship-private-banking-tphcm.svg"
 featured = false
 [[extra.faq]]
 q = "Private Banking là gì?"

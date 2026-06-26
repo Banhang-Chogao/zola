@@ -7,7 +7,7 @@ aliases = ["/github-actions-ci-cd-cho-nguoi-moi/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["ci cd", "git", "git github series", "github", "github actions"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "github actions"
 featured = false
 series = "git-github"

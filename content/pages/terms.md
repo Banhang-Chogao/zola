@@ -7,7 +7,7 @@ template = "about.html"
 
 *Cập nhật lần cuối: 16/06/2026*
 
-Khi truy cập và sử dụng blog **Duy Nguyen** (`banhang-chogao.github.io/zola`),
+Khi truy cập và sử dụng blog **Duy Nguyen** (`seomoney.org`),
 bạn đồng ý với các điều khoản dưới đây.
 
 ## 1. Bản quyền nội dung

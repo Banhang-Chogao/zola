@@ -7,7 +7,7 @@ aliases = ["/tuong-lai-ngan-hang-so-viet-nam/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["ngân hàng số", "ngân hàng số series", "open banking", "tương lai ngân hàng số", "xu hướng fintech"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "tương lai ngân hàng số"
 featured = false
 series = "ngan-hang-so"

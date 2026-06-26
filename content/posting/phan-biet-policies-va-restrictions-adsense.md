@@ -7,7 +7,7 @@ aliases = ["/phan-biet-policies-va-restrictions-adsense/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["adsense", "adsense foundation series", "google adsense", "monetization", "policy center", "publisher policies", "publisher restrictions"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
+thumbnail = "https://seomoney.org/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "phân biệt policies restrictions adsense"
 featured = false
 series = "adsense-foundation"

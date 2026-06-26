@@ -7,7 +7,7 @@ aliases = ["/bao-mat-best-practices-git-github/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["bảo mật git", "git", "git github series", "github", "lập trình"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "bảo mật git"
 featured = false
 series = "git-github"

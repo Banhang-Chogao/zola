@@ -7,7 +7,7 @@ categories = ["Tất cả", "Báo chí", "Ngân hàng"]
 tags = ["giá vàng", "vàng SJC", "vàng nhẫn", "Fed", "đầu tư vàng", "tài chính cá nhân"]
 [extra]
 seo_keyword = "giá vàng hôm nay"
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 featured = false
 [[extra.faq]]
 q = "Giá vàng SJC hôm nay 18/6 là bao nhiêu?"

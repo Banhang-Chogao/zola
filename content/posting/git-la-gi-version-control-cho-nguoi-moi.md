@@ -7,7 +7,7 @@ aliases = ["/git-la-gi-version-control-cho-nguoi-moi/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["git", "git github series", "github", "lập trình", "version control"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "git là gì"
 featured = false
 series = "git-github"

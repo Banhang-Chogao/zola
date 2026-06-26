@@ -7,7 +7,7 @@ categories = ["Tất cả", "Báo chí", "Ngân hàng"]
 tags = ["vpbank", "circle", "thẻ tín dụng", "ngân hàng số", "gen z"]
 [extra]
 seo_keyword = "thẻ VPBank Circle"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/vpbank-circle-sieu-the-free-tron-doi-gen-z.svg"
+thumbnail = "https://seomoney.org/img/covers/vpbank-circle-sieu-the-free-tron-doi-gen-z.svg"
 featured = false
 
 [[extra.faq]]

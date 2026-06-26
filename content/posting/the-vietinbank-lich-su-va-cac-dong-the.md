@@ -7,7 +7,7 @@ aliases = ["/the-vietinbank-lich-su-va-cac-dong-the/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["thẻ ngân hàng", "thẻ tín dụng", "vietinbank", "vietinbank series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "thẻ VietinBank"
 featured = false
 series = "vietinbank"
@@ -31,7 +31,7 @@ a = "Thẻ chip lưu dữ liệu trong con chip mã hóa thay vì dải từ d�
 
 <!-- more -->
 
-![Các dòng thẻ VietinBank từ thẻ ATM nội địa đến thẻ chip và thẻ quốc tế](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg "Các dòng thẻ VietinBank")
+![Các dòng thẻ VietinBank từ thẻ ATM nội địa đến thẻ chip và thẻ quốc tế](https://seomoney.org/img/placeholder/placeholder-wide.svg "Các dòng thẻ VietinBank")
 
 ## Thẻ ATM nội địa: điểm khởi đầu
 

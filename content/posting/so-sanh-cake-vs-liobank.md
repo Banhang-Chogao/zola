@@ -7,7 +7,7 @@ aliases = ["/so-sanh-cake-vs-liobank/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["cake by vpbank", "cake vs liobank", "liobank", "ngân hàng số series", "so sánh ngân hàng số"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "cake vs liobank"
 featured = false
 series = "ngan-hang-so"

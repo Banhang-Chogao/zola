@@ -7,7 +7,7 @@ aliases = ["/cau-dieu-kien-gia-dinh-tieng-han/"]
 categories = ["premium"]
 tags = ["câu điều kiện tiếng hàn", "hoc tieng han series", "học tiếng hàn", "ngữ pháp tiếng hàn", "tiếng hàn sơ cấp", "topik"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 premium = true
 +++
 

@@ -7,7 +7,7 @@ aliases = ["/seo-la-gi-huong-dan-co-ban-google-search/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["blog", "google search", "seo", "seo foundation series", "zola"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
+thumbnail = "https://seomoney.org/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "seo là gì"
 featured = false
 series = "seo-foundation"
@@ -90,8 +90,8 @@ Các bài sau sẽ lần lượt cover toàn bộ [SEO Starter Guide](https://de
 
 Nếu site đã live, tôi khuyên ba bước thực tế trước khi đọc Bài 2:
 
-1. **Kiểm tra index**: gõ `site:banhang-chogao.github.io/zola` trên Google — xem trang đã vào index chưa.
-2. **Đăng ký Search Console** — property URL prefix trỏ đúng `https://banhang-chogao.github.io/zola/` (blog tôi đã cấu hình meta verification trong `config.toml`).
+1. **Kiểm tra index**: gõ `site:seomoney.org` trên Google — xem trang đã vào index chưa.
+2. **Đăng ký Search Console** — property URL prefix trỏ đúng `https://seomoney.org/` (blog tôi đã cấu hình meta verification trong `config.toml`).
 3. **Đảm bảo sitemap** — Zola sinh `sitemap.xml` tự động; submit trong Search Console sau khi property xác minh.
 
 Nếu bạn đang xây blog tĩnh, đọc thêm [tự động deploy Zola bằng GitHub Actions](/zola/posting/tu-dong-deploy-zola-github-actions/) để mỗi bài mới được build và lên production — SEO không có tác dụng nếu Google crawl bản cũ.

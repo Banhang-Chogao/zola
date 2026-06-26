@@ -6,7 +6,7 @@ date = 2026-06-16
 categories = ["Tất cả", "Báo chí", "Ngân hàng"]
 tags = ["ngân hàng", "liobank", "ngân hàng số", "thẻ tín dụng", "series liobank"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.webp"
+thumbnail = "https://seomoney.org/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.webp"
 seo_keyword = "Liobank là gì"
 featured = false
 
@@ -31,7 +31,7 @@ Dạo gần đây tôi nhận được khá nhiều câu hỏi kiểu "**Liobank
 
 > 💡 **Minh bạch:** Bài này có chứa liên kết giới thiệu Liobank. Nếu bạn đăng ký qua liên kết, tác giả có thể nhận thưởng — bạn **không** mất thêm chi phí. Chi tiết tại [Điều khoản & Miễn trừ](/zola/terms/).
 
-![Mascot sư tử Liobank - tổng quan ngân hàng số](https://banhang-chogao.github.io/zola/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.webp)
+![Mascot sư tử Liobank - tổng quan ngân hàng số](https://seomoney.org/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.webp)
 
 ## Liobank là gì?
 

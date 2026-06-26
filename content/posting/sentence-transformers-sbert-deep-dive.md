@@ -9,7 +9,7 @@ categories = ["Tất cả", "Công nghệ"]
 tags = ["ai", "bert", "deep learning", "embeddings", "machine learning", "nlp", "python", "pytorch", "sbert", "sentence-transformers"]
 [extra]
 seo_keyword = "Sentence Transformers"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/sentence-transformers-sbert-deep-dive.svg"
+thumbnail = "https://seomoney.org/img/covers/sentence-transformers-sbert-deep-dive.svg"
 featured = false
 [[extra.faq]]
 q = "Sentence Transformers (SBERT) là gì?"

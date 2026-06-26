@@ -6,7 +6,7 @@ date = 2026-06-16
 categories = ["Tất cả", "Ngân hàng", "Báo chí"]
 tags = ["thẻ-tín-dụng", "msb", "ưu-đãi-ngân-hàng", "tài-chính-cá-nhân", "hướng-dẫn"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 seo_keyword = "thẻ tín dụng MSB"
 featured = false
 +++

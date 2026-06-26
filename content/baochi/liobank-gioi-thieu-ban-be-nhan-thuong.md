@@ -6,7 +6,7 @@ date = 2026-06-16
 categories = ["Tất cả", "Báo chí", "Ngân hàng"]
 tags = ["ngân hàng", "liobank", "thẻ tín dụng", "giới thiệu nhận thưởng", "referral"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.webp"
+thumbnail = "https://seomoney.org/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.webp"
 seo_keyword = "giới thiệu Liobank nhận thưởng"
 featured = false
 
@@ -33,7 +33,7 @@ Mấy hôm nay nhóm bạn của tôi rủ nhau khá rôm rả về chuyện **g
 
 > 💡 **Minh bạch:** Bài này có chứa liên kết giới thiệu Liobank. Nếu bạn đăng ký qua liên kết, tác giả có thể nhận thưởng — bạn **không** mất thêm chi phí. Chi tiết tại [Điều khoản & Miễn trừ](/zola/terms/).
 
-![Mascot sư tử Liobank xem bóng đá - chương trình giới thiệu nhận thưởng](https://banhang-chogao.github.io/zola/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.webp)
+![Mascot sư tử Liobank xem bóng đá - chương trình giới thiệu nhận thưởng](https://seomoney.org/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.webp)
 
 ## Chương trình giới thiệu Liobank nhận thưởng là gì?
 

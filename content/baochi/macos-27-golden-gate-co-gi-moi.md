@@ -6,7 +6,7 @@ date = 2026-06-18
 categories = ["Tất cả", "Báo chí", "Công nghệ"]
 tags = ["công nghệ", "apple", "macos", "macos 27", "wwdc 2026", "apple intelligence"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/og-default.webp"
+thumbnail = "https://seomoney.org/img/og-default.webp"
 seo_keyword = "macOS 27 Golden Gate"
 featured = false
 

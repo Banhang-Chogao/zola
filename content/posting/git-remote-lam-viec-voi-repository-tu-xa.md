@@ -7,7 +7,7 @@ aliases = ["/git-remote-lam-viec-voi-repository-tu-xa/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["git", "git github series", "git remote", "github", "lập trình"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "git remote"
 featured = false
 series = "git-github"

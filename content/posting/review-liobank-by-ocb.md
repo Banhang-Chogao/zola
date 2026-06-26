@@ -7,7 +7,7 @@ aliases = ["/review-liobank-by-ocb/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["liobank", "ngân hàng số", "ngân hàng số series", "ocb", "review liobank"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "review liobank"
 featured = false
 series = "ngan-hang-so"

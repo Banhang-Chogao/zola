@@ -7,7 +7,7 @@ aliases = ["/chan-trang-khoi-google-search/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["blog", "google search", "noindex", "robots.txt", "search console", "seo", "seo foundation series", "zola"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
+thumbnail = "https://seomoney.org/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "chặn trang khỏi google search"
 featured = false
 series = "seo-foundation"
@@ -100,7 +100,7 @@ Template `base.html` render `<meta name="robots" content="noindex">` khi flag b�
 
 ### robots.txt làm gì
 
-File tại root (`/robots.txt`) — blog tôi: [static/robots.txt](https://banhang-chogao.github.io/zola/robots.txt) deploy cùng site.
+File tại root (`/robots.txt`) — blog tôi: [static/robots.txt](https://seomoney.org/robots.txt) deploy cùng site.
 
 ```
 User-agent: *
@@ -111,7 +111,7 @@ Disallow: /admin-author/
 Disallow: /admin/paywall/
 Disallow: /data/
 
-Sitemap: https://banhang-chogao.github.io/zola/sitemap.xml
+Sitemap: https://seomoney.org/sitemap.xml
 ```
 
 [Bài 4](/zola/posting/giup-google-tim-noi-dung-site/) đã nhắc sitemap + robots. **Bài 6** nhấn **Disallow** = giảm crawl path utility — **không** thay noindex nếu URL vẫn cần "chắc chắn không SERP".
@@ -195,14 +195,14 @@ Blog tôi **Allow** Googlebot toàn site posting, **Disallow** chỉ utility:
 ### Kiểm tra nhanh
 
 ```bash
-curl -sI https://banhang-chogao.github.io/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/ | grep -i robots
-curl -s https://banhang-chogao.github.io/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/ | grep -i 'meta name="robots"'
+curl -sI https://seomoney.org/posting/seo-la-gi-huong-dan-co-ban-google-search/ | grep -i robots
+curl -s https://seomoney.org/posting/seo-la-gi-huong-dan-co-ban-google-search/ | grep -i 'meta name="robots"'
 ```
 
 Kỳ vọng: **không** noindex trên bài pillar.
 
 ```bash
-curl -s https://banhang-chogao.github.io/zola/robots.txt | grep -i disallow
+curl -s https://seomoney.org/robots.txt | grep -i disallow
 ```
 
 → Thấy path admin đã chặn crawl.

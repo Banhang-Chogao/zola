@@ -9,7 +9,7 @@ categories = ["Tất cả", "Du lịch"]
 tags = ["busan", "chi phí", "du lịch hàn quốc", "ngân sách", "seoul", "tự túc"]
 [extra]
 seo_keyword = "đi Hàn hết bao nhiêu tiền"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/di-han-het-bao-nhieu-tien.svg"
+thumbnail = "https://seomoney.org/img/covers/di-han-het-bao-nhieu-tien.svg"
 featured = false
 
 [[extra.faq]]

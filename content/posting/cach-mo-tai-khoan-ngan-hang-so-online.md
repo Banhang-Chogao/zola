@@ -7,7 +7,7 @@ aliases = ["/cach-mo-tai-khoan-ngan-hang-so-online/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["ekyc", "liobank", "mở tài khoản online", "ngân hàng số", "ngân hàng số series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "mở tài khoản ngân hàng số online"
 featured = false
 series = "ngan-hang-so"

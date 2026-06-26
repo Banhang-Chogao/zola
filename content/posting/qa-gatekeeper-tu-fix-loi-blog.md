@@ -9,7 +9,7 @@ categories = ["Tất cả", "Công nghệ"]
 tags = ["automation", "blog", "ci/cd", "devops", "github actions", "qa", "self-healing", "zola"]
 [extra]
 seo_keyword = "QA Gatekeeper"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/qa-gatekeeper-tu-fix-loi-blog.svg"
+thumbnail = "https://seomoney.org/img/covers/qa-gatekeeper-tu-fix-loi-blog.svg"
 featured = false
 [[extra.faq]]
 q = "QA Gatekeeper hoạt động thế nào?"

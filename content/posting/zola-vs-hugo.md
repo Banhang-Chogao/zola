@@ -9,7 +9,7 @@ categories = ["Tất cả", "Công nghệ"]
 tags = ["blog", "hugo", "so sánh", "ssg", "static site generator", "zola"]
 [extra]
 seo_keyword = "Zola vs Hugo"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/zola-vs-hugo.svg"
+thumbnail = "https://seomoney.org/img/covers/zola-vs-hugo.svg"
 featured = false
 
 [[extra.faq]]

@@ -7,7 +7,7 @@ aliases = ["/nha-may-lam-giau-uranium-hoat-dong-the-nao/"]
 categories = ["Tất cả", "Khoa học"]
 tags = ["hạt nhân", "khoa học", "làm giàu", "năng lượng", "science uranium series", "uranium"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/iran-uranium-destruction-what-it-means.svg"
+thumbnail = "https://seomoney.org/img/covers/iran-uranium-destruction-what-it-means.svg"
 seo_keyword = "nhà máy làm giàu uranium hoạt động thế nào"
 featured = false
 series = "science-uranium"

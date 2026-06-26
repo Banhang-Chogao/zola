@@ -7,7 +7,7 @@ aliases = ["/ngan-hang-so-hoan-tien-nhieu-nhat/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["cashback", "hoàn tiền", "liobank", "ngân hàng số hoàn tiền", "ngân hàng số series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số hoàn tiền"
 featured = false
 series = "ngan-hang-so"

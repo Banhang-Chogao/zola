@@ -7,7 +7,7 @@ aliases = ["/lenh-git-co-ban-init-add-commit-status/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["git", "git github series", "github", "lập trình", "lệnh git"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "lệnh git cơ bản"
 featured = false
 series = "git-github"

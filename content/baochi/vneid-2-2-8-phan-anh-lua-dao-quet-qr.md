@@ -7,7 +7,7 @@ categories = ["Tất cả", "Báo chí", "Công nghệ"]
 tags = ["vneid", "định danh điện tử", "công nghệ", "an ninh mạng", "căn cước công dân"]
 [extra]
 seo_keyword = "VNeID 2.2.8"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/vneid-2-2-8-phan-anh-lua-dao-quet-qr.svg"
+thumbnail = "https://seomoney.org/img/covers/vneid-2-2-8-phan-anh-lua-dao-quet-qr.svg"
 featured = false
 
 [[extra.faq]]

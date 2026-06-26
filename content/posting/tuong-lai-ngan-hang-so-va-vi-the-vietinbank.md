@@ -7,7 +7,7 @@ aliases = ["/tuong-lai-ngan-hang-so-va-vi-the-vietinbank/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["ngân hàng số", "tương lai ngân hàng", "vietinbank", "vietinbank series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "tương lai VietinBank"
 featured = false
 series = "vietinbank"
@@ -33,7 +33,7 @@ a = "Lợi thế của VietinBank đến từ quy mô lớn, mạng lưới rộ
 
 <!-- more -->
 
-![Các xu hướng định hình tương lai VietinBank và ngân hàng số](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg "Tương lai VietinBank")
+![Các xu hướng định hình tương lai VietinBank và ngân hàng số](https://seomoney.org/img/placeholder/placeholder-wide.svg "Tương lai VietinBank")
 
 ## Ngân hàng số đang đi về đâu
 

@@ -7,7 +7,7 @@ aliases = ["/git-stash-cherry-pick-reflog-nang-cao/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["git", "git github series", "git stash", "github", "lập trình"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "git stash"
 featured = false
 series = "git-github"

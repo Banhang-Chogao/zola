@@ -7,7 +7,7 @@ aliases = ["/ngan-hang-so-cho-freelancer/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["freelancer", "liobank", "ngân hàng số", "ngân hàng số cho freelancer", "ngân hàng số series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số cho freelancer"
 featured = false
 series = "ngan-hang-so"

@@ -7,7 +7,7 @@ aliases = ["/dien-hat-nhan-khac-vu-khi-hat-nhan/"]
 categories = ["Tất cả", "Khoa học"]
 tags = ["hạt nhân", "khoa học", "năng lượng", "science uranium series", "uranium", "điện hạt nhân"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/iran-uranium-destruction-what-it-means.svg"
+thumbnail = "https://seomoney.org/img/covers/iran-uranium-destruction-what-it-means.svg"
 seo_keyword = "điện hạt nhân khác vũ khí hạt nhân"
 featured = false
 series = "science-uranium"

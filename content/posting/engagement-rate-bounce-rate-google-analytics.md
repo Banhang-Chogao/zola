@@ -8,7 +8,7 @@ aliases = ["/engagement-rate-bounce-rate-google-analytics/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["bounce rate", "engagement rate", "ga4", "google analytics", "google analytics series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "engagement rate và bounce rate"
 featured = false
 series = "google-analytics"

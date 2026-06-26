@@ -7,7 +7,7 @@ categories = ["Tất cả", "Báo chí", "Công nghệ"]
 tags = ["tên miền", "trí tuệ nhân tạo", "anguilla", "kinh tế số", "công nghệ"]
 [extra]
 seo_keyword = "tên miền .ai"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/ten-mien-ai-hon-dao-anguilla-hot-bac.svg"
+thumbnail = "https://seomoney.org/img/covers/ten-mien-ai-hon-dao-anguilla-hot-bac.svg"
 featured = false
 
 [[extra.faq]]

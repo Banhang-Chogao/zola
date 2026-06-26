@@ -7,7 +7,7 @@ aliases = ["/top-ngan-hang-so-tot-nhat-viet-nam-2026/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["cake by vpbank", "liobank", "ngân hàng số", "ngân hàng số series", "ngân hàng số tốt nhất"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số tốt nhất"
 series = "ngan-hang-so"
 series_part = 0

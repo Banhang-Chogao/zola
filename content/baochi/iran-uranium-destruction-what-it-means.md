@@ -7,7 +7,7 @@ categories = ["Tất cả", "Khoa học", "Thế giới", "Báo chí"]
 tags = ["địa-chính-trị", "năng-lượng-hạt-nhân", "iran", "mỹ", "thỏa-thuận-quốc-tế", "science uranium series"]
 [extra]
 seo_keyword = "uranium Iran"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/iran-uranium-destruction-what-it-means.svg"
+thumbnail = "https://seomoney.org/img/covers/iran-uranium-destruction-what-it-means.svg"
 featured = false
 hub_series = "science-uranium"
 +++

@@ -89,6 +89,12 @@ jobs:
           echo "Building with Zola $ZOLA_VERSION @ commit $ZOLA_BUILD_SHA"
           zola build
 
+      - name: Enforce custom domain CNAME (deterministic — không phụ thuộc Zola copy static/CNAME)
+        run: |
+          printf 'seomoney.org\n' > public/CNAME
+          test "$(cat public/CNAME)" = "seomoney.org"
+          echo "public/CNAME = $(cat public/CNAME)"
+
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v6
         with:

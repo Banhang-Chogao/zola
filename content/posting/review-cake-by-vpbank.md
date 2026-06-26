@@ -7,7 +7,7 @@ aliases = ["/review-cake-by-vpbank/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["cake by vpbank", "ngân hàng số", "ngân hàng số series", "review cake", "vpbank"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "review cake by vpbank"
 featured = false
 series = "ngan-hang-so"

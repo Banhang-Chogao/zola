@@ -7,7 +7,7 @@ aliases = ["/git-branch-lam-viec-voi-nhanh/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["git", "git branch", "git github series", "github", "lập trình"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "git branch"
 featured = false
 series = "git-github"

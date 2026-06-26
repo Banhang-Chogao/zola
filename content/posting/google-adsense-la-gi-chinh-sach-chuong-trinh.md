@@ -7,7 +7,7 @@ aliases = ["/google-adsense-la-gi-chinh-sach-chuong-trinh/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["adsense", "adsense foundation series", "google adsense", "monetization", "publisher"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
+thumbnail = "https://seomoney.org/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "google adsense là gì"
 featured = false
 series = "adsense-foundation"

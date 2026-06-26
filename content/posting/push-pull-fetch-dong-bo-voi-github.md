@@ -7,7 +7,7 @@ aliases = ["/push-pull-fetch-dong-bo-voi-github/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["git", "git github series", "git push", "github", "lập trình"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "git push"
 featured = false
 series = "git-github"

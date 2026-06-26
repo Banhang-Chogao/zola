@@ -7,7 +7,7 @@ aliases = ["/cot-moc-lich-su-phat-trien-vietinbank/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["lịch sử vietinbank", "ngân hàng việt nam", "vietinbank", "vietinbank series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "lịch sử VietinBank"
 featured = false
 series = "vietinbank"
@@ -37,7 +37,7 @@ a = "Việc đổi sang thương hiệu VietinBank chủ yếu để dễ nhận
 
 <!-- more -->
 
-![Dòng thời gian các cột mốc trong lịch sử VietinBank từ 1988 đến nay](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg "Cột mốc lịch sử VietinBank")
+![Dòng thời gian các cột mốc trong lịch sử VietinBank từ 1988 đến nay](https://seomoney.org/img/placeholder/placeholder-wide.svg "Cột mốc lịch sử VietinBank")
 
 ## Khởi đầu năm 1988 — điểm gốc của lịch sử VietinBank
 

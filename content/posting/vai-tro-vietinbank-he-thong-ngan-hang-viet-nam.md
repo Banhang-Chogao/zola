@@ -7,7 +7,7 @@ aliases = ["/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["big 4 ngân hàng", "vai trò vietinbank", "vietinbank", "vietinbank series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "vai trò VietinBank"
 featured = false
 series = "vietinbank"
@@ -37,7 +37,7 @@ a = "Điểm khác lớn nhất là gốc nhà nước và cổ phần chi phố
 
 <!-- more -->
 
-![Sơ đồ vai trò VietinBank trong nhóm Big 4 và hệ thống ngân hàng Việt Nam](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg "Vai trò VietinBank trong hệ thống")
+![Sơ đồ vai trò VietinBank trong nhóm Big 4 và hệ thống ngân hàng Việt Nam](https://seomoney.org/img/placeholder/placeholder-wide.svg "Vai trò VietinBank trong hệ thống")
 
 ## Chỗ đứng của VietinBank trong nhóm Big 4
 

@@ -7,7 +7,7 @@ aliases = ["/github-la-gi-tao-repository-dau-tien/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["git", "git github series", "github", "github là gì", "lập trình"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "github là gì"
 featured = false
 series = "git-github"

@@ -9,11 +9,11 @@ categories = ["Tất cả"]
 tags = ["affiliate marketing", "kiếm tiền từ facebook reels", "làm affiliate", "quy định cấm từ", "shopee affiliate"]
 
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 seo_keyword = "quy định cấm từ shopee affiliate"
 +++
 
-![Quy định cấm từ Shopee Affiliate 2026 — hành vi bị cấm và mức xử phạt](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg)
+![Quy định cấm từ Shopee Affiliate 2026 — hành vi bị cấm và mức xử phạt](https://seomoney.org/img/placeholder/placeholder-wide.svg)
 
 Nếu bạn đang tham gia chương trình tiếp thị liên kết Shopee, việc nắm rõ **những quy định cấm từ Shopee Affiliate** là điều bắt buộc. Chỉ một lỗi nhỏ như spam link, mua traffic hoặc đặt đơn hàng ảo cũng có thể khiến toàn bộ hoa hồng bị hủy, tài khoản bị khóa và mất quyền tham gia chương trình trong tương lai.
 

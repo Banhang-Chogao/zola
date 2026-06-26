@@ -9,7 +9,7 @@ categories = ["Tất cả", "Ẩm thực"]
 tags = ["món ngon", "sài gòn", "tphcm", "trời mưa", "ăn gì", "ẩm thực"]
 [extra]
 seo_keyword = "trời mưa Sài Gòn ăn gì"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/troi-mua-sai-gon-an-gi.svg"
+thumbnail = "https://seomoney.org/img/covers/troi-mua-sai-gon-an-gi.svg"
 featured = false
 
 [[extra.faq]]

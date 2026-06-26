@@ -7,7 +7,7 @@ aliases = ["/timo-la-gi-co-nen-dung/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["ngân hàng số", "ngân hàng số series", "review timo", "timo", "timo là gì"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "timo là gì"
 featured = false
 series = "ngan-hang-so"

@@ -9,7 +9,7 @@ categories = ["Tất cả", "Du lịch"]
 tags = ["chi phí", "du lịch hàn quốc", "hàn quốc", "mùa du lịch", "ngân sách", "tiết kiệm"]
 [extra]
 seo_keyword = "đi Hàn mùa nào rẻ"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/di-han-mua-nao-re-nhat.svg"
+thumbnail = "https://seomoney.org/img/covers/di-han-mua-nao-re-nhat.svg"
 featured = false
 
 [[extra.faq]]

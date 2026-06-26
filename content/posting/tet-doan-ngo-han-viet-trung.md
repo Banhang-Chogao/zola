@@ -9,7 +9,7 @@ categories = ["Tất cả", "Du lịch"]
 tags = ["hàn quốc", "lễ hội", "phong tục", "trung quốc", "tết", "việt nam", "văn hóa", "đoan ngọ"]
 [extra]
 seo_keyword = "Tết Đoan Ngọ"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tet-doan-ngo-han-viet-trung.svg"
+thumbnail = "https://seomoney.org/img/covers/tet-doan-ngo-han-viet-trung.svg"
 featured = false
 [[extra.faq]]
 q = "Tết Đoan Ngọ là ngày nào?"

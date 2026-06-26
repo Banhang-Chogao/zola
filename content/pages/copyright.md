@@ -12,7 +12,7 @@ references_skip_copyright = true
 *Cập nhật lần cuối: 18/06/2026*
 
 Trang **Tuyên bố bản quyền** này quy định quyền sở hữu trí tuệ đối với toàn bộ
-nội dung xuất bản trên blog **Duy Nguyen** (`banhang-chogao.github.io/zola`, sau
+nội dung xuất bản trên blog **Duy Nguyen** (`seomoney.org`, sau
 đây gọi là "blog" hoặc "website"). Bằng việc truy cập và sử dụng website, bạn
 đồng ý tôn trọng các quyền bản quyền được nêu dưới đây. Đây là trang con thuộc
 mục [Giới thiệu](/zola/about/), bổ sung cho [Điều khoản & Miễn trừ](/zola/terms/)

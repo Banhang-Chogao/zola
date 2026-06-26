@@ -7,7 +7,7 @@ aliases = ["/bao-mat-ngan-hang-so-vietinbank/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["an toàn giao dịch", "bảo mật ngân hàng", "vietinbank", "vietinbank series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "bảo mật VietinBank"
 featured = false
 series = "vietinbank"
@@ -33,7 +33,7 @@ a = "Phần lớn rủi ro đến từ thao tác của người dùng chứ khô
 
 <!-- more -->
 
-![Các lớp bảo mật VietinBank gồm OTP, sinh trắc học và mã hóa trên ngân hàng số](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg "Bảo mật ngân hàng số VietinBank")
+![Các lớp bảo mật VietinBank gồm OTP, sinh trắc học và mã hóa trên ngân hàng số](https://seomoney.org/img/placeholder/placeholder-wide.svg "Bảo mật ngân hàng số VietinBank")
 
 ## Bảo mật VietinBank hoạt động theo nhiều lớp
 

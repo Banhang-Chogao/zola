@@ -7,7 +7,7 @@ aliases = ["/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/"]
 categories = ["Tất cả", "Khoa học"]
 tags = ["hạt nhân", "iaea", "khoa học", "năng lượng", "science uranium series", "tiêu hủy", "uranium"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/iran-uranium-destruction-what-it-means.svg"
+thumbnail = "https://seomoney.org/img/covers/iran-uranium-destruction-what-it-means.svg"
 seo_keyword = "phá hủy cơ sở hạt nhân"
 featured = false
 series = "science-uranium"

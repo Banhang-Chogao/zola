@@ -7,7 +7,7 @@ aliases = ["/dang-ky-v-plus-v-advance-tren-ipay/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["ipay", "ngân hàng", "v-advance", "v-plus", "vietinbank", "vietinbank v-plus v-advance series", "đăng ký v-advance", "đăng ký v-plus"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 seo_keyword = "đăng ký v-plus v-advance ipay"
 featured = false
 series = "nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb"

@@ -1243,7 +1243,7 @@
         "95 link thiếu /zola/ trong 33 file markdown",
         "Trước fix: ~30 trang HTML có href=\"/baochi/...\" hoặc href=\"/posting/...\" (404 trên production)",
         "Sau fix: 0 link thiếu prefix",
-        "Canonical: https://banhang-chogao.github.io/zola/baochi/uu-dai-hoan-tien-the-liobank/ ✓",
+        "Canonical: https://seomoney.org/baochi/uu-dai-hoan-tien-the-liobank/ ✓",
         "Body links: href=\"/zola/baochi/...\" ✓"
       ]
     },
@@ -1929,7 +1929,7 @@
       "highlights": [
         "templates/section.html — khi render section \"posting\" → gộp bài từ MỌI section (posting/ + baochi/), sort ngày giảm dần.",
         "content/posting/_index.md — bỏ paginate_by (Zola không phân trang xuyên-section) → /posting/ render đủ toàn bộ bài, tránh trang /page/N/ trùng.",
-        "config.toml — thêm mục \"Trang chủ\" đầu navbar → https://banhang-chogao.github.io/zola/.",
+        "config.toml — thêm mục \"Trang chủ\" đầu navbar → https://seomoney.org/.",
         "config.toml — extra.google_site_verification + render <meta google-site-verification> khi có mã → mở khoá xác minh Google Search Console.",
         "templates/base.html — <meta name=\"robots\" content=\"index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1\"> + publisher.logo trong JSON-LD."
       ]
@@ -3736,7 +3736,7 @@
       "highlights": [
         "Social icons (FB/IG/YT/GitHub) nhìn rối → bỏ hoàn toàn",
         "author_avatar trỏ /img/author-avatar.jpg (user upload sau)",
-        "author_url → blog chính banhang-chogao.github.io/zola",
+        "author_url → blog chính seomoney.org",
         "author_bio Vietnamese ~150 từ chủ đề công nghệ + du lịch",
         "Developer VN khám phá điểm chung công nghệ + du lịch"
       ]
@@ -3836,9 +3836,9 @@
       "lines_added": 703,
       "lines_removed": 164,
       "highlights": [
-        "BLOG_URL env var = https://banhang-chogao.github.io/zola (có sẵn base path /zola)",
+        "BLOG_URL env var = https://seomoney.org (có sẵn base path /zola)",
         "Client gửi return_to = location.pathname trên blog đã bao gồm /zola luôn (vd /zola/baochi/)",
-        "Backend cộng BLOG_URL + return_to → https://banhang-chogao.github.io/zola/zola/baochi/"
+        "Backend cộng BLOG_URL + return_to → https://seomoney.org/zola/baochi/"
       ]
     },
     {

@@ -7,7 +7,7 @@ categories = ["Tất cả", "Báo chí", "Ngân hàng"]
 tags = ["vietinbank", "v-family", "ngân hàng", "tài chính gia đình", "ipay mobile"]
 [extra]
 seo_keyword = "VietinBank V-Family"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/vietinbank-v-family-nhom-gia-dinh.svg"
+thumbnail = "https://seomoney.org/img/covers/vietinbank-v-family-nhom-gia-dinh.svg"
 featured = false
 
 [[extra.faq]]

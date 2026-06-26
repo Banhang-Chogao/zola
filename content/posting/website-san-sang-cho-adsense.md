@@ -7,7 +7,7 @@ aliases = ["/website-san-sang-cho-adsense/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["adsense", "adsense foundation series", "google adsense", "monetization", "publisher", "site readiness"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
+thumbnail = "https://seomoney.org/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "website sẵn sàng cho adsense"
 featured = false
 series = "adsense-foundation"

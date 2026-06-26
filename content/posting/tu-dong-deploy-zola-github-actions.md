@@ -9,7 +9,7 @@ categories = ["Tất cả", "Công nghệ"]
 tags = ["ci/cd", "deploy", "devops", "github actions", "github pages", "tutorial", "tự động hoá", "zola"]
 [extra]
 seo_keyword = "deploy Zola GitHub Pages"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tu-dong-deploy-zola-github-actions.svg"
+thumbnail = "https://seomoney.org/img/covers/tu-dong-deploy-zola-github-actions.svg"
 featured = false
 
 [[extra.faq]]

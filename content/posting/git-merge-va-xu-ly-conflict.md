@@ -7,7 +7,7 @@ aliases = ["/git-merge-va-xu-ly-conflict/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["git", "git github series", "git merge", "github", "lập trình"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "git merge"
 featured = false
 series = "git-github"

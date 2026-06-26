@@ -7,7 +7,7 @@ aliases = ["/google-nhin-trang-giong-nguoi-dung/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["blog", "google search", "rendering", "search console", "seo", "seo foundation series", "zola"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
+thumbnail = "https://seomoney.org/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "google nhìn thấy trang giống người dùng"
 featured = false
 series = "seo-foundation"
@@ -152,7 +152,7 @@ Checklist tôi chạy cho bài series (ví dụ sau khi publish Bài 4 SEO):
 **1. HTML có sẵn nội dung**
 
 ```bash
-curl -s https://banhang-chogao.github.io/zola/posting/giup-google-tim-noi-dung-site/ | grep -o '<h2[^>]*>.*</h2>' | head -5
+curl -s https://seomoney.org/posting/giup-google-tim-noi-dung-site/ | grep -o '<h2[^>]*>.*</h2>' | head -5
 ```
 
 → Thấy heading trong response — không cần JS.

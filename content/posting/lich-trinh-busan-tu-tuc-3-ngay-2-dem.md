@@ -9,7 +9,7 @@ categories = ["Tất cả", "Du lịch"]
 tags = ["busan", "du lịch", "du lịch hàn quốc", "hàn quốc", "lịch trình", "tự túc"]
 [extra]
 seo_keyword = "Busan tự túc"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/lich-trinh-busan-tu-tuc-3-ngay-2-dem.svg"
+thumbnail = "https://seomoney.org/img/covers/lich-trinh-busan-tu-tuc-3-ngay-2-dem.svg"
 [[extra.faq]]
 q = "Đi Busan tự túc 3 ngày 2 đêm hết bao nhiêu tiền?"
 a = "Không tính vé máy bay, chi phí trong thành phố cho 3 ngày 2 đêm khoảng 300.000 đến 500.000 won mỗi người (tầm 5,5 đến 9 triệu đồng), gồm khách sạn tầm trung, ăn uống, đi metro và vài điểm vé. Phần lớn điểm nổi tiếng ở Busan như bãi biển, làng văn hoá, chùa đều miễn phí."

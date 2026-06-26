@@ -7,7 +7,7 @@ aliases = ["/cai-dat-git-cau-hinh-lan-dau/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["cài đặt git", "git", "git github series", "github", "lập trình"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "cài đặt git"
 featured = false
 series = "git-github"

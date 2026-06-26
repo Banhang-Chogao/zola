@@ -7,7 +7,7 @@ aliases = ["/google-publisher-policies-noi-dung-bi-cam/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["adsense", "adsense foundation series", "google adsense", "monetization", "nội dung bị cấm", "publisher policies"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
+thumbnail = "https://seomoney.org/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "google publisher policies nội dung bị cấm"
 featured = false
 series = "adsense-foundation"

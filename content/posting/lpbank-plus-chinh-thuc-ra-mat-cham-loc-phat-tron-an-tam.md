@@ -8,7 +8,7 @@ aliases = ["/lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["app ngân hàng", "digital banking", "lpbank plus", "ngân hàng lộc phát", "ngân hàng số"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 seo_keyword = "LPBank Plus"
 +++
 

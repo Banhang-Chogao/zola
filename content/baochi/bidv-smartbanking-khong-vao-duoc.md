@@ -7,7 +7,7 @@ draft = true
 categories = ["Tất cả", "Báo chí", "Ngân hàng"]
 tags = ["ngân hàng", "bidv", "bidv smartbanking", "ngân hàng số", "lỗi đăng nhập"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "BIDV SmartBanking không vào được"
 featured = false
 publish_at = "2026-06-21T20:00:00+07:00"

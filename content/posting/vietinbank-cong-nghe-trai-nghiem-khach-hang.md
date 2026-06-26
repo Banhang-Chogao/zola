@@ -7,7 +7,7 @@ aliases = ["/vietinbank-cong-nghe-trai-nghiem-khach-hang/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["công nghệ ngân hàng", "trải nghiệm khách hàng", "vietinbank", "vietinbank series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "công nghệ VietinBank"
 featured = false
 series = "vietinbank"
@@ -33,7 +33,7 @@ a = "Quét QR là cách thanh toán phổ biến và được các ngân hàng c
 
 <!-- more -->
 
-![Khách hàng dùng công nghệ VietinBank để mở tài khoản và thanh toán trên điện thoại](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg "Công nghệ VietinBank và trải nghiệm khách hàng")
+![Khách hàng dùng công nghệ VietinBank để mở tài khoản và thanh toán trên điện thoại](https://seomoney.org/img/placeholder/placeholder-wide.svg "Công nghệ VietinBank và trải nghiệm khách hàng")
 
 ## Công nghệ VietinBank nhìn từ phía người dùng
 

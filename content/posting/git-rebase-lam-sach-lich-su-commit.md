@@ -7,7 +7,7 @@ aliases = ["/git-rebase-lam-sach-lich-su-commit/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["git", "git github series", "git rebase", "github", "lập trình"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "git rebase"
 featured = false
 series = "git-github"

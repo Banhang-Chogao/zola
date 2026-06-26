@@ -9,7 +9,7 @@ categories = ["Tất cả", "Công nghệ"]
 tags = ["blog", "fintech", "monetization", "paywall", "premium"]
 
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "paywall premium blog"
 featured = true
 featured_at = "2026-06-18T20:54:57.799Z"

@@ -7,7 +7,7 @@ aliases = ["/vietinbank-la-ai-hanh-trinh-hinh-thanh/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["lịch sử ngân hàng", "ngân hàng việt nam", "vietinbank", "vietinbank series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "VietinBank"
 featured = false
 series = "vietinbank"
@@ -37,7 +37,7 @@ a = "Đúng. VietinBank là ngân hàng thương mại cổ phần nhưng Nhà n
 
 <!-- more -->
 
-![Sơ đồ hành trình hình thành VietinBank từ Incombank đến Big 4](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg "Hành trình hình thành VietinBank")
+![Sơ đồ hành trình hình thành VietinBank từ Incombank đến Big 4](https://seomoney.org/img/placeholder/placeholder-wide.svg "Hành trình hình thành VietinBank")
 
 ## VietinBank thực ra là ngân hàng nào?
 

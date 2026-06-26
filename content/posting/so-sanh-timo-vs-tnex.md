@@ -7,7 +7,7 @@ aliases = ["/so-sanh-timo-vs-tnex/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["ngân hàng số series", "so sánh ngân hàng số", "timo", "timo vs tnex", "tnex"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "timo vs tnex"
 featured = false
 series = "ngan-hang-so"

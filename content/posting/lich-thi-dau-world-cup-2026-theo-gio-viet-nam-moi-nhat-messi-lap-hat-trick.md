@@ -8,11 +8,11 @@ aliases = ["/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-ha
 categories = ["Tất cả", "Báo chí"]
 tags = ["argentina", "bóng đá", "lịch thi đấu world cup 2026", "messi", "world cup 2026"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 seo_keyword = "lịch thi đấu World Cup 2026"
 +++
 
-![Messi lập hat-trick World Cup 2026 trong trận Argentina thắng Algeria](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg)
+![Messi lập hat-trick World Cup 2026 trong trận Argentina thắng Algeria](https://seomoney.org/img/placeholder/placeholder-wide.svg)
 
 ## Lịch thi đấu World Cup 2026 theo giờ Việt Nam mới nhất
 

@@ -7,7 +7,7 @@ aliases = ["/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["internet banking", "vietinbank", "vietinbank ipay", "vietinbank series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "VietinBank iPay"
 featured = false
 series = "vietinbank"
@@ -31,7 +31,7 @@ a = "iPay áp dụng các lớp bảo mật như mật khẩu đăng nhập, mã
 
 <!-- more -->
 
-![Giao diện VietinBank iPay qua các thời kỳ từ web banking đến app di động](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg "VietinBank iPay qua các thời kỳ")
+![Giao diện VietinBank iPay qua các thời kỳ từ web banking đến app di động](https://seomoney.org/img/placeholder/placeholder-wide.svg "VietinBank iPay qua các thời kỳ")
 
 ## Internet Banking thời đầu trên web
 

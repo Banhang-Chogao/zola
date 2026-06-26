@@ -7,7 +7,7 @@ aliases = ["/review-tnex-chi-tiet/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["msb", "ngân hàng số", "ngân hàng số series", "review tnex", "tnex"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "review tnex"
 featured = false
 series = "ngan-hang-so"

@@ -7,7 +7,7 @@ aliases = ["/dieu-kien-du-tu-cach-adsense/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["adsense", "adsense foundation series", "google adsense", "monetization", "publisher", "điều kiện adsense"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
+thumbnail = "https://seomoney.org/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "điều kiện adsense"
 featured = false
 series = "adsense-foundation"

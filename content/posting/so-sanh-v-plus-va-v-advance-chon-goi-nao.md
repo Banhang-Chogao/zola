@@ -7,7 +7,7 @@ aliases = ["/so-sanh-v-plus-va-v-advance-chon-goi-nao/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["so sánh ngân hàng", "v-advance", "v-plus", "v-plus v-advance series", "vietinbank"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-square.og.webp"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder-square.og.webp"
 seo_keyword = "so sánh V-Plus V-Advance"
 series = "nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb"
 series_part = 4

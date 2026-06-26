@@ -8,7 +8,7 @@ aliases = ["/doc-bao-cao-google-analytics-15-phut-moi-ngay/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["ga4", "google analytics", "google analytics series", "kpi blog", "đọc báo cáo"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "đọc báo cáo google analytics"
 featured = false
 series = "google-analytics"

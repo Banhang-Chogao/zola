@@ -7,7 +7,7 @@ aliases = ["/chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["chuyển đổi số", "ngân hàng số", "vietinbank", "vietinbank series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "chuyển đổi số VietinBank"
 featured = false
 series = "vietinbank"
@@ -33,7 +33,7 @@ a = "Cách dễ thấy nhất với người dùng là tỷ lệ giao dịch qua
 
 <!-- more -->
 
-![Sơ đồ chiến lược chuyển đổi số VietinBank với con người, dữ liệu và nền tảng công nghệ](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg "Chuyển đổi số VietinBank")
+![Sơ đồ chiến lược chuyển đổi số VietinBank với con người, dữ liệu và nền tảng công nghệ](https://seomoney.org/img/placeholder/placeholder-wide.svg "Chuyển đổi số VietinBank")
 
 ## Chuyển đổi số VietinBank không chỉ là làm thêm một app
 

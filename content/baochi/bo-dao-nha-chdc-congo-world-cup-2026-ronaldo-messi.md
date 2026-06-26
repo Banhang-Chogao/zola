@@ -7,7 +7,7 @@ categories = ["Tất cả", "Thể thao", "Báo chí"]
 tags = ["world-cup-2026", "ronaldo", "messi", "bo-dao-nha", "bong-da", "chdc-congo"]
 [extra]
 seo_keyword = "Bồ Đào Nha CHDC Congo World Cup 2026"
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 featured = false
 +++
 
@@ -15,7 +15,7 @@ Tôi thức tới 0h ngày 18/6 không phải vì thói quen xem bóng đêm —
 
 <!-- more -->
 
-![Cristiano Ronaldo trong màu áo Bồ Đào Nha tại World Cup 2026](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg)
+![Cristiano Ronaldo trong màu áo Bồ Đào Nha tại World Cup 2026](https://seomoney.org/img/placeholder/placeholder-wide.svg)
 
 ## Ronaldo đang đứng trước cột mốc nào?
 
