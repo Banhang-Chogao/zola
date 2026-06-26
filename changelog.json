@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "hide empty header-rotator on mobile [fix/header-rotator-mobile-gap]",
+      "tag": "fix",
+      "lines_added": 21,
+      "lines_removed": 0,
+      "highlights": [
+        "static/css/custom.css (added, +20/-0)",
+        "templates/base.html (modified, +1/-0)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 989
+    },
+    {
+      "date": "2026-06-26",
       "title": "hide empty header-rotator on mobile (remove gap + floating arrows) [fix/header-rotator-mobile]",
       "tag": "fix",
       "lines_added": 6,
