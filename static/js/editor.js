@@ -41,7 +41,7 @@
     if (m1 && m1.getAttribute("content")) return m1.getAttribute("content");
     const m2 = document.querySelector('meta[name="zola-visitor-api"]');
     if (m2 && m2.getAttribute("content")) return m2.getAttribute("content");
-    return "https://blog-visitor-api.onrender.com";
+    return "https://blog-vipzone-api.onrender.com";
   })();
 
   let currentUser = null; // { email, username, name, avatar }
@@ -633,12 +633,17 @@ tags = ${tagsStr}
       if (res.ok) cfg = await res.json();
     } catch (e) { /* network fail → giữ default (cả 2 nút) */ }
     if (!cfg) return;
+    // Provider khả dụng KHI enabled === true VÀ configured === true. Backend dual
+    // trả {google:{enabled:true,configured:true}, github:{enabled:true,configured:true}}
+    // → hiện cả 2 nút, KHÔNG cảnh báo "Đăng nhập Google đang tắt".
+    const googleOn = !!(cfg.google && cfg.google.enabled && cfg.google.configured);
+    const githubOn = !!(cfg.github && cfg.github.enabled && cfg.github.configured);
     const gBtn = $("[data-provider-btn='google']");
     const ghBtn = $("[data-provider-btn='github']");
-    if (gBtn)  gBtn.hidden  = !(cfg.google && cfg.google.enabled);
-    if (ghBtn) ghBtn.hidden = !(cfg.github && cfg.github.enabled);
+    if (gBtn)  gBtn.hidden  = !googleOn;
+    if (ghBtn) ghBtn.hidden = !githubOn;
     // Trong dual/google, Google là primary; hạ GitHub xuống nút phụ (ghost).
-    if (cfg.google && cfg.google.enabled && gBtn && ghBtn) {
+    if (googleOn && gBtn && ghBtn) {
       ghBtn.classList.remove("editor-btn--primary");
       ghBtn.classList.add("editor-btn--ghost");
     }

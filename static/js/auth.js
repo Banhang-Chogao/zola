@@ -39,7 +39,8 @@
     startPathPromise = fetch(apiUrl + "/auth/config", { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (cfg) {
-        if (cfg && cfg.google && cfg.google.enabled) return "/auth/google/start";
+        // Google khả dụng khi enabled === true VÀ configured === true (dual).
+        if (cfg && cfg.google && cfg.google.enabled && cfg.google.configured) return "/auth/google/start";
         return "/auth/login";
       })
       .catch(function () { return "/auth/login"; });
