@@ -63,6 +63,10 @@
     {% include "partials/page_info.html" %}
   </header>
 
+  <!-- Hierarchical Breadcrumb Navigation -->
+  {%- import "macros/breadcrumb-article.html" as breadcrumb %}
+  {{ breadcrumb::display(page=page, config=config) }}
+
   <div class="post-layout{% if show_rail %} post-layout--rail{% endif %}">
   <article>
     <!-- Begin Page Start inject -->

@@ -1,6 +1,11 @@
-{# ===== Related Posts Macro — Display related blog posts
-   Displays recent posts from the same section, excluding current page.
-   Fallback strategy: latest posts sorted by date.
+{# ===== Related Posts Macro — Display related blog posts with thumbnails
+   Shows recent posts from the same section with image, title, excerpt, and date.
+
+   Thumbnail priority:
+   1. page.extra.thumbnail (frontmatter)
+   2. page.extra.cover.url (frontmatter cover image)
+   3. First <img> in page content
+   4. Fallback gradient placeholder with title initials
 
    Usage:
      {% import "macros/related-posts.html" as related %}
@@ -24,34 +29,92 @@
   <section class="related-posts-section" aria-labelledby="related-posts-title">
     <h2 id="related-posts-title" class="related-posts-section__title">
       <span class="related-posts-section__icon">📚</span>
-      <span>Bài viết liên quan</span>
+      Bài viết liên quan
     </h2>
     <div class="related-posts-grid">
       {%- for p in related_posts %}
-      <article class="related-post-card" data-post-index="{{ loop.index }}">
+        {%- set thumb_url = "" %}
+        {%- set has_image = false %}
+
+        {# Priority 1: thumbnail from frontmatter #}
         {%- if p.extra.thumbnail is defined and p.extra.thumbnail %}
+          {%- set thumb_url = p.extra.thumbnail %}
+          {%- set has_image = true %}
+        {%- elif p.extra.cover is defined and p.extra.cover.url is defined %}
+          {%- set thumb_url = p.extra.cover.url %}
+          {%- set has_image = true %}
+        {%- endif %}
+
+        {# Priority 2: extract first image from content #}
+        {%- if not has_image and p.content is containing("<img") %}
+          {%- for chunk in p.content | split(pat="<img") %}
+            {%- if not has_image and not loop.first and chunk is containing('src="') %}
+              {%- set cand = chunk | split(pat='src="') | nth(n=1) | split(pat='"') | first %}
+              {%- if cand and not (cand is containing("/placeholder/")) %}
+                {%- set thumb_url = cand %}
+                {%- set has_image = true %}
+              {%- endif %}
+            {%- endif %}
+          {%- endfor %}
+        {%- endif %}
+
+      <article class="related-post-card" data-post-index="{{ loop.index }}">
+        {# Thumbnail/Image Container #}
         <div class="related-post-card__image">
+          {%- if has_image and thumb_url %}
           <img
-            src="{{ p.extra.thumbnail | safe }}"
+            src="{{ thumb_url | safe }}"
             alt="{{ p.title | escape_xml }}"
+            class="related-post-card__img"
             loading="lazy"
             decoding="async"
             width="300"
             height="200"
           />
+          {%- else %}
+          {# Fallback: gradient background with title initials #}
+          <div class="related-post-card__placeholder">
+            <span class="related-post-card__initials">
+              {{ p.title | truncate(length=1) | uppercase }}
+            </span>
+          </div>
+          {%- endif %}
+
+          {# Category badge #}
+          {%- if p.taxonomies.categories | length > 0 %}
+            {%- for cat in p.taxonomies.categories %}
+              {%- if cat != "Tất cả" and cat != "premium" %}
+              <span class="related-post-card__category">{{ cat }}</span>
+              {%- break %}
+              {%- endif %}
+            {%- endfor %}
+          {%- endif %}
         </div>
-        {%- endif %}
+
+        {# Content Container #}
         <div class="related-post-card__content">
           <h3 class="related-post-card__title">
             <a href="{{ p.permalink | safe }}" class="related-post-card__link">
               {{ p.title }}
             </a>
           </h3>
+
           {%- if p.description %}
           <p class="related-post-card__excerpt">
             {{ p.description | truncate(length=100) }}
           </p>
           {%- endif %}
+
+          {# Tags #}
+          {%- if p.taxonomies.tags | length > 0 %}
+          <div class="related-post-card__tags">
+            {%- for tag in p.taxonomies.tags | slice(2) %}
+            <span class="related-post-card__tag">{{ tag }}</span>
+            {%- endfor %}
+          </div>
+          {%- endif %}
+
+          {# Date #}
           {%- if p.date %}
           <time class="related-post-card__date" datetime="{{ p.date | date(format='%Y-%m-%d') }}">
             {{ p.date | date(format="%d.%m.%Y") }}

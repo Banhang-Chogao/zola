@@ -1,13 +1,16 @@
-{# ===== FAQ Macro — Display FAQ from Frontmatter
-   Renders FAQ items from page.extra.faq with accordion/details UI.
+{# ===== FAQ Macro — Accordion with smooth toggle animations
+   Renders FAQ items from page.extra.faq with native <details> UI.
 
-   Frontmatter format (YAML):
-   [extra]
-   faq = [
-     { q = "Câu hỏi 1?", a = "Câu trả lời 1" },
-     { q = "Câu hỏi 2?", a = "Câu trả lời 2" },
-     ...
-   ]
+   Features:
+   - Animated expand/collapse with icon rotation
+   - Supports up to 6 items (sliced)
+   - Optional HTML content in answers
+   - Minimum 3 items required to display
+
+   Frontmatter format (TOML):
+   [[extra.faq]]
+   q = "Question here?"
+   a = "Answer here"
 
    Usage:
      {% import "macros/faq.html" as faq_macro %}
@@ -18,20 +21,22 @@
   {%- if page.extra.faq is defined and page.extra.faq and page.extra.faq | length >= 3 %}
   <section class="faq" aria-labelledby="faq-title">
     <h2 id="faq-title" class="faq__title">
-      <span aria-hidden="true">💡</span>
+      <span class="faq__icon">💡</span>
       <span>Câu hỏi thường gặp</span>
     </h2>
+
     <div class="faq__items">
       {%- for item in page.extra.faq | slice(6) %}
       <details class="faq__item" data-faq-index="{{ loop.index }}">
         <summary class="faq__q">
           <span class="faq__q-text">{{ item.q }}</span>
+          <span class="faq__q-icon" aria-hidden="true">▼</span>
         </summary>
         <div class="faq__a">
           {%- if item.a is containing("<") %}
             {{ item.a | safe }}
           {%- else %}
-            {{ item.a }}
+            <p>{{ item.a }}</p>
           {%- endif %}
         </div>
       </details>
