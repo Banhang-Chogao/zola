@@ -1,4 +1,5 @@
 +++
+draft = true  # held for content review — flip to false to publish
 title = "Bài Học Từ Merge Conflict Crisis: Tương Lai Không Conflict"
 description = "7 PR conflict → hệ thống tự động → vaccine library. Tôi giải thích cách xây dựng hệ thống tự chữa lỏm."
 date = 2026-06-26
