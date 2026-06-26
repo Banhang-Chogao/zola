@@ -82,14 +82,6 @@ menu = [
         { name = "Hệ thống & guideline", children = [ { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" }, { url = "$BASE_URL/tools/s-dna", name = "S-DNA" }, { url = "$BASE_URL/font", name = "Font Guideline" } ] },
         { name = "Công cụ phụ", children = [ { url = "$BASE_URL/converter", name = "Korean Converter" }, { url = "$BASE_URL/changelog", name = "Changelog" } ] },
     ] },
-    { name = "Giới thiệu", url = "$BASE_URL/about", children = [
-        { url = "$BASE_URL/about",            name = "Giới thiệu" },
-        { url = "$BASE_URL/contact",          name = "Liên hệ" },
-        { url = "$BASE_URL/privacy",          name = "Chính sách bảo mật" },
-        { url = "$BASE_URL/terms",            name = "Điều khoản & Miễn trừ" },
-        { url = "$BASE_URL/copyright",        name = "Tuyên bố bản quyền" },
-        { url = "$BASE_URL/bao-cao-tong-ket", name = "Báo cáo tổng kết" },
-    ] },
 ]
 
 # ============= GOOGLE ANALYTICS 4 =============
