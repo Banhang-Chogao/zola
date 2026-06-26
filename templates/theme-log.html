@@ -44,6 +44,12 @@
                 <span class="theme-log__summary-val">{{ data.current_theme.font_system | default(value="unknown") }}</span>
             </div>
             {% endif %}
+            {% if data.baseline %}
+            <div class="theme-log__summary-row">
+                <span class="theme-log__summary-key">Baseline (since)</span>
+                <span class="theme-log__summary-val"><time datetime="{{ data.baseline.start_date }}">{{ data.baseline.start_date | truncate(length=16, end="") }}</time></span>
+            </div>
+            {% endif %}
             {% if data.generated_at %}
             <div class="theme-log__summary-row">
                 <span class="theme-log__summary-key">Generated</span>
@@ -118,7 +124,7 @@
         {% endif %}
 
         <footer class="theme-log__footer">
-            <p>Dữ liệu sinh bởi <code>scripts/theme_audit.py</code> từ git history thật (mỗi commit verify bằng <code>git rev-parse --verify</code> trước khi vào bảng). Không hardcode ví dụ.</p>
+            <p>Dữ liệu sinh bởi <code>scripts/theme_audit.py</code> từ git history thật (mỗi commit verify bằng <code>git rev-parse --verify</code> trước khi vào bảng). Không hardcode ví dụ. {% if data.baseline %}Rollback history reliably available from <time datetime="{{ data.baseline.start_date }}">{{ data.baseline.start_date | truncate(length=16, end="") }}</time> onward.{% endif %}</p>
         </footer>
         {% else %}
         <p class="theme-log__empty">Chưa có <code>data/theme-log.json</code>. Chạy <code>python3 scripts/theme_audit.py</code> trước khi <code>zola build</code>.</p>
