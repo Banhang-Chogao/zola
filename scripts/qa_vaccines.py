@@ -2120,7 +2120,11 @@ def check_editor_publish_vaccine(ctx: Ctx) -> CheckResult:
     title = "Editor publish→GitHub, edit SHA, SEO hydrate, single sticky"
     js = ctx.read("static/js/editor.js") or ""
     rail = ctx.read("static/js/cms/editor-seo-rail.js") or ""
-    backend = ctx.read("services/vipzone/main.py") or ""
+    # Backend publish logic spans main.py (route mount) + cms_repo.py (router that
+    # defines /cms/save-post and _demote_other_sticky_posts). Read both so the
+    # detector follows the code after the visitor-counter→vipzone migration.
+    backend = (ctx.read("services/vipzone/main.py") or "") + "\n" \
+        + (ctx.read("services/vipzone/cms_repo.py") or "")
 
     fails: list[str] = []
     warns: list[str] = []
