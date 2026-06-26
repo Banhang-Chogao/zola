@@ -80,10 +80,45 @@
     var m = location.hash.match(/(?:^|[#&])sid=([A-Za-z0-9_\-]+)/);
     if (!m) return;
     setSid(m[1]);
+    // Preserve #comments anchor if present, otherwise clean the hash.
     var clean = location.pathname + location.search;
+    if (location.hash.indexOf("#comments") !== -1) {
+      clean += "#comments";
+    }
     try {
       history.replaceState(null, "", clean);
     } catch (e) {}
+  }
+
+  // Auto-scroll to comment section if user was redirected back after login.
+  // Detects either:
+  //   - Query param ?from=comment (set by loginUrl when user starts comment login)
+  //   - Anchor #comments (preserved from the redirect or from user navigation)
+  function scrollToCommentIfNeeded() {
+    var shouldScroll = false;
+
+    // Check for ?from=comment query param (indicates post-login redirect)
+    if (location.search.indexOf("from=comment") !== -1) {
+      shouldScroll = true;
+    }
+
+    // Check for #comments anchor
+    if (location.hash === "#comments") {
+      shouldScroll = true;
+    }
+
+    if (!shouldScroll || !root) return;
+
+    // Schedule scroll after DOM settles and images start loading.
+    // Use a small timeout to allow layout to stabilize.
+    setTimeout(function () {
+      try {
+        root.scrollIntoView({ behavior: "smooth", block: "start" });
+      } catch (e) {
+        // Fallback for browsers without smooth scrolling support.
+        root.scrollIntoView();
+      }
+    }, 100);
   }
 
   // ---------- small DOM helpers ----------
@@ -261,10 +296,21 @@
   }
 
   function loginUrl() {
+    // Include ?from=comment so after OAuth callback, the frontend knows to
+    // scroll back to the comment section. Backend's normalize_return_to will
+    // preserve the query param in the return URL.
+    var returnPath = PATH;
+    if (PATH.indexOf("?") === -1) {
+      returnPath += "?from=comment";
+    } else {
+      returnPath += "&from=comment";
+    }
+    // Add anchor to help identify comment section on page load.
+    returnPath += "#comments";
     return (
       API +
       "/auth/comment/start?return_to=" +
-      encodeURIComponent(PATH)
+      encodeURIComponent(returnPath)
     );
   }
 
@@ -460,6 +506,7 @@
   // ---------- wire up ----------
   function init() {
     consumeHashSid();
+    scrollToCommentIfNeeded();
     els.input.setAttribute("maxlength", String(MAXLEN));
     els.loginBtn.setAttribute("href", loginUrl());
     els.loginBtn.addEventListener("click", function (e) {
