@@ -1,18 +1,17 @@
 {# Deploy Monitor Footer Widget
    Minimal footer indicator linking to /tools/deploy-monitor/
-   Loads pending_count from data/deploy-monitor.json ─ #}
+   Data is loaded in base.html, passed as dm_footer variable ─ #}
 
-{% set dm = load_data(path="data/deploy-monitor.json", required=false) %}
-{% if dm and dm.summary %}
+{% if dm_footer and dm_footer.summary %}
   <div class="deploy-watch deploy-monitor-footer" role="region" aria-label="Deploy Monitor">
     <a href="/tools/deploy-monitor/" title="Xem Deploy Monitor" class="deploy-monitor-footer__link">
-      {% if dm.summary.pending_count and dm.summary.pending_count > 0 %}
+      {% if dm_footer.summary.pending_count and dm_footer.summary.pending_count > 0 %}
         <span class="deploy-monitor-footer__badge deploy-monitor-footer__badge--pending">
-          {{ dm.summary.pending_count }}
+          {{ dm_footer.summary.pending_count }}
         </span>
       {% endif %}
       <span class="deploy-monitor-footer__text">
-        {% if dm.summary.prod_status == "green" %}✓ Deploy{% elif dm.summary.prod_status == "yellow" %}⟳ Deploying{% elif dm.summary.prod_status == "red" %}✗ Error{% else %}Deploy Monitor{% endif %}
+        {% if dm_footer.summary.prod_status == "green" %}✓ Deploy{% elif dm_footer.summary.prod_status == "yellow" %}⟳ Deploying{% elif dm_footer.summary.prod_status == "red" %}✗ Error{% else %}Deploy Monitor{% endif %}
       </span>
     </a>
   </div>
