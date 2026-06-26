@@ -1044,8 +1044,8 @@
                 <div class="ga-stats" data-ga-health data-ga-status="{{ health_status }}"{% if ga_health and ga_health.last_checked %} data-baked-checked="{{ ga_health.last_checked }}"{% endif %}>
                     <header class="ga-stats__head">
                         <div class="ga-stats__heading">
-                            <span class="ga-stats__kicker">Google Analytics 4</span>
-                            <h4 class="ga-stats__title">Lưu lượng truy cập</h4>
+                            <span class="ga-stats__kicker">📊 Google Analytics 4</span>
+                            <h4 class="ga-stats__title">Thống kê lưu lượng truy cập</h4>
                             <span class="ga-stats__meta-line">property <code>{{ ga_prop_expected }}</code>{% if ga_meas %} · <code>{{ ga_meas }}</code>{% endif %}</span>
                         </div>
                         <div class="ga-stats__head-meta">
@@ -1065,47 +1065,47 @@
                     </div>
 
                     <div class="ga-stats__grid">
-                        <div class="ga-stats__cell">
-                            <span class="ga-stats__label">Hôm nay</span>
+                        <div class="ga-stats__cell ga-stats__cell--today">
+                            <span class="ga-stats__label">📅 Hôm nay</span>
                             <span class="ga-stats__num{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-num="today_users">{% if stats_ok %}{{ ga_stats.today_users }}{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">users · {% if stats_ok %}{{ ga_stats.today_pageviews }} {% endif %}views</span>
                         </div>
-                        <div class="ga-stats__cell">
-                            <span class="ga-stats__label">7 ngày</span>
+                        <div class="ga-stats__cell ga-stats__cell--week">
+                            <span class="ga-stats__label">🌊 7 ngày</span>
                             <span class="ga-stats__num{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-num="week_users">{% if stats_ok %}{{ ga_stats.week_users }}{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">users · {% if stats_ok %}{{ ga_stats.week_pageviews }} {% endif %}views</span>
                         </div>
-                        <div class="ga-stats__cell">
-                            <span class="ga-stats__label">30 ngày</span>
+                        <div class="ga-stats__cell ga-stats__cell--month">
+                            <span class="ga-stats__label">🌈 30 ngày</span>
                             <span class="ga-stats__num{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-num="month_users">{% if stats_ok %}{{ ga_stats.month_users }}{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">users · {% if stats_ok %}{{ ga_stats.month_pageviews }} {% endif %}views</span>
                         </div>
-                    </div>
-
-                    {# Extended 30d metrics: sessions, new users, bounce, avg session, engagement. #}
-                    <div class="ga-stats__grid ga-stats__grid--extended">
-                        <div class="ga-stats__cell ga-stats__cell--mini">
-                            <span class="ga-stats__label">Phiên</span>
+                        <div class="ga-stats__cell ga-stats__cell--sessions ga-stats__cell--mini">
+                            <span class="ga-stats__label">👤 Phiên</span>
                             <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="sessions">{% if stats_ok %}{{ ga_stats.month_sessions | default(value=0) }}{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">sessions · 30d</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--mini">
-                            <span class="ga-stats__label">Người dùng mới</span>
+                        <div class="ga-stats__cell ga-stats__cell--new-users ga-stats__cell--mini">
+                            <span class="ga-stats__label">🎯 Người mới</span>
                             <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="new_users">{% if stats_ok %}{{ ga_stats.month_new_users | default(value=0) }}{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">new users · 30d</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--mini">
-                            <span class="ga-stats__label">Tỷ lệ thoát</span>
+                    </div>
+
+                    {# Extended 30d metrics: bounce, avg session, engagement. #}
+                    <div class="ga-stats__grid ga-stats__grid--extended">
+                        <div class="ga-stats__cell ga-stats__cell--bounce ga-stats__cell--mini">
+                            <span class="ga-stats__label">📤 Tỷ lệ thoát</span>
                             <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="bounce_rate">{% if stats_ok %}{{ ga_stats.month_bounce_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span>{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">bounce · 30d</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--mini">
-                            <span class="ga-stats__label">Thời lượng phiên</span>
+                        <div class="ga-stats__cell ga-stats__cell--duration ga-stats__cell--mini">
+                            <span class="ga-stats__label">⏱️ Thời lượng</span>
                             <span class="ga-stats__num ga-stats__num--mini ga-stats__num--text{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="avg_duration">{% if stats_ok %}{{ ga_stats.month_avg_session_duration_str | default(value="0s") }}{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">avg session · 30d</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--mini">
-                            <span class="ga-stats__label">Mức tương tác</span>
+                        <div class="ga-stats__cell ga-stats__cell--engagement ga-stats__cell--mini">
+                            <span class="ga-stats__label">💡 Tương tác</span>
                             <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="engagement">{% if stats_ok %}{{ ga_stats.month_engagement_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span>{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">engagement · 30d</span>
                         </div>
@@ -1145,7 +1145,7 @@
                     {% set has_channels = ga_stats.channel_breakdown and ga_stats.channel_breakdown | length > 0 %}
                     {% if stats_ok and has_channels %}
                     <div class="ga-stats__section">
-                        <h5 class="ga-stats__section-title">Kênh truy cập (Top 5 · 30 ngày)</h5>
+                        <h5 class="ga-stats__section-title">🌟 Kênh truy cập (Top 5 · 30 ngày)</h5>
                         <div class="ga-channels" data-ga-channels>
                             <div class="ga-channels__list" data-ga-channels-list></div>
                         </div>
