@@ -33,25 +33,11 @@ POSTING = ROOT / "content" / "posting"
 DATA = ROOT / "data"
 
 
-def suggest_pixabay_images(*, slug: str, title: str, keyword: str,
-                           category: str, tags: list[str]) -> None:
-    """Gợi ý ảnh Pixabay (no-API) cho 1 bài — best-effort, KHÔNG bao giờ làm fail tạo bài.
-
-    Chỉ *gợi ý* (ghi data/pixabay-suggestions/<slug>.json, gitignored); KHÔNG tải,
-    KHÔNG sửa cover. Bị chặn/không có ứng viên → bỏ qua, giữ OG fallback. Cần người
-    duyệt thủ công rồi mới `pixabay_image_assist.py confirm`. Xem docs/pixabay-image-assist.md.
-    """
-    try:
-        import pixabay_image_assist as pia  # type: ignore
-
-        result = pia.discover_candidates(
-            title=title, keyword=keyword, category=category, tags=tags
-        )
-        path = pia.save_suggestions(slug, result)
-        print(f"PIXABAY-SUGGEST:{path.relative_to(ROOT)} status={result['status']} "
-              f"candidates={len(result['candidates'])}")
-    except Exception as exc:  # tuyệt đối không kéo sập content_creator
-        print(f"PIXABAY-SUGGEST:skip ({exc})")
+# NOTE: Pixabay image-assist removed (2026-06). External stock images are no
+# longer fetched/suggested. Posts without an explicit image fall back through the
+# owned-image chain (frontmatter → local inline → generated cover → category
+# placeholder → seomoney-og) resolved in templates/macros/img.html. Owned covers
+# are produced by scripts/generate_cover.py (deterministic, no internet).
 
 PREMIUM_PRICE = 100_000
 PREMIUM_TEASER_WORDS = 180
@@ -257,10 +243,6 @@ def main() -> int:
     ap.add_argument("--ux", default="")
     ap.add_argument("--series-id", default="")
     ap.add_argument("--job-file", default="", help="JSON brief (ghi đè các flag nếu có).")
-    ap.add_argument("--auto-image", dest="auto_image", action="store_true", default=True,
-                    help="Gợi ý ảnh Pixabay (no-API) cho mỗi bài (mặc định bật, chỉ gợi ý).")
-    ap.add_argument("--no-auto-image", dest="auto_image", action="store_false",
-                    help="Opt-out: KHÔNG gợi ý ảnh Pixabay (auto_image=false).")
     args = ap.parse_args()
 
     topic = args.topic
@@ -269,7 +251,6 @@ def main() -> int:
     brief = args.brief
     ux = args.ux
     series_id = args.series_id
-    auto_image = args.auto_image
 
     if args.job_file:
         job = json.loads(Path(args.job_file).read_text(encoding="utf-8"))
@@ -279,9 +260,6 @@ def main() -> int:
         brief = job.get("brief", brief)
         ux = job.get("ux_brief", job.get("ux", ux))
         series_id = job.get("series_id", series_id)
-        # Opt-out qua job-file: {"auto_image": false}
-        if "auto_image" in job:
-            auto_image = bool(job.get("auto_image"))
 
     count = max(1, min(30, count))
     if not series_id:
@@ -307,14 +285,6 @@ def main() -> int:
         path.write_text(text, encoding="utf-8")
         written.append({"part": part, "slug": slug, "title": f"{topic} — Phần {part}" if count > 1 else topic, "status": "published"})
         print(f"PUBLISHED:{path.relative_to(ROOT)}")
-
-        # Image-assist (opt-out: auto_image=false). Chỉ GỢI Ý — không tải, không sửa cover.
-        if auto_image:
-            suggest_pixabay_images(
-                slug=slug, title=f"{topic} — Phần {part}" if count > 1 else topic,
-                keyword=topic.lower(), category="",
-                tags=["content creator", slugify(topic).replace("-", " ")],
-            )
 
     # series manifest
     manifest = {
