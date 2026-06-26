@@ -467,7 +467,7 @@
   }
 
   function categoryLabel(cat) {
-    if (isPremiumCategory(cat)) return "Premium (thu phí)";
+    if (isPremiumCategory(cat)) return "Premium";
     return cat;
   }
 
@@ -543,14 +543,7 @@ tags = ${tagsStr}
     }
     // sticky = bài ghim (chỉ 1 bài tại 1 thời điểm — đã validate trước khi save).
     if (fm.sticky) fmText += `sticky = true\n`;
-    // Premium category: enable paywall flag + optional per-post MoMo link.
-    // Non-premium saves omit both fields (backward compatible cleanup).
-    if (isPremiumCategory(fm.category)) {
-      fmText += `premium = true\n`;
-      if (fm.momo_payment_link) {
-        fmText += `momo_payment_link = "${String(fm.momo_payment_link).replace(/"/g, '\\"')}"\n`;
-      }
-    }
+    // Premium category = label only (paywall disabled). Không ghi premium/momo flags.
     fmText += "+++\n\n";
     return fmText + body;
   }
@@ -575,12 +568,6 @@ tags = ${tagsStr}
       momo_payment_link: "",
     };
 
-    if (isPremiumCategory(category)) {
-      fm.premium = true;
-      const momoInput = form.querySelector("[name='momo_link']");
-      const momoLink = momoInput ? momoInput.value.trim() : "";
-      if (momoLink) fm.momo_payment_link = momoLink;
-    }
     return fm;
   }
 

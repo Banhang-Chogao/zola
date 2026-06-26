@@ -5,22 +5,10 @@
 {% import "macros/references.html" as references %}
 {% import "macros/series-nav.html" as series %}
 {% import "macros/series-hub.html" as series_hub %}
-{% import "macros/paywall.html" as paywall %}
 {% import "macros/premium.html" as premium %}
-{% import "macros/locked.html" as locked %}
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{# Bài premium đang ẩn → locked overlay + noindex (SEO-safe). Phát hiện qua
-   extra.premium hoặc category "premium". (Tính trong block vì set top-level của
-   child template extends không được Tera thực thi.) #}
-{% block robots %}{% set cats = page.taxonomies.categories | default(value=[]) %}{% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}{% if is_premium and config.extra.premium_hidden | default(value=false) %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
-
 {% block main %}
-    {% set cats = page.taxonomies.categories | default(value=[]) %}
-    {% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}
-    {% if is_premium and config.extra.premium_hidden | default(value=false) %}
-    {{ locked::overlay(base_url=config.base_url) }}
-    {% else %}
     <article class="post-single">
             <div class="post-single__hero">
                 {% if page.extra.premium %}
@@ -126,12 +114,6 @@
             <span class="ad-banner__arrow" aria-hidden="true">→</span>
         </a>
 
-        {% if page.extra.premium %}
-        <div class="post-single__content post-single__content--teaser post-single__content--premium-locked">
-            {{ page.content | safe }}
-        </div>
-        {{ paywall::box(page=page, config=config) }}
-        {% else %}
         <div class="post-single__content">
             {# ===== Mục lục (TOC) — tự động từ native page.toc cho MỌI bài có
                >= 3 heading (H2/H3). Anchor dùng id heading thật (custom {#id}
@@ -165,7 +147,6 @@
             {% endif %}
             {{ page.content | safe }}
         </div>
-        {% endif %}
 
         {{ series_hub::callout(page=page) }}
 
@@ -427,14 +408,10 @@
         {# ===== GISCUS COMMENTS ===== #}
         {{ giscus::comments() }}
     </article>
-    {% endif %}
 {% endblock main %}
 
 {% block extra_scripts %}
     <script src="{{ get_url(path='js/post-stats.js') }}" defer></script>
-    {% if page.extra.premium %}
-    <script src="{{ get_url(path='js/paywall.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
-    {% endif %}
     <script>
         // Show edit button nếu user có PAT (admin đã login CMS)
         if (localStorage.getItem("zola-cms-token")) {
