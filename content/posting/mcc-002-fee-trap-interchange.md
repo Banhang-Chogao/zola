@@ -8,10 +8,12 @@ slug = "mcc-cross-border-fees-interchange"
 [taxonomies]
 categories = ["Tất cả", "Tài chính"]
 tags = ["MCC", "interchange-fees", "cross-border", "merchant-costs"]
+
+[extra]
 series = "merchant-category-codes-series"
-extra.series_part = 2
-extra.seo_keyword = "MCC cross-border fees interchange rates merchant category"
-extra.thumbnail = "/images/blog/mcc-fees.jpg"
+series_part = 2
+seo_keyword = "MCC cross-border fees interchange rates merchant category"
+thumbnail = "/images/blog/mcc-fees.jpg"
 +++
 
 ## How Interchange Fees Are Set by Merchant Category Code

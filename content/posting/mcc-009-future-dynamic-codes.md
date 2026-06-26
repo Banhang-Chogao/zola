@@ -8,10 +8,12 @@ slug = "mcc-future-dynamic-ai-codes"
 [taxonomies]
 categories = ["Tất cả", "Tài chính", "Công nghệ"]
 tags = ["MCC", "fintech", "AI", "innovation"]
+
+[extra]
 series = "merchant-category-codes-series"
-extra.series_part = 9
-extra.seo_keyword = "MCC future dynamic codes AI machine learning merchant classification"
-extra.thumbnail = "/images/blog/mcc-future.jpg"
+series_part = 9
+seo_keyword = "MCC future dynamic codes AI machine learning merchant classification"
+thumbnail = "/images/blog/mcc-future.jpg"
 +++
 
 ## The Limitations of Today's 4-Digit System

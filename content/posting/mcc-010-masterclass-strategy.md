@@ -8,10 +8,12 @@ slug = "mcc-masterclass-personal-strategy"
 [taxonomies]
 categories = ["Tất cả", "Du lịch", "Tài chính"]
 tags = ["MCC", "strategy", "credit-cards", "optimization"]
+
+[extra]
 series = "merchant-category-codes-series"
-extra.series_part = 10
-extra.seo_keyword = "MCC strategy credit card optimization international travel"
-extra.thumbnail = "/images/blog/mcc-masterclass.jpg"
+series_part = 10
+seo_keyword = "MCC strategy credit card optimization international travel"
+thumbnail = "/images/blog/mcc-masterclass.jpg"
 +++
 
 ## The MCC Masterclass: Consolidation & Action

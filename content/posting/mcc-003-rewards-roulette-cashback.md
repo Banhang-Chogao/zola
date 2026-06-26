@@ -8,10 +8,12 @@ slug = "mcc-rewards-cashback-international"
 [taxonomies]
 categories = ["Tất cả", "Tài chính"]
 tags = ["MCC", "rewards", "cashback", "credit-cards"]
+
+[extra]
 series = "merchant-category-codes-series"
-extra.series_part = 3
-extra.seo_keyword = "MCC credit card rewards cashback bonus categories"
-extra.thumbnail = "/images/blog/mcc-rewards.jpg"
+series_part = 3
+seo_keyword = "MCC credit card rewards cashback bonus categories"
+thumbnail = "/images/blog/mcc-rewards.jpg"
 +++
 
 ## How Banks Map MCCs to Bonus Categories

@@ -8,10 +8,12 @@ slug = "mcc-travelers-cheat-sheet"
 [taxonomies]
 categories = ["Tất cả", "Du lịch"]
 tags = ["MCC", "travel", "reference", "international"]
+
+[extra]
 series = "merchant-category-codes-series"
-extra.series_part = 6
-extra.seo_keyword = "MCC cheat sheet travel codes merchants reference"
-extra.thumbnail = "/images/blog/mcc-reference.jpg"
+series_part = 6
+seo_keyword = "MCC cheat sheet travel codes merchants reference"
+thumbnail = "/images/blog/mcc-reference.jpg"
 +++
 
 ## Airlines & Air Travel (MCC 4011)

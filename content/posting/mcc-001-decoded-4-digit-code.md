@@ -8,10 +8,12 @@ slug = "mcc-decoded-international-spending"
 [taxonomies]
 categories = ["Tất cả", "Tài chính", "Du lịch"]
 tags = ["MCC", "credit-cards", "international-payments", "cross-border-fees"]
+
+[extra]
 series = "merchant-category-codes-series"
-extra.series_part = 1
-extra.seo_keyword = "Merchant Category Code MCC international payments cross-border"
-extra.thumbnail = "/images/blog/mcc-decoded.jpg"
+series_part = 1
+seo_keyword = "Merchant Category Code MCC international payments cross-border"
+thumbnail = "/images/blog/mcc-decoded.jpg"
 +++
 
 ## What Is a Merchant Category Code?

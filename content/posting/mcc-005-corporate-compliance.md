@@ -8,10 +8,12 @@ slug = "mcc-corporate-compliance-expenses"
 [taxonomies]
 categories = ["Tất cả", "Tài chính", "Công nghệ"]
 tags = ["MCC", "corporate-cards", "expense-reporting", "tax"]
+
+[extra]
 series = "merchant-category-codes-series"
-extra.series_part = 5
-extra.seo_keyword = "MCC corporate cards expense reporting tax compliance"
-extra.thumbnail = "/images/blog/mcc-corporate.jpg"
+series_part = 5
+seo_keyword = "MCC corporate cards expense reporting tax compliance"
+thumbnail = "/images/blog/mcc-corporate.jpg"
 +++
 
 ## MCCs as Automation Superpowers for Finance Teams

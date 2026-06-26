@@ -8,10 +8,12 @@ slug = "mcc-merchant-choosing-code"
 [taxonomies]
 categories = ["Tất cả", "Tài chính", "Công nghệ"]
 tags = ["MCC", "merchants", "payment-processing", "fees"]
+
+[extra]
 series = "merchant-category-codes-series"
-extra.series_part = 7
-extra.seo_keyword = "MCC merchants payment processing fees interchange"
-extra.thumbnail = "/images/blog/mcc-merchant.jpg"
+series_part = 7
+seo_keyword = "MCC merchants payment processing fees interchange"
+thumbnail = "/images/blog/mcc-merchant.jpg"
 +++
 
 ## How MCC Choice Impacts Your Merchant Fees

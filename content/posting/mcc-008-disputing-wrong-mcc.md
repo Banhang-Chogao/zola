@@ -8,10 +8,12 @@ slug = "mcc-dispute-process-template"
 [taxonomies]
 categories = ["Tất cả", "Tài chính"]
 tags = ["MCC", "disputes", "credit-cards", "consumer-rights"]
+
+[extra]
 series = "merchant-category-codes-series"
-extra.series_part = 8
-extra.seo_keyword = "MCC dispute process credit card cardholder rights"
-extra.thumbnail = "/images/blog/mcc-dispute.jpg"
+series_part = 8
+seo_keyword = "MCC dispute process credit card cardholder rights"
+thumbnail = "/images/blog/mcc-dispute.jpg"
 +++
 
 ## Understanding Your Rights

@@ -8,10 +8,12 @@ slug = "mcc-fraud-blocks-international"
 [taxonomies]
 categories = ["Tất cả", "Tài chính"]
 tags = ["MCC", "fraud", "card-blocks", "international"]
+
+[extra]
 series = "merchant-category-codes-series"
-extra.series_part = 4
-extra.seo_keyword = "MCC fraud detection card blocks high-risk merchants"
-extra.thumbnail = "/images/blog/mcc-fraud.jpg"
+series_part = 4
+seo_keyword = "MCC fraud detection card blocks high-risk merchants"
+thumbnail = "/images/blog/mcc-fraud.jpg"
 +++
 
 ## How Fraud Engines Use MCC + Location + Behavior
