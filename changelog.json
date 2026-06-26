@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "Disconnect Cloudflare from blog (Turnstile + R2 CDN + _headers), reversible [claude/cloudflare-blog-disconnect-rykwlu]",
+      "tag": "chore",
+      "lines_added": 31,
+      "lines_removed": 0,
+      "highlights": [
+        "config.toml (modified, +3/-1)",
+        "static/_headers (modified, +11/-5)",
+        "templates/base.html (modified, +4/-0)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 999
+    },
+    {
+      "date": "2026-06-26",
       "title": "implement /reports API endpoints for báo cáo tổng kết",
       "tag": "fix",
       "lines_added": 969,
