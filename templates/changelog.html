@@ -13,6 +13,8 @@
             <p class="changelog__sub">Lịch sử cập nhật & PR của blog · gần đây nhất ở trên</p>
         </header>
 
+        {% include "partials/changelog-prod-snapshot.html" %}
+
         {# ===== STAGING QUEUE WIDGET =====
            Hydrate qua static/js/staging-queue.js (GitHub API + sessionStorage 60s).
            Empty-state mặc định nếu fetch fail / chưa load — không phá UX. #}
