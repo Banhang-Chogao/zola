@@ -41,6 +41,11 @@ tagline = "SEO · Công nghệ · Tài chính cá nhân"
 enable_qa_dashboard = false
 deployment_status_path = "data/deployment-status.json"
 
+# Cloudflare R2 CDN base (public, non-secret). Static media (img/images/uploads/
+# pdf/reports) is served from here once mirrored via scripts/r2_migrate.py.
+# Bucket name + R2 endpoint + credentials live in environment variables only.
+cdn = "https://cdn.seomoney.org"
+
 author_avatar = "https://seomoney.org/img/author-avatar.webp"
 author_url = "https://seomoney.org"
 author_bio = """\
