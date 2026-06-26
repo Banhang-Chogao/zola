@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-06-26T22:38:24.253238+00:00",
+  "sources": {
+    "config.toml": "[extra].momo_payment_link, donate_momo_link",
+    "content/posting/*.md": "frontmatter [extra].momo_payment_link (per-post override)",
+    "templates/**/*.html": "hardcoded me.momo.vn",
+    ".github/workflows/*.yml": "env vars MOMO_*",
+    "render.yaml": "env vars",
+    "docs/paywall.md": "documentation references"
+  },
+  "links_by_url": {
+    "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG": {
+      "url": "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG",
+      "source": "config.toml",
+      "detail": "[extra].momo_payment_link",
+      "category": "Donate (shared with Premium)",
+      "post_slug": null,
+      "post_title": null,
+      "locations": [
+        "config.toml:[extra].donate_momo_link",
+        "config.toml:[extra].momo_payment_link",
+        "docs/paywall.md",
+        "render.yaml",
+        "templates/macros/paywall.html"
+      ]
+    },
+    "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/MvbmqW94lpp0bYA": {
+      "url": "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/MvbmqW94lpp0bYA",
+      "source": "render.yaml",
+      "detail": "render.yaml",
+      "category": "Workflow/env",
+      "post_slug": null,
+      "post_title": null,
+      "locations": [
+        "render.yaml"
+      ]
+    },
+    "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg": {
+      "url": "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg",
+      "source": "render.yaml",
+      "detail": "render.yaml",
+      "category": "Workflow/env",
+      "post_slug": null,
+      "post_title": null,
+      "locations": [
+        "render.yaml"
+      ]
+    }
+  },
+  "summary": {
+    "total_unique_urls": 3,
+    "premium_default": 0,
+    "donate": 1,
+    "premium_post_custom": 0,
+    "template_hardcoded": 0,
+    "workflow_env": 2,
+    "documentation": 0
+  }
+}
