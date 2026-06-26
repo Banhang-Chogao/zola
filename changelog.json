@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "unused wd-heartbeat.html partial file [claude/pipeline-heartbeat-placeholder-718rnt]",
+      "tag": "remove",
+      "lines_added": 0,
+      "lines_removed": 94,
+      "highlights": [
+        "Remove PIPELINE HEARTBEAT placeholder section from blog footer",
+        "Remove unused wd-heartbeat.html partial file",
+        "templates/base.html (modified, +0/-3)",
+        "templates/partials/wd-heartbeat.html (removed, +0/-91)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha"
+      ],
+      "pr": 985
+    },
+    {
+      "date": "2026-06-26",
       "title": "PIPELINE HEARTBEAT placeholder section from blog footer [claude/pipeline-heartbeat-placeholder-718rnt]",
       "tag": "remove",
       "lines_added": 0,
