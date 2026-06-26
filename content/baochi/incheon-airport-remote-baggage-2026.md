@@ -15,7 +15,7 @@ Khi nói về những sân bay tốt nhất thế giới, Incheon International 
 
 <!-- more -->
 
-Mình có cơ hội qua sân bay quốc tế khá nhiều lần, và điều tôi nhận ra là **hành trình chuyển tiếp là phần căng thẳng nhất** của một chuyến bay dài. Khi [lập kế hoạch du lịch](/@/posting/ai-thay-doi-lap-ke-hoach-du-lich) hay lên lịch chuyến bay quốc tế, phần chuyển tiếp luôn là yếu tố gây lo lắng nhất. Bạn phải xếp hàng qua kiểm soát nhập cảnh, lôi hành lý ra từ băng chuyền, chịu được kiểm tra hải quan, rồi kéo vali tới quầy check-in để gửi lại cho chuyến tiếp. Mỗi bước này tốn thời gian, mỗi bước đều có thể gây trễ chuyến bay tiếp theo. Và nếu window chuyển tiếp của bạn chỉ là 2–3 tiếng, thì đó chắc chắn là căng thẳng thực sự.
+Mình có cơ hội qua sân bay quốc tế khá nhiều lần, và điều tôi nhận ra là **hành trình chuyển tiếp là phần căng thẳng nhất** của một chuyến bay dài. Khi [lập kế hoạch du lịch](/zola/@/posting/ai-thay-doi-lap-ke-hoach-du-lich) hay lên lịch chuyến bay quốc tế, phần chuyển tiếp luôn là yếu tố gây lo lắng nhất. Bạn phải xếp hàng qua kiểm soát nhập cảnh, lôi hành lý ra từ băng chuyền, chịu được kiểm tra hải quan, rồi kéo vali tới quầy check-in để gửi lại cho chuyến tiếp. Mỗi bước này tốn thời gian, mỗi bước đều có thể gây trễ chuyến bay tiếp theo. Và nếu window chuyển tiếp của bạn chỉ là 2–3 tiếng, thì đó chắc chắn là căng thẳng thực sự.
 
 ## Vấn đề cũ của sân bay quốc tế: Quy trình chuyển tiếp quá phức tạp
 

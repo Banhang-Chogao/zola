@@ -392,7 +392,7 @@ Sau 2-4 tuần triển khai, kiểm tra:
 
 ---
 
-**Bước tiếp theo**: Bài 4 tập trung vào [chiến lược nội dung để tăng lựa chọn Preferred Sources](/posting/google-preferred-sources-4-chien-luoc-noi-dung/).
+**Bước tiếp theo**: Bài 4 tập trung vào [chiến lược nội dung để tăng lựa chọn Preferred Sources](/zola/posting/google-preferred-sources-4-chien-luoc-noi-dung/).
 
 ---
 

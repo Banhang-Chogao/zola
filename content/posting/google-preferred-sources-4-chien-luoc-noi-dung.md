@@ -239,7 +239,7 @@ Cảm ơn,
 
 ---
 
-**Bước tiếp theo**: Bài 5 giải thích [cách measure & optimize Preferred Sources bằng analytics](/posting/google-preferred-sources-5-analytics-va-toi-uu-hoa/).
+**Bước tiếp theo**: Bài 5 giải thích [cách measure & optimize Preferred Sources bằng analytics](/zola/posting/google-preferred-sources-5-analytics-va-toi-uu-hoa/).
 
 ---
 
