@@ -2,35 +2,28 @@
 {% import "macros/github-activity.html" as github_activity %}
 {% import "macros/datetime.html" as dt %}
 
-{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
-{% block robots %}noindex, follow{% endblock %}
-
 {% block title %}GitHub Insights | {{ config.title }}{% endblock %}
 
 {% block main %}
     {% set data = load_data(path="changelog.json", required=false) %}
-    {% if data and data.items %}
-        {% set pr_items = data.items %}
-    {% else %}
-        {% set pr_items = [] %}
-    {% endif %}
+    {% set pr_items = data.items | default(value=[]) %}
     {% set total_prs = pr_items | length %}
 
     {% set builds_data = load_data(path="data/build-dashboard.json", required=false) %}
     {% if builds_data %}
-        {% if builds_data.builds %}{% set build_items = builds_data.builds %}{% else %}{% set build_items = [] %}{% endif %}
-        {% if builds_data.stats.success %}{% set build_success = builds_data.stats.success %}{% else %}{% set build_success = 0 %}{% endif %}
-        {% if builds_data.stats.failure %}{% set build_failure = builds_data.stats.failure %}{% else %}{% set build_failure = 0 %}{% endif %}
-        {% if builds_data.stats.cancelled %}{% set build_cancelled = builds_data.stats.cancelled %}{% else %}{% set build_cancelled = 0 %}{% endif %}
-        {% if builds_data.stats.skipped %}{% set build_skipped = builds_data.stats.skipped %}{% else %}{% set build_skipped = 0 %}{% endif %}
-        {% if builds_data.stats.in_progress %}{% set build_in_progress = builds_data.stats.in_progress %}{% else %}{% set build_in_progress = 0 %}{% endif %}
-        {% if builds_data.source_repo %}{% set build_source = builds_data.source_repo %}{% else %}{% set build_source = "https://github.com/Banhang-Chogao/zola" %}{% endif %}
-        {% if builds_data.updated_at %}{% set build_updated = builds_data.updated_at %}{% else %}{% set build_updated = "" %}{% endif %}
-        {% if builds_data.history %}{% set build_history = builds_data.history %}{% else %}{% set build_history = [] %}{% endif %}
-        {% if builds_data.latest_workflows %}{% set build_latest = builds_data.latest_workflows %}{% else %}{% set build_latest = [] %}{% endif %}
-        {% if builds_data.fetch_error %}{% set build_fetch_error = builds_data.fetch_error %}{% else %}{% set build_fetch_error = "" %}{% endif %}
-        {% if builds_data.fetch_error_at %}{% set build_fetch_error_at = builds_data.fetch_error_at %}{% else %}{% set build_fetch_error_at = "" %}{% endif %}
-        {% if builds_data.history_cadence_min %}{% set build_cadence = builds_data.history_cadence_min %}{% else %}{% set build_cadence = 5 %}{% endif %}
+        {% set build_items = builds_data.builds | default(value=[]) %}
+        {% set build_success = builds_data.stats.success | default(value=0) %}
+        {% set build_failure = builds_data.stats.failure | default(value=0) %}
+        {% set build_cancelled = builds_data.stats.cancelled | default(value=0) %}
+        {% set build_skipped = builds_data.stats.skipped | default(value=0) %}
+        {% set build_in_progress = builds_data.stats.in_progress | default(value=0) %}
+        {% set build_source = builds_data.source_repo | default(value="https://github.com/Banhang-Chogao/zola") %}
+        {% set build_updated = builds_data.updated_at | default(value="") %}
+        {% set build_history = builds_data.history | default(value=[]) %}
+        {% set build_latest = builds_data.latest_workflows | default(value=[]) %}
+        {% set build_fetch_error = builds_data.fetch_error | default(value="") %}
+        {% set build_fetch_error_at = builds_data.fetch_error_at | default(value="") %}
+        {% set build_cadence = builds_data.history_cadence_min | default(value=5) %}
     {% else %}
         {% set build_items = [] %}
         {% set build_success = 0 %}
@@ -49,11 +42,11 @@
 
     {% set merge_data = load_data(path="data/merge-report.json", required=false) %}
     {% if merge_data %}
-        {% if merge_data.merges %}{% set merge_items = merge_data.merges %}{% else %}{% set merge_items = [] %}{% endif %}
-        {% if merge_data.stats.total %}{% set merge_total = merge_data.stats.total %}{% else %}{% set merge_total = 0 %}{% endif %}
-        {% if merge_data.stats.today %}{% set merge_today = merge_data.stats.today %}{% else %}{% set merge_today = 0 %}{% endif %}
-        {% if merge_data.updated_at %}{% set merge_updated = merge_data.updated_at %}{% else %}{% set merge_updated = "" %}{% endif %}
-        {% if merge_data.source_repo %}{% set merge_source = merge_data.source_repo %}{% else %}{% set merge_source = "https://github.com/Banhang-Chogao/zola" %}{% endif %}
+        {% set merge_items = merge_data.merges | default(value=[]) %}
+        {% set merge_total = merge_data.stats.total | default(value=0) %}
+        {% set merge_today = merge_data.stats.today | default(value=0) %}
+        {% set merge_updated = merge_data.updated_at | default(value="") %}
+        {% set merge_source = merge_data.source_repo | default(value="https://github.com/Banhang-Chogao/zola") %}
     {% else %}
         {% set merge_items = [] %}
         {% set merge_total = 0 %}
@@ -62,49 +55,20 @@
         {% set merge_source = "https://github.com/Banhang-Chogao/zola" %}
     {% endif %}
 
-    {% set auth_report = load_data(path="data/authority-report.json", required=false) %}
-    {% if auth_report %}
-        {% set auth_trust = auth_report.trust_score.score | default(value=0) %}
-        {% set auth_label = auth_report.trust_score.label | default(value="—") %}
-        {% set auth_num = auth_report.report_number | default(value=0) %}
-        {% set auth_updated = auth_report.generated_at | default(value="") %}
-        {% set auth_orphans = auth_report.orphan_pages | length | default(value=0) %}
-    {% else %}
-        {% set auth_trust = 0 %}{% set auth_label = "—" %}{% set auth_num = 0 %}
-        {% set auth_updated = "" %}{% set auth_orphans = 0 %}
-    {% endif %}
-
-    {% set ad_v2 = load_data(path="data/ad-report-v2.json", required=false) %}
-    {% if ad_v2 %}
-        {% set ad_v2_score = ad_v2.monetization_score | default(value=0) %}
-        {% set ad_v2_num = ad_v2.report_number | default(value=0) %}
-        {% set ad_v2_density = ad_v2.ad_density.verdict | default(value="unknown") %}
-        {% set ad_v2_grade = ad_v2.ui_review.overall_grade | default(value="—") %}
-        {% set ad_v2_updated = ad_v2.generated_at | default(value="") %}
-        {% set ad_v2_candidates = ad_v2.top_adsense_candidates | length | default(value=0) %}
-    {% else %}
-        {% set ad_v2_score = 0 %}
-        {% set ad_v2_num = 0 %}
-        {% set ad_v2_density = "unknown" %}
-        {% set ad_v2_grade = "—" %}
-        {% set ad_v2_updated = "" %}
-        {% set ad_v2_candidates = 0 %}
-    {% endif %}
-
     {% set compliance_data = load_data(path="data/compliance-score.json", required=false) %}
     {% if compliance_data %}
-        {% if compliance_data.score %}{% set compliance_score = compliance_data.score %}{% else %}{% set compliance_score = 0 %}{% endif %}
-        {% if compliance_data.grade %}{% set compliance_grade = compliance_data.grade %}{% else %}{% set compliance_grade = "—" %}{% endif %}
-        {% if compliance_data.mood %}{% set compliance_mood = compliance_data.mood %}{% else %}{% set compliance_mood = "attention" %}{% endif %}
-        {% if compliance_data.stats.pass %}{% set compliance_pass = compliance_data.stats.pass %}{% else %}{% set compliance_pass = 0 %}{% endif %}
-        {% if compliance_data.stats.warn %}{% set compliance_warn = compliance_data.stats.warn %}{% else %}{% set compliance_warn = 0 %}{% endif %}
-        {% if compliance_data.stats.fail %}{% set compliance_fail = compliance_data.stats.fail %}{% else %}{% set compliance_fail = 0 %}{% endif %}
-        {% if compliance_data.categories %}{% set compliance_categories = compliance_data.categories %}{% else %}{% set compliance_categories = [] %}{% endif %}
-        {% if compliance_data.highlights %}{% set compliance_highlights = compliance_data.highlights %}{% else %}{% set compliance_highlights = [] %}{% endif %}
-        {% if compliance_data.updated_at %}{% set compliance_updated = compliance_data.updated_at %}{% else %}{% set compliance_updated = "" %}{% endif %}
-        {% if compliance_data.pages_scanned %}{% set compliance_pages = compliance_data.pages_scanned %}{% else %}{% set compliance_pages = 0 %}{% endif %}
-        {% if compliance_data.fix_log %}{% set compliance_fix_log = compliance_data.fix_log %}{% else %}{% set compliance_fix_log = [] %}{% endif %}
-        {% if compliance_data.fix_summary %}{% set compliance_fix_summary = compliance_data.fix_summary %}{% else %}{% set compliance_fix_summary = false %}{% endif %}
+        {% set compliance_score = compliance_data.score | default(value=0) %}
+        {% set compliance_grade = compliance_data.grade | default(value="—") %}
+        {% set compliance_mood = compliance_data.mood | default(value="attention") %}
+        {% set compliance_pass = compliance_data.stats.pass | default(value=0) %}
+        {% set compliance_warn = compliance_data.stats.warn | default(value=0) %}
+        {% set compliance_fail = compliance_data.stats.fail | default(value=0) %}
+        {% set compliance_categories = compliance_data.categories | default(value=[]) %}
+        {% set compliance_highlights = compliance_data.highlights | default(value=[]) %}
+        {% set compliance_updated = compliance_data.updated_at | default(value="") %}
+        {% set compliance_pages = compliance_data.pages_scanned | default(value=0) %}
+        {% set compliance_fix_log = compliance_data.fix_log | default(value=[]) %}
+        {% set compliance_fix_summary = compliance_data.fix_summary | default(value=false) %}
         {% set compliance_link_report = load_data(path="data/compliance-link-report.json", required=false) %}
     {% else %}
         {% set compliance_score = 0 %}
@@ -120,28 +84,6 @@
         {% set compliance_fix_log = [] %}
         {% set compliance_fix_summary = false %}
         {% set compliance_link_report = false %}
-    {% endif %}
-
-    {# Load auto-performance-fix engine report #}
-    {% set perf_fix_report = load_data(path="data/auto-performance-fix-report.json", required=false) %}
-    {% if perf_fix_report %}
-        {% if perf_fix_report.status %}{% set perf_fix_status = perf_fix_report.status %}{% else %}{% set perf_fix_status = "pending" %}{% endif %}
-        {% if perf_fix_report.pagespeed_score_mobile %}{% set perf_fix_mobile = perf_fix_report.pagespeed_score_mobile %}{% else %}{% set perf_fix_mobile = 0 %}{% endif %}
-        {% if perf_fix_report.pagespeed_score_desktop %}{% set perf_fix_desktop = perf_fix_report.pagespeed_score_desktop %}{% else %}{% set perf_fix_desktop = 0 %}{% endif %}
-        {% if perf_fix_report.issues_detected %}{% set perf_fix_issues = perf_fix_report.issues_detected %}{% else %}{% set perf_fix_issues = 0 %}{% endif %}
-        {% if perf_fix_report.fixes_applied %}{% set perf_fix_fixes = perf_fix_report.fixes_applied %}{% else %}{% set perf_fix_fixes = 0 %}{% endif %}
-        {% if perf_fix_report.timestamp %}{% set perf_fix_timestamp = perf_fix_report.timestamp %}{% else %}{% set perf_fix_timestamp = "" %}{% endif %}
-        {% if perf_fix_report.ga4_organic %}{% set perf_fix_ga_organic = perf_fix_report.ga4_organic %}{% else %}{% set perf_fix_ga_organic = false %}{% endif %}
-        {% if perf_fix_report.fixes %}{% set perf_fix_changes = perf_fix_report.fixes %}{% else %}{% set perf_fix_changes = [] %}{% endif %}
-    {% else %}
-        {% set perf_fix_status = "no_data" %}
-        {% set perf_fix_mobile = 0 %}
-        {% set perf_fix_desktop = 0 %}
-        {% set perf_fix_issues = 0 %}
-        {% set perf_fix_fixes = 0 %}
-        {% set perf_fix_timestamp = "" %}
-        {% set perf_fix_ga_organic = false %}
-        {% set perf_fix_changes = [] %}
     {% endif %}
 
     {% set now_ts = now(timestamp=true) %}
@@ -614,149 +556,6 @@
                     </footer>
                 </div>
 
-                {# ===== AUTO PERFORMANCE FIX ENGINE ===== #}
-                <div class="insights__build insights__perf-fix">
-                    <header class="insights__build-head">
-                        <h3 class="insights__build-title">🚀 Performance Fix Engine</h3>
-                        <span class="insights__build-meta">
-                            Mobile {{ perf_fix_mobile }}/100 · Desktop {{ perf_fix_desktop }}/100
-                        </span>
-                    </header>
-
-                    {% if perf_fix_status != "no_data" %}
-                        <div class="insights__perf-fix-metrics">
-                            <div class="insights__perf-fix-metric">
-                                <span class="insights__perf-fix-metric-label">Issues Detected</span>
-                                <span class="insights__perf-fix-metric-value">{{ perf_fix_issues }}</span>
-                            </div>
-                            <div class="insights__perf-fix-metric">
-                                <span class="insights__perf-fix-metric-label">Fixes Applied</span>
-                                <span class="insights__perf-fix-metric-value insights__perf-fix-metric-value--success">{{ perf_fix_fixes }}</span>
-                            </div>
-                            {% if perf_fix_ga_organic and perf_fix_ga_organic.users > 0 %}
-                            <div class="insights__perf-fix-metric">
-                                <span class="insights__perf-fix-metric-label">Organic (7d)</span>
-                                <span class="insights__perf-fix-metric-value">{{ perf_fix_ga_organic.users }} users</span>
-                            </div>
-                            {% endif %}
-                        </div>
-
-                        {% if perf_fix_changes | length > 0 %}
-                        <ol class="insights__perf-fix-changes" aria-label="Applied fixes">
-                            {% for change in perf_fix_changes %}
-                            <li class="insights__perf-fix-change">
-                                <span class="insights__perf-fix-change-type">{{ change.type }}</span>
-                                <span class="insights__perf-fix-change-msg">{{ change.message }}</span>
-                            </li>
-                            {% endfor %}
-                        </ol>
-                        {% endif %}
-
-                        <div class="insights__perf-fix-scores">
-                            <div class="insights__perf-fix-score">
-                                <span class="insights__perf-fix-score-label">Mobile</span>
-                                <div class="insights__perf-fix-score-bar">
-                                    <div class="insights__perf-fix-score-fill" style="width: {{ perf_fix_mobile }}%;"></div>
-                                </div>
-                                <span class="insights__perf-fix-score-value">{{ perf_fix_mobile }}</span>
-                            </div>
-                            <div class="insights__perf-fix-score">
-                                <span class="insights__perf-fix-score-label">Desktop</span>
-                                <div class="insights__perf-fix-score-bar">
-                                    <div class="insights__perf-fix-score-fill" style="width: {{ perf_fix_desktop }}%;"></div>
-                                </div>
-                                <span class="insights__perf-fix-score-value">{{ perf_fix_desktop }}</span>
-                            </div>
-                        </div>
-                    {% else %}
-                        <p class="insights__build-empty">
-                            Workflow <code>auto-performance-fix.yml</code> sẽ cập nhật
-                            sau lần chạy đầu tiên (schedule hằng ngày 03:00 UTC).
-                        </p>
-                    {% endif %}
-
-                    <footer class="insights__build-foot">
-                        <a class="insights__source"
-                           href="https://github.com/Banhang-Chogao/zola/actions/workflows/auto-performance-fix.yml"
-                           target="_blank" rel="noopener">
-                            Workflow : auto-performance-fix.yml
-                            <span aria-hidden="true">↗</span>
-                        </a>
-                        {% if perf_fix_timestamp %}
-                        <time datetime="{{ perf_fix_timestamp }}">Cập nhật {{ dt::display_datetime(value=perf_fix_timestamp) }}</time>
-                        {% endif %}
-                    </footer>
-                </div>
-
-                {# ===== AUTHORITY REPORT ===== #}
-                <article class="insights__report-card insights__report-card--v2">
-                    <div class="insights__report-head">
-                        <span class="insights__report-icon" aria-hidden="true">🛡️</span>
-                        <div class="insights__report-titles">
-                            <h3 class="insights__report-title">Authority Report</h3>
-                            <p class="insights__report-desc">Trust Score, topical authority, gaps, forecast — Authority Booster daily 06:00.</p>
-                        </div>
-                    </div>
-                    <div class="insights__report-badges">
-                        <span class="insights__report-badge insights__report-badge--score">Trust {{ auth_trust }}</span>
-                        <span class="insights__report-badge">#{{ auth_num }}</span>
-                        <span class="insights__report-badge">{{ auth_label }}</span>
-                        {% if auth_orphans > 0 %}
-                        <span class="insights__report-badge insights__report-badge--warn">{{ auth_orphans }} orphans</span>
-                        {% endif %}
-                    </div>
-                    <footer class="insights__report-foot">
-                        {% if auth_updated %}
-                        <time datetime="{{ auth_updated }}">Cập nhật {{ dt::display_datetime(value=auth_updated) }}</time>
-                        {% endif %}
-                    </footer>
-                </article>
-
-                {# ===== AD-REPORT (V1) ===== #}
-                <article class="insights__report-card insights__report-card--v1">
-                    <div class="insights__report-head">
-                        <span class="insights__report-icon" aria-hidden="true">📊</span>
-                        <div class="insights__report-titles">
-                            <h3 class="insights__report-title">Ad-Report</h3>
-                            <p class="insights__report-desc">Báo cáo vị trí AdSense + tổng hợp tính năng phiên 18–19/06.</p>
-                        </div>
-                    </div>
-                    <div class="insights__report-badges">
-                        <span class="insights__report-badge insights__report-badge--live">LIVE</span>
-                        <span class="insights__report-badge">2 slots</span>
-                        <span class="insights__report-badge insights__report-badge--warn">placeholder</span>
-                    </div>
-                    <footer class="insights__report-foot">
-                        <span>Archive: <code>reports/adsense-ad-placement-report.md</code></span>
-                    </footer>
-                </article>
-
-                {# ===== AD-REPORT V2 ===== #}
-                <article class="insights__report-card insights__report-card--v2">
-                    <div class="insights__report-head">
-                        <span class="insights__report-icon" aria-hidden="true">🔥</span>
-                        <div class="insights__report-titles">
-                            <h3 class="insights__report-title">Ad-Report V2</h3>
-                            <p class="insights__report-desc">Deep UI/UX + phân tích RPM, ad density, top 50 candidates — auto daily 06:00.</p>
-                        </div>
-                    </div>
-                    <div class="insights__report-badges">
-                        <span class="insights__report-badge insights__report-badge--score">Score {{ ad_v2_score }}</span>
-                        <span class="insights__report-badge">#{{ ad_v2_num }}</span>
-                        <span class="insights__report-badge">{{ ad_v2_grade }} UX</span>
-                        <span class="insights__report-badge">{{ ad_v2_candidates }} candidates</span>
-                        {% if ad_v2_density == "too_sparse" %}
-                        <span class="insights__report-badge insights__report-badge--warn">sparse ads</span>
-                        {% endif %}
-                    </div>
-                    <footer class="insights__report-foot">
-                        <span>Density: <strong>{{ ad_v2_density }}</strong></span>
-                        {% if ad_v2_updated %}
-                        <time datetime="{{ ad_v2_updated }}">Cập nhật {{ dt::display_datetime(value=ad_v2_updated) }}</time>
-                        {% endif %}
-                    </footer>
-                </article>
-
                 {# ===== AUTO-MERGE REPORT ===== #}
                 <div class="insights__build insights__merge">
                     <header class="insights__build-head">
@@ -822,7 +621,7 @@
                 {# ===== QA DOMAIN SELECTOR (gợi ý tên miền) ===== #}
                 {% set domain_data = load_data(path="data/qa-domain-selector-report.json", required=false) %}
                 {% if domain_data %}
-                {% if domain_data.top5 %}{% set domain_items = domain_data.top5 %}{% else %}{% set domain_items = [] %}{% endif %}
+                {% set domain_items = domain_data.top5 | default(value=[]) %}
                 <div class="insights__domains">
                     <header class="insights__domains-head">
                         <h3 class="insights__domains-title">Domain Selector</h3>

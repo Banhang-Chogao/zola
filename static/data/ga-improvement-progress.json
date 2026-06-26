@@ -1,59 +1,59 @@
 {
-  "updated_at": "2026-06-26T00:22:35Z",
+  "updated_at": "2026-06-18T21:21:31Z",
   "tasks": [
     {
       "id": "seo",
       "label": "SEO optimization",
       "icon": "🔍",
       "status": "running",
-      "detail": "221 posts · avg 93.8/100 · tuning",
-      "source": "seo-qa-scores.json",
-      "updated_at": "2026-06-23T06:58:36.990339+07:00"
+      "detail": "Adding copyright sections",
+      "source": "seo-rank-autofix-report.json",
+      "updated_at": "2026-06-18T06:52:03+0700"
     },
     {
       "id": "internal_links",
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "0 broken links · 24 weak related pairs",
+      "detail": "0 broken links · 9 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-26T00:09:12Z"
+      "updated_at": "2026-06-18T21:11:46Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 61/100 · LCP 7.1 s · needs work",
+      "detail": "Mobile 65/100 · LCP 7.0 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-25T19:27:19+00:00"
+      "updated_at": "2026-06-18T12:02:29+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "1065/1067 pages",
-      "source": "compliance-score.json",
-      "updated_at": "2026-06-26T00:09:12Z"
+      "detail": "15 pages missing FAQ/schema · 458/458 pages",
+      "source": "seo-rank-autofix-report.json",
+      "updated_at": "2026-06-18T21:11:46Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: fix(footer): remove Deployment Status card + 🚀 Deploy strip,",
+      "detail": "Latest: CMS: cập nhật bài 'Fintech 2026: Paywall premium trên blog c",
       "source": "changelog.json",
-      "updated_at": "2026-06-25"
+      "updated_at": "2026-06-18"
     },
     {
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
-      "status": "pending",
-      "detail": "No build-dashboard snapshot",
-      "source": "build-dashboard.json",
-      "updated_at": null
+      "status": "done",
+      "detail": "356 links OK · IndexNow on publish",
+      "source": "qa-404-report.json",
+      "updated_at": "2026-06-18T04:30:00Z"
     },
     {
       "id": "image_opt",
@@ -62,22 +62,22 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-26T00:09:12Z"
+      "updated_at": "2026-06-18T21:11:46Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 61/100 vs desktop 93/100 (Δ32) · 1065/1067 ready",
+      "detail": "Mobile 65/100 vs desktop 98/100 (Δ33) · 458/458 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-25T19:27:19+00:00"
+      "updated_at": "2026-06-18T12:02:29+00:00"
     }
   ],
   "summary": {
-    "pending": 1,
+    "pending": 0,
     "running": 5,
-    "done": 2
+    "done": 3
   },
   "note": "Statuses from QA/SEO/PERF snapshots — informational, not GA metrics."
 }

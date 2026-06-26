@@ -27,7 +27,7 @@ q = "Quy tắc vàng của rebase là gì?"
 a = "Không bao giờ rebase các commit đã được đẩy lên nhánh dùng chung mà người khác đang dựa vào. Rebase viết lại lịch sử, làm thay đổi mã băm commit, gây rối loạn cho cộng tác viên đã pull nhánh đó."
 +++
 
-> 📚 **Git & GitHub Series (Bài 10/15)** — Bắt đầu phần nâng cao. Sau khi thành thạo [Pull Request ở Bài 9](/pull-request-quy-trinh-cong-tac-github/), ta học **git rebase** để làm sạch lịch sử.
+> 📚 **Git & GitHub Series (Bài 10/15)** — Bắt đầu phần nâng cao. Sau khi thành thạo [Pull Request ở Bài 9](/zola/posting/pull-request-quy-trinh-cong-tac-github/), ta học **git rebase** để làm sạch lịch sử.
 
 **Git rebase** là một trong những công cụ mạnh và dễ gây sợ nhất của Git. Nó cho phép bạn viết lại lịch sử commit — gộp nhiều commit lộn xộn thành một chuỗi gọn gàng, hoặc cập nhật nhánh với `main` mới nhất mà không tạo merge commit rối mắt. Nhưng sức mạnh đi kèm trách nhiệm: dùng sai có thể gây rối cho cả nhóm. Bài này giải thích rebase an toàn.
 
@@ -104,7 +104,7 @@ Vì rebase viết lại lịch sử (đổi mã băm commit), nếu bạn rebase
 
 ## git pull --rebase — đồng bộ mà không tạo merge commit
 
-Nhắc lại từ [Bài 8](/push-pull-fetch-dong-bo-voi-github/): khi `git pull`, mặc định Git sẽ merge. Nếu muốn giữ lịch sử thẳng, bạn có thể dùng:
+Nhắc lại từ [Bài 8](/zola/posting/push-pull-fetch-dong-bo-voi-github/): khi `git pull`, mặc định Git sẽ merge. Nếu muốn giữ lịch sử thẳng, bạn có thể dùng:
 
 ```bash
 git pull --rebase origin main
@@ -116,4 +116,4 @@ Lệnh này fetch về rồi rebase commit của bạn lên trên thay vì tạo
 
 **Git rebase** giúp lịch sử commit thẳng và sạch: cập nhật nhánh với `rebase main`, dọn commit lộn xộn với `rebase -i`. Sức mạnh này đi kèm quy tắc vàng — đừng rebase những gì đã chia sẻ. Dùng đúng chỗ, rebase khiến lịch sử dự án dễ đọc và chuyên nghiệp hơn hẳn.
 
-Ở **Bài 11**, chúng ta khám phá ba công cụ cứu cánh nâng cao: [git stash, cherry-pick và reflog](/git-stash-cherry-pick-reflog-nang-cao/).
+Ở **Bài 11**, chúng ta khám phá ba công cụ cứu cánh nâng cao: [git stash, cherry-pick và reflog](/zola/posting/git-stash-cherry-pick-reflog-nang-cao/).

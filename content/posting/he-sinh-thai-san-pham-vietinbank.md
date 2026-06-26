@@ -37,7 +37,7 @@ a = "Có. Ngoài mảng khách hàng cá nhân, VietinBank phục vụ doanh ngh
 
 Khi mới tìm hiểu, mình hay liệt kê sản phẩm theo kiểu danh sách dài, đọc xong quên ngay. Sau này mình đổi cách: xem ngân hàng như một hệ sinh thái, nơi mỗi nhóm sản phẩm giải quyết một nhu cầu cụ thể.
 
-Cách nhìn này có cái lợi là bạn thấy được sự liên kết. Tài khoản thanh toán là cửa ngõ, từ đó nối sang thẻ, tiết kiệm, vay và các tiện ích số. Tất cả vận hành trên nền tảng kỹ thuật chung mà mình đã kể ở [bài về core banking của VietinBank](/vietinbank-hien-dai-hoa-core-banking/).
+Cách nhìn này có cái lợi là bạn thấy được sự liên kết. Tài khoản thanh toán là cửa ngõ, từ đó nối sang thẻ, tiết kiệm, vay và các tiện ích số. Tất cả vận hành trên nền tảng kỹ thuật chung mà mình đã kể ở [bài về core banking của VietinBank](/zola/posting/vietinbank-hien-dai-hoa-core-banking/).
 
 ## Các nhóm sản phẩm VietinBank cho khách cá nhân
 
@@ -51,7 +51,7 @@ Với người dùng cá nhân như mình và bạn, có thể chia gọn thành
 | Vay vốn | Vay tiêu dùng, vay mua nhà, mua xe |
 | Ngân hàng số | Internet Banking, app iPay, thanh toán QR |
 
-Mỗi nhóm này đều có thể tiếp cận qua kênh số. Ví dụ tài khoản và tiết kiệm giờ mở online ngay trên app, đúng tinh thần [hành trình từ quầy đến ngân hàng số](/vietinbank-tu-giao-dich-quay-den-ngan-hang-so/) mà mình đã viết.
+Mỗi nhóm này đều có thể tiếp cận qua kênh số. Ví dụ tài khoản và tiết kiệm giờ mở online ngay trên app, đúng tinh thần [hành trình từ quầy đến ngân hàng số](/zola/posting/vietinbank-tu-giao-dich-quay-den-ngan-hang-so/) mà mình đã viết.
 
 ## Tài khoản, tiết kiệm và chuyện dòng tiền
 
@@ -65,7 +65,7 @@ Một chi tiết mình thấy hay là cách hai nhóm này phối hợp. Bạn c
 
 ## Thẻ và sản phẩm vay
 
-Thẻ là nhóm sản phẩm có lịch sử dài và nhiều dòng khác nhau, nên mình dành hẳn một bài riêng. Bạn có thể đọc kỹ ở [bài về lịch sử và các dòng thẻ VietinBank](/the-vietinbank-lich-su-va-cac-dong-the/).
+Thẻ là nhóm sản phẩm có lịch sử dài và nhiều dòng khác nhau, nên mình dành hẳn một bài riêng. Bạn có thể đọc kỹ ở [bài về lịch sử và các dòng thẻ VietinBank](/zola/posting/the-vietinbank-lich-su-va-cac-dong-the/).
 
 Sản phẩm vay thì đa dạng theo mục đích: vay tiêu dùng cho nhu cầu cá nhân, vay mua nhà, mua xe cho kế hoạch lớn. Điểm chung là đều có điều kiện, lãi suất và thủ tục riêng. Mình luôn nhắc bản thân đọc kỹ hợp đồng và cân nhắc khả năng trả nợ trước khi vay, vì đây là cam kết dài hạn.
 
@@ -77,15 +77,15 @@ Do gốc gác công thương, VietinBank có mảng doanh nghiệp khá mạnh. 
 
 Với một hộ kinh doanh hay công ty nhỏ, những dịch vụ này giúp tách bạch tiền cá nhân và tiền kinh doanh, theo dõi thu chi rõ ràng hơn. Đây cũng là lý do nhiều đơn vị chọn gắn bó lâu dài với một ngân hàng có nền tảng doanh nghiệp ổn định.
 
-Bao trùm lên tất cả là lớp ngân hàng số. Internet Banking và app iPay không phải một sản phẩm riêng lẻ, mà là cách để truy cập gần như mọi nhóm sản phẩm phía trên. Hành trình của kênh số này mình kể ở [bài về Internet Banking và VietinBank iPay](/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/).
+Bao trùm lên tất cả là lớp ngân hàng số. Internet Banking và app iPay không phải một sản phẩm riêng lẻ, mà là cách để truy cập gần như mọi nhóm sản phẩm phía trên. Hành trình của kênh số này mình kể ở [bài về Internet Banking và VietinBank iPay](/zola/posting/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/).
 
 Để tra cứu danh mục sản phẩm cập nhật và chính xác nhất, bạn nên xem thẳng trang [VietinBank](https://www.vietinbank.vn) thay vì dựa vào thông tin truyền miệng.
 
 ## Bài tiếp theo trong loạt
 
-Trong bức tranh hệ sinh thái này, thẻ là mảnh đáng tìm hiểu kỹ nhất vì lịch sử và độ phổ biến của nó. Bài kế tiếp mình sẽ đi sâu vào đó. Bạn cũng có thể xem lại [bài về core banking](/vietinbank-hien-dai-hoa-core-banking/) hoặc duyệt thêm tại [chuyên mục Ngân hàng](/topic/ngan-hang/).
+Trong bức tranh hệ sinh thái này, thẻ là mảnh đáng tìm hiểu kỹ nhất vì lịch sử và độ phổ biến của nó. Bài kế tiếp mình sẽ đi sâu vào đó. Bạn cũng có thể xem lại [bài về core banking](/zola/posting/vietinbank-hien-dai-hoa-core-banking/) hoặc duyệt thêm tại [chuyên mục Ngân hàng](/zola/categories/ngan-hang/).
 
-> 👉 **Đọc tiếp:** [Thẻ VietinBank: lịch sử phát triển và các dòng thẻ nổi bật →](/the-vietinbank-lich-su-va-cac-dong-the/)
+> 👉 **Đọc tiếp:** [Thẻ VietinBank: lịch sử phát triển và các dòng thẻ nổi bật →](/zola/posting/the-vietinbank-lich-su-va-cac-dong-the/)
 
 ## Tóm lại
 

@@ -28,7 +28,7 @@ q = "Tại sao uranium xuất hiện nhiều trong tin tức quốc tế?"
 a = "Vì độ làm giàu uranium liên quan trực tiếp đến chuỗi nhiên liệu hạt nhân hòa bình và là chỉ số giám sát quốc tế — không chỉ là con số kỹ thuật mà còn là vấn đề ngoại giao, như trong tin uranium Iran."
 +++
 
-> 🔬 **Series Khoa học — Uranium & năng lượng hạt nhân (Bài 1/5)** — Bạn đọc [tin uranium Iran](/baochi/iran-uranium-destruction-what-it-means/) và gặp các thuật ngữ như *làm giàu 60%*, *IAEA*, *tiêu hủy kho uranium*? Series này giúp bạn hiểu **khoa học nền** đằng sau các headline — giáo dục, trung lập, không hướng dẫn chế tạo vũ khí.
+> 🔬 **Series Khoa học — Uranium & năng lượng hạt nhân (Bài 1/5)** — Bạn đọc [tin uranium Iran](/zola/baochi/iran-uranium-destruction-what-it-means/) và gặp các thuật ngữ như *làm giàu 60%*, *IAEA*, *tiêu hủy kho uranium*? Series này giúp bạn hiểu **khoa học nền** đằng sau các headline — giáo dục, trung lập, không hướng dẫn chế tạo vũ khí.
 
 Khi báo chí nói Iran có hơn 400 kg uranium làm giàu đến 60%, câu hỏi đầu tiên không phải "ai thắng ngoại giao" mà là: **60% nghĩa là gì, và uranium là gì từ đầu?** Bài này trả lời phần nền tảng nhất trước khi series đi vào làm giàu, nhà máy, và tiêu hủy vật liệu.
 
@@ -52,14 +52,14 @@ Trong [năng lượng hạt nhân](https://en.wikipedia.org/wiki/Nuclear_power),
 Điểm then chốt khoa học:
 
 1. **Uranium tự nhiên quá "nghèo" U-235** — khoảng 0,7% — không đủ để duy trì phản ứng dây chuyền trong hầu hết lò nước nhẹ (LWR) dùng nhiên liệu uranium.
-2. Cần **làm giàu** (enrichment) để tăng tỷ lệ U-235 — chủ đề Bài 2 (sắp ra trong series) sẽ giải thích; bối cảnh tin tức xem [hub uranium Iran](/baochi/iran-uranium-destruction-what-it-means/).
+2. Cần **làm giàu** (enrichment) để tăng tỷ lệ U-235 — chủ đề Bài 2 (sắp ra trong series) sẽ giải thích; bối cảnh tin tức xem [hub uranium Iran](/zola/baochi/iran-uranium-destruction-what-it-means/).
 3. Nhiên liệu đã qua lò trở thành **nhiên liệu đã dùng** (spent fuel) — chứa đồng vị phóng xạ mới; xử lý thuộc [chu trình nhiên liệu hạt nhân](https://en.wikipedia.org/wiki/Nuclear_fuel_cycle).
 
 Điện hạt nhân cung cấp một phần đáng kể điện lưới ở nhiều quốc gia (Pháp, Hoa Kỳ một phần, Nhật Bản trước Fukushima…) — đây là **ứng dụng hòa bình** phổ biến nhất của uranium trong đời sống công cộng.
 
 ## Uranium trong tin tức: không chỉ là "con số kg"
 
-Khi đọc [bài báo uranium Iran](/baochi/iran-uranium-destruction-what-it-means/), ba khái niệm khoa học thường xen kẽ với chính trị:
+Khi đọc [bài báo uranium Iran](/zola/baochi/iran-uranium-destruction-what-it-means/), ba khái niệm khoa học thường xen kẽ với chính trị:
 
 - **Độ làm giàu (%)** — tỷ lệ U-235 trong mẫu; uranium tự nhiên ~0,7%; nhiên liệu lò điện thường ~3–5%; tin tức Iran nhắc mức **60%** — cao hơn nhiều so với nhiên liệu điện, là lý do giám sát quốc tế quan tâm (chi tiết ở Bài 2 và Bài 4).
 - **IAEA** — [Cơ quan Năng lượng Nguyên tử Quốc tế](https://www.iaea.org/) giám sát khai báo và kiểm tra vật liệu hạt nhân của các quốc gia thành viên Hiệp ước Không phổ biến vũ khí hạt nhân.
@@ -84,7 +84,7 @@ Uranium **có phóng xạ** — nhưng mức độ phụ thuộc đồng vị, k
 ## Lộ trình 5 bài
 
 1. **Bài 1** (bài này): Uranium là gì và vì sao quan trọng.
-2. **Bài 2**: [Uranium làm giàu là gì?](/uranium-lam-giau-la-gi/)
+2. **Bài 2**: [Uranium làm giàu là gì?](/zola/posting/uranium-lam-giau-la-gi/)
 3. **Bài 3**: Nhà máy làm giàu hoạt động thế nào? *(sắp ra mắt)*
 4. **Bài 4**: Điện hạt nhân khác vũ khí hạt nhân *(sắp ra mắt)*
 5. **Bài 5**: Phá hủy cơ sở / tiêu hủy vật liệu — điều gì xảy ra? *(sắp ra mắt)*

@@ -190,9 +190,9 @@ Nếu bạn cũng đang phân vân tối nay đi đâu, hy vọng list này giú
 quyết định nhanh hơn. Còn nếu bạn có quán ruột nào chưa thấy trong
 đây — comment cho mình biết.
 
-Đọc thêm: [Mùa nào đi Hàn đẹp nhất?](/mua-nao-di-han-la-dep-nhat/)
-nếu bạn đang lên kế hoạch chuyến đi xa, hay [Tết Đoan Ngọ ở Hàn, Việt, Trung khác nhau thế nào?](/tet-doan-ngo-han-viet-trung/)
-để hiểu văn hóa ẩm thực lễ tiết, hoặc [hành trình công nghệ blog cá nhân](/cong-nghe-blog-duy-nguyen/)
+Đọc thêm: [Mùa nào đi Hàn đẹp nhất?](/zola/posting/mua-nao-di-han-la-dep-nhat/)
+nếu bạn đang lên kế hoạch chuyến đi xa, hay [Tết Đoan Ngọ ở Hàn, Việt, Trung khác nhau thế nào?](/zola/posting/tet-doan-ngo-han-viet-trung/)
+để hiểu văn hóa ẩm thực lễ tiết, hoặc [hành trình công nghệ blog cá nhân](/zola/posting/cong-nghe-blog-duy-nguyen/)
 nếu bạn quan tâm phía sau hậu trường blog này.
 
 📚 Muốn tìm quán được giới phê bình ẩm thực đánh giá cao? Tham khảo [Michelin Guide TP.HCM](https://guide.michelin.com/en/vn/ho-chi-minh-city/restaurants).

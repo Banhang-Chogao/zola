@@ -1,6 +1,4 @@
 public/
-# Extracted Zola binary (repo ships zola-*.tar.gz; the unpacked binary is a local build artifact)
-/zola
 .DS_Store
 *.swp
 __pycache__/
@@ -27,7 +25,6 @@ ghp_*
 
 # Paywall runtime data — không commit DB local / backup strip tạm
 data/paywall.db
-data/vipzone.db
 data/.paywall-content-backup.json
 
 # ff.py AI-Agent — logs + teach feedback (local only)
@@ -36,32 +33,3 @@ data/.paywall-content-backup.json
 # Generated pagination anchors (scripts/build_feed_pagination.py)
 content/feed-anchor-*.md
 content/posting/feed-anchor-*.md
-
-node_modules/
-
-# V18: Vaccine/QA runtime state/lock/log — volatile, never commit (cause merge conflicts)
-data/vaccine-hotfix-state.json
-data/vaccine-hotfix.log
-data/vaccine-autofixer-state.json
-data/vaccine-autofixer.log
-data/qa-rule-checker-state.json
-data/autofix-conflicts-state.json
-reports/rule-conflict-report.json
-reports/rule-conflict-report.md
-
-# V29: deploysafe29 on-demand prod smoke report — env-specific verdict + timestamp
-data/prod-smoke-report.json
-
-# Pixabay image-assist crawl suggestions — volatile runtime (re-crawlable, gitignored)
-data/pixabay-suggestions/
-
-# private AI operating notes
-CLAUDE_PRIVATE.md
-docs/private/
-
-# local QA artifacts
-*.log
-CLAUDE.md.save
-
-# Local secrets/config
-seomoney.json

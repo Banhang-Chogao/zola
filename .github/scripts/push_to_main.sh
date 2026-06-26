@@ -85,37 +85,7 @@ fi
 git commit -m "$COMMIT_MSG"
 
 REMOTE_URL="https://x-access-token:${AUTH_TOKEN}@github.com/${REPO}.git"
-
-# 💉 VACCINE: concurrent-push race — nhiều bot (changelog / heartbeat / compliance /
-# merge-report…) push `main` song song. `git push` chạy 1 lần sẽ bị
-# "! [rejected] HEAD -> main (fetch first)" khi remote vừa nhích lên → trước đây
-# workflow đỏ và commit vừa tạo bị MẤT HẲN (vd entry changelog PR #945 sinh ra rồi
-# biến mất). Retry tối đa 3 lần: TRƯỚC MỖI push luôn `git pull --rebase` để replay
-# commit của ta lên main mới nhất, rồi push. Backoff 2/4s giữa các lần. Hầu hết race
-# chạm file KHÁC (data/*.json) nên rebase sạch; nếu rebase conflict (cùng file) →
-# abort để vòng sau fetch lại.
-PUSH_OK=false
-for attempt in 1 2 3; do
-  # pull --rebase trước mỗi push: kéo các commit bot khác vừa vào main rồi đặt
-  # commit của ta lên trên → push fast-forward, tránh "fetch first" rejection.
-  if ! git pull --rebase "$REMOTE_URL" main; then
-    echo "::warning::push_to_main: rebase conflict (attempt ${attempt}/3) — abort, thử lại"
-    git rebase --abort 2>/dev/null || true
-  fi
-  if git push "$REMOTE_URL" HEAD:main; then
-    PUSH_OK=true
-    break
-  fi
-  echo "::warning::push_to_main: push bị từ chối (attempt ${attempt}/3) — main vừa nhích, rebase + thử lại"
-  if [ "$attempt" -lt 3 ]; then
-    sleep $((2 ** attempt))
-  fi
-done
-
-if [ "$PUSH_OK" != "true" ]; then
-  echo "::error::push_to_main: push thất bại sau 3 lần retry (concurrent-push race chưa giải quyết)"
-  exit 1
-fi
+git push "$REMOTE_URL" HEAD:main
 
 echo "✓ Pushed directly to main"
 

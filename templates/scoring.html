@@ -1,13 +1,10 @@
 {% extends "base.html" %}
 
-{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
-{% block robots %}noindex, follow{% endblock %}
-
 {% block title %}Scoring Card | {{ config.title }}{% endblock %}
 
 {% block main %}
     {% set scores = load_data(path="data/scores.json", required=false) %}
-    {% if scores %}{% set scores = scores %}{% else %}{% set scores = [] %}{% endif %}
+    {% set scores = scores | default(value=[]) %}
     {% set total = scores | length %}
 
     <section class="scoring">

@@ -1,15 +1,3 @@
 sentence-transformers==5.5.1
 numpy==2.4.6
 python-frontmatter==1.3.0
-
-# AI Learning Engine — Vaccine AutoFixer (FAISS similar-failure search) +
-# Content Direction intelligence. All optional at runtime: scripts degrade to
-# stdlib/cached data when a lib is missing so CI never breaks. No TensorFlow,
-# no GPU, no large model files committed.
-faiss-cpu==1.13.0
-scikit-learn==1.7.2
-pandas==2.3.3
-beautifulsoup4==4.14.2
-markdown==3.10
-rank-bm25==0.2.2
-textstat==0.7.10

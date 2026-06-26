@@ -2,29 +2,17 @@
 
 {% block title %}{{ taxonomy.name | capitalize }} | {{ config.title }}{% endblock %}
 
-{# Trang mục lục tag/category (danh sách term) là thin index → noindex, follow:
-   bỏ khỏi Google index nhưng vẫn cho crawl/truyền link-equity. #}
-{% block robots %}noindex, follow{% endblock %}
-
 {% block main %}
-    <div class="wwdc-listing">
-        <header class="wwdc-listing__header">
-            <span class="wwdc-listing__eyebrow">Mục lục</span>
-            <h1 class="wwdc-listing__title">{{ taxonomy.name | capitalize }}</h1>
-            {% if terms | length > 0 %}
-                <p class="wwdc-listing__count"><strong>{{ terms | length }}</strong> {{ taxonomy.name }}</p>
-            {% endif %}
-        </header>
+    <header class="section-header">
+        <h1 class="section-header__title">{{ taxonomy.name | upper }}</h1>
+    </header>
 
-        <ul class="wwdc-term-grid">
-            {% for term in terms %}
-                <li>
-                    <a class="wwdc-term-card" href="{{ term.permalink }}">
-                        <span class="wwdc-term-card__name">{{ term.name }}</span>
-                        <span class="wwdc-term-card__count">{{ term.pages | length }}</span>
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+    <ul class="taxonomy-list">
+        {% for term in terms %}
+            <li>
+                <a href="{{ term.permalink }}">{{ term.name }}</a>
+                <span class="taxonomy-list__count">{{ term.pages | length }}</span>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock main %}

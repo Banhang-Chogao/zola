@@ -54,7 +54,7 @@ TNEX là **ngân hàng số của Ngân hàng Hàng Hải (MSB)**, ra mắt vớ
 - Chuyển khoản 24/7: miễn phí trong hạn mức.
 - Thẻ thanh toán, quản lý chi tiêu trong app.
 
-Nếu mục tiêu của bạn là **tối giản chi phí** thay vì săn hoàn tiền, TNEX rất đáng cân nhắc. Muốn so sánh hướng "miễn phí" với hướng "hoàn tiền", đọc [ngân hàng số hoàn tiền nhiều nhất](/ngan-hang-so-hoan-tien-nhieu-nhat/).
+Nếu mục tiêu của bạn là **tối giản chi phí** thay vì săn hoàn tiền, TNEX rất đáng cân nhắc. Muốn so sánh hướng "miễn phí" với hướng "hoàn tiền", đọc [ngân hàng số hoàn tiền nhiều nhất](/zola/posting/ngan-hang-so-hoan-tien-nhieu-nhat/).
 
 ## Bảo mật và trải nghiệm
 
@@ -68,13 +68,13 @@ Nhiều người băn khoăn: ngân hàng miễn phí thì kiếm tiền từ đ
 
 - Người muốn **miễn phí tối đa**, giao dịch nhỏ thường xuyên.
 - Tiểu thương, người trẻ thích giao diện cộng đồng.
-- Sinh viên ngân sách hạn chế — xem [ngân hàng số cho sinh viên](/ngan-hang-so-cho-sinh-vien/).
+- Sinh viên ngân sách hạn chế — xem [ngân hàng số cho sinh viên](/zola/posting/ngan-hang-so-cho-sinh-vien/).
 
-So với [Timo](/timo-la-gi-co-nen-dung/) (ổn định, Hangout) hay [Liobank](/review-liobank-by-ocb/) (hoàn tiền), TNEX thắng ở sự miễn phí. Xem đối đầu trực tiếp ở [so sánh Timo vs TNEX](/so-sanh-timo-vs-tnex/).
+So với [Timo](/zola/posting/timo-la-gi-co-nen-dung/) (ổn định, Hangout) hay [Liobank](/zola/posting/review-liobank-by-ocb/) (hoàn tiền), TNEX thắng ở sự miễn phí. Xem đối đầu trực tiếp ở [so sánh Timo vs TNEX](/zola/posting/so-sanh-timo-vs-tnex/).
 
 ## Có nên dùng TNEX không?
 
-**Nên**, nếu bạn ưu tiên chi phí bằng 0 và không đặt nặng hoàn tiền hay hệ sinh thái lớn. Vì mở miễn phí, TNEX là một app lý tưởng để dùng kèm — toàn cảnh ở [top ngân hàng số tốt nhất Việt Nam 2026](/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
+**Nên**, nếu bạn ưu tiên chi phí bằng 0 và không đặt nặng hoàn tiền hay hệ sinh thái lớn. Vì mở miễn phí, TNEX là một app lý tưởng để dùng kèm — toàn cảnh ở [top ngân hàng số tốt nhất Việt Nam 2026](/zola/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
 
 ## Tóm lại
 

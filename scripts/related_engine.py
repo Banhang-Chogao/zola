@@ -9,36 +9,14 @@ import json
 import re
 import sys
 import tomllib
-import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-# numpy is only needed by build_indexes/pick_related (the embedding pass). Import
-# it lazily so the lightweight parsing helpers (load_posts, parse_post,
-# strip_markdown, cluster maps) can be reused without numpy installed — e.g. by
-# scripts/content_direction.py running in a minimal/offline env.
+import numpy as np
+
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT_SECTIONS = ("posting", "baochi")
-
-
-def zola_url_slug(stem: str) -> str:
-    """Zola's URL slug for a filename stem.
-
-    Strips a leading ``YYYY-MM-DD-`` date prefix (Zola treats it as the page
-    date, not part of the slug) and slugifies Unicode → ASCII (đ→d, diacritics
-    stripped). Without this, filenames like ``2026-06-25-foo.md`` or
-    ``tai-sao-diều.md`` were stored with their raw stem and rendered as phantom
-    links (``/posting/2026-06-25-foo/``, ``/posting/…diều…/``) on the scoring
-    page. Mirrors Zola's own slug derivation so stored slugs match built URLs.
-    """
-    m = re.match(r"^\d{4}-\d{2}-\d{2}-(.+)$", stem)
-    if m:
-        stem = m.group(1)
-    stem = stem.replace("đ", "d").replace("Đ", "D")
-    stem = unicodedata.normalize("NFKD", stem)
-    stem = "".join(c for c in stem if not unicodedata.combining(c))
-    return re.sub(r"[^a-zA-Z0-9]+", "-", stem).strip("-").lower()
 RELATED_FILE = ROOT / "data" / "related.json"
 SCORES_FILE = ROOT / "data" / "scores.json"
 
@@ -186,7 +164,7 @@ def load_posts() -> list[PostRecord]:
 
             posts.append(
                 PostRecord(
-                    slug=meta.get("slug") or zola_url_slug(path.stem),
+                    slug=meta.get("slug") or path.stem,
                     section=section,
                     title=title,
                     date=date_str,
@@ -313,8 +291,6 @@ def build_indexes(
 ) -> tuple[dict[str, list[dict[str, Any]]], list[dict[str, Any]]]:
     if len(posts) < 2:
         return {}, []
-
-    import numpy as np
 
     if use_embeddings:
         model = load_model(MODEL_NAME)

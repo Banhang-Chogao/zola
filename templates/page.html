@@ -1,160 +1,445 @@
-{% import "macros/breadcrumb-article.html" as bc %}
-{% import "macros/related-posts-thumbnail.html" as rp %}
-{% import "macros/copyright-notice.html" as cp %}
-{% import "macros/pipeline-heartbeat-inline.html" as hb %}
-{% extends "index.html" %}
-{%- block meta %}
-  {%- set g_is_article = true %}
-{%- endblock meta %}
-{# Full-width single-column reading view — match the WWDC26 reference (no sidebar).
-   Applies to EVERY post (default template for posting + baochi, all categories). #}
-{% block sidebar %}{% endblock sidebar %}
-{% block sidebar_seo_widgets %}{% endblock sidebar_seo_widgets %}
+{% extends "base.html" %}
+{% import "macros/verified.html" as v %}
+{% import "macros/giscus.html" as giscus %}
+{% import "macros/img.html" as img %}
+{% import "macros/references.html" as references %}
+{% import "macros/series-nav.html" as series %}
+{% import "macros/series-hub.html" as series_hub %}
+{% import "macros/paywall.html" as paywall %}
+{% import "macros/premium.html" as premium %}
+{% import "macros/locked.html" as locked %}
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+
+{# Bài premium đang ẩn → locked overlay + noindex (SEO-safe). Phát hiện qua
+   extra.premium hoặc category "premium". (Tính trong block vì set top-level của
+   child template extends không được Tera thực thi.) #}
+{% block robots %}{% set cats = page.taxonomies.categories | default(value=[]) %}{% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}{% if is_premium and config.extra.premium_hidden | default(value=false) %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
+
 {% block main %}
-{% set_global toc_total = 0 %}
-{% for h in page.toc %}
-  {% set_global toc_total = toc_total + 1 %}
-  {% for c in h.children %}{% set_global toc_total = toc_total + 1 %}{% endfor %}
-{% endfor %}
-{% set show_rail = toc_total >= 3 and page.extra.toc | default(value=true) %}
+    {% set cats = page.taxonomies.categories | default(value=[]) %}
+    {% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}
+    {% if is_premium and config.extra.premium_hidden | default(value=false) %}
+    {{ locked::overlay(base_url=config.base_url) }}
+    {% else %}
+    <article class="post-single">
+            <div class="post-single__hero">
+                {% if page.extra.premium %}
+                    {{ premium::badge() }}
+                {% elif page.taxonomies.categories %}
+                    <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
+                {% endif %}
+                {# Hero image = LCP candidate. eager + fetchpriority high
+                   + width/height (aspect 16/7 matching CSS) → browser
+                   reserve space tránh CLS dù CSS chưa kịp parse.
+                   Bài chưa có thumbnail → placeholder thương hiệu (macro img). #}
+                <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                     width="1600" height="700"
+                     loading="eager" fetchpriority="high" decoding="async">
+            </div>
 
-{# Eyebrow category — first real category (skip the "Tất cả" / "premium" buckets). #}
-{% set_global oasis_cat = "" %}
-{% if page.taxonomies.categories %}
-  {% for c in page.taxonomies.categories %}
-    {% if oasis_cat == "" and c != "Tất cả" and c != "premium" %}{% set_global oasis_cat = c %}{% endif %}
-  {% endfor %}
-{% endif %}
+        <header class="post-single__header">
+            {# ===== Breadcrumb hiển thị (Trang chủ › Chuyên mục › Bài) =====
+               Cho người đọc biết bài đang ở chuyên mục nào. BreadcrumbList JSON-LD
+               (cho Google) đã có sẵn ở base.html — đây là phiên bản nhìn thấy được.
+               Chuyên mục = category chuyên biệt đầu tiên (bỏ qua "Tất cả"); nếu bài
+               chỉ có "Tất cả" thì dùng chính nó. ===== #}
+            {% set bc_cats = page.taxonomies.categories | default(value=[]) %}
+            {% set_global bc_cat = "" %}
+            {% for c in bc_cats %}
+                {% if bc_cat == "" and c != "Tất cả" %}{% set_global bc_cat = c %}{% endif %}
+            {% endfor %}
+            {% if bc_cat == "" and bc_cats | length > 0 %}{% set_global bc_cat = bc_cats | first %}{% endif %}
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol class="breadcrumb__list">
+                    <li class="breadcrumb__item">
+                        <a class="breadcrumb__link" href="{{ config.base_url | safe }}/">Trang chủ</a>
+                    </li>
+                    {% if bc_cat != "" %}
+                    <li class="breadcrumb__item">
+                        <a class="breadcrumb__link" href="{{ get_taxonomy_url(kind='categories', name=bc_cat) }}">{{ bc_cat }}</a>
+                    </li>
+                    {% endif %}
+                    <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">{{ page.title }}</li>
+                </ol>
+            </nav>
+            <h1 class="post-single__title">{{ page.title }}</h1>
+            <div class="post-meta">
+                <span class="post-meta__author">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    {{ config.extra.author }}{{ v::badge() }}
+                </span>
+                <span class="post-meta__date">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    {{ page.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
+                </span>
+            </div>
 
-<div class="oasis">
-  {# ===== Brand top bar (WWDC26 language) ===== #}
-  <a class="oasis__top" href="{{ config.base_url | safe }}/">
-    <span class="oasis__brand">
-      <span class="oasis__mark">{{ config.title | truncate(length=1, end="") }}</span>
-      <span class="oasis__brand-text">
-        <span class="oasis__brand-name">{{ config.title }}</span>
-        <span class="oasis__brand-tag">{{ config.extra.tagline | default(value="") }}</span>
-      </span>
-    </span>
-    <span class="oasis__top-right">
-      {%- if oasis_cat %}<strong>{{ oasis_cat }}</strong>{% if page.date %} · {% endif %}{% endif -%}
-      {%- if page.date %}{{ page.date | date(format="%d.%m.%Y") }}{% endif -%}
-    </span>
-  </a>
+            {# Stats badge — SEO score render từ DB build-time, reading stats do JS bổ sung. #}
+            {% set seo_data = load_data(path="data/seo-qa-scores.json", required=false) %}
+            {% set page_parts = page.path | trim_start_matches(pat="/") | trim_end_matches(pat="/") | split(pat="/") %}
+            {% set content_path = "content/" ~ page_parts.0 ~ "/" ~ page.slug ~ ".md" %}
+            {% set_global seo_post = false %}
+            {% if seo_data and seo_data.posts and seo_data.posts[content_path] %}
+                {% set_global seo_post = seo_data.posts[content_path] %}
+            {% endif %}
+            <div class="post-stats" data-post-stats>
+                {% if seo_post %}
+                    <span class="post-stat post-stat--seo" title="Điểm SEO on-page của bài này từ Bảng Vàng SEO">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 14l3-3"></path>
+                            <path d="M3.34 19a10 10 0 1 1 17.32 0"></path>
+                        </svg>
+                        SEO <strong>{{ seo_post.score | round(precision=0) }}</strong><span class="post-stat__suffix">/100</span>
+                        <span class="post-stat__grade">{{ seo_post.grade }}</span>
+                    </span>
+                {% endif %}
+            </div>
 
-  {# ===== Breadcrumb (MoMo theme test + Semantic article breadcrumb) ===== #}
-  <nav class="oasis__crumb" aria-label="Breadcrumb">
-    <a href="{{ config.base_url | safe }}/">Trang chủ</a>
-    <span class="oasis__crumb-sep" aria-hidden="true">›</span>
-    {%- if oasis_cat %}
-    <a href="{{ get_taxonomy_url(kind='categories', name=oasis_cat) }}">{{ oasis_cat }}</a>
-    <span class="oasis__crumb-sep" aria-hidden="true">›</span>
-    {%- endif %}
-    <span class="oasis__crumb-current">{{ page.title | truncate(length=48) }}</span>
-  </nav>
+            {# Edit button — chỉ hiện cho admin đã login CMS (PAT trong localStorage) #}
+            <div class="post-actions" data-post-actions hidden>
+                {# page.path = "/posting/{slug}/" → tách lấy đoạn cuối (slug thuần).
+                   Trước đây dùng page.relative_path nhưng giá trị này có lúc rỗng/sai
+                   trong section rendering → build URL từ slug để tường minh và ổn định. #}
+                {% set slug = page.path | trim_start_matches(pat="/posting/") | trim_end_matches(pat="/") %}
+                <a class="edit-btn" href="{{ config.base_url }}/editor/?slug={{ slug }}">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    Sửa bài
+                </a>
+                <a class="edit-btn edit-btn--ghost" href="https://github.com/Banhang-Chogao/zola/edit/main/content/posting/{{ slug }}.md" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    Sửa trên GitHub
+                </a>
+            </div>
+        </header>
 
-  {# Semantic breadcrumb-article (for JSON-LD & SEO) #}
-  {%- if page.taxonomies.categories and page.taxonomies.categories | length > 0 %}
-  {% set cat_name = page.taxonomies.categories[0] %}
-  {%- else %}
-  {% set cat_name = "Tất cả" %}
-  {%- endif %}
-  {{ bc::article(
-    base_url=config.base_url,
-    category_name=cat_name,
-    category_url=get_taxonomy_url(kind='categories', name=cat_name),
-    post_title=page.title
-  ) }}
+        {# Ad banner — sau này thay link/ảnh khi có quảng cáo #}
+        <a class="ad-banner" href="{{ config.base_url }}" title="Về trang chủ">
+            <div class="ad-banner__image">
+                <img src="{{ get_url(path='img/placeholder/placeholder-wide.svg') }}" alt="Banner quảng cáo — về trang chủ" onerror="this.style.display='none'; this.parentNode.classList.add('ad-banner__image--placeholder')" loading="lazy" decoding="async">
+                <span class="ad-banner__icon" aria-hidden="true">🐻</span>
+            </div>
+            <div class="ad-banner__text">
+                <span class="ad-banner__label">QUẢNG CÁO</span>
+                <h3 class="ad-banner__title">Đặt banner quảng cáo của bạn tại đây</h3>
+                <p class="ad-banner__desc">Nhấp để về trang chủ — Khu vực này sẽ hiển thị quảng cáo khi có hợp đồng.</p>
+            </div>
+            <span class="ad-banner__arrow" aria-hidden="true">→</span>
+        </a>
 
-  {# ===== Hero — eyebrow / title / sub / stats ===== #}
-  <header class="oasis__hero">
-    {%- if oasis_cat %}<p class="oasis__eyebrow">{{ oasis_cat }}</p>{% endif %}
-    <h1 class="oasis__title">{{ page.title }}</h1>
-    {%- if page.description %}<p class="oasis__sub">{{ page.description }}</p>{% endif %}
-    <div class="oasis__stats">
-      <div class="oasis__stat"><span class="oasis__stat-n">{{ page.reading_time }}</span><span class="oasis__stat-l">Phút đọc</span></div>
-      <div class="oasis__stat"><span class="oasis__stat-n">{{ page.word_count }}</span><span class="oasis__stat-l">Từ</span></div>
-      {%- if toc_total > 0 %}<div class="oasis__stat"><span class="oasis__stat-n">{{ toc_total }}</span><span class="oasis__stat-l">Mục lục</span></div>{% endif %}
-      {%- if page.date %}<div class="oasis__stat"><span class="oasis__stat-n">{{ page.date | date(format="%d.%m") }}</span><span class="oasis__stat-l">{{ page.date | date(format="%Y") }}</span></div>{% endif %}
-    </div>
-    {% include "partials/page_info.html" %}
-  </header>
+        {% if page.extra.premium %}
+        <div class="post-single__content post-single__content--teaser post-single__content--premium-locked">
+            {{ page.content | safe }}
+        </div>
+        {{ paywall::box(page=page, config=config) }}
+        {% else %}
+        <div class="post-single__content">
+            {# ===== Mục lục (TOC) — tự động từ native page.toc cho MỌI bài có
+               >= 3 heading (H2/H3). Anchor dùng id heading thật (custom {#id}
+               hoặc auto) nên luôn khớp; smooth scroll + offset navbar đã set
+               global ở _reset.scss (html scroll-behavior + scroll-padding-top).
+               KHÔNG dùng JS; KHÔNG nằm trong page.content → RSS/summary không bị
+               ảnh hưởng. Tắt thủ công 1 bài: [extra] toc = false. ===== #}
+            {% set_global toc_total = 0 %}
+            {% for h in page.toc %}
+                {% set_global toc_total = toc_total + 1 %}
+                {% for c in h.children %}{% set_global toc_total = toc_total + 1 %}{% endfor %}
+            {% endfor %}
+            {% if toc_total >= 3 and page.extra.toc | default(value=true) %}
+            <nav class="toc" aria-label="Mục lục">
+                <p class="toc__title">Mục lục</p>
+                <ol class="toc__list">
+                    {% for h in page.toc %}
+                    <li>
+                        <a href="#{{ h.id }}">{{ h.title | safe }}</a>
+                        {% if h.children %}
+                        <ol>
+                            {% for c in h.children %}
+                            <li><a href="#{{ c.id }}">{{ c.title | safe }}</a></li>
+                            {% endfor %}
+                        </ol>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ol>
+            </nav>
+            {% endif %}
+            {{ page.content | safe }}
+        </div>
+        {% endif %}
 
-  <div class="post-layout{% if show_rail %} post-layout--rail{% endif %}">
-  <article>
-    <!-- Begin Page Start inject -->
-    {% include "injects/page_start.html" ignore missing %}
-    <!-- End Page Start inject -->
+        {{ series_hub::callout(page=page) }}
 
-    {%- if g_image_url %}
-    <figure class="oasis__cover">
-      <img
-        src="{{ _link::rel(dest=g_image_url, cu=_cu, base=_base) }}"
-        {%- if page.extra.cover.alt is defined %}
-        alt="{{ page.extra.cover.alt | escape_xml | safe }}"{% endif %}
-        {%- if g_image_data.width is defined %}
-        width="{{ g_image_data.width | int }}"{% endif %}
-        {%- if g_image_data.height is defined %}
-        height="{{ g_image_data.height | int }}"{% endif %}
-      / loading="lazy" decoding="async">
-    </figure>
-    {%- endif %}
-    {%- set page_toc = true %}
-    {% include "partials/toc.html" %}
-    <!-- Content -->
-    <section class="oasis__body post-single__content">{{ page.content | safe }}</section>
+        {{ series::nav(page=page) }}
 
-    {# FAQ — styled accordion, immediately after post content, before breadcrumb/post navigation #}
-    {% include "partials/faq.html" %}
+        {{ references::section(page=page) }}
 
-    <hr />
-    {% include "partials/post_taxonomies.html" %}
-    {%- if page.lower or page.higher %}
-    {% include "partials/post_navigation.html" %}
-    {%- endif %}
-    {%- if page.extra.comment | default(value=config.extra.comment) %}
-    {% include "partials/comment.html" %}
-    {%- endif %}
+        {# ===== FAQ (Câu hỏi thường gặp) → JSON-LD FAQPage sinh ở base.html ===== #}
+        {% if page.extra.faq %}
+        <section class="faq" aria-labelledby="faq-heading">
+            <h2 class="faq__title" id="faq-heading">Câu hỏi thường gặp</h2>
+            {% for item in page.extra.faq %}
+            <details class="faq__item"{% if loop.first %} open{% endif %}>
+                <summary class="faq__q">{{ item.q }}</summary>
+                <div class="faq__a">{{ item.a }}</div>
+            </details>
+            {% endfor %}
+        </section>
+        {% endif %}
 
-    <!-- Article Ending Sections -->
-    {# Copyright Notice #}
-    {{ cp::article(
-      year="2026",
-      site_name=config.title,
-      author=config.extra.author | default(value="")
-    ) }}
+        {# ===== PREV / NEXT POST NAVIGATION ("Đọc tiếp") =====
+           SEO crawl-depth + anti-orphan: link every post to its chronological
+           siblings so no published page is left without inbound/outbound links.
+           Zola exposes page.lower / page.higher for the page's section (sorted
+           by date here): lower = older post (lower date), higher = newer post.
+           The guard renders nothing when a section has no neighbours.
+           Complements series-nav above, which only links within a curated
+           series — this works for every standalone post too. ===== #}
+        {% if page.lower or page.higher %}
+        <nav class="post-nav" aria-label="Đọc tiếp">
+            <p class="post-nav__title">Đọc tiếp</p>
+            <div class="post-nav__grid">
+                {% if page.lower %}
+                <a class="post-nav__link post-nav__link--prev" href="{{ page.lower.permalink }}" rel="prev">
+                    <span class="post-nav__dir">← Bài trước</span>
+                    <span class="post-nav__label">{{ page.lower.title }}</span>
+                </a>
+                {% else %}
+                <span class="post-nav__link post-nav__link--empty" aria-hidden="true"></span>
+                {% endif %}
+                {% if page.higher %}
+                <a class="post-nav__link post-nav__link--next" href="{{ page.higher.permalink }}" rel="next">
+                    <span class="post-nav__dir">Bài kế tiếp →</span>
+                    <span class="post-nav__label">{{ page.higher.title }}</span>
+                </a>
+                {% endif %}
+            </div>
+        </nav>
+        {% endif %}
 
-    {# Pipeline Heartbeat #}
-    {{ hb::compact() }}
+        {% if page.taxonomies.tags %}
+            <footer class="post-single__footer">
+                <div class="tag-list">
+                    <span class="tag-list__label">TAGS:</span>
+                    {% for tag in page.taxonomies.tags %}
+                        <a class="tag-list__tag" href="{{ get_taxonomy_url(kind='tags', name=tag) }}">#{{ tag }}</a>
+                    {% endfor %}
+                </div>
+            </footer>
+        {% endif %}
 
-    <!-- Begin Page End inject -->
-    {% include "injects/page_end.html" ignore missing %}
-    <!-- End Page End inject -->
-  </article>
-  {% if show_rail %}
-  <aside class="toc-rail" data-toc-rail aria-label="Mục lục bài viết">
-    <p class="toc-rail__title">Trong bài này</p>
-    <nav class="toc-rail__nav" aria-label="Danh sách mục trong bài">
-      {% for h in page.toc %}
-      <a class="toc-rail__link" href="#{{ h.id }}" data-toc-link>
-        <span class="toc-rail__num">{% if loop.index < 10 %}0{% endif %}{{ loop.index }}</span>
-        <span class="toc-rail__text">{{ h.title | safe }}</span>
-      </a>
-      {% for c in h.children %}
-      <a class="toc-rail__link toc-rail__link--sub" href="#{{ c.id }}" data-toc-link>
-        <span class="toc-rail__text">{{ c.title | safe }}</span>
-      </a>
-      {% endfor %}
-      {% endfor %}
-    </nav>
-  </aside>
-  {% endif %}
-  </div>
+        {# ===== AUTHOR BOX ===== #}
+        {# Đọc author info từ author.json (source of truth) → update qua
+           /admin-author/ mà không edit config.toml + push manual. Fallback
+           config.extra nếu file thiếu (dev local hoặc lần đầu). #}
+        {% set author_data = load_data(path="author.json", required=false) %}
+        {% set author_name = author_data.name | default(value=config.extra.author) %}
+        {% set author_url = author_data.url | default(value=config.extra.author_url | default(value="")) %}
+        {% set author_bio = author_data.bio | default(value=config.extra.author_bio | default(value="")) %}
+        {% set author_avatar = author_data.avatar_path | default(value=config.extra.author_avatar | default(value="")) %}
+        {% if author_avatar and not author_avatar is starting_with("http") %}
+            {% set author_avatar = config.base_url ~ author_avatar %}
+        {% endif %}
 
-  {# ===== Footer note ===== #}
-  <footer class="oasis__foot">
-    <p>Đọc thêm trên <a href="{{ config.base_url | safe }}/">{{ config.title }}</a>{% if oasis_cat %} · chuyên mục <strong>{{ oasis_cat }}</strong>{% endif %}.</p>
-  </footer>
-</div>
-<script src="{{ get_url(path='js/toc-rail.js') }}" defer></script>
+        <aside class="author-box" aria-label="Tác giả">
+            <a class="author-box__avatar"
+               {% if author_url %}href="{{ author_url }}" target="_blank" rel="noopener"{% endif %}>
+                <img src="{{ author_avatar }}"
+                     alt="{{ author_name }}"
+                     width="80" height="80"
+                     loading="lazy"
+                     decoding="async"
+                     onerror="this.style.display='none'">
+            </a>
+            <div class="author-box__body">
+                <h3 class="author-box__name">
+                    {{ author_name }}{{ v::badge() }}
+                </h3>
+                {% if author_url %}
+                    <a class="author-box__url" href="{{ author_url }}" target="_blank" rel="noopener">
+                        {{ author_url | replace(from='https://', to='') | replace(from='http://', to='') }}
+                    </a>
+                {% endif %}
+                {% if author_bio %}
+                    <p class="author-box__bio">{{ author_bio }}</p>
+                {% endif %}
+            </div>
+        </aside>
+
+        {# ===== RELATED ARTICLES =====
+           Ưu tiên đọc semantic related từ data/related.json (built bởi
+           scripts/build_related.py qua sentence-transformers embedding +
+           cosine similarity). Fallback: same category, rồi latest. #}
+        {% set current_slug = page.slug %}
+        {% set current_cat = "" %}
+        {% for cat in page.taxonomies.categories | default(value=[]) %}
+            {% if cat != "Tất cả" and cat != "Báo chí" and current_cat == "" %}
+                {% set_global current_cat = cat %}
+            {% endif %}
+        {% endfor %}
+        {# HOTFIX: related lấy từ MỌI section (posting/, baochi/, …) để bài ở
+           section nào cũng có thể xuất hiện như bài liên quan. #}
+        {% set rp_posting = get_section(path="posting/_index.md") %}
+        {% set rp_baochi = get_section(path="baochi/_index.md") %}
+        {% set root_pages = rp_posting.pages | concat(with=rp_baochi.pages) | sort(attribute="date") | reverse %}
+        {% set_global related = [] %}
+
+        {# Hub series (bài báo gốc): ưu tiên toàn bộ series khoa học. #}
+        {% if page.extra and page.extra.hub_series is defined and page.extra.hub_series == "science-uranium" %}
+            {% set hub_manifest = load_data(path="data/science-uranium-series.json", required=false) %}
+            {% if hub_manifest %}
+                {% for item in hub_manifest.parts %}
+                    {% if item.status == "published" and item.slug != current_slug %}
+                        {% for p in root_pages %}
+                            {% if p.slug == item.slug and related | length < 5 %}
+                                {% set found = false %}
+                                {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                                {% if not found %}
+                                    {% set_global related = related | concat(with=[p]) %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        {# Series cluster: ưu tiên bài cùng series trước semantic/category. #}
+        {% if page.extra and page.extra.series is defined %}
+            {% set series_manifest = false %}
+            {% if page.extra.series == "seo-foundation" %}
+                {% set series_manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
+            {% elif page.extra.series == "adsense-foundation" %}
+                {% set series_manifest = load_data(path="data/adsense-foundation-series.json", required=false) %}
+            {% elif page.extra.series == "science-uranium" %}
+                {% set series_manifest = load_data(path="data/science-uranium-series.json", required=false) %}
+            {% elif page.extra.series == "ngan-hang-so" %}
+                {% set series_manifest = load_data(path="data/ngan-hang-so-series.json", required=false) %}
+            {% elif page.extra.series == "git-github" %}
+                {% set series_manifest = load_data(path="data/git-github-series.json", required=false) %}
+            {% elif page.extra.series == "korean-30day" %}
+                {% set series_manifest = load_data(path="data/korean-30day-series.json", required=false) %}
+            {% elif page.extra.series == "google-analytics" %}
+                {% set series_manifest = load_data(path="data/google-analytics-series.json", required=false) %}
+            {% elif page.extra.series == "vietinbank" %}
+                {% set series_manifest = load_data(path="data/vietinbank-series.json", required=false) %}
+            {% elif page.extra.series == "nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb" %}
+                {% set series_manifest = load_data(path="data/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb-series.json", required=false) %}
+            {% endif %}
+            {% if series_manifest and page.extra.series == series_manifest.id %}
+                {% for item in series_manifest.parts %}
+                    {% if item.status == "published" and item.slug != current_slug and related | length < 5 %}
+                        {% for p in root_pages %}
+                            {% if p.slug == item.slug %}
+                                {% set found = false %}
+                                {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                                {% if not found %}
+                                    {% set_global related = related | concat(with=[p]) %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+                {# Liên kết ngược về bài báo hub #}
+                {% if series_manifest.hub_slug is defined and series_manifest.hub_section is defined and related | length < 5 %}
+                    {% for p in root_pages %}
+                        {% if p.slug == series_manifest.hub_slug %}
+                            {% set found = false %}
+                            {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                            {% if not found %}
+                                {% set_global related = related | concat(with=[p]) %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+
+        {# Semantic: required=false → load_data trả false/empty nếu file
+           không tồn tại. Tera KHÔNG support default(value={}) literal dict
+           → check defensive bằng if rel_data thay vì dùng default filter. #}
+        {% set rel_data = load_data(path="data/related.json", required=false) %}
+        {% if rel_data and rel_data[current_slug] %}
+            {% for entry in rel_data[current_slug] %}
+                {% if related | length < 3 %}
+                    {% for p in root_pages %}
+                        {% if p.slug == entry.slug and related | length < 3 %}
+                            {% set_global related = related | concat(with=[p]) %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {# Fallback 1: same category #}
+        {% if related | length < 3 and current_cat %}
+            {% for p in root_pages %}
+                {% if p.slug != current_slug
+                   and p.taxonomies.categories
+                   and p.taxonomies.categories | first == current_cat
+                   and related | length < 3 %}
+                    {% set found = false %}
+                    {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                    {% if not found %}
+                        {% set_global related = related | concat(with=[p]) %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {# Fallback 2: latest #}
+        {% if related | length < 3 %}
+            {% for p in root_pages %}
+                {% if p.slug != current_slug and related | length < 3 %}
+                    {% set found = false %}
+                    {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                    {% if not found %}
+                        {% set_global related = related | concat(with=[p]) %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {% if related | length > 0 %}
+        <section class="related-articles" aria-label="Bài viết liên quan">
+            <header class="related-articles__head">
+                <h3 class="related-articles__title">RELATED ARTICLES</h3>
+            </header>
+            <div class="related-articles__grid">
+                {% for p in related %}
+                    <article class="related-card">
+                        <a class="related-card__image" href="{{ p.permalink }}">
+                            {% if p.taxonomies.categories %}
+                                <span class="related-card__cat">{{ p.taxonomies.categories | first }}</span>
+                            {% endif %}
+                            <img src="{{ img::thumb_src(thumb=p.extra.thumbnail | default(value='')) }}" alt="{{ p.title }}"
+                                 width="800" height="500"
+                                 loading="lazy" decoding="async">
+                        </a>
+                        <h4 class="related-card__title">
+                            <a href="{{ p.permalink }}">{{ p.title }}</a>
+                        </h4>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        {# ===== GISCUS COMMENTS ===== #}
+        {{ giscus::comments() }}
+    </article>
+    {% endif %}
 {% endblock main %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/post-stats.js') }}" defer></script>
+    {% if page.extra.premium %}
+    <script src="{{ get_url(path='js/paywall.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
+    {% endif %}
+    <script>
+        // Show edit button nếu user có PAT (admin đã login CMS)
+        if (localStorage.getItem("zola-cms-token")) {
+            const actions = document.querySelector("[data-post-actions]");
+            if (actions) actions.hidden = false;
+        }
+    </script>
+{% endblock %}

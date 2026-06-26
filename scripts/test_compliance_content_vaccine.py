@@ -21,7 +21,7 @@ _spec.loader.exec_module(mod)
 
 class VaccineHelpersTest(unittest.TestCase):
     def test_strip_md_counts_substantive_anchor_body(self):
-        body = mod.ANCHOR_BODY.format(home="/", n=1)
+        body = mod.ANCHOR_BODY.format(home="/zola/", n=1)
         self.assertGreaterEqual(len(mod._strip_md(body)), mod.CONTENT_MIN_CHARS)
 
     def test_upgrade_feed_anchor_adds_taxonomies(self):

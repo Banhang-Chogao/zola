@@ -319,7 +319,7 @@ def step_scan_build_logs(dry_run: bool) -> dict:
             logs = (lg.stdout or "").lower()
             for keyword, vac in (("401", "V1"), ("not permitted to create", "V3"),
                                  ("rate limit exceeded", "V5"), ("missing input", "V2"),
-                                 ("merge conflict", "V6"), ("missing_token", "V17")):
+                                 ("merge conflict", "V6")):
                 if keyword in logs:
                     signatures.append(vac)
         if signatures:
@@ -332,41 +332,8 @@ def step_scan_build_logs(dry_run: bool) -> dict:
     return out
 
 
-def step_v17_vipzone_auth(dry_run: bool) -> dict:
-    """V17 — VIPZone Edge/Safari auth session + picker UI (report-only)."""
-    out = {"vaccine": "V17", "name": "VIPZone Edge/Safari auth", "matched": False,
-           "fixed": False, "changed": False, "detail": ""}
-    admin_js = _script("static/js/vip-admin.js")
-    cms_auth = _script("services/vipzone/cms_auth.py")
-    roles_py = _script("services/vipzone/roles.py")
-    issues: list[str] = []
-    if os.path.isfile(admin_js):
-        src = open(admin_js, encoding="utf-8").read()
-        if "localStorage.getItem(CMS_KEY)" not in src:
-            issues.append("vip-admin.js: no localStorage sid fallback")
-        if 'credentials: "include"' not in src:
-            issues.append("vip-admin.js: missing credentials:include")
-        if 'showView("denied")' in src:
-            issues.append("vip-admin.js: hides UI by role")
-    if os.path.isfile(cms_auth):
-        src = open(cms_auth, encoding="utf-8").read()
-        if 'samesite="none"' not in src:
-            issues.append("cms_auth.py: missing SameSite=None cookie")
-    if os.path.isfile(roles_py):
-        src = open(roles_py, encoding="utf-8").read()
-        if "email_is_superadmin" in src:
-            issues.append("roles.py: email-based superadmin override present")
-    if issues:
-        out["matched"] = True
-        out["detail"] = "; ".join(issues)
-    else:
-        out["detail"] = "ok (cookie auth + picker always visible)"
-    return out
-
-
 SAFE_STEPS = [
     step_scan_build_logs,      # diagnosis engine (gh CI logs) — report-only
-    step_v17_vipzone_auth,     # V17 detection — report-only
     step_build_related_model_id,
     step_slack_v2,             # V2 detection — report-only
     step_internal_links,

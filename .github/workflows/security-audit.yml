@@ -29,31 +29,28 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup Node.js 24
         uses: actions/setup-node@v6
         with:
           node-version: '24'
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
-          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
 
       # ---------- Python deps vulnerability scan ----------
       - name: Install pip-audit
         run: pip install --quiet pip-audit
 
-      - name: Scan services/vipzone/requirements.txt
+      - name: Scan services/visitor-counter/requirements.txt
         id: pip_audit_be
         continue-on-error: true
         run: |
-          if [ -f services/vipzone/requirements.txt ]; then
-            pip-audit -r services/vipzone/requirements.txt \
-              --format json --output be-vulns.json || true
-            cat be-vulns.json
-          fi
+          pip-audit -r services/visitor-counter/requirements.txt \
+            --format json --output be-vulns.json || true
+          cat be-vulns.json
 
       - name: Scan scripts/requirements.txt
         id: pip_audit_scripts
@@ -170,7 +167,7 @@ jobs:
 
       - name: Upload artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: security-audit-${{ github.run_id }}
           path: |

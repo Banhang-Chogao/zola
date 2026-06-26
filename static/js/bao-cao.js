@@ -3,12 +3,12 @@
  *
  * Khác bản cũ (UX-gate bằng PAT sessionStorage): report .md KHÔNG còn nằm trong
  * repo public. Nội dung lưu Redis trên backend, chỉ tải được qua endpoint
- * https://assets.seomoney.org/reports/* sau khi /auth/me xác thực session OAuth GitHub + email whitelist.
+ * /reports/* sau khi /auth/me xác thực session OAuth GitHub + email whitelist.
  *
  * Flow:
  *   1. Đọc sid (#sid=... sau OAuth callback, hoặc sessionStorage 'zola-cms-session-id')
  *   2. /auth/me (Bearer sid) → guest hay admin
- *   3. Admin → GET /reports (list) + tải qua GET https://assets.seomoney.org/reports/{file} → Blob download
+ *   3. Admin → GET /reports (list) + tải qua GET /reports/{file} → Blob download
  *   4. Guest → chỉ hiện banner + nút "Đăng nhập GitHub"
  */
 (function () {
@@ -17,17 +17,19 @@
   const SESSION_KEY = "zola-cms-session-id"; // giống editor.js
 
   const AUTH_API = (function () {
-    const m1 = document.querySelector('meta[name="vipzone-auth-api"]');
+    const m1 = document.querySelector('meta[name="zola-cms-auth-api"]');
     if (m1 && m1.getAttribute("content")) return m1.getAttribute("content");
-    return "https://blog-vipzone-api.onrender.com";
+    const m2 = document.querySelector('meta[name="zola-visitor-api"]');
+    if (m2 && m2.getAttribute("content")) return m2.getAttribute("content");
+    return "https://blog-visitor-api.onrender.com";
   })().replace(/\/$/, "");
 
   // ---------- session id helpers ----------
   function getSid() {
     try { return sessionStorage.getItem(SESSION_KEY) || ""; } catch (e) { return ""; }
   }
-  function setSid(s) { try { sessionStorage.setItem(SESSION_KEY, s); localStorage.setItem(SESSION_KEY, s); } catch (e) {} }
-  function clearSid() { try { sessionStorage.removeItem(SESSION_KEY); localStorage.removeItem(SESSION_KEY); } catch (e) {} }
+  function setSid(s) { try { sessionStorage.setItem(SESSION_KEY, s); } catch (e) {} }
+  function clearSid() { try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {} }
 
   function consumeUrlHashSid() {
     if (!location.hash) return;
@@ -72,7 +74,7 @@
     const old = btn ? btn.textContent : "";
     if (btn) { btn.textContent = "⏳ Đang tải…"; btn.disabled = true; }
     try {
-      const res = await api("https://assets.seomoney.org/reports/" + encodeURIComponent(filename));
+      const res = await api("/reports/" + encodeURIComponent(filename));
       if (res.status === 401) { clearSid(); render(null); return; }
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
