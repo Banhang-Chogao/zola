@@ -15,7 +15,7 @@ seo_keyword = "ăn khuya Sài Gòn"
 
 Sài Gòn là thành phố **không ngủ** — và dân cú đêm thì luôn có chỗ để lấp đầy cái bụng lúc nửa khuya. Nếu bạn hay thức muộn, đi chơi về trễ, hoặc đơn giản là thèm ăn đêm, đây là **10 món & khu ăn khuya** quen thuộc, nhiều nơi mở **sau 11h đêm**.
 
-> Muốn gợi ý cho cả buổi tối sớm hơn, xem [tối nay ở Sài Gòn ăn gì](/toi-nay-sai-gon-an-gi/).
+> Muốn gợi ý cho cả buổi tối sớm hơn, xem [tối nay ở Sài Gòn ăn gì](/zola/posting/toi-nay-sai-gon-an-gi/).
 
 ## Khu ăn khuya Sài Gòn nổi tiếng
 
@@ -60,6 +60,6 @@ Chuyện đi lại đêm cũng đáng cân nhắc. Sau nửa đêm, các ứng d
 
 Ăn khuya là một phần "đặc sản văn hoá" của Sài Gòn — nơi một đĩa ốc hay tô hủ tiếu gõ lúc nửa đêm cũng thành kỷ niệm. Lần tới lỡ bữa hay thèm ăn muộn, bạn đã biết đi đâu.
 
-Đói nữa thì xem tiếp [12 quán ăn tối & ăn khuya](/toi-nay-sai-gon-an-gi/) và [trời mưa Sài Gòn ăn gì](/troi-mua-sai-gon-an-gi/).
+Đói nữa thì xem tiếp [12 quán ăn tối & ăn khuya](/zola/posting/toi-nay-sai-gon-an-gi/) và [trời mưa Sài Gòn ăn gì](/zola/posting/troi-mua-sai-gon-an-gi/).
 
 📚 Tìm hiểu thêm về nền [ẩm thực Việt Nam trên Wikipedia](https://vi.wikipedia.org/wiki/%E1%BA%A8m_th%E1%BB%B1c_Vi%E1%BB%87t_Nam).

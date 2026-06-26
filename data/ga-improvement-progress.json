@@ -1,83 +1,47 @@
 {
-  "updated_at": "2026-06-26T00:22:35Z",
+  "updated_at": "2026-06-18T23:13:20.065578+00:00",
   "tasks": [
     {
       "id": "seo",
       "label": "SEO optimization",
       "icon": "🔍",
       "status": "running",
-      "detail": "221 posts · avg 93.8/100 · tuning",
-      "source": "seo-qa-scores.json",
-      "updated_at": "2026-06-23T06:58:36.990339+07:00"
+      "detail": "Metadata complete: 123/127 files",
+      "source": "audit-metadata.json",
+      "updated_at": "2026-06-18T23:11:38.526628+00:00"
     },
     {
       "id": "internal_links",
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "0 broken links · 24 weak related pairs",
-      "source": "compliance-link-report.json",
-      "updated_at": "2026-06-26T00:09:12Z"
+      "detail": "Weak posts (0-2 links): 53/126 · Weak pairs: 1678",
+      "source": "audit-internal-links.json",
+      "updated_at": "2026-06-18T23:12:32.629504+00:00"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 61/100 · LCP 7.1 s · needs work",
+      "detail": "Mobile 58/100 · LCP 6.9 s ← target 90",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-25T19:27:19+00:00"
+      "updated_at": "2026-06-18T21:15:33+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "1065/1067 pages",
-      "source": "compliance-score.json",
-      "updated_at": "2026-06-26T00:09:12Z"
-    },
-    {
-      "id": "content_refresh",
-      "label": "Content refresh",
-      "icon": "📝",
-      "status": "done",
-      "detail": "Latest: fix(footer): remove Deployment Status card + 🚀 Deploy strip,",
-      "source": "changelog.json",
-      "updated_at": "2026-06-25"
-    },
-    {
-      "id": "indexing",
-      "label": "Indexing checks",
-      "icon": "🗂️",
-      "status": "pending",
-      "detail": "No build-dashboard snapshot",
-      "source": "build-dashboard.json",
-      "updated_at": null
-    },
-    {
-      "id": "image_opt",
-      "label": "Image optimization",
-      "icon": "🖼️",
-      "status": "done",
-      "detail": "formats OK · WebP workflow",
-      "source": "compliance-score.json",
-      "updated_at": "2026-06-26T00:09:12Z"
-    },
-    {
-      "id": "mobile_ux",
-      "label": "Mobile UX improvements",
-      "icon": "📱",
-      "status": "running",
-      "detail": "Mobile 61/100 vs desktop 93/100 (Δ32) · 1065/1067 ready",
-      "source": "pagespeed.json",
-      "updated_at": "2026-06-25T19:27:19+00:00"
+      "detail": "Pages missing FAQ schema: 8/126",
+      "source": "audit-faq.json",
+      "updated_at": "2026-06-18T23:12:47.006570+00:00"
     }
   ],
   "summary": {
-    "pending": 1,
-    "running": 5,
-    "done": 2
+    "pending": 0,
+    "running": 4,
+    "done": 0
   },
-  "note": "Statuses from QA/SEO/PERF snapshots — informational, not GA metrics."
+  "note": "Statuses from comprehensive QA audits — live data, not fabricated."
 }

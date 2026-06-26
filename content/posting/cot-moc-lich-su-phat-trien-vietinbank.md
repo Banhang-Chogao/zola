@@ -45,7 +45,7 @@ Mốc đầu tiên và quan trọng nhất trong **lịch sử VietinBank** là 
 
 Trước đó, Ngân hàng Nhà nước vừa quản lý vừa trực tiếp kinh doanh. Khi đổi mới, phần kinh doanh được tách ra thành các ngân hàng chuyên doanh. Ngân hàng Công thương Việt Nam — quen gọi là Incombank — ra đời từ đợt tách đó, với nhiệm vụ rõ ràng là cấp vốn cho công nghiệp và thương mại.
 
-Nếu muốn hiểu sâu hơn về gốc gác này, bạn có thể đọc lại [bài mở đầu loạt: VietinBank là ai](/vietinbank-la-ai-hanh-trinh-hinh-thanh/). Còn ở đây, mình coi 1988 là vạch xuất phát của cả timeline.
+Nếu muốn hiểu sâu hơn về gốc gác này, bạn có thể đọc lại [bài mở đầu loạt: VietinBank là ai](/zola/posting/vietinbank-la-ai-hanh-trinh-hinh-thanh/). Còn ở đây, mình coi 1988 là vạch xuất phát của cả timeline.
 
 ## Giai đoạn đổi mới và mở rộng mạng lưới
 
@@ -91,7 +91,7 @@ Mình xem đây là điểm chuyển: từ một ngân hàng nội địa, Vieti
 
 Các mốc gần đây nghiêng hẳn về công nghệ. Ngân hàng đầu tư nâng cấp hệ thống core banking — phần "bộ não" xử lý tài khoản và giao dịch — rồi từ đó đẩy mạnh kênh số.
 
-Mình sẽ không gói gọn chuyện này trong vài dòng vì nó xứng đáng có bài riêng. Bạn có thể đọc tiếp [bài về hiện đại hóa core banking của VietinBank](/vietinbank-hien-dai-hoa-core-banking/) để hiểu vì sao đây là nền móng cho mọi tiện ích số sau này.
+Mình sẽ không gói gọn chuyện này trong vài dòng vì nó xứng đáng có bài riêng. Bạn có thể đọc tiếp [bài về hiện đại hóa core banking của VietinBank](/zola/posting/vietinbank-hien-dai-hoa-core-banking/) để hiểu vì sao đây là nền móng cho mọi tiện ích số sau này.
 
 Tóm gọn lại bằng một bảng cho dễ nhìn:
 
@@ -108,9 +108,9 @@ Mọi con số chi tiết hơn về tài sản hay lợi nhuận bạn nên tra 
 
 ## Bài tiếp theo trong loạt
 
-Đã có timeline rồi, bước tiếp theo là hiểu ngân hàng này nặng ký cỡ nào trong hệ thống. Ở [bài 3 về vai trò của VietinBank](/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam/), mình sẽ nói về chỗ đứng của nó trong nhóm Big 4 và vai trò dẫn vốn cho nền kinh tế. Bạn cũng có thể xem toàn bộ chủ đề tại [chuyên mục Ngân hàng](/topic/ngan-hang/).
+Đã có timeline rồi, bước tiếp theo là hiểu ngân hàng này nặng ký cỡ nào trong hệ thống. Ở [bài 3 về vai trò của VietinBank](/zola/posting/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam/), mình sẽ nói về chỗ đứng của nó trong nhóm Big 4 và vai trò dẫn vốn cho nền kinh tế. Bạn cũng có thể xem toàn bộ chủ đề tại [chuyên mục Ngân hàng](/zola/categories/ngan-hang/).
 
-> 👉 **Đọc tiếp:** [Vai trò của VietinBank trong hệ thống ngân hàng Việt Nam →](/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam/)
+> 👉 **Đọc tiếp:** [Vai trò của VietinBank trong hệ thống ngân hàng Việt Nam →](/zola/posting/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam/)
 
 ## Tóm lại
 

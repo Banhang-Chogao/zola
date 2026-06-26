@@ -1,0 +1,1177 @@
+.navbar {
+  /* Momo-style light header — white background với border bottom subtle.
+     Text-only navigation với pink underline active state. */
+  background: var(--c-bg-surface);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--c-border);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  padding-top: env(safe-area-inset-top);
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &__inner {
+    max-width: 1500px;   /* khớp .container (1500) để navbar thẳng hàng nội dung */
+    margin: 0 auto;
+    padding-left: max(24px, env(safe-area-inset-left));
+    padding-right: max(24px, env(safe-area-inset-right));
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+  }
+
+  &__menu {
+    display: flex;
+    gap: 0.25rem;
+
+    li { display: flex; }
+
+    a {
+      /* Inter cho UI menu — clean text only, normal case theo momo */
+      font-family: $font-ui;
+      color: var(--c-text-muted);
+      padding: 1.25rem 1.1rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0;
+      text-transform: none;
+      display: flex;
+      align-items: center;
+      position: relative;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -1px;     /* overlap border navbar */
+      transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Active state momo: text đậm + accent underline (theme-aware) */
+      &.is-active {
+        color: var(--c-accent);
+        font-weight: 700;
+        border-bottom-color: var(--c-accent);
+      }
+
+      &:hover {
+        color: var(--c-accent);
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  &__cache,
+  &__search,
+  &__theme {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: var(--c-text-muted);
+    min-width: 48px;
+    min-height: 48px;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color .3s ease, background .3s ease, border-color .3s ease;
+    cursor: pointer;
+
+    &:hover { color: var(--c-accent); }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--c-focus-ring);
+    }
+
+    &:disabled {
+      cursor: progress;
+      opacity: 0.72;
+    }
+  }
+
+  &__cache {
+    gap: 0.45rem;
+    align-self: center;
+    min-height: 40px;
+    margin-right: 0.35rem;
+    padding: 0 0.8rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* Theme switcher trigger button — icon active + chevron dropdown.
+     Color via .theme-switcher__trigger (xem block riêng dưới). */
+  &__theme {
+    padding: 0 0.85rem;
+
+    .navbar__theme-icon {
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+
+  /* ===== THEME DROPDOWN (4-option) — Phase 3 =====
+     Replace .navbar__theme toggle button. */
+  .theme-toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    font-family: $font-ui;
+  }
+
+  .theme-toggle__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0 1rem;
+    font-family: $font-ui;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $brand-ink-500;
+    height: 100%;
+    transition: color 0.15s ease;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+
+    &:hover {
+      color: var(--c-accent);
+    }
+
+    &[aria-expanded="true"] {
+      color: var(--c-accent);
+      border-bottom-color: var(--c-accent);
+    }
+  }
+
+  .theme-toggle__dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--c-accent);
+    border: 2px solid $brand-snow;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+  }
+
+  .theme-toggle__current {
+    font-weight: 700;
+  }
+
+  .theme-toggle__caret {
+    font-size: 0.65rem;
+    opacity: 0.6;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .theme-toggle__btn[aria-expanded="true"] .theme-toggle__caret {
+    transform: rotate(180deg);
+  }
+
+  .theme-toggle__menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0.5rem;
+    background: $brand-snow;
+    border: 1px solid var(--c-border);
+    border-radius: 10px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    min-width: 220px;
+    padding: 0.5rem;
+    margin: 0;
+    list-style: none;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    &[hidden] {
+      display: none;
+    }
+
+    li {
+      display: block;
+    }
+  }
+
+  .theme-toggle__opt {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    background: transparent;
+    border: none;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: $font-ui;
+    font-size: 0.88rem;
+    color: $brand-ink-800;
+    text-align: left;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background: var(--c-bg-soft);
+    }
+
+    &[aria-checked="true"] {
+      background: var(--c-bg-soft);
+      color: var(--c-text-heading);
+      font-weight: 700;
+    }
+
+    &__dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    &__name {
+      flex: 1;
+      line-height: 1.1;
+    }
+
+    &__sub {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--c-text-muted);
+      font-weight: 500;
+      margin-top: 0.15rem;
+    }
+
+    &__check {
+      color: var(--c-accent);
+      font-weight: 700;
+      opacity: 0;
+
+      [aria-checked="true"] & {
+        opacity: 1;
+      }
+    }
+  }
+
+  /* ===== MOBILE (≤ 720px) ===== */
+  @media (max-width: 720px) {
+    .theme-toggle__btn {
+      padding: 0 1rem;
+      font-size: 0.78rem;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+
+      .theme-toggle__current {
+        display: none;
+      }
+    }
+
+    .theme-toggle__menu {
+      right: 0.5rem;
+      min-width: 220px;
+      max-width: calc(100vw - 32px);
+    }
+
+    .theme-toggle__opt {
+      padding: 0.75rem 0.85rem;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  /* Burger button — desktop ẩn, mobile hiện. 3 line ngang animated → X
+     khi menu open (transform translate Y + rotate). */
+  &__burger {
+    display: none;
+    background: transparent;
+    border: none;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0;
+    cursor: pointer;
+    margin: 0;
+
+    &-line {
+      width: 22px;
+      height: 2px;
+      background: $brand-ink-800;
+      border-radius: 2px;
+      transition: transform .22s ease, opacity .15s ease;
+      transform-origin: center;
+    }
+  }
+
+  &__backdrop {
+    display: none;
+  }
+}
+
+/* ========== MOBILE HORIZONTAL TABS (Momo-style) ==========
+   Trigger: ≤ 720px. KHÔNG dùng burger drawer nữa, thay bằng tab nav
+   ngang scroll horizontal giống momo.vn. Tên menu text-only (JS strip
+   emoji). Active tab có underline đỏ. */
+@media (max-width: 720px) {
+  .navbar__inner {
+    padding: 0;
+    align-items: stretch;
+    min-height: 52px;
+  }
+
+  /* Hide burger + backdrop — không dùng drawer pattern nữa */
+  .navbar__burger,
+  .navbar__backdrop {
+    display: none !important;
+  }
+
+  /* Menu = horizontal scroll tabs giống momo. Reset hết style drawer cũ. */
+  .navbar__menu {
+    /* Reset từ desktop/burger styles */
+    position: static;
+    flex-direction: row;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+    transition: none;
+    visibility: visible;
+    padding: 0 12px;
+    margin: 0;
+    /* Horizontal scroll */
+    display: flex;
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+
+    li {
+      display: flex;
+      flex-shrink: 0;
+      border-bottom: none;
+      scroll-snap-align: start;
+    }
+
+    a {
+      color: $brand-ink-500;
+      padding: 1rem 1rem 0.9rem;
+      font-family: $font-ui;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0;
+      text-transform: none;
+      white-space: nowrap;
+      position: relative;
+      border-bottom: 3px solid transparent;
+      transition: color .15s ease, border-color .15s ease;
+      width: auto;
+      justify-content: center;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+
+      /* Underline đỏ active state momo style */
+      &.is-active {
+        color: $brand-signal-red;
+        font-weight: 700;
+        border-bottom-color: $brand-signal-red;
+      }
+
+      &:hover {
+        background: transparent;
+        color: $brand-signal-red;
+      }
+    }
+  }
+
+  /* Search button giữ bên phải, touch-friendly size */
+  .navbar__cache {
+    min-width: auto;
+    min-height: 44px;
+    padding: 0 0.75rem;
+    margin-right: 0.15rem;
+    font-size: 0.72rem;
+  }
+
+  .navbar__search {
+    padding: 0 1.2rem;
+    flex-shrink: 0;
+    align-self: stretch;
+    min-width: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Gradient mask cuối phải — visual hint còn scroll được, giống momo */
+  .navbar__inner {
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 40px;
+      background: linear-gradient(to left,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+  }
+}
+
+@keyframes navbar-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Lock body scroll khi mobile menu open — không cho user scroll bg.
+   SCOPE mobile only (≤720px) để TUYỆT ĐỐI không khoá scroll desktop
+   khi class navbar-open dính nhầm vì lý do nào đó. */
+@media (max-width: 720px) {
+  body.navbar-open {
+    overflow: hidden;
+  }
+}
+
+/* ============================================================
+   ===== THEME SWITCHER DROPDOWN — DESKTOP (global) =====
+   ============================================================
+   3-state picker (BrandingX / Z-X / E-X). Container relative để
+   menu float absolute theo trigger. Color full theme-aware qua
+   semantic tokens (var(--c-*)).
+
+   Vị trí trong navbar: nằm trong .navbar__inner cạnh menu items.
+   `.is-open` class lên container khi menu mở (JS toggle) → xoay
+   chevron + hover ring trigger. */
+.theme-switcher {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+
+  &__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    &[aria-expanded="true"] {
+      color: var(--c-accent);
+    }
+  }
+
+  &__trigger-icon {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__chevron {
+    display: inline-flex;
+    align-items: center;
+    color: var(--c-text-muted);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &.is-open &__chevron {
+    transform: rotate(180deg);
+    color: var(--c-accent);
+  }
+
+  &__menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    min-width: 260px;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background: var(--c-bg-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 10px;
+    box-shadow: var(--c-shadow-lg);
+    z-index: 110;
+    animation: theme-switcher-pop 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &[hidden] { display: none; }
+
+    li { display: block; }
+  }
+
+  &__option {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.55rem 0.7rem;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: var(--c-text-body);
+    font-family: $font-ui;
+    font-size: 0.9rem;
+    text-align: left;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--c-bg-soft);
+      outline: none;
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 2px var(--c-focus-ring);
+    }
+
+    &.is-active {
+      color: var(--c-accent);
+
+      .theme-switcher__option-check {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+
+  &__option-icon {
+    display: inline-flex;
+    align-items: center;
+    color: var(--c-accent);
+    flex-shrink: 0;
+  }
+
+  &__option-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__option-label {
+    font-weight: 700;
+    font-size: 0.92rem;
+    letter-spacing: 0.01em;
+  }
+
+  &__option-desc {
+    font-size: 0.72rem;
+    color: var(--c-text-muted);
+    line-height: 1.3;
+    font-weight: 500;
+  }
+
+  &__option-check {
+    display: inline-flex;
+    color: var(--c-accent);
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity .12s ease, transform .12s ease;
+    flex-shrink: 0;
+  }
+}
+
+@keyframes theme-switcher-pop {
+  0% { opacity: 0; transform: translateY(-8px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ============================================================
+   ===== THEME SWITCHER DROPDOWN — MOBILE (≤ 720px) =====
+   ============================================================
+   Trên mobile navbar = horizontal scroll tabs (xem block ≤720px
+   phía trên). Theme switcher cần flex-shrink + align-self stretch
+   để không bị crush khi menu list dài. */
+@media (max-width: 720px) {
+  .theme-switcher {
+    flex-shrink: 0;
+    align-self: stretch;
+    /* Trên mobile push ra trên gradient mask cuối phải (z-index: 1
+       của ::after) — cần z-index lớn hơn để click vẫn được trigger. */
+    z-index: 2;
+  }
+
+  .theme-switcher__trigger {
+    padding: 0 0.85rem;
+  }
+
+  .theme-switcher__menu {
+    right: 4px;
+    min-width: 240px;
+    max-width: calc(100vw - 16px);
+  }
+
+  .theme-switcher__option {
+    padding: 0.6rem 0.7rem;
+  }
+
+  .theme-switcher__option-desc {
+    font-size: 0.7rem;
+  }
+}
+
+/* ============================================================
+   ===== NAVBAR CATEGORY DROPDOWN — DESKTOP (global) =====
+   ============================================================
+   Cấu trúc 2 tầng Category → Sub-category. Trigger là <button> trông
+   giống link nav thường; submenu xổ xuống dạng panel absolute. Mở bằng
+   hover (chỉ thiết bị có chuột — xem @media hover bên dưới) HOẶC click/tap
+   (class .is-open do navbar-dropdown.js toggle). Màu full semantic token
+   var(--c-*) nên tự thích ứng theme. CHỈ thêm selector mới, không sửa
+   .navbar__menu a sẵn có (desktop ổn định giữ nguyên). */
+.navbar__item--has-children {
+  position: relative;
+}
+
+.navbar__dropdown-trigger {
+  /* Khớp .navbar__menu a: cùng padding/font/underline-active. */
+  font-family: $font-ui;
+  color: var(--c-text-muted);
+  padding: 1.25rem 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;          /* overlap border navbar như <a> */
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover { color: var(--c-accent); }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--c-focus-ring);
+    border-radius: 6px;
+  }
+
+  /* Active khi đang ở 1 trang con của nhóm (navbar-dropdown.js thêm). */
+  &.is-active {
+    color: var(--c-accent);
+    font-weight: 700;
+    border-bottom-color: var(--c-accent);
+  }
+}
+
+.navbar__chevron {
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar__item--has-children.is-open .navbar__chevron {
+  transform: rotate(180deg);
+}
+
+.navbar__submenu {
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 0;
+  min-width: 210px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--c-bg-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  box-shadow: var(--c-shadow-lg);
+  z-index: 200;
+  /* Ẩn mặc định — animate mở mượt. */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+
+  li { display: block; }
+
+  a {
+    display: block;
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    border-bottom: none;         /* reset underline tab của .navbar__menu a */
+    margin-bottom: 0;
+    color: var(--c-text-body);
+    font-family: $font-ui;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--c-bg-soft);
+      color: var(--c-accent);
+      outline: none;
+    }
+
+    &.is-active {
+      background: var(--c-bg-soft);
+      color: var(--c-accent);
+      border-bottom: none;       /* không hiện gạch chân tab trong dropdown */
+    }
+  }
+}
+
+/* Mở qua click/tap (mọi thiết bị) — JS toggle .is-open. */
+.navbar__item--has-children.is-open .navbar__submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Mở qua hover — CHỈ thiết bị có chuột thật (desktop). Tránh kẹt mở trên
+   touch (nơi tap = click, không có hover). */
+@media (hover: hover) and (pointer: fine) {
+  .navbar__item--has-children:hover .navbar__submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .navbar__item--has-children:hover .navbar__dropdown-trigger {
+    color: var(--c-accent);
+  }
+  .navbar__item--has-children:hover .navbar__chevron {
+    transform: rotate(180deg);
+  }
+}
+
+/* ============================================================
+   ===== NAVBAR CATEGORY DROPDOWN — MOBILE (≤ 720px) =====
+   ============================================================
+   3 nhóm chính vừa khít màn hình → KHÔNG cần scroll ngang. Cho
+   .navbar__menu overflow: visible để panel submenu xổ xuống không bị
+   cắt. Submenu canh trái trigger, giới hạn trong viewport. Mở/đóng bằng
+   tap (class .is-open) vì hover đã bị tắt ở @media hover phía trên.
+   Toàn bộ scope trong media query mobile — desktop không bị ảnh hưởng. */
+@media (max-width: 720px) {
+  /* Bỏ scroll ngang + cho dropdown thoát khỏi khung overflow. */
+  .navbar__menu {
+    overflow: visible;
+  }
+
+  /* Ẩn gradient mask cuối phải (không còn scroll ngang nữa). */
+  .navbar__inner::after {
+    display: none;
+  }
+
+  /* Trigger touch-friendly. */
+  .navbar__dropdown-trigger {
+    padding: 1rem 0.85rem;
+    min-height: 48px;
+    font-size: 0.9rem;
+  }
+
+  /* Submenu = panel xổ xuống dưới trigger, không tràn viewport. */
+  .navbar__submenu {
+    top: calc(100% + 2px);
+    left: 6px;
+    min-width: 200px;
+    max-width: calc(100vw - 24px);
+  }
+
+  /* Link trong submenu — touch target ≥ 44px. */
+  .navbar__submenu a {
+    padding: 0.7rem 0.85rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    white-space: normal;
+  }
+}
+
+/* ============================================================================
+   NAVBAR DECOR — nền gradient xanh (giống ảnh placeholder) + bảng chữ cái
+   trắng mờ rải rác (font FreightSans Pro kiểu Starbucks). Scope toàn bộ trong
+   .navbar, KHÔNG đụng layout/menu structure. Letters nằm ở lớp riêng (absolute
+   + overflow:hidden) phía sau menu → KHÔNG cắt dropdown của navbar.
+   ============================================================================ */
+@font-face {
+  font-family: 'FreightSans Pro';
+  src: url('fonts/FreightSansPro-Medium.woff2') format('woff2'),
+       url('fonts/FreightSansPro-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FreightSans Pro';
+  src: url('fonts/FreightSansPro-Bold.woff2') format('woff2'),
+       url('fonts/FreightSansPro-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+.navbar {
+  /* Nền xanh teal đặc #00a69d (theo yêu cầu user) */
+  background: #00a69d;
+  border-bottom-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 2px 10px rgba(0, 166, 157, 0.3);
+
+  /* Menu phải nổi trên lớp chữ cái trang trí */
+  .navbar__inner { position: relative; z-index: 1; }
+
+  /* ----- Lớp chữ cái trang trí (faint, dịu mắt) ----- */
+  &__letters {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    font-family: 'FreightSans Pro', "Helvetica Neue", Arial, sans-serif;
+    color: #ffffff;
+
+    span {
+      position: absolute;
+      line-height: 1;
+      font-weight: 700;
+      white-space: nowrap;
+      /* vị trí / xoay / cỡ / opacity đặt inline trong base.html */
+    }
+  }
+
+  /* ----- Chữ menu sang trắng cho hợp nền xanh ----- */
+  .navbar__menu a {
+    color: rgba(255, 255, 255, 0.82);
+    &:hover { color: #fff; }
+    &.is-active {
+      color: #fff;
+      border-bottom-color: #fff;
+    }
+  }
+  .navbar__dropdown-trigger,
+  .navbar__dropdown-label { color: rgba(255, 255, 255, 0.82); }
+  .navbar__dropdown-trigger:hover { color: #fff; }
+
+  /* QUAN TRỌNG: submenu xổ xuống là panel nền TRẮNG → chữ phải TỐI (rule chữ
+     trắng .navbar__menu a ở trên đè nhầm vào link submenu vì nó nằm trong menu).
+     Đặt sau để thắng theo source order. */
+  .navbar__submenu a {
+    color: var(--c-text-body);
+    &:hover { color: var(--c-accent); }
+    &.is-active { color: var(--c-accent); border-bottom-color: transparent; }
+  }
+
+  /* Theme toggle + icon buttons sang trắng */
+  .theme-toggle__btn {
+    color: rgba(255, 255, 255, 0.9);
+    &:hover { color: #fff; }
+    &[aria-expanded="true"] { color: #fff; border-bottom-color: #fff; }
+  }
+  .navbar__theme,
+  .navbar__cache,
+  .navbar__search {
+    color: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.08);
+    &:hover { color: #fff; }
+  }
+}
+
+/* Mobile: đổi gradient-mask phải từ trắng → xanh đậm cho khớp nền navbar mới */
+@media (max-width: 720px) {
+  .navbar .navbar__inner::after {
+    background: linear-gradient(to left,
+      rgba(0, 166, 157, 0.92) 0%,
+      rgba(0, 166, 157, 0) 100%);
+  }
+}
+
+/* ============================================================================
+   SITE SEARCH — local/offline blog search modal
+   Hilda: white panel, Ericsson Blue accent, 4px radius, 8px spacing scale.
+   ============================================================================ */
+.site-search {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: grid;
+  place-items: start center;
+  padding: 88px 24px 24px;
+
+  &[hidden] {
+    display: none;
+  }
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.42);
+  }
+
+  &__panel {
+    position: relative;
+    z-index: 1;
+    width: min(760px, 100%);
+    max-height: min(760px, calc(100vh - 112px));
+    overflow: auto;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-top: 4px solid #003784;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px rgba(0, 55, 132, 0.12);
+    padding: 24px;
+  }
+
+  &__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  &__eyebrow {
+    margin: 0 0 4px;
+    color: #00a69d;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin: 0;
+    color: #000000;
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  &__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 auto;
+    background: #f4f4f4;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    color: #333333;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+
+    &:hover {
+      background: #003784;
+      border-color: #003784;
+      color: #ffffff;
+    }
+  }
+
+  &__fallback {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+
+  &__field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 0 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #666666;
+
+    &:focus-within {
+      border-color: #003784;
+      box-shadow: 0 0 0 3px rgba(0, 55, 132, 0.16);
+    }
+
+    input {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      color: #333333;
+      font: inherit;
+      background: transparent;
+    }
+  }
+
+  &__submit {
+    min-height: 48px;
+    padding: 0 24px;
+    border: 0;
+    border-radius: 4px;
+    background: #003784;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #002566;
+    }
+  }
+
+  &__note {
+    margin: 12px 0 0;
+    color: #666666;
+    font-size: 14px;
+  }
+
+  &__local {
+    margin-top: 16px;
+  }
+
+  &__summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 16px;
+
+    div {
+      min-width: 0;
+      padding: 10px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      background: #f8fafc;
+    }
+
+    span {
+      display: block;
+      color: #666666;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    strong {
+      display: block;
+      min-width: 0;
+      margin-top: 4px;
+      color: #003784;
+      font-size: 18px;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__count {
+    color: #003784;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  &__results {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__result {
+    padding: 14px 16px;
+    background: #f4f4f4;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+  }
+
+  &__result-title {
+    display: inline-block;
+    color: #003784;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.35;
+
+    &:hover {
+      color: #002566;
+      text-decoration: underline;
+    }
+  }
+
+  &__result-url {
+    display: block;
+    margin-top: 6px;
+    color: #00756f;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+
+    &:hover {
+      color: #005a55;
+      text-decoration: underline;
+    }
+  }
+
+  &__result-meta {
+    margin-top: 4px;
+    color: #666666;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  &__result-snippet {
+    margin: 8px 0 0;
+    color: #333333;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+}
+
+body.search-open {
+  overflow: hidden;
+}
+
+@media (max-width: 720px) {
+  .site-search {
+    padding: 64px 16px 16px;
+
+    &__panel {
+      max-height: calc(100vh - 80px);
+      padding: 16px;
+    }
+
+    &__title {
+      font-size: 20px;
+    }
+
+    &__fallback {
+      grid-template-columns: 1fr;
+    }
+
+    &__summary {
+      grid-template-columns: 1fr;
+    }
+
+    &__submit {
+      width: 100%;
+    }
+  }
+}

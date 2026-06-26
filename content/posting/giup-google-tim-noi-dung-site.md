@@ -28,9 +28,9 @@ q = "Sitemap có bắt buộc để Google index không?"
 a = "Không bắt buộc — Google vẫn crawl qua link. Nhưng sitemap giúp Google phát hiện URL mới/sửa đổi, đặc biệt site lớn hoặc blog ít backlink. Zola sinh sitemap.xml tự động; cần submit trong Search Console và đảm bảo robots.txt không chặn sitemap."
 +++
 
-> 📚 **SEO Foundation Series (Bài 4/15)** — Sau [Bài 1: SEO là gì & Search Essentials](/seo-la-gi-huong-dan-co-ban-google-search/), [Bài 2: Google Search hoạt động — crawl, index, ranking](/google-search-hoat-dong-the-nao/) và [Bài 3: Bao lâu để thấy kết quả SEO?](/bao-lau-de-thay-ket-qua-seo/), bài này trả lời bước thực hành tiếp theo: **làm sao giúp Google tìm nội dung site bạn?** Tôi bám [Help Google find your content](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) trong [Google SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) — `site:` operator, liên kết, sitemap, và những gì bạn **không** kiểm soát được.
+> 📚 **SEO Foundation Series (Bài 4/15)** — Sau [Bài 1: SEO là gì & Search Essentials](/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/), [Bài 2: Google Search hoạt động — crawl, index, ranking](/zola/posting/google-search-hoat-dong-the-nao/) và [Bài 3: Bao lâu để thấy kết quả SEO?](/zola/posting/bao-lau-de-thay-ket-qua-seo/), bài này trả lời bước thực hành tiếp theo: **làm sao giúp Google tìm nội dung site bạn?** Tôi bám [Help Google find your content](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) trong [Google SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) — `site:` operator, liên kết, sitemap, và những gì bạn **không** kiểm soát được.
 
-[Bài 2](/google-search-hoat-dong-the-nao/) giải thích pipeline crawl → index. [Bài 3](/bao-lau-de-thay-ket-qua-seo/) đặt timeline vài tuần. Bài 4 tập trung **hành động ngay sau deploy** — giảm thời gian URL nằm trong "hàng đợi chưa được phát hiện".
+[Bài 2](/zola/posting/google-search-hoat-dong-the-nao/) giải thích pipeline crawl → index. [Bài 3](/zola/posting/bao-lau-de-thay-ket-qua-seo/) đặt timeline vài tuần. Bài 4 tập trung **hành động ngay sau deploy** — giảm thời gian URL nằm trong "hàng đợi chưa được phát hiện".
 
 <!-- more -->
 
@@ -43,7 +43,7 @@ Theo [How Google Search works](https://developers.google.com/search/docs/fundame
 3. **Search Console** — request indexing, sitemap submit.
 4. **Các nguồn khác** — redirect, HTTP headers, v.v.
 
-[Bài 2](/google-search-hoat-dong-the-nao/) đã tách **crawl** (tải trang) và **index** (lưu vào kho). Bài 4 trả lời: **làm sao URL vào được hàng đợi crawl**?
+[Bài 2](/zola/posting/google-search-hoat-dong-the-nao/) đã tách **crawl** (tải trang) và **index** (lưu vào kho). Bài 4 trả lời: **làm sao URL vào được hàng đợi crawl**?
 
 | Giai đoạn | Bạn kiểm soát | Google làm |
 |---|---|---|
@@ -69,7 +69,7 @@ site:seomoney.org/posting/giup-google-tim-noi-dung-site
 
 ### Dùng site: để làm gì?
 
-- **Sau deploy** — URL đã vào index chưa? (sau vài ngày–tuần, xem [Bài 3](/bao-lau-de-thay-ket-qua-seo/)).
+- **Sau deploy** — URL đã vào index chưa? (sau vài ngày–tuần, xem [Bài 3](/zola/posting/bao-lau-de-thay-ket-qua-seo/)).
 - **Sau migration** — subdomain → path `/zola/` có index đúng không?
 - **Audit noindex nhầm** — số trang index giảm đột ngột?
 - **So sánh section** — `site:.../posting/` vs `site:.../baochi/` có bao nhiêu trang?
@@ -96,9 +96,9 @@ Google gợi ý site: trong [SEO Starter Guide](https://developers.google.com/se
 
 Mỗi bài link Bài 1–3:
 
-- [Bài 1](/seo-la-gi-huong-dan-co-ban-google-search/) ← pillar
-- [Bài 2](/google-search-hoat-dong-the-nao/) ← pipeline
-- [Bài 3](/bao-lau-de-thay-ket-qua-seo/) ← timeline
+- [Bài 1](/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/) ← pillar
+- [Bài 2](/zola/posting/google-search-hoat-dong-the-nao/) ← pipeline
+- [Bài 3](/zola/posting/bao-lau-de-thay-ket-qua-seo/) ← timeline
 - **Bài 4** (bài này) ← discoverability
 
 Khi publish Bài 4, tôi **cập nhật Bài 3** link sang đây — crawler từ URL đã index tìm được URL mới **ngay** qua link, không chỉ sitemap.
@@ -130,7 +130,7 @@ https://seomoney.org/sitemap.xml
 
 ### Submit sitemap trong Search Console
 
-1. Property đã verify (setup ở [Bài 1](/seo-la-gi-huong-dan-co-ban-google-search/)).
+1. Property đã verify (setup ở [Bài 1](/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/)).
 2. **Sitemaps** → nhập `sitemap.xml` → Submit.
 3. Theo dõi **Discovered URLs** — URL mới có xuất hiện không.
 
@@ -156,7 +156,7 @@ Và **không** `Disallow` path chứa bài viết nhầm — lỗi phổ biến 
 - **Request indexing** — gợi ý crawl ưu tiên (không lạm dụng hàng chục URL/ngày).
 - Xem **Last crawl** — sau deploy có crawl bản mới chưa.
 
-Kết hợp [Bài 3](/bao-lau-de-thay-ket-qua-seo/): request indexing **không** = rank ngay; chỉ giúp **phát hiện** sớm hơn trong một số trường hợp.
+Kết hợp [Bài 3](/zola/posting/bao-lau-de-thay-ket-qua-seo/): request indexing **không** = rank ngay; chỉ giúp **phát hiện** sớm hơn trong một số trường hợp.
 
 ### Performance tab
 
@@ -181,7 +181,7 @@ Google tìm URL qua **link từ site khác** (backlink). [SEO Starter Guide](htt
 - Mua backlink, PBN — [spam policies](https://developers.google.com/search/docs/essentials/spam-policies).
 - Ping farm, submit 100 directory — không thay sitemap + internal link.
 
-Blog mới: **internal link + sitemap + SC** đủ cho giai đoạn đầu; backlink tích lũy theo tháng ([Bài 3](/bao-lau-de-thay-ket-qua-seo/) timeline).
+Blog mới: **internal link + sitemap + SC** đủ cho giai đoạn đầu; backlink tích lũy theo tháng ([Bài 3](/zola/posting/bao-lau-de-thay-ket-qua-seo/) timeline).
 
 ## robots.txt và chặn nhầm crawler {#robots-txt}
 
@@ -238,11 +238,11 @@ site:seomoney.org/posting/giup-google-tim-noi-dung-site
 
 Mọi internal link dùng path `/zola/posting/...` — nhất quán với `config.toml`, tránh Google coi là duplicate domain/path.
 
-Liên kết chéo [AdSense series](/website-san-sang-cho-adsense/): site có audience thật (SEO) giúp crawl tần suất tốt hơn — gián tiếp hỗ trợ AdSense readiness.
+Liên kết chéo [AdSense series](/zola/posting/website-san-sang-cho-adsense/): site có audience thật (SEO) giúp crawl tần suất tốt hơn — gián tiếp hỗ trợ AdSense readiness.
 
 ## Sai lầm thường gặp {#sai-lam}
 
-**"Publish xong Google tự biết trong 1 giờ"** — Không có cam kết. Cần link + sitemap + thời gian ([Bài 3](/bao-lau-de-thay-ket-qua-seo/)).
+**"Publish xong Google tự biết trong 1 giờ"** — Không có cam kết. Cần link + sitemap + thời gian ([Bài 3](/zola/posting/bao-lau-de-thay-ket-qua-seo/)).
 
 **"Chỉ submit sitemap, không internal link"** — Sitemap hữu ích nhưng link trong HTML vẫn quan trọng; cluster series cần cả hai.
 
@@ -263,23 +263,23 @@ Sau deploy bài mới trên Zola:
 - [ ] **≥1 internal link** từ bài cũ (series, tag, hub).
 - [ ] Bài mới **link ngược** pillar và bài trước trong series.
 - [ ] **Search Console**: URL Inspection; request indexing nếu bài quan trọng.
-- [ ] Ghi **ngày publish** — nhắc kiểm tra site: sau 2–3 tuần ([Bài 3](/bao-lau-de-thay-ket-qua-seo/)).
+- [ ] Ghi **ngày publish** — nhắc kiểm tra site: sau 2–3 tuần ([Bài 3](/zola/posting/bao-lau-de-thay-ket-qua-seo/)).
 - [ ] Không **noindex** / robots chặn nhầm.
 
 ## Bạn nên làm gì sau bài 4? {#sau-bai-4}
 
-Khi Google **đã tìm được** URL, bước tiếp trong [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) là đảm bảo Google **nhìn thấy trang giống người dùng** — render, JavaScript, nội dung ẩn. Đọc [**Bài 5: Google có nhìn thấy trang giống người dùng?**](/google-nhin-trang-giong-nguoi-dung/); trước mắt:
+Khi Google **đã tìm được** URL, bước tiếp trong [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) là đảm bảo Google **nhìn thấy trang giống người dùng** — render, JavaScript, nội dung ẩn. Đọc [**Bài 5: Google có nhìn thấy trang giống người dùng?**](/zola/posting/google-nhin-trang-giong-nguoi-dung/); trước mắt:
 
 1. **Audit index** — site: + Search Console cho toàn `posting/`.
 2. **Củng cố cluster** — mỗi bài series link lẫn nhau; Bài 4 là mắt xích discoverability.
-3. **Kiên nhẫn timeline** — tìm được ≠ rank cao; [Bài 3](/bao-lau-de-thay-ket-qua-seo/) vẫn áp dụng.
+3. **Kiên nhẫn timeline** — tìm được ≠ rank cao; [Bài 3](/zola/posting/bao-lau-de-thay-ket-qua-seo/) vẫn áp dụng.
 
-Nếu chưa hiểu crawl vs index, đọc lại [Bài 2](/google-search-hoat-dong-the-nao/). Nếu chưa setup Search Console, quay [Bài 1](/seo-la-gi-huong-dan-co-ban-google-search/).
+Nếu chưa hiểu crawl vs index, đọc lại [Bài 2](/zola/posting/google-search-hoat-dong-the-nao/). Nếu chưa setup Search Console, quay [Bài 1](/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/).
 
 ## Tóm lại {#tom-lai}
 
 **Giúp Google tìm nội dung** = làm URL **có thể phát hiện**: **internal link** từ trang đã biết, **sitemap** submit Search Console, **site:** và URL Inspection để kiểm tra index, và **robots.txt** không chặn nhầm. Backlink ngoài giúp nhưng blog mới nên tập trung việc **kiểm soát được** trước.
 
-Blog Zola: `base_url` đúng, sitemap tự sinh, series link Bài 1 → 2 → 3 → **4** — pipeline discovery rõ ràng. Sau đó chờ crawl/index theo timeline [Bài 3](/bao-lau-de-thay-ket-qua-seo/), đo bằng Search Console không phải gõ Google tay mỗi ngày.
+Blog Zola: `base_url` đúng, sitemap tự sinh, series link Bài 1 → 2 → 3 → **4** — pipeline discovery rõ ràng. Sau đó chờ crawl/index theo timeline [Bài 3](/zola/posting/bao-lau-de-thay-ket-qua-seo/), đo bằng Search Console không phải gõ Google tay mỗi ngày.
 
-Series: Bài 1 (Essentials) → Bài 2 (crawl/index/rank) → Bài 3 (thời gian) → **Bài 4** (giúp Google tìm nội dung). Tiếp theo: [**Bài 5: Google có nhìn thấy trang giống người dùng?**](/google-nhin-trang-giong-nguoi-dung/)
+Series: Bài 1 (Essentials) → Bài 2 (crawl/index/rank) → Bài 3 (thời gian) → **Bài 4** (giúp Google tìm nội dung). Tiếp theo: [**Bài 5: Google có nhìn thấy trang giống người dùng?**](/zola/posting/google-nhin-trang-giong-nguoi-dung/)

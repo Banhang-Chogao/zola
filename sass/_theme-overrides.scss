@@ -119,15 +119,24 @@
     &__date { color: var(--c-text-muted); }
   }
 
-  /* ===== 5. RELATED ARTICLES (cuối mỗi post) ===== */
-  .related-articles__title {
-    background: var(--c-accent);
-    color: var(--c-bg-surface);
-    letter-spacing: $kicker-spacing;
+  .cat-list {
+    li {
+      color: var(--c-text-body);
+      border-bottom-color: var(--c-border);
+
+      a:hover { color: var(--c-accent); }
+    }
+
+    &__count {
+      color: var(--c-text-muted);
+      background: var(--c-bg-soft);
+    }
   }
 
-  .related-articles__head {
-    border-bottom-color: var(--c-accent);
+  /* ===== 5. RELATED ARTICLES (cuối mỗi post) ===== */
+  .related-articles__title {
+    color: var(--c-text-heading);
+    letter-spacing: $kicker-spacing;
   }
 
   .related-card {
@@ -240,8 +249,8 @@
 
   /* ===== 10. FOOTER QA DASHBOARD =====
      QA band nền trắng #fff cố định (không đảo theo dark-mode) → chữ tối
-     để luôn đọc rõ ở cả light & dark. (Tag cloud nằm ở footer —
-     xem .footer-tags trong _footer-tags.scss.) */
+     để luôn đọc rõ ở cả light & dark. (Tag cloud cũ đã chuyển sang
+     sidebar text-only — xem .tag-cloud trong _sidebar.scss.) */
   .footer-qa__title {
     color: #111;                   /* tối trên QA band trắng */
     letter-spacing: $heading-ls;
@@ -309,19 +318,6 @@
    ============================================================
    Color values qua --c-* tokens. Mixin chỉ inject non-color
    tokens (radius / shadow / kicker / heading-ls). */
-
-/* ===== E-DNA (Enterprise Editorial Design System) — DEFAULT ===== */
-:root[data-theme="edna"],
-:root {
-  @include theme-overrides(
-    $radius-card:        4px,                    /* Sharp professional corners */
-    $radius-tag:         4px,                    /* Consistent sharp */
-    $shadow-card:        0 2px 8px rgba(0, 55, 132, 0.08),     /* Calm enterprise shadow */
-    $shadow-card-hover:  0 8px 24px rgba(0, 55, 132, 0.12),    /* Lift on hover */
-    $kicker-spacing:     0.08em,                 /* Editorial clarity */
-    $heading-ls:         -0.03em                 /* Confident display */
-  );
-}
 
 /* ===== HILDA (Ericsson) — sharp, professional ===== */
 :root[data-theme="hilda"] {
@@ -631,10 +627,10 @@
   }
 
   .site-search__panel {
-    border-radius: 16px;
+    border-radius: 4px;
     border-color: #e0e0e0;
-    border-top: 3px solid #003784;
-    box-shadow: 0 24px 48px rgba(0, 55, 132, 0.18);
+    border-top-color: #003784;
+    box-shadow: 0 8px 16px rgba(0, 55, 132, 0.12);
   }
 
   .site-search__eyebrow,
@@ -685,18 +681,10 @@
   .fontguide__usage-col,
   .fontguide__award,
   .ad-banner,
-  .header-ad,
-  .header-welcome,
-  .post-thanks {
+  .header-ad {
     border-radius: 4px;
     border-color: #e0e0e0;
     box-shadow: 0 2px 4px rgba(0, 55, 132, 0.08);
-  }
-
-  .header-welcome,
-  .post-thanks {
-    background: #ddf4f2;
-    border-left-color: #00a69d;
   }
 
   .ad-banner,

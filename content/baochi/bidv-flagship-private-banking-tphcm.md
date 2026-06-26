@@ -76,7 +76,3 @@ Còn cái chi nhánh hoa mai vàng ở 153 Hai Bà Trưng? Với tôi, nó vừa
 📚 Tìm hiểu mô hình [Private Banking trên Wikipedia](https://en.wikipedia.org/wiki/Private_banking) và đối tác quản lý tài sản [Edmond de Rothschild](https://www.edmond-de-rothschild.com/).
 
 *Nguồn: Tổng hợp từ thông cáo của BIDV đăng trên báo chí trong nước.*
-
-> **Xem thêm trong chuyên mục:** [Ngân hàng — mẹo dùng app và xử lý sự cố](/topic/ngan-hang/)
-
-> **Xem thêm trong cụm:** [MSB Digital Bank thay mBank: cần làm gì?](/baochi/msb-digital-bank-ra-mat-thay-mbank/)

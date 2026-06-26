@@ -11,7 +11,6 @@
   const STORE_TX = "transactions";
   const STORE_META = "meta";
   const CRYPTO_KEY_META = "crypto_key";
-  const RECEIPTS_CATALOG_KEY = "receipts_catalog";
 
   function openDb() {
     return new Promise((resolve, reject) => {
@@ -168,34 +167,10 @@
     });
   }
 
-  async function getReceiptsCatalog() {
-    const db = await openDb();
-    const raw = await getMeta(db, RECEIPTS_CATALOG_KEY);
-    db.close();
-    if (!raw) return { fingerprints: [], statements: [] };
-    try {
-      const parsed = JSON.parse(raw);
-      return {
-        fingerprints: Array.isArray(parsed.fingerprints) ? parsed.fingerprints : [],
-        statements: Array.isArray(parsed.statements) ? parsed.statements : [],
-      };
-    } catch (e) {
-      return { fingerprints: [], statements: [] };
-    }
-  }
-
-  async function setReceiptsCatalog(catalog) {
-    const db = await openDb();
-    await setMeta(db, RECEIPTS_CATALOG_KEY, JSON.stringify(catalog || { fingerprints: [], statements: [] }));
-    db.close();
-  }
-
   global.HDashboardStorage = {
     getAllTransactionIds,
     insertTransactions,
     getAllTransactions,
     clearAll,
-    getReceiptsCatalog,
-    setReceiptsCatalog,
   };
 })(typeof window !== "undefined" ? window : globalThis);

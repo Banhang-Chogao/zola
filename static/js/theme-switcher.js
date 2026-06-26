@@ -8,7 +8,7 @@
   "use strict";
 
   var STORAGE_KEY = "blog-theme";
-  var VALID_THEMES = ["hilda", "nokia"];
+  var VALID_THEMES = ["hilda"];
   var DEFAULT_THEME = "hilda";
   var ATTR = "data-theme";
   var root = document.documentElement;
@@ -74,12 +74,7 @@
   window.ThemeSwitcher = {
     getTheme: getTheme,
     setTheme: setTheme,
-    // Cycle Hilda ↔ Nokia (Hilda mặc định). Trả về theme mới đã áp.
-    toggleTheme: function() {
-      var next = getTheme() === "nokia" ? "hilda" : "nokia";
-      setTheme(next);
-      return next;
-    },
+    toggleTheme: function() { return DEFAULT_THEME; }, // No-op: only 1 theme
     VALID_THEMES: VALID_THEMES,
     DEFAULT_THEME: DEFAULT_THEME
   };

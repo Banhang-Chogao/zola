@@ -1,7 +1,8 @@
 /**
  * CMS auth gate — GitHub OAuth là cổng đăng nhập duy nhất.
  *
- * Full OAuth flow qua backend FastAPI (vipzone service).
+ * Trước đây: OTP modal (4 số hashed SHA-256). Giờ thay bằng full OAuth flow
+ * qua backend FastAPI (services/visitor-counter/main.py).
  *
  * Flow:
  *   1. User click [data-auth-trigger] (link Admin ở footer)
@@ -12,7 +13,7 @@
  *   6. /editor/ load editor.js, đọc #sid, lưu sessionStorage, validate qua /auth/me
  *
  * Config:
- *   - Backend URL bake từ <meta name="vipzone-auth-api">
+ *   - Backend URL bake từ <meta name="zola-cms-auth-api">
  *   - Nếu meta tag trống → user vào /editor/ thẳng, editor.js tự handle login UI
  *
  * Security:
@@ -26,7 +27,7 @@
   const triggers = document.querySelectorAll("[data-auth-trigger]");
   if (!triggers.length) return;
 
-  const meta = document.querySelector('meta[name="vipzone-auth-api"]');
+  const meta = document.querySelector('meta[name="zola-cms-auth-api"]');
   const apiUrl = (meta && meta.getAttribute("content")) || "";
 
   triggers.forEach(function (el) {

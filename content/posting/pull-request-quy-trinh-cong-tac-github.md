@@ -27,7 +27,7 @@ q = "Nên dùng squash, merge hay rebase khi gộp PR?"
 a = "Squash gộp mọi commit của PR thành một, cho lịch sử gọn. Merge commit giữ nguyên lịch sử và thêm điểm gộp. Rebase đưa commit lên thẳng main không tạo merge commit. Tùy quy ước nhóm; squash phổ biến cho blog/cá nhân."
 +++
 
-> 📚 **Git & GitHub Series (Bài 9/15)** — Đã biết đồng bộ ở [Bài 8](/push-pull-fetch-dong-bo-voi-github/), giờ ta học trái tim của cộng tác GitHub: **Pull Request**.
+> 📚 **Git & GitHub Series (Bài 9/15)** — Đã biết đồng bộ ở [Bài 8](/zola/posting/push-pull-fetch-dong-bo-voi-github/), giờ ta học trái tim của cộng tác GitHub: **Pull Request**.
 
 **Pull Request** (thường gọi tắt là PR) là tính năng làm nên tên tuổi GitHub. Thay vì đẩy thẳng code vào nhánh chính, bạn mở một PR để đề xuất thay đổi, để người khác xem diff, góp ý, và để hệ thống tự động kiểm tra (CI) chạy — rồi mới gộp. Bài này hướng dẫn tạo PR, review code, và quy trình fork để đóng góp mã nguồn mở.
 
@@ -39,14 +39,14 @@ Theo [tài liệu GitHub về Pull Request](https://docs.github.com/en/pull-requ
 
 - Hiển thị **diff** rõ ràng giữa hai nhánh.
 - Cho phép **review từng dòng** và để lại bình luận.
-- Tự động chạy **CI/CD** (kiểm thử, build) trước khi merge — chủ đề [Bài 14](/github-actions-ci-cd-cho-nguoi-moi/).
+- Tự động chạy **CI/CD** (kiểm thử, build) trước khi merge — chủ đề [Bài 14](/zola/posting/github-actions-ci-cd-cho-nguoi-moi/).
 - Lưu lại lý do và lịch sử thảo luận của mỗi thay đổi.
 
 Blog này áp dụng đúng nguyên tắc đó: mọi thay đổi đều qua PR, không push thẳng `main`.
 
 ## Quy trình tạo Pull Request cơ bản
 
-Giả sử bạn đã làm việc trên một nhánh tính năng (từ [Bài 4](/git-branch-lam-viec-voi-nhanh/)):
+Giả sử bạn đã làm việc trên một nhánh tính năng (từ [Bài 4](/zola/posting/git-branch-lam-viec-voi-nhanh/)):
 
 ```bash
 git switch -c feature/them-trang-gioi-thieu
@@ -86,14 +86,14 @@ Khi PR được duyệt, GitHub cho ba lựa chọn merge:
 - **Squash and merge** — gộp tất cả commit của PR thành một, lịch sử `main` gọn gàng.
 - **Rebase and merge** — đưa từng commit lên thẳng `main`, không tạo merge commit.
 
-Với blog cá nhân hoặc dự án nhỏ, **squash** thường gọn nhất. Khái niệm rebase sẽ được làm rõ ở [Bài 10](/git-rebase-lam-sach-lich-su-commit/).
+Với blog cá nhân hoặc dự án nhỏ, **squash** thường gọn nhất. Khái niệm rebase sẽ được làm rõ ở [Bài 10](/zola/posting/git-rebase-lam-sach-lich-su-commit/).
 
 ## Fork và đóng góp mã nguồn mở
 
 Khi muốn đóng góp cho dự án bạn không có quyền ghi:
 
 1. **Fork** repo về tài khoản của bạn (nút Fork trên GitHub).
-2. Clone bản fork về máy, thêm remote `upstream` trỏ repo gốc (nhắc lại [Bài 6](/git-remote-lam-viec-voi-repository-tu-xa/)).
+2. Clone bản fork về máy, thêm remote `upstream` trỏ repo gốc (nhắc lại [Bài 6](/zola/posting/git-remote-lam-viec-voi-repository-tu-xa/)).
 3. Tạo nhánh, commit, push lên fork.
 4. Mở PR từ fork của bạn tới repo gốc.
 
@@ -103,4 +103,4 @@ Khi muốn đóng góp cho dự án bạn không có quyền ghi:
 
 **Pull Request** biến Git từ công cụ cá nhân thành nền tảng cộng tác: bạn đề xuất thay đổi qua nhánh, người khác review diff, CI kiểm tra tự động, rồi mới merge. Nắm PR và quy trình fork là bạn đã sẵn sàng làm việc nhóm và đóng góp mã nguồn mở chuyên nghiệp.
 
-Từ bài sau, series bước sang phần **nâng cao**. **Bài 10** mở đầu với [git rebase — làm sạch lịch sử commit](/git-rebase-lam-sach-lich-su-commit/), một công cụ mạnh nhưng cần dùng đúng cách.
+Từ bài sau, series bước sang phần **nâng cao**. **Bài 10** mở đầu với [git rebase — làm sạch lịch sử commit](/zola/posting/git-rebase-lam-sach-lich-su-commit/), một công cụ mạnh nhưng cần dùng đúng cách.

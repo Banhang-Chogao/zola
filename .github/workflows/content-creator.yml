@@ -1,0 +1,129 @@
+name: Content Creator (viết series tự động)
+
+# Sinh series bài viết từ brief của trang /tools/content-creator/, viết liên tục
+# theo số lượng, QA gate, rồi push thẳng main → deploy.yml tự build/deploy production.
+# Không có bước phê duyệt (ZERO_BARRIER). Kích hoạt qua workflow_dispatch (UI hoặc
+# backend CMS dispatch).
+
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: 'Chủ đề muốn tạo'
+        required: true
+        type: string
+      count:
+        description: 'Số lượng bài trong series (1-30)'
+        required: true
+        default: '5'
+        type: string
+      pricing:
+        description: 'Hình thức thu phí'
+        required: true
+        default: 'free'
+        type: choice
+        options:
+          - free
+          - paid
+      brief:
+        description: 'Diễn giải chi tiết'
+        required: false
+        type: string
+      ux:
+        description: 'UI/UX mong muốn'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  issues: write
+  actions: write
+
+concurrency:
+  group: content-creator
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Sinh series bài viết
+        id: gen
+        env:
+          CC_TOPIC: ${{ inputs.topic }}
+          CC_COUNT: ${{ inputs.count }}
+          CC_PRICING: ${{ inputs.pricing }}
+          CC_BRIEF: ${{ inputs.brief }}
+          CC_UX: ${{ inputs.ux }}
+        run: |
+          OUT=$(python3 scripts/content_creator.py \
+            --topic "$CC_TOPIC" \
+            --count "$CC_COUNT" \
+            --pricing "$CC_PRICING" \
+            --brief "$CC_BRIEF" \
+            --ux "$CC_UX")
+          echo "$OUT"
+          if echo "$OUT" | grep -q '^PUBLISHED:'; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build references (cho block Tham khảo)
+        if: steps.gen.outputs.changed == 'true'
+        run: python3 scripts/build_references.py || true
+
+      - name: QA gate — qa_check.py
+        if: steps.gen.outputs.changed == 'true'
+        run: python3 qa_check.py
+
+      - name: QA gate — Zola build smoke test
+        if: steps.gen.outputs.changed == 'true'
+        env:
+          ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          sudo mv zola /usr/local/bin/
+          python3 scripts/paywall_prepare_build.py --strip || true
+          zola build
+          python3 scripts/paywall_prepare_build.py --restore || true
+
+      - name: Push series lên main (auto-deploy, không phê duyệt)
+        if: steps.gen.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "feat(content): sinh series tự động — ${{ inputs.topic }}" \
+            content/ data/
+
+      - name: Báo lỗi nếu QA fail (mở issue)
+        if: failure() && steps.gen.outputs.changed == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `⚠️ Content Creator bị chặn bởi QA (${new Date().toISOString().slice(0,10)})`,
+              body: [
+                'Series tạo từ Content Creator **không vượt qua QA gate** nên CHƯA được đăng.',
+                '',
+                `Chủ đề: ${{ inputs.topic }}`,
+                `Run log: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+                '',
+                'Cách xử lý: chạy phím tắt `ff` để auto-fix, hoặc sửa thủ công rồi chạy lại workflow.'
+              ].join('\n')
+            });

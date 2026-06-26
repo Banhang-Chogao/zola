@@ -33,13 +33,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
-          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
 
       - name: Install Pillow
         run: pip install --quiet Pillow
@@ -48,18 +47,10 @@ jobs:
         run: |
           python3 scripts/to_webp.py --replace static/img content || true
 
-      # Run AFTER WebP conversion so the FINAL production .webp is the image that
-      # gets the ownership watermark exactly once (idempotent — already-watermarked
-      # images are skipped, so re-runs produce no churn). See
-      # scripts/watermark_blog_images.py + data/image-watermark-manifest.json.
-      - name: Watermark eligible blog images
-        run: |
-          python3 scripts/watermark_blog_images.py --apply || true
-
-      - name: Push WebP + watermark changes to main
+      - name: Push WebP changes to main
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           chmod +x .github/scripts/push_to_main.sh
-          .github/scripts/push_to_main.sh "chore(img): convert raster assets to WebP + watermark" \
-            static/ content/ data/image-watermark-manifest.json
+          .github/scripts/push_to_main.sh "chore(img): convert raster assets to WebP only" \
+            static/ content/

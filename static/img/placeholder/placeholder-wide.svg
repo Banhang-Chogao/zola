@@ -1,27 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="SEOMONEY">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-label="Ảnh minh hoạ mặc định của blog">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#FFFFFF"/>
-      <stop offset="1" stop-color="#E2F5F2"/>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#1d4ed8"/>
     </linearGradient>
-    <pattern id="dots" width="46.8" height="46.8" patternUnits="userSpaceOnUse">
-      <circle cx="23.4" cy="23.4" r="3.15" fill="#00A7A0" opacity="0.07"/>
-    </pattern>
   </defs>
-
-  <rect width="1600" height="900" fill="url(#bg)"/>
-  <circle cx="1360" cy="144" r="272" fill="#00A7A0" opacity="0.045"/>
-  <circle cx="208" cy="792" r="208" fill="#00A7A0" opacity="0.04"/>
-  <rect x="40.5" y="40.5" width="1519.0" height="819.0" rx="27.0" fill="url(#dots)"/>
-  <rect x="40.5" y="40.5" width="1519.0" height="819.0" rx="27.0" fill="none" stroke="#00A7A0" stroke-width="1.98" opacity="0.28"/>
-
-  <circle cx="800.0" cy="360.0" r="162.8" fill="none" stroke="#00A7A0" stroke-width="2.3" opacity="0.20"/>
-  <circle cx="800.0" cy="360.0" r="121.5" fill="#DDF4F2" stroke="#00A7A0" stroke-width="6.7"/>
-  <g transform="translate(739.25 299.25) scale(5.0625)" fill="none" stroke="#00A7A0" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><polyline points="14 3 14 8 19 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></g>
-
-  <text x="800.0" y="616" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
-        font-weight="800" font-size="68" letter-spacing="6.8" fill="#0B6E69">SEOMONEY</text>
-  <rect x="766.0" y="657" width="68" height="5" rx="3" fill="#00A7A0"/>
-  <text x="800.0" y="711" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
-        font-weight="600" font-size="27" letter-spacing="9.2" fill="#5E8E8B">SEOMONEY.ORG</text>
+  <rect width="1600" height="900" fill="url(#g)"/>
+  <circle cx="1328" cy="153" r="432" fill="#93c5fd" opacity="0.13"/>
+  <circle cx="1504" cy="774" r="279" fill="#ffffff" opacity="0.06"/>
+  <circle cx="160" cy="828" r="198" fill="#ffffff" opacity="0.05"/>
+  <g fill="none" stroke="#ffffff" stroke-width="9" opacity="0.28" stroke-linejoin="round">
+    <rect x="624" y="323" width="352" height="253" rx="18" ry="18"/>
+  </g>
+  <g opacity="0.28">
+    <circle cx="730" cy="404" r="28" fill="#ffffff"/>
+    <polyline points="666,546 782,429 870,546 828,462 934,546" fill="none" stroke="#ffffff" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
 </svg>

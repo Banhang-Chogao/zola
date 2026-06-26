@@ -1,13 +1,17 @@
 name: Daily Vaccine Autofixer
 
-# TEMP DISABLED:
-# Auto vaccine/hotfix PR generation is paused because SEOMONEY now uses a PR-first,
-# production-verified deploy strategy. Keep manual workflow_dispatch only.
+# Vaccine V11 — Daily Vaccine Autofixer.
+# Reads the vaccine library from CLAUDE.md, scans the repo + latest CI logs,
+# auto-fixes the SAFE vaccine-class issues, runs QA/build, uploads the report as
+# an artifact, writes a run summary, and (if anything changed) opens a PR —
+# never a direct push to main.
 #
-# Previously ran on a daily schedule (06:00 ICT) and created chore/vaccine-autofixer-*
-# PRs. The scheduled auto-remediation is paused to reduce bot PR noise.
+# Schedule: 06:00 Asia/Ho_Chi_Minh (= 23:00 UTC the previous day).
+# Manual:   workflow_dispatch (the `vacxin11` shortcut) — runs immediately.
 
 on:
+  schedule:
+    - cron: '0 23 * * *'   # 23:00 UTC == 06:00 Asia/Ho_Chi_Minh
   workflow_dispatch:
 
 permissions:
@@ -30,15 +34,14 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
-          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
 
       - name: Install Zola for build verification
         run: |
@@ -105,23 +108,6 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
           git add -A
-          # V18: unstage volatile runtime artifacts — these are timestamp/run-history churn
-          # that causes spurious merge conflicts on every concurrent vaccine PR (root cause PR #555).
-          # The report JSON (vaccine-autofixer-report.json) is intentionally kept; only
-          # pure state/log/rule-checker output that carries zero real information is dropped.
-          git restore --staged \
-            data/vaccine-autofixer-state.json \
-            data/vaccine-autofixer.log \
-            data/qa-rule-checker-state.json \
-            data/autofix-conflicts-state.json \
-            reports/rule-conflict-report.json \
-            reports/rule-conflict-report.md \
-            2>/dev/null || true
-          # If only volatile files changed, nothing real to commit.
-          if [ -z "$(git diff --cached --name-only)" ]; then
-            echo "Only volatile runtime artifacts changed — skipping PR (no real delta)."
-            exit 0
-          fi
           git commit -m "chore(vaccine): daily autofixer report + safe fixes"
           git push -u origin "$BRANCH"
           gh pr create --base main --head "$BRANCH" \

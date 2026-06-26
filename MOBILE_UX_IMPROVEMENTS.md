@@ -320,11 +320,11 @@ python3 scripts/check_internal_links.py
 ### Lighthouse Testing
 ```bash
 # Desktop
-lighthouse https://seomoney.org/ \
+lighthouse https://banhang-chogao.github.io/zola/ \
   --chrome-flags="--headless" --output=json
 
 # Mobile
-lighthouse https://seomoney.org/ \
+lighthouse https://banhang-chogao.github.io/zola/ \
   --form-factor=mobile --output=json
 ```
 

@@ -23,13 +23,13 @@ q = "Làm sao tránh bị lừa đảo mạo danh Liobank?"
 a = "Chỉ thao tác trong app tải từ App Store hoặc Google Play, tuyệt đối không nhập CCCD, mật khẩu hay OTP vào link lạ. Liobank không bao giờ gọi điện hay nhắn tin yêu cầu bạn cung cấp OTP hoặc mật khẩu."
 +++
 
-> 📚 **Series Liobank (Phần 4/5)** — Sau khi nói về [hoàn tiền](/baochi/uu-dai-hoan-tien-the-liobank/) ở Phần 3, bài này trả lời câu hỏi nhiều người lo nhất khi dùng ngân hàng số.
+> 📚 **Series Liobank (Phần 4/5)** — Sau khi nói về [hoàn tiền](/zola/baochi/uu-dai-hoan-tien-the-liobank/) ở Phần 3, bài này trả lời câu hỏi nhiều người lo nhất khi dùng ngân hàng số.
 
 "Tiền nằm hết trong app, lỡ mất điện thoại thì sao?" — đây là câu tôi nghe nhiều nhất mỗi khi khuyên ai đó dùng ngân hàng số. Nên ở phần này tôi sẽ nói thẳng về chuyện **Liobank bảo mật** thế nào, và quan trọng hơn, bạn cần làm gì để tự bảo vệ mình. Vì thực tế, đa số rủi ro không đến từ ngân hàng mà đến từ chính thói quen người dùng.
 
 <!-- more -->
 
-> 💡 **Minh bạch:** Bài này có chứa liên kết giới thiệu Liobank. Nếu bạn đăng ký qua liên kết, tác giả có thể nhận thưởng — bạn **không** mất thêm chi phí. Chi tiết tại [Điều khoản & Miễn trừ](/terms/).
+> 💡 **Minh bạch:** Bài này có chứa liên kết giới thiệu Liobank. Nếu bạn đăng ký qua liên kết, tác giả có thể nhận thưởng — bạn **không** mất thêm chi phí. Chi tiết tại [Điều khoản & Miễn trừ](/zola/terms/).
 
 ## Liobank bảo mật bằng những lớp nào?
 
@@ -40,7 +40,7 @@ Một ngân hàng số nghiêm túc luôn dựng nhiều lớp khoá, và Lioban
 - **OTP cho giao dịch**: mỗi lần chuyển tiền hay thanh toán đáng kể đều cần mã xác thực gửi về thiết bị của bạn.
 - **Cảnh báo tức thời**: app báo ngay mỗi khi có giao dịch, giúp bạn phát hiện bất thường sớm.
 
-Cơ chế này cũng giống cách các ngân hàng số khác đang làm — tôi đã phân tích trong bài [MSB Digital Bank và công nghệ bảo mật](/baochi/msb-digital-bank-cong-nghe-bao-mat/), bạn có thể đọc thêm để thấy bức tranh chung.
+Cơ chế này cũng giống cách các ngân hàng số khác đang làm — tôi đã phân tích trong bài [MSB Digital Bank và công nghệ bảo mật](/zola/baochi/msb-digital-bank-cong-nghe-bao-mat/), bạn có thể đọc thêm để thấy bức tranh chung.
 
 ## Rủi ro thật sự nằm ở đâu?
 
@@ -62,4 +62,4 @@ Tôi nói thẳng: phần lớn vụ mất tiền không phải do hệ thống 
 
 ## Tóm lại
 
-Liobank bảo mật theo nhiều lớp eKYC, sinh trắc học, OTP và cảnh báo tức thời — đủ để bạn yên tâm giao dịch mỗi ngày. Nhưng lớp khoá mạnh nhất vẫn là sự cảnh giác của chính bạn: không nhập thông tin vào link lạ, không đọc OTP cho bất kỳ ai. Nếu muốn trải nghiệm thử, đăng ký qua [link giới thiệu của tôi](https://liobank.vn/rr/qyAJ) (sao chép mở bằng trình duyệt) và xem điều khoản tại [website Liobank](https://liobank.vn/). Phần cuối series, tôi sẽ nói về [quản lý chi tiêu với app Liobank](/baochi/quan-ly-chi-tieu-voi-app-liobank/).
+Liobank bảo mật theo nhiều lớp eKYC, sinh trắc học, OTP và cảnh báo tức thời — đủ để bạn yên tâm giao dịch mỗi ngày. Nhưng lớp khoá mạnh nhất vẫn là sự cảnh giác của chính bạn: không nhập thông tin vào link lạ, không đọc OTP cho bất kỳ ai. Nếu muốn trải nghiệm thử, đăng ký qua [link giới thiệu của tôi](https://liobank.vn/rr/qyAJ) (sao chép mở bằng trình duyệt) và xem điều khoản tại [website Liobank](https://liobank.vn/). Phần cuối series, tôi sẽ nói về [quản lý chi tiêu với app Liobank](/zola/baochi/quan-ly-chi-tieu-voi-app-liobank/).

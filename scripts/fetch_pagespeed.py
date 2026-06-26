@@ -6,7 +6,7 @@ API public, không cần auth (free 25k queries/day). Chỉ cần URL blog.
 Output format:
 {
   "updated_at": "2026-06-15T14:30:00Z",
-  "url": "https://seomoney.org/",
+  "url": "https://banhang-chogao.github.io/zola/",
   "mobile": {
     "performance": 92,
     "accessibility": 100,
@@ -30,7 +30,7 @@ from urllib.error import URLError, HTTPError
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "data" / "pagespeed.json"
-TARGET_URL = "https://seomoney.org/"
+TARGET_URL = "https://banhang-chogao.github.io/zola/"
 API_BASE = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
 
 # Lighthouse audit ids dùng cho performance QA checker.

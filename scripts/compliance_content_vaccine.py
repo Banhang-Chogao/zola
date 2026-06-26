@@ -21,7 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
 POST_DIRS = {"posting", "baochi", "du-lich", "topic"}
-SITE_HOME = "/"
+SITE_HOME = "/zola/"
 CONTENT_MIN_CHARS = 300
 
 FM_RE = re.compile(r"^\+\+\+\s*\n(.*?)\n\+\+\+\s*\n?(.*)$", re.DOTALL)
