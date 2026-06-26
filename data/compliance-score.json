@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-26T22:20:42Z",
+  "updated_at": "2026-06-26T22:24:59Z",
   "score": 93.5,
   "grade": "A",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "693/718 in range"
+          "detail": "694/719 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "718/718 complete"
+          "detail": "719/719 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "718/718 set"
+          "detail": "719/719 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "689/718 single H1"
+          "detail": "690/719 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "718/718 with lang"
+          "detail": "719/719 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "718/718 ready"
+          "detail": "719/719 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "718/718 pages"
+          "detail": "719/719 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "warn",
-          "detail": "544/718 pages covered"
+          "detail": "545/719 pages covered"
         },
         {
           "label": "Image weight",
@@ -186,7 +186,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "714/718 pages"
+          "detail": "715/719 pages"
         },
         {
           "label": "Skip navigation",
@@ -222,7 +222,7 @@
       "text": "Structure: Heading focus"
     }
   ],
-  "pages_scanned": 718,
+  "pages_scanned": 719,
   "articles_scanned": 179,
   "fix_log": [
     {
@@ -230,8 +230,8 @@
       "label": "Image descriptions",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (544/718 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T22:20:42Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (545/719 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-26T22:24:59Z"
     },
     {
       "category": "Links",
@@ -239,7 +239,7 @@
       "check_status": "fail",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (6 href(s) missing /zola/). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T22:20:42Z"
+      "at": "2026-06-26T22:24:59Z"
     }
   ],
   "fix_summary": {
