@@ -1,0 +1,65 @@
+/* ============================================================================
+   _deploy-monitor-footer.scss — minimal Deploy Monitor footer widget.
+   Shows pending deploy count and status. Non-intrusive, right-aligned in footer.
+   ============================================================================ */
+
+.deploy-monitor-footer {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem 0;
+  text-align: center;
+  font-size: 0.8rem;
+
+  a {
+    color: var(--c-text-muted);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--c-accent);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--c-focus-ring);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+  }
+}
+
+.deploy-monitor-footer__badge {
+  display: inline-block;
+  min-width: 1.5rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 10px;
+  background: var(--c-bg-soft);
+  color: var(--c-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  &--pending {
+    background: var(--c-accent-soft);
+    color: var(--c-accent);
+  }
+}
+
+.deploy-monitor-footer__text {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .deploy-monitor-footer {
+    font-size: 0.75rem;
+    margin: 0.25rem 0 0;
+    padding: 0.25rem 0;
+  }
+
+  .deploy-monitor-footer__badge {
+    min-width: auto;
+    padding: 0.15rem 0.3rem;
+    font-size: 0.7rem;
+  }
+}

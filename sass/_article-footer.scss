@@ -1,0 +1,354 @@
+/* ============================================================
+   Article Footer Styles — Related Posts, Copyright, Heartbeat
+   ============================================================
+   B-DNA aligned components for blog post endings:
+   - Related Posts Grid (4-6 cards, 16:9 thumbnails)
+   - Copyright Declaration Box
+   - Article Heartbeat Mini Widget
+   - Dividers
+   ============================================================ */
+
+/* ===== Dividers ===== */
+.divider {
+  margin: 3rem 0;
+  border: none;
+  border-top: 1px solid var(--c-border, #e5e5e5);
+  opacity: 0.6;
+
+  @media (max-width: 640px) {
+    margin: 2rem 0;
+  }
+}
+
+/* ============================================================
+   Related Posts Grid
+   ============================================================ */
+.related-posts {
+  margin: 3.5rem 0 0;
+  padding: 0;
+}
+
+.related-posts__title {
+  font-size: clamp(1.3rem, 2.4vw, 1.75rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--c-text-heading);
+  margin: 0 0 2rem;
+  line-height: 1.1;
+}
+
+.related-posts__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.75rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+/* ===== Related Post Card ===== */
+.related-post-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  border: 1px solid var(--c-border);
+  background: var(--c-bg-surface);
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: var(--c-border-strong);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+.related-post-card__image {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--c-bg-soft);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .related-post-card:hover & img {
+    transform: scale(1.04);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    img {
+      transition: none;
+    }
+
+    .related-post-card:hover & img {
+      transform: none;
+    }
+  }
+}
+
+.related-post-card__content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 1.25rem 1.35rem;
+  gap: 0.75rem;
+}
+
+.related-post-card__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  color: var(--c-text-heading);
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--c-accent);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--c-focus-ring);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+  }
+}
+
+.related-post-card__excerpt {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--c-text-body);
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.related-post-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.tag-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  background: var(--c-accent-soft);
+  color: var(--c-accent);
+  text-decoration: none;
+  transition: all 0.18s ease;
+
+  &:hover {
+    background: var(--c-accent);
+    color: #fff;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--c-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+.related-post-card__date {
+  font-size: 0.8rem;
+  color: var(--c-text-muted);
+  margin-top: auto;
+}
+
+/* ============================================================
+   Copyright Declaration Box
+   ============================================================ */
+.copyright-box {
+  margin: 3.5rem 0 0;
+  padding: 1.75rem;
+  border-radius: 12px;
+  border-left: 5px solid var(--c-accent);
+  background: linear-gradient(135deg, var(--c-bg-soft) 0%, var(--c-bg-surface) 100%);
+  border: 1px solid var(--c-border);
+  border-left: 5px solid var(--c-accent);
+}
+
+.copyright-box__inner {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.copyright-box__icon {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--c-accent);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.copyright-box__content {
+  flex-grow: 1;
+}
+
+.copyright-box__text {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--c-text-body);
+
+  strong {
+    color: var(--c-text-heading);
+    font-weight: 700;
+  }
+}
+
+.copyright-box__contact {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--c-text-muted);
+
+  a {
+    color: var(--c-accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--c-accent-hover);
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--c-focus-ring);
+      outline-offset: 2px;
+      border-radius: 3px;
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .copyright-box {
+    margin: 2.5rem 0 0;
+    padding: 1.5rem;
+  }
+
+  .copyright-box__inner {
+    gap: 0.75rem;
+  }
+
+  .copyright-box__icon {
+    font-size: 1.4rem;
+  }
+
+  .copyright-box__text,
+  .copyright-box__contact {
+    font-size: 0.85rem;
+  }
+}
+
+/* ============================================================
+   Article Heartbeat Widget
+   ============================================================ */
+.article-heartbeat {
+  margin: 2.5rem 0 0;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  border: 1px solid var(--c-border);
+  background: var(--c-bg-soft);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.article-heartbeat__badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+@keyframes heartbeat-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.article-heartbeat__status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: heartbeat-pulse 2s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.article-heartbeat__status-text {
+  font-weight: 600;
+  color: var(--c-text-heading);
+}
+
+.article-heartbeat__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.article-heartbeat__meta {
+  font-size: 0.8rem;
+  color: var(--c-text-muted);
+  line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .article-heartbeat {
+    padding: 0.85rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .article-heartbeat__badge {
+    gap: 0.4rem;
+  }
+
+  .article-heartbeat__meta {
+    font-size: 0.75rem;
+  }
+}

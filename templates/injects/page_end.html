@@ -1,0 +1,25 @@
+{# ============================================================
+   Page End Inject — Blog Post Footer (Articles)
+   ============================================================
+   Renders after page content:
+   - FAQ Accordion (if available)
+   - Related Posts Grid
+   - Copyright Declaration Box
+   - Article Heartbeat (mini deploy status)
+   ============================================================ #}
+
+{% if page.extra.faq is defined or toc_total >= 3 %}
+  {% include "partials/faq.html" %}
+{% endif %}
+
+<hr class="divider" />
+
+{% include "partials/related-posts.html" %}
+
+<hr class="divider" />
+
+{% include "partials/copyright.html" %}
+
+<hr class="divider" />
+
+{% include "partials/article-heartbeat.html" %}

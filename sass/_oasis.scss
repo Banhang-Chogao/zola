@@ -91,9 +91,47 @@ main.container:has(.oasis) { max-width: 1180px; }
   }
   &__top-right strong { color: var(--o-blue); }
 
+  /* ===== BREADCRUMB ===== */
+  &__crumb {
+    margin: 12px 0 0;
+    padding: 0;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--o-muted);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+
+    a {
+      color: var(--o-muted);
+      text-decoration: none;
+      transition: color 0.18s ease;
+
+      &:hover {
+        color: var(--o-blue);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--o-blue);
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  &__crumb-sep {
+    color: var(--o-border-strong);
+    font-weight: 300;
+  }
+
+  &__crumb-current {
+    font-weight: 600;
+    color: var(--o-ink);
+  }
+
   /* ===== HERO ===== */
   &__hero {
-    padding: 44px 0 28px;
+    padding: 20px 0 28px;
     margin: 0;
     border-bottom: 1px solid var(--o-border);
   }
