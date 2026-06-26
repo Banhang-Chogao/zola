@@ -120,6 +120,28 @@ class VipzoneDB:
                     updated_at TEXT NOT NULL
                 );
                 CREATE INDEX IF NOT EXISTS idx_whiteboard_owner ON whiteboard_notes(owner);
+                -- Native SEOMONEY comments — Google-authenticated, moderated.
+                -- Public reads expose ONLY display name + avatar; the raw email is
+                -- never stored (only a salted-ish sha256 hash) and the provider
+                -- subject id is hashed too, so the public API can never leak PII.
+                CREATE TABLE IF NOT EXISTS comments (
+                    id TEXT PRIMARY KEY,
+                    page_path TEXT NOT NULL,
+                    body_sanitized TEXT NOT NULL,
+                    author_provider TEXT NOT NULL DEFAULT 'google',
+                    author_sub_hash TEXT NOT NULL DEFAULT '',
+                    author_display_name TEXT NOT NULL DEFAULT '',
+                    author_avatar_url TEXT NOT NULL DEFAULT '',
+                    author_email_hash TEXT NOT NULL DEFAULT '',
+                    status TEXT NOT NULL DEFAULT 'pending',
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL,
+                    ip_hash TEXT NOT NULL DEFAULT '',
+                    user_agent_hash TEXT NOT NULL DEFAULT ''
+                );
+                CREATE INDEX IF NOT EXISTS idx_comments_page ON comments(page_path, status);
+                CREATE INDEX IF NOT EXISTS idx_comments_status ON comments(status, created_at);
+                CREATE INDEX IF NOT EXISTS idx_comments_author ON comments(author_sub_hash, created_at);
                 """
             )
 
@@ -570,3 +592,138 @@ class VipzoneDB:
                 (owner, note_id),
             )
         return cur.rowcount > 0
+
+    # ============= Native comments (Google-auth, moderated) =============
+    @staticmethod
+    def _public_comment(row: sqlite3.Row) -> dict[str, Any]:
+        """Public projection — NEVER includes email/email_hash/sub/ip/UA."""
+        return {
+            "id": row["id"],
+            "page_path": row["page_path"],
+            "body": row["body_sanitized"],
+            "author_provider": row["author_provider"],
+            "author_name": row["author_display_name"] or "Người dùng ẩn danh",
+            "author_avatar": row["author_avatar_url"],
+            "status": row["status"],
+            "created_at": row["created_at"],
+        }
+
+    @staticmethod
+    def _admin_comment(row: sqlite3.Row) -> dict[str, Any]:
+        """Moderation projection — adds status/ids but still NO raw email."""
+        out = VipzoneDB._public_comment(row)
+        out.update(
+            {
+                "author_email_hash": row["author_email_hash"],
+                "author_sub_hash": row["author_sub_hash"],
+                "updated_at": row["updated_at"],
+            }
+        )
+        return out
+
+    def insert_comment(self, data: dict[str, Any]) -> dict[str, Any]:
+        cid = data.get("id") or f"cm_{uuid.uuid4().hex[:16]}"
+        now = _now()
+        status = data.get("status") or "pending"
+        with self._conn() as conn:
+            conn.execute(
+                """
+                INSERT INTO comments
+                    (id, page_path, body_sanitized, author_provider, author_sub_hash,
+                     author_display_name, author_avatar_url, author_email_hash,
+                     status, created_at, updated_at, ip_hash, user_agent_hash)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    cid,
+                    data.get("page_path", ""),
+                    data.get("body_sanitized", ""),
+                    data.get("author_provider", "google"),
+                    data.get("author_sub_hash", ""),
+                    data.get("author_display_name", ""),
+                    data.get("author_avatar_url", ""),
+                    data.get("author_email_hash", ""),
+                    status,
+                    now,
+                    now,
+                    data.get("ip_hash", ""),
+                    data.get("user_agent_hash", ""),
+                ),
+            )
+            row = conn.execute("SELECT * FROM comments WHERE id = ?", (cid,)).fetchone()
+        return self._admin_comment(row)
+
+    def list_comments_for_page(
+        self, page_path: str, status: str = "approved"
+    ) -> list[dict[str, Any]]:
+        """Public listing for a page (oldest-first), default approved only."""
+        with self._conn() as conn:
+            rows = conn.execute(
+                """
+                SELECT * FROM comments
+                WHERE page_path = ? AND status = ?
+                ORDER BY created_at ASC
+                """,
+                (page_path, status),
+            ).fetchall()
+        return [self._public_comment(r) for r in rows]
+
+    def list_all_comments(self, status: str | None = None) -> list[dict[str, Any]]:
+        """Moderation listing (newest-first), optional status filter."""
+        with self._conn() as conn:
+            if status:
+                rows = conn.execute(
+                    "SELECT * FROM comments WHERE status = ? ORDER BY created_at DESC",
+                    (status,),
+                ).fetchall()
+            else:
+                rows = conn.execute(
+                    "SELECT * FROM comments WHERE status != 'deleted' ORDER BY created_at DESC"
+                ).fetchall()
+        return [self._admin_comment(r) for r in rows]
+
+    def get_comment(self, comment_id: str) -> dict[str, Any] | None:
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT * FROM comments WHERE id = ?", (comment_id,)
+            ).fetchone()
+        return self._admin_comment(row) if row else None
+
+    def set_comment_status(self, comment_id: str, status: str) -> dict[str, Any] | None:
+        with self._conn() as conn:
+            cur = conn.execute(
+                "UPDATE comments SET status = ?, updated_at = ? WHERE id = ?",
+                (status, _now(), comment_id),
+            )
+            if cur.rowcount == 0:
+                return None
+            row = conn.execute(
+                "SELECT * FROM comments WHERE id = ?", (comment_id,)
+            ).fetchone()
+        return self._admin_comment(row) if row else None
+
+    def delete_comment(self, comment_id: str) -> bool:
+        with self._conn() as conn:
+            cur = conn.execute("DELETE FROM comments WHERE id = ?", (comment_id,))
+        return cur.rowcount > 0
+
+    def count_recent_comments_by_author(self, author_sub_hash: str, since_iso: str) -> int:
+        """Rate-limit helper: how many comments this author posted since since_iso."""
+        if not author_sub_hash:
+            return 0
+        with self._conn() as conn:
+            row = conn.execute(
+                """
+                SELECT COUNT(*) AS c FROM comments
+                WHERE author_sub_hash = ? AND created_at >= ?
+                """,
+                (author_sub_hash, since_iso),
+            ).fetchone()
+        return int(row["c"]) if row else 0
+
+    def get_comment_stats(self) -> dict[str, int]:
+        with self._conn() as conn:
+            rows = conn.execute(
+                "SELECT status, COUNT(*) AS c FROM comments GROUP BY status"
+            ).fetchall()
+        return {r["status"]: int(r["c"]) for r in rows}

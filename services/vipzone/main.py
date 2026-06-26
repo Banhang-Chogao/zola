@@ -49,7 +49,7 @@ from pydantic import BaseModel, EmailStr, Field
 from admin_guideline_pdf import generate_pdf_watermark
 from catalog_loader import load_catalog, migrate_picks_sync
 from picker_access import expand_items, items_to_map, migrate_picker_items, sparse_items
-from cms_auth import BACKEND_URL, cms_profile_from_session, github_token_from_session, is_admin, router as auth_router, session_dep
+from cms_auth import BACKEND_URL, cms_profile_from_session, github_token_from_session, is_admin, is_commenter_only, router as auth_router, session_dep
 from db import DEFAULT_DB, PLAN_DAYS, VipzoneDB
 from gsc_kv import SqliteKV
 from roles import ROLE_SUPERADMIN, ROLE_VIP, is_superadmin, resolve_role
@@ -200,7 +200,27 @@ except Exception as exc:  # pragma: no cover - defensive: keep the rest of the A
     print(f"[vipzone] personal_data router not mounted: {exc!r}")
 
 
+# ============= Native comments (Google-auth, moderated) =============
+# Replaces GitHub-only Giscus with a Google-authenticated, AdSense-safe comment
+# system. Public read of approved comments + authenticated submit + admin
+# moderation. Mounted like personal_data so get_db is injected without a circular
+# import. config.toml points the widget at vipzone_api_url / cms_auth_url.
+try:
+    import comments as comments_mod
+
+    comments_mod.configure(get_db=get_db)
+    app.include_router(comments_mod.router)
+    COMMENTS_MOUNTED = True
+except Exception as exc:  # pragma: no cover - defensive: keep the rest of the API up
+    COMMENTS_MOUNTED = False
+    print(f"[vipzone] comments router not mounted: {exc!r}")
+
+
 async def require_admin(profile: dict[str, Any] = Depends(session_dep)) -> dict[str, Any]:
+    # A public commenter session can never be an admin (defense-in-depth on top of
+    # the is_admin/is_super checks, which are already false for them).
+    if is_commenter_only(profile):
+        raise HTTPException(403, "admin_only")
     if not is_admin(profile.get("email"), profile.get("username")) and not is_superadmin(profile):
         raise HTTPException(403, "admin_only")
     return profile
@@ -359,6 +379,7 @@ def _health_payload() -> dict[str, Any]:
         "gsc_mounted": GSC_MOUNTED,
         "cms_mounted": CMS_REPO_MOUNTED,
         "personal_mounted": PERSONAL_MOUNTED,
+        "comments_mounted": COMMENTS_MOUNTED,
         "critical_routes": _critical_routes_status(),
         "gsc_configured": bool(os.getenv("GSC_CLIENT_ID") and os.getenv("GSC_CLIENT_SECRET")),
     }

@@ -32,7 +32,7 @@ from typing import Any, Callable, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 
-from cms_auth import is_admin, session_dep
+from cms_auth import is_admin, is_commenter_only, session_dep
 from roles import is_superadmin
 
 router = APIRouter(tags=["personal"])
@@ -59,7 +59,10 @@ async def require_owner(profile: dict[str, Any] = Depends(session_dep)) -> dict[
     session_dep already rejects missing/expired sessions (401). We add the same
     admin gate the CMS admin routes use so only the blog owner reaches the data.
     """
-    if not is_admin(profile.get("email"), profile.get("username")) and not is_superadmin(profile):
+    if is_commenter_only(profile) or (
+        not is_admin(profile.get("email"), profile.get("username"))
+        and not is_superadmin(profile)
+    ):
         raise HTTPException(403, "admin_only")
     email = (profile.get("email") or "").lower().strip()
     if not email:

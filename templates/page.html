@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% import "macros/verified.html" as v %}
 {% import "macros/giscus.html" as giscus %}
+{% import "macros/comments.html" as comments %}
 {% import "macros/img.html" as img %}
 {% import "macros/references.html" as references %}
 {% import "macros/series-nav.html" as series %}
@@ -424,8 +425,16 @@
         </section>
         {% endif %}
 
-        {# ===== GISCUS COMMENTS ===== #}
+        {# ===== COMMENTS — native Google-auth system (replaces Giscus) ===== #}
+        {{ comments::section(page=page) }}
+
+        {# Legacy Giscus (GitHub Discussions) — read-only, opt-in only. Kept so the
+           owner can still view old GitHub comments; rendered ONLY when
+           config.extra.giscus.legacy_enabled = true (off by default). Old comments
+           are NOT deleted, just hidden until the owner approves removal. #}
+        {% if config.extra.giscus and config.extra.giscus.legacy_enabled %}
         {{ giscus::comments() }}
+        {% endif %}
     </article>
     {% endif %}
 {% endblock main %}

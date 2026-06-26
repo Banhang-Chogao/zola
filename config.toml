@@ -143,8 +143,25 @@ donate_momo_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
 #   3. Vào https://giscus.app → chọn repo Banhang-Chogao/zola
 #      → copy 2 ID dán vào dưới
 # Để trống repo_id hoặc category_id = macro silent skip, không render comment box.
+#
+# ⚠️ Giscus (đăng nhập GitHub) ĐÃ ĐƯỢC THAY bằng hệ thống bình luận native đăng nhập
+# Google (xem [extra.comments] bên dưới). Block Giscus chỉ render lại khi
+# legacy_enabled = true — giữ để xem comment GitHub cũ (read-only), KHÔNG xoá tự động.
 [extra.giscus]
 repo        = "Banhang-Chogao/zola"
 repo_id     = "R_kgDOS5xLPw"
 category    = "General"
 category_id = "DIC_kwDOS5xLP84C_Fx6"
+legacy_enabled = false
+
+# ============= NATIVE COMMENTS (đăng nhập Google, có kiểm duyệt) =============
+# Hệ thống bình luận tự xây, backend VIPZone (config.extra.cms_auth_url):
+#   GET  /comments?path=...   → bình luận đã duyệt (public)
+#   POST /comments            → gửi bình luận (cần đăng nhập Google)
+#   /auth/comment/start       → đăng nhập Google để bình luận (KHÔNG vào được CMS)
+# Cấu hình status mặc định + độ dài tối đa khớp env backend (render.yaml).
+[extra.comments]
+enabled = true
+auth_provider = "google"
+default_status = "pending"   # bình luận mới chờ duyệt (an toàn AdSense)
+max_length = 1500

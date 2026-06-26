@@ -73,6 +73,45 @@ GOOGLE_ADMIN_EMAILS = {
     if e.strip()
 } or set(ADMIN_EMAILS)
 
+# ============= Comment auth (Google login for public commenters) =============
+# A SEPARATE login surface from the admin/CMS Google flow. The admin flow keeps
+# requiring GOOGLE_ADMIN_EMAILS; the comment flow admits ANY verified Google
+# account (optionally restricted by COMMENTS_ALLOWED_DOMAINS) but assigns a
+# strictly-limited `commenter` role that can NEVER reach the editor/CMS.
+COMMENTS_AUTH_PROVIDER = os.getenv("COMMENTS_AUTH_PROVIDER", "google").strip().lower()
+# Optional domain allowlist (comma-separated, e.g. "company.com"). Empty = any
+# verified Google account may comment.
+COMMENTS_ALLOWED_DOMAINS = {
+    d.strip().lower().lstrip("@")
+    for d in os.getenv("COMMENTS_ALLOWED_DOMAINS", "").split(",")
+    if d.strip()
+}
+# Where a commenter returns to after Google login if no return_to is supplied.
+COMMENTS_DEFAULT_RETURN = "/"
+
+# Account-type markers stored in the session payload. `commenter` sessions are
+# fenced out of every admin/CMS guard (defense-in-depth on top of is_admin/
+# is_super already being false for them).
+ACCOUNT_TYPE_ADMIN = "admin"
+ACCOUNT_TYPE_COMMENTER = "commenter"
+
+
+def _comment_email_allowed(email: str) -> bool:
+    """Any verified Google email may comment unless a domain allowlist is set."""
+    email = (email or "").strip().lower()
+    if not email or "@" not in email:
+        return False
+    if not COMMENTS_ALLOWED_DOMAINS:
+        return True
+    return email.rsplit("@", 1)[-1] in COMMENTS_ALLOWED_DOMAINS
+
+
+def is_commenter_only(profile: dict[str, Any] | None) -> bool:
+    """True for a public commenter session (must be denied admin/CMS surfaces)."""
+    if not profile:
+        return False
+    return (profile.get("account_type") or "") == ACCOUNT_TYPE_COMMENTER
+
 _BLOG_BASE_PATH = urlparse(BLOG_URL).path.rstrip("/")
 
 router = APIRouter(tags=["auth"])
@@ -93,6 +132,11 @@ class AuthMeResponse(BaseModel):
     is_admin: bool = False
     vip_plan: str | None = None
     vip_expires_at: str | None = None
+    # Normalized account type for the comment system: "admin" (can moderate +
+    # reach CMS) or "commenter" (comment-only, never CMS). Anonymous callers get a
+    # 401 from /auth/me, so the frontend maps "no session" → anonymous itself.
+    account_type: Literal["admin", "commenter"] = "commenter"
+    comment_role: Literal["admin", "commenter"] = "commenter"
 
 
 def _github_enabled() -> bool:
@@ -231,6 +275,10 @@ async def cms_profile_from_sid(db: VipzoneDB, sid: str) -> dict[str, Any]:
         "name": session.get("name") or username,
         "avatar": session.get("avatar") or "",
         "is_super": is_super,
+        # Carried through so admin/CMS guards can fence out commenter sessions
+        # (defense-in-depth; is_admin/is_super are already false for them).
+        "account_type": session.get("account_type") or "",
+        "sub": session.get("sub") or "",
     }
 
 
@@ -282,6 +330,10 @@ def session_role_payload(db: VipzoneDB, profile: dict[str, Any]) -> dict[str, An
     vip_row = db.get_active_vip(email)
     role = resolve_role(is_super, is_vip=vip_row is not None)
     avatar = profile.get("avatar") or ""
+    admin_flag = is_admin(email, username) or is_super
+    # A commenter is anyone authenticated who is NOT an admin. Admins keep full
+    # moderation rights. This normalized role is what the comment widget reads.
+    comment_role = ACCOUNT_TYPE_ADMIN if admin_flag else ACCOUNT_TYPE_COMMENTER
     out: dict[str, Any] = {
         "authenticated": True,
         "provider": profile.get("provider") or "github",
@@ -293,6 +345,8 @@ def session_role_payload(db: VipzoneDB, profile: dict[str, Any]) -> dict[str, An
         "role": role,
         "is_super": is_super,
         "is_admin": is_admin(email, username),
+        "account_type": comment_role,
+        "comment_role": comment_role,
     }
     if vip_row:
         out["vip_plan"] = vip_row.get("plan")
@@ -465,6 +519,43 @@ async def auth_google_start(return_to: str = "/tools/vipzone-admin/") -> Redirec
 
 
 @router.get(
+    "/auth/comment/start",
+    summary="Start Google OAuth/OIDC for a public commenter",
+    response_class=RedirectResponse,
+    responses={307: {"description": "Redirect to Google consent screen"}},
+)
+async def auth_comment_start(return_to: str = COMMENTS_DEFAULT_RETURN) -> RedirectResponse:
+    """Begin Google login for COMMENTING (not admin/CMS).
+
+    Same OIDC client + redirect_uri as the admin flow (openid/email/profile only,
+    no Gmail scope) but the state is tagged ``gc:`` so the shared callback knows to
+    admit any verified Google account as a ``commenter`` instead of requiring the
+    admin allowlist. Reuses the existing Google OAuth session boundaries."""
+    if COMMENTS_AUTH_PROVIDER != "google":
+        return redirect_with_error("comments_provider_disabled", return_to)
+    if not GOOGLE_CLIENT_ID:
+        return redirect_with_error("google_not_configured", return_to)
+    from main import get_db
+
+    db = get_db()
+    rt = normalize_return_to(return_to)
+    state = secrets.token_urlsafe(24)
+    # 'gc:' prefix = Google COMMENT login (distinct from admin 'g:' states).
+    db.save_oauth_state(f"gc:{state}", rt)
+    params = urlencode({
+        "client_id": GOOGLE_CLIENT_ID,
+        "redirect_uri": GOOGLE_REDIRECT_URI,
+        "response_type": "code",
+        "scope": "openid email profile",
+        "state": state,
+        "access_type": "online",
+        "prompt": "select_account",
+        "include_granted_scopes": "true",
+    })
+    return RedirectResponse(f"{GOOGLE_AUTH_ENDPOINT}?{params}")
+
+
+@router.get(
     "/auth/google/callback",
     summary="Google OAuth callback",
     response_class=RedirectResponse,
@@ -488,7 +579,13 @@ async def auth_google_callback(
     from main import get_db
 
     db = get_db()
+    # The callback is shared by the admin flow (state 'g:') and the comment flow
+    # (state 'gc:'). Whichever state matches decides the mode + authorization rule.
     return_to = db.pop_oauth_state(f"g:{state}") or ""
+    mode = "admin"
+    if not return_to:
+        return_to = db.pop_oauth_state(f"gc:{state}") or ""
+        mode = "comment"
     if not return_to:
         return redirect_with_error("invalid_state")
     if not GOOGLE_CLIENT_ID or not GOOGLE_CLIENT_SECRET:
@@ -543,13 +640,37 @@ async def auth_google_callback(
         return redirect_with_error("email_missing", return_to)
     if not _truthy(claims.get("email_verified")):
         return redirect_with_error("email_not_verified", return_to)
-    if not _google_email_allowed(email):
-        return redirect_with_error("access_denied", return_to)
 
-    # Google admins on the allowlist get superadmin (same admin gate as GitHub).
-    is_super = email in ADMIN_EMAILS or _google_email_allowed(email)
-    sid = db.create_cms_session(
-        {
+    is_admin_email = _google_email_allowed(email)
+
+    if mode == "comment":
+        # Comment login: admit any verified Google account (or only an allowed
+        # domain when COMMENTS_ALLOWED_DOMAINS is set). An allowlisted admin who
+        # happens to log in here still gets admin rights; everyone else is a
+        # strictly comment-only account that can NEVER reach the editor/CMS.
+        if not is_admin_email and not _comment_email_allowed(email):
+            return redirect_with_error("comment_domain_not_allowed", return_to)
+        is_super = is_admin_email
+        account_type = ACCOUNT_TYPE_ADMIN if is_admin_email else ACCOUNT_TYPE_COMMENTER
+        session_payload = {
+            "provider": "google",
+            "email": email,
+            "sub": claims.get("sub", ""),
+            # Commenters get NO username → can never collide with ADMIN_USERNAMES
+            # in is_admin(). Admins keep their email local-part for continuity.
+            "username": email.split("@")[0] if is_admin_email else "",
+            "name": claims.get("name") or email.split("@")[0],
+            "avatar": claims.get("picture", ""),
+            "is_super": is_super,
+            "is_superadmin": is_super,
+            "account_type": account_type,
+        }
+    else:
+        # Admin/CMS login — UNCHANGED: the email MUST be on the admin allowlist.
+        if not is_admin_email:
+            return redirect_with_error("access_denied", return_to)
+        is_super = email in ADMIN_EMAILS or is_admin_email
+        session_payload = {
             "provider": "google",
             "email": email,
             "sub": claims.get("sub", ""),
@@ -558,11 +679,12 @@ async def auth_google_callback(
             "avatar": claims.get("picture", ""),
             "is_super": is_super,
             "is_superadmin": is_super,
+            "account_type": ACCOUNT_TYPE_ADMIN,
             # Google flow has no GitHub access_token — CMS repo-commit routes that
             # need it will 401 for Google sessions (documented limitation).
-        },
-        SESSION_TTL,
-    )
+        }
+
+    sid = db.create_cms_session(session_payload, SESSION_TTL)
     response = RedirectResponse(
         build_blog_url(return_to, fragment=f"sid={sid}", extra_query={"auth": "success"}),
     )
