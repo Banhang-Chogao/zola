@@ -38,7 +38,7 @@
     </span>
   </a>
 
-  {# ===== Breadcrumb (MoMo theme test): Trang chủ › Chuyên mục › bài ===== #}
+  {# ===== Breadcrumb (MoMo theme test + Semantic article breadcrumb) ===== #}
   <nav class="oasis__crumb" aria-label="Breadcrumb">
     <a href="{{ config.base_url | safe }}/">Trang chủ</a>
     <span class="oasis__crumb-sep" aria-hidden="true">›</span>
@@ -48,6 +48,20 @@
     {%- endif %}
     <span class="oasis__crumb-current">{{ page.title | truncate(length=48) }}</span>
   </nav>
+
+  {# Semantic breadcrumb-article (for JSON-LD & SEO) #}
+  {%- if page.taxonomies.categories and page.taxonomies.categories | length > 0 %}
+  {% set cat_name = page.taxonomies.categories[0] %}
+  {%- else %}
+  {% set cat_name = "Tất cả" %}
+  {%- endif %}
+  {% import "macros/breadcrumb-article.html" as bc %}
+  {{ bc::article(
+    base_url=config.base_url,
+    category_name=cat_name,
+    category_url=get_taxonomy_url(kind='categories', name=cat_name),
+    post_title=page.title
+  ) }}
 
   {# ===== Hero — eyebrow / title / sub / stats ===== #}
   <header class="oasis__hero">
@@ -94,6 +108,39 @@
     {%- if page.extra.comment | default(value=config.extra.comment) %}
     {% include "partials/comment.html" %}
     {%- endif %}
+
+    <!-- Article Ending Sections -->
+    {# FAQ Accordion #}
+    {%- if page.extra.faq and page.extra.faq | length > 0 %}
+    {% import "macros/faq-accordion.html" as faq %}
+    {{ faq::section(
+      title="💡 Câu hỏi thường gặp",
+      items=page.extra.faq
+    ) }}
+    {%- endif %}
+
+    {# Related Posts with Thumbnail #}
+    {%- if page.extra.related_posts and page.extra.related_posts | length > 0 %}
+    {% import "macros/related-posts-thumbnail.html" as rp %}
+    {{ rp::grid(
+      base_url=config.base_url,
+      posts=page.extra.related_posts,
+      current_slug=page.slug
+    ) }}
+    {%- endif %}
+
+    {# Copyright Notice #}
+    {% import "macros/copyright-notice.html" as cp %}
+    {{ cp::article(
+      year=now.year,
+      site_name=config.title,
+      author=config.extra.author | default(value="")
+    ) }}
+
+    {# Pipeline Heartbeat #}
+    {% import "macros/pipeline-heartbeat-inline.html" as hb %}
+    {{ hb::compact() }}
+
     <!-- Begin Page End inject -->
     {% include "injects/page_end.html" ignore missing %}
     <!-- End Page End inject -->
