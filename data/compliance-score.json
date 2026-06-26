@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-26T23:14:47Z",
+  "updated_at": "2026-06-26T23:22:33Z",
   "score": 95.6,
   "grade": "A+",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "699/726 in range"
+          "detail": "699/727 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "726/726 complete"
+          "detail": "727/727 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "726/726 set"
+          "detail": "727/727 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "696/726 single H1"
+          "detail": "697/727 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "726/726 with lang"
+          "detail": "727/727 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "726/726 ready"
+          "detail": "727/727 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "726/726 pages"
+          "detail": "727/727 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "warn",
-          "detail": "551/726 pages covered"
+          "detail": "552/727 pages covered"
         },
         {
           "label": "Image weight",
@@ -197,7 +197,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "722/726 pages"
+          "detail": "723/727 pages"
         },
         {
           "label": "Skip navigation",
@@ -233,7 +233,7 @@
       "text": "Structure: Heading focus"
     }
   ],
-  "pages_scanned": 726,
+  "pages_scanned": 727,
   "articles_scanned": 180,
   "fix_log": [
     {
@@ -241,8 +241,8 @@
       "label": "Image descriptions",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (551/726 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T23:14:47Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (552/727 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-26T23:22:33Z"
     },
     {
       "category": "Links",
@@ -250,7 +250,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 1 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/baochi/incheon-airport-remote-baggage-2026/index.html → /@/posting/ai-thay-doi-lap-ke-hoach-du-lich/ (Target not found in public/ after zola build)",
-      "at": "2026-06-26T23:14:48Z"
+      "at": "2026-06-26T23:22:33Z"
     }
   ],
   "fix_summary": {
