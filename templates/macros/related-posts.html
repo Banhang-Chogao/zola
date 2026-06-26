@@ -82,10 +82,11 @@
 
           {# Category badge #}
           {%- if p.taxonomies.categories | length > 0 %}
+            {%- set displayed_cat = false %}
             {%- for cat in p.taxonomies.categories %}
-              {%- if cat != "Tất cả" and cat != "premium" %}
+              {%- if not displayed_cat and cat != "Tất cả" and cat != "premium" %}
               <span class="related-post-card__category">{{ cat }}</span>
-              {%- break %}
+              {%- set displayed_cat = true %}
               {%- endif %}
             {%- endfor %}
           {%- endif %}
