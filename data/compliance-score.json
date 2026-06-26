@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-26T23:33:28Z",
+  "updated_at": "2026-06-26T23:39:19Z",
   "score": 95.6,
   "grade": "A+",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "700/727 in range"
+          "detail": "701/728 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "727/727 complete"
+          "detail": "727/728 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "727/727 set"
+          "detail": "728/728 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "697/727 single H1"
+          "detail": "698/728 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "727/727 with lang"
+          "detail": "728/728 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "727/727 ready"
+          "detail": "728/728 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "727/727 pages"
+          "detail": "728/728 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "warn",
-          "detail": "552/727 pages covered"
+          "detail": "553/728 pages covered"
         },
         {
           "label": "Image weight",
@@ -165,24 +165,13 @@
       "items": [
         {
           "label": "Internal links",
-          "status": "warn",
-          "detail": "1 broken / 130 unique",
-          "broken": [
-            {
-              "source_page": "/baochi/incheon-airport-remote-baggage-2026/",
-              "source_file": "public/baochi/incheon-airport-remote-baggage-2026/index.html",
-              "href": "/zola/@/posting/ai-thay-doi-lap-ke-hoach-du-lich",
-              "target": "/@/posting/ai-thay-doi-lap-ke-hoach-du-lich/",
-              "status": "404",
-              "reason": "Target not found in public/ after zola build",
-              "auto_fix_status": "pending"
-            }
-          ]
+          "status": "pass",
+          "detail": "all valid"
         },
         {
           "label": "GitHub Pages base path",
-          "status": "pass",
-          "detail": "all hrefs use /zola/"
+          "status": "warn",
+          "detail": "2 href(s) missing /zola/"
         }
       ]
     },
@@ -197,7 +186,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "723/727 pages"
+          "detail": "724/728 pages"
         },
         {
           "label": "Skip navigation",
@@ -214,7 +203,7 @@
     },
     {
       "type": "warn",
-      "text": "Links: Internal links"
+      "text": "Links: GitHub Pages base path"
     },
     {
       "type": "pass",
@@ -233,7 +222,7 @@
       "text": "Structure: Heading focus"
     }
   ],
-  "pages_scanned": 727,
+  "pages_scanned": 728,
   "articles_scanned": 180,
   "fix_log": [
     {
@@ -241,16 +230,16 @@
       "label": "Image descriptions",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (552/727 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T23:33:28Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (553/728 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-26T23:39:19Z"
     },
     {
       "category": "Links",
-      "label": "Internal links",
+      "label": "GitHub Pages base path",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Còn 1 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/baochi/incheon-airport-remote-baggage-2026/index.html → /@/posting/ai-thay-doi-lap-ke-hoach-du-lich/ (Target not found in public/ after zola build)",
-      "at": "2026-06-26T23:33:28Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (2 href(s) missing /zola/). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-26T23:39:19Z"
     }
   ],
   "fix_summary": {
