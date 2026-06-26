@@ -476,7 +476,6 @@
     {% set asset_version = now(timestamp=true) %}
     <link rel="stylesheet" href="{{ get_url(path='site.css') }}?v={{ asset_version }}">
     <link rel="stylesheet" href="{{ get_url(path='css/dashboard.css') }}?v={{ asset_version }}">
-    <link rel="stylesheet" href="{{ get_url(path='css/custom.css') }}?v={{ asset_version }}">
 
     {% block extra_head %}{% endblock %}
 </head>
