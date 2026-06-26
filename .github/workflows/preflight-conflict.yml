@@ -42,3 +42,13 @@ jobs:
           python3 scripts/preflight_conflict_check.py \
             --no-fetch \
             --base "origin/${{ github.event.pull_request.base.ref || 'main' }}"
+
+      - name: Log preflight experience
+        if: github.event.pull_request
+        run: |
+          python3 scripts/log_experience.py \
+            --pr ${{ github.event.pull_request.number }} \
+            --branch ${{ github.event.pull_request.head.ref }} \
+            --status "checked" \
+            --method "preflight"
+        continue-on-error: true
