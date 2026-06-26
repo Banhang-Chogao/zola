@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "remove hash prefix from footer tags for cleaner appearance [feat/footer-tags-simple]",
+      "tag": "feat",
+      "lines_added": 2,
+      "lines_removed": 2,
+      "highlights": [
+        "templates/base.html (modified, +2/-2)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch feat/footer-tags-simple là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 948
+    },
+    {
+      "date": "2026-06-26",
       "title": "CI/CD Debug: Cách fix 7 PR failed cùng lúc | How I Fixed 7 Failed PRs at Once",
       "tag": "fix",
       "lines_added": 334,

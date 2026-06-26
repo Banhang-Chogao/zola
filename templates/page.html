@@ -1,5 +1,4 @@
 {% import "macros/breadcrumb-article.html" as bc %}
-{% import "macros/faq-accordion.html" as faq %}
 {% import "macros/related-posts-thumbnail.html" as rp %}
 {% import "macros/copyright-notice.html" as cp %}
 {% import "macros/pipeline-heartbeat-inline.html" as hb %}
@@ -104,6 +103,10 @@
     {% include "partials/toc.html" %}
     <!-- Content -->
     <section class="oasis__body post-single__content">{{ page.content | safe }}</section>
+
+    {# FAQ — styled accordion, immediately after post content, before breadcrumb/post navigation #}
+    {% include "partials/faq.html" %}
+
     <hr />
     {% include "partials/post_taxonomies.html" %}
     {%- if page.lower or page.higher %}
@@ -114,14 +117,6 @@
     {%- endif %}
 
     <!-- Article Ending Sections -->
-    {# FAQ Accordion #}
-    {%- if page.extra.faq and page.extra.faq | length > 0 %}
-    {{ faq::section(
-      title="Câu hỏi thường gặp",
-      items=page.extra.faq
-    ) }}
-    {%- endif %}
-
     {# Related Posts with Thumbnail #}
     {%- if page.extra.related_posts and page.extra.related_posts | length > 0 %}
     {{ rp::grid(
