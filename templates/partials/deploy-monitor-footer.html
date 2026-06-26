@@ -4,7 +4,7 @@
 
 {% set dm = load_data(path="data/deploy-monitor.json", required=false) %}
 {% if dm and dm.summary %}
-  <div class="deploy-monitor-footer" role="region" aria-label="Deploy Monitor">
+  <div class="deploy-watch deploy-monitor-footer" role="region" aria-label="Deploy Monitor">
     <a href="/tools/deploy-monitor/" title="Xem Deploy Monitor" class="deploy-monitor-footer__link">
       {% if dm.summary.pending_count and dm.summary.pending_count > 0 %}
         <span class="deploy-monitor-footer__badge deploy-monitor-footer__badge--pending">

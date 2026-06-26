@@ -14,15 +14,20 @@
 
 {# Find related posts by matching tags/categories #}
 {% set related = [] %}
-{% set current_tags = page.taxonomies.tags | default(value=[]) %}
+{% set current_tags = [] %}
+{% if page.taxonomies.tags %}
+  {% set current_tags = page.taxonomies.tags %}
+{% endif %}
 
 {# Get current categories, excluding "Tất cả" (All) #}
 {% set current_cats = [] %}
-{% for cat in page.taxonomies.categories | default(value=[]) %}
-  {% if cat != "Tất cả" %}
-    {% set current_cats = current_cats | concat(with=[cat]) %}
-  {% endif %}
-{% endfor %}
+{% if page.taxonomies.categories %}
+  {% for cat in page.taxonomies.categories %}
+    {% if cat != "Tất cả" %}
+      {% set current_cats = current_cats | concat(with=[cat]) %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
 
 {% for p in all_pages %}
   {% if p.slug != page.slug %}
@@ -30,22 +35,26 @@
     {% set cats_match = 0 %}
 
     {# Count tag matches #}
-    {% for tag in p.taxonomies.tags | default(value=[]) %}
-      {% for current_tag in current_tags %}
-        {% if tag == current_tag %}
-          {% set tags_match = tags_match + 1 %}
-        {% endif %}
+    {% if p.taxonomies.tags %}
+      {% for tag in p.taxonomies.tags %}
+        {% for current_tag in current_tags %}
+          {% if tag == current_tag %}
+            {% set tags_match = tags_match + 1 %}
+          {% endif %}
+        {% endfor %}
       {% endfor %}
-    {% endfor %}
+    {% endif %}
 
     {# Count category matches #}
-    {% for cat in p.taxonomies.categories | default(value=[]) %}
-      {% for current_cat in current_cats %}
-        {% if cat == current_cat %}
-          {% set cats_match = cats_match + 1 %}
-        {% endif %}
+    {% if p.taxonomies.categories %}
+      {% for cat in p.taxonomies.categories %}
+        {% for current_cat in current_cats %}
+          {% if cat == current_cat %}
+            {% set cats_match = cats_match + 1 %}
+          {% endif %}
+        {% endfor %}
       {% endfor %}
-    {% endfor %}
+    {% endif %}
 
     {# Add to related if has at least 1 match #}
     {% if tags_match > 0 or cats_match > 0 %}
