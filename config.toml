@@ -59,17 +59,17 @@ chúng ta có thể đồng hành cùng nhau qua từng bài viết.\
 # Thêm/bớt mục = sửa mảng 'children' tương ứng (giữ pattern url + name).
 menu = [
     { name = "Trang chủ", url = "$BASE_URL/" },
-    { name = "Bài viết", url = "$BASE_URL/categories/tat-ca", children = [
-        { url = "$BASE_URL/categories/tat-ca",  name = "Tất cả bài viết" },
-        { url = "$BASE_URL/categories/bao-chi",  name = "Báo chí" },
-        { url = "$BASE_URL/categories/khoa-hoc", name = "Khoa học" },
-        { url = "$BASE_URL/categories/the-gioi", name = "Thế giới" },
-        { url = "$BASE_URL/categories/du-lich",  name = "Du lịch" },
-        { url = "$BASE_URL/categories/cong-nghe", name = "Công nghệ" },
-        { url = "$BASE_URL/categories/am-thuc",  name = "Ẩm thực" },
-        { url = "$BASE_URL/categories/ngan-hang",  name = "Ngân hàng" },
-        { url = "$BASE_URL/categories/bao-hiem",  name = "Bảo hiểm" },
-        { url = "$BASE_URL/categories/premium",   name = "⭐ Premium" },
+    # "Bài viết" dùng MEGA MENU: 'groups' = các nhóm chuyên mục (mỗi nhóm có
+    # heading + children). base.html render groups → mega menu nhiều cột (desktop)
+    # / accordion (mobile). KHÔNG đổi URL category nào — chỉ nhóm lại theo biên tập
+    # cho gọn (thay 1 list dọc dài). Mỗi group là 1 inline-table 1 dòng (TOML:
+    # inline table không xuống dòng được). Premium tách riêng nhóm "Đặc biệt".
+    { name = "Bài viết", url = "$BASE_URL/categories/tat-ca", groups = [
+        { name = "Tổng quan", children = [ { url = "$BASE_URL/categories/tat-ca", name = "Tất cả bài viết" } ] },
+        { name = "Chủ đề tri thức", children = [ { url = "$BASE_URL/categories/bao-chi", name = "Báo chí" }, { url = "$BASE_URL/categories/khoa-hoc", name = "Khoa học" }, { url = "$BASE_URL/categories/the-gioi", name = "Thế giới" }, { url = "$BASE_URL/categories/cong-nghe", name = "Công nghệ" } ] },
+        { name = "Đời sống", children = [ { url = "$BASE_URL/categories/du-lich", name = "Du lịch" }, { url = "$BASE_URL/categories/am-thuc", name = "Ẩm thực" } ] },
+        { name = "Tài chính cá nhân", children = [ { url = "$BASE_URL/categories/ngan-hang", name = "Ngân hàng" }, { url = "$BASE_URL/categories/bao-hiem", name = "Bảo hiểm" } ] },
+        { name = "Đặc biệt", children = [ { url = "$BASE_URL/categories/premium", name = "⭐ Premium" } ] },
     ] },
     # "Công cụ" dùng MEGA MENU: 'groups' = các nhóm (mỗi nhóm có heading + children).
     # base.html render groups → mega menu (desktop) / accordion (mobile). KHÔNG xoá/
