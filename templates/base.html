@@ -1339,6 +1339,8 @@
         {# Deploy Monitor Footer — load data and show pending count via deploy-watch widget #}
         {% set dm_footer = load_data(path="data/deploy-monitor.json", required=false) %}
         {% if dm_footer and dm_footer.summary %}
+          {# Display pending_count from deploy monitor data #}
+          {% set pending_count = dm_footer.summary.pending_count | default(value=0) %}
           {% include "partials/deploy-monitor-footer.html" %}
         {% endif %}
 </footer>
