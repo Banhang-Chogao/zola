@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-26T16:12:50Z",
+  "updated_at": "2026-06-26T16:46:39Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 62,
-    "this_week": 193,
+    "today": 63,
+    "this_week": 194,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "content": 3,
+      "content": 4,
       "fix": 101,
       "feature": 39,
-      "unknown": 45,
+      "unknown": 44,
       "ci": 4,
       "chore": 8
     }
   },
   "merges": [
+    {
+      "pr_number": 1009,
+      "pr_title": "refactor(nav): Bài viết → compact category mega menu (grouped)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1009",
+      "merged_at": "2026-06-26T16:40:55Z",
+      "merge_commit_sha": "1bc1677d21cf9e202bb928638a2d7f0801a9cfc7",
+      "merge_commit_short": "1bc1677",
+      "head_branch": "claude/baiviet-category-mega-menu-vbk3xo",
+      "summary_vi": "Chuyển menu header **Bài viết** từ 1 dropdown dọc dài (10 mục) sang **Category Mega Menu** gọn, nhiều cột có heading nhóm — theo đúng hướng thiết kế của **PR #1004 (Công cụ Mega Menu)**.",
+      "change_type": "content",
+      "files_changed": 1,
+      "additions": 11,
+      "deletions": 11,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1204,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28251896477",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 996,
       "pr_title": "Add 10-part Merchant Category Code (MCC) blog series [claude/mcc-blog-series-f6pctw]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1203,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28250076475",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 1007,
@@ -55,7 +74,7 @@
       "auto_merged": false,
       "build_run_number": 1203,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28250076475",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 1006,
@@ -74,7 +93,7 @@
       "auto_merged": false,
       "build_run_number": 1203,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28250076475",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 1005,
@@ -984,9 +1003,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1174,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28211457647",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1176,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28211877000",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 944,
@@ -1136,9 +1155,9 @@
       "deletions": 97,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1174,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28211457647",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 941,
@@ -2198,6 +2217,25 @@
       "files_changed": 1,
       "additions": 178,
       "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 862,
+      "pr_title": "fix: use GH_GITHUB_COM_TOKEN PAT for build steps (higher rate limit) [fix/v5-rate-limit]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/862",
+      "merged_at": "2026-06-24T17:52:56Z",
+      "merge_commit_sha": "30728f518993e9b07cae79b1524bff2b37d5ec5b",
+      "merge_commit_short": "30728f5",
+      "head_branch": "fix/v5-rate-limit",
+      "summary_vi": "fix: use GH_GITHUB_COM_TOKEN PAT for build steps (higher rate limit)",
+      "change_type": "fix",
+      "files_changed": 1,
+      "additions": 8,
+      "deletions": 5,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
@@ -3573,25 +3611,6 @@
       "build_conclusion": ""
     },
     {
-      "pr_number": 781,
-      "pr_title": "post: add LC8 Patch 4 progress bar story",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/781",
-      "merged_at": "2026-06-23T12:39:07Z",
-      "merge_commit_sha": "7ec21bec78f2430843042302febc70df12586c2c",
-      "merge_commit_short": "7ec21be",
-      "head_branch": "post/lc8-20260623-191338",
-      "summary_vi": "Adds a practical blog post about LC8 Patch 4, including terminal progress bar, fallback workflow, QA gate, branch, commit, push, and PR automation.",
-      "change_type": "unknown",
-      "files_changed": 1,
-      "additions": 115,
-      "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
       "pr_number": 780,
       "pr_title": "fix(vaccine-hotfix): post/github-actions-yaml-conflict-qa-experience",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/780",
@@ -3794,25 +3813,6 @@
       "files_changed": 2,
       "additions": 2,
       "deletions": 7,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 666,
-      "pr_title": "fix(vaccine-hotfix): deploy_fail-27908456036",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/666",
-      "merged_at": "2026-06-21T15:14:13Z",
-      "merge_commit_sha": "403efac61305dd727d6001cb93c6252c4e239de7",
-      "merge_commit_short": "403efac",
-      "head_branch": "vaccine-hotfix/deploy_fail-27908456036",
-      "summary_vi": "Automated **Vaccine Hotfix** (`deploy_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by Vacxin\").",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 1,
-      "deletions": 6,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
