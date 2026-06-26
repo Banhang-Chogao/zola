@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-26T09:08:39Z",
+  "updated_at": "2026-06-26T09:53:44Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
     "today": 51,
-    "this_week": 185,
+    "this_week": 186,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "unknown": 41,
-      "fix": 108,
+      "unknown": 42,
+      "fix": 107,
       "ci": 5,
       "feature": 38,
       "chore": 8
@@ -35,7 +35,7 @@
       "auto_merged": false,
       "build_run_number": 1195,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28228246662",
-      "build_conclusion": "pending"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 989,
@@ -54,7 +54,7 @@
       "auto_merged": false,
       "build_run_number": 1194,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28227184077",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 988,
@@ -926,8 +926,8 @@
       "deletions": 97,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1166,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28210591731",
+      "build_run_number": 1174,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28211457647",
       "build_conclusion": "cancelled"
     },
     {
@@ -945,9 +945,9 @@
       "deletions": 5,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1166,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28210591731",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 933,
@@ -964,9 +964,9 @@
       "deletions": 11,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1166,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28210591731",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 940,
@@ -1341,6 +1341,25 @@
       "change_type": "unknown",
       "files_changed": 63,
       "additions": 22069,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 906,
+      "pr_title": "docs: thêm ghi chú thiết kế tham khảo Nokia Blog [claude/adoring-mayer-jrca7z]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/906",
+      "merged_at": "2026-06-25T11:54:35Z",
+      "merge_commit_sha": "c233fbf26133b1d880e406b28b00438fd2d7242c",
+      "merge_commit_short": "c233fbf",
+      "head_branch": "claude/adoring-mayer-jrca7z",
+      "summary_vi": "docs: thêm ghi chú thiết kế tham khảo Nokia Blog",
+      "change_type": "unknown",
+      "files_changed": 1,
+      "additions": 220,
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
@@ -3793,25 +3812,6 @@
       "files_changed": 4,
       "additions": 41,
       "deletions": 27,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 556,
-      "pr_title": "fix(vaccine-hotfix): claude/deploy-monitor",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/556",
-      "merged_at": "2026-06-20T11:18:01Z",
-      "merge_commit_sha": "d4baaa87b6e720cbd2c5899f210333837998c43e",
-      "merge_commit_short": "d4baaa8",
-      "head_branch": "vaccine-hotfix/claude-deploy-monitor",
-      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
-      "change_type": "fix",
-      "files_changed": 18,
-      "additions": 973,
-      "deletions": 23,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
