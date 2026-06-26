@@ -28,7 +28,7 @@ q = "Average engagement time đo cái gì?"
 a = "Average engagement time là thời gian trang/tab của bạn thực sự được người dùng tập trung xem (foreground), không tính lúc tab bị ẩn hoặc bỏ đó. GA4 có hai biến thể: trung bình mỗi user và trung bình mỗi session, nên cần đọc đúng nhãn trước khi so sánh."
 +++
 
-> 📚 **Series "10 ngày để hiểu Google Analytics" — Bài 3/5.** Ở [Bài 2](/users-new-users-sessions-google-analytics/) ta đã đếm được *bao nhiêu người* và *bao nhiêu lượt*. Hôm nay chuyển sang câu hỏi quan trọng hơn: những lượt đó có *chất lượng* không?
+> 📚 **Series "10 ngày để hiểu Google Analytics" — Bài 3/5.** Ở [Bài 2](/zola/posting/users-new-users-sessions-google-analytics/) ta đã đếm được *bao nhiêu người* và *bao nhiêu lượt*. Hôm nay chuyển sang câu hỏi quan trọng hơn: những lượt đó có *chất lượng* không?
 
 Mình từng vui mừng vì một bài lên 2.000 lượt xem trong tuần. Rồi mình mở GA4 xem kỹ thì hơi xìu: phần lớn người vào đọc chừng 5 giây rồi thoát. Số lượng to nhưng chất lượng thấp. Đây chính là lúc bạn cần hai chỉ số **engagement rate và bounce rate** — chúng cho biết nội dung có giữ chân người đọc hay không. Và trong GA4, cách tính hai con số này khác hẳn các bài hướng dẫn cũ, nên rất dễ hiểu nhầm.
 
@@ -50,7 +50,7 @@ Vì sao Google chọn ba điều kiện này mà không phải điều kiện kh
 
 Một điểm hay bị bỏ qua: ba điều kiện này là quan hệ **HOẶC**, không phải VÀ. Bạn không cần thoả cả ba. Chỉ cần một là đủ. Điều đó giải thích vì sao một bài dài người ta đọc chăm chú trên *đúng một trang* vẫn được tính engaged — nó đã qua mốc 10 giây từ lâu.
 
-![Infographic: ba điều kiện để một phiên được tính là engaged session trong GA4](https://assets.seomoney.org/img/placeholder/placeholder-wide.svg)
+![Infographic: ba điều kiện để một phiên được tính là engaged session trong GA4](/zola/img/placeholder/placeholder-wide.svg)
 
 ## Engagement Rate và Bounce Rate khác nhau thế nào
 
@@ -102,9 +102,9 @@ Dấu hiệu một bài **đáng xem lại**:
 
 - Engagement rate thấp + thời gian tương tác rất ngắn. Thường do một trong các nguyên nhân: nội dung **lệch search intent** (người ta tìm A, bài bạn nói B), trang **tải chậm**, hoặc **mở đầu yếu** khiến người ta bỏ ngay.
 
-Mình nhấn mạnh chữ *lệch search intent* vì đây là nguyên nhân âm thầm nhất. Một bài viết hay nhưng đặt sai từ khoá vẫn sẽ có engagement thấp. Nếu bạn chưa rõ khái niệm ý định tìm kiếm, nên đọc thêm [SEO là gì](/seo-la-gi-huong-dan-co-ban-google-search/) và [Google Search hoạt động thế nào](/google-search-hoat-dong-the-nao/) — hiểu Google ghép truy vấn với trang ra sao sẽ giúp bạn lý giải con số engagement.
+Mình nhấn mạnh chữ *lệch search intent* vì đây là nguyên nhân âm thầm nhất. Một bài viết hay nhưng đặt sai từ khoá vẫn sẽ có engagement thấp. Nếu bạn chưa rõ khái niệm ý định tìm kiếm, nên đọc thêm [SEO là gì](/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/) và [Google Search hoạt động thế nào](/zola/posting/google-search-hoat-dong-the-nao/) — hiểu Google ghép truy vấn với trang ra sao sẽ giúp bạn lý giải con số engagement.
 
-![Infographic: bảng đối chiếu engagement rate cao và thấp với nguyên nhân thường gặp](https://assets.seomoney.org/img/placeholder/placeholder-wide.svg)
+![Infographic: bảng đối chiếu engagement rate cao và thấp với nguyên nhân thường gặp](/zola/img/placeholder/placeholder-wide.svg)
 
 ## Cải thiện engagement: vài cách mình đã thử
 
@@ -154,6 +154,6 @@ Mình rút ra: đừng bao giờ đọc một con số đơn lẻ rồi phán. L
 
 Bạn vừa học cách đọc *chất lượng* của traffic. Nhưng chất lượng còn phụ thuộc traffic đến từ *đâu* — khách từ Google tìm kiếm thường engagement khác hẳn khách lướt mạng xã hội. Đó là chủ đề bài kế tiếp: bóc tách nguồn traffic.
 
-👉 **Đọc tiếp:** [Bài 4 — Nguồn traffic trong GA4: Organic, Direct, Referral, Social, Paid](/nguon-traffic-organic-direct-referral-social-paid/). Bạn có thể quay lại [Bài 1](/google-analytics-la-gi-lo-trinh-10-ngay/) để ôn bản đồ tổng thể, hoặc xem cả series trong chuyên mục [Công nghệ](/topic/cong-nghe/).
+👉 **Đọc tiếp:** [Bài 4 — Nguồn traffic trong GA4: Organic, Direct, Referral, Social, Paid](/zola/posting/nguon-traffic-organic-direct-referral-social-paid/). Bạn có thể quay lại [Bài 1](/zola/posting/google-analytics-la-gi-lo-trinh-10-ngay/) để ôn bản đồ tổng thể, hoặc xem cả series trong chuyên mục [Công nghệ](/zola/categories/cong-nghe/).
 
 *Nguồn tham khảo: [Google Analytics Help — Engagement rate và engaged sessions](https://support.google.com/analytics/answer/11109416) và tài liệu chính thức về [average engagement time trong GA4](https://support.google.com/analytics/answer/11986666).*

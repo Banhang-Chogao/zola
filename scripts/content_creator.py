@@ -8,7 +8,7 @@ UI/UX mong muốn. Mỗi bài là 1 file content/posting/<slug>.md với frontma
 bám SEO CONTENT SYSTEM RULE: title/description, FAQ, internal link (gồm hub chuyên
 mục), external link uy tín, CTA/next-step. Ghi thêm data/<series_id>-series.json.
 
-Tất cả bài viết xuất bản miễn phí; paywall đã retire.
+Bài premium tách teaser bằng <!-- more --> → scripts/paywall_prepare_build.py --strip
 sẽ chuyển full body sang private_content/ khi deploy (không lộ nội dung tĩnh).
 
 In ra "PUBLISHED:<path>" cho mỗi file để workflow phát hiện thay đổi.
@@ -31,13 +31,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 POSTING = ROOT / "content" / "posting"
 DATA = ROOT / "data"
-
-
-# NOTE: Pixabay image-assist removed (2026-06). External stock images are no
-# longer fetched/suggested. Posts without an explicit image fall back through the
-# owned-image chain (frontmatter → local inline → generated cover → category
-# placeholder → seomoney-og) resolved in templates/macros/img.html. Owned covers
-# are produced by scripts/generate_cover.py (deterministic, no internet).
 
 PREMIUM_PRICE = 100_000
 PREMIUM_TEASER_WORDS = 180
@@ -69,7 +62,7 @@ def build_article(
     today: str,
 ) -> tuple[str, str]:
     """Trả về (slug, file_text) cho 1 bài."""
-    is_paid = False
+    is_paid = pricing == "paid"
     part_topic = f"{topic} — Phần {part}" if total > 1 else topic
     slug = slugify(f"{topic}-phan-{part}") if total > 1 else slugify(topic)
 
@@ -92,18 +85,18 @@ def build_article(
     )
 
     # ---- internal links (>=5): hub + các part khác trong series ----
-    hub_url = "/categories/premium/" if is_paid else "/categories/tat-ca/"
+    hub_url = "/zola/categories/premium/" if is_paid else "/zola/categories/tat-ca/"
     related = [s for s in series_slugs if s != slug]
     # >=5 internal link, dedupe theo URL: hub chuyên mục + các part khác + evergreen.
     pairs = [("chuyên mục", hub_url)]
     for i, rs in enumerate(related, start=1):
-        pairs.append((f"Phần {i if i < part else i + 1}", f"/posting/{rs}/"))
+        pairs.append((f"Phần {i if i < part else i + 1}", f"/zola/posting/{rs}/"))
     for label, url in [
-        ("Tất cả bài viết", "/categories/tat-ca/"),
-        ("Trang chủ", "/"),
-        ("Công cụ", "/tools/content-creator/"),
-        ("Giới thiệu", "/about/"),
-        ("Liên hệ", "/contact/"),
+        ("Tất cả bài viết", "/zola/categories/tat-ca/"),
+        ("Trang chủ", "/zola/"),
+        ("Công cụ", "/zola/tools/content-creator/"),
+        ("Giới thiệu", "/zola/about/"),
+        ("Liên hệ", "/zola/contact/"),
     ]:
         pairs.append((label, url))
     seen: set[str] = set()
@@ -166,7 +159,7 @@ def build_article(
     # ---- body ----
     next_part = part + 1
     next_cta = (
-        f"Đọc tiếp [Phần {next_part}](/posting/{series_slugs[next_part-1]}/) của series."
+        f"Đọc tiếp [Phần {next_part}](/zola/posting/{series_slugs[next_part-1]}/) của series."
         if next_part <= total and next_part - 1 < len(series_slugs)
         else f"Khám phá thêm tại [trang chuyên mục]({hub_url})."
     )
@@ -238,7 +231,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Sinh series bài viết từ brief Content Creator.")
     ap.add_argument("--topic", required=True)
     ap.add_argument("--count", type=int, default=3)
-    ap.add_argument("--pricing", choices=["free"], default="free")
+    ap.add_argument("--pricing", choices=["free", "paid"], default="free")
     ap.add_argument("--brief", default="")
     ap.add_argument("--ux", default="")
     ap.add_argument("--series-id", default="")
@@ -293,7 +286,7 @@ def main() -> int:
         "title_vi": topic,
         "description": (brief.strip() or topic)[:300],
         "section": "posting",
-        "category": "Tất cả",
+        "category": "premium" if pricing == "paid" else "Tất cả",
         "pricing": pricing,
         "ux_brief": ux.strip(),
         "total_parts": count,

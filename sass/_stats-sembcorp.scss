@@ -1,0 +1,89 @@
+/* ============= STATS — Sembcorp override layer (after theme-overrides) ============= */
+
+.stats-app,
+.stats-hero {
+  --stats-teal: #00857c;
+  --stats-teal-bright: #00a69d;
+  --stats-teal-deep: #006b64;
+  --stats-teal-light: #e8f7f6;
+  --stats-teal-muted: #c5ebe8;
+  --stats-ink: #1a2836;
+  --stats-ink-muted: #5c6b7a;
+  --stats-ink-soft: #8a97a6;
+  --stats-surface: #ffffff;
+  --stats-surface-soft: #f7fafa;
+  --stats-border: #e3eceb;
+  --stats-border-subtle: #eef4f3;
+  --stats-shadow-sm: 0 2px 8px rgba(26, 40, 54, 0.04);
+  --stats-shadow-md: 0 8px 28px rgba(0, 133, 124, 0.07);
+}
+
+/* Override Hilda section-header if legacy markup appears elsewhere */
+main.container:has(#stats-app) .section-header__title {
+  border-left-color: var(--stats-teal-bright);
+}
+
+.stats-hero__eyebrow {
+  color: var(--stats-teal);
+}
+
+.stats-hero__title {
+  color: var(--stats-ink);
+}
+
+.stats-hero__sub {
+  color: var(--stats-ink-muted);
+}
+
+.stats-app {
+  .stats-heading {
+    color: var(--stats-ink);
+    border-left-color: var(--stats-teal-bright);
+    border-bottom-color: var(--stats-border-subtle);
+  }
+
+  .summary-card,
+  .vital-card,
+  .activity-chart,
+  .event-type,
+  .stats-table-wrap {
+    background: var(--stats-surface);
+    border-color: var(--stats-border-subtle);
+    box-shadow: var(--stats-shadow-sm);
+  }
+
+  .summary-card:hover,
+  .vital-card:hover {
+    box-shadow: var(--stats-shadow-md);
+    border-color: var(--stats-teal-muted);
+  }
+
+  .vital-card__name {
+    color: var(--stats-teal);
+  }
+
+  .stats-help a {
+    color: var(--stats-teal-deep);
+
+    &:hover {
+      color: var(--stats-teal);
+      border-bottom-color: var(--stats-teal-bright);
+    }
+  }
+
+  .activity-bar__fill {
+    background: linear-gradient(to top, var(--stats-teal), var(--stats-teal-bright));
+  }
+
+  .event-type--view {
+    border-top-color: var(--stats-teal-bright);
+  }
+
+  .stats-table tbody tr:hover {
+    background: var(--stats-teal-light);
+  }
+
+  .stats-btn--danger {
+    border-radius: 6px;
+  }
+}

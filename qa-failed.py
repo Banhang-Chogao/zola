@@ -133,6 +133,7 @@ def detect_pattern(logs: str) -> dict | None:
 
 def fix_missing_python_dep(module: str) -> bool:
     candidates = [
+        ROOT / "services" / "visitor-counter" / "requirements.txt",
         ROOT / "scripts" / "requirements.txt",
     ]
     pinned = {
@@ -230,6 +231,7 @@ def push_fix_to_main(
             "git", "add",
             "content/", "scripts/", "sass/", "templates/", "static/",
             "config.toml", "qa_check.py",
+            "services/visitor-counter/requirements.txt",
             "scripts/requirements.txt",
         ],
         check=False,

@@ -248,10 +248,10 @@ chính trị. Việt Nam giữ phần thực dụng + y học. Hàn Quốc giữ
 nghi lễ + nữ tính.
 
 Đọc kèm để hiểu thêm Hàn Quốc:
-[Mùa nào đi Hàn đẹp nhất?](/mua-nao-di-han-la-dep-nhat/) và
-[Tháng 6 đi Hàn ăn gì làm gì?](/thang-6-di-han-an-gi-lam-gi/).
+[Mùa nào đi Hàn đẹp nhất?](/zola/posting/mua-nao-di-han-la-dep-nhat/) và
+[Tháng 6 đi Hàn ăn gì làm gì?](/zola/posting/thang-6-di-han-an-gi-lam-gi/).
 Nếu thích du lịch ẩm thực gần nhà, gợi ý
-[12 quán ngon Sài Gòn tối nay](/toi-nay-sai-gon-an-gi/) cho
+[12 quán ngon Sài Gòn tối nay](/zola/posting/toi-nay-sai-gon-an-gi/) cho
 bạn.
 
 Reference: [UNESCO Intangible Cultural Heritage list](https://ich.unesco.org/en/lists)

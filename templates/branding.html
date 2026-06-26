@@ -1,8 +1,5 @@
 {% extends "base.html" %}
 
-{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
-{% block robots %}noindex, follow{% endblock %}
-
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 {% block description %}{{ page.description }}{% endblock %}
 

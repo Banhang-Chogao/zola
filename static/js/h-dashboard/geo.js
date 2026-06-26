@@ -23,8 +23,8 @@
   // name · region (Bắc | Trung | Nam) · lon · lat · alias keywords.
   const PLACES = [
     // ---- Miền Nam ----
-    { name: "TP. Hồ Chí Minh", region: "Nam", lon: 106.70, lat: 10.78, aliases: ["ho chi minh", "tp ho chi minh", "tphcm", "tp hcm", "hcm", "sai gon", "saigon", "thu duc", "thu duc city", "quan 1", "quan 7", "quan 9", "go vap", "binh thanh"] },
-    { name: "Bình Dương", region: "Nam", lon: 106.65, lat: 11.00, aliases: ["binh duong", "thu dau mot", "di an", "thuan an", "kcn bau bang", "bau bang", "khu cong nghiep bau bang"] },
+    { name: "TP. Hồ Chí Minh", region: "Nam", lon: 106.70, lat: 10.78, aliases: ["ho chi minh", "tp ho chi minh", "tphcm", "tp hcm", "hcm", "sai gon", "saigon"] },
+    { name: "Bình Dương", region: "Nam", lon: 106.65, lat: 11.00, aliases: ["binh duong", "thu dau mot", "di an", "thuan an"] },
     { name: "Bàu Bàng", region: "Nam", lon: 106.62, lat: 11.27, specific: true, aliases: ["bau bang"] },
     { name: "Đồng Nai", region: "Nam", lon: 106.84, lat: 10.95, aliases: ["dong nai", "bien hoa", "long khanh"] },
     { name: "Bà Rịa - Vũng Tàu", region: "Nam", lon: 107.08, lat: 10.41, aliases: ["ba ria vung tau", "vung tau", "ba ria", "brvt"] },
@@ -153,13 +153,11 @@
     const map = new Map();
     let defaulted = 0;
 
-    const seenVisits = new Set();
     txns.forEach((t) => {
-      const haystack = [t && t.description, t && t.merchant, t && t.address].filter(Boolean).join(" ");
-      let place = detectPlace(haystack);
+      let place = detectPlace(t && t.description);
       if (!place) {
         place = def;
-        if (!seenVisits.has(t && t.visit_id)) defaulted += 1;
+        defaulted += 1;
       }
       const amt = Number(t && t.amount) || 0;
       let agg = map.get(place.name);
@@ -167,11 +165,7 @@
         agg = { name: place.name, region: place.region, lon: place.lon, lat: place.lat, count: 0, spend: 0, income: 0 };
         map.set(place.name, agg);
       }
-      const vid = (t && t.visit_id) || `${t && t.merchant}|${t && t.value_date}`;
-      if (!seenVisits.has(vid)) {
-        seenVisits.add(vid);
-        agg.count += 1;
-      }
+      agg.count += 1;
       if (amt < 0) agg.spend += Math.abs(amt);
       else agg.income += amt;
     });
@@ -315,7 +309,8 @@
         const p = project(l.lon, l.lat);
         const r = minR + (maxR - minR) * Math.sqrt(Math.max(0, l.total) / maxVal);
         const title =
-          l.name + " · " + l.count + " lần ghé · " + compactVnd(l.spend);
+          l.name + " · " + l.count + " GD · chi " + compactVnd(l.spend) +
+          (l.income ? " · thu " + compactVnd(l.income) : "");
         const isTop = idx < 3;
         const badge = isTop
           ? '<g class="dash-geo__rank">' +
@@ -337,7 +332,7 @@
             '<text class="dash-geo__callout-name" x="' + (rx + 8).toFixed(1) + '" y="' + (c.y + 13).toFixed(1) + '">' +
             esc(shortName(l.name)) + "</text>" +
             '<text class="dash-geo__callout-val" x="' + (rx + 8).toFixed(1) + '" y="' + (c.y + 26).toFixed(1) + '">' +
-            esc(compactVnd(l.total)) + " · " + l.count + " lần</text>";
+            esc(compactVnd(l.total)) + " · " + l.count + " GD</text>";
         }
 
         return (
@@ -372,7 +367,7 @@
         return (
           '<li class="dash-geo__row"><span class="dash-geo__rname" title="' + esc(l.name) + '">' + esc(shortName(l.name)) + "</span>" +
           '<span class="dash-geo__bar"><span class="dash-geo__barfill" style="width:' + w + '%"></span></span>' +
-          '<span class="dash-geo__rval">' + esc(compactVnd(l.total)) + " · " + l.count + " lần</span></li>"
+          '<span class="dash-geo__rval">' + esc(compactVnd(l.total)) + " · " + l.count + " GD</span></li>"
         );
       })
       .join("");
@@ -383,14 +378,14 @@
       .map((r) => {
         const x = res.byRegion[r];
         const head = r === "Khác" ? "Khác" : "Miền " + r;
-        return '<span class="dash-geo__chip dash-geo__chip--' + regMap[r] + '">' + esc(head) + ": " + x.count + " lần · " + esc(compactVnd(x.spend)) + "</span>";
+        return '<span class="dash-geo__chip dash-geo__chip--' + regMap[r] + '">' + esc(head) + ": " + x.count + " GD · " + esc(compactVnd(x.spend)) + "</span>";
       })
       .join("");
 
     return (
       '<div class="dash-geo__legend dash-geo__legend--present">' +
-      '<h3 class="dash-geo__lgtitle">Top khu vực</h3>' +
-      '<p class="dash-geo__lgsub">Lần ghé theo tỉnh/thành — suy ra từ địa chỉ cửa hàng</p>' +
+      '<h3 class="dash-geo__lgtitle">Top địa điểm</h3>' +
+      '<p class="dash-geo__lgsub">Phân bố chi tiêu theo vùng — kiểu slide địa lý</p>' +
       '<ul class="dash-geo__list">' + rows + "</ul>" +
       '<div class="dash-geo__regions">' + chips + "</div></div>"
     );
@@ -400,13 +395,13 @@
     if (!container) return;
     const txns = Array.isArray(transactions) ? transactions : [];
     if (!txns.length) {
-      container.innerHTML = '<p class="dash-geo__empty">Upload hóa đơn Highlands để xem Store Geography.</p>';
+      container.innerHTML = '<p class="dash-geo__empty">Upload hóa đơn để xem phân bố giao dịch theo địa điểm.</p>';
       return;
     }
     const res = analyze(txns);
     const hint = res.defaulted
       ? '<p class="dash-geo__hint">' + res.defaulted + "/" + res.total_count +
-        " lần ghé không suy ra địa điểm → mặc định TP. Hồ Chí Minh.</p>"
+        " giao dịch không ghi địa điểm → mặc định tính cho TP. Hồ Chí Minh.</p>"
       : "";
     container.innerHTML =
       '<div class="dash-geo__grid dash-geo__grid--present">' +

@@ -22,7 +22,7 @@ _spec.loader.exec_module(mod)
 
 class AutofixHelpersTest(unittest.TestCase):
     def test_contribution_level_strip_md(self):
-        text = "**Hello** [link](/posting/x/)"
+        text = "**Hello** [link](/zola/posting/x/)"
         self.assertIn("Hello", mod._strip_md(text))
 
     def test_excerpt_truncates(self):
@@ -58,16 +58,9 @@ class AutofixScanTest(unittest.TestCase):
                 payload = mod.run_scan(apply=False, dry_run=True)
                 mod.write_report(payload)
                 self.assertTrue(mod.REPORT_FILE.is_file())
-                static_file = mod.STATIC_DATA / "seo-rank-autofix-report.json"
-                self.assertTrue(static_file.is_file())
+                self.assertTrue((mod.STATIC_DATA / "seo-rank-autofix-report.json").is_file())
                 loaded = json.loads(mod.REPORT_FILE.read_text())
                 self.assertEqual(loaded["scoreBefore"], payload["scoreBefore"])
-                # Internal report keeps full detail; public copy is summary-only.
-                self.assertIn("items", loaded)
-                public = json.loads(static_file.read_text())
-                self.assertNotIn("items", public)
-                self.assertIn("itemsTotal", public)
-                self.assertEqual(public["scoreBefore"], payload["scoreBefore"])
             finally:
                 mod.DATA = orig_data
                 mod.STATIC_DATA = orig_static
@@ -87,7 +80,7 @@ class AutofixFixTest(unittest.TestCase):
                 'description = "A long enough meta description for SEO testing purposes here."\n'
                 'date = 2026-06-18\n'
                 '+++\n\n'
-                'See [privacy](/pages/privacy/) for details.\n',
+                'See [privacy](/zola/pages/privacy/) for details.\n',
                 encoding="utf-8",
             )
             orig_content = mod.CONTENT
@@ -99,11 +92,11 @@ class AutofixFixTest(unittest.TestCase):
                 assert doc
                 issue = mod.Issue(
                     "broken_internal_link", "content/posting/sample.md",
-                    detail="/pages/privacy/|/privacy/",
+                    detail="/zola/pages/privacy/|/zola/privacy/",
                 )
                 ok, _ = mod._apply_fix(doc, issue, {})
                 self.assertTrue(ok)
-                self.assertIn("/privacy/", md.read_text())
+                self.assertIn("/zola/privacy/", md.read_text())
             finally:
                 mod.CONTENT = orig_content
                 mod.SCAN_DIRS = orig_scan

@@ -27,7 +27,7 @@ q = "Vì sao push bị từ chối (rejected)?"
 a = "Thường vì remote có commit mới hơn mà máy bạn chưa có. Hãy git pull để gộp thay đổi từ remote về, xử lý conflict nếu có, rồi git push lại. Tránh dùng --force trừ khi thật sự hiểu hậu quả."
 +++
 
-> 📚 **Git & GitHub Series (Bài 8/15)** — Đã có repository GitHub ở [Bài 7](/github-la-gi-tao-repository-dau-tien/), giờ ta học bộ ba đồng bộ, bắt đầu bằng **git push**.
+> 📚 **Git & GitHub Series (Bài 8/15)** — Đã có repository GitHub ở [Bài 7](/zola/posting/github-la-gi-tao-repository-dau-tien/), giờ ta học bộ ba đồng bộ, bắt đầu bằng **git push**.
 
 **Git push**, `pull` và `fetch` là ba lệnh bạn dùng mỗi ngày để đồng bộ code giữa máy cá nhân và GitHub. Hiểu rõ sự khác biệt giữa chúng giúp bạn tránh hai nỗi sợ lớn nhất của người mới: ghi đè mất việc của người khác, và "kẹt" không push được. Bài này giải thích từng lệnh kèm luồng làm việc an toàn.
 
@@ -35,7 +35,7 @@ a = "Thường vì remote có commit mới hơn mà máy bạn chưa có. Hãy g
 
 ## Bức tranh tổng thể
 
-Sau khi đã kết nối remote ở [Bài 6](/git-remote-lam-viec-voi-repository-tu-xa/), việc đồng bộ diễn ra theo hai chiều:
+Sau khi đã kết nối remote ở [Bài 6](/zola/posting/git-remote-lam-viec-voi-repository-tu-xa/), việc đồng bộ diễn ra theo hai chiều:
 
 - **Lên remote**: `git push` — đẩy commit của bạn lên GitHub.
 - **Về máy**: `git fetch` và `git pull` — lấy thay đổi của người khác về.
@@ -75,7 +75,7 @@ Sau fetch, bạn có thể xem `origin/main` đã đi tới đâu trước khi q
 git pull origin main
 ```
 
-Tiện lợi, nhưng vì gộp ngay nên có thể phát sinh conflict cần xử lý (kỹ năng đã học ở [Bài 5](/git-merge-va-xu-ly-conflict/)). Một số người thích `git pull --rebase` để giữ lịch sử thẳng — chủ đề của [Bài 10 về rebase](/git-rebase-lam-sach-lich-su-commit/).
+Tiện lợi, nhưng vì gộp ngay nên có thể phát sinh conflict cần xử lý (kỹ năng đã học ở [Bài 5](/zola/posting/git-merge-va-xu-ly-conflict/)). Một số người thích `git pull --rebase` để giữ lịch sử thẳng — chủ đề của [Bài 10 về rebase](/zola/posting/git-rebase-lam-sach-lich-su-commit/).
 
 ## So sánh nhanh ba lệnh
 
@@ -121,4 +121,4 @@ Bạn có thể xem quan hệ theo dõi bằng `git branch -vv`. Mỗi nhánh lo
 
 Bộ ba **git push** / `pull` / `fetch` là nhịp tim của làm việc với GitHub: push đẩy việc của bạn lên, fetch xem trước thay đổi của người khác, pull tải và gộp. Quy tắc vàng cho người mới: pull trước khi push, và đừng force khi chưa hiểu.
 
-Ở **Bài 9**, chúng ta học quy trình cộng tác chuẩn của GitHub: [Pull Request và cách review code](/pull-request-quy-trinh-cong-tac-github/) — trái tim của làm việc nhóm hiện đại.
+Ở **Bài 9**, chúng ta học quy trình cộng tác chuẩn của GitHub: [Pull Request và cách review code](/zola/posting/pull-request-quy-trinh-cong-tac-github/) — trái tim của làm việc nhóm hiện đại.

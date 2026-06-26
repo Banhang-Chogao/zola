@@ -51,4 +51,4 @@ Nếm thử từ thật: 사과 = "sa-gwa" = **quả táo** 🍎, 의사 = "ưi-
 
 Trong bài đầy đủ: **bảng 11 nguyên âm đôi** kèm phiên âm + phép cộng gốc, nhóm "y-" (ㅒㅖ) và nhóm "w-" (ㅘㅙㅚㅝㅞㅟ), 3 cách đọc của ㅢ, từ thật (개, 네, 가위, 회사) và **14 câu bài tập có đáp án**. Mở khóa nào! 💪
 
-👉 Ôn lại [Ngày 3 — phụ âm căng & bật hơi](/phu-am-cang-bat-hoi-tieng-han/) hoặc đi tiếp [Ngày 5 — patchim & 7 âm đại diện](/patchim-phu-am-cuoi-tieng-han/). Toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) và [kho bài Premium](/categories/premium/). Tham khảo hệ chữ tại [Hangul (Wikipedia)](https://en.wikipedia.org/wiki/Hangul).
+👉 Ôn lại [Ngày 3 — phụ âm căng & bật hơi](/zola/posting/phu-am-cang-bat-hoi-tieng-han/) hoặc đi tiếp [Ngày 5 — patchim & 7 âm đại diện](/zola/posting/patchim-phu-am-cuoi-tieng-han/). Toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) và [kho bài Premium](/zola/categories/premium/). Tham khảo hệ chữ tại [Hangul (Wikipedia)](https://en.wikipedia.org/wiki/Hangul).

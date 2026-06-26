@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}404 — Không tìm thấy trang | {{ config.title }}{% endblock %}
+
+{% block description %}Trang bạn tìm không tồn tại hoặc đã được di chuyển. Quay lại trang chủ blog {{ config.title }} để tiếp tục khám phá nội dung công nghệ và du lịch.{% endblock %}
+
+{% block main %}
+    <section class="error-404">
+        <header class="section-header">
+            <h1 class="section-header__title">404 — KHÔNG TÌM THẤY TRANG</h1>
+        </header>
+        <div class="post-single__content">
+            <p>Rất tiếc, trang bạn đang tìm không tồn tại hoặc đã được di chuyển sang địa chỉ khác.</p>
+            <p>Bạn có thể quay lại trang chủ để tiếp tục đọc các bài viết về công nghệ, lập trình và du lịch.</p>
+            <p><a class="read-more" href="{{ config.base_url }}">« Về trang chủ <span class="read-more__arrow">»</span></a></p>
+        </div>
+    </section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

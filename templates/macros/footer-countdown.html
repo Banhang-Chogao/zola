@@ -1,0 +1,21 @@
+{# Footer countdown — build-time config from data/footer-countdown.json #}
+{% macro render() %}
+{% set cd = load_data(path="data/footer-countdown.json", required=false) %}
+{% if cd and cd.enabled %}
+<section class="footer-countdown" id="footer-countdown"
+         aria-label="Đếm ngược sự kiện"
+         data-countdown-root>
+    <script type="application/json" id="footer-countdown-config">{{ cd | json_encode | safe }}</script>
+    <div class="container">
+        <div class="footer-countdown__card">
+            <p class="footer-countdown__text" data-countdown-text aria-live="polite">
+                <span class="footer-countdown__loading" data-countdown-loading>
+                    CÒN … NGÀY | CÒN … GIỜ … PHÚT … GIÂY NỮA LÀ TỚI:
+                    <span class="footer-countdown__title">{{ cd.title }}</span>
+                </span>
+            </p>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endmacro %}
