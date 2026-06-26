@@ -297,6 +297,16 @@
   flex-shrink: 0;
 }
 
+@keyframes heartbeat-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
 .article-heartbeat__status-dot {
   display: inline-block;
   width: 8px;
@@ -304,16 +314,6 @@
   border-radius: 50%;
   background: #22c55e;
   animation: heartbeat-pulse 2s ease-in-out infinite;
-
-  @keyframes heartbeat-pulse {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.6;
-    }
-  }
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
