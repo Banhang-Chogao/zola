@@ -5,13 +5,13 @@
 {% if deploy_data and deploy_data.summary %}
   <div class="deploy-watch deploy-monitor-footer" role="region" aria-label="Deploy Monitor">
     <a href="/tools/deploy-monitor/" title="Xem Deploy Monitor" class="deploy-monitor-footer__link">
-      {% if deploy_data.summary.pending_count > 0 %}
-        <span class="deploy-monitor-footer__badge deploy-monitor-footer__badge--pending">
-          {{ deploy_data.summary.pending_count }}
-        </span>
+      {% set pending = deploy_data.summary.pending_count | default(value=0) %}
+      {% if pending > 0 %}
+        <span class="deploy-monitor-footer__badge deploy-monitor-footer__badge--pending">{{ pending }}</span>
       {% endif %}
       <span class="deploy-monitor-footer__text">
-        {% if deploy_data.summary.prod_status == "green" %}✓ Deploy{% elif deploy_data.summary.prod_status == "yellow" %}⟳ Deploying{% elif deploy_data.summary.prod_status == "red" %}✗ Error{% else %}Deploy Monitor{% endif %}
+        {% set status = deploy_data.summary.prod_status | default(value="") %}
+        {% if status == "green" %}✓ Deploy{% elif status == "yellow" %}⟳ Deploying{% elif status == "red" %}✗ Error{% else %}Deploy Monitor{% endif %}
       </span>
     </a>
   </div>
