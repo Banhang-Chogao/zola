@@ -142,6 +142,16 @@ class VipzoneDB:
                 CREATE INDEX IF NOT EXISTS idx_comments_page ON comments(page_path, status);
                 CREATE INDEX IF NOT EXISTS idx_comments_status ON comments(status, created_at);
                 CREATE INDEX IF NOT EXISTS idx_comments_author ON comments(author_sub_hash, created_at);
+                -- Admin reports (báo cáo tổng kết) — markdown files created via ?? shortcut.
+                -- Stored in SQLite; admin-gated via /auth/me.
+                CREATE TABLE IF NOT EXISTS reports (
+                    id TEXT PRIMARY KEY,
+                    filename TEXT NOT NULL UNIQUE,
+                    content TEXT NOT NULL,
+                    preview TEXT NOT NULL DEFAULT '',
+                    created_at TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS idx_reports_created_at ON reports(created_at DESC);
                 """
             )
 
@@ -727,3 +737,49 @@ class VipzoneDB:
                 "SELECT status, COUNT(*) AS c FROM comments GROUP BY status"
             ).fetchall()
         return {r["status"]: int(r["c"]) for r in rows}
+
+    # ===== Reports (admin báo cáo tổng kết) =====
+    def insert_report(self, data: dict[str, Any]) -> str:
+        """Save a report. filename must be unique."""
+        rid = f"rpt_{uuid.uuid4().hex[:12]}"
+        filename = data.get("filename", "")
+        if not filename:
+            raise ValueError("filename required")
+        with self._conn() as conn:
+            conn.execute(
+                """
+                INSERT INTO reports (id, filename, content, preview, created_at)
+                VALUES (?, ?, ?, ?, ?)
+                """,
+                (
+                    rid,
+                    filename,
+                    data.get("content", ""),
+                    data.get("preview", "")[:500],  # truncate to 500 chars
+                    _now(),
+                ),
+            )
+        return rid
+
+    def list_reports(self) -> list[dict[str, Any]]:
+        """List all reports, newest first."""
+        with self._conn() as conn:
+            rows = conn.execute(
+                "SELECT id, filename, preview, created_at FROM reports ORDER BY created_at DESC"
+            ).fetchall()
+        return [dict(r) for r in rows]
+
+    def get_report(self, filename: str) -> dict[str, Any] | None:
+        """Get report content by filename."""
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT id, filename, content, created_at FROM reports WHERE filename = ?",
+                (filename,),
+            ).fetchone()
+        return dict(row) if row else None
+
+    def delete_report(self, filename: str) -> bool:
+        """Delete a report by filename."""
+        with self._conn() as conn:
+            cur = conn.execute("DELETE FROM reports WHERE filename = ?", (filename,))
+        return cur.rowcount > 0
