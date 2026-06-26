@@ -2,17 +2,14 @@
    Page End Inject — Blog Post Footer (Articles)
    ============================================================
    Renders after page content:
-   - FAQ Accordion (if available)
    - Related Posts Grid
    - Copyright Declaration Box
    - Article Heartbeat (mini deploy status)
+
+   Note: FAQ is rendered in page.html immediately after the post content
+   (before the breadcrumb/post navigation), so it is intentionally not
+   included here to avoid a duplicate FAQ module.
    ============================================================ #}
-
-{% if page.extra.faq is defined or toc_total >= 3 %}
-  {% include "partials/faq.html" %}
-{% endif %}
-
-<hr class="divider" />
 
 {% include "partials/related-posts.html" %}
 
