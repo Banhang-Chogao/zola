@@ -1,0 +1,737 @@
+/* ============= WORLDCUP 2026 NEWS HUB ============= */
+/* Calm enterprise design, mobile-first responsive layout.
+   Hero → Quick stats → Filter tabs → News grid → Matches → Teams → Editorials → FAQ
+   Color: blue-slate accent, semantic tokens var(--c-*) for light/dark. */
+
+/* ===== PAGE LAYOUT (kill sidebar) ===== */
+.layout-grid:has(.worldcup-2026) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+main.container:has(.worldcup-2026) {
+  max-width: 1200px;
+}
+
+.worldcup-2026 {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* ===== HERO SECTION ===== */
+.worldcup-2026__hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(59, 130, 246, 0.04) 100%);
+  border-radius: 16px;
+  border: 1px solid var(--c-border);
+}
+
+.worldcup-2026__hero-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.worldcup-2026__title {
+  margin: 0 0 0.8rem;
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--c-text-heading);
+  line-height: 1.2;
+}
+
+.worldcup-2026__icon {
+  margin-right: 0.35rem;
+  font-size: 1.1em;
+}
+
+.worldcup-2026__subtitle {
+  margin: 0 0 1.25rem;
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+  color: var(--c-text-body);
+  line-height: 1.6;
+}
+
+.worldcup-2026__badges {
+  display: flex;
+  gap: 0.7rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.worldcup-2026__badge {
+  display: inline-block;
+  padding: 0.4rem 0.85rem;
+  background: var(--c-accent-soft);
+  color: var(--c-accent);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.worldcup-2026__hero-nav {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.worldcup-2026__cta-link {
+  display: inline-block;
+  padding: 0.65rem 1.3rem;
+  background: var(--c-accent);
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background .2s ease, transform .15s ease;
+
+  &:hover {
+    background: var(--c-accent-hover);
+    transform: translateY(-2px);
+  }
+
+  &--secondary {
+    background: var(--c-accent-soft);
+    color: var(--c-accent);
+    border: 1px solid var(--c-accent);
+
+    &:hover {
+      background: var(--c-accent);
+      color: white;
+    }
+  }
+}
+
+/* ===== QUICK STATS GRID ===== */
+.worldcup-2026__stats {
+  margin-bottom: 2.5rem;
+}
+
+.worldcup-2026__section-title {
+  margin: 0 0 1.2rem;
+  font-size: clamp(1.35rem, 4vw, 1.75rem);
+  font-weight: 700;
+  color: var(--c-text-heading);
+  letter-spacing: -0.01em;
+}
+
+.worldcup-2026__stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.worldcup-2026__stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.2rem 1rem;
+  background: var(--c-bg-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.worldcup-2026__stat-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.worldcup-2026__stat-label {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  letter-spacing: 0.02em;
+}
+
+.worldcup-2026__stat-value {
+  margin: 0.4rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--c-text-heading);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== FILTER TABS ===== */
+.worldcup-2026__filter-section {
+  margin-bottom: 2rem;
+}
+
+.worldcup-2026__filter-tabs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.25rem 0;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--c-border-strong);
+    border-radius: 999px;
+  }
+}
+
+.worldcup-2026__filter-tab {
+  flex-shrink: 0;
+  padding: 0.55rem 1rem;
+  background: var(--c-bg-soft);
+  color: var(--c-text-body);
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: var(--c-accent);
+    color: var(--c-accent);
+  }
+
+  &--active {
+    background: var(--c-accent);
+    color: white;
+    border-color: var(--c-accent);
+  }
+}
+
+/* ===== NEWS SECTION ===== */
+.worldcup-2026__section {
+  margin-bottom: 2.5rem;
+
+  .worldcup-2026__section-title {
+    scroll-margin-top: 80px;
+  }
+}
+
+.worldcup-2026__section-description {
+  margin: 0 0 1.25rem;
+  font-size: 0.95rem;
+  color: var(--c-text-body);
+  line-height: 1.6;
+}
+
+.worldcup-2026__news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
+}
+
+.worldcup-2026__news-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  background: var(--c-bg-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  position: relative;
+  transition: all .2s ease;
+
+  &:hover {
+    border-color: var(--c-accent-soft);
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.08);
+    transform: translateY(-2px);
+  }
+
+  &[data-featured="true"]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--c-accent);
+    border-radius: 12px 0 0 12px;
+  }
+}
+
+.worldcup-2026__news-featured-badge {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 0.3rem 0.7rem;
+  background: var(--c-accent-soft);
+  color: var(--c-accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.6rem;
+}
+
+.worldcup-2026__news-title {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-text-heading);
+  line-height: 1.35;
+}
+
+.worldcup-2026__news-link {
+  color: var(--c-text-heading);
+  text-decoration: none;
+  transition: color .2s ease;
+
+  &:hover {
+    color: var(--c-accent);
+  }
+}
+
+.worldcup-2026__news-summary {
+  margin: 0 0 0.8rem;
+  font-size: 0.9rem;
+  color: var(--c-text-body);
+  line-height: 1.55;
+  flex: 1;
+}
+
+.worldcup-2026__news-meta {
+  display: flex;
+  gap: 0.6rem;
+  font-size: 0.75rem;
+  color: var(--c-text-muted);
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--c-border);
+}
+
+.worldcup-2026__news-category {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  background: var(--c-bg-soft);
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.worldcup-2026__news-date {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.worldcup-2026__news-source {
+  color: var(--c-accent);
+  font-weight: 600;
+}
+
+/* ===== MATCHES GRID ===== */
+.worldcup-2026__matches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.2rem;
+}
+
+.worldcup-2026__match-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  background: var(--c-bg-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  text-align: center;
+
+  &[data-status="live"] {
+    border-color: #ef4444;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.15);
+  }
+
+  &:hover {
+    border-color: var(--c-accent);
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.08);
+  }
+}
+
+.worldcup-2026__match-stage {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--c-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.6rem;
+}
+
+.worldcup-2026__match-date {
+  font-size: 0.8rem;
+  color: var(--c-text-body);
+  margin-bottom: 0.8rem;
+}
+
+.worldcup-2026__match-teams {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.worldcup-2026__match-team {
+  flex: 1;
+  min-width: 0;
+
+  &--home {
+    text-align: right;
+  }
+
+  &--away {
+    text-align: left;
+  }
+}
+
+.worldcup-2026__team-name {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--c-text-heading);
+  word-break: break-word;
+}
+
+.worldcup-2026__match-vs {
+  flex-shrink: 0;
+  padding: 0.4rem 0.6rem;
+  background: var(--c-bg-soft);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--c-text-muted);
+}
+
+.worldcup-2026__match-live {
+  color: #ef4444;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.worldcup-2026__match-score {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--c-text-heading);
+}
+
+.worldcup-2026__match-separator {
+  color: var(--c-text-muted);
+}
+
+.worldcup-2026__match-venue {
+  font-size: 0.8rem;
+  color: var(--c-text-muted);
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--c-border);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ===== TEAMS GRID ===== */
+.worldcup-2026__teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.8rem;
+}
+
+.worldcup-2026__team-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.9rem;
+  background: var(--c-bg-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  transition: all .2s ease;
+
+  &:hover {
+    border-color: var(--c-accent);
+    box-shadow: 0 2px 8px rgba(56, 189, 248, 0.08);
+  }
+}
+
+.worldcup-2026__team-flag {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.worldcup-2026__team-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.worldcup-2026__team-name {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--c-text-heading);
+  line-height: 1.2;
+}
+
+.worldcup-2026__team-note {
+  margin: 0.3rem 0 0;
+  font-size: 0.75rem;
+  color: var(--c-text-muted);
+  line-height: 1.35;
+}
+
+/* ===== EDITORIALS GRID ===== */
+.worldcup-2026__editorials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.2rem;
+}
+
+.worldcup-2026__editorial-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  background: var(--c-bg-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  transition: all .2s ease;
+
+  &:hover {
+    border-color: var(--c-accent);
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.08);
+  }
+}
+
+.worldcup-2026__editorial-title {
+  margin: 0 0 0.7rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-text-heading);
+  line-height: 1.35;
+}
+
+.worldcup-2026__editorial-excerpt {
+  margin: 0 0 0.8rem;
+  font-size: 0.9rem;
+  color: var(--c-text-body);
+  line-height: 1.55;
+  flex: 1;
+}
+
+.worldcup-2026__editorial-link {
+  display: inline-block;
+  color: var(--c-accent);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color .2s ease;
+
+  &:hover {
+    color: var(--c-accent-hover);
+  }
+}
+
+/* ===== FAQ SECTION ===== */
+.worldcup-2026__faq {
+  margin-bottom: 2rem;
+}
+
+.worldcup-2026__faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.worldcup-2026__faq-item {
+  padding: 1rem;
+  background: var(--c-bg-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  cursor: pointer;
+
+  &[open] {
+    border-color: var(--c-accent);
+    background: var(--c-accent-soft);
+  }
+
+  &:hover {
+    border-color: var(--c-accent);
+  }
+}
+
+.worldcup-2026__faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  color: var(--c-text-heading);
+  user-select: none;
+
+  &::after {
+    content: "▶";
+    font-size: 0.8rem;
+    transition: transform .2s ease;
+  }
+}
+
+details.worldcup-2026__faq-item[open] > summary.worldcup-2026__faq-question::after {
+  transform: rotate(90deg);
+}
+
+.worldcup-2026__faq-answer {
+  margin: 0.8rem 0 0;
+  font-size: 0.9rem;
+  color: var(--c-text-body);
+  line-height: 1.6;
+}
+
+/* ===== BACK LINK ===== */
+.worldcup-2026__back-link {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--c-border);
+  text-align: center;
+}
+
+.worldcup-2026__breadcrumb-link {
+  display: inline-block;
+  color: var(--c-accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color .2s ease;
+
+  &:hover {
+    color: var(--c-accent-hover);
+  }
+}
+
+.worldcup-2026__section-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.25rem;
+}
+
+.worldcup-2026__link-more {
+  color: var(--c-accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color .2s ease;
+
+  &:hover {
+    color: var(--c-accent-hover);
+  }
+}
+
+/* ===== EMPTY STATE ===== */
+.worldcup-2026__empty-state {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background: var(--c-bg-soft);
+  border: 1px dashed var(--c-border);
+  border-radius: 12px;
+  color: var(--c-text-muted);
+
+  p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+
+    code {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.3rem 0.6rem;
+      background: var(--c-bg-surface);
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: var(--c-text-body);
+    }
+  }
+}
+
+/* ===== RESPONSIVE MOBILE ===== */
+@media (max-width: 720px) {
+  .worldcup-2026__hero {
+    padding: 1.5rem 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .worldcup-2026__title {
+    font-size: 1.5rem;
+  }
+
+  .worldcup-2026__subtitle {
+    font-size: 0.9rem;
+  }
+
+  .worldcup-2026__badges {
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .worldcup-2026__badge {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .worldcup-2026__hero-nav {
+    gap: 0.6rem;
+  }
+
+  .worldcup-2026__cta-link {
+    flex: 1;
+    min-width: 140px;
+    padding: 0.55rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .worldcup-2026__stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .worldcup-2026__stat-card {
+    padding: 1rem;
+  }
+
+  .worldcup-2026__stat-icon {
+    font-size: 1.75rem;
+  }
+
+  .worldcup-2026__section-title {
+    font-size: 1.25rem;
+  }
+
+  .worldcup-2026__news-grid,
+  .worldcup-2026__matches-grid,
+  .worldcup-2026__editorials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .worldcup-2026__teams-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .worldcup-2026__match-card {
+    padding: 1rem;
+  }
+
+  .worldcup-2026__news-card {
+    padding: 1rem;
+  }
+
+  .worldcup-2026__filter-tabs {
+    gap: 0.4rem;
+  }
+
+  .worldcup-2026__filter-tab {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
