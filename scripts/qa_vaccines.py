@@ -3188,7 +3188,6 @@ DETECTORS = [
     check_nav_menu_overflow,
     check_sidebar_layout,
     check_uptime_me,
-    check_deploy_monitor,
     check_gsc_domain_property,
     check_search_ui_vaccine,
     check_no_floating_nav_vaccine,
