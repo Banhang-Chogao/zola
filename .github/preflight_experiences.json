@@ -1,0 +1,33 @@
+{
+  "version": "1.0",
+  "total_experiences": 1,
+  "experiences": [
+    {
+      "id": "fa3597b6",
+      "timestamp": "2026-06-26T03:34:15.159433",
+      "pr_number": 123,
+      "branch": "feature/test",
+      "status": "auto-resolved",
+      "method": "auto",
+      "conflict_files": [
+        "package.json",
+        "data/seo-qa-scores.json"
+      ],
+      "conflict_patterns": {
+        "package_json": 1,
+        "scores_json": 1
+      },
+      "file_count": 2,
+      "success": true
+    }
+  ],
+  "statistics": {
+    "auto_resolved": 1,
+    "manual_resolved": 0,
+    "failed": 0,
+    "by_file_type": {
+      "package_json": 1,
+      "scores_json": 1
+    }
+  }
+}

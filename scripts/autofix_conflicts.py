@@ -362,6 +362,21 @@ def resolve_working_tree(dry_run: bool, ours_is_pr: bool = True) -> tuple[list[s
     return auto, manual
 
 
+def log_experience(pr_number: int, branch: str, status: str, method: str, files: list = None):
+    """Call the experience logger script."""
+    cmd = [sys.executable, str(REPO / "scripts" / "log_experience.py"),
+           "--pr", str(pr_number),
+           "--branch", branch,
+           "--status", status,
+           "--method", method]
+    if files:
+        cmd.extend(["--files", ",".join(files)])
+
+    res = subprocess.run(cmd, cwd=REPO, text=True, capture_output=True)
+    if res.returncode != 0:
+        print(f"⚠️ Failed to log experience: {res.stderr}")
+
+
 def cmd_branch(branch: str, dry_run: bool, do_regen: bool = True, do_qa: bool = True) -> int:
     print(f"== Fetch origin/main + {branch} ==")
     git("fetch", "origin", "main", branch, check=False)
@@ -393,6 +408,10 @@ def cmd_branch(branch: str, dry_run: bool, do_regen: bool = True, do_qa: bool = 
             print(f"    - {m}")
         if not dry_run:
             git("merge", "--abort", check=False)
+            # Log manual resolution
+            pr_num = os.environ.get("PR_NUMBER", "0")
+            if pr_num != "0":
+                log_experience(int(pr_num), branch, "manual", "manual", manual)
         return 2
 
     # 💉 Regenerate generated data artifacts (đừng commit JSON stale).
@@ -425,12 +444,20 @@ def cmd_branch(branch: str, dry_run: bool, do_regen: bool = True, do_qa: bool = 
                 "dirty/generated-data conflict — QA fail sau regen", auto, regen, False, dry_run
             )
             git("merge", "--abort", check=False)
+            # Log failed resolution
+            pr_num = os.environ.get("PR_NUMBER", "0")
+            if pr_num != "0":
+                log_experience(int(pr_num), branch, "failed", "auto", auto)
             return 3
 
     log_resolution(
         "dirty/generated-data conflict — auto-resolve + regenerate", auto, regen, qa_ok, dry_run
     )
     git("commit", "--no-edit")
+    # Log successful auto-resolution
+    pr_num = os.environ.get("PR_NUMBER", "0")
+    if pr_num != "0":
+        log_experience(int(pr_num), branch, "auto-resolved", "auto", auto)
     print(f"\n✓ Auto-resolve {len(auto)} file + regenerate {sum(1 for v in regen.values() if v=='regenerated')} artifact + QA pass → commit merge trên {branch}.")
     print("  Nhớ: push để CI auto-merge (zola build chạy ở CI).")
     return 0
