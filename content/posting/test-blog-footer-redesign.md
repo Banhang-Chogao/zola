@@ -4,7 +4,7 @@ description = "Bài viết test để kiểm tra phần cuối blog redesign: br
 date = 2026-06-25
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["test", "ui-redesign", "footer"]
+tags = ["test", "ui-redesign", "blog-footer"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder-square.og.webp"
 seo_keyword = "blog footer UI redesign test"
