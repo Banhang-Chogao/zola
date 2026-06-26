@@ -54,6 +54,19 @@ THEME_PATHS = [
     "content/font.md",
 ]
 
+# **Core theme-defining files.** Một commit chạm vào đây = mốc nền tảng theme/layout
+# kể cả khi subject KHÔNG chứa keyword (vd "Initialize SEOMONEY blog…",
+# "Update: Sun Jun 14…"). Dùng để BACKFILL các mốc nền móng mà bộ lọc keyword bỏ sót
+# — đặc biệt giai đoạn đầu (14/06 → trước batch theme dày gần đây). Chỉ backfill
+# trong "gap" trước mốc keyword cũ nhất → KHÔNG làm ngập ledger giai đoạn gần đây.
+BASELINE_PATHS = ["config.toml", "templates/", "sass/"]
+
+# Subject "nhiễu" (bot/bootstrap) — note dẫn xuất từ file thật thay vì giữ subject vô nghĩa.
+NOISE_SUBJECT_RE = re.compile(
+    r"^(update:\s|merge\s|fix merge conflicts|chore: update blog heartbeat|initial commit\b)",
+    re.IGNORECASE,
+)
+
 # Số mốc tối đa trong bảng chính (ledger gọn, dễ rollback). Có thể override qua
 # biến môi trường THEME_LOG_LIMIT.
 DEFAULT_LIMIT = int(os.environ.get("THEME_LOG_LIMIT", "50"))
@@ -236,12 +249,106 @@ def collect_candidates():
         seen.add(full)
         if not MILESTONE_RE.search(subject or ""):
             continue
-        rows.append({"sha": full, "cdate": cdate, "author": author, "subject": subject})
+        rows.append({"sha": full, "cdate": cdate, "author": author, "subject": subject,
+                     "is_baseline": False})
     return rows
 
 
+def baseline_touched(sha):
+    """Trả về danh sách core theme-file mà commit chạm vào (cho note dẫn xuất)."""
+    out = run_git(["show", "--stat", "--pretty=format:", sha])
+    touched = []
+    low = out.lower()
+    if "config.toml" in low or "zola.toml" in low:
+        touched.append("config.toml")
+    if "templates/" in low:
+        touched.append("templates/")
+    if "sass/" in low:
+        touched.append("sass/")
+    return touched
+
+
+def describe_baseline(sha, subject):
+    """Note cho mốc baseline: subject thật nếu có nghĩa, else dẫn xuất từ file thật.
+
+    KHÔNG bịa: chỉ mô tả đúng core theme-file mà commit thực sự chạm vào."""
+    subj = (subject or "").strip()
+    if subj and not NOISE_SUBJECT_RE.match(subj):
+        return subj[:200]
+    touched = baseline_touched(sha)
+    label = ", ".join(touched) if touched else "theme files"
+    return f"Theme/site baseline (touched: {label})"
+
+
+def collect_baseline_anchors(keyword_rows):
+    """BACKFILL mốc nền móng mà bộ lọc keyword bỏ sót.
+
+    Bộ lọc MILESTONE_RE chỉ match commit có *subject* chứa keyword theme. Các
+    commit nền móng quan trọng nhất cho rollback (khởi tạo blog Zola, init
+    SEOMONEY, baseline config) lại có subject chung chung ("Initialize…",
+    "Update: Sun Jun 14…") → bị bỏ. Để giữ chúng mà KHÔNG làm ngập giai đoạn gần
+    đây, chỉ backfill phần GAP: commit verify được, chạm BASELINE_PATHS, và CŨ HƠN
+    mốc keyword cũ nhất đã bắt được. Mọi commit lọc theo THEME_LOG_START_DATE
+    (timezone-safe) y như keyword candidates.
+    """
+    # Ranh giới: mốc keyword cũ nhất (so sánh bằng datetime, không so chuỗi).
+    boundary = None
+    for r in keyword_rows:
+        dt = parse_dt(r.get("cdate", ""))
+        if dt and (boundary is None or dt < boundary):
+            boundary = dt
+
+    fmt = "%H%x1f%cI%x1f%an%x1f%s"
+    raw = run_git(
+        [
+            "log",
+            "--no-merges",
+            f"--since={THEME_LOG_START_DATE}",
+            f"--pretty=format:{fmt}",
+            "--",
+            *BASELINE_PATHS,
+        ]
+    )
+    seen = {r["sha"] for r in keyword_rows}
+    anchors = []
+    for line in raw.splitlines():
+        parts = line.split("\x1f")
+        if len(parts) < 4:
+            continue
+        full, cdate, author, subject = parts[0], parts[1], parts[2], parts[3]
+        if full in seen:
+            continue
+        dt = parse_dt(cdate)
+        # Chỉ lấy commit trong GAP (cũ hơn mốc keyword cũ nhất) → tránh ngập giai
+        # đoạn gần đây vốn đã được keyword bao phủ.
+        if boundary is not None and dt is not None and dt >= boundary:
+            continue
+        seen.add(full)
+        anchors.append({"sha": full, "cdate": cdate, "author": author,
+                        "subject": subject, "is_baseline": True})
+    return anchors
+
+
+def parse_dt(iso):
+    """ISO commit date → aware datetime; lỗi → None.
+
+    BẮT BUỘC so sánh bằng datetime (không so chuỗi ISO): commit offset lẫn lộn
+    +07:00 và +00:00 → so chuỗi sẽ sai thứ tự thời gian thực (timezone-unsafe).
+    """
+    try:
+        dt = datetime.fromisoformat(iso)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt
+    except Exception:
+        return None
+
+
 def to_date_id(iso):
-    """ISO commit date → YYYYMMDD cho theme_id; lỗi → 'unknown'."""
+    """ISO commit date → YYYYMMDD cho theme_id; lỗi → 'unknown'.
+
+    Dùng wall-clock theo offset của chính commit (giờ VN khi commit +07:00) →
+    không lệch ngày khi đổi sang UTC."""
     try:
         dt = datetime.fromisoformat(iso)
         return dt.strftime("%Y%m%d")
@@ -249,12 +356,17 @@ def to_date_id(iso):
         return "unknown"
 
 
-def status_for(idx, subject):
-    """Trạng thái mốc: mốc mới nhất = live; rollback subject = rollback target;
-    demo/experimental = reference; còn lại = archived."""
+def status_for(idx, subject, is_baseline=False):
+    """Trạng thái mốc: mốc mới nhất = live; mốc nền móng (baseline) + commit
+    rollback = rollback target; demo/experimental = reference; còn lại = archived.
+
+    KHÔNG gán rollback target cho mọi hàng — chỉ mốc nền móng thật + commit ghi
+    rõ 'rollback' (vài hàng), giữ đúng yêu cầu 'do not mark everything'."""
     s = (subject or "").lower()
     if idx == 0:
         return "live"
+    if is_baseline:
+        return "rollback target"
     if "rollback" in s:
         return "rollback target"
     if any(k in s for k in ("demo", "experimental", "opt-in", "preview", "nokia", "momo", "wwdc")):
@@ -264,7 +376,25 @@ def status_for(idx, subject):
 
 def build():
     head = current_head()
-    candidates = collect_candidates()
+    keyword_rows = collect_candidates()
+    anchor_rows = collect_baseline_anchors(keyword_rows)
+
+    # Gộp keyword + baseline anchors, dedupe theo sha (anchor không trùng keyword
+    # vì gap-filter loại commit gần đây), sort giảm dần theo THỜI GIAN THẬT.
+    by_sha = {}
+    for c in keyword_rows + anchor_rows:
+        if c["sha"] in by_sha:
+            by_sha[c["sha"]]["is_baseline"] = (
+                by_sha[c["sha"]].get("is_baseline") or c.get("is_baseline")
+            )
+            continue
+        by_sha[c["sha"]] = c
+    _epoch = datetime.min.replace(tzinfo=timezone.utc)
+    candidates = sorted(
+        by_sha.values(),
+        key=lambda c: parse_dt(c.get("cdate", "")) or _epoch,
+        reverse=True,
+    )
 
     themes = []
     excluded = []
@@ -278,20 +408,42 @@ def build():
                 {"commit_hash": short7(c["sha"]), "reason": "not verified (rev-parse failed)"}
             )
 
+    # sha của mốc baseline CŨ NHẤT = điểm bắt đầu reliable rollback history (14/06).
+    oldest_baseline_sha = None
+    oldest_dt = None
+    for c in verified:
+        if not c.get("is_baseline"):
+            continue
+        dt = parse_dt(c.get("cdate", ""))
+        if dt and (oldest_dt is None or dt < oldest_dt):
+            oldest_dt = dt
+            oldest_baseline_sha = c["sha"]
+
     for idx, c in enumerate(verified[:DEFAULT_LIMIT]):
         sha = c["sha"]
         subject = c["subject"]
+        is_base = bool(c.get("is_baseline"))
+        if is_base:
+            notes = describe_baseline(sha, subject)
+            layout = infer(LAYOUT_HINTS, subject)
+            if layout == "unknown":
+                layout = "Theme baseline"
+        else:
+            notes = (subject or "unknown").strip()[:200]
+            layout = infer(LAYOUT_HINTS, subject)
+        if sha == oldest_baseline_sha:
+            notes = f"{notes} — start of reliable rollback history (14-06-2026)"
         themes.append(
             {
                 "theme_id": f"theme-{to_date_id(c['cdate'])}-{short7(sha)}",
                 "commit_hash": short7(sha),
                 "datetime": c["cdate"] or "unknown",
                 "theme_name": infer(THEME_NAME_HINTS, subject),
-                "layout_style": infer(LAYOUT_HINTS, subject),
+                "layout_style": layout,
                 "color_system": "unknown",
                 "font_system": "unknown",
-                "status": status_for(idx, subject),
-                "notes": (subject or "unknown").strip()[:200],
+                "status": status_for(idx, subject, is_base),
+                "notes": notes[:240],
             }
         )
 
@@ -304,6 +456,28 @@ def build():
             }
         )
 
+    # Coverage: số hàng trong cửa sổ ĐẦU [14/06, 25/06) — bằng chứng đã backfill
+    # tới mốc nền móng, không chỉ batch theme gần đây. QA dùng field này để gate.
+    start_dt = parse_dt(THEME_LOG_START_DATE)
+    recent_batch_dt = parse_dt("2026-06-25T00:00:00+07:00")
+    early_window_count = 0
+    oldest_row_dt = None
+    for t in themes:
+        dt = parse_dt(t.get("datetime", ""))
+        if not dt:
+            continue
+        if oldest_row_dt is None or dt < oldest_row_dt:
+            oldest_row_dt = dt
+        if start_dt and recent_batch_dt and start_dt <= dt < recent_batch_dt:
+            early_window_count += 1
+
+    if early_window_count == 0:
+        print(
+            "[theme_audit] WARN: ledger không có hàng nào trong [14/06, 25/06) — "
+            "backfill nền móng có thể đã hụt (history thiếu?).",
+            file=sys.stderr,
+        )
+
     payload = {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "repo": REPO_SLUG,
@@ -313,6 +487,9 @@ def build():
         "baseline": {
             "start_date": THEME_LOG_START_DATE,
             "note": "Rollback history reliably available from 2026-06-14 00:00 Asia/Ho_Chi_Minh onward",
+            "headline": "Rollback history since 14-06-2026",
+            "early_window_count": early_window_count,
+            "oldest_row": (oldest_row_dt.isoformat() if oldest_row_dt else "unknown"),
         },
         "themes": themes,
         "excluded": excluded,
