@@ -59,7 +59,16 @@
                 </span>
                 <span class="post-meta__date">
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    {{ page.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
+                    <span class="post-meta__date-times">
+                        {% set pub_time = page.date | date(format="%H:%M", timezone="Asia/Ho_Chi_Minh") %}
+                        {% set pub_date = page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") %}
+                        <span class="post-meta__published">Đăng: {{ pub_time }}, {{ pub_date }}</span>
+                        {% if page.updated or page.extra.updated_at %}
+                            {% set upd_time = page.updated | default(value=page.extra.updated_at) | date(format="%H:%M", timezone="Asia/Ho_Chi_Minh") %}
+                            {% set upd_date = page.updated | default(value=page.extra.updated_at) | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") %}
+                            <span class="post-meta__updated">Cập nhật: {{ upd_time }}, {{ upd_date }}</span>
+                        {% endif %}
+                    </span>
                 </span>
             </div>
 
