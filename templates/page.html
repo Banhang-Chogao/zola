@@ -1,3 +1,8 @@
+{% import "macros/breadcrumb-article.html" as bc %}
+{% import "macros/faq-accordion.html" as faq %}
+{% import "macros/related-posts-thumbnail.html" as rp %}
+{% import "macros/copyright-notice.html" as cp %}
+{% import "macros/pipeline-heartbeat-inline.html" as hb %}
 {% extends "index.html" %}
 {%- block meta %}
   {%- set g_is_article = true %}
@@ -7,11 +12,6 @@
 {% block sidebar %}{% endblock sidebar %}
 {% block sidebar_seo_widgets %}{% endblock sidebar_seo_widgets %}
 {% block main %}
-{% import "macros/breadcrumb-article.html" as bc %}
-{% import "macros/faq-accordion.html" as faq %}
-{% import "macros/related-posts-thumbnail.html" as rp %}
-{% import "macros/copyright-notice.html" as cp %}
-{% import "macros/pipeline-heartbeat-inline.html" as hb %}
 {% set_global toc_total = 0 %}
 {% for h in page.toc %}
   {% set_global toc_total = toc_total + 1 %}
