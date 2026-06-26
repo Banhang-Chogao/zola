@@ -32,6 +32,10 @@ extra_syntaxes_and_themes = ["highlight_themes"]
 author = "duynguyenlog"
 tagline = "Duy Nguyen"
 
+# Cloudflare R2 CDN (DISCONNECTED — reversible). Static media served from GitHub Pages.
+# Re-enable ONLY when owner allows by uncommenting:
+# cdn = "https://cdn.seomoney.org"
+
 # Author box hiển thị cuối mỗi bài viết.
 # Bio, avatar — sửa ở đây ảnh hưởng mọi bài.
 # Avatar: upload file ảnh vào static/img/author-avatar.webp trong repo,
