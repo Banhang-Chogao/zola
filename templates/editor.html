@@ -16,7 +16,9 @@
         {# Brand badge — danh xưng hệ thống, style "ngầu + nghịch ngợm" nhiều màu #}
         <div class="cms-brand">
             <a class="cms-brand__btn" href="{{ config.base_url }}/editor/" title="Content Management System">
-                <span class="cms-brand__spark" aria-hidden="true">✦</span>
+                <span class="cms-brand__mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                </span>
                 Content Management System
                 <span class="cms-brand__tag">CMS</span>
             </a>
@@ -126,6 +128,12 @@
                 <span class="editor-count" data-target="post-count" aria-live="polite">0/0</span>
             </div>
 
+            <div class="editor-filter-chips" data-placement-filters role="group" aria-label="Lọc placement">
+                <button type="button" class="editor-filter-chip is-active" data-filter-placement="">Tất cả</button>
+                <button type="button" class="editor-filter-chip" data-filter-placement="sticky">Sticky</button>
+                <button type="button" class="editor-filter-chip" data-filter-placement="featured">Featured</button>
+            </div>
+
             {# Bulk action bar — chỉ hiện khi có ít nhất 1 bài tick #}
             <div class="editor-bulk-bar" data-bulk-bar hidden>
                 <span class="editor-bulk-bar__info">
@@ -176,7 +184,10 @@
         <section class="editor-view" data-view="edit" hidden>
             <header class="section-header"><h2 class="section-header__title" data-target="edit-title">VIẾT BÀI MỚI</h2></header>
 
-            <form data-form="post" class="editor-form">
+          <div class="editor-edit-layout">
+            <form data-form="post" id="editor-post-form" class="editor-form">
+                <input type="checkbox" name="featured" hidden aria-hidden="true">
+                <input type="checkbox" name="sticky" hidden aria-hidden="true">
                 {# Banner khôi phục draft — hiển thị khi mở bài có draft trong localStorage #}
                 <div class="editor-draft-banner" data-draft-banner hidden role="status">
                     <span class="editor-draft-banner__icon" aria-hidden="true">📝</span>
@@ -227,14 +238,6 @@
                     <label class="editor-field editor-field--full">
                         <span>Ảnh thumbnail (URL)</span>
                         <input type="url" name="thumbnail" placeholder="https://..." class="editor-input">
-                    </label>
-
-                    <label class="editor-field editor-field--check">
-                        <input type="checkbox" name="featured"> <span>Bài nổi bật (lên Featured Post — sidebar phải)</span>
-                    </label>
-
-                    <label class="editor-field editor-field--check">
-                        <input type="checkbox" name="sticky"> <span>📌 Ghim bài (Sticky — section giữa trang chủ; chỉ 1 bài tại 1 thời điểm)</span>
                     </label>
 
                     {# MoMo link — chỉ hiện khi category = Premium. Lưu vào [extra].momo_payment_link #}
@@ -311,16 +314,18 @@
                 </div>
 
                 <div class="editor-toolbar editor-toolbar--bottom">
-                    <button type="submit" class="editor-btn editor-btn--ghost">📥 Tải file .md</button>
-                    <button type="button" class="editor-btn editor-btn--success" data-action="publish" title="Đăng bài trực tiếp lên GitHub → trigger Pages deploy">
-                        🚀 Đăng lên blog
-                    </button>
-                    <button type="button" class="editor-btn editor-btn--danger" data-action="delete" hidden>🗑 Xoá (thủ công)</button>
                     <button type="button" class="editor-btn editor-btn--ghost" data-action="back">← Quay lại</button>
+                    <button type="button" class="editor-btn editor-btn--danger" data-action="delete" hidden>Xoá bài</button>
                 </div>
 
                 <div class="editor-status" data-target="save-status"></div>
             </form>
+
+            <div class="editor-rail-column">
+                {% include "partials/editor-placement-rail.html" %}
+                {% include "partials/editor-seo-rail.html" %}
+            </div>
+          </div>
         </section>
 
         {# Slash command menu — floating, position:fixed, JS điều khiển hiển thị
@@ -371,4 +376,5 @@
     {% set editor_asset_version = now(timestamp=true) %}
     <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ editor_asset_version }}"></script>
     <script src="{{ get_url(path='js/editor.js') }}?v={{ editor_asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/cms/editor-seo-rail.js') }}?v={{ editor_asset_version }}" defer></script>
 {% endblock %}
