@@ -75,7 +75,6 @@ _REGEN_DATA_EXACT = {
     "data/pagespeed.json",
     "data/performance-audit-snapshot.json",
     "data/security.json",
-    "data/footer-countdown.json",
     "data/reports-index.json",
     "data/seo-rank-autofix-report.json",
 }
