@@ -24,11 +24,12 @@
     {%- set category = "" %}
     {%- set category_url = "" %}
     {%- if page.taxonomies.categories | length > 0 %}
+      {%- set found_cat = false %}
       {%- for cat in page.taxonomies.categories %}
-        {%- if cat != "Tất cả" and cat != "premium" %}
+        {%- if not found_cat and cat != "Tất cả" and cat != "premium" %}
           {%- set category = cat %}
           {%- set category_url = get_taxonomy_url(kind='categories', name=cat) %}
-          {%- break %}
+          {%- set found_cat = true %}
         {%- endif %}
       {%- endfor %}
     {%- endif %}
