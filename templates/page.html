@@ -2,6 +2,12 @@
 {%- block meta %}
   {%- set g_is_article = true %}
 {%- endblock meta %}
+
+{# JSON-LD Breadcrumb in head #}
+{%- block head_end %}
+  {% include "partials/breadcrumb-jsonld.html" %}
+  {{ super() }}
+{%- endblock head_end %}
 {# Full-width single-column reading view — match the WWDC26 reference (no sidebar).
    Applies to EVERY post (default template for posting + baochi, all categories). #}
 {% block sidebar %}{% endblock sidebar %}

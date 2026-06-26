@@ -1,4 +1,4 @@
-{# Blog breadcrumb macro with JSON-LD support
+{# Blog breadcrumb macro (HTML only, JSON-LD in separate partial)
    Usage:
      {% import "macros/breadcrumb-blog.html" as bc %}
      {{ bc::blog(
@@ -11,44 +11,7 @@
 #}
 
 {% macro blog(base_url, category="", category_url="", page_title="", page_url="") %}
-{# JSON-LD BreadcrumbList #}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Trang chủ",
-      "item": "{{ base_url | safe }}/"
-    }
-    {% if category and category_url %},
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "{{ category }}",
-      "item": "{{ category_url | safe }}"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "{{ page_title }}",
-      "item": "{{ base_url | safe }}{{ page_url | safe }}"
-    }
-    {% elif page_title %},
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "{{ page_title }}",
-      "item": "{{ base_url | safe }}{{ page_url | safe }}"
-    }
-    {% endif %}
-  ]
-}
-</script>
-
-{# HTML Breadcrumb #}
+{# HTML Breadcrumb Navigation #}
 <nav class="blog-breadcrumb" aria-label="Breadcrumb">
   <ol class="blog-breadcrumb__list">
     <li class="blog-breadcrumb__item">
