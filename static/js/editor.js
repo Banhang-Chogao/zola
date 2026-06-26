@@ -113,10 +113,21 @@
   const AUTH_ERROR_MESSAGES = {
     access_denied:                "Truy cập bị từ chối: Bạn không có quyền quản trị blog này.",
     invalid_state:                "Phiên đăng nhập hết hạn. Vui lòng thử lại.",
-    missing_params:               "GitHub callback thiếu tham số. Thử lại.",
-    token_exchange_failed:        "Lỗi xác thực GitHub. Thử lại sau.",
+    missing_params:               "Callback thiếu tham số. Thử lại.",
+    token_exchange_failed:        "Lỗi xác thực. Thử lại sau.",
     github_unreachable:           "Không kết nối được GitHub. Kiểm tra mạng.",
     github_profile_fetch_failed:  "Không đọc được profile GitHub. Thử lại.",
+    github_disabled:              "Đăng nhập GitHub đang tắt. Dùng Google.",
+    // ----- Google OAuth -----
+    google_disabled:              "Đăng nhập Google đang tắt.",
+    google_not_configured:        "Backend chưa cấu hình Google OAuth. Liên hệ admin.",
+    google_unreachable:           "Không kết nối được Google. Kiểm tra mạng.",
+    google_consent_denied:        "Bạn đã huỷ cấp quyền Google. Thử lại nếu muốn đăng nhập.",
+    id_token_invalid:             "Không xác thực được Google id_token. Thử lại.",
+    id_token_aud_mismatch:        "Google id_token sai client. Liên hệ admin.",
+    id_token_iss_mismatch:        "Google id_token sai nguồn phát hành. Liên hệ admin.",
+    email_missing:                "Tài khoản Google không có email. Dùng tài khoản khác.",
+    email_not_verified:           "Email Google chưa được xác minh. Xác minh rồi thử lại.",
   };
 
   function showLoginError(code) {
@@ -594,15 +605,45 @@ tags = ${tagsStr}
     return false;
   }
 
-  // ============= LOGIN BUTTON → REDIRECT GITHUB OAUTH =============
+  // ============= LOGIN BUTTONS → REDIRECT OAUTH (GitHub / Google) =============
+  function startOAuth(startPath) {
+    if (!AUTH_API) { showLoginHint(); return; }
+    const returnTo = location.pathname + location.search;
+    location.href = AUTH_API + startPath + "?return_to=" + encodeURIComponent(returnTo);
+  }
+
   const loginBtn = $("[data-action='github-login']");
   if (loginBtn) {
-    loginBtn.addEventListener("click", function () {
-      if (!AUTH_API) { showLoginHint(); return; }
-      const returnTo = location.pathname + location.search;
-      location.href = AUTH_API + "/auth/login?return_to=" + encodeURIComponent(returnTo);
-    });
+    loginBtn.addEventListener("click", function () { startOAuth("/auth/login"); });
   }
+  const googleBtn = $("[data-action='google-login']");
+  if (googleBtn) {
+    googleBtn.addEventListener("click", function () { startOAuth("/auth/google/start"); });
+  }
+
+  // Hỏi backend /auth/config xem cổng nào đang bật để render đúng nút:
+  //   dual   → Google (primary) + GitHub (phụ)
+  //   google → chỉ Google
+  //   github → chỉ GitHub (mặc định, giữ hành vi cũ nếu fetch lỗi)
+  async function applyAuthProviders() {
+    if (!AUTH_API) return;
+    let cfg = null;
+    try {
+      const res = await fetch(AUTH_API + "/auth/config", { cache: "no-store" });
+      if (res.ok) cfg = await res.json();
+    } catch (e) { /* network fail → giữ default (cả 2 nút) */ }
+    if (!cfg) return;
+    const gBtn = $("[data-provider-btn='google']");
+    const ghBtn = $("[data-provider-btn='github']");
+    if (gBtn)  gBtn.hidden  = !(cfg.google && cfg.google.enabled);
+    if (ghBtn) ghBtn.hidden = !(cfg.github && cfg.github.enabled);
+    // Trong dual/google, Google là primary; hạ GitHub xuống nút phụ (ghost).
+    if (cfg.google && cfg.google.enabled && gBtn && ghBtn) {
+      ghBtn.classList.remove("editor-btn--primary");
+      ghBtn.classList.add("editor-btn--ghost");
+    }
+  }
+  applyAuthProviders();
 
   let bakeLoaded = false;
 

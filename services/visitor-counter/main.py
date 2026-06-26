@@ -1,16 +1,20 @@
 """
-Blog backend — visitor counter + GitHub OAuth gateway cho CMS.
+Blog backend — visitor counter + GitHub/Google OAuth gateway cho CMS.
 
 Endpoints:
   Visitor counter:
     POST /track      → increment counter nếu UA không phải bot
     GET  /stats      → trả tổng count hiện tại
 
-  GitHub OAuth (cổng đăng nhập CMS):
-    GET  /auth/login           → redirect đến GitHub authorize page
-    GET  /auth/callback        → GitHub callback, exchange code → check email →
+  Auth (cổng đăng nhập CMS) — provider chọn qua AUTH_PROVIDER:
+    GET  /auth/config          → cho frontend biết provider nào đang bật
+    GET  /auth/login           → bắt đầu GitHub OAuth (github|dual)
+    GET  /auth/callback        → GitHub callback
+    GET  /auth/google/start    → bắt đầu Google OAuth/OIDC (google|dual)
+    GET  /auth/google/callback → Google callback, verify id_token → check email →
                                  redirect blog với session_id trong URL fragment
-    GET  /auth/me              → validate session (Header: Authorization: Bearer SID)
+    GET  /auth/me              → validate session (Header: Authorization: Bearer SID),
+                                 trả normalized user {authenticated, provider, email, name, avatar_url}
     POST /auth/logout          → xoá session khỏi Redis
 
   Misc:
@@ -21,11 +25,16 @@ Env vars (set Render/Railway dashboard):
   CORS_ORIGIN        — origin được phép gọi API (default: blog GitHub Pages)
   COUNTER_KEY        — Redis key chứa counter (default: 'blog:visitors')
 
+  AUTH_PROVIDER      — github (default) | dual (Google+GitHub) | google. Rollback = github.
   GH_CLIENT_ID       — GitHub OAuth App Client ID
   GH_CLIENT_SECRET   — GitHub OAuth App Client Secret (NEVER expose client)
+  GOOGLE_CLIENT_ID   — Google OAuth Web Client ID
+  GOOGLE_CLIENT_SECRET — Google OAuth Client Secret (NEVER expose client)
+  GOOGLE_REDIRECT_URI  — redirect_uri đăng ký ở Google Cloud (default {BACKEND_URL}/auth/google/callback)
+  GOOGLE_ADMIN_EMAILS  — email Google được phép vào CMS, ',' phân tách (fallback ADMIN_EMAILS)
   BACKEND_URL        — URL public của service này (cho redirect_uri OAuth)
   BLOG_URL           — URL blog (để redirect về sau auth)
-  ADMIN_EMAILS       — danh sách email được phép vào CMS, ngăn cách ',' (default
+  ADMIN_EMAILS       — email được phép vào CMS (GitHub), ngăn cách ',' (default
                        '292648126+Banhang-Chogao@users.noreply.github.com'). Thêm contributor: append email.
   SESSION_TTL        — session sống bao lâu giây (default 7200 = 2h). Redis
                        auto-expire session khi hết → admin idle 2h phải login lại.
@@ -35,7 +44,8 @@ Triết lý security:
   - access_token GitHub được giữ Redis-side, client chỉ có opaque session_id
   - session_id là URL-safe 32-byte random, không encode info → không brute-force được
   - Email whitelist server-side → client KHÔNG thể bypass
-  - State param ngăn CSRF cho OAuth flow
+  - State param ngăn CSRF cho OAuth flow (cả GitHub + Google)
+  - Google id_token verify server-side (chữ ký + exp + aud + iss + email_verified)
 """
 
 import asyncio
@@ -65,6 +75,29 @@ COUNTER_KEY = os.getenv("COUNTER_KEY", "blog:visitors")
 GH_CLIENT_ID     = os.getenv("GH_CLIENT_ID", "")
 GH_CLIENT_SECRET = os.getenv("GH_CLIENT_SECRET", "")
 BACKEND_URL      = os.getenv("BACKEND_URL", "http://localhost:8000").rstrip("/")
+
+# ============= Auth provider rollout (GitHub → Google) =============
+# AUTH_PROVIDER kiểm soát cổng đăng nhập nào được bật:
+#   "github" (default) — chỉ GitHub OAuth (hành vi cũ, không đổi)
+#   "dual"             — bật CẢ Google và GitHub (rollout an toàn)
+#   "google"           — chỉ Google OAuth/OpenID Connect
+# Đổi giá trị trên Render → restart, KHÔNG cần sửa code. Rollback = "github".
+AUTH_PROVIDER = os.getenv("AUTH_PROVIDER", "github").strip().lower()
+if AUTH_PROVIDER not in {"github", "google", "dual"}:
+    AUTH_PROVIDER = "github"
+
+# Google OAuth 2.0 / OpenID Connect (server-side flow). Tạo Web Application
+# client tại Google Cloud Console. Secret CHỈ nằm server-side, KHÔNG về client.
+GOOGLE_CLIENT_ID     = os.getenv("GOOGLE_CLIENT_ID", "")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "")
+# redirect_uri phải khớp CHÍNH XÁC giá trị đăng ký ở Google Cloud Console.
+# Default suy từ BACKEND_URL; override qua env khi domain backend khác.
+GOOGLE_REDIRECT_URI  = os.getenv("GOOGLE_REDIRECT_URI", f"{BACKEND_URL}/auth/google/callback").strip()
+# Google discovery endpoints (ổn định, hardcode an toàn theo OIDC spec).
+GOOGLE_AUTH_ENDPOINT     = "https://accounts.google.com/o/oauth2/v2/auth"
+GOOGLE_TOKEN_ENDPOINT    = "https://oauth2.googleapis.com/token"
+GOOGLE_TOKENINFO_ENDPOINT = "https://oauth2.googleapis.com/tokeninfo"
+GOOGLE_ISS = {"https://accounts.google.com", "accounts.google.com"}
 BLOG_URL         = os.getenv("BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
 # Base path component của BLOG_URL — vd "/zola". Dùng để strip khi return_to
 # từ client đã có prefix này (do location.pathname trên GitHub Pages bao gồm
@@ -83,6 +116,15 @@ ADMIN_USERNAMES = {
     for u in os.getenv("ADMIN_USERNAMES", "banhang-chogao").split(",")
     if u.strip()
 }
+
+# White-list email cho Google login — comma-separated. TÁCH RIÊNG khỏi
+# ADMIN_EMAILS (GitHub) để admin Google không phụ thuộc email GitHub noreply.
+# Fallback về ADMIN_EMAILS nếu chưa set → khỏi khoá mình ra ngoài khi rollout.
+GOOGLE_ADMIN_EMAILS = {
+    e.strip().lower()
+    for e in os.getenv("GOOGLE_ADMIN_EMAILS", "").split(",")
+    if e.strip()
+} or set(ADMIN_EMAILS)
 
 SESSION_TTL = int(os.getenv("SESSION_TTL", "7200"))  # 2h default (idle timeout)
 
@@ -192,12 +234,43 @@ def _is_allowed_user(username: str) -> bool:
     return (username or "").strip().lower() in ADMIN_USERNAMES
 
 
+def _github_enabled() -> bool:
+    """GitHub login bật khi AUTH_PROVIDER là 'github' hoặc 'dual'."""
+    return AUTH_PROVIDER in {"github", "dual"}
+
+
+def _google_enabled() -> bool:
+    """Google login bật khi AUTH_PROVIDER là 'google' hoặc 'dual'."""
+    return AUTH_PROVIDER in {"google", "dual"}
+
+
+@app.get("/auth/config")
+async def auth_config():
+    """
+    Cho frontend biết cổng đăng nhập nào đang bật để render đúng nút.
+    KHÔNG lộ secret — chỉ trả provider + cờ enable + cờ configured.
+    """
+    return {
+        "provider": AUTH_PROVIDER,
+        "github": {
+            "enabled":    _github_enabled(),
+            "configured": bool(GH_CLIENT_ID),
+        },
+        "google": {
+            "enabled":    _google_enabled(),
+            "configured": bool(GOOGLE_CLIENT_ID),
+        },
+    }
+
+
 @app.get("/auth/login")
 async def auth_login(return_to: str = "/editor/"):
     """
     Bắt đầu OAuth: tạo state random (CSRF protect), lưu Redis 10 phút,
     redirect user đến GitHub authorize page.
     """
+    if not _github_enabled():
+        return _redirect_with_error("github_disabled", return_to)
     if not GH_CLIENT_ID:
         raise HTTPException(500, "GH_CLIENT_ID chưa configure trên server")
 
@@ -295,6 +368,7 @@ async def auth_callback(code: str = "", state: str = ""):
     sid = secrets.token_urlsafe(32)
     matched_email = next(iter(verified_emails & ADMIN_EMAILS), None)
     session = {
+        "provider":     "github",
         "email":        matched_email,
         "username":     user.get("login", ""),
         "name":         user.get("name") or user.get("login", ""),
@@ -307,6 +381,150 @@ async def auth_callback(code: str = "", state: str = ""):
 
     # URL fragment (#) — browser KHÔNG gửi # cho server, JS đọc rồi xoá hash.
     # An toàn hơn query string (?sid=...) vì query có thể leak qua referer header.
+    return RedirectResponse(_build_blog_url(return_to, fragment=f"sid={sid}"))
+
+
+# ============= Google OAuth / OpenID Connect — Auth Flow =============
+
+def _google_email_allowed(email: str) -> bool:
+    """Email Google (đã verified) phải nằm trong GOOGLE_ADMIN_EMAILS."""
+    return (email or "").strip().lower() in GOOGLE_ADMIN_EMAILS
+
+
+def _truthy(v) -> bool:
+    """tokeninfo trả 'email_verified' dạng string 'true'/'false' hoặc bool."""
+    if isinstance(v, bool):
+        return v
+    return str(v).strip().lower() in {"true", "1", "yes"}
+
+
+@app.get("/auth/google/start")
+async def auth_google_start(return_to: str = "/editor/"):
+    """
+    Bắt đầu Google OAuth 2.0 / OIDC: tạo state (CSRF), lưu Redis 10 phút,
+    redirect user đến Google consent screen.
+
+    Scope CHỈ openid/email/profile — KHÔNG xin Gmail API scope.
+    """
+    if not _google_enabled():
+        return _redirect_with_error("google_disabled", return_to)
+    if not GOOGLE_CLIENT_ID:
+        return _redirect_with_error("google_not_configured", return_to)
+
+    # Sanitize return_to: chỉ path tương đối → chống open redirect.
+    if not return_to.startswith("/"):
+        return_to = "/editor/"
+
+    state = secrets.token_urlsafe(24)
+    r = await get_redis()
+    # Prefix 'g:' để phân biệt state Google với state GitHub trong Redis.
+    await r.setex(f"oauth_state:g:{state}", 600, return_to)
+
+    params = urlencode({
+        "client_id":     GOOGLE_CLIENT_ID,
+        "redirect_uri":  GOOGLE_REDIRECT_URI,
+        "response_type": "code",
+        "scope":         "openid email profile",
+        "state":         state,
+        "access_type":   "online",
+        "prompt":        "select_account",
+        # include_granted_scopes giữ incremental auth gọn gàng.
+        "include_granted_scopes": "true",
+    })
+    return RedirectResponse(f"{GOOGLE_AUTH_ENDPOINT}?{params}")
+
+
+@app.get("/auth/google/callback")
+async def auth_google_callback(code: str = "", state: str = "", error: str = ""):
+    """
+    Google redirect tới đây sau khi user consent.
+    1. Validate state (CSRF)
+    2. Exchange code → token (gồm id_token JWT)
+    3. Verify id_token server-side (Google tokeninfo: chữ ký + exp + aud + iss)
+    4. Trích sub/email/email_verified/name/picture
+    5. Deny nếu thiếu email / chưa verified / không thuộc GOOGLE_ADMIN_EMAILS
+    6. Tạo session cùng style GitHub → redirect blog với sid trong URL fragment
+    """
+    if error:
+        # User bấm "Cancel" trên consent screen → error=access_denied.
+        return _redirect_with_error("google_consent_denied")
+    if not code or not state:
+        return _redirect_with_error("missing_params")
+
+    r = await get_redis()
+    return_to = await r.getdel(f"oauth_state:g:{state}")
+    if not return_to:
+        return _redirect_with_error("invalid_state")
+
+    if not GOOGLE_CLIENT_ID or not GOOGLE_CLIENT_SECRET:
+        return _redirect_with_error("google_not_configured", return_to)
+
+    async with httpx.AsyncClient(timeout=15.0) as client:
+        # ---- Exchange authorization code → tokens ----
+        try:
+            token_res = await client.post(
+                GOOGLE_TOKEN_ENDPOINT,
+                headers={"Accept": "application/json"},
+                data={
+                    "code":          code,
+                    "client_id":     GOOGLE_CLIENT_ID,
+                    "client_secret": GOOGLE_CLIENT_SECRET,
+                    "redirect_uri":  GOOGLE_REDIRECT_URI,
+                    "grant_type":    "authorization_code",
+                },
+            )
+        except httpx.HTTPError:
+            return _redirect_with_error("google_unreachable", return_to)
+
+        if token_res.status_code != 200:
+            return _redirect_with_error("token_exchange_failed", return_to)
+
+        id_token = (token_res.json() or {}).get("id_token")
+        if not id_token:
+            return _redirect_with_error("token_exchange_failed", return_to)
+
+        # ---- Verify id_token server-side qua Google tokeninfo ----
+        # tokeninfo kiểm chữ ký + hạn token; ta tự check aud/iss/email_verified.
+        try:
+            info_res = await client.get(
+                GOOGLE_TOKENINFO_ENDPOINT, params={"id_token": id_token}
+            )
+        except httpx.HTTPError:
+            return _redirect_with_error("google_unreachable", return_to)
+
+        if info_res.status_code != 200:
+            return _redirect_with_error("id_token_invalid", return_to)
+
+        claims = info_res.json() or {}
+
+    # ---- Validate claims (KHÔNG log claims — chứa email/sub) ----
+    if claims.get("aud") != GOOGLE_CLIENT_ID:
+        return _redirect_with_error("id_token_aud_mismatch", return_to)
+    if claims.get("iss") not in GOOGLE_ISS:
+        return _redirect_with_error("id_token_iss_mismatch", return_to)
+
+    email = (claims.get("email") or "").strip().lower()
+    if not email:
+        return _redirect_with_error("email_missing", return_to)
+    if not _truthy(claims.get("email_verified")):
+        return _redirect_with_error("email_not_verified", return_to)
+    if not _google_email_allowed(email):
+        return _redirect_with_error("access_denied", return_to)
+
+    # ---- Tạo session opaque, cùng style GitHub ----
+    sid = secrets.token_urlsafe(32)
+    session = {
+        "provider": "google",
+        "email":    email,
+        "sub":      claims.get("sub", ""),
+        "username": email.split("@")[0],
+        "name":     claims.get("name") or email,
+        "avatar":   claims.get("picture", ""),
+        # Google flow KHÔNG cần access_token GitHub. CMS publish endpoint vẫn
+        # dựa GH access_token — sẽ thiếu với session Google (xem docs §limitations).
+    }
+    await r.setex(f"session:{sid}", SESSION_TTL, json.dumps(session))
+
     return RedirectResponse(_build_blog_url(return_to, fragment=f"sid={sid}"))
 
 
@@ -332,11 +550,18 @@ async def auth_me(authorization: str = Header(default="")):
     if not raw:
         raise HTTPException(401, "invalid_session")
     s = json.loads(raw)
+    avatar = s.get("avatar", "")
+    # Normalized user object — frontend mới đọc provider/avatar_url; các field
+    # legacy (username/avatar) giữ nguyên để KHÔNG vỡ editor.js/CMS hiện có.
     return {
-        "email":    s.get("email"),
-        "username": s.get("username"),
-        "name":     s.get("name"),
-        "avatar":   s.get("avatar"),
+        "authenticated": True,
+        "provider":      s.get("provider", "github"),
+        "email":         s.get("email"),
+        "name":          s.get("name"),
+        "avatar_url":    avatar,
+        # ----- legacy compatibility (GitHub editor.js) -----
+        "username":      s.get("username"),
+        "avatar":        avatar,
     }
 
 
@@ -2356,15 +2581,20 @@ async def root():
         "version": "2.2.0",
         "features": {
             "visitor_counter": True,
+            "auth_provider":   AUTH_PROVIDER,
             "github_oauth":    bool(GH_CLIENT_ID and GH_CLIENT_SECRET),
+            "google_oauth":    bool(GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET),
             "rss_checker":     True,
         },
         "endpoints": {
             "POST /track":        "Visitor counter increment",
             "GET  /stats":        "Visitor counter total",
+            "GET  /auth/config":  "Which login providers are enabled",
             "GET  /auth/login":   "Start GitHub OAuth flow",
             "GET  /auth/callback":"OAuth callback (GitHub uses this)",
-            "GET  /auth/me":      "Validate session (Bearer)",
+            "GET  /auth/google/start":   "Start Google OAuth/OIDC flow",
+            "GET  /auth/google/callback":"OAuth callback (Google uses this)",
+            "GET  /auth/me":      "Validate session (Bearer) → normalized user",
             "POST /auth/logout":  "Destroy session (Bearer)",
             "GET  /api/check-rss":"Parse RSS feed (auth required)",
             "GET  /api/news/{slug}":"Curated news (Redis cached, public)",
