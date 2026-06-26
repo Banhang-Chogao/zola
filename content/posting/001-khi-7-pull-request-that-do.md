@@ -5,13 +5,16 @@ description = "Câu chuyện thực tế: Ngày 18/6, 7 PR đều conflict đồ
 date = 2026-06-26
 updated = 2026-06-26
 slug = "merge-conflict-khung-hoang-7-pr-that-bai"
+series = "merge-conflict-preflight"
+
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["CI/CD", "DevOps", "merge-conflict", "automation", "zero-barrier"]
-series = "merge-conflict-preflight"
-extra.series_part = 1
-extra.seo_keyword = "merge conflict resolution automation"
-extra.thumbnail = "/images/blog/pr-conflict-crisis.jpg"
+
+[extra]
+series_part = 1
+seo_keyword = "merge conflict resolution automation"
+thumbnail = "/images/blog/pr-conflict-crisis.jpg"
 +++
 
 ## Ngày Merge Conflict Resolution Không Thể Nào Quên

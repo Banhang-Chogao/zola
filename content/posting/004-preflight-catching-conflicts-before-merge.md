@@ -5,13 +5,16 @@ description = "Tại sao phát hiện conflict trước khi merge lại quan tr�
 date = 2026-06-26
 updated = 2026-06-26
 slug = "merge-conflict-preflight-catch-early"
+series = "merge-conflict-preflight"
+
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["CI/CD", "merge-conflict", "preflight", "early-detection"]
-series = "merge-conflict-preflight"
-extra.series_part = 4
-extra.seo_keyword = "merge conflict preflight detection"
-extra.thumbnail = "/images/blog/preflight-detection.jpg"
+
+[extra]
+series_part = 4
+seo_keyword = "merge conflict preflight detection"
+thumbnail = "/images/blog/preflight-detection.jpg"
 +++
 
 ## The Problem with Late Detection
