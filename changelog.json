@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "Merge remote-tracking branch 'origin/main' into claude/ga4-module-redesign-zaqdxl [claude/ga4-module-redesign-zaqdxl]",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [
+        "🎨 Redesign GA4 module with vibrant colors & responsive layout",
+        "Merge remote-tracking branch 'origin/main' into claude/ga4-module-redesign-zaqdxl",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 938
+    },
+    {
+      "date": "2026-06-26",
       "title": "Merge remote-tracking branch 'origin/main' into claude/remove-progress-countdown-ltkzf9 [claude/remove-progress-countdown-ltkzf9]",
       "tag": "remove",
       "lines_added": 4,
