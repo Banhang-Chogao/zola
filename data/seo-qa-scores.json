@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-26T14:08:20.865131+07:00",
+  "updated_at": "2026-06-26T16:20:44.640205+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -25641,6 +25641,138 @@
           "scored_at": "2026-06-26T12:08:12.353668+07:00",
           "score": 100.0,
           "grade": "A+"
+        }
+      ]
+    },
+    "content/posting/kinh-nghiem-xu-ly-build-smoke-fail.md": {
+      "title": "Cách Fix Build-Smoke Fail: 3 Bài Học Từ Kinh Nghiệm Zola",
+      "slug": "kinh-nghiem-xu-ly-build-smoke-fail",
+      "keyword": "build-smoke fail zola fix",
+      "score": 92.8,
+      "grade": "A",
+      "word_count": 810,
+      "published": true,
+      "scored_at": "2026-06-26T16:20:44.640205+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 4.8,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 0.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "không nên dùng H1 (#) trong body — title đã là H1",
+        "chưa gắn tag nào"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-26T16:19:39.789267+07:00",
+          "score": 56.8,
+          "grade": "F"
+        },
+        {
+          "scored_at": "2026-06-26T16:19:47.804659+07:00",
+          "score": 62.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T16:20:02.080812+07:00",
+          "score": 62.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T16:20:06.664665+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T16:20:18.877183+07:00",
+          "score": 72.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-26T16:20:29.757729+07:00",
+          "score": 78.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-26T16:20:34.482907+07:00",
+          "score": 86.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-26T16:20:37.994002+07:00",
+          "score": 86.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-26T16:20:41.546568+07:00",
+          "score": 86.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-26T16:20:44.640205+07:00",
+          "score": 92.8,
+          "grade": "A"
         }
       ]
     }
