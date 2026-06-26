@@ -221,7 +221,7 @@ Automation không có risk vì:
 
 ## Phần Tiếp Theo
 
-[Part 4: Preflight Catching Conflicts Before Merge](../preflight-catching-conflicts) — Tại sao catch conflict sớm thì better hơn resolve muộn?
+[Part 4: Preflight Catching Conflicts Before Merge](../merge-conflict-preflight-catch-early) — Tại sao catch conflict sớm thì better hơn resolve muộn?
 
 ---
 

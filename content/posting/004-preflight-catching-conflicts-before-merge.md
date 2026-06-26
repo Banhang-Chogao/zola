@@ -235,7 +235,7 @@ Once conflict is detected:
 
 ## Phần Tiếp Theo
 
-[Part 5: Lessons Learned & Future-Proofing](../lessons-learned-future-proofing) — Những gì chúng tôi học được, và what's next?
+[Part 5: Lessons Learned & Future-Proofing](../bai-hoc-merge-conflict-future) — Những gì chúng tôi học được, và what's next?
 
 ---
 
