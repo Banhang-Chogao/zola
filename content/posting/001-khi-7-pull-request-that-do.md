@@ -199,7 +199,7 @@ Tôi có:
 
 ## Phần Tiếp Theo
 
-[Part 2: Xây dựng Conflict Resolution Framework](../xay-dung-conflict-resolution-framework) — Tôi thiết kế hệ thống và viết code.
+[Part 2: Xây dựng Conflict Resolution Framework](../thiet-ke-framework-giai-quyet-merge-conflict) — Tôi thiết kế hệ thống và viết code.
 
 ---
 

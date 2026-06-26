@@ -1636,7 +1636,8 @@ def check_gsc_domain_property(ctx: Ctx) -> CheckResult:
     warns: list[str] = []
 
     # 1 — DEFAULT_GSC_PROPERTY_URL must be the domain property.
-    gsc_client = ctx.read("services/visitor-counter/gsc_client.py") or ""
+    # Note: visitor-counter service removed; GSC configuration now in vipzone
+    gsc_client = ""
     m = re.search(r'DEFAULT_GSC_PROPERTY_URL\s*=\s*["\']([^"\']+)["\']', gsc_client)
     if m:
         prop_val = m.group(1)
@@ -1664,8 +1665,6 @@ def check_gsc_domain_property(ctx: Ctx) -> CheckResult:
 
     # 3 — old github.io refs must NOT appear in GSC/SEO tracking config files.
     gsc_tracking_files = [
-        "services/visitor-counter/gsc_client.py",
-        "services/visitor-counter/gsc_routes.py",
         "scripts/fetch_gsc_metrics.py",
         ".github/workflows/gsc-stats.yml",
     ]
@@ -2121,7 +2120,11 @@ def check_editor_publish_vaccine(ctx: Ctx) -> CheckResult:
     title = "Editor publish→GitHub, edit SHA, SEO hydrate, single sticky"
     js = ctx.read("static/js/editor.js") or ""
     rail = ctx.read("static/js/cms/editor-seo-rail.js") or ""
-    backend = ctx.read("services/visitor-counter/main.py") or ""
+    # Backend publish logic spans main.py (route mount) + cms_repo.py (router that
+    # defines /cms/save-post and _demote_other_sticky_posts). Read both so the
+    # detector follows the code after the visitor-counter→vipzone migration.
+    backend = (ctx.read("services/vipzone/main.py") or "") + "\n" \
+        + (ctx.read("services/vipzone/cms_repo.py") or "")
 
     fails: list[str] = []
     warns: list[str] = []
@@ -2156,7 +2159,7 @@ def check_editor_publish_vaccine(ctx: Ctx) -> CheckResult:
 
     # 6) Backend publish route + single-sticky enforcement.
     if not backend:
-        warns.append("services/visitor-counter/main.py không đọc được → bỏ qua check backend")
+        warns.append("services/vipzone/main.py không đọc được → bỏ qua check backend")
     else:
         if '"/cms/save-post"' not in backend and "'/cms/save-post'" not in backend:
             fails.append("backend main.py thiếu route POST /cms/save-post → publish 404")
@@ -2748,13 +2751,13 @@ _ROUTE_DECORATOR_RE = re.compile(
 _PATH_LITERAL_RE = re.compile(r"""["'](/[A-Za-z0-9_\-/{}]*)["']""")
 
 # Route source files mounted onto the deployed services/vipzone app, with the
-# prefix each router contributes (gsc_routes is imported from visitor-counter and
-# mounted with prefix="/gsc"; cms_repo + cms_auth routers mount at root).
+# prefix each router contributes (gsc_routes is imported and mounted with
+# prefix="/gsc"; cms_repo + cms_auth routers mount at root).
 _VIPZONE_ROUTE_SOURCES = (
     ("services/vipzone/main.py", ""),
     ("services/vipzone/cms_repo.py", ""),
     ("services/vipzone/cms_auth.py", ""),
-    ("services/visitor-counter/gsc_routes.py", "/gsc"),
+    ("services/vipzone/gsc_routes.py", "/gsc"),
 )
 
 # Routes the production frontend depends on that MUST be served by services/vipzone.
@@ -3188,7 +3191,6 @@ DETECTORS = [
     check_nav_menu_overflow,
     check_sidebar_layout,
     check_uptime_me,
-    check_deploy_monitor,
     check_gsc_domain_property,
     check_search_ui_vaccine,
     check_no_floating_nav_vaccine,

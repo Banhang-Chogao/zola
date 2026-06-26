@@ -110,10 +110,9 @@ app.include_router(auth_router)
 
 
 # ============= Google Search Console (SEO Reality Check) =============
-# The GSC router lives in services/visitor-counter/ (shared source of truth) but is
-# served HERE: blog-vipzone-api (this service) is the origin config.toml points the
-# SEO widget at (vipzone_api_url), so /gsc/* must exist on THIS app. Without it the
-# frontend's "Kết nối GSC" → /gsc/oauth/start returned {"detail":"Not Found"}.
+# The GSC router (gsc_routes.py) is part of vipzone and serves /gsc/* endpoints.
+# config.toml points the SEO widget at vipzone_api_url, so /gsc/* must exist on THIS app.
+# Frontend's "Kết nối GSC" → /gsc/oauth/start must return 200/401/403, never 404.
 # Storage: SQLite KV (this service has no Redis); auth: VIPZone CMS session (supervip).
 GSC_BACKEND_URL = (
     os.getenv("VIPZONE_BACKEND_URL") or os.getenv("BACKEND_URL") or BACKEND_URL
@@ -145,7 +144,6 @@ def _gsc_build_blog_url(return_to: str, fragment: str = "") -> str:
 
 
 try:
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "visitor-counter"))
     from gsc_routes import configure as _configure_gsc, router as _gsc_router
 
     _configure_gsc(

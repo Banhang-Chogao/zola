@@ -271,7 +271,7 @@ Preflight Workflow (15 min polling)
 
 ## Phần Tiếp Theo
 
-[Part 3: The Automation That Saved Us](../automation-that-saved-us) — Hệ thống chạy trên production. Những gì xảy ra?
+[Part 3: The Automation That Saved Us](../automation-merge-conflict-saved-us) — Hệ thống chạy trên production. Những gì xảy ra?
 
 ---
 
