@@ -1,0 +1,130 @@
+name: Merge Conflict Preflight
+on:
+  pull_request:
+    types: [opened, synchronize, labeled, reopened]
+  schedule:
+    - cron: '*/15 * * * *'  # Check open PRs every 15 min
+
+concurrency:
+  group: preflight-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  preflight-check:
+    if: github.event_name == 'pull_request' || github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml json5 requests
+
+      - name: Test merge with main
+        id: merge-test
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git checkout ${{ github.event.pull_request.head.ref || github.ref }}
+
+          if git merge --no-commit --no-ff origin/main 2>&1 | tee /tmp/merge-output.txt | grep -q "CONFLICT"; then
+            echo "CONFLICTS_DETECTED=true" >> $GITHUB_ENV
+            echo "CONFLICT_FILES=$(grep '^CONFLICT' /tmp/merge-output.txt | awk '{print $3}' | paste -sd ',' -)" >> $GITHUB_ENV
+            git merge --abort
+          else
+            echo "CONFLICTS_DETECTED=false" >> $GITHUB_ENV
+            git merge --abort
+          fi
+
+      - name: Run QA check
+        if: env.CONFLICTS_DETECTED == 'false'
+        continue-on-error: true
+        run: |
+          python3 scripts/qa_check.py || echo "QA_CHECK_FAILED=true" >> $GITHUB_ENV
+
+      - name: Auto-resolve (if labeled)
+        if: env.CONFLICTS_DETECTED == 'true' && contains(github.event.pull_request.labels.*.name, 'auto-resolve')
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout ${{ github.event.pull_request.head.ref }}
+          python3 scripts/autofix_conflicts.py \
+            --branch "${{ github.event.pull_request.head.ref }}" \
+            --auto-resolve
+          python3 scripts/push_with_retry.py \
+            --branch "${{ github.event.pull_request.head.ref }}" \
+            --max-retries 5
+
+      - name: Comment PR with status
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const conflicts = process.env.CONFLICTS_DETECTED === 'true';
+            const autoResolveLabel = context.payload.pull_request?.labels?.some(l => l.name === 'auto-resolve') || false;
+            const qaFailed = process.env.QA_CHECK_FAILED === 'true';
+
+            let status, icon;
+            if (conflicts && autoResolveLabel) {
+              status = '🔄 **Attempting auto-resolution...**\n\nWill re-run checks after fix.';
+              icon = '⏳';
+            } else if (conflicts) {
+              const conflictFiles = process.env.CONFLICT_FILES ? `\n\nFiles in conflict:\n${process.env.CONFLICT_FILES.split(',').map(f => `- \`${f}\``).join('\n')}` : '';
+              status = `⚠️ **Merge conflicts detected** with main branch.${conflictFiles}\n\n**Options:**\n1. Add \`auto-resolve\` label for automated fix\n2. Run locally:\n   \`\`\`bash\n   python3 scripts/autofix_conflicts.py --branch ${{ github.event.pull_request.head.ref }}\n   python3 qa_check.py --strict\n   git push\n   \`\`\``;
+              icon = '❌';
+            } else if (qaFailed) {
+              status = '⚠️ **QA checks failed.** Review logs above and re-run after fixes.';
+              icon = '⚠️';
+            } else {
+              status = '✅ **All checks passed!** Ready for review and merge.';
+              icon = '✅';
+            }
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('Merge Conflict Preflight')
+            );
+
+            const timestamp = new Date().toISOString();
+            const body = `## ${icon} Merge Conflict Preflight\n\n${status}\n\n---\n🕐 **Last checked:** ${timestamp}`;
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
+
+      - name: Block merge if conflicts (without auto-resolve)
+        if: env.CONFLICTS_DETECTED == 'true' && !contains(github.event.pull_request.labels.*.name, 'auto-resolve')
+        run: |
+          echo "::error::Merge conflicts detected. Add 'auto-resolve' label or resolve manually."
+          exit 1
