@@ -1,24 +1,62 @@
 {
-  "updated_at": "2026-06-25T23:42:18Z",
+  "updated_at": "2026-06-26T00:50:20Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 39,
-    "this_week": 177,
+    "today": 2,
+    "this_week": 180,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "feature": 43,
       "fix": 106,
-      "unknown": 34,
+      "feature": 42,
+      "unknown": 35,
       "ci": 3,
       "chore": 10,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 933,
+      "pr_title": "Fix: inline breadcrumb HTML instead of using macro import [claude/blog-footer-ui-redesign-ptw66i]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/933",
+      "merged_at": "2026-06-26T00:38:08Z",
+      "merge_commit_sha": "06ab246217ce5fd7a3a1445c56dc924149dbcfe8",
+      "merge_commit_short": "06ab246",
+      "head_branch": "claude/blog-footer-ui-redesign-ptw66i",
+      "summary_vi": "- Phần 2: Cải tiến UI/UX phần cuối blog (footer redesign)",
+      "change_type": "fix",
+      "files_changed": 13,
+      "additions": 793,
+      "deletions": 11,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1164,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28209562491",
+      "build_conclusion": "pending"
+    },
+    {
+      "pr_number": 940,
+      "pr_title": "fix: add pending_count and dm.stale references to base.html [fix/deploy-monitor]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/940",
+      "merged_at": "2026-06-26T00:35:48Z",
+      "merge_commit_sha": "f8c401ae04d7901a56810a1ab0e5d034b5156916",
+      "merge_commit_short": "f8c401a",
+      "head_branch": "fix/deploy-monitor",
+      "summary_vi": "- fix: add deploy-monitor.json load to footer",
+      "change_type": "fix",
+      "files_changed": 3,
+      "additions": 119,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1163,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28209482988",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 930,
       "pr_title": "feat(cards): Korean-editorial thumbnail hover (touch-guard + reduced-motion) [feat/thumbnail-hover-microinteraction]",
@@ -36,7 +74,7 @@
       "auto_merged": false,
       "build_run_number": 1162,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28207015283",
-      "build_conclusion": "pending"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 929,
@@ -74,7 +112,7 @@
       "auto_merged": false,
       "build_run_number": 1160,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28206771653",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 926,
@@ -528,8 +566,8 @@
       "deletions": 128,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1134,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28159931479",
+      "build_run_number": 1136,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28161570746",
       "build_conclusion": "success"
     },
     {
@@ -547,8 +585,8 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1133,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28159495551",
+      "build_run_number": 1135,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28160585999",
       "build_conclusion": "success"
     },
     {
@@ -566,9 +604,9 @@
       "deletions": 24,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1134,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28159931479",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 893,
@@ -2984,6 +3022,25 @@
       "build_conclusion": ""
     },
     {
+      "pr_number": 741,
+      "pr_title": "refactor(seo): rename Google Rank → Internal SEO Health, clarify GSC status [claude/trusting-cori-db6sew]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/741",
+      "merged_at": "2026-06-22T19:10:47Z",
+      "merge_commit_sha": "29e87168a6845aca609eb3133aaae8fbe274c4bb",
+      "merge_commit_short": "29e8716",
+      "head_branch": "claude/trusting-cori-db6sew",
+      "summary_vi": "- Hotfix: /tools/calendar/ - fix stuck auth state, optimize admin check, widen layout, improve note UX",
+      "change_type": "unknown",
+      "files_changed": 11,
+      "additions": 228,
+      "deletions": 68,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
       "pr_number": 740,
       "pr_title": "Hotfix: /tools/calendar/ - fix stuck auth state, optimize admin check, widen layout, improve note UX [claude/trusting-cori-db6sew]",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/740",
@@ -3528,63 +3585,6 @@
       "files_changed": 3,
       "additions": 157,
       "deletions": 20,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 700,
-      "pr_title": "fix(seo): improve social og image preview [claude/stoic-meitner-wc2hqk]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/700",
-      "merged_at": "2026-06-21T21:52:06Z",
-      "merge_commit_sha": "456768ec9f64ca36df95bc096e6abb7326a15c0c",
-      "merge_commit_short": "456768e",
-      "head_branch": "claude/stoic-meitner-wc2hqk",
-      "summary_vi": "fix(seo): improve social og image preview",
-      "change_type": "fix",
-      "files_changed": 6,
-      "additions": 161,
-      "deletions": 112,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 699,
-      "pr_title": "feat(images): add global blog image watermark rule [feat/blog-image-watermark]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/699",
-      "merged_at": "2026-06-21T21:22:55Z",
-      "merge_commit_sha": "01f902355f493c45344f4fa1f83ede51f743262b",
-      "merge_commit_short": "01f9023",
-      "head_branch": "feat/blog-image-watermark",
-      "summary_vi": "Mọi ảnh blog/nội dung raster đủ điều kiện được đóng **watermark sở hữu** tinh tế, nhúng sẵn trước production:",
-      "change_type": "feature",
-      "files_changed": 10,
-      "additions": 741,
-      "deletions": 4,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 698,
-      "pr_title": "feat(blog): add terminal production posts 2-3, fix post-1 webp refs [feat/blog-terminal-production-cluster]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/698",
-      "merged_at": "2026-06-21T21:01:16Z",
-      "merge_commit_sha": "7539d23e9137ddb68a0c2181a9db5cd31ee73f62",
-      "merge_commit_short": "7539d23",
-      "head_branch": "feat/blog-terminal-production-cluster",
-      "summary_vi": "feat(blog): add terminal production posts 2-3, fix post-1 webp refs",
-      "change_type": "fix",
-      "files_changed": 3,
-      "additions": 427,
-      "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,

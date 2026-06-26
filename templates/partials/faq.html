@@ -1,79 +1,23 @@
-{# ============================================================
-   FAQ Accordion Partial
-   ============================================================
-   Renders FAQ section with:
-   - Auto-detection from page content (H2/H3 with "?")
-   - Manual override via page.extra.faq
-   - JSON-LD FAQPage schema
-   - B-DNA styled accordion
-   ============================================================ #}
+{# FAQ Section with Accordion (using <details>/<summary>, no JS)
+   Renders page.extra.faq as an accordion list.
+   Structure expected: page.extra.faq = [{ q: "Question?", a: "Answer..." }, ...]
+#}
 
-{% set faqs = [] %}
+{% if page.extra.faq and page.extra.faq | length > 0 %}
+<section class="faq" aria-labelledby="faq-title">
+  <h2 id="faq-title" class="faq__title">💡 Câu hỏi thường gặp</h2>
 
-{# Priority 1: Manual override via frontmatter #}
-{% if page.extra.faq is defined and page.extra.faq %}
-  {% set faqs = page.extra.faq %}
-{% else %}
-  {# Priority 2: Auto-detect from content (H2/H3 with "?") #}
-  {# This is a placeholder — actual extraction happens server-side or via parsing #}
-  {# For now, we use TOC and extract questions from headings containing "?" #}
-  {% set auto_faqs = [] %}
-  {% for h in page.toc %}
-    {% if h.title contains "?" %}
-      {% set auto_faqs = auto_faqs | concat(with={"q": h.title, "id": h.id}) %}
-    {% endif %}
-  {% endfor %}
-
-  {% if auto_faqs | length >= 3 %}
-    {% set faqs = auto_faqs %}
-  {% endif %}
-{% endif %}
-
-{# Render only if we have FAQs #}
-{% if faqs | length >= 3 %}
-<section class="faq" aria-label="Câu hỏi thường gặp">
-  <h2 class="faq__title">💡 Câu hỏi thường gặp</h2>
-
-  {% for item in faqs %}
-  <details class="faq__item">
-    <summary class="faq__q">
-      {% if item.q %}
-        {{ item.q | safe }}
-      {% elif item.title %}
-        {{ item.title | safe }}
-      {% endif %}
-    </summary>
-    <div class="faq__a">
-      {% if item.a %}
+  <div class="faq__list">
+    {% for item in page.extra.faq %}
+    <details class="faq__item">
+      <summary class="faq__q">
+        <span class="faq__q-text">{{ item.q }}</span>
+      </summary>
+      <div class="faq__a">
         {{ item.a | safe }}
-      {% elif item.answer %}
-        {{ item.answer | safe }}
-      {% else %}
-        {# Fallback: link to the heading #}
-        <p>Xem <a href="#{{ item.id }}">chi tiết trong bài viết</a>.</p>
-      {% endif %}
-    </div>
-  </details>
-  {% endfor %}
-</section>
-
-{# JSON-LD FAQPage schema (add to <head> via base.html inject) #}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {% for item in faqs %}
-    {
-      "@type": "Question",
-      "name": "{{ item.q | default(value=item.title) | escape_xml }}",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "{{ item.a | default(value=item.answer) | striptags | escape_xml }}"
-      }
-    }{{ "," if not loop.last }}
+      </div>
+    </details>
     {% endfor %}
-  ]
-}
-</script>
+  </div>
+</section>
 {% endif %}

@@ -1,122 +1,94 @@
-{# ============================================================
-   Related Posts Grid Partial
-   ============================================================
-   Displays 4-6 related posts as a responsive grid with:
-   - Thumbnail (16:9 aspect ratio)
-   - Title, excerpt, tags, date
-   - Hover effects (zoom + shadow)
-   - B-DNA styled cards
-   ============================================================ #}
+{# Related Posts Grid with Thumbnails
+   Displays posts from same category/section with thumbnail, title, excerpt, tags, date.
+   Responsive: 1 col mobile, 2 col tablet, 3 col desktop.
+#}
 
-{# Get all pages from the posting section #}
-{% set posting_section = get_section(path="posting/_index.md") %}
-{% set all_pages = posting_section.pages %}
+{%- if page.section -%}
+{%- set section_path = page.section -%}
+{%- set related_section = get_section(path=section_path) -%}
+{%- set related = [] -%}
 
-{# Find related posts by matching tags/categories #}
-{% set related = [] %}
-{% set current_tags = [] %}
-{% if page.taxonomies.tags %}
-  {% set current_tags = page.taxonomies.tags %}
-{% endif %}
+{%- if related_section and related_section.pages -%}
+  {%- for p in related_section.pages -%}
+    {%- if p.permalink != page.permalink -%}
+      {%- set related = related | concat(with=[p]) -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
 
-{# Get current categories, excluding "Tất cả" (All) #}
-{% set current_cats = [] %}
-{% if page.taxonomies.categories %}
-  {% for cat in page.taxonomies.categories %}
-    {% if cat != "Tất cả" %}
-      {% set current_cats = current_cats | concat(with=[cat]) %}
-    {% endif %}
-  {% endfor %}
-{% endif %}
+{%- if related | length > 0 -%}
+<section class="related-posts" aria-labelledby="related-posts-title">
+  <div class="related-posts__header">
+    <h2 id="related-posts-title" class="related-posts__title">📚 Bài viết liên quan</h2>
+  </div>
 
-{% for p in all_pages %}
-  {% if p.slug != page.slug %}
-    {% set tags_match = 0 %}
-    {% set cats_match = 0 %}
-
-    {# Count tag matches #}
-    {% if p.taxonomies.tags %}
-      {% for tag in p.taxonomies.tags %}
-        {% for current_tag in current_tags %}
-          {% if tag == current_tag %}
-            {% set tags_match = tags_match + 1 %}
-          {% endif %}
-        {% endfor %}
-      {% endfor %}
-    {% endif %}
-
-    {# Count category matches #}
-    {% if p.taxonomies.categories %}
-      {% for cat in p.taxonomies.categories %}
-        {% for current_cat in current_cats %}
-          {% if cat == current_cat %}
-            {% set cats_match = cats_match + 1 %}
-          {% endif %}
-        {% endfor %}
-      {% endfor %}
-    {% endif %}
-
-    {# Add to related if has at least 1 match #}
-    {% if tags_match > 0 or cats_match > 0 %}
-      {% set score = tags_match * 2 + cats_match %}
-      {% set related = related | concat(with={"post": p, "score": score}) %}
-    {% endif %}
-  {% endif %}
-{% endfor %}
-
-{# Sort by score (relevance) and limit to 6 #}
-{% if related | length > 0 %}
-  {# Sort descending by score #}
-  {% set related = related | sort(attribute="score") | reverse | slice(end=6) %}
-
-  <section class="related-posts" aria-label="Bài viết liên quan">
-    <h2 class="related-posts__title">📚 Bài viết liên quan</h2>
-
-    <div class="related-posts__grid">
-      {% for item in related %}
-        {% set p = item.post %}
-        {% set thumb = p.extra.thumbnail | default(value="https://picsum.photos/seed/" ~ p.slug ~ "/600/400") %}
-        {% set excerpt = p.description | default(value=p.content | striptags | truncate(length=120)) %}
-
-        <article class="related-post-card">
-          {# Thumbnail #}
-          <div class="related-post-card__image">
-            <img
-              src="{{ thumb }}"
-              alt="{{ p.title }}"
-              loading="lazy"
-              decoding="async"
-              width="400"
-              height="250"
-            />
+  <div class="related-posts__grid">
+    {% for post in related | slice(end=6) %}
+    <article class="related-posts__card">
+      {# Thumbnail #}
+      <div class="related-posts__thumb">
+        {% if post.extra.thumbnail %}
+          <img
+            src="{{ post.extra.thumbnail | safe }}"
+            alt="{{ post.title | escape_xml }}"
+            class="related-posts__img"
+            loading="lazy"
+            decoding="async"
+          />
+        {% elif post.extra.cover %}
+          <img
+            src="{{ post.extra.cover | safe }}"
+            alt="{{ post.title | escape_xml }}"
+            class="related-posts__img"
+            loading="lazy"
+            decoding="async"
+          />
+        {% else %}
+          {# Fallback: gradient + first letter of title #}
+          <div class="related-posts__placeholder">
+            <span class="related-posts__placeholder-char">
+              {{ post.title | truncate(length=1, end="") }}
+            </span>
           </div>
+        {% endif %}
+      </div>
 
-          {# Content #}
-          <div class="related-post-card__content">
-            <h3 class="related-post-card__title">
-              <a href="{{ p.permalink | safe }}">{{ p.title }}</a>
-            </h3>
+      {# Content #}
+      <div class="related-posts__content">
+        {# Title #}
+        <h3 class="related-posts__card-title">
+          <a href="{{ post.permalink | safe }}" class="related-posts__card-link">
+            {{ post.title }}
+          </a>
+        </h3>
 
-            <p class="related-post-card__excerpt">{{ excerpt }}</p>
+        {# Excerpt #}
+        {% if post.description %}
+        <p class="related-posts__excerpt">
+          {{ post.description | truncate(length=100) }}
+        </p>
+        {% endif %}
 
-            {# Tags #}
-            {% if p.taxonomies.tags %}
-            <div class="related-post-card__tags">
-              {% for tag in p.taxonomies.tags | slice(end=3) %}
-                <span class="tag-badge">#{{ tag }}</span>
-              {% endfor %}
-            </div>
-            {% endif %}
-
-            {# Date #}
-            {% if p.date %}
-            <div class="related-post-card__date">
-              📅 {{ p.date | date(format="%d.%m.%Y") }}
-            </div>
-            {% endif %}
+        {# Meta: Tags + Date #}
+        <div class="related-posts__meta">
+          {% if post.taxonomies.tags %}
+          <div class="related-posts__tags">
+            {% for tag in post.taxonomies.tags | slice(end=2) %}
+            <span class="related-posts__tag">{{ tag }}</span>
+            {% endfor %}
           </div>
-        </article>
-      {% endfor %}
-    </div>
-  </section>
-{% endif %}
+          {% endif %}
+
+          {% if post.date %}
+          <time class="related-posts__date" datetime="{{ post.date | date(format='%Y-%m-%d') }}">
+            {{ post.date | date(format='%d.%m.%Y') }}
+          </time>
+          {% endif %}
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{%- endif -%}
+{%- endif -%}
