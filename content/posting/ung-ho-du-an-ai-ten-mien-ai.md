@@ -1,28 +1,15 @@
 +++
 title = "Ủng Hộ Dự Án AI: Vì Sao Website Cần Tên Miền .AI?"
-description = "Website đang vận hành phi lợi nhuận. Cùng ủng hộ dự án AI, đóng góp duy trì website để gây quỹ mua tên miền .AI — mọi khoản đóng góp đều hoàn toàn tự nguyện."
 date = 2026-06-18
-aliases = ["/ung-ho-du-an-ai-ten-mien-ai/"]
+
 [taxonomies]
-categories = ["Tất cả", "Công nghệ"]
+categories = ["premium"]
 tags = ["donate website", "gây quỹ cộng đồng", "hỗ trợ mua tên miền ai", "phi lợi nhuận", "đóng góp duy trì website", "ủng hộ dự án ai"]
+
 [extra]
 thumbnail = "https://seomoney.org/img/covers/ung-ho-du-an-ai.svg"
-seo_keyword = "ủng hộ dự án AI"
-featured = false
-sticky = true
-
-[[extra.faq]]
-q = "Tôi có bắt buộc phải đóng góp không?"
-a = "Không. Mọi khoản đóng góp đều hoàn toàn tự nguyện. Toàn bộ bài viết và công cụ trên website vẫn miễn phí kể cả khi bạn không ủng hộ. Bạn đọc, chia sẻ hay giới thiệu website cho bạn bè đã là một sự ủng hộ rất lớn rồi."
-
-[[extra.faq]]
-q = "Tiền đóng góp được sử dụng vào việc gì?"
-a = "Tiền đóng góp được dùng cho bốn mục đích minh bạch: (1) gia hạn hosting và backend cho các công cụ, (2) gia hạn tên miền hiện tại, (3) gây quỹ mua tên miền .AI để nâng cao thương hiệu, và (4) phát triển thêm công cụ miễn phí cho cộng đồng. Không có khoản nào dùng cho mục đích cá nhân ngoài việc duy trì và phát triển dự án."
-
-[[extra.faq]]
-q = "Tôi có được quyền lợi gì khi đóng góp?"
-a = "Đóng góp ở đây mang tính ủng hộ tinh thần, không phải mua quyền truy cập. Bạn không nhận lại nội dung độc quyền hay tính năng bị khoá, vì toàn bộ nội dung cốt lõi vốn đã miễn phí cho tất cả mọi người. Quyền lợi lớn nhất là giúp một dự án Việt phi lợi nhuận tồn tại lâu dài và tiếp tục ra mắt công cụ mới."
+featured = true
+featured_at = "2026-06-26T22:20:35.711Z"
 +++
 
 Mỗi website đều bắt đầu từ một dòng code và một niềm tin. Bài viết này là lời mời **ủng hộ dự án AI** mà tôi đang xây dựng — một website phi lợi nhuận, miễn phí cho cộng đồng — với mục tiêu trước mắt là gây quỹ mua một tên miền **.AI**. Mọi khoản đóng góp đều hoàn toàn tự nguyện, và tôi xin khẳng định ngay từ đầu: nội dung cốt lõi sẽ luôn miễn phí.
