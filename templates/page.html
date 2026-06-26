@@ -133,7 +133,7 @@
 
     {# Copyright Notice #}
     {{ cp::article(
-      year=page.date.year,
+      year=page.date | slice(end=4),
       site_name=config.title,
       author=config.extra.author | default(value="")
     ) }}
