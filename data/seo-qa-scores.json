@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-26T16:37:44.005884+07:00",
+  "updated_at": "2026-06-26T16:42:52.530977+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -25646,13 +25646,13 @@
     },
     "content/posting/kinh-nghiem-xu-ly-build-smoke-fail.md": {
       "title": "Cách Fix Build-Smoke Fail: 3 Bài Học Từ Kinh Nghiệm Zola",
-      "slug": "kinh-nghiem-xu-ly-build-smoke-fail",
-      "keyword": "build-smoke fail zola fix",
-      "score": 90.8,
-      "grade": "A",
-      "word_count": 818,
+      "slug": "cach-fix-build-smoke-fail",
+      "keyword": "",
+      "score": 60.0,
+      "grade": "D",
+      "word_count": 503,
       "published": true,
-      "scored_at": "2026-06-26T16:37:44.005884+07:00",
+      "scored_at": "2026-06-26T16:42:52.530977+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -25671,23 +25671,23 @@
           "max": 6
         },
         "kw_title": {
-          "got": 8.0,
+          "got": 0.0,
           "max": 8
         },
         "kw_intro": {
-          "got": 6.0,
+          "got": 0.0,
           "max": 6
         },
         "kw_heading": {
-          "got": 6.0,
+          "got": 0.0,
           "max": 6
         },
         "headings": {
-          "got": 4.8,
+          "got": 8.0,
           "max": 8
         },
         "word_count": {
-          "got": 10.0,
+          "got": 6.0,
           "max": 10
         },
         "og_image": {
@@ -25699,11 +25699,11 @@
           "max": 6
         },
         "internal_link": {
-          "got": 6.0,
+          "got": 0.0,
           "max": 6
         },
         "external_link": {
-          "got": 4.0,
+          "got": 0.0,
           "max": 4
         },
         "tags": {
@@ -25720,8 +25720,11 @@
         }
       },
       "issues": [
-        "không nên dùng H1 (#) trong body — title đã là H1",
-        "thiếu [extra] thumbnail (og:image) → share mạng xã hội kém"
+        "CHƯA khai báo [extra] seo_keyword → bỏ qua 20đ tiêu chí keyword",
+        "bài 503 từ (nên ≥ 600 cho chủ đề chuyên sâu)",
+        "thiếu [extra] thumbnail (og:image) → share mạng xã hội kém",
+        "thiếu internal link (liên kết tới bài/section khác trong blog)",
+        "thiếu external link tới nguồn uy tín"
       ],
       "history": [
         {
@@ -25793,6 +25796,11 @@
           "scored_at": "2026-06-26T16:37:44.005884+07:00",
           "score": 90.8,
           "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-26T16:42:52.530977+07:00",
+          "score": 60.0,
+          "grade": "D"
         }
       ]
     }
