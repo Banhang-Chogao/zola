@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "resolve merge conflict in templates/base.html — keep PR #975 intent (remove dead deploy monitor) [claude/remove-dead-deploy-heartbeat-pqp9u5]",
+      "tag": "fix",
+      "lines_added": 0,
+      "lines_removed": 40,
+      "highlights": [
+        "fix: remove dead deploy queue & pipeline heartbeat from footer",
+        "fix: disable DEPLOY-MON vaccine check (dead code removed)",
+        "fix: resolve merge conflict in templates/base.html — keep PR #975 intent (remove dead deploy monitor)",
+        "scripts/qa_vaccines.py (modified, +0/-1)",
+        "templates/base.html (modified, +0/-39)"
+      ],
+      "pr": 975
+    },
+    {
+      "date": "2026-06-26",
       "title": "Resolve merge conflict in seo-qa-scores.json [claude/git-origins-version-control-gfl17c]",
       "tag": "chore",
       "lines_added": 129,
