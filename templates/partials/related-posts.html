@@ -3,17 +3,21 @@
    Responsive: 1 col mobile, 2 col tablet, 3 col desktop.
 #}
 
-{%- if page.section -%}
-{%- set section_path = page.section -%}
-{%- set related_section = get_section(path=section_path) -%}
-{%- set related = [] -%}
+{# Resolve the parent section via page.ancestors (last = immediate parent).
+   page.section is NOT a valid Zola field — use ancestors instead.
+   Accumulate with set_global (set inside a for-loop is loop-scoped only). #}
+{%- set section_path = page.ancestors | last | default(value="") -%}
+{%- set_global related = [] -%}
 
-{%- if related_section and related_section.pages -%}
-  {%- for p in related_section.pages -%}
-    {%- if p.permalink != page.permalink -%}
-      {%- set related = related | concat(with=[p]) -%}
-    {%- endif -%}
-  {%- endfor -%}
+{%- if section_path -%}
+  {%- set related_section = get_section(path=section_path) -%}
+  {%- if related_section and related_section.pages -%}
+    {%- for p in related_section.pages -%}
+      {%- if p.permalink != page.permalink and related | length < 6 -%}
+        {%- set_global related = related | concat(with=[p]) -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
 {%- endif -%}
 
 {%- if related | length > 0 -%}
@@ -90,5 +94,4 @@
     {% endfor %}
   </div>
 </section>
-{%- endif -%}
 {%- endif -%}
