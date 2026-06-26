@@ -1310,20 +1310,22 @@
             </div>
         </div>
 
-        {# CATEGORIES — compact card grid (moved from sidebar) #}
+        {# CATEGORIES — compact footer navigation (moved from sidebar) #}
         <nav class="footer-categories" aria-label="Danh mục bài viết">
             <div class="container">
                 <h3 class="footer-categories__title">Danh mục</h3>
-                <div class="footer-categories__grid">
+                <ul class="footer-categories__grid">
                     {% for c in qa_cats.items %}
                         {% if c.name != "Tất cả" %}
-                        <a class="footer-categories__card" href="{{ c.permalink }}">
-                            <div class="footer-categories__card-title">{{ c.name }}</div>
-                            <div class="footer-categories__card-count">{{ c.pages | length }}</div>
-                        </a>
+                        <li class="footer-categories__item">
+                            <a class="footer-categories__link" href="{{ c.permalink }}">
+                                <span class="footer-categories__name">{{ c.name }}</span>
+                                <span class="footer-categories__count" aria-label="{{ c.pages | length }} bài viết">{{ c.pages | length }}</span>
+                            </a>
+                        </li>
                         {% endif %}
                     {% endfor %}
-                </div>
+                </ul>
             </div>
         </nav>
 
