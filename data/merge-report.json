@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-26T00:43:01Z",
+  "updated_at": "2026-06-26T01:14:31Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 1,
-    "this_week": 179,
+    "today": 4,
+    "this_week": 181,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 106,
-      "feature": 43,
+      "fix": 107,
+      "feature": 42,
       "unknown": 34,
       "ci": 3,
       "chore": 10,
@@ -19,6 +19,63 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 942,
+      "pr_title": "fix: Use hardcoded year in copyright notice [claude/blog-post-ending-complete]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/942",
+      "merged_at": "2026-06-26T01:08:02Z",
+      "merge_commit_sha": "019a39a3a760d804ccfeec9d5674037b24961c4d",
+      "merge_commit_short": "019a39a",
+      "head_branch": "claude/blog-post-ending-complete",
+      "summary_vi": "- 🎨 Redesign GA4 module with vibrant colors & responsive layout",
+      "change_type": "fix",
+      "files_changed": 15,
+      "additions": 1223,
+      "deletions": 97,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1166,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28210591731",
+      "build_conclusion": "pending"
+    },
+    {
+      "pr_number": 941,
+      "pr_title": "feat: add qa-check job for auto-merge gate (try_auto_merge.py requirement) [claude/homepage-deploy-qa-check-8hscgi]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/941",
+      "merged_at": "2026-06-26T00:47:31Z",
+      "merge_commit_sha": "c81c792bab4ab85fd1f08eae75e9a44dfea2604c",
+      "merge_commit_short": "c81c792",
+      "head_branch": "claude/homepage-deploy-qa-check-8hscgi",
+      "summary_vi": "- chore: trigger qa-check for homepage deployment",
+      "change_type": "feature",
+      "files_changed": 3,
+      "additions": 42,
+      "deletions": 5,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1166,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28210591731",
+      "build_conclusion": "pending"
+    },
+    {
+      "pr_number": 933,
+      "pr_title": "Fix: inline breadcrumb HTML instead of using macro import [claude/blog-footer-ui-redesign-ptw66i]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/933",
+      "merged_at": "2026-06-26T00:38:08Z",
+      "merge_commit_sha": "06ab246217ce5fd7a3a1445c56dc924149dbcfe8",
+      "merge_commit_short": "06ab246",
+      "head_branch": "claude/blog-footer-ui-redesign-ptw66i",
+      "summary_vi": "- Phần 2: Cải tiến UI/UX phần cuối blog (footer redesign)",
+      "change_type": "fix",
+      "files_changed": 13,
+      "additions": 793,
+      "deletions": 11,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1164,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28209562491",
+      "build_conclusion": "cancelled"
+    },
     {
       "pr_number": 940,
       "pr_title": "fix: add pending_count and dm.stale references to base.html [fix/deploy-monitor]",
@@ -36,7 +93,7 @@
       "auto_merged": false,
       "build_run_number": 1163,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28209482988",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 930,
@@ -509,8 +566,8 @@
       "deletions": 188,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1136,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28161570746",
+      "build_run_number": 1137,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28161880543",
       "build_conclusion": "success"
     },
     {
@@ -528,8 +585,8 @@
       "deletions": 70,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1135,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28160585999",
+      "build_run_number": 1137,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28161880543",
       "build_conclusion": "success"
     },
     {
@@ -547,9 +604,9 @@
       "deletions": 128,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1134,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28159931479",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 888,
@@ -566,9 +623,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1135,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28160585999",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 894,
@@ -585,9 +642,9 @@
       "deletions": 24,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1134,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28159931479",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 893,
@@ -1229,25 +1286,6 @@
       "files_changed": 4,
       "additions": 29,
       "deletions": 10,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 852,
-      "pr_title": "feat(design): add E-DNA guideline page",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/852",
-      "merged_at": "2026-06-24T15:21:10Z",
-      "merge_commit_sha": "b747649209228c3105e7dde655b750c75fc48ccb",
-      "merge_commit_short": "b747649",
-      "head_branch": "E-DNA",
-      "summary_vi": "Adds an E-DNA design guideline page as a future enterprise/editorial UI reference for SEOMONEY. This does not refactor the homepage or production UI.",
-      "change_type": "feature",
-      "files_changed": 3,
-      "additions": 610,
-      "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
@@ -3535,25 +3573,6 @@
       "build_conclusion": ""
     },
     {
-      "pr_number": 701,
-      "pr_title": "feat(images): owned-folder watermark policy + restore third-party covers + article [feat/watermark-owned-policy]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/701",
-      "merged_at": "2026-06-21T22:14:31Z",
-      "merge_commit_sha": "3cad6c8d6ece6c547aa4f499a2b227772c1d2962",
-      "merge_commit_short": "3cad6c8",
-      "head_branch": "feat/watermark-owned-policy",
-      "summary_vi": "Watermark giờ theo **chính sách thư mục, bảo thủ**: chỉ đóng dấu ảnh **SEOMONEY sở hữu**, không bao giờ stamp lên ảnh bên thứ ba. Kèm 1 bài case-study SEO.",
-      "change_type": "feature",
-      "files_changed": 9,
-      "additions": 381,
-      "deletions": 131,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
       "pr_number": 689,
       "pr_title": "fix(vaccine-hotfix): feat/ngay-cua-cha-baochi",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/689",
@@ -3566,25 +3585,6 @@
       "files_changed": 3,
       "additions": 157,
       "deletions": 20,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 700,
-      "pr_title": "fix(seo): improve social og image preview [claude/stoic-meitner-wc2hqk]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/700",
-      "merged_at": "2026-06-21T21:52:06Z",
-      "merge_commit_sha": "456768ec9f64ca36df95bc096e6abb7326a15c0c",
-      "merge_commit_short": "456768e",
-      "head_branch": "claude/stoic-meitner-wc2hqk",
-      "summary_vi": "fix(seo): improve social og image preview",
-      "change_type": "fix",
-      "files_changed": 6,
-      "additions": 161,
-      "deletions": 112,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,

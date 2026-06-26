@@ -1,0 +1,65 @@
+{# ===== Related Posts macro — with thumbnail variant =====
+   Renders grid of related posts with images, category badge, tags, and date.
+
+   Usage:
+     {% import "macros/related-posts-thumbnail.html" as rp %}
+     {{ rp::grid(
+        base_url=config.base_url,
+        posts=related_posts,
+        current_slug=page.slug
+     ) }}
+#}
+
+{% macro grid(base_url, posts="", current_slug="") %}
+{% if posts and posts | length > 0 %}
+<section class="related-posts">
+  <h2 class="related-posts__title">📚 Bài viết liên quan</h2>
+  <div class="related-posts__grid">
+    {% for post in posts %}
+    {% set thumb = post.extra.image or post.extra.og_image or "" %}
+    <article class="related-posts__card" data-related-post>
+      <a href="{{ post.permalink | safe }}" class="related-posts__link">
+        <div class="related-posts__thumbnail">
+          {% if thumb %}
+          <img
+            src="{{ thumb | safe }}"
+            alt="{{ post.title }}"
+            class="related-posts__image"
+            loading="lazy"
+            decoding="async"
+          />
+          {% else %}
+          <div class="related-posts__placeholder">
+            <span aria-hidden="true">📖</span>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="related-posts__content">
+          {% if post.extra.category %}
+          <span class="related-posts__badge">{{ post.extra.category }}</span>
+          {% endif %}
+
+          <h3 class="related-posts__post-title">{{ post.title }}</h3>
+
+          {% if post.extra.tags %}
+          <div class="related-posts__tags">
+            {% for tag in post.extra.tags | slice(end=2) %}
+            <span class="related-posts__tag">#{{ tag }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {% if post.date %}
+          <time class="related-posts__date" datetime="{{ post.date }}">
+            {{ post.date | format_date(format="%d/%m/%Y") }}
+          </time>
+          {% endif %}
+        </div>
+      </a>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endmacro grid %}

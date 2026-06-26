@@ -2,6 +2,46 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "Merge remote-tracking branch 'origin/main' into claude/ga4-module-redesign-zaqdxl [claude/ga4-module-redesign-zaqdxl]",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [
+        "🎨 Redesign GA4 module with vibrant colors & responsive layout",
+        "Merge remote-tracking branch 'origin/main' into claude/ga4-module-redesign-zaqdxl",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 938
+    },
+    {
+      "date": "2026-06-26",
+      "title": "Merge remote-tracking branch 'origin/main' into claude/remove-progress-countdown-ltkzf9 [claude/remove-progress-countdown-ltkzf9]",
+      "tag": "remove",
+      "lines_added": 4,
+      "lines_removed": 867,
+      "highlights": [
+        "Remove progress countdown and IMPROVEMENT PROGRESS sections completely",
+        "fix(ci): remove deleted test_footer_countdown from qa workflow",
+        "Merge remote-tracking branch 'origin/main' into claude/remove-progress-countdown-ltkzf9",
+        ".github/workflows/qa.yml (modified, +2/-2)",
+        "content/admin-countdown.md (removed, +0/-10)"
+      ],
+      "pr": 934
+    },
+    {
+      "date": "2026-06-26",
+      "title": "blog post ending redesign: breadcrumb, FAQ, related posts, copyright, heartbeat",
+      "tag": "feat",
+      "lines_added": 1223,
+      "lines_removed": 97,
+      "highlights": [],
+      "commit": "019a39a3a760",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-26",
       "title": "blog footer UI redesign with breadcrumb, FAQ, related posts, copyright",
       "tag": "feat",
       "lines_added": 793,

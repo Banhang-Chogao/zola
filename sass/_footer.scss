@@ -12,15 +12,7 @@
   margin-top: auto;
   font-size: 0.85rem;
 
-  /* Footer body emphasis = trắng trên nền tối. Exclude countdown band (white card):
-     `.site-footer strong` (0,1,1) beat `.footer-countdown__title` (0,1,0) → event
-     title invisible on white. Scoped :not + hard override in _footer-countdown.scss. */
-  strong:not([class*="footer-countdown"]) { color: #fff; }
-
-  .footer-countdown strong.footer-countdown__title {
-    color: #111111 !important;
-    -webkit-text-fill-color: #111111 !important;
-  }
+  strong { color: #fff; }
 
   a:hover { color: #5b9bff; }
 
@@ -187,11 +179,6 @@
   }
 }
 
-/* ============================================================
-   ===== FOOTER CATEGORIES — compact multi-column nav =====
-   ============================================================
-   Moved from sidebar. Wide/short layout: category name dominant,
-   count secondary in parentheses. No cards, no oversized circles. */
 .footer-categories {
   border-top: 1px solid rgba(255, 255, 255, 0.07);
   padding: 1rem 0 0;
