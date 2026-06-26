@@ -117,15 +117,6 @@
     {%- endif %}
 
     <!-- Article Ending Sections -->
-    {# Related Posts with Thumbnail #}
-    {%- if page.extra.related_posts and page.extra.related_posts | length > 0 %}
-    {{ rp::grid(
-      base_url=config.base_url,
-      posts=page.extra.related_posts,
-      current_slug=page.slug
-    ) }}
-    {%- endif %}
-
     {# Copyright Notice #}
     {{ cp::article(
       year="2026",
