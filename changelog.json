@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "docs(readme): refresh SEOMONEY architecture and tech stack",
+      "tag": "chore",
+      "lines_added": 685,
+      "lines_removed": 95,
+      "highlights": [
+        "Updated hero: \"SEOMONEY — SEO, AI WebOps & Personal Finance Blog\"",
+        "Production URL: seomoney.org (from banhang-chogao.github.io/zola)",
+        "Added text-based architecture diagram showing static site + FastAPI backend flow",
+        "Clarified separation: Zola/GitHub Pages for public blog + FastAPI VIPZone on Render for backend",
+        "SSG: Zola 0.22.1, Tera, SCSS (S-DNA design system)"
+      ],
+      "pr": 1026
+    },
+    {
+      "date": "2026-06-26",
       "title": "add breadcrumb and full datetime display for blog posts",
       "tag": "feat",
       "lines_added": 41,
