@@ -29,6 +29,12 @@ Admin (CMS GitHub session — Authorization: Bearer <cms_sid>):
 Session (CMS GitHub session — Authorization: Bearer <cms_sid>):
   GET  /api/vipzone/me
   GET  /api/vipzone/content/{post_id}   (VIP/supervip — premium full content)
+
+Reports (admin báo cáo tổng kết — Authorization: Bearer <cms_sid>, supervip only):
+  GET  /reports                         (list reports)
+  GET  /reports/{filename}              (download report .md)
+  POST /reports                         (save new report)
+  DELETE /reports/{filename}            (delete report)
 """
 
 from __future__ import annotations
@@ -218,6 +224,20 @@ except Exception as exc:  # pragma: no cover - defensive: keep the rest of the A
     print(f"[vipzone] comments router not mounted: {exc!r}")
 
 
+# ============= Admin Reports (báo cáo tổng kết) =============
+# Reports are markdown files created by admin via ?? shortcut in Claude Code.
+# Stored in SQLite (same as the rest of VIPZone), served via /reports/* (admin-gated).
+try:
+    import reports as reports_mod
+
+    reports_mod.configure(get_db=get_db)
+    app.include_router(reports_mod.router)
+    REPORTS_MOUNTED = True
+except Exception as exc:  # pragma: no cover - defensive: keep the rest of the API up
+    REPORTS_MOUNTED = False
+    print(f"[vipzone] reports router not mounted: {exc!r}")
+
+
 async def require_admin(profile: dict[str, Any] = Depends(session_dep)) -> dict[str, Any]:
     # A public commenter session can never be an admin (defense-in-depth on top of
     # the is_admin/is_super checks, which are already false for them).
@@ -382,6 +402,7 @@ def _health_payload() -> dict[str, Any]:
         "cms_mounted": CMS_REPO_MOUNTED,
         "personal_mounted": PERSONAL_MOUNTED,
         "comments_mounted": COMMENTS_MOUNTED,
+        "reports_mounted": REPORTS_MOUNTED,
         "critical_routes": _critical_routes_status(),
         "gsc_configured": bool(os.getenv("GSC_CLIENT_ID") and os.getenv("GSC_CLIENT_SECRET")),
     }

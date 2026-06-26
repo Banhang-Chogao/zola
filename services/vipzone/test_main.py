@@ -629,6 +629,162 @@ class CmsRepoRoutesTests(unittest.TestCase):
         self.assertNotIn("ghs_secret_token", res.text)
 
 
+class ReportsApiTests(unittest.TestCase):
+    """Reports API for admin báo cáo tổng kết (markdown downloads)."""
+
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.db_path = Path(self._tmp.name) / "vipzone-reports-test.db"
+        os.environ["VIPZONE_DB_PATH"] = str(self.db_path)
+        import main as main_mod
+
+        main_mod._db = None
+        self.client = TestClient(app)
+
+    def tearDown(self) -> None:
+        self._tmp.cleanup()
+
+    def test_reports_require_auth(self) -> None:
+        """GET /reports must reject unauthenticated requests."""
+        res = self.client.get("/reports")
+        self.assertEqual(res.status_code, 401)
+
+    def test_reports_require_admin(self) -> None:
+        """GET /reports must reject non-admin sessions."""
+        db = get_db()
+        # Create a non-admin session
+        sid = db.create_cms_session(
+            {"email": "user@example.com", "username": "rando", "name": "User"},
+            3600,
+        )
+        res = self.client.get("/reports", headers={"Authorization": f"Bearer {sid}"})
+        self.assertEqual(res.status_code, 403)
+
+    def test_reports_list_empty(self) -> None:
+        """GET /reports returns empty list when no reports exist."""
+        db = get_db()
+        sid = db.create_cms_session(
+            {
+                "email": "admin@example.com",
+                "username": "banhang-chogao",
+                "name": "Admin",
+            },
+            3600,
+        )
+        res = self.client.get("/reports", headers={"Authorization": f"Bearer {sid}"})
+        self.assertEqual(res.status_code, 200)
+        body = res.json()
+        self.assertEqual(body["reports"], [])
+
+    def test_save_and_list_reports(self) -> None:
+        """POST /reports saves a report, GET /reports lists it."""
+        db = get_db()
+        sid = db.create_cms_session(
+            {
+                "email": "admin@example.com",
+                "username": "banhang-chogao",
+                "name": "Admin",
+            },
+            3600,
+        )
+        headers = {"Authorization": f"Bearer {sid}"}
+
+        # Save a report
+        save_res = self.client.post(
+            "/reports",
+            headers=headers,
+            json={
+                "filename": "report-2026-06-26.md",
+                "content": "# Báo cáo ngày 26/06/2026\n\nNội dung báo cáo.",
+                "preview": "Báo cáo deploy status…",
+            },
+        )
+        self.assertEqual(save_res.status_code, 200)
+        self.assertIn("id", save_res.json())
+
+        # List reports
+        list_res = self.client.get("/reports", headers=headers)
+        self.assertEqual(list_res.status_code, 200)
+        body = list_res.json()
+        self.assertEqual(len(body["reports"]), 1)
+        self.assertEqual(body["reports"][0]["filename"], "report-2026-06-26.md")
+
+    def test_get_report_content(self) -> None:
+        """GET /reports/{filename} returns full content."""
+        db = get_db()
+        sid = db.create_cms_session(
+            {
+                "email": "admin@example.com",
+                "username": "banhang-chogao",
+                "name": "Admin",
+            },
+            3600,
+        )
+        headers = {"Authorization": f"Bearer {sid}"}
+
+        # Save a report
+        self.client.post(
+            "/reports",
+            headers=headers,
+            json={
+                "filename": "test.md",
+                "content": "# Test\n\nFull content here.",
+                "preview": "Preview",
+            },
+        )
+
+        # Get report
+        res = self.client.get("/reports/test.md", headers=headers)
+        self.assertEqual(res.status_code, 200)
+        body = res.json()
+        self.assertEqual(body["filename"], "test.md")
+        self.assertEqual(body["content"], "# Test\n\nFull content here.")
+
+    def test_get_missing_report(self) -> None:
+        """GET /reports/{filename} returns 404 for missing report."""
+        db = get_db()
+        sid = db.create_cms_session(
+            {
+                "email": "admin@example.com",
+                "username": "banhang-chogao",
+                "name": "Admin",
+            },
+            3600,
+        )
+        headers = {"Authorization": f"Bearer {sid}"}
+
+        res = self.client.get("/reports/missing.md", headers=headers)
+        self.assertEqual(res.status_code, 404)
+
+    def test_delete_report(self) -> None:
+        """DELETE /reports/{filename} removes a report."""
+        db = get_db()
+        sid = db.create_cms_session(
+            {
+                "email": "admin@example.com",
+                "username": "banhang-chogao",
+                "name": "Admin",
+            },
+            3600,
+        )
+        headers = {"Authorization": f"Bearer {sid}"}
+
+        # Save a report
+        self.client.post(
+            "/reports",
+            headers=headers,
+            json={"filename": "to-delete.md", "content": "x", "preview": ""},
+        )
+
+        # Delete it
+        del_res = self.client.delete("/reports/to-delete.md", headers=headers)
+        self.assertEqual(del_res.status_code, 200)
+
+        # Verify it's gone
+        get_res = self.client.get("/reports/to-delete.md", headers=headers)
+        self.assertEqual(get_res.status_code, 404)
+
+
 class V25HealthAndCriticalRoutesTests(unittest.TestCase):
     """V25 — /health exposes split-backend diagnostics and the critical routes the
     production frontend calls are actually mounted on THIS deployed app.
