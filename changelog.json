@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "fix(tools): render MoMo URL admin UI on /tools/momo-url/",
+      "tag": "fix",
+      "lines_added": 6,
+      "lines_removed": 2,
+      "highlights": [
+        "Rename block content → main",
+        "Add {% block title %} for page title",
+        "Hide sidebar ({% block sidebar %}{% endblock %}) like admin-countdown",
+        "python3 qa_check.py — PASS (0 errors)",
+        "After deploy: open https://seomoney.org/tools/momo-url/ → Google login gate + MoMo URL table visible"
+      ],
+      "pr": 1033
+    },
+    {
+      "date": "2026-06-26",
       "title": "feat(worldcup-2026): add WorldCup 2026 News Hub",
       "tag": "chore",
       "lines_added": 1326,
