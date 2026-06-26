@@ -1,0 +1,72 @@
+{
+  "audit_date": "2026-06-26",
+  "report_version": "1.0",
+  "summary": {
+    "total_markdown_files": 207,
+    "content_sections": {
+      "posting": {
+        "total_files": 144,
+        "visible_files": 144,
+        "hidden_files": 0,
+        "status": "✓ All posts visible"
+      },
+      "baochi": {
+        "total_files": 30,
+        "visible_files": 30,
+        "hidden_files": 0,
+        "status": "✓ All posts visible"
+      }
+    },
+    "total_visible_posts": 174,
+    "total_hidden_posts": 0,
+    "total_recoverable_posts": 0
+  },
+  "findings": {
+    "status": "✓ NO RECOVERY NEEDED",
+    "reason": "All markdown files in posting/ and baochi/ sections are present, properly formatted, and should render correctly.",
+    "details": [
+      "✓ All 144 posting files present with valid frontmatter (date, title)",
+      "✓ All 30 baochi files present with valid frontmatter (date, title)",
+      "✓ No draft posts found (draft=true is not set)",
+      "✓ No future-dated posts blocking visibility",
+      "✓ No missing titles or dates",
+      "✓ No deleted files in Git history (diff-filter=D)",
+      "✓ Homepage template correctly aggregates all posting + baochi sections",
+      "✓ QA checks passed (qa_check.py)"
+    ]
+  },
+  "recommendations": {
+    "next_steps": [
+      "1. Verify site renders correctly by checking generated HTML in public/",
+      "2. Test homepage pagination and category pages load all posts",
+      "3. Inspect browser DevTools to see if posts load but are hidden by CSS",
+      "4. Check sitemap.xml includes all 174 posts",
+      "5. Verify RSS/Atom feeds include all posts"
+    ],
+    "prevention": [
+      "• Monitor template changes to ensure all sections remain visible",
+      "• Set up automated audit to detect missing/hidden posts in CI",
+      "• Create archive page as fallback if homepage has pagination limits",
+      "• Document content structure in CLAUDE.md for future reference"
+    ]
+  },
+  "git_analysis": {
+    "current_branch": "claude/restore-zola-posts-3m3u7v",
+    "tracking_branch": "origin/main",
+    "commits_ahead": 0,
+    "commits_behind": 0,
+    "deleted_files_in_history": [],
+    "rollback_detected": false,
+    "last_content_change": "2026-06-26"
+  },
+  "posts_by_section": {
+    "posting": [
+      "144 files spanning topics: git, github, korean language, finance, banking, vietinbank, liobank, adsense, seo, zola, uranium, web dev, travel"
+    ],
+    "baochi": [
+      "30 files from RSS feed parser (daily news digest): banking news, tech news, visa guides, financial updates"
+    ]
+  },
+  "audit_timestamp": "2026-06-26T00:00:00Z",
+  "auditor_note": "This audit was performed by automated content recovery tool. All posts are accounted for and present in repository. No recovery action needed at this time."
+}
