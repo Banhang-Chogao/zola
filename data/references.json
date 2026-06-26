@@ -5361,6 +5361,151 @@
     "external_count": 1,
     "internal_count": 4
   },
+  "content/posting/pr-crisis-part-1-the-day-7-prs-failed.md": {
+    "external": [
+      {
+        "title": "GitHub PR best practices",
+        "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request",
+        "kind": "external"
+      },
+      {
+        "title": "Zola documentation",
+        "url": "https://www.getzola.org/documentation",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Part 2: Building the Conflict Resolution Framework",
+        "url": "https://seomoney.org/pr-crisis-part-2-framework/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub PR best practices và Zola documentation. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 1
+  },
+  "content/posting/pr-crisis-part-2-framework.md": {
+    "external": [
+      {
+        "title": "GitHub merge conflict resolution",
+        "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts",
+        "kind": "external"
+      },
+      {
+        "title": "Git merge documentation",
+        "url": "https://git-scm.com/docs/git-merge",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Part 3: The Automation That Saved Us",
+        "url": "https://seomoney.org/pr-crisis-part-3-automation/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub merge conflict resolution và Git merge documentation. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 1
+  },
+  "content/posting/pr-crisis-part-3-automation.md": {
+    "external": [
+      {
+        "title": "GitHub Actions documentation",
+        "url": "https://docs.github.com/en/actions",
+        "kind": "external"
+      },
+      {
+        "title": "Exponential backoff patterns",
+        "url": "https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Part 4: From Manual Fix to CI/CD Pipeline",
+        "url": "https://seomoney.org/pr-crisis-part-4-metrics/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Actions documentation và Exponential backoff patterns. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 1
+  },
+  "content/posting/pr-crisis-part-4-metrics.md": {
+    "external": [
+      {
+        "title": "GitHub metrics documentation",
+        "url": "https://docs.github.com/en/organizations/managing-organization-settings/viewing-insights-for-your-organization",
+        "kind": "external"
+      },
+      {
+        "title": "DevOps metrics best practices",
+        "url": "https://devops.com/guide-to-key-devops-metrics",
+        "kind": "external"
+      },
+      {
+        "title": "DORA metrics guide",
+        "url": "https://cloud.google.com/architecture/devops-measurement-dora-metrics",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Part 5: Lessons Learned & Future-Proofing",
+        "url": "https://seomoney.org/pr-crisis-part-5-lessons/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub metrics documentation, DevOps metrics best practices và DORA metrics guide. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
+    "internal_count": 1
+  },
+  "content/posting/pr-crisis-part-5-lessons.md": {
+    "external": [
+      {
+        "title": "GitHub conflict resolution best practices",
+        "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts",
+        "kind": "external"
+      },
+      {
+        "title": "DevOps automation patterns",
+        "url": "https://aws.amazon.com/devops",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Part 1: The Day 7 PRs Failed at Once",
+        "url": "https://seomoney.org/pr-crisis-part-1-the-day-7-prs-failed/",
+        "kind": "internal"
+      },
+      {
+        "title": "Part 2: Building the Conflict Resolution Framework",
+        "url": "https://seomoney.org/pr-crisis-part-2-framework/",
+        "kind": "internal"
+      },
+      {
+        "title": "Part 3: The Automation That Saved Us",
+        "url": "https://seomoney.org/pr-crisis-part-3-automation/",
+        "kind": "internal"
+      },
+      {
+        "title": "Part 4: From Manual Fix to CI/CD Pipeline",
+        "url": "https://seomoney.org/pr-crisis-part-4-metrics/",
+        "kind": "internal"
+      },
+      {
+        "title": "Part 5: Lessons Learned & Future-Proofing",
+        "url": "https://seomoney.org/pr-crisis-part-5-lessons/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub conflict resolution best practices và DevOps automation patterns. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 5
+  },
   "content/posting/pull-request-quy-trinh-cong-tac-github.md": {
     "external": [
       {
@@ -8891,6 +9036,25 @@
       }
     ],
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ website MSB. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 1
+  },
+  "content/baochi/incheon-airport-remote-baggage-2026.md": {
+    "external": [
+      {
+        "title": "thông báo chính thức của Bộ Cơ sở hạ tầng Hàn Quốc",
+        "url": "https://www.korea.net/",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "lập kế hoạch du lịch",
+        "url": "https://seomoney.org/@/posting/ai-thay-doi-lap-ke-hoach-du-lich",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ thông báo chính thức của Bộ Cơ sở hạ tầng Hàn Quốc. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
     "internal_count": 1
   },

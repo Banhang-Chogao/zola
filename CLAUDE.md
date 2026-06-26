@@ -747,7 +747,7 @@ QA Vaccine Summary
 For full details on remaining sections (F-Dashboard, Premium Paywall, Security, Quy tắc hoá giao dịch, etc.), see the full `CLAUDE.md` or `docs/vaccine-archive.md` archive.
 ## QA Rule Checker Learning
 
-**Date:** 2026-06-26T07:37:15Z
+**Date:** 2026-06-26T09:41:03Z
 
 **Conflict:** Slug trùng: bi-kip-xin-visa-han-quoc-5-nam-de (MEDIUM)
 
