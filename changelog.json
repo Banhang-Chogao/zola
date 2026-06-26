@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "Merge remote-tracking branch 'origin/main' into claude/footer-markup-styling-78rgqm [claude/footer-markup-styling-78rgqm]",
+      "tag": "chore",
+      "lines_added": 64,
+      "lines_removed": 21,
+      "highlights": [
+        "footer: modern 3-column brand layout, remove GA \"pending\" pill",
+        "Merge remote-tracking branch 'origin/main' into claude/footer-markup-styling-78rgqm",
+        "templates/base.html (modified, +64/-21)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 943
+    },
+    {
+      "date": "2026-06-26",
       "title": "Merge remote-tracking branch 'origin/main' into claude/ga4-module-redesign-zaqdxl [claude/ga4-module-redesign-zaqdxl]",
       "tag": "chore",
       "lines_added": 0,
