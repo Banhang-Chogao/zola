@@ -15,7 +15,6 @@ premium_title = "Ngày 1 — Bảng chữ Hangul & 10 nguyên âm cơ bản"
 premium_teaser_words = 210
 seo_keyword = "học tiếng hàn"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
-featured = true
 series = "korean-30day"
 series_part = 1
 series_total = 30
