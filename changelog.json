@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "fix(tools): backfill theme log from 14 Jun 2026",
+      "tag": "fix",
+      "lines_added": 72,
+      "lines_removed": 14,
+      "highlights": [
+        "✅ Add THEME_LOG_START_DATE constant: \"2026-06-14T00:00:00+07:00\" (baseline protection)",
+        "✅ Timezone-safe filtering via git log --since parameter",
+        "✅ Extend MILESTONE_RE pattern for more theme/UI/layout keywords (responsive, branding, color, font, typography, UI/UX, card, component, mega menu, dropdown, navigation)",
+        "✅ Increase git history search to -500 commits (from -400) for comprehensive backfill",
+        "✅ Include baseline metadata in JSON output (start_date + note)"
+      ],
+      "pr": 1005
+    },
+    {
+      "date": "2026-06-26",
       "title": "feat(tools): Theme log + Công cụ mega menu",
       "tag": "chore",
       "lines_added": 1244,
