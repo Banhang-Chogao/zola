@@ -169,3 +169,45 @@ AUTH_PROVIDER=github
 ```
 
 GitHub OAuth vẫn nguyên vẹn → đăng nhập trở lại như trước. Không cần revert code.
+
+---
+
+## 8. Giữ đăng nhập Editor/CMS qua việc xoá cache (session persistence)
+
+> Khắc phục: "cùng máy, cùng trình duyệt, xoá cache xong lại bị bắt đăng nhập
+> Google lại". Phân biệt rõ **xoá cache tĩnh** với **xoá cookie / site data**.
+
+### Cơ chế phiên
+
+- Sau khi đăng nhập, backend đặt cookie **HttpOnly** `zola_cms_sid`
+  (`Secure` + `SameSite=None`, `Path=/`, `Max-Age = VIPZONE_SESSION_TTL`, mặc
+  định **30 ngày**). Đây là nguồn phiên **bền vững** — JS không đọc được cookie này.
+- Editor (`editor.js`) gọi mọi API auth/lưu/publish với `credentials:"include"`
+  để cookie tự gửi kèm (CORS đã bật `allow_credentials` cho `https://seomoney.org`).
+- `sid` cũng lưu **localStorage** làm Bearer fallback cho trình duyệt chặn cookie
+  bên thứ ba (Safari ITP, Firefox). localStorage **sống qua đóng tab + xoá static
+  cache**; chỉ mất khi xoá cookie/site data.
+- TTL phía server (`cms_sessions`) **bằng đúng** Max-Age cookie → cookie còn hạn là
+  server còn chấp nhận.
+
+### Điều gì xảy ra khi…
+
+| Hành động của bạn | Kết quả mong đợi |
+|-------------------|------------------|
+| **Xoá cache (cached images/files)** | ✅ **Vẫn đăng nhập** — cookie + localStorage còn nguyên. |
+| **Đóng rồi mở lại tab/trình duyệt** | ✅ Vẫn đăng nhập (cookie 30 ngày). |
+| **Hard refresh (Ctrl/Cmd+Shift+R)** | ✅ Vẫn đăng nhập; tải JS editor mới (cache-bust theo build). |
+| **Xoá "Cookies and other site data"** | 🔒 **Đăng xuất — đúng kỳ vọng.** Nháp đang soạn được lưu tạm trước khi về màn login. |
+
+### Muốn thấy JS editor mới
+
+Dùng **hard refresh**, **không** cần "Clear all site data". Mỗi lần deploy, URL
+`editor.js`/`datetime-format.js` đổi `?v=<build-timestamp>` nên trình duyệt tự tải
+bản mới.
+
+### Lưu ý bảo mật
+
+- `sid` là **opaque session id**, KHÔNG phải OAuth token. `access_token` GitHub /
+  `id_token` Google luôn ở server-side, không bao giờ vào localStorage.
+- Không nới allowlist admin, không làm phiên vĩnh viễn (TTL 30 ngày), không dùng
+  fingerprint để né việc xoá cookie. Xoá cookie/site data luôn = đăng xuất thật.

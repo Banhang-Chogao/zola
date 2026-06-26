@@ -25,25 +25,33 @@ import re
 from typing import Awaitable, Callable, Optional
 
 import httpx
-from fastapi import APIRouter, Header, HTTPException, Request
+from fastapi import APIRouter, Cookie, Header, HTTPException, Request
 
 router = APIRouter()
 
-# Token getter injected by configure(): async (authorization) -> github_access_token.
-# Raises HTTPException(401) when the session is missing / has no token.
-_get_token: Optional[Callable[[str], Awaitable[str]]] = None
+# Session cookie name — keep in sync with cms_auth.SESSION_COOKIE_NAME. Routes
+# accept the session via EITHER the Bearer header (localStorage sid) OR this
+# HttpOnly cookie, so save/publish keeps working after a static-cache clear when
+# only the cookie survives (browsers that block 3rd-party cookies still send the
+# Bearer header instead).
+SESSION_COOKIE_NAME = os.getenv("VIPZONE_SESSION_COOKIE", "zola_cms_sid")
+
+# Token getter injected by configure(): async (authorization, cookie_sid) ->
+# github_access_token. Raises HTTPException(401) when the session is missing /
+# has no token.
+_get_token: Optional[Callable[[str, Optional[str]], Awaitable[str]]] = None
 
 
-def configure(get_token: Callable[[str], Awaitable[str]]) -> None:
+def configure(get_token: Callable[[str, Optional[str]], Awaitable[str]]) -> None:
     """Wire the GitHub-token resolver from the host app (vipzone main.py)."""
     global _get_token
     _get_token = get_token
 
 
-async def _token(authorization: str) -> str:
+async def _token(authorization: str, cookie_sid: Optional[str] = None) -> str:
     if _get_token is None:  # pragma: no cover - defensive: configure() always called
         raise HTTPException(503, "cms_repo_not_configured")
-    return await _get_token(authorization)
+    return await _get_token(authorization, cookie_sid)
 
 
 # ============= CMS — Publish Post to GitHub =============
@@ -268,18 +276,25 @@ async def _demote_other_sticky_posts(
 
 # ============= Categories Endpoints =============
 @router.get("/api/categories/list")
-async def categories_list(authorization: str = Header(default="")):
+async def categories_list(
+    authorization: str = Header(default=""),
+    cookie_sid: Optional[str] = Cookie(default=None, alias=SESSION_COOKIE_NAME),
+):
     """Return the category list from categories.json (auth required)."""
-    token = await _token(authorization)
+    token = await _token(authorization, cookie_sid)
     async with httpx.AsyncClient(timeout=15.0) as client:
         _, cats = await _load_categories(client, token)
     return {"categories": cats}
 
 
 @router.post("/api/categories/add")
-async def categories_add(request: Request, authorization: str = Header(default="")):
+async def categories_add(
+    request: Request,
+    authorization: str = Header(default=""),
+    cookie_sid: Optional[str] = Cookie(default=None, alias=SESSION_COOKIE_NAME),
+):
     """Append a new category to categories.json. Idempotent."""
-    token = await _token(authorization)
+    token = await _token(authorization, cookie_sid)
     try:
         body = await request.json()
     except json.JSONDecodeError:
@@ -301,7 +316,11 @@ async def categories_add(request: Request, authorization: str = Header(default="
 
 # ============= Save Post =============
 @router.post("/cms/save-post")
-async def cms_save_post(request: Request, authorization: str = Header(default="")):
+async def cms_save_post(
+    request: Request,
+    authorization: str = Header(default=""),
+    cookie_sid: Optional[str] = Cookie(default=None, alias=SESSION_COOKIE_NAME),
+):
     """Create/update content/posting/{slug}.md via the GitHub Contents API.
 
     Body JSON: slug, content (full markdown incl. frontmatter), message (optional),
@@ -310,7 +329,7 @@ async def cms_save_post(request: Request, authorization: str = Header(default=""
     Sticky/featured are single-active: saving a sticky (or featured) post clears the
     flag from every other post in the same operation.
     """
-    token = await _token(authorization)
+    token = await _token(authorization, cookie_sid)
     try:
         body = await request.json()
     except json.JSONDecodeError:
@@ -377,9 +396,13 @@ async def cms_save_post(request: Request, authorization: str = Header(default=""
 
 # ============= Bulk Delete =============
 @router.post("/cms/posts/bulk-delete")
-async def cms_bulk_delete(request: Request, authorization: str = Header(default="")):
+async def cms_bulk_delete(
+    request: Request,
+    authorization: str = Header(default=""),
+    cookie_sid: Optional[str] = Cookie(default=None, alias=SESSION_COOKIE_NAME),
+):
     """Delete multiple posts in a single commit via GraphQL createCommitOnBranch."""
-    token = await _token(authorization)
+    token = await _token(authorization, cookie_sid)
     try:
         body = await request.json()
     except json.JSONDecodeError:
