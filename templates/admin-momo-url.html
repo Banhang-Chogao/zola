@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block title %}Quản lý MoMo URL | {{ config.title }}{% endblock %}
+
+{% block main %}
 <div class="admin-momo-url">
   <!-- Auth gate: Google login required -->
   <div class="auth-gate" id="auth-gate" hidden>
@@ -161,4 +163,6 @@
 </dialog>
 
 <script type="module" src="{{ get_url(path='/js/admin-momo-url.js') }}"></script>
-{% endblock %}
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
