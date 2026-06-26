@@ -77,7 +77,7 @@ jobs:
       - name: Fetch Google Trends VN (hot search sidebar)
         run: python3 scripts/fetch_google_trends.py --limit 25
 
-      - name: Strip premium content before build
+      - name: Publish premium content (paywall off — full body for build)
         run: python3 scripts/paywall_prepare_build.py --strip
 
       - name: Build theme log (rollback milestones from git)
