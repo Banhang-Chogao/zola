@@ -9,7 +9,7 @@ categories = ["Tất cả", "Du lịch"]
 tags = ["budget travel", "busan", "du lịch", "hiking", "hàn quốc", "hàn river", "jeju", "korea", "mùa hè", "seoraksan", "seoul", "ẩm thực"]
 [extra]
 seo_keyword = "du lịch Hàn Quốc mùa hè"
-thumbnail = "https://seomoney.org/img/covers/summer-korea-4-diem-dung-mua-he.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/summer-korea-4-diem-dung-mua-he.svg"
 featured = false
 [[extra.faq]]
 q = "Mùa hè ở Hàn Quốc nên đi đâu?"

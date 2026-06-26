@@ -7,7 +7,7 @@ categories = ["Tất cả", "Thế giới", "Báo chí"]
 tags = ["kinh-tế", "địa-chính-trị", "năng-lượng", "dầu-mỏ", "thị-trường-tài-chính"]
 [extra]
 seo_keyword = "hòa bình Mỹ-Iran"
-thumbnail = "https://seomoney.org/img/covers/my-iran-peace-deal-global-energy.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/my-iran-peace-deal-global-energy.svg"
 featured = false
 +++
 

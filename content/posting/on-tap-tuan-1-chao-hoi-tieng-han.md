@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-07"
 premium_title = "Ngày 7 — Ôn tập tuần 1 & chào hỏi cơ bản"
 premium_teaser_words = 210
 seo_keyword = "chào hỏi tiếng hàn"
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 7
@@ -49,4 +49,4 @@ Mẹo nhỏ: 감사합니다 thực ra đọc **[감사함니다]** (nhớ quy t
 
 Trong bài đầy đủ: **bảng tổng ôn Hangul** (nguyên âm + phụ âm + patchim + biến âm), **bài đọc thử** để tự kiểm tra, trọn bộ **câu chào hỏi thiết yếu** (안녕하세요, 안녕히 가세요/계세요, 네/아니요, 만나서 반갑습니다, 이름이 뭐예요?), mini-test tự đọc và **15 câu bài tập có đáp án**. Mở khóa tốt nghiệp tuần 1 nào! 💪
 
-👉 Ôn lại [Ngày 6 — quy tắc phát âm](/quy-tac-phat-am-tieng-han/) hoặc bước sang tuần 2 với [Ngày 8 — cấu trúc 입니다 & giới thiệu bản thân](/cau-truc-ipnida-gioi-thieu-ban-than-tieng-han/). Lộ trình đầy đủ ở [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) và [kho bài Premium](/categories/premium/). Tham khảo hệ chữ tại [Hangul (Wikipedia)](https://en.wikipedia.org/wiki/Hangul).
+👉 Ôn lại [Ngày 6 — quy tắc phát âm](/zola/posting/quy-tac-phat-am-tieng-han/) hoặc bước sang tuần 2 với [Ngày 8 — cấu trúc 입니다 & giới thiệu bản thân](/zola/posting/cau-truc-ipnida-gioi-thieu-ban-than-tieng-han/). Lộ trình đầy đủ ở [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) và [kho bài Premium](/zola/categories/premium/). Tham khảo hệ chữ tại [Hangul (Wikipedia)](https://en.wikipedia.org/wiki/Hangul).

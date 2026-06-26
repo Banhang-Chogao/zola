@@ -7,7 +7,7 @@ aliases = ["/vietinbank-la-ai-hanh-trinh-hinh-thanh/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["lịch sử ngân hàng", "ngân hàng việt nam", "vietinbank", "vietinbank series"]
 [extra]
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "VietinBank"
 featured = false
 series = "vietinbank"
@@ -37,13 +37,13 @@ a = "Đúng. VietinBank là ngân hàng thương mại cổ phần nhưng Nhà n
 
 <!-- more -->
 
-![Sơ đồ hành trình hình thành VietinBank từ Incombank đến Big 4](https://seomoney.org/img/placeholder/placeholder-wide.svg "Hành trình hình thành VietinBank")
+![Sơ đồ hành trình hình thành VietinBank từ Incombank đến Big 4](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg "Hành trình hình thành VietinBank")
 
 ## VietinBank thực ra là ngân hàng nào?
 
 Tên đầy đủ của **VietinBank** là Ngân hàng thương mại cổ phần Công Thương Việt Nam. Trên sàn chứng khoán, bạn sẽ thấy nó với mã **CTG** niêm yết tại HOSE. Còn ba chữ "Công Thương" chính là phần lịch sử quan trọng nhất: nó cho biết ngân hàng này sinh ra để phục vụ khu vực công nghiệp và thương mại.
 
-Nói ngắn gọn, đây là một trong bốn ngân hàng thương mại có gốc nhà nước lớn nhất Việt Nam, thường được gọi chung là nhóm **Big 4** cùng với Vietcombank, BIDV và Agribank. Vai trò cụ thể của nhóm này mình sẽ kể kỹ ở [bài về vai trò của VietinBank trong hệ thống ngân hàng](/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam/).
+Nói ngắn gọn, đây là một trong bốn ngân hàng thương mại có gốc nhà nước lớn nhất Việt Nam, thường được gọi chung là nhóm **Big 4** cùng với Vietcombank, BIDV và Agribank. Vai trò cụ thể của nhóm này mình sẽ kể kỹ ở [bài về vai trò của VietinBank trong hệ thống ngân hàng](/zola/posting/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam/).
 
 ## Ra đời từ một bước ngoặt của cả hệ thống
 
@@ -59,7 +59,7 @@ Thế hệ trước thường quen gọi ngân hàng này là **Incombank**. Cá
 
 Đến giai đoạn hội nhập sâu hơn, ngân hàng đổi sang thương hiệu **VietinBank** để dễ nhận diện quốc tế. Tên mới ghép từ *Viet* (Việt Nam), *in* (industry, công thương) và *bank*. Việc đổi tên không chỉ là chuyện thẩm mỹ: nó đánh dấu giai đoạn ngân hàng muốn bước ra sân chơi lớn hơn, làm việc với đối tác và nhà đầu tư nước ngoài.
 
-Nếu bạn thích mốc thời gian chi tiết — năm nào cổ phần hóa, năm nào lên sàn, năm nào có đối tác chiến lược — thì [bài về các cột mốc lịch sử VietinBank](/cot-moc-lich-su-phat-trien-vietinbank/) sẽ đi sâu vào từng dấu mốc.
+Nếu bạn thích mốc thời gian chi tiết — năm nào cổ phần hóa, năm nào lên sàn, năm nào có đối tác chiến lược — thì [bài về các cột mốc lịch sử VietinBank](/zola/posting/cot-moc-lich-su-phat-trien-vietinbank/) sẽ đi sâu vào từng dấu mốc.
 
 ## VietinBank lớn cỡ nào hôm nay?
 
@@ -85,9 +85,9 @@ Cái mạch "gốc gác quyết định tính cách" đó sẽ theo suốt loạ
 
 ## Bài tiếp theo trong loạt
 
-Đây mới là chương mở đầu. Ở [bài 2 về những cột mốc quan trọng trong lịch sử VietinBank](/cot-moc-lich-su-phat-trien-vietinbank/), mình sẽ dựng lại dòng thời gian: từ ngày thành lập, đổi tên, cổ phần hóa, lên sàn cho tới khi bắt tay đối tác Nhật. Bạn cũng có thể xem toàn bộ chủ đề tại [chuyên mục Ngân hàng](/topic/ngan-hang/) của blog.
+Đây mới là chương mở đầu. Ở [bài 2 về những cột mốc quan trọng trong lịch sử VietinBank](/zola/posting/cot-moc-lich-su-phat-trien-vietinbank/), mình sẽ dựng lại dòng thời gian: từ ngày thành lập, đổi tên, cổ phần hóa, lên sàn cho tới khi bắt tay đối tác Nhật. Bạn cũng có thể xem toàn bộ chủ đề tại [chuyên mục Ngân hàng](/zola/categories/ngan-hang/) của blog.
 
-> 👉 **Đọc tiếp:** [Những cột mốc quan trọng trong lịch sử phát triển VietinBank →](/cot-moc-lich-su-phat-trien-vietinbank/)
+> 👉 **Đọc tiếp:** [Những cột mốc quan trọng trong lịch sử phát triển VietinBank →](/zola/posting/cot-moc-lich-su-phat-trien-vietinbank/)
 
 ## Tóm lại
 

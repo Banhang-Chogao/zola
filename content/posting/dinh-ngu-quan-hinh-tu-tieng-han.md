@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-22"
 premium_title = "Ngày 22 — Định ngữ (관형사형): -는, -은/ㄴ, -을/ㄹ"
 premium_teaser_words = 210
 seo_keyword = "định ngữ tiếng hàn"
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 22
@@ -41,4 +41,4 @@ Nếm thử nhé: 먹다 (ăn) + 는 + 사람 = **먹는 사람** (*meong-neun s
 
 Trong bài đầy đủ hôm nay, bạn sẽ có: **bảng lớn động từ × thì** (-는 / -은 / -을), quy tắc **tính từ làm định ngữ** (-은/ㄴ: 예쁜 꽃, 작은 집), trường hợp đặc biệt **있다/없다 → 있는/없는** (맛있는 음식) và **이다 → 인**, mẹo nhớ **trật tự ngược tiếng Việt**, và **14 câu bài tập có đáp án**. Mở khóa để nói câu dài như người Hàn nào — 화이팅! 💪
 
-👉 Quay lại [Ngày 21 — ôn tập tuần 3 & kể chuyện một ngày](/on-tap-tuan-3-ke-chuyen-mot-ngay-tieng-han/) hoặc tiến tới [Ngày 23 — khả năng & kinh nghiệm](/kha-nang-kinh-nghiem-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/).
+👉 Quay lại [Ngày 21 — ôn tập tuần 3 & kể chuyện một ngày](/zola/posting/on-tap-tuan-3-ke-chuyen-mot-ngay-tieng-han/) hoặc tiến tới [Ngày 23 — khả năng & kinh nghiệm](/zola/posting/kha-nang-kinh-nghiem-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) hoặc [kho bài Premium](/zola/categories/premium/).

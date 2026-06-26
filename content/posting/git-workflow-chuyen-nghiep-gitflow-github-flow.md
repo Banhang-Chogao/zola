@@ -7,7 +7,7 @@ aliases = ["/git-workflow-chuyen-nghiep-gitflow-github-flow/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["git", "git github series", "git workflow", "github", "lập trình"]
 [extra]
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "git workflow"
 featured = false
 series = "git-github"
@@ -52,7 +52,7 @@ Khi làm một mình, bạn có thể tùy hứng. Nhưng khi nhiều người c
 4. Review + CI xanh → merge vào `main`.
 5. Deploy ngay.
 
-Đây chính là mô hình blog này áp dụng: mỗi thay đổi một nhánh, qua PR, CI xanh thì merge và [tự động deploy](/tu-dong-deploy-zola-github-actions/). Đơn giản, nhanh, ít nhánh dài hạn.
+Đây chính là mô hình blog này áp dụng: mỗi thay đổi một nhánh, qua PR, CI xanh thì merge và [tự động deploy](/zola/posting/tu-dong-deploy-zola-github-actions/). Đơn giản, nhanh, ít nhánh dài hạn.
 
 ## Git Flow — bài bản cho sản phẩm có chu kỳ phát hành
 
@@ -94,4 +94,4 @@ Một thông điệp commit kiểu `feat(auth): thêm đăng nhập Google` ngay
 
 **Git workflow** biến những lệnh rời rạc thành quy trình nhóm mạch lạc. GitHub Flow đơn giản hợp web và CI/CD; Git Flow bài bản cho sản phẩm có phiên bản; Trunk-Based cho tốc độ cao. Quan trọng nhất là cả nhóm **thống nhất một quy ước** và tuân thủ nó.
 
-Ở **Bài 14**, chúng ta tự động hóa toàn bộ quy trình kiểm thử và phát hành với [GitHub Actions — CI/CD cho người mới](/github-actions-ci-cd-cho-nguoi-moi/).
+Ở **Bài 14**, chúng ta tự động hóa toàn bộ quy trình kiểm thử và phát hành với [GitHub Actions — CI/CD cho người mới](/zola/posting/github-actions-ci-cd-cho-nguoi-moi/).

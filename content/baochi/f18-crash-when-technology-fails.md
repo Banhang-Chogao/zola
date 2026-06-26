@@ -7,7 +7,7 @@ categories = ["Tất cả", "Thế giới", "Báo chí"]
 tags = ["công-nghệ-quân-sự", "an-toàn-hàng-không", "kỹ-thuật", "sự-cố", "điều-tra-kỹ-thuật"]
 [extra]
 seo_keyword = "tiêm kích F/A-18"
-thumbnail = "https://seomoney.org/img/covers/f18-crash-when-technology-fails.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/f18-crash-when-technology-fails.svg"
 featured = false
 +++
 

@@ -7,7 +7,7 @@ categories = ["Tất cả", "Ngân hàng", "Báo chí"]
 tags = ["msb", "msb-digital-bank", "ngân hàng số", "công nghệ", "bảo mật"]
 [extra]
 seo_keyword = "MSB Digital Bank"
-thumbnail = "https://seomoney.org/img/covers/msb-digital-bank-cong-nghe-bao-mat.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/msb-digital-bank-cong-nghe-bao-mat.svg"
 featured = false
 [[extra.faq]]
 q = "MSB Digital Bank dùng công nghệ bảo mật gì?"

@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-26"
 premium_title = "Ngày 26 — Kính ngữ (높임말) trong tiếng Hàn"
 premium_teaser_words = 210
 seo_keyword = "kính ngữ tiếng hàn"
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 26
@@ -41,4 +41,4 @@ Nếm thử một chút nhé: 가다 (đi) với người thường là 가요, 
 
 Trong bài đầy đủ hôm nay, bạn sẽ nắm: **đuôi tôn kính -(으)시-** đầy đủ chia thì, bộ **trợ từ kính ngữ** 께서·께·님·분, **7 động từ tôn kính đặc biệt** (계시다·드시다·주무시다·말씀하시다…), cả phần **khiêm nhường** (저·저희·드리다·뵙다), bảng đối chiếu thường ↔ kính ngữ và **15 câu bài tập có đáp án**. Mở khóa để nói tiếng Hàn "đúng lễ" nào — 화이팅! 💪
 
-👉 Ôn lại [Ngày 25 — động từ bất quy tắc](/dong-tu-bat-quy-tac-tieng-han/) trước khi qua [Ngày 27 — câu điều kiện & nghĩa vụ](/cau-dieu-kien-gia-dinh-tieng-han/). Xem toàn lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/). Tra thêm chuẩn ngôn ngữ tại [Viện Quốc ngữ Quốc gia Hàn Quốc](https://www.korean.go.kr/).
+👉 Ôn lại [Ngày 25 — động từ bất quy tắc](/zola/posting/dong-tu-bat-quy-tac-tieng-han/) trước khi qua [Ngày 27 — câu điều kiện & nghĩa vụ](/zola/posting/cau-dieu-kien-gia-dinh-tieng-han/). Xem toàn lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) hoặc [kho bài Premium](/zola/categories/premium/). Tra thêm chuẩn ngôn ngữ tại [Viện Quốc ngữ Quốc gia Hàn Quốc](https://www.korean.go.kr/).

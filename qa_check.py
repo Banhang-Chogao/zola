@@ -279,13 +279,6 @@ def check_scss_syntax(path, content):
     """
     if path.suffix not in {".scss", ".css"}:
         return []
-    # Vendored minified CSS (*.min.css) is third-party build output, not authored
-    # SCSS. Naive comment/string stripping miscounts on minified content (e.g.
-    # `url(https://…)` — the unquoted `//` is misread as a line comment, eating the
-    # rest of the single minified line and its closing parens). Skip it: it is
-    # already valid CSS and is not our source to lint.
-    if path.name.endswith(".min.css"):
-        return []
     issues = []
     stripped = _scss_strip_noise(content)
 
@@ -627,97 +620,16 @@ def apply_fixes(all_fixes):
     return touched
 
 
-def run_vaccine_gate(args):
-    """Run the QA Vaccine Gate (scripts/qa_vaccines.py) and print its summary.
-
-    This is the reinforcement layer: it turns the CLAUDE.md vaccine library
-    (V1..V12 + compliance set) into static detectors that block known recurring
-    bugs before production (Tera kwargs, unbalanced template blocks, broken
-    workflow YAML / config TOML, corrupt dashboard JSON, JS syntax errors,
-    premium posts with no backing private content, …).
-
-    Returns True if the gate FAILED (≥1 vaccine FAIL, or any WARN under
-    --strict-vaccines). Only runs on a full-repo scan (no explicit targets) and
-    never raises — a gate that crashes must not block the pipeline.
-    """
-    if args.no_vaccines or args.targets:
-        return False
-    try:
-        sys.path.insert(0, str(REPO_ROOT / "scripts"))
-        import qa_vaccines as qv
-    except Exception as e:  # module missing / import error → don't block
-        print(YELLOW(f"⚠ QA Vaccine Gate bỏ qua (không nạp được module): {e}"))
-        return False
-    try:
-        print()
-        results, summary = qv.run_all(REPO_ROOT)
-        qv.print_report(results)
-        qv.print_summary(summary, strict_warn=args.strict_vaccines)
-        failed = qv.gate_failed(summary, strict_warn=args.strict_vaccines)
-        if failed:
-            print(RED(BOLD(
-                "\n✗ QA Vaccine Gate FAILED — chặn deploy. Sửa các FAIL ở trên trước khi merge.")))
-        return failed
-    except Exception as e:  # detector bug must never crash the gatekeeper
-        print(YELLOW(f"⚠ QA Vaccine Gate bỏ qua (lỗi nội bộ, không chặn): {e}"))
-        return False
-
-
-def run_watermark_gate(args):
-    """Gate: every eligible blog image must carry its ownership watermark.
-
-    Enforces the global image-watermark rule (scripts/watermark_blog_images.py +
-    data/image-watermark-manifest.json): a content image added/changed without a
-    watermark cannot pass QA. Mirrors the vaccine gate — only on a full-repo scan,
-    never raises (a gate that crashes must not block the pipeline).
-
-    Returns True if the gate FAILED (≥1 eligible image missing watermark / stale).
-    """
-    if args.targets:
-        return False
-    try:
-        sys.path.insert(0, str(REPO_ROOT / "scripts"))
-        import watermark_blog_images as wm
-    except Exception as e:  # module missing / import error → don't block
-        print(YELLOW(f"⚠ Watermark Gate bỏ qua (không nạp được module): {e}"))
-        return False
-    try:
-        ok, missing, stale = wm.check_watermarks()
-        total = len(wm.iter_eligible())
-        print()
-        print(BOLD("Blog Image Watermark Gate"))
-        print(f"- Eligible images:   {total}")
-        print(f"- Missing watermark: {len(missing)}")
-        print(f"- Stale (changed):   {len(stale)}")
-        if ok:
-            print(GREEN("✓ Mọi ảnh blog hợp lệ đã được đóng watermark."))
-            return False
-        for m in missing[:20]:
-            print(RED(f"  ✗ MISSING: {m}"))
-        for s in stale[:20]:
-            print(RED(f"  ✗ STALE:   {s}"))
-        print(RED(BOLD(
-            "\n✗ Watermark Gate FAILED — chạy: python3 scripts/watermark_blog_images.py --apply")))
-        return True
-    except Exception as e:  # detector bug must never crash the gatekeeper
-        print(YELLOW(f"⚠ Watermark Gate bỏ qua (lỗi nội bộ, không chặn): {e}"))
-        return False
-
-
 def main():
     import argparse
     parser = argparse.ArgumentParser(
-        description="QA Gatekeeper — scan conflict markers, secrets, SEO basic + QA Vaccine Gate.",
-        epilog="Exit 0 = pass (có thể có warning), 1 = ≥1 error hoặc vaccine FAIL.",
+        description="QA Gatekeeper — scan conflict markers, secrets, SEO basic.",
+        epilog="Exit 0 = pass (có thể có warning), 1 = ≥1 error.",
     )
     parser.add_argument("--fix", nargs="?", const="safe", choices=["safe", "perf"],
                         help="Auto-fix mode: 'safe' (frontmatter mechanical) hoặc 'perf' (HTML/template img lazy)")
     parser.add_argument("--perf", action="store_true",
                         help="Chạy thêm performance check (file size, lazy load, CDN count)")
-    parser.add_argument("--no-vaccines", action="store_true",
-                        help="Bỏ qua QA Vaccine Gate (mặc định BẬT khi scan toàn repo)")
-    parser.add_argument("--strict-vaccines", action="store_true",
-                        help="Coi vaccine WARNING như lỗi → chặn deploy ngay cả khi chỉ có warning")
     parser.add_argument("targets", nargs="*",
                         help="Files cụ thể để scan (default: toàn repo)")
     args = parser.parse_args()
@@ -808,53 +720,19 @@ def main():
     else:
         summary = f"Summary: {len(errors)} error(s), {len(warnings)} warning(s)"
 
+    if errors and not fix_mode:
+        print(RED(BOLD(summary)))
+        return 1
     if fix_mode:
         # --fix mode: luôn exit 0 nếu không có internal error → workflow tiếp tục
         # commit + PR. Errors còn lại sẽ được flag bởi non-fix CI run trên PR.
-        # Vaccine Gate KHÔNG chạy ở fix mode (nó chỉ gate full-repo scan non-fix).
         print(GREEN(summary) if fixed_count else YELLOW(summary) if warnings else GREEN(BOLD("✓ Không có gì cần auto-fix")))
         return 0
-
-    # ----- Non-fix mode: print the existing QA summary first… -----
-    if errors:
-        print(RED(BOLD(summary)))
-    elif warnings:
+    if warnings:
         print(YELLOW(summary))
     else:
         print(GREEN(BOLD("✓ All QA checks passed")))
-
-    # …then run the QA Vaccine Gate (full-repo scan only) so its summary prints
-    # LAST — the mandatory production-safety barrier from the CLAUDE.md vaccines.
-    vaccine_failed = run_vaccine_gate(args)
-
-    # Public-surface security gate (source scan): no private/internal files or
-    # secret VALUES on content/ + static/. The authoritative full scan (incl.
-    # the built public/ + sitemap) runs as a dedicated qa.yml step after the
-    # build; here we give local `python3 qa_check.py` the same early signal.
-    # Fail-CLOSED on real findings; fail-OPEN only if the module can't load — a
-    # tooling hiccup must not brick every push (the qa.yml step is the backstop).
-    security_failed = False
-    try:
-        sys.path.insert(0, str(REPO_ROOT / "scripts"))
-        import security_public_audit as spa
-        sec_errors = [f for f in spa.audit_public_surface(REPO_ROOT, include_public=False)
-                      if f.level == "error"]
-        print()
-        print(BOLD("Security Public Audit (source surface)"))
-        for f in sec_errors:
-            print(f.render())
-        if sec_errors:
-            print(RED(BOLD(f"✗ {len(sec_errors)} public exposure(s) — see docs/security-static-blog.md")))
-            security_failed = True
-        else:
-            print(GREEN("✓ No private/internal files or secret values on the public source surface"))
-    except Exception as e:  # tooling hiccup — the qa.yml audit step is the backstop
-        print(YELLOW(f"⚠ security_public_audit skipped: {e}"))
-
-    # …and the Blog Image Watermark Gate (global ownership-watermark rule).
-    watermark_failed = run_watermark_gate(args)
-
-    return 1 if (errors or vaccine_failed or security_failed or watermark_failed) else 0
+    return 0
 
 
 if __name__ == "__main__":

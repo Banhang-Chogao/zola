@@ -1,15 +1,20 @@
 name: Build Failure Auto-Remediation
 
-# TEMP DISABLED:
-# Auto vaccine/hotfix PR generation is paused because SEOMONEY now uses a PR-first,
-# production-verified deploy strategy. Keep manual workflow_dispatch only.
-#
-# Previously triggered automatically via workflow_run when critical workflows
-# failed on main. The auto-remediation (qa-failed.py → push fix to main) is
-# paused to reduce bot noise.
+# Auto-trigger khi workflow quan trọng fail trên main.
+# Thu thập log → vaccine CLAUDE.md → safe fix → push thẳng main.
 
 on:
-  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "Build and deploy Zola site to GitHub Pages"
+      - "QA Gatekeeper"
+      - "QA Rule Checker"
+      - "Self-Healing QA"
+      - "Compliance Score Audit"
+      - "Fetch Build Dashboard"
+      - "Fetch Merge Report"
+      - "Build Semantic Related Posts"
+    types: [completed]
 
 permissions:
   contents: write
@@ -20,16 +25,18 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 concurrency:
-  group: build-failure-manual
+  group: build-failure-${{ github.event.workflow_run.id }}
   cancel-in-progress: false
 
 jobs:
   remediate:
-    if: github.event_name == 'workflow_dispatch'
+    if: >-
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.head_branch == 'main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: main
           fetch-depth: 0
@@ -41,17 +48,27 @@ jobs:
           node-version: '24'
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
-          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Buffer log availability
+        run: sleep 30
 
       - name: Analyze failure and push fix to main
         id: fix
+        # 💉 Remediation/observer workflow KHÔNG được tự đỏ: khi qa-failed.py
+        # escalate (tạo issue) hoặc không chẩn được, nó exit≠0 → trước đây làm
+        # chính workflow này đỏ (noise + có thể tự trigger lại). Nuốt exit code
+        # (như V3); step sau vẫn gate bằng steps.fix.outputs.pushed.
         continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FAILED_RUN_ID: ${{ github.event.workflow_run.id }}
+          FAILED_WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
+          FAILED_WORKFLOW_URL: ${{ github.event.workflow_run.html_url }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          # Free-first: never call Claude from CI unless explicitly enabled.
           AI_DIAGNOSE_USE_CLAUDE: "0"
           AI_DIAGNOSE_USE_OLLAMA: "0"
         run: python3 qa-failed.py
@@ -75,7 +92,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: build-failure-remediation-log
+          name: build-failure-log-${{ github.event.workflow_run.id }}
           path: qa-failed.log
           if-no-files-found: ignore
           retention-days: 14

@@ -4,7 +4,7 @@ name: Fetch GA Stats
 # Tera template render bảng visitors today/week/month ở footer blog.
 #
 # REQUIRED SECRET: GA_SERVICE_ACCOUNT_KEY (JSON content của Service Account
-# có role 'Viewer' trên GA4 Property 542421812 — stream seomoney.org).
+# có role 'Viewer' trên GA4 Property 541698865).
 
 on:
   schedule:
@@ -26,12 +26,11 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
-          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
 
       - name: Install Google Analytics SDK
         run: pip install --quiet google-analytics-data==0.18.18

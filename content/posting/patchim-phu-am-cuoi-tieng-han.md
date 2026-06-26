@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-05"
 premium_title = "Ngày 5 — Patchim (받침) & 7 âm đại diện"
 premium_teaser_words = 210
 seo_keyword = "patchim tiếng hàn"
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 5
@@ -49,4 +49,4 @@ Bí mật quan trọng nhất: dù viết phụ âm gì ở patchim, khi **đọ
 
 Trong bài đầy đủ: **bảng 7 âm đại diện** + sơ đồ "phụ âm nào quy về âm nào", cách phát âm patchim (ngậm – không bung hơi), giới thiệu **patchim đôi** (겹받침 như 닭, 앉), từ thật (산, 물, 강, 옷) và **15 câu bài tập có đáp án**. Mở khóa hoàn thiện Hangul nào! 💪
 
-👉 Ôn lại [Ngày 4 — nguyên âm đôi](/nguyen-am-doi-tieng-han/) hoặc đi tiếp [Ngày 6 — quy tắc phát âm](/quy-tac-phat-am-tieng-han/). Lộ trình đầy đủ ở [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) và [kho bài Premium](/categories/premium/). Tham khảo hệ chữ tại [Hangul (Wikipedia)](https://en.wikipedia.org/wiki/Hangul).
+👉 Ôn lại [Ngày 4 — nguyên âm đôi](/zola/posting/nguyen-am-doi-tieng-han/) hoặc đi tiếp [Ngày 6 — quy tắc phát âm](/zola/posting/quy-tac-phat-am-tieng-han/). Lộ trình đầy đủ ở [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) và [kho bài Premium](/zola/categories/premium/). Tham khảo hệ chữ tại [Hangul (Wikipedia)](https://en.wikipedia.org/wiki/Hangul).

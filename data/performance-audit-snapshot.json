@@ -1,53 +1,58 @@
 {
-  "audited_at": "2026-06-25T22:12:33+00:00",
-  "url": "https://seomoney.org/",
+  "audited_at": "2026-06-18T23:24:31+00:00",
+  "url": "https://banhang-chogao.github.io/zola/",
   "audit_type": "lighthouse_pagespeed_v5",
   "source": "cached_pagespeed_json",
   "api_error": "HTTP Error 429: Too Many Requests",
   "mobile": {
-    "performance": 61,
-    "accessibility": 93,
-    "best_practices": 92,
+    "performance": 58,
+    "accessibility": 84,
+    "best_practices": 96,
     "seo": 100,
-    "lcp": "7.1 s",
-    "lcp_ms": 7091.5553500000005,
+    "lcp": "6.9 s",
+    "lcp_ms": 6901,
     "cls": "0",
-    "cls_value": 5.1e-05,
+    "cls_value": 0,
     "inp": "—",
     "inp_ms": null,
-    "fcp": "6.1 s",
-    "fcp_ms": 6058.7135149999995,
-    "tbt": "50 ms",
-    "tbt_ms": 54,
-    "si": "6.1 s",
-    "si_ms": 6058.7135149999995,
-    "total_page_size": "Total size was 1,035 KiB",
-    "total_page_bytes": 1059497,
+    "fcp": "3.9 s",
+    "fcp_ms": 3939.1960167994375,
+    "tbt": "170 ms",
+    "tbt_ms": 174,
+    "si": "8.8 s",
+    "si_ms": 8837.388006185633,
+    "total_page_size": "Total size was 896 KiB",
+    "total_page_bytes": 917621,
     "resource_weight": {
-      "js": 58928,
-      "css": 112039,
-      "image": 1420,
-      "font": 281644,
-      "document": 597000,
-      "other": 1204999,
-      "total": 2256030
+      "js": 201504,
+      "css": 56514,
+      "image": 98651,
+      "font": 282728,
+      "document": 266738,
+      "other": 1846728,
+      "total": 2752863
     },
     "render_blocking": [],
     "unused_assets": {
       "css": {
-        "wasted_bytes": 95054,
-        "display": "Est savings of 93 KiB",
+        "wasted_bytes": 43921,
+        "display": "Est savings of 43 KiB",
         "items": [
           {
-            "url": "https://seomoney.org/site.css?v=1782413050",
-            "wasted_bytes": 95054
+            "url": "https://banhang-chogao.github.io/zola/site.css?v=1781816896",
+            "wasted_bytes": 43921
           }
         ]
       },
       "js": {
-        "wasted_bytes": 0,
-        "display": "—",
-        "items": []
+        "wasted_bytes": 66298,
+        "display": "Est savings of 65 KiB",
+        "items": [
+          {
+            "url": "https://www.googletagmanager.com/gtag/js?id=G-REFBXH86Z5",
+            "wasted_bytes": 66298
+          }
+        ]
       }
     },
     "image_issues": [],
@@ -55,73 +60,90 @@
       {
         "id": "unused-css-rules",
         "title": "Reduce unused CSS",
-        "display": "Est savings of 93 KiB",
+        "display": "Est savings of 43 KiB",
         "score": 0
-      },
-      {
-        "id": "first-contentful-paint",
-        "title": "First Contentful Paint",
-        "display": "6.1 s",
-        "score": 3
       },
       {
         "id": "largest-contentful-paint",
         "title": "Largest Contentful Paint",
-        "display": "7.1 s",
-        "score": 5
+        "display": "6.9 s",
+        "score": 6
       },
       {
         "id": "speed-index",
         "title": "Speed Index",
-        "display": "6.1 s",
-        "score": 45
+        "display": "8.8 s",
+        "score": 15
+      },
+      {
+        "id": "first-contentful-paint",
+        "title": "First Contentful Paint",
+        "display": "3.9 s",
+        "score": 24
+      },
+      {
+        "id": "unused-javascript",
+        "title": "Reduce unused JavaScript",
+        "display": "Est savings of 65 KiB",
+        "score": 50
+      },
+      {
+        "id": "total-blocking-time",
+        "title": "Total Blocking Time",
+        "display": "170 ms",
+        "score": 92
       }
     ]
   },
   "desktop": {
-    "performance": 93,
-    "accessibility": 97,
-    "best_practices": 92,
+    "performance": 95,
+    "accessibility": 84,
+    "best_practices": 96,
     "seo": 100,
-    "lcp": "1.3 s",
-    "lcp_ms": 1288.6115,
-    "cls": "0.016",
-    "cls_value": 0.015851,
+    "lcp": "1.2 s",
+    "lcp_ms": 1246.0012364307368,
+    "cls": "0",
+    "cls_value": 2.8e-05,
     "inp": "—",
     "inp_ms": null,
-    "fcp": "1.2 s",
-    "fcp_ms": 1208.6115,
-    "tbt": "40 ms",
-    "tbt_ms": 36,
+    "fcp": "1.0 s",
+    "fcp_ms": 959.196323699178,
+    "tbt": "70 ms",
+    "tbt_ms": 67.50000000000011,
     "si": "1.2 s",
-    "si_ms": 1208.6115,
-    "total_page_size": "Total size was 1,039 KiB",
-    "total_page_bytes": 1063462,
+    "si_ms": 1161.4388008384,
+    "total_page_size": "Total size was 1,139 KiB",
+    "total_page_bytes": 1166698,
     "resource_weight": {
-      "js": 59068,
-      "css": 112061,
-      "image": 1419,
-      "font": 281672,
-      "document": 597005,
-      "other": 1216555,
-      "total": 2267780
+      "js": 201694,
+      "css": 56516,
+      "image": 348335,
+      "font": 282769,
+      "document": 266761,
+      "other": 2344019,
+      "total": 3500094
     },
     "render_blocking": [],
     "unused_assets": {
       "css": {
-        "wasted_bytes": 96024,
-        "display": "Est savings of 94 KiB",
+        "wasted_bytes": 45802,
+        "display": "Est savings of 45 KiB",
         "items": [
           {
-            "url": "https://seomoney.org/site.css?v=1782413050",
-            "wasted_bytes": 96024
+            "url": "https://banhang-chogao.github.io/zola/site.css?v=1781816896",
+            "wasted_bytes": 45802
           }
         ]
       },
       "js": {
-        "wasted_bytes": 0,
-        "display": "—",
-        "items": []
+        "wasted_bytes": 66761,
+        "display": "Est savings of 65 KiB",
+        "items": [
+          {
+            "url": "https://www.googletagmanager.com/gtag/js?id=G-REFBXH86Z5",
+            "wasted_bytes": 66761
+          }
+        ]
       }
     },
     "image_issues": [],
@@ -129,43 +151,53 @@
       {
         "id": "unused-css-rules",
         "title": "Reduce unused CSS",
-        "display": "Est savings of 94 KiB",
+        "display": "Est savings of 45 KiB",
         "score": 0
       },
       {
-        "id": "first-contentful-paint",
-        "title": "First Contentful Paint",
-        "display": "1.2 s",
-        "score": 74
+        "id": "unused-javascript",
+        "title": "Reduce unused JavaScript",
+        "display": "Est savings of 65 KiB",
+        "score": 50
       },
       {
         "id": "largest-contentful-paint",
         "title": "Largest Contentful Paint",
-        "display": "1.3 s",
-        "score": 87
+        "display": "1.2 s",
+        "score": 88
+      },
+      {
+        "id": "first-contentful-paint",
+        "title": "First Contentful Paint",
+        "display": "1.0 s",
+        "score": 88
       },
       {
         "id": "speed-index",
         "title": "Speed Index",
         "display": "1.2 s",
-        "score": 93
+        "score": 94
+      },
+      {
+        "id": "total-blocking-time",
+        "title": "Total Blocking Time",
+        "display": "70 ms",
+        "score": 99
       }
     ]
   },
-  "primary_score": 93,
+  "primary_score": 95,
   "regression": {
     "has_previous": true,
-    "score_delta": -4,
+    "score_delta": -1,
     "regression": true,
     "details": [
-      "Performance giảm 4 điểm (97 → 93)",
-      "mobile/lcp: 6838.6667875 → 7091.5553500000005 (xấu hơn)",
-      "mobile/fcp: 6049.8915375 → 6058.7135149999995 (xấu hơn)",
-      "mobile/si: 6049.8915375 → 6058.7135149999995 (xấu hơn)",
-      "desktop/lcp: 1121 → 1288.6115 (xấu hơn)",
-      "desktop/fcp: 801 → 1208.6115 (xấu hơn)",
-      "desktop/tbt: 19 → 36 (xấu hơn)",
-      "desktop/si: 802.0010433792232 → 1208.6115 (xấu hơn)"
+      "Performance giảm 1 điểm (96 → 95)",
+      "mobile/tbt: 125 → 174 (xấu hơn)",
+      "mobile/si: 6193.178771473457 → 8837.388006185633 (xấu hơn)",
+      "desktop/lcp: 1121 → 1246.0012364307368 (xấu hơn)",
+      "desktop/tbt: 5 → 67.50000000000011 (xấu hơn)",
+      "desktop/si: 1066.8374741581083 → 1161.4388008384 (xấu hơn)"
     ]
   }
 }

@@ -1,6 +1,6 @@
 # Báo cáo Audit AdSense / Site-Readiness / SEO — Blog "Duy Nguyen" (Zola)
 
-- **Site:** https://seomoney.org/
+- **Site:** https://banhang-chogao.github.io/zola/
 - **Ngày audit:** 18/06/2026
 - **Phạm vi:** Read-only. Không sửa code/nội dung, không build, không deploy.
 - **Khung tham chiếu:** Checklist rút từ bài blog `content/posting/website-san-sang-cho-adsense.md` (bám tài liệu chính thức Google [Make sure your site's pages are ready for AdSense — 7299563](https://support.google.com/adsense/answer/7299563)) + 12 dimension theo yêu cầu.

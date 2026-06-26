@@ -7,7 +7,7 @@ categories = ["Tất cả", "Báo chí", "Công nghệ"]
 tags = ["vneid", "định danh điện tử", "công nghệ", "an ninh mạng", "căn cước công dân"]
 [extra]
 seo_keyword = "VNeID 2.2.8"
-thumbnail = "https://seomoney.org/img/covers/vneid-2-2-8-phan-anh-lua-dao-quet-qr.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/vneid-2-2-8-phan-anh-lua-dao-quet-qr.svg"
 featured = false
 
 [[extra.faq]]
@@ -55,13 +55,13 @@ Tôi sẽ đi qua từng cái và nói thật cảm nhận của mình.
 
 Trước đây, khi gặp một số điện thoại lạ hay tin nhắn dụ dỗ, đa số chúng ta… kệ, vì không biết báo ở đâu cho tiện. Có một kênh phản ánh nằm sẵn trong ứng dụng định danh chính thống là một bước đi hợp lý — nó hạ thấp rào cản để người dân chủ động tố giác. Tất nhiên, hiệu quả thực tế còn tùy vào việc cơ quan chức năng xử lý các phản ánh đó nhanh và minh bạch tới đâu.
 
-Nếu bạn quan tâm tới chủ đề bảo mật trong các ứng dụng tài chính, tôi từng phân tích cách một ngân hàng số giữ an toàn cho người dùng trong bài [Liobank bảo mật an toàn thế nào](/baochi/liobank-bao-mat-an-toan-the-nao/) — nhiều nguyên tắc ở đó cũng đáng để soi chiếu sang các app khác.
+Nếu bạn quan tâm tới chủ đề bảo mật trong các ứng dụng tài chính, tôi từng phân tích cách một ngân hàng số giữ an toàn cho người dùng trong bài [Liobank bảo mật an toàn thế nào](/zola/baochi/liobank-bao-mat-an-toan-the-nao/) — nhiều nguyên tắc ở đó cũng đáng để soi chiếu sang các app khác.
 
 ## Quét mã QR trên thẻ căn cước
 
 VNeID 2.2.8 bổ sung tiện ích **quét mã QR** in trên thẻ căn cước công dân và thẻ căn cước. Người dùng có thể dùng ứng dụng để kiểm tra, xác thực hiệu lực của giấy tờ thông qua mã QR, phục vụ những giao dịch cần xác minh danh tính.
 
-Nghe thì kỹ thuật, nhưng ứng dụng thực tế rất gần gũi: khi cần đối chiếu giấy tờ của ai đó (thuê nhà, giao dịch dân sự…), thay vì chỉ nhìn bằng mắt thường, bạn có thêm một lớp kiểm tra số. Đây cũng là mảnh ghép tiếp nối xu hướng định danh điện tử mà tôi đã đề cập khi viết về [hướng dẫn xác thực CCCD trên ngân hàng số](/baochi/huong-dan-xac-thuc-cccd-msb-digital-bank/): thẻ căn cước gắn chip + QP code đang dần trở thành "chìa khóa" cho mọi giao dịch số.
+Nghe thì kỹ thuật, nhưng ứng dụng thực tế rất gần gũi: khi cần đối chiếu giấy tờ của ai đó (thuê nhà, giao dịch dân sự…), thay vì chỉ nhìn bằng mắt thường, bạn có thêm một lớp kiểm tra số. Đây cũng là mảnh ghép tiếp nối xu hướng định danh điện tử mà tôi đã đề cập khi viết về [hướng dẫn xác thực CCCD trên ngân hàng số](/zola/baochi/huong-dan-xac-thuc-cccd-msb-digital-bank/): thẻ căn cước gắn chip + QP code đang dần trở thành "chìa khóa" cho mọi giao dịch số.
 
 ## Thông tin tạm trú và theo dõi giao thẻ căn cước
 

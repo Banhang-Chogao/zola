@@ -8,11 +8,11 @@ aliases = ["/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["ai", "claude", "giới hạn sử dụng", "prompt", "using limit"]
 [extra]
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "giới hạn sử dụng Claude"
 +++
 
-![Giới hạn sử dụng và độ dài trên Claude AI — hướng dẫn tối ưu](https://seomoney.org/img/placeholder/placeholder.svg)
+![Giới hạn sử dụng và độ dài trên Claude AI — hướng dẫn tối ưu](https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg)
 
 Khi sử dụng các công cụ trí tuệ nhân tạo như Claude, người dùng thường gặp phải các thông báo lỗi liên quan đến **giới hạn sử dụng Claude**. Vậy giới hạn sử dụng (Usage Limits) và giới hạn độ dài (Length Limits) khác nhau như thế nào? Làm sao để tối ưu hóa trải nghiệm làm việc mà không bị gián đoạn? Hãy cùng tìm hiểu chi tiết.
 
@@ -44,7 +44,7 @@ Giới hạn độ dài liên quan trực tiếp đến "cửa sổ ngữ cảnh
 - **Điều chỉnh cài đặt "Nỗ lực":** Nếu tác vụ đơn giản, hãy tắt tính năng "extended thinking" hoặc giảm mức độ "effort" của AI.
 - **Tắt các công cụ không cần thiết:** Tạm thời tắt tìm kiếm web, Research hoặc các connectors nếu không cần dùng đến để tiết kiệm token tiêu thụ.
 
-Nếu bạn đang xây pipeline AI cho blog hoặc CMS, nên đọc thêm [Sentence Transformers SBERT cho semantic related posts](/sentence-transformers-sbert-deep-dive/) và [QA Gatekeeper: blog tự fix lỗi 24/7](/qa-gatekeeper-tu-fix-loi-blog/) để hiểu cách tích hợp AI vào quy trình nội dung mà vẫn kiểm soát chi phí token.
+Nếu bạn đang xây pipeline AI cho blog hoặc CMS, nên đọc thêm [Sentence Transformers SBERT cho semantic related posts](/zola/posting/sentence-transformers-sbert-deep-dive/) và [QA Gatekeeper: blog tự fix lỗi 24/7](/zola/posting/qa-gatekeeper-tu-fix-loi-blog/) để hiểu cách tích hợp AI vào quy trình nội dung mà vẫn kiểm soát chi phí token.
 
 ## Kết luận
 

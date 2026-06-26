@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-13"
 premium_title = "Ngày 13 — Số đếm Hán-Hàn & thuần Hàn"
 premium_teaser_words = 210
 seo_keyword = "số đếm tiếng hàn"
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 13
@@ -41,4 +41,4 @@ Nếm thử nhé: hỏi "Mấy giờ?" → 세 시 (se si) = "3 giờ" (dùng **
 
 Trong bài đầy đủ hôm nay bạn sẽ có: **bảng đối chiếu** Hán-Hàn vs thuần Hàn (1–10, 백·천·만), **quy tắc chọn hệ** (tiền/phút/ngày → Hán-Hàn; đồ vật/giờ/tuổi → thuần Hàn), bộ **đơn vị đếm** 개·명·살·시·잔, biến đổi **하나→한, 둘→두**, cách nói **giờ + phút**, và **15 câu bài tập có đáp án**. Mở khóa để đếm thành thạo bằng tiếng Hàn nhé — 화이팅! 💪
 
-👉 Ôn lại [Ngày 12 — trợ từ 을/를, 에, 에서](/tro-tu-eul-reul-e-eseo-tieng-han/), rồi sang [Ngày 14 — ôn tập tuần 2 & hội thoại mua sắm](/on-tap-tuan-2-hoi-thoai-mua-sam-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/). Tham khảo thêm tại [Wikipedia: Số đếm tiếng Hàn](https://en.wikipedia.org/wiki/Korean_numerals).
+👉 Ôn lại [Ngày 12 — trợ từ 을/를, 에, 에서](/zola/posting/tro-tu-eul-reul-e-eseo-tieng-han/), rồi sang [Ngày 14 — ôn tập tuần 2 & hội thoại mua sắm](/zola/posting/on-tap-tuan-2-hoi-thoai-mua-sam-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) hoặc [kho bài Premium](/zola/categories/premium/). Tham khảo thêm tại [Wikipedia: Số đếm tiếng Hàn](https://en.wikipedia.org/wiki/Korean_numerals).

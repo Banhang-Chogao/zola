@@ -1,8 +1,8 @@
 {% import "macros/verified.html" as v_author %}
 {% import "macros/hot-search.html" as hot_search %}
 {% import "macros/google-rank.html" as google_rank %}
-{% import "macros/seo-reality.html" as seo_reality %}
 {% import "macros/img.html" as img %}
+{% import "macros/footer-countdown.html" as footer_countdown %}
 {% import "macros/datetime.html" as dt %}
 {# ============================================================================
    GitHub commits — fetch ở BUILD-TIME qua load_data, KHÔNG fetch client-side.
@@ -51,14 +51,10 @@
     {% if not build_sha %}{% set_global numeric_id = latest_commit.sha | truncate(length=7, end="") %}{% endif %}
 {% endif %}
 
-{# Deploy Monitor Widget data — load as GLOBAL so all templates can access it #}
-{% set_global dm = load_data(path="data/deploy-monitor.json", required=false) %}
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/wwdc-style.css">
     {# Zero-flash font + theme (PHẢI là script đầu tiên trong <head>):
        Hilda là theme DUY NHẤT → set data-theme="hilda" NGAY trước khi CSS
        render để các rule [data-theme="hilda"] (font vars, smoothing, UX polish)
@@ -78,14 +74,7 @@
        bài THIẾU thumbnail): listener này bắt cả ảnh CÓ src nhưng load fail. Dùng
        capture phase vì sự kiện 'error' của <img> không bubble; bắt được cả ảnh
        do JS dựng sau (sidebar random/featured). Guard chống lặp vô hạn. #}
-    <script>(function(){var PHS=['{{ get_url(path='img/placeholder/placeholder.svg') }}','{{ get_url(path='img/placeholder/placeholder-2.svg') }}','{{ get_url(path='img/placeholder/placeholder-3.svg') }}'];var PH=PHS[0];document.addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='IMG'&&t.getAttribute('data-ph')!=='1'&&t.src!==PH){t.setAttribute('data-ph','1');t.src=PHS[Math.floor(Math.random()*PHS.length)]||PH;}},true);})();</script>
-    {# Persistent CMS/super-admin session — chạy SỚM (trước mọi script defer auth).
-       sid (zola-cms-session-id) trước đây chỉ ở sessionStorage → mất khi đóng tab /
-       xoá cache → phải đăng nhập GitHub lại. Bootstrap này mirror sid sang
-       localStorage (sống qua restart + xoá cache, chỉ mất khi xoá hẳn site data) rồi
-       khôi phục sessionStorage để mọi consumer cũ (editor, vipzone, dashboards) chạy
-       y nguyên. Đăng nhập GitHub 1 lần (whitelist admin) → nhớ mãi. #}
-    <script>(function(){var K='zola-cms-session-id';try{var m=location.hash.match(/(?:^|[#&])sid=([A-Za-z0-9_-]+)/);if(m&&m[1]){localStorage.setItem(K,m[1]);sessionStorage.setItem(K,m[1]);}var ss=sessionStorage.getItem(K),ls=localStorage.getItem(K);if(!ss&&ls){sessionStorage.setItem(K,ls);}else if(ss&&!ls){localStorage.setItem(K,ss);}}catch(e){}})();</script>
+    <script>(function(){var PH='{{ get_url(path='img/placeholder/placeholder.svg') }}';document.addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='IMG'&&t.getAttribute('data-ph')!=='1'&&t.src!==PH){t.setAttribute('data-ph','1');t.src=PH;}},true);})();</script>
     {# viewport-fit=cover bật env(safe-area-inset-*) trên iPhone notch /
        Dynamic Island. Nội dung tự dịch khỏi vùng bị Dynamic Island /
        Home Indicator che. Áp dụng CSS qua env() vars trong _reset.scss. #}
@@ -102,7 +91,7 @@
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.google.com https://cse.google.com;
         font-src 'self' https://fonts.gstatic.com;
         img-src 'self' https: data:;
-        connect-src 'self' https://api.aviationstack.com https://opensky-network.org https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://cse.google.com https://*.googleapis.com https://*.onrender.com https://*.railway.app https://cdn.jsdelivr.net https://tessdata.projectnaptha.com;
+        connect-src 'self' https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://cse.google.com https://*.googleapis.com https://*.onrender.com https://*.railway.app https://cdn.jsdelivr.net https://tessdata.projectnaptha.com;
         worker-src 'self' blob: https://cdn.jsdelivr.net;
         frame-src https://giscus.app https://www.google.com;
         frame-ancestors 'none';
@@ -119,23 +108,13 @@
     {% set_global cms_auth = config.extra.giscus.cms_auth_url | default(value="") %}
     {% endif %}
     {% if cms_auth %}
-    <meta name="vipzone-auth-api" content="{{ cms_auth | safe }}">
+    <meta name="zola-cms-auth-api" content="{{ cms_auth | safe }}">
     {% endif %}
     <meta name="zola-base-url" content="{{ config.base_url | safe }}">
 
     {% set_global paywall_api = config.extra.paywall_api_url | default(value="") %}
     {% if paywall_api %}
     <meta name="zola-paywall-api" content="{{ paywall_api | safe }}">
-    {% endif %}
-
-    {% set_global shortensea_api = config.extra.shortensea_api_url | default(value="") %}
-    {% if shortensea_api %}
-    <meta name="zola-shortensea-api" content="{{ shortensea_api | safe }}">
-    {% endif %}
-
-    {% set_global vipzone_api = config.extra.vipzone_api_url | default(value="") %}
-    {% if vipzone_api %}
-    <meta name="zola-vipzone-api" content="{{ vipzone_api | safe }}">
     {% endif %}
 
     {# ============================================================
@@ -196,58 +175,25 @@
     {% set canonical_url = config.base_url %}
     {% if current_url %}{% set_global canonical_url = current_url %}{% endif %}
 
-    {% set brand_tagline = config.extra.brand_tagline | default(value=config.extra.tagline | default(value="SEO, AI & hệ thống tăng trưởng số")) %}
-
-    {# ===== OG / social image resolution (Facebook · Zalo · Telegram · X) =====
-       Social KHÔNG render SVG/CSS → phải trỏ tới ảnh .webp 1200×630 ĐANG TỒN TẠI
-       trên production. Ưu tiên (img::social_image_url chuẩn hoá → absolute HTTPS .webp):
-         1) ẢNH THẬT đầu tiên trong thân bài (page.content) — bỏ qua /placeholder/
-         2) page.extra.og_image (override) → page.extra.thumbnail (nếu là ảnh thật)
-         3) section.extra.thumbnail (nếu là ảnh thật)
-         4) Card mặc định S-DNA WWDC26 1200×630 /img/og/seomoney-og.og.webp
-            (twin rasterise từ seomoney-og.svg; .webp là định dạng phát hành
-            duy nhất của site — optimize-images xoá mọi raster .jpg/.png).
-       Ảnh /placeholder/ bị coi là "chưa có ảnh" → rơi xuống card S-DNA cho đẹp,
-       thay vì hiện ảnh placeholder generic khi share. #}
-    {% set_global og_src = "" %}
-    {# 1) ảnh thật đầu tiên trong thân bài đã render #}
-    {% if page and page.content and page.content is containing("<img") %}
-        {% for chunk in page.content | split(pat="<img") %}
-            {% if og_src == "" and not loop.first and chunk is containing('src="') %}
-                {% set cand = chunk | split(pat='src="') | nth(n=1) | split(pat='"') | first %}
-                {# bỏ qua ảnh không-phải-nội-dung + KHÔNG hotlink: chỉ nhận ảnh LOCAL (host mình / root-relative) #}
-                {% if cand and (cand is starting_with("/") or cand is containing("seomoney.org/") or cand is containing("assets.seomoney")) and not (cand is containing("/placeholder")) and not (cand is containing("momo-qr")) %}
-                    {% set_global og_src = cand %}
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-    {# 2-3) override / thumbnail (bỏ qua placeholder → "no real image" rơi xuống default) #}
-    {% set_global og_thumb = "" %}
-    {% if og_src == "" %}
-        {% if page and page.extra.og_image %}
-            {% set_global og_thumb = page.extra.og_image %}
-        {% elif page and page.extra.thumbnail %}
-            {% set_global og_thumb = page.extra.thumbnail %}
-        {% elif section and section.extra.thumbnail %}
-            {% set_global og_thumb = section.extra.thumbnail %}
+    {# OG image: social KHÔNG render SVG → raster .webp. Cover SVG có twin
+       `.og.webp` (1200×630) sinh bởi scripts/build_og_images.py → dùng twin để
+       social hiện đúng ảnh BÀI thay vì banner chung. Ưu tiên: og_image →
+       thumbnail (svg→twin, hoặc raster sẵn) → fallback og-default.webp. #}
+    {% set og_image = config.base_url ~ "/img/og-default.webp" %}
+    {% if page and page.extra.og_image %}
+        {% set_global og_image = img::thumb_src(thumb=page.extra.og_image) %}
+    {% elif page and page.extra.thumbnail %}
+        {% if page.extra.thumbnail is ending_with(".svg") %}
+            {% set_global og_image = page.extra.thumbnail | replace(from=".svg", to=".og.webp") %}
+        {% else %}
+            {% set_global og_image = img::thumb_src(thumb=page.extra.thumbnail) %}
         {% endif %}
-        {% if og_thumb and not (og_thumb is containing("/placeholder/")) %}
-            {% set_global og_src = og_thumb %}
+    {% elif section and section.extra.thumbnail %}
+        {% if section.extra.thumbnail is ending_with(".svg") %}
+            {% set_global og_image = section.extra.thumbnail | replace(from=".svg", to=".og.webp") %}
+        {% else %}
+            {% set_global og_image = img::thumb_src(thumb=section.extra.thumbnail) %}
         {% endif %}
-    {% endif %}
-    {# 3b) ẢNH SỞ HỮU theo slug: cover vẽ sẵn /img/covers/<slug>.svg (twin .og.webp đã commit) #}
-    {% if og_src == "" and page and page.slug %}
-        {% set og_covers = load_data(path="data/covers-manifest.json", required=false) %}
-        {% if og_covers and og_covers.slugs and page.slug in og_covers.slugs %}
-            {% set_global og_src = "/img/covers/" ~ page.slug ~ ".svg" %}
-        {% endif %}
-    {% endif %}
-    {# 4) normalize → absolute HTTPS .webp; rỗng/unknown → card S-DNA mặc định #}
-    {% set_global og_image = img::social_image_url(src=og_src, base_url=config.base_url) | trim %}
-    {% set_global og_image_type = "image/webp" %}
-    {% if og_image is ending_with(".png") %}{% set_global og_image_type = "image/png" %}
-    {% elif og_image is ending_with(".jpg") or og_image is ending_with(".jpeg") %}{% set_global og_image_type = "image/jpeg" %}
     {% endif %}
 
     <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
@@ -275,11 +221,8 @@
     <meta property="og:description" content="{{ page_description }}">
     <meta property="og:url" content="{{ canonical_url | safe }}">
     <meta property="og:image" content="{{ og_image | safe }}">
-    <meta property="og:image:secure_url" content="{{ og_image | safe }}">
-    <meta property="og:image:type" content="{{ og_image_type | safe }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="{{ page_title_full }} — {{ config.title }} social preview">
     <meta property="og:site_name" content="{{ config.title }}">
     <meta property="og:locale" content="vi_VN">
     {% if page %}
@@ -298,7 +241,6 @@
     <meta name="twitter:title" content="{{ page_title_full }}">
     <meta name="twitter:description" content="{{ page_description }}">
     <meta name="twitter:image" content="{{ og_image | safe }}">
-    <meta name="twitter:image:alt" content="{{ page_title_full }} — {{ config.title }} social preview">
 
     {# ===== JSON-LD structured data (rich snippet schema.org) =====
        Page (article) → Article schema với headline, image, datePublished.
@@ -307,7 +249,7 @@
     {
         "@context": "https://schema.org",
         {% if page %}
-        "@type": "BlogPosting",
+        "@type": "Article",
         "headline": {{ page.title | json_encode | safe }},
         "image": [{{ og_image | json_encode | safe }}],
         {% if page.date %}"datePublished": "{{ page.date | date(format='%Y-%m-%dT%H:%M:%S%:z') }}",{% endif %}
@@ -323,46 +265,23 @@
             "url": "{{ config.base_url | safe }}",
             "logo": {
                 "@type": "ImageObject",
-                "url": "{{ get_url(path=config.extra.brand_mark | default(value='img/brand/seomoney-logo.webp')) | safe }}",
-                "width": 512,
-                "height": 512
-            },
-            "image": "{{ config.base_url | safe }}/img/og/seomoney-og.og.webp"
+                "url": "{{ config.base_url | safe }}/img/author-avatar.webp"
+            }
         },
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "{{ canonical_url | safe }}"
         },
-        "inLanguage": "vi-VN",
         "description": {{ page_description | json_encode | safe }}
         {% else %}
-        {# Homepage / section / taxonomy → @graph: standalone WebSite + Organization
-           (Google reads Organization.logo for the brand/knowledge-panel logo from a
-           top-level node, not a nested publisher). #}
-        "@graph": [
-            {
-                "@type": "WebSite",
-                "@id": "{{ config.base_url | safe }}/#website",
-                "name": {{ config.title | json_encode | safe }},
-                "url": "{{ config.base_url | safe }}",
-                "description": {{ page_description | json_encode | safe }},
-                "inLanguage": "vi-VN",
-                "publisher": { "@id": "{{ config.base_url | safe }}/#organization" }
-            },
-            {
-                "@type": "Organization",
-                "@id": "{{ config.base_url | safe }}/#organization",
-                "name": {{ config.title | json_encode | safe }},
-                "url": "{{ config.base_url | safe }}",
-                "logo": {
-                    "@type": "ImageObject",
-                    "url": "{{ get_url(path=config.extra.brand_mark | default(value='img/brand/seomoney-logo.webp')) | safe }}",
-                    "width": 512,
-                    "height": 512
-                },
-                "image": "{{ config.base_url | safe }}/img/og/seomoney-og.og.webp"
-            }
-        ]
+        "@type": "WebSite",
+        "name": {{ config.title | json_encode | safe }},
+        "url": "{{ config.base_url | safe }}",
+        "description": {{ page_description | json_encode | safe }},
+        "publisher": {
+            "@type": "Organization",
+            "name": {{ config.title | json_encode | safe }}
+        }
         {% endif %}
     }
     </script>
@@ -475,7 +394,13 @@
 
     {% set asset_version = now(timestamp=true) %}
     <link rel="stylesheet" href="{{ get_url(path='site.css') }}?v={{ asset_version }}">
-    <link rel="stylesheet" href="{{ get_url(path='css/dashboard.css') }}?v={{ asset_version }}">
+
+    {# Speed Insights tracking — đo Core Web Vitals mọi page #}
+    <script src="https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js" defer></script>
+    <script src="{{ get_url(path='js/speed-vitals.js') }}?v={{ asset_version }}" defer></script>
+
+    {# Google Analytics 4 đã được dời xuống trước </body> để tối ưu page
+       load — KHÔNG block <head> render. Tham khảo block GA dưới cùng. #}
 
     {% block extra_head %}{% endblock %}
 </head>
@@ -485,6 +410,93 @@
 
     {# Header: logo left + ad banner right #}
     <header class="site-header">
+        <div class="container site-header__inner">
+            {# Version scheme: '<zola_version>·<commit_id>'.
+               - zola_ver = phiên bản Zola DÙNG ĐỂ BUILD bản hiện tại, lấy từ
+                 env ZOLA_VERSION (deploy.yml export `zola --version` trước khi
+                 build). Local build không set → default theo bản pin trong CI.
+               - numeric_id = SHA commit mới nhất (7 ký tự) tương ứng bản build đó.
+               Ghép lại = số phiên bản blog: 'vX.Y.Z · <sha>'. commit_count vẫn
+               giữ cho tooltip (tổng commit fetched). #}
+            {% set commit_count = 0 %}
+            {% if commits %}{% set commit_count = commits | length %}{% endif %}
+            {% set zola_ver = get_env(name="ZOLA_VERSION", default="0.22.1") %}
+            <div class="site-header__left">
+            <a class="site-title-link" href="{{ config.base_url }}"
+               {% if latest_commit %}title="Build Zola v{{ zola_ver }} · SHA {{ latest_commit.sha | truncate(length=7, end='') }} · Tổng {{ commit_count }} commit · Tuần này {{ week_count }} · Hôm nay {{ today_count }}"{% endif %}>
+                <span class="site-title-wrap">
+                    <span class="site-title">{{ config.title }}</span>
+                    {# Meta Verified-style badge — xác nhận chính chủ. SVG inline,
+                       scalloped 12-lobe path + checkmark trắng, gradient Meta blue. #}
+                    <span class="site-verified-badge" aria-label="Verified">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="site-verified-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#60A5FA"/>
+                                    <stop offset="100%" stop-color="#1D4ED8"/>
+                                </linearGradient>
+                            </defs>
+                            <path fill="url(#site-verified-grad)" d="M12 1.4l1.3 1.6 2-.6 1 1.8 2.1.1.1 2.1 1.8 1-.6 2 1.6 1.3-1.6 1.3.6 2-1.8 1-.1 2.1-2.1.1-1 1.8-2-.6L12 22.6l-1.3-1.6-2 .6-1-1.8-2.1-.1-.1-2.1-1.8-1 .6-2-1.6-1.3 1.6-1.3-.6-2 1.8-1 .1-2.1 2.1-.1 1-1.8 2 .6L12 1.4z"/>
+                            <path fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M8 12.3L10.7 15L16 9.5"/>
+                        </svg>
+                    </span>
+                </span>
+                <span class="site-tagline">
+                    <strong class="site-tagline__label">Phiên bản blog:</strong>
+                    <strong class="version-num">v{{ zola_ver }}</strong>
+                    <strong class="version-id">#{{ numeric_id }}</strong>
+                </span>
+            </a>
+
+            {# Latest deployments card — Ở LEFT, ngay dưới title block (theo
+               user feedback). GitHub box bên phải sẽ giãn đủ full width còn lại. #}
+            <div class="header-deploy-card is-success" data-deploy-status data-deploy-card>
+                <p class="header-deploy-card__label">Latest deployments from pinned environments</p>
+                <a class="header-deploy-card__panel"
+                   href="https://github.com/Banhang-Chogao/zola/deployments/github-pages"
+                   target="_blank" rel="noopener">
+                    <div class="header-deploy-card__head">
+                        <span class="header-deploy-card__icon" data-deploy-icon aria-hidden="true">✓</span>
+                        <span class="header-deploy-card__title">github-pages</span>
+                        <span class="header-deploy-card__ext" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor">
+                                <path d="M3.75 2A1.75 1.75 0 0 0 2 3.75v8.5A1.75 1.75 0 0 0 3.75 14h8.5A1.75 1.75 0 0 0 14 12.25v-3a.75.75 0 0 0-1.5 0v3a.25.25 0 0 1-.25.25h-8.5a.25.25 0 0 1-.25-.25v-8.5a.25.25 0 0 1 .25-.25h3a.75.75 0 0 0 0-1.5h-3Zm8 1H10A.75.75 0 0 1 10 1.5h3.25c.41 0 .75.34.75.75V5.5a.75.75 0 0 1-1.5 0V4.06L8.78 7.78a.75.75 0 0 1-1.06-1.06L11.44 3Z"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="header-deploy-card__body">
+                        <span class="header-deploy-card__row">
+                            Last <span data-deploy-verb>deployed</span>
+                            <span data-deploy-time>—</span>
+                        </span>
+                        <span class="header-deploy-card__url">{{ config.base_url | safe }}/</span>
+                    </div>
+                </a>
+            </div>
+            </div> {# /.site-header__left #}
+
+            <div class="header-side">
+            {#
+                Khu vực bên cạnh logo — rotation Ad ⇄ GitHub đang BẬT (luân phiên mỗi 3s).
+                Để tắt lại banner quảng cáo: comment block "Slide A" bên dưới, đổi
+                data-rotate="false" và trả is-active về "Slide B" (GitHub). Banner quảng
+                cáo dưới tiêu đề bài viết KHÔNG bị ảnh hưởng.
+            #}
+            <div class="header-rotator" data-rotate="true" data-interval="3000">
+                {# Slide A: Ad banner — slide đầu (is-active) khi load, rồi rotate sang GitHub #}
+                <a class="header-ad header-rotator__slide is-active" href="{{ config.base_url }}" title="Khu vực quảng cáo — Trang chủ">
+                    <div class="header-ad__icon">
+                        <img src="{{ get_url(path='img/placeholder/placeholder-wide.svg') }}" alt="Banner quảng cáo — về trang chủ" onerror="this.style.display='none'; this.parentNode.classList.add('header-ad__icon--placeholder')" loading="lazy" decoding="async">
+                        <span class="header-ad__emoji" aria-hidden="true">🐻</span>
+                    </div>
+                    <div class="header-ad__text">
+                        <span class="header-ad__label">QUẢNG CÁO</span>
+                        <strong class="header-ad__title">Đặt banner của bạn tại đây</strong>
+                        <span class="header-ad__desc">Khu vực 728×90 sẵn sàng cho banner ngang — Liên hệ admin để hợp tác.</span>
+                    </div>
+                    <span class="header-ad__arrow" aria-hidden="true">→</span>
+                </a>
+
                 {# Slide B: GitHub commit status — render từ load_data (build-time) #}
                 <a class="header-github header-rotator__slide" href="https://github.com/Banhang-Chogao/zola{% if latest_commit %}/commit/{{ latest_commit.sha }}{% endif %}" target="_blank" rel="noopener" title="Xem commit trên GitHub">
                     <div class="header-github__tags">
@@ -539,15 +551,108 @@
                         </span>
                     </div>
                 </a>
-                </div> {# /.header-rotator__viewport #}
-
-                {# Chấm điều hướng — JS sinh theo số slide #}
-                <div class="header-rotator__dots" data-rotator-dots role="tablist" aria-label="Chọn banner"></div>
             </div>
 
             </div> {# /.header-side #}
         </div>
     </header>
+
+    {# Sticky navbar — mobile burger menu pattern (Momo-style).
+       Trên desktop hiển thị tất cả menu items inline. Trên mobile,
+       collapse vào burger, JS toggles .is-open để slide-down panel. #}
+    <nav class="navbar" id="navbar">
+        {# Trang trí: bảng chữ cái trắng mờ rải rác (font FreightSans Pro kiểu
+           Starbucks) trên nền gradient xanh. aria-hidden + pointer-events:none
+           → thuần trang trí, không ảnh hưởng menu/dropdown. #}
+        <div class="navbar__letters" aria-hidden="true">
+            <span style="left:0.2%;top:15.0px;transform:rotate(36.0deg);font-size:1.01rem;opacity:0.119;font-weight:700">J</span>
+            <span style="left:3.1%;top:26.0px;transform:rotate(5.0deg);font-size:1.71rem;opacity:0.105;font-weight:500">F</span>
+            <span style="left:6.9%;top:34.0px;transform:rotate(-10.0deg);font-size:1.69rem;opacity:0.055;font-weight:500">W</span>
+            <span style="left:10.3%;top:23.0px;transform:rotate(2.0deg);font-size:2.0rem;opacity:0.087;font-weight:700">I</span>
+            <span style="left:12.9%;top:2.0px;transform:rotate(-24.0deg);font-size:2.0rem;opacity:0.057;font-weight:700">H</span>
+            <span style="left:16.7%;top:54.0px;transform:rotate(17.0deg);font-size:1.34rem;opacity:0.128;font-weight:500">Y</span>
+            <span style="left:20.0%;top:-4.0px;transform:rotate(-12.0deg);font-size:2.21rem;opacity:0.084;font-weight:500">O</span>
+            <span style="left:24.1%;top:29.0px;transform:rotate(29.0deg);font-size:1.37rem;opacity:0.106;font-weight:700">T</span>
+            <span style="left:26.9%;top:19.0px;transform:rotate(26.0deg);font-size:2.23rem;opacity:0.088;font-weight:500">Z</span>
+            <span style="left:28.8%;top:40.0px;transform:rotate(11.0deg);font-size:2.29rem;opacity:0.116;font-weight:700">S</span>
+            <span style="left:33.9%;top:55.0px;transform:rotate(-12.0deg);font-size:2.22rem;opacity:0.078;font-weight:500">N</span>
+            <span style="left:36.6%;top:-0.0px;transform:rotate(-16.0deg);font-size:1.95rem;opacity:0.082;font-weight:700">X</span>
+            <span style="left:38.8%;top:19.0px;transform:rotate(4.0deg);font-size:2.14rem;opacity:0.116;font-weight:700">P</span>
+            <span style="left:43.9%;top:63.0px;transform:rotate(14.0deg);font-size:1.46rem;opacity:0.068;font-weight:500">Q</span>
+            <span style="left:45.8%;top:1.0px;transform:rotate(-20.0deg);font-size:1.6rem;opacity:0.097;font-weight:700">A</span>
+            <span style="left:49.4%;top:-6.0px;transform:rotate(3.0deg);font-size:1.77rem;opacity:0.075;font-weight:500">G</span>
+            <span style="left:53.9%;top:24.0px;transform:rotate(9.0deg);font-size:1.86rem;opacity:0.054;font-weight:700">V</span>
+            <span style="left:56.4%;top:14.0px;transform:rotate(-1.0deg);font-size:1.49rem;opacity:0.065;font-weight:500">L</span>
+            <span style="left:59.8%;top:-9.0px;transform:rotate(8.0deg);font-size:1.09rem;opacity:0.095;font-weight:500">D</span>
+            <span style="left:64.6%;top:32.0px;transform:rotate(-33.0deg);font-size:1.23rem;opacity:0.08;font-weight:700">R</span>
+            <span style="left:67.9%;top:31.0px;transform:rotate(-2.0deg);font-size:1.11rem;opacity:0.089;font-weight:700">C</span>
+            <span style="left:69.9%;top:8.0px;transform:rotate(-27.0deg);font-size:1.96rem;opacity:0.109;font-weight:700">B</span>
+            <span style="left:74.3%;top:-5.0px;transform:rotate(-36.0deg);font-size:2.23rem;opacity:0.092;font-weight:500">U</span>
+            <span style="left:77.2%;top:57.0px;transform:rotate(20.0deg);font-size:1.35rem;opacity:0.101;font-weight:500">M</span>
+            <span style="left:80.5%;top:3.0px;transform:rotate(-10.0deg);font-size:1.18rem;opacity:0.112;font-weight:700">E</span>
+            <span style="left:83.7%;top:32.0px;transform:rotate(22.0deg);font-size:1.97rem;opacity:0.066;font-weight:500">K</span>
+            <span style="left:87.6%;top:43.0px;transform:rotate(-21.0deg);font-size:1.65rem;opacity:0.078;font-weight:500">J</span>
+            <span style="left:91.4%;top:47.0px;transform:rotate(-2.0deg);font-size:1.21rem;opacity:0.098;font-weight:700">F</span>
+            <span style="left:93.2%;top:59.0px;transform:rotate(37.0deg);font-size:2.24rem;opacity:0.079;font-weight:500">W</span>
+            <span style="left:95.6%;top:21.0px;transform:rotate(-12.0deg);font-size:1.6rem;opacity:0.129;font-weight:500">I</span>
+        </div>
+        <div class="navbar__inner">
+            {# Burger button — chỉ visible trên mobile via CSS #}
+            <button class="navbar__burger" aria-label="Mở menu" aria-expanded="false"
+                    aria-controls="navbar-menu" data-burger>
+                <span class="navbar__burger-line"></span>
+                <span class="navbar__burger-line"></span>
+                <span class="navbar__burger-line"></span>
+            </button>
+
+            <ul class="navbar__menu" id="navbar-menu">
+                {% for item in config.extra.menu %}
+                    {% if item.children %}
+                        {# Category có sub-category → dropdown xổ xuống. Trigger là
+                           <button> (toggle), trang đại diện nằm ở child đầu tiên. #}
+                        <li class="navbar__item navbar__item--has-children" data-nav-dropdown>
+                            <button type="button" class="navbar__dropdown-trigger"
+                                    aria-haspopup="true" aria-expanded="false">
+                                <span class="navbar__dropdown-label">{{ item.name }}</span>
+                                <svg class="navbar__chevron" width="12" height="12" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2.5"
+                                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+                            <ul class="navbar__submenu" role="menu">
+                                {% for child in item.children %}
+                                    <li role="none"><a role="menuitem" href="{{ child.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ child.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% else %}
+                        {# Link đơn (không có children) — giữ nguyên hành vi cũ. #}
+                        <li class="navbar__item"><a href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ item.name }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            {# Theme selector đã gỡ hoàn toàn theo yêu cầu — blog mặc định theme
+               Hilda (set bởi inline script ở <head>). #}
+            <div class="navbar__actions">
+                <button class="navbar__cache" type="button" aria-label="Xoá cache blog" title="Xoá cache trình duyệt của blog trên thiết bị này" data-clear-cache>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="1 4 1 10 7 10"></polyline>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                    </svg>
+                    <span data-clear-cache-label>Xoá cache</span>
+                </button>
+                <button class="navbar__search" type="button" aria-label="Tìm kiếm" aria-haspopup="dialog" data-search-open>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        {# Overlay backdrop khi menu mở trên mobile — tap đóng menu #}
+        <div class="navbar__backdrop" data-backdrop aria-hidden="true"></div>
+    </nav>
 
     <div class="site-search" role="dialog" aria-modal="true" aria-labelledby="site-search-title" data-site-search hidden>
         <div class="site-search__backdrop" data-search-close></div>
@@ -602,46 +707,6 @@
     ]
     </script>
 
-    {# Main navigation — hamburger button (fixed top-right, desktop + mobile) #}
-    <button class="nav-toggle" type="button" aria-label="Mở menu" aria-expanded="false" data-nav-toggle>
-        <div class="nav-toggle__box">
-            <span class="nav-toggle__line"></span>
-            <span class="nav-toggle__line"></span>
-            <span class="nav-toggle__line"></span>
-        </div>
-    </button>
-
-    {# Mobile drawer menu — slides in from right #}
-    <div class="nav-drawer" data-nav-drawer hidden>
-        <div class="nav-drawer__backdrop" data-nav-close></div>
-        <div class="nav-drawer__panel">
-            <div class="nav-drawer__head">
-                <span class="nav-drawer__brand">{{ config.title }}</span>
-                <button class="nav-drawer__close" type="button" aria-label="Đóng menu" data-nav-close>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
-            </div>
-            <ul class="nav-drawer__list">
-                {% for item in config.extra.menu %}
-                    <li><a class="nav-drawer__link" href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}" data-nav-link>{{ item.name }}</a></li>
-                {% endfor %}
-            </ul>
-
-            {# Theme switcher — Hilda (default) ↔ Nokia. Trong drawer → responsive
-               desktop + mobile, KHÔNG floating (V21-safe). Markup cho #theme-toggle-btn
-               mà theme-switcher hookup phía dưới đang chờ. #}
-            <div class="nav-drawer__theme">
-                <button id="theme-toggle-btn" type="button" class="theme-toggle" aria-label="Chuyển giao diện màu giữa Hilda và Nokia">
-                    <span class="theme-toggle__name">Giao diện màu</span>
-                    <span class="theme-toggle__value" id="theme-label">Hilda</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <main id="main-content" class="container">
         <div class="layout-grid">
             <div class="main-column">
@@ -663,107 +728,20 @@
                 <script type="application/json" id="posts-data">
                 [
                 {%- for page in root_pages -%}
-                    {%- if page.taxonomies.categories -%}
-                        {%- set jp_cats = page.taxonomies.categories -%}
-                    {%- else -%}
-                        {%- set jp_cats = [] -%}
-                    {%- endif -%}
                     {
                         "title": {{ page.title | json_encode | safe }},
                         "permalink": {{ page.permalink | json_encode | safe }},
                         "date": {{ page.date | json_encode | safe }},
                         "thumbnail": {{ img::thumb_src(thumb=page.extra.thumbnail | default(value="")) | json_encode | safe }},
                         "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
-                        "topic": {% if page.taxonomies.categories %}{{ page.taxonomies.categories | last | json_encode | safe }}{% else %}""{% endif %},
-                        "tags": {% if page.taxonomies.tags %}{{ page.taxonomies.tags | slice(end=5) | json_encode | safe }}{% else %}[]{% endif %},
                         "featured": {% if page.extra.featured %}true{% else %}false{% endif %},
-                        "featured_at": {{ page.extra.featured_at | default(value="") | json_encode | safe }},
-                        "premium": {% if page.extra.premium or "premium" in jp_cats %}true{% else %}false{% endif %},
-                        "price": {{ page.extra.price | default(value=0) | int }}
+                        "featured_at": {{ page.extra.featured_at | default(value="") | json_encode | safe }}
                     }{%- if not loop.last -%},{%- endif -%}
                 {%- endfor -%}
                 ]
                 </script>
 
                 <aside class="sidebar">
-                    {# ===== MAIN NAVIGATION (Desktop side-nav) =====
-                       Menu items từ config.extra.menu. Mobile dùng nav-drawer. #}
-                    <nav class="side-nav" role="navigation" aria-label="Menu chính">
-                        <ul class="side-nav__list">
-                            {% for item in config.extra.menu %}
-                                <li><a class="side-nav__link" href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}" data-nav-link>{{ item.name }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </nav>
-
-                    {# ===== SIDEBAR ACTION TOOLS — Cache clear + admin shortcuts =====
-                       Moved from navbar to prevent header wrapping (V21 layout fix).
-                       Placed at top of sidebar before content sections. #}
-                    <section class="sidebar-block sidebar-actions" data-widget="actions">
-                        <h3 class="sidebar-label">⚙️ TOOLS</h3>
-                        <ul class="sidebar-actions__list">
-                            <li>
-                                <button class="sidebar-actions__btn sidebar-actions__btn--cache" type="button" aria-label="Xoá cache blog" title="Xoá cache trình duyệt của blog trên thiết bị này" data-clear-cache>
-                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <polyline points="1 4 1 10 7 10"></polyline>
-                                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-                                    </svg>
-                                    <span data-clear-cache-label>Xoá cache</span>
-                                </button>
-                            </li>
-                        </ul>
-                    </section>
-
-                    {# ===== PREMIUM POSTS — S-DNA CTA widget (ngay TRÊN Featured) =====
-                       Liệt kê tối đa 10 bài premium (category "premium" HOẶC extra.premium),
-                       random reshuffle mỗi lần load qua sidebar.js (no-duplicate). Server render
-                       sẵn 10 bài (no-JS fallback + chống CLS). ẨN hẳn section nếu KHÔNG có bài
-                       premium nào. Click bài → trang bài → paywall flow hiện có (Momo unlock). #}
-                    {% set_global premium_posts = [] %}
-                    {% for page in root_pages %}
-                        {% if page.taxonomies.categories %}{% set p_cats = page.taxonomies.categories %}{% else %}{% set p_cats = [] %}{% endif %}
-                        {% if page.extra.premium or "premium" in p_cats %}
-                            {% set_global premium_posts = premium_posts | concat(with=[page]) %}
-                        {% endif %}
-                    {% endfor %}
-                    {% if premium_posts | length > 0 %}
-                    <section class="sidebar-block premium-posts" data-widget="premium">
-                        <h3 class="sidebar-label sidebar-label--premium">💎 Premium Posts</h3>
-                        <p class="premium-posts__intro">Nội dung chuyên sâu — mở khóa nhanh qua Momo.</p>
-                        <ul class="premium-list" data-target="premium">
-                            {% for page in premium_posts | slice(end=10) %}
-                            {% set p_price = page.extra.price | default(value=0) | int %}
-                            <li class="premium-item">
-                                <a class="premium-item__link" href="{{ page.permalink }}">
-                                    <span class="premium-item__icon" aria-hidden="true">💎</span>
-                                    <span class="premium-item__main">
-                                        <span class="premium-item__title">{{ page.title }}</span>
-                                        <span class="premium-item__badges">
-                                            <span class="premium-item__badge premium-item__badge--premium">💎 Premium</span>
-                                            {% if p_price > 0 %}<span class="premium-item__badge premium-item__badge--price">{{ p_price }}đ</span>{% endif %}
-                                        </span>
-                                    </span>
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </section>
-                    {% endif %}
-
-                    <section class="sidebar-block vipzone-stat" data-widget="vipzone-stat">
-                        <p class="vipzone-stat__text">Đã có <strong data-vipzone-count>0</strong> người kích hoạt VIP để ủng hộ những nội dung giá trị!</p>
-                    </section>
-
-                    {# ===== TOOLS — always-visible system links (no auth) ===== #}
-                    <section class="sidebar-block sidebar-tools" data-widget="tools">
-                        <h3 class="sidebar-label">🧭 TOOLS</h3>
-                        <ul class="sidebar-tools__list">
-                            <li><a class="sidebar-tools__link" href="{{ config.base_url }}/tools/b-dna/">B-DNA <span class="sidebar-tools__hint">Brand design system</span></a></li>
-                            <li><a class="sidebar-tools__link" href="{{ config.base_url }}/tools/s-dna/">S-DNA <span class="sidebar-tools__hint">Sembcorp Design DNA</span></a></li>
-                            <li><a class="sidebar-tools__link" href="{{ config.base_url }}/tools/e-dna/">E-DNA <span class="sidebar-tools__hint">Enterprise editorial design</span></a></li>
-                        </ul>
-                    </section>
-
                     {# FEATURED: manual extra.featured=true thắng auto-pick. CMS publish
                        sẽ demote các bài featured cũ để chỉ còn đúng một override thủ công. #}
                     {% set_global featured = false %}
@@ -801,19 +779,9 @@
 
                     {{ hot_search::widget() }}
 
-                    {# RANDOM POSTS — placeholder, JS sẽ reshuffle theo weighted random.
-                       Score badge bên phải = điểm chất lượng ngẫu nhiên (0–10), JS tính
-                       lại mỗi lần reshuffle (sidebar.js → computeRandomScore). #}
+                    {# RANDOM POSTS — placeholder, JS sẽ reshuffle theo weighted random #}
                     <section class="sidebar-block" data-widget="random">
-                        <div class="random-head">
-                            <h3 class="sidebar-label">RANDOM POSTS</h3>
-                            <button type="button" class="random-score is-loading" data-target="random-score"
-                                    title="Randomization quality score"
-                                    aria-label="Randomization quality score — bấm để xáo lại bài ngẫu nhiên">
-                                <span class="random-score__dice" aria-hidden="true">🎲</span>
-                                <span class="random-score__value" data-target="random-score-value">–</span><span class="random-score__max">/10</span>
-                            </button>
-                        </div>
+                        <h3 class="sidebar-label">RANDOM POSTS</h3>
                         <ul class="random-list" data-target="random">
                             {% for page in root_pages | slice(end=5) %}
                                 <li class="random-item">
@@ -834,69 +802,76 @@
                         </ul>
                     </section>
 
-                    {# CATEGORIES đã chuyển XUỐNG FOOTER (.footer-categories) —
-                       xem block trong <footer>. #}
+                    {# CATEGORIES #}
+                    <section class="sidebar-block sidebar-block--categories">
+                        <h3 class="sidebar-label">DANH MỤC</h3>
+                        <ul class="cat-list">
+                            {% set cats = get_taxonomy(kind="categories") %}
+                            {% for c in cats.items %}
+                                <li class="cat-list__item">
+                                    <a class="cat-list__link" href="{{ c.permalink }}">{{ c.name }}</a>
+                                    <span class="cat-list__count">{{ c.pages | length }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </section>
 
-                    {# TAGS đã chuyển XUỐNG FOOTER (metadata phụ trợ, không phải
-                       nội dung chính) — xem block ".footer-tags" trong <footer>. #}
+                    {# TAGS — text-only, gọn nhẹ; hover xem số bài (title) #}
+                    <section class="sidebar-block">
+                        <h3 class="sidebar-label">TAGS</h3>
+                        {% set sb_tags = get_taxonomy(kind="tags") %}
+                        <div class="tag-cloud">
+                            {% for t in sb_tags.items %}
+                                <a class="tag-cloud__item" href="{{ t.permalink }}" title="{{ t.pages | length }} bài viết">#{{ t.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </section>
 
-                    {# Google Rank + SEO Reality — wrapped in an overridable block.
-                       Default (article/section pages): render in the sidebar as before.
-                       Homepage (index.html) EMPTIES this block and re-renders both
-                       widgets in a "📊 Khám phá thêm" band below the post list (above
-                       pagination) instead — no duplication, same components moved. #}
-                    {% block sidebar_seo_widgets %}
                     {{ google_rank::widget() }}
-
-                    {# SEO Reality Check — honest companion directly below Google Rank #}
-                    {{ seo_reality::widget() }}
-                    {% endblock sidebar_seo_widgets %}
                 </aside>
             {% endblock sidebar %}
         </div>
     </main>
-<footer class="site-footer">
-        {# Tag cloud nằm Ở FOOTER (metadata phụ trợ) — xem block ".footer-tags"
-           ngay trước .site-footer__main, sau countdown. #}
 
-        {# ===== QA DASHBOARD (feature flag: extra.enable_qa_dashboard) =====
-           6 card metrics QA real-time (build-time snapshot). Tắt UI public:
-           enable_qa_dashboard = false trong config.toml — scripts/data/jobs giữ nguyên. #}
-        {% set show_qa_dashboard = config.extra.enable_qa_dashboard | default(value=false) %}
+    <footer class="site-footer">
+        {# Tag cloud đã chuyển sang RIGHT SIDEBAR (text-only) — xem block
+           "TAGS" trong {% block sidebar %} phía trên. #}
+
+        {# ===== QA DASHBOARD =====
+           6 card metrics QA real-time (build-time snapshot). Tự gia giảm
+           theo viewport: 3 cột desktop, 2 cột tablet, 1 cột mobile. #}
+        {% set qa_scores = load_data(path="data/scores.json", required=false) %}
+        {% if not qa_scores %}{% set qa_scores = [] %}{% endif %}
+        {% set qa_changelog = load_data(path="changelog.json", required=false) %}
+        {% set qa_changelog_items = [] %}
+        {% if qa_changelog and qa_changelog.items %}{% set_global qa_changelog_items = qa_changelog.items %}{% endif %}
+        {% set qa_posts = get_section(path="posting/_index.md") %}
+        {% set qa_baochi = get_section(path="baochi/_index.md") %}
+        {% set qa_n_posting = qa_posts.pages | length %}
+        {% set qa_n_baochi = qa_baochi.pages | length %}
+        {% set qa_posts_total = qa_n_posting + qa_n_baochi %}
         {% set qa_cats = get_taxonomy(kind="categories") %}
+        {% set qa_tag_taxo = tag_taxo | default(value=get_taxonomy(kind="tags")) %}
+        {% set qa_now = now() | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") %}
+        {% set qa_latest_pr = qa_changelog_items | first | default(value=false) %}
+        {# Performance: điểm Lighthouse lấy trực tiếp từ data/pagespeed.json
+           (workflow pagespeed.yml fetch PageSpeed Insights API mỗi giờ). Ưu tiên
+           desktop (ổn định); mobile free-API hay bị throttle về 0 → fallback. #}
+        {% set qa_pagespeed = load_data(path="data/pagespeed.json", required=false) %}
+        {% set qa_ps_perf = 0 %}
+        {% if qa_pagespeed %}
+            {% set ps_d = qa_pagespeed.desktop.performance | default(value=0) %}
+            {% set ps_m = qa_pagespeed.mobile.performance | default(value=0) %}
+            {% if ps_d > 0 %}{% set_global qa_ps_perf = ps_d %}{% else %}{% set_global qa_ps_perf = ps_m %}{% endif %}
+        {% endif %}
+        {# Security: số liệu lần quét gần nhất từ data/security.json
+           (workflow security-audit.yml commit pip-audit + gitleaks + misconfig). #}
+        {% set qa_security = load_data(path="data/security.json", required=false) %}
 
         <div class="footer-qa">
             <div class="container">
-                {# Bố cục 2 cột: QA Dashboard (trái) · Google Analytics (phải).
-                   QA trái bọc feature flag; GA phải luôn hiển thị. #}
-                <div class="footer-qa__split{% if not show_qa_dashboard %} footer-qa__split--ga-only{% endif %}">
-                {% if show_qa_dashboard %}
-                {% set qa_scores = load_data(path="data/scores.json", required=false) %}
-                {% if not qa_scores %}{% set qa_scores = [] %}{% endif %}
-                {% set qa_changelog = load_data(path="changelog.json", required=false) %}
-                {% set qa_changelog_items = [] %}
-                {% if qa_changelog and qa_changelog.items %}{% set_global qa_changelog_items = qa_changelog.items %}{% endif %}
-                {% set qa_posts = get_section(path="posting/_index.md") %}
-                {% set qa_baochi = get_section(path="baochi/_index.md") %}
-                {% set qa_n_posting = qa_posts.pages | length %}
-                {% set qa_n_baochi = qa_baochi.pages | length %}
-                {% set qa_posts_total = qa_n_posting + qa_n_baochi %}
-                {% set qa_tag_taxo = tag_taxo | default(value=get_taxonomy(kind="tags")) %}
-                {% set qa_now = now() | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") %}
-                {% set qa_latest_pr = qa_changelog_items | first | default(value=false) %}
-                {# Performance: điểm Lighthouse lấy trực tiếp từ data/pagespeed.json
-                   (workflow pagespeed.yml fetch PageSpeed Insights API mỗi giờ). Ưu tiên
-                   desktop (ổn định); mobile free-API hay bị throttle về 0 → fallback. #}
-                {% set qa_pagespeed = load_data(path="data/pagespeed.json", required=false) %}
-                {% set qa_ps_perf = 0 %}
-                {% if qa_pagespeed %}
-                    {% set ps_d = qa_pagespeed.desktop.performance | default(value=0) %}
-                    {% set ps_m = qa_pagespeed.mobile.performance | default(value=0) %}
-                    {% if ps_d > 0 %}{% set_global qa_ps_perf = ps_d %}{% else %}{% set_global qa_ps_perf = ps_m %}{% endif %}
-                {% endif %}
-                {# Security: số liệu lần quét gần nhất từ data/security.json
-                   (workflow security-audit.yml commit pip-audit + gitleaks + misconfig). #}
-                {% set qa_security = load_data(path="data/security.json", required=false) %}
+                {# Bố cục 2 cột: QA Dashboard (trái) · Google Analytics (phải) #}
+                <div class="footer-qa__split">
                 <div class="footer-qa__left">
                 <header class="footer-qa__head">
                     <h3 class="footer-qa__title">⚡ QA DASHBOARD</h3>
@@ -1014,168 +989,105 @@
                     </div>
                 </div>
                 </div>{# /.footer-qa__left #}
-                {% endif %}
                 <div class="footer-qa__right">
 
-                {# ===== GA STATS + GA VACXIN HEALTH (B-DNA redesign 2026-06-21) =====
-                   Cache isolation: numbers render ONLY when ga-stats.json is
-                   stamped with the CURRENT property (config.extra.ga_property_id)
-                   AND GA Vacxin (data/ga-health.json) reports `ok`. Any other
-                   state → an inline warning banner + a link button to GA, and
-                   the cells show "—" so old-property numbers can never leak.
-                   ga-health.js refreshes the banner/health live between deploys. #}
+                {# ===== GA STATS LIVE TABLE =====
+                   Always render — placeholder 0 nếu workflow chưa fetch.
+                   data/ga-stats.json LUÔN tồn tại (committed initial với
+                   _status="waiting_for_secret") nên không cần literal dict
+                   fallback (Tera KHÔNG support {k:v} syntax). #}
                 {% set ga_stats = load_data(path="data/ga-stats.json", required=false) %}
-                {% set ga_health = load_data(path="data/ga-health.json", required=false) %}
                 {% if ga_stats %}
-                {% set ga_prop_expected = config.extra.ga_property_id | default(value="542421812") %}
-                {% set ga_meas = config.extra.ga_measurement_id | default(value="") %}
-                {% set ga_dashboard = config.extra.ga_dashboard_url | default(value="https://analytics.google.com/") %}
-                {% set ga_fix = config.extra.ga_fix_url | default(value=ga_dashboard) %}
-                {% set health_status = "pending" %}
-                {% if ga_health and ga_health.status %}{% set health_status = ga_health.status %}{% endif %}
-                {% if ga_health and ga_health.dashboard_url %}{% set ga_dashboard = ga_health.dashboard_url %}{% endif %}
-                {% if ga_health and ga_health.fix_url %}{% set ga_fix = ga_health.fix_url %}{% endif %}
-                {% set property_match = ga_stats.property_id | default(value="") == ga_prop_expected %}
-                {% set stats_ok = property_match and ga_stats.updated_at and health_status == "ok" %}
-                <div class="ga-stats" data-ga-health data-ga-status="{{ health_status }}"{% if ga_health and ga_health.last_checked %} data-baked-checked="{{ ga_health.last_checked }}"{% endif %}>
+                {% set is_demo = ga_stats._status | default(value="") == "waiting_for_secret" %}
+                <div class="ga-stats{% if is_demo %} ga-stats--demo{% endif %}">
                     <header class="ga-stats__head">
-                        <div class="ga-stats__heading">
-                            <span class="ga-stats__kicker">📊 Google Analytics 4</span>
-                            <h4 class="ga-stats__title">Thống kê lưu lượng truy cập</h4>
-                            <span class="ga-stats__meta-line">property <code>{{ ga_prop_expected }}</code>{% if ga_meas %} · <code>{{ ga_meas }}</code>{% endif %}</span>
-                        </div>
-                        <div class="ga-stats__head-meta">
-                            <span class="ga-stats__pulse" data-ga-pulse title="GA Vacxin: kết nối Google Analytics khoẻ mạnh"{% if not stats_ok %} hidden{% endif %}>Khoẻ mạnh</span>
-                            <a class="ga-stats__dash" href="{{ ga_dashboard }}" target="_blank" rel="noopener" data-ga-dashboard>Dashboard →</a>
-                        </div>
+                        <h4 class="ga-stats__title">📊 GOOGLE ANALYTICS STATS</h4>
+                        {% if is_demo %}
+                        <span class="ga-stats__demo-badge">⏳ DEMO</span>
+                        {% endif %}
+                        <a class="ga-stats__refresh"
+                           href="https://analytics.google.com/analytics/web/?pli=1#/a250151829p541698865/reports/intelligenthome"
+                           target="_blank" rel="noopener"
+                           title="Mở GA dashboard chi tiết">→ Dashboard</a>
                     </header>
-
-                    {# Inline GA Vacxin warning — visible whenever stats are not trustworthy. #}
-                    <div class="ga-stats__health ga-stats__health--{{ health_status }}" data-ga-banner{% if stats_ok %} hidden{% endif %}>
-                        <span class="ga-stats__health-icon" aria-hidden="true" data-ga-banner-icon>{% if health_status == "pending" %}⏳{% else %}⚠{% endif %}</span>
-                        <div class="ga-stats__health-text">
-                            <strong data-ga-banner-title>{% if health_status == "disconnected" %}Mất kết nối Google Analytics{% elif health_status == "error" %}Cần kiểm tra Google Analytics{% else %}Đang chờ GA Vacxin{% endif %}</strong>
-                            <span data-ga-banner-msg>{% if ga_health and ga_health.message %}{{ ga_health.message }}{% else %}GA Vacxin chưa xác minh kết nối — số liệu sẽ hiện khi property {{ ga_prop_expected }} có dữ liệu.{% endif %}</span>
-                        </div>
-                        <a class="ga-stats__health-btn" href="{{ ga_fix }}" target="_blank" rel="noopener" data-ga-banner-btn>→ Mở Google Analytics</a>
-                    </div>
-
                     <div class="ga-stats__grid">
-                        <div class="ga-stats__cell ga-stats__cell--today">
-                            <span class="ga-stats__label">📅 Hôm nay</span>
-                            <span class="ga-stats__num{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-num="today_users">{% if stats_ok %}{{ ga_stats.today_users }}{% else %}—{% endif %}</span>
-                            <span class="ga-stats__sub">users · {% if stats_ok %}{{ ga_stats.today_pageviews }} {% endif %}views</span>
+                        <div class="ga-stats__cell">
+                            <span class="ga-stats__label">Hôm nay</span>
+                            <span class="ga-stats__num">{{ ga_stats.today_users }}</span>
+                            <span class="ga-stats__sub">users · {{ ga_stats.today_pageviews }} views</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--week">
-                            <span class="ga-stats__label">🌊 7 ngày</span>
-                            <span class="ga-stats__num{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-num="week_users">{% if stats_ok %}{{ ga_stats.week_users }}{% else %}—{% endif %}</span>
-                            <span class="ga-stats__sub">users · {% if stats_ok %}{{ ga_stats.week_pageviews }} {% endif %}views</span>
+                        <div class="ga-stats__cell">
+                            <span class="ga-stats__label">7 ngày</span>
+                            <span class="ga-stats__num">{{ ga_stats.week_users }}</span>
+                            <span class="ga-stats__sub">users · {{ ga_stats.week_pageviews }} views</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--month">
-                            <span class="ga-stats__label">🌈 30 ngày</span>
-                            <span class="ga-stats__num{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-num="month_users">{% if stats_ok %}{{ ga_stats.month_users }}{% else %}—{% endif %}</span>
-                            <span class="ga-stats__sub">users · {% if stats_ok %}{{ ga_stats.month_pageviews }} {% endif %}views</span>
-                        </div>
-                        <div class="ga-stats__cell ga-stats__cell--sessions ga-stats__cell--mini">
-                            <span class="ga-stats__label">👤 Phiên</span>
-                            <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="sessions">{% if stats_ok %}{{ ga_stats.month_sessions | default(value=0) }}{% else %}—{% endif %}</span>
-                            <span class="ga-stats__sub">sessions · 30d</span>
-                        </div>
-                        <div class="ga-stats__cell ga-stats__cell--new-users ga-stats__cell--mini">
-                            <span class="ga-stats__label">🎯 Người mới</span>
-                            <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="new_users">{% if stats_ok %}{{ ga_stats.month_new_users | default(value=0) }}{% else %}—{% endif %}</span>
-                            <span class="ga-stats__sub">new users · 30d</span>
+                        <div class="ga-stats__cell">
+                            <span class="ga-stats__label">30 ngày</span>
+                            <span class="ga-stats__num">{{ ga_stats.month_users }}</span>
+                            <span class="ga-stats__sub">users · {{ ga_stats.month_pageviews }} views</span>
                         </div>
                     </div>
 
-                    {# Extended 30d metrics: bounce, avg session, engagement. #}
+                    {# ===== EXTENDED METRICS (30d) =====
+                       Row thứ 2 với 5 chỉ số GA4 nâng cao: Sessions, New Users,
+                       Bounce, Avg Duration, Engagement. Default value=0 để
+                       template không vỡ khi JSON cũ chưa có các trường này. #}
                     <div class="ga-stats__grid ga-stats__grid--extended">
-                        <div class="ga-stats__cell ga-stats__cell--bounce ga-stats__cell--mini">
-                            <span class="ga-stats__label">📤 Tỷ lệ thoát</span>
-                            <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="bounce_rate">{% if stats_ok %}{{ ga_stats.month_bounce_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span>{% else %}—{% endif %}</span>
-                            <span class="ga-stats__sub">bounce · 30d</span>
+                        <div class="ga-stats__cell ga-stats__cell--mini">
+                            <span class="ga-stats__label">Sessions</span>
+                            <span class="ga-stats__num ga-stats__num--mini">{{ ga_stats.month_sessions | default(value=0) }}</span>
+                            <span class="ga-stats__sub">phiên · 30d</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--duration ga-stats__cell--mini">
-                            <span class="ga-stats__label">⏱️ Thời lượng</span>
-                            <span class="ga-stats__num ga-stats__num--mini ga-stats__num--text{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="avg_duration">{% if stats_ok %}{{ ga_stats.month_avg_session_duration_str | default(value="0s") }}{% else %}—{% endif %}</span>
-                            <span class="ga-stats__sub">avg session · 30d</span>
+                        <div class="ga-stats__cell ga-stats__cell--mini">
+                            <span class="ga-stats__label">New Users</span>
+                            <span class="ga-stats__num ga-stats__num--mini">{{ ga_stats.month_new_users | default(value=0) }}</span>
+                            <span class="ga-stats__sub">user mới · 30d</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--engagement ga-stats__cell--mini">
-                            <span class="ga-stats__label">💡 Tương tác</span>
-                            <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="engagement">{% if stats_ok %}{{ ga_stats.month_engagement_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span>{% else %}—{% endif %}</span>
-                            <span class="ga-stats__sub">engagement · 30d</span>
+                        <div class="ga-stats__cell ga-stats__cell--mini">
+                            <span class="ga-stats__label">Bounce</span>
+                            <span class="ga-stats__num ga-stats__num--mini">{{ ga_stats.month_bounce_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span></span>
+                            <span class="ga-stats__sub">tỷ lệ thoát · 30d</span>
+                        </div>
+                        <div class="ga-stats__cell ga-stats__cell--mini">
+                            <span class="ga-stats__label">Avg Session</span>
+                            <span class="ga-stats__num ga-stats__num--mini ga-stats__num--text">{{ ga_stats.month_avg_session_duration_str | default(value="0s") }}</span>
+                            <span class="ga-stats__sub">thời lượng · 30d</span>
+                        </div>
+                        <div class="ga-stats__cell ga-stats__cell--mini">
+                            <span class="ga-stats__label">Engagement</span>
+                            <span class="ga-stats__num ga-stats__num--mini">{{ ga_stats.month_engagement_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span></span>
+                            <span class="ga-stats__sub">tương tác · 30d</span>
                         </div>
                     </div>
 
-                    {# Organic Search metrics (30d) — only when stats are trustworthy. #}
-                    {% set has_organic = ga_stats.organic_users or ga_stats.organic_sessions %}
-                    {% if stats_ok and has_organic %}
-                    <div class="ga-stats__section">
-                        <h5 class="ga-stats__section-title">Tìm kiếm hữu cơ (Organic Search)</h5>
-                        <div class="ga-stats__grid ga-stats__grid--organic">
-                            <div class="ga-stats__cell ga-stats__cell--mini">
-                                <span class="ga-stats__label">Người dùng từ organic</span>
-                                <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-organic="users">{% if stats_ok %}{{ ga_stats.organic_users | default(value=0) }}{% else %}—{% endif %}</span>
-                                <span class="ga-stats__sub">organic users · 30d</span>
-                            </div>
-                            <div class="ga-stats__cell ga-stats__cell--mini">
-                                <span class="ga-stats__label">% lưu lượng organic</span>
-                                <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-organic="pct">{% if stats_ok %}{{ ga_stats.organic_pct_traffic | default(value=0) }}<span class="ga-stats__unit">%</span>{% else %}—{% endif %}</span>
-                                <span class="ga-stats__sub">% of total traffic</span>
-                            </div>
-                            <div class="ga-stats__cell ga-stats__cell--mini">
-                                <span class="ga-stats__label">Phiên từ organic</span>
-                                <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-organic="sessions">{% if stats_ok %}{{ ga_stats.organic_sessions | default(value=0) }}{% else %}—{% endif %}</span>
-                                <span class="ga-stats__sub">organic sessions · 30d</span>
-                            </div>
-                            <div class="ga-stats__cell ga-stats__cell--mini">
-                                <span class="ga-stats__label">Pageviews từ organic</span>
-                                <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-organic="pageviews">{% if stats_ok %}{{ ga_stats.organic_pageviews | default(value=0) }}{% else %}—{% endif %}</span>
-                                <span class="ga-stats__sub">organic pageviews · 30d</span>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
-
-                    {# Channel breakdown (top 5 channels by activeUsers) — only when stats are trustworthy. #}
-                    {% set has_channels = ga_stats.channel_breakdown and ga_stats.channel_breakdown | length > 0 %}
-                    {% if stats_ok and has_channels %}
-                    <div class="ga-stats__section">
-                        <h5 class="ga-stats__section-title">🌟 Kênh truy cập (Top 5 · 30 ngày)</h5>
-                        <div class="ga-channels" data-ga-channels>
-                            <div class="ga-channels__list" data-ga-channels-list></div>
-                        </div>
-                    </div>
-                    {% endif %}
-
-                    {# Top country + device (7d) chips — only when stats are trustworthy. #}
-                    {% set has_dims = ga_stats.top_country or ga_stats.top_device %}
-                    {% if stats_ok and has_dims %}
+                    {# ===== TOP DIMENSIONS (chips inline) =====
+                       Quốc gia + thiết bị top 7d, render dạng 2 chip nhỏ. #}
+                    {% if ga_stats.top_country or ga_stats.top_device %}
                     <div class="ga-stats__chips">
                         {% if ga_stats.top_country %}
                         <span class="ga-stats__chip">
-                            <span class="ga-stats__chip-icon" aria-hidden="true">🌍</span>
-                            <span class="ga-stats__chip-label">Top quốc gia · 7d</span>
+                            <span class="ga-stats__chip-icon">🌍</span>
+                            <span class="ga-stats__chip-label">Top quốc gia (7d)</span>
                             <span class="ga-stats__chip-val">{{ ga_stats.top_country }}</span>
                         </span>
                         {% endif %}
                         {% if ga_stats.top_device %}
                         <span class="ga-stats__chip">
-                            <span class="ga-stats__chip-icon" aria-hidden="true">📱</span>
-                            <span class="ga-stats__chip-label">Top thiết bị · 7d</span>
+                            <span class="ga-stats__chip-icon">📱</span>
+                            <span class="ga-stats__chip-label">Top thiết bị (7d)</span>
                             <span class="ga-stats__chip-val">{{ ga_stats.top_device }}</span>
                         </span>
                         {% endif %}
                     </div>
                     {% endif %}
 
-                    <p class="ga-stats__updated" data-ga-updated>
-                        {% if stats_ok %}
-                        Số liệu: <time datetime="{{ ga_stats.updated_at }}">{{ dt::display_datetime(value=ga_stats.updated_at) }}</time> — fetch hourly từ GA4 Data API.
+                    <p class="ga-stats__updated">
+                        {% if is_demo %}
+                        ⚠ Chờ workflow lần đầu — cần thêm GitHub Secret <code>GA_SERVICE_ACCOUNT_KEY</code> + grant Service Account quyền Viewer trên GA Property.
                         {% else %}
-                        GA Vacxin chạy mỗi giờ: kiểm tra xác thực GA, quyền truy cập property {{ ga_prop_expected }}, dữ liệu gần đây và thẻ đo trên site.
+                        Cập nhật: <time datetime="{{ ga_stats.updated_at }}">{{ dt::display_datetime(value=ga_stats.updated_at) }}</time>
+                        — fetch hourly từ GA4 Data API
                         {% endif %}
-                        {% if ga_health and ga_health.last_checked %}<br>GA Vacxin kiểm tra: <time datetime="{{ ga_health.last_checked }}" data-ga-checked-time>{{ dt::display_datetime(value=ga_health.last_checked) }}</time>.{% endif %}
                     </p>
                 </div>
                 {% endif %}
@@ -1224,190 +1136,61 @@
             </div>
         </div>
 
-        {# ===== FOOTER TAGS =====
-           Tag cloud chuyển từ sidebar xuống footer: thẻ là điều hướng phụ trợ,
-           KHÔNG phải nội dung chính. Sắp theo số bài giảm dần (page_count) →
-           hiện top N (server-rendered, không CLS); phần còn lại trong <details>
-           "Xem thêm". Footer rộng-ngang nên tag cloud dày NGANG + thấp, calm
-           enterprise (pills nhỏ, viền mềm, nền dịu, đếm số phụ). #}
-        {% set footer_tags_taxo = get_taxonomy(kind="tags") %}
-        {% set footer_tags_total = footer_tags_taxo.items | length %}
-        {% if footer_tags_total > 0 %}
-        {% set footer_tags_sorted = footer_tags_taxo.items | sort(attribute="page_count") | reverse %}
-        {% set footer_tags_initial = 60 %}
-        <section class="footer-tags" aria-labelledby="footer-tags-title">
-            <div class="container">
-                <div class="footer-tags__head">
-                    <h3 class="footer-tags__title" id="footer-tags-title">Thẻ phổ biến</h3>
-                    <span class="footer-tags__meta">{{ footer_tags_total }} thẻ phân loại bài viết</span>
-                </div>
-                <div class="footer-tags__cloud">
-                    {% for t in footer_tags_sorted | slice(end=footer_tags_initial) %}
-                    <a class="footer-tags__item" href="{{ t.permalink }}" title="{{ t.name }} — {{ t.page_count }} bài viết">
-                        <span class="footer-tags__name">{{ t.name }}</span>
-                        <span class="footer-tags__count">{{ t.page_count }}</span>
-                    </a>
-                    {% endfor %}
-                </div>
-                {% if footer_tags_total > footer_tags_initial %}
-                <details class="footer-tags__more">
-                    <summary class="footer-tags__toggle">
-                        <span class="footer-tags__toggle-more">Xem thêm {{ footer_tags_total - footer_tags_initial }} thẻ</span>
-                        <span class="footer-tags__toggle-less">Thu gọn</span>
-                        <svg class="footer-tags__toggle-chevron" viewBox="0 0 24 24" width="14" height="14"
-                             fill="none" stroke="currentColor" stroke-width="2.5"
-                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                    </summary>
-                    <div class="footer-tags__cloud footer-tags__cloud--extra">
-                        {% for t in footer_tags_sorted | slice(start=footer_tags_initial) %}
-                        <a class="footer-tags__item" href="{{ t.permalink }}" title="{{ t.name }} — {{ t.page_count }} bài viết">
-                            <span class="footer-tags__name">{{ t.name }}</span>
-                            <span class="footer-tags__count">{{ t.page_count }}</span>
-                        </a>
-                        {% endfor %}
-                    </div>
-                </details>
+        {{ footer_countdown::render() }}
+
+        <div class="container site-footer__main">
+            <div class="site-footer__left">
+                <a href="{{ config.base_url | safe }}/admin-author/" class="site-footer__author-mgmt"
+                   title="Cập nhật ảnh đại diện + bio cá nhân">
+                    👤 Author Management
+                </a>
+                <a href="{{ config.base_url | safe }}/admin-countdown/" class="site-footer__author-mgmt"
+                   title="Cấu hình đếm ngược footer">
+                    ⏱ Countdown
+                </a>
+            </div>
+            <div class="site-footer__center">
+                <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola</p>
+                <p class="site-footer__legal">
+                    <a href="{{ config.base_url | safe }}/about/">Giới thiệu</a> ·
+                    <a href="{{ config.base_url | safe }}/contact/">Liên hệ</a> ·
+                    <a href="{{ config.base_url | safe }}/privacy/">Chính sách bảo mật</a> ·
+                    <a href="{{ config.base_url | safe }}/terms/">Điều khoản &amp; Miễn trừ</a> ·
+                    <a href="{{ config.base_url | safe }}/copyright/">Bản quyền</a>
+                </p>
+                {# GA status pill → click mở GA dashboard intelligenthome.
+                   Property ID 541698865 hardcode trong URL — match config. #}
+                {% if config.extra.ga_measurement_id %}
+                <a class="ga-status ga-status--active"
+                   href="https://analytics.google.com/analytics/web/?pli=1#/a250151829p541698865/reports/intelligenthome"
+                   target="_blank" rel="noopener"
+                   title="Mở Google Analytics dashboard — Measurement ID: {{ config.extra.ga_measurement_id }}">
+                    📊 Analytics: <code>{{ config.extra.ga_measurement_id }}</code>
+                </a>
+                {% else %}
+                <span class="ga-status ga-status--pending" title="Chưa cấu hình Google Analytics — sửa config.toml ga_measurement_id để bật">
+                    ⏳ ĐANG CHỜ MEASUREMENT ID
+                </span>
                 {% endif %}
             </div>
-        </section>
-        {% endif %}
-
-        {# ===== FOOTER BRAND — modern 3-column layout (self-contained) =====
-           Giữ NGUYÊN container hiện có (.site-footer / .container / .site-footer__main);
-           chỉ thay phần ruột bằng grid 3 cột (gập 1 cột trên mobile). KHÔNG tạo class
-           .scss mới — layout đặt inline, còn :hover + responsive (không inline được)
-           gói trong 1 <style> scoped theo .site-footer__main + data-attr. Biến theme
-           (--primary/--accent/--text-muted/--border-color) kèm fallback khớp palette
-           footer tối để không đảo màu ở dark-mode. GA pill "pending" đã gỡ hoàn toàn;
-           chỉ giữ link Analytics khi đã cấu hình Measurement ID. #}
-        <div class="container site-footer__main" style="display:block; text-align:left;">
-            <div data-footer-grid
-                 style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:2.5rem; border-top:2px solid var(--accent, #5b9bff); padding-top:2rem;">
-                <div>
-                    <h4 style="color:var(--primary, #fff); font-size:1rem; margin:0 0 0.75rem;">Về chúng tôi</h4>
-                    <p style="color:var(--text-muted, #9aa4b2); font-size:0.9rem; line-height:1.8; margin:0 0 1rem;">
-                        <strong style="color:#fff;">{{ config.title }}</strong> — Nền tảng SEO &amp; phân tích
-                        dữ liệu hàng đầu. Powered by Zola.
-                    </p>
-                </div>
-                <div>
-                    <h4 style="color:var(--primary, #fff); font-size:1rem; margin:0 0 0.75rem;">Liên kết</h4>
-                    <ul style="list-style:none; padding:0; margin:0; color:var(--text-muted, #9aa4b2); font-size:0.9rem; line-height:1.95;">
-                        <li><a href="{{ config.base_url | safe }}/about/">Giới thiệu</a></li>
-                        <li><a href="{{ config.base_url | safe }}/contact/">Liên hệ</a></li>
-                        <li><a href="{{ config.base_url | safe }}/privacy/">Chính sách bảo mật</a></li>
-                        <li><a href="{{ config.base_url | safe }}/terms/">Điều khoản &amp; Miễn trừ</a></li>
-                        <li><a href="{{ config.base_url | safe }}/copyright/">Bản quyền</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 style="color:var(--primary, #fff); font-size:1rem; margin:0 0 0.75rem;">Theo dõi</h4>
-                    <div data-footer-social style="display:flex; gap:1rem; font-size:1.5rem;">
-                        <a href="#" aria-label="Facebook" title="Facebook">📘</a>
-                        <a href="#" aria-label="Twitter" title="Twitter">🐦</a>
-                        <a href="#" aria-label="YouTube" title="YouTube">📺</a>
-                        <a href="#" aria-label="LinkedIn" title="LinkedIn">💼</a>
-                    </div>
-                    {# GA status pill → click mở GA dashboard. URL từ config
-                       (ga_dashboard_url, account-agnostic #/p<id>/) — property 542421812.
-                       Chỉ hiện khi đã cấu hình Measurement ID (bỏ trạng thái pending). #}
-                    {% if config.extra.ga_measurement_id %}
-                    <a class="ga-status ga-status--active" style="margin-top:1rem;"
-                       href="{{ config.extra.ga_dashboard_url | default(value='https://analytics.google.com/') }}"
-                       target="_blank" rel="noopener"
-                       title="Mở Google Analytics dashboard — Measurement ID: {{ config.extra.ga_measurement_id }}">
-                        📊 Analytics: <code>{{ config.extra.ga_measurement_id }}</code>
-                    </a>
-                    {% endif %}
-                </div>
-            </div>
-            <div style="text-align:center; border-top:1px solid var(--border-color, rgba(255,255,255,0.1)); margin-top:2rem; padding-top:1.5rem; color:var(--text-muted, #9aa4b2); font-size:0.85rem;">
-                <p style="margin:0;">©2026 <strong style="color:#fff;">{{ config.title }}</strong> — Powered by Zola</p>
+            <div class="site-footer__right">
+                <a href="{{ config.base_url | safe }}/stats/" class="site-footer__stats-link"
+                   title="Web Vitals: LCP / INP / CLS / FCP / TTFB real-time">
+                    ⚡ Web Vitals
+                </a>
             </div>
         </div>
-        {# Hover + responsive cho footer brand (không biểu diễn được bằng inline).
-           Scoped theo .site-footer__main — KHÔNG thêm class .scss mới. #}
-        <style>
-            .site-footer__main a { text-decoration:none; transition:color .15s ease, transform .15s ease; }
-            .site-footer__main ul li a,
-            .site-footer__main [data-footer-social] a { color:var(--text-muted, #9aa4b2); }
-            .site-footer__main ul li a:hover,
-            .site-footer__main [data-footer-social] a:hover { color:var(--accent, #5b9bff); }
-            .site-footer__main [data-footer-social] a:hover { transform:translateY(-2px); }
-            @media (max-width:768px) {
-                .site-footer__main [data-footer-grid] { grid-template-columns:1fr; gap:1.75rem; }
-            }
-        </style>
+    </footer>
 
-        {# CATEGORIES — compact footer navigation (moved from sidebar) #}
-        <nav class="footer-categories" aria-label="Danh mục bài viết">
-            <div class="container">
-                <h3 class="footer-categories__title">Danh mục</h3>
-                <ul class="footer-categories__grid">
-                    {% for c in qa_cats.items %}
-                        {% if c.name != "Tất cả" %}
-                        <li class="footer-categories__item">
-                            <a class="footer-categories__link" href="{{ c.permalink }}">
-                                <span class="footer-categories__name">{{ c.name }}</span>
-                                <span class="footer-categories__count" aria-label="{{ c.pages | length }} bài viết">{{ c.pages | length }}</span>
-                            </a>
-                        </li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
-        </nav>
-
-</footer>
-  {% include "partials/turnstile_footer.html" %}
-  {# Open PR Monitor is intentionally kept here (global footer ops monitor).
-     DO NOT move to /tools/ or /tools/master-dashboard-v5/ — see f pr goal 2026-06-23. #}
-  {% include "partials/open_pr_monitor.html" %}
-
-    {# ===== Public scripts — loaded for EVERY visitor =====
-       Navigation, search, theme, sidebar widgets + the SEO-value widgets
-       (google-rank, seo-reality-gsc) that show value to anonymous readers. #}
     <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/header-rotator.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/sidebar.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/google-rank.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/seo-reality-gsc.js') }}?v={{ asset_version }}" defer></script>
-    {# auth.js stays unconditional: it is the PRE-login trigger handler
-       ([data-auth-trigger]) an admin needs BEFORE a session exists, so it
-       must never be gated behind an existing session. It self-exits when no
-       trigger element is present (current state) → ~zero cost. #}
     <script src="{{ get_url(path='js/auth.js') }}?v={{ asset_version }}" defer></script>
-    {# ===== Admin/ops widget JS — client-side gated (perf) =====
-       This is a static site (GitHub Pages) — no server-side auth at render
-       time, so the same HTML ships to everyone. These ops/admin scripts are
-       injected ONLY when an admin CMS session token (zola-cms-session-id) is
-       present in storage. Anonymous readers still see each widget's build-time
-       baked HTML (Open PR Monitor, deploy badge, GA-stats footer); they simply
-       skip the live JS refresh and the background fetches to *.onrender.com /
-       GA / GSC. Cuts 7 script requests + all admin background fetches off
-       public page loads. SEO-value scripts above stay unconditional. #}
-    <script>
-    (function () {
-      try {
-        var K = 'zola-cms-session-id';
-        var hasAdmin = !!(localStorage.getItem(K) || sessionStorage.getItem(K));
-        if (!hasAdmin) return;
-        var v = '{{ asset_version }}';
-        var base = '{{ config.base_url | safe }}/js/';
-        var ops = ['open-pr-monitor', 'deploy-status', 'staging-queue',
-                   'dashboard', 'ga-improvement-progress',
-                   'ga-health', 'ga-stats-refresh'];
-        for (var i = 0; i < ops.length; i++) {
-          var s = document.createElement('script');
-          s.src = base + ops[i] + '.js?v=' + v;
-          s.defer = true;
-          document.body.appendChild(s);
-        }
-      } catch (e) {}
-    })();
-    </script>
+    <script src="{{ get_url(path='js/deploy-status.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/ga-improvement-progress.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/staging-queue.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/navbar-mobile.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/navbar-dropdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/site-search.js') }}?v={{ asset_version }}" defer></script>
@@ -1415,9 +1198,7 @@
     <script src="{{ get_url(path='js/theme-switcher.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/theme-dropdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/media-guard.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/vipzone.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/print-watermark.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/side-nav.js') }}?v={{ asset_version }}" defer></script>
     {# Hook up theme toggle button to ThemeSwitcher API #}
     <script defer>
     (function() {
@@ -1428,7 +1209,7 @@
 
         // Set initial label
         if (label && window.ThemeSwitcher) {
-          label.textContent = window.ThemeSwitcher.getTheme() === 'nokia' ? 'Nokia' : 'Hilda';
+          label.textContent = window.ThemeSwitcher.getTheme() === 'zx' ? 'Z-X' : 'Hilda';
         }
 
         // Click handler
@@ -1436,7 +1217,7 @@
           if (window.ThemeSwitcher) {
             var nextTheme = window.ThemeSwitcher.toggleTheme();
             if (label) {
-              label.textContent = nextTheme === 'nokia' ? 'Nokia' : 'Hilda';
+              label.textContent = nextTheme === 'zx' ? 'Z-X' : 'Hilda';
             }
           }
         });
@@ -1444,7 +1225,7 @@
         // Listen for external theme changes
         document.addEventListener('themechange', function(e) {
           if (label) {
-            label.textContent = e.detail.theme === 'nokia' ? 'Nokia' : 'Hilda';
+            label.textContent = e.detail.theme === 'zx' ? 'Z-X' : 'Hilda';
           }
         });
       }
@@ -1461,17 +1242,27 @@
 
     {# ===== GOOGLE ANALYTICS 4 (gtag.js mới nhất) =====
        Đặt ngay trước </body> thay vì <head> → KHÔNG block initial paint.
-       Chỉ render khi đã cấu hình config.extra.ga_measurement_id; khi rỗng
-       thì KHÔNG xuất script nào (đã gỡ placeholder sentinel).
-       Property ID 542421812 (stream seomoney.org) — Admin → Property Settings. #}
+       Khi ga_measurement_id rỗng → script PLACEHOLDER với chuỗi
+       'ĐANG CHỜ MEASUREMENT ID' để user dễ tìm + thay sau.
+       Property ID 541698865 — tham chiếu Admin → Property Settings. #}
     {% if config.extra.ga_measurement_id %}
-    <!-- GA4 Measurement ID: {{ config.extra.ga_measurement_id }} | Property ID: {{ config.extra.ga_property_id | default(value='542421812') }} -->
+    <!-- GA4 Measurement ID: {{ config.extra.ga_measurement_id }} | Property ID: 541698865 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ config.extra.ga_measurement_id }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', '{{ config.extra.ga_measurement_id }}');
+    </script>
+    {% else %}
+    <!-- Google Analytics 4 — chưa active, đang chờ MEASUREMENT ID -->
+    <script>
+        // Sửa MEASUREMENT_ID dưới đây với ID thật từ
+        // https://analytics.google.com → Admin → Data Streams → Web stream
+        // → Measurement ID dạng "G-XXXXXXXXXX". Sau đó set vào
+        // config.toml [extra] ga_measurement_id để Tera auto-bake.
+        const GA_MEASUREMENT_ID = 'ĐANG CHỜ MEASUREMENT ID';
+        console.info('[GA4] ' + GA_MEASUREMENT_ID + ' — set config.toml ga_measurement_id để bật tracking');
     </script>
     {% endif %}
 

@@ -1,6 +1,6 @@
 +++
 title = "Tuyên bố bản quyền"
-description = "Tuyên bố bản quyền của blog SEOMONEY: quyền sở hữu nội dung, điều kiện trích dẫn và ghi nguồn, quy trình báo cáo vi phạm (DMCA) và liên hệ xin cấp phép sử dụng."
+description = "Tuyên bố bản quyền của blog Duy Nguyen: quyền sở hữu nội dung, điều kiện trích dẫn và ghi nguồn, quy trình báo cáo vi phạm (DMCA) và liên hệ xin cấp phép sử dụng."
 path = "copyright"
 template = "about.html"
 
@@ -12,11 +12,11 @@ references_skip_copyright = true
 *Cập nhật lần cuối: 18/06/2026*
 
 Trang **Tuyên bố bản quyền** này quy định quyền sở hữu trí tuệ đối với toàn bộ
-nội dung xuất bản trên blog **Duy Nguyen** (`seomoney.org`, sau
+nội dung xuất bản trên blog **Duy Nguyen** (`banhang-chogao.github.io/zola`, sau
 đây gọi là "blog" hoặc "website"). Bằng việc truy cập và sử dụng website, bạn
 đồng ý tôn trọng các quyền bản quyền được nêu dưới đây. Đây là trang con thuộc
-mục [Giới thiệu](/about/), bổ sung cho [Điều khoản & Miễn trừ](/terms/)
-và [Chính sách bảo mật](/privacy/).
+mục [Giới thiệu](/zola/about/), bổ sung cho [Điều khoản & Miễn trừ](/zola/terms/)
+và [Chính sách bảo mật](/zola/privacy/).
 
 ## 1. Quyền sở hữu bản quyền
 
@@ -104,7 +104,7 @@ Mọi yêu cầu xin phép sử dụng lại nội dung, hợp tác nội dung, 
 quyền vui lòng gửi về:
 
 - 📧 Email: **292648126+Banhang-Chogao@users.noreply.github.com**
-- Hoặc qua trang [Liên hệ](/contact/).
+- Hoặc qua trang [Liên hệ](/zola/contact/).
 
 Chúng tôi sẵn sàng trao đổi về việc cấp phép sử dụng nội dung trong các trường
 hợp phù hợp.
@@ -124,5 +124,5 @@ Tuyên bố bản quyền này có thể được cập nhật theo thời gian.
 
 ---
 
-Xem thêm: [Giới thiệu](/about/) · [Điều khoản & Miễn trừ](/terms/) ·
-[Chính sách bảo mật](/privacy/) · [Liên hệ](/contact/)
+Xem thêm: [Giới thiệu](/zola/about/) · [Điều khoản & Miễn trừ](/zola/terms/) ·
+[Chính sách bảo mật](/zola/privacy/) · [Liên hệ](/zola/contact/)

@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-19"
 premium_title = "Ngày 19 — Mệnh lệnh & rủ rê (으세요, ㅂ시다, 을까요)"
 premium_teaser_words = 210
 seo_keyword = "câu mệnh lệnh tiếng hàn 으세요"
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 19
@@ -41,4 +41,4 @@ Nếm thử: muốn **mời/sai lịch sự** → đuôi **-(으)세요**: 앉**
 
 Trong bài đầy đủ hôm nay bạn sẽ có: **bảng -(으)세요** theo patchim + ca tôn kính **드세요/주무세요**, cấm đoán **-지 마세요**, nhờ giúp **-아/어 주세요** (도와주세요), rủ rê trang trọng **-(으)ㅂ시다** (같이 갑시다), đề nghị mềm **-(으)ㄹ까요?** (뭐 먹을까요?), và **15 câu bài tập kèm đáp án**. Mở khóa để hội thoại sống động hẳn — 화이팅! 💪
 
-👉 Quay lại [Ngày 18 — phủ định 안 / 못](/phu-dinh-an-mot-tieng-han/), hoặc tiến tới [Ngày 20 — liên từ nối câu](/lien-tu-cau-tieng-han/). Xem lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) và [kho bài Premium](/categories/premium/).
+👉 Quay lại [Ngày 18 — phủ định 안 / 못](/zola/posting/phu-dinh-an-mot-tieng-han/), hoặc tiến tới [Ngày 20 — liên từ nối câu](/zola/posting/lien-tu-cau-tieng-han/). Xem lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) và [kho bài Premium](/zola/categories/premium/).

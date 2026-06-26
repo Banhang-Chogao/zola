@@ -6,7 +6,7 @@ date = 2026-06-18
 categories = ["Tất cả", "Ngân hàng", "Báo chí"]
 tags = ["thuế", "hoàn thuế gtgt", "thuế gtgt", "kế toán", "tài chính doanh nghiệp"]
 [extra]
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "không được hoàn thuế GTGT"
 featured = false
 
@@ -28,7 +28,7 @@ Mình từng chứng kiến không ít chủ doanh nghiệp đứng ngồi khôn
 
 <!-- more -->
 
-> 💡 **Minh bạch & miễn trừ:** Bài viết tổng hợp theo cách hiểu của mình từ các văn bản như Luật Quản lý thuế 2019, Thông tư 80/2021/TT-BTC, Nghị định 125/2020/NĐ-CP — **chỉ mang tính tham khảo, không phải tư vấn pháp lý hay kế toán chuyên nghiệp**. Quy định thuế thay đổi liên tục; trước khi quyết định, hãy đối chiếu văn bản gốc và hỏi cơ quan thuế quản lý hoặc đơn vị tư vấn. Chi tiết tại [Điều khoản & Miễn trừ](/terms/).
+> 💡 **Minh bạch & miễn trừ:** Bài viết tổng hợp theo cách hiểu của mình từ các văn bản như Luật Quản lý thuế 2019, Thông tư 80/2021/TT-BTC, Nghị định 125/2020/NĐ-CP — **chỉ mang tính tham khảo, không phải tư vấn pháp lý hay kế toán chuyên nghiệp**. Quy định thuế thay đổi liên tục; trước khi quyết định, hãy đối chiếu văn bản gốc và hỏi cơ quan thuế quản lý hoặc đơn vị tư vấn. Chi tiết tại [Điều khoản & Miễn trừ](/zola/terms/).
 
 ## Hoàn thuế GTGT là gì?
 
@@ -78,12 +78,8 @@ Ngoài việc "rơi vào trường hợp không được hoàn", rất nhiều h
 
 ## Làm sao để hồ sơ hoàn thuế suôn sẻ?
 
-Kinh nghiệm của mình gói gọn trong mấy việc: rà soát sổ sách, hóa đơn định kỳ thay vì để dồn; đối chiếu thông tin trên hồ sơ với giấy tờ gốc (mã số thuế, hợp đồng, tài khoản); ưu tiên thanh toán chuyển khoản để giữ chứng từ hợp lệ; và xác định đúng cơ quan thuế trước khi nộp. Với doanh nghiệp nhỏ, một thói quen theo dõi dòng tiền và chứng từ gọn gàng giúp ích rất nhiều.
+Kinh nghiệm của mình gói gọn trong mấy việc: rà soát sổ sách, hóa đơn định kỳ thay vì để dồn; đối chiếu thông tin trên hồ sơ với giấy tờ gốc (mã số thuế, hợp đồng, tài khoản); ưu tiên thanh toán chuyển khoản để giữ chứng từ hợp lệ; và xác định đúng cơ quan thuế trước khi nộp. Với doanh nghiệp nhỏ, một thói quen theo dõi dòng tiền và chứng từ gọn gàng giúp ích rất nhiều — bạn có thể tham khảo cách mình dựng [công cụ phân tích dòng tiền cá nhân](@/tools/f-dashboard.md) để hình dung tư duy "số liệu phải sạch và đối chiếu được".
 
 ## Kết
 
 Hoàn thuế GTGT là quyền lợi chính đáng, nhưng là một quy trình đòi hỏi sự chính xác gần như tuyệt đối. Biết trước **các trường hợp không được hoàn thuế GTGT** và các lỗi khiến hồ sơ bị từ chối giúp bạn chủ động phòng tránh, thay vì mất thời gian khắc phục về sau. Khi hồ sơ phức tạp hoặc số tiền lớn, đừng ngại nhờ đơn vị tư vấn thuế uy tín — chi phí tư vấn thường rẻ hơn nhiều so với rủi ro bị truy thu và xử phạt. Thông tin cập nhật và chính thức luôn nên được tra cứu tại [Tổng cục Thuế](https://www.gdt.gov.vn).
-
-> **Xem thêm trong cụm:** [Private Banking là gì? Nhìn từ BIDV Sài Gòn](/baochi/bidv-flagship-private-banking-tphcm/)
-
-> **Xem thêm trong chuyên mục:** [Ngân hàng — mẹo dùng app và xử lý sự cố](/topic/ngan-hang/)

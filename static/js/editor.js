@@ -25,9 +25,7 @@
        2. GitHub OAuth → BACKEND callback → check email white-list
        3. Backend redirect /editor/#sid=... → JS đọc hash → sessionStorage
        4. /auth/me validate session mỗi page load
-       5. Save/Publish bài = PUT content/posting/{slug}.md lên GitHub/main qua
-          backend /cms/save-post → GitHub Actions tự build + deploy (KHÔNG còn
-          chế độ draft-only/tải file .md về máy).
+       5. Save bài = download .md (DRAFT-ONLY mode giữ nguyên từ PR #34)
 
      Security:
        - sid là opaque random 32-byte, KHÔNG carry info
@@ -37,11 +35,13 @@
        - White-list email check server-side, client KHÔNG bypass được */
 
   const SESSION_KEY = "zola-cms-session-id";
-  // Fallback chain: VIPZone auth meta → hardcode prod URL
+  // Fallback chain: meta cms-auth → meta visitor-api → hardcode prod URL
   const AUTH_API = (function () {
-    const m1 = document.querySelector('meta[name="vipzone-auth-api"]');
+    const m1 = document.querySelector('meta[name="zola-cms-auth-api"]');
     if (m1 && m1.getAttribute("content")) return m1.getAttribute("content");
-    return "https://blog-vipzone-api.onrender.com";
+    const m2 = document.querySelector('meta[name="zola-visitor-api"]');
+    if (m2 && m2.getAttribute("content")) return m2.getAttribute("content");
+    return "https://blog-visitor-api.onrender.com";
   })();
 
   let currentUser = null; // { email, username, name, avatar }
@@ -52,11 +52,9 @@
   }
   function setSid(sid) {
     try { sessionStorage.setItem(SESSION_KEY, sid); } catch (e) {}
-    try { localStorage.setItem(SESSION_KEY, sid); } catch (e) {}
   }
   function clearSid() {
     try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
-    try { localStorage.removeItem(SESSION_KEY); } catch (e) {}
   }
 
   // Đọc #sid=... từ URL fragment sau OAuth callback redirect.
@@ -319,8 +317,8 @@
 
   /* Unauth GitHub API — public repo nên READ (list contents, get file) hoạt
      động không auth. Rate limit 60 req/h cho IP unauth — đủ cho 1 user cá
-     nhân chỉnh sửa bài thỉnh thoảng. WRITE (create/update/delete) đi qua backend
-     /cms/save-post + /cms/posts/bulk-delete (commit thật lên GitHub/main). */
+     nhân chỉnh sửa bài thỉnh thoảng. WRITE (put/delete) đã chuyển sang
+     download file thay vì gọi API. */
   async function api(path, opts) {
     opts = opts || {};
     const res = await fetch(API + path, {
@@ -406,91 +404,35 @@
     return { sha: file.sha, content, path: file.path };
   }
 
-  /* commitPostToGithub: PUT content/posting/{slug}.md lên GitHub/main qua backend
-     /cms/save-post (backend dùng access_token Redis-side). Bài mới → create;
-     bài cũ → update (gửi kèm sha để tránh ghi đè concurrent). Sau commit GitHub
-     Actions tự build + deploy. Lỗi → throw Error có .code/.status/.body để caller
-     hiển thị status rõ ràng (không còn chế độ draft-only/tải file). */
-  async function commitPostToGithub(payload) {
-    const sid = getSid();
-    if (!sid) {
-      const e = new Error("Phiên đăng nhập đã hết. Đăng nhập lại để lưu.");
-      e.code = "no_session"; throw e;
-    }
-    if (!AUTH_API) {
-      const e = new Error("Backend CMS chưa được cấu hình.");
-      e.code = "no_backend"; throw e;
-    }
-    let res;
-    try {
-      res = await fetch(AUTH_API + "/cms/save-post", {
-        method: "POST",
-        headers: {
-          "Authorization": "Bearer " + sid,
-          "Content-Type": "application/json",
-        },
-        credentials: "omit",
-        body: JSON.stringify({
-          slug:    payload.slug,
-          content: payload.content,
-          message: payload.message,
-          sha:     payload.sha || "",   // include SHA when editing existing file
-        }),
-      });
-    } catch (netErr) {
-      const e = new Error("Lỗi mạng khi gọi backend: " + netErr.message);
-      e.code = "network"; throw e;
-    }
-    if (res.status === 401) {
-      clearSid();
-      const e = new Error("Phiên hết hạn. Đăng nhập lại.");
-      e.code = "expired"; throw e;
-    }
-    if (res.status === 403) {
-      const e = new Error("GitHub OAuth thiếu scope 'public_repo'. Đăng xuất rồi đăng nhập lại để cấp quyền ghi repo.");
-      e.code = "forbidden"; throw e;
-    }
-    let data = {};
-    try { data = await res.json(); } catch (e) { data = {}; }
-    if (!res.ok) {
-      // Surface the backend error body + status clearly (no silent "Not Found").
-      const detail = (data && (data.detail || data.message)) || ("HTTP " + res.status);
-      const e = new Error("Lưu lên GitHub thất bại: " + detail);
-      e.code = "api"; e.status = res.status; e.body = data; throw e;
-    }
-    return data; // { ok, action, path, commit_url, commit_sha, demoted_featured, demoted_sticky, deploy_eta }
+  /* Draft-only putPost: tải file .md về máy thay vì PUT lên GitHub.
+     User chạy thủ công `git add content/posting/{slug}.md && git commit
+     && git push` để publish. */
+  function putPost(path, content, sha, message) {
+    const filename = path.split("/").pop();
+    const blob = new Blob([content], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    return Promise.resolve({ downloaded: filename });
   }
 
-  /* deletePost: xoá bài thật trên GitHub qua backend bulk-delete (1 slug).
-     Thay cho chế độ draft-only cũ (git rm thủ công). */
-  async function deletePost(path, sha, message) {
-    const sid = getSid();
-    if (!sid) {
-      const e = new Error("Phiên đăng nhập đã hết. Đăng nhập lại để xoá.");
-      e.code = "no_session"; throw e;
-    }
-    if (!AUTH_API) throw new Error("Backend CMS chưa được cấu hình.");
-    const slug = path.replace(new RegExp("^" + CONTENT_DIR + "/"), "").replace(/\.md$/, "");
-    const res = await fetch(AUTH_API + "/cms/posts/bulk-delete", {
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer " + sid,
-        "Content-Type": "application/json",
-      },
-      credentials: "omit",
-      body: JSON.stringify({ slugs: [slug] }),
-    });
-    if (res.status === 401) {
-      clearSid();
-      const e = new Error("Phiên hết hạn. Đăng nhập lại.");
-      e.code = "expired"; throw e;
-    }
-    let data = {};
-    try { data = await res.json(); } catch (e) { data = {}; }
-    if (!res.ok) {
-      throw new Error("Xoá thất bại: " + ((data && data.detail) || ("HTTP " + res.status)));
-    }
-    return data;
+  /* Draft-only deletePost: không thể xoá qua API (cần PAT). User phải
+     git rm thủ công. Alert hướng dẫn. */
+  function deletePost(path, sha, message) {
+    alert(
+      "Chế độ Draft-only: xoá bài phải làm thủ công.\n\n" +
+      "Chạy local trong repo:\n" +
+      "  git rm " + path + "\n" +
+      "  git commit -m \"" + (message || "Xoá bài") + "\"\n" +
+      "  git push"
+    );
+    return Promise.reject(new Error("delete unavailable in draft-only mode"));
   }
 
   // ============= FRONTMATTER PARSE/BUILD =============
@@ -505,58 +447,6 @@
     return cat;
   }
 
-
-  function tomlString(value) {
-    return "\"" + String(value || "").replace(/\\/g, "\\\\").replace(/"/g, "\\\"") + "\"";
-  }
-
-  function cleanTakeaways(items) {
-    if (!Array.isArray(items)) return [];
-    const seen = new Set();
-    return items
-      .map((x) => String(x || "").trim())
-      .filter(Boolean)
-      .filter((x) => {
-        const k = x.toLowerCase();
-        if (seen.has(k)) return false;
-        seen.add(k);
-        return true;
-      })
-      .slice(0, 3);
-  }
-
-  function takeawayInputs(root) {
-    return Array.from((root || document).querySelectorAll("[data-takeaway]"));
-  }
-
-  function collectTakeawayInputs(root) {
-    return cleanTakeaways(takeawayInputs(root).map((input) => input.value));
-  }
-
-  function fillTakeawayInputs(items) {
-    const values = cleanTakeaways(items);
-    takeawayInputs(document).forEach((input, idx) => {
-      input.value = values[idx] || "";
-    });
-  }
-
-  function suggestTakeawaysFromForm(form) {
-    const title = form && form.title ? form.title.value.trim() : "";
-    const category = getSelectedCategory ? getSelectedCategory() : "";
-    const body = form && form.body ? form.body.value.trim() : "";
-    const firstLine = body
-      .split(/\n+/)
-      .map((x) => x.replace(/^#+\s*/, "").trim())
-      .filter(Boolean)[0] || "";
-
-    const base = title || firstLine || "bài viết này";
-    return cleanTakeaways([
-      "Nắm nhanh ý chính của “" + base + "”.",
-      category ? "Biết góc nhìn thực tế trong nhóm " + category + "." : "Biết điểm cần chú ý trước khi áp dụng.",
-      "Có checklist ngắn để đọc tiếp hiệu quả hơn."
-    ]);
-  }
-
   function parseFrontmatter(md) {
     // TOML frontmatter giữa +++ ... +++
     const m = md.match(/^\+\+\+\n([\s\S]*?)\n\+\+\+\n?([\s\S]*)$/);
@@ -567,7 +457,7 @@
     const fm = {
       title: "", date: "", category: "Posting", tags: [], thumbnail: "",
       featured: false, featured_at: "", sticky: false,
-      premium: false, momo_payment_link: "", takeaways: [],
+      premium: false, momo_payment_link: "",
     };
 
     const lines = fmText.split("\n");
@@ -601,7 +491,6 @@
         else if (key === "featured_at") fm.featured_at = val;
         else if (key === "sticky") fm.sticky = val === true;
         else if (key === "premium") fm.premium = val === true;
-        else if (key === "takeaways") fm.takeaways = Array.isArray(val) ? cleanTakeaways(val) : [];
         else if (key === "momo_payment_link" || key === "momo_link") fm.momo_payment_link = val;
       }
     }
@@ -622,12 +511,6 @@ tags = ${tagsStr}
 [extra]
 `;
     if (fm.thumbnail) fmText += `thumbnail = "${fm.thumbnail}"\n`;
-    if (fm.takeaways && fm.takeaways.length) {
-      const takeaways = cleanTakeaways(fm.takeaways);
-      if (takeaways.length) {
-        fmText += `takeaways = [${takeaways.map(tomlString).join(", ")}]\n`;
-      }
-    }
     if (fm.featured) {
       fmText += `featured = true\n`;
       // featured_at = thời điểm tick — bài tick sau cùng có timestamp lớn nhất,
@@ -661,7 +544,6 @@ tags = ${tagsStr}
       category: category,
       tags: form.tags.value.split(",").map((t) => t.trim()).filter(Boolean),
       thumbnail: form.thumbnail.value.trim(),
-      takeaways: collectTakeawayInputs(form),
       featured: isFeatured,
       featured_at: featuredAt,
       sticky: isSticky,
@@ -687,11 +569,9 @@ tags = ${tagsStr}
     if (!show && input) input.value = "";
   }
 
-  // ============= STICKY — chỉ 1 bài ghim tại 1 thời điểm (auto-unstick) =============
-  // Trả về bài KHÁC đang sticky (nếu có), hoặc null. Dùng state.posts (đã gộp
-  // bake + local). Bỏ qua chính bài đang sửa (currentSlug). KHÔNG chặn save:
-  // khi user ghim bài này, backend /cms/save-post tự gỡ sticky ở bài cũ trong
-  // cùng thao tác — user không phải bỏ ghim thủ công.
+  // ============= STICKY VALIDATION — chỉ 1 bài ghim tại 1 thời điểm =============
+  // Trả về slug của bài KHÁC đang sticky (nếu có), hoặc null. Dùng state.posts
+  // (đã gộp bake + local). Bỏ qua chính bài đang sửa (currentSlug).
   function findOtherSticky(currentSlug) {
     for (const p of state.posts) {
       if (p.sticky && p.slug !== currentSlug) return p;
@@ -699,29 +579,19 @@ tags = ${tagsStr}
     return null;
   }
 
-  // Đồng bộ state.posts sau khi commit thành công: nếu bài vừa lưu là sticky →
-  // gỡ sticky mọi bài khác trong state để UI khớp rule "chỉ 1 sticky" (file .md
-  // bài cũ đã được backend gỡ sticky song song). Upsert bài vừa lưu vào list.
-  function applySavedPostState(slug, fm) {
-    if (fm.sticky) {
-      state.posts.forEach((p) => { if (p.slug !== slug) p.sticky = false; });
-    }
-    const savedPost = {
-      slug: slug,
-      title: fm.title,
-      permalink: postPermalink({ slug: slug }),
-      date: fm.date,
-      category: fm.category,
-      featured: fm.featured,
-      sticky: fm.sticky,
-      isNew: !state.editing,
-    };
-    const idx = state.posts.findIndex((p) => p.slug === slug);
-    if (idx >= 0) state.posts[idx] = savedPost;
-    else state.posts.unshift(savedPost);
-    invalidateListCache();   // ép background refresh tiếp theo fetch tươi
-    discardDraft(slug);      // bài đã commit lên repo → không cần giữ draft
-    lastDraftSlug = slug;
+  // Nếu user tick Sticky nhưng đã có bài khác sticky → báo lỗi ra màn hình +
+  // trả về false (chặn save). title/slug bài đang xung đột hiển thị rõ.
+  function ensureStickyAllowed(isSticky, currentSlug) {
+    if (!isSticky) return true;
+    const other = findOtherSticky(currentSlug);
+    if (!other) return true;
+    const name = other.title || other.slug;
+    const msg = "⚠️ Chỉ được ghim (Sticky) 1 bài tại một thời điểm. " +
+      'Bài "' + name + '" đang được ghim. ' +
+      "Hãy bỏ ghim bài đó trước, rồi ghim bài này.";
+    setStatus("save-status", msg, "error");
+    alert(msg);
+    return false;
   }
 
   // ============= LOGIN BUTTON → REDIRECT GITHUB OAUTH =============
@@ -1028,16 +898,6 @@ tags = ${tagsStr}
     }
   }
 
-
-  const takeawaysSuggestBtn = $("[data-action='takeaways-suggest']");
-  if (takeawaysSuggestBtn) {
-    takeawaysSuggestBtn.addEventListener("click", () => {
-      const form = $("[data-form='post']");
-      fillTakeawayInputs(suggestTakeawaysFromForm(form));
-      setStatus("[data-status]", "✓ Đã gợi ý 3 ý chính nhanh", "success");
-    });
-  }
-
   const reloadBtn = $("[data-action='reload']");
   if (reloadBtn) {
     reloadBtn.addEventListener("click", () => reloadPostsFromSource(reloadBtn));
@@ -1253,18 +1113,9 @@ tags = ${tagsStr}
   }
 
   // ============= EDITOR VIEW =============
-  // Sau khi nạp field bằng .value (KHÔNG bắn 'input'), báo cho SEO rail biết để
-  // chấm điểm lại bài cũ ngay — tránh checklist toàn 0 khi mở bài đã có sẵn.
-  function dispatchHydrated() {
-    try {
-      document.dispatchEvent(new CustomEvent("cms:hydrated"));
-    } catch (e) { /* trình duyệt cũ thiếu CustomEvent ctor — non-critical */ }
-  }
-
   function openEditor(path) {
     const form = $("[data-form='post']");
     form.reset();
-      fillTakeawayInputs([]);
     $("[data-target='save-status']").textContent = "";
     hideDraftBanner(); // reset banner cũ từ session trước
     // Bài mới chưa có slug → mở khoá auto-fill. Edit bài cũ sẽ set lại bên dưới.
@@ -1300,16 +1151,14 @@ tags = ${tagsStr}
       // Edit bài đã có slug → khoá auto-fill để không phá URL hiện tại khi đổi title
       slugLocked = true;
       form.title.value = fm.title;
-      // Lấy leaf slug (bỏ "content/<section>/", chỉ giữ tên file).
-      // Xử lý cả posting/ lẫn baochi/ và section khác.
-      const slug = data.path.replace(/^content\/[^/]+\//, "").replace(/\.md$/, "");
+      // Loại prefix folder (content/posting/) khỏi slug input
+      const slug = data.path.replace(new RegExp("^" + CONTENT_DIR + "/"), "").replace(/\.md$/, "");
       form.slug.value = slug;
       lastDraftSlug = slug; // track để autosave xoá draft cũ khi user đổi slug
       form.date.value = fm.date;
       rebuildCategoryOptions(fm.category);
       form.tags.value = fm.tags.join(", ");
       form.thumbnail.value = fm.thumbnail;
-      fillTakeawayInputs(fm.takeaways || []);
       form.featured.checked = fm.featured;
       if (form.sticky) form.sticky.checked = fm.sticky;
       const momoInput = form.querySelector("[name='momo_link']");
@@ -1322,42 +1171,30 @@ tags = ${tagsStr}
       lastRenderedBody = null;
       renderPreview();
       setStatus("save-status", "✓ Đã tải bài", "success");
-      // SEO rail hydrate: bài cũ vừa nạp xong → rail chấm điểm live ngay.
-      dispatchHydrated();
       // Check có draft chưa lưu cho slug này không — hiển thị banner khôi phục
       checkDraftFor(slug);
     }).catch((err) => {
-      // Hiển thị rõ bài nào không tìm thấy — KHÔNG silent-fallback new-post.
-      const slugDisplay = path.replace(/^content\//, "").replace(/\.md$/, "");
-      setStatus("save-status",
-        "✗ Không tìm thấy bài viết để sửa: " + slugDisplay + " (" + err.message + ")",
-        "error"
-      );
-      // Xóa state.editing để tránh ghi đè sai file nếu user bấm Save trong trạng thái lỗi.
-      state.editing = null;
+      setStatus("save-status", "✗ " + err.message, "error");
     });
   }
 
-  // ============= SAVE / PUBLISH → COMMIT GITHUB =============
-  // Một đường dẫn lưu duy nhất: validate → build frontmatter → PUT lên GitHub/main
-  // qua backend (commitPostToGithub). Bài cũ gửi kèm sha (state.editing.sha) →
-  // update đúng file; bài mới → create. Sticky tự auto-unstick bài cũ ở backend.
-  // KHÔNG còn chế độ draft-only/tải file .md.
-  async function saveAndCommit(opts) {
-    opts = opts || {};
-    const form = $("[data-form='post']");
-    if (opts.confirm && !form.reportValidity()) return;
+  $("[data-form='post']").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = e.target;
 
     const fm = collectFormFrontmatter(form);
+    const isSticky = fm.sticky;
     const body = form.body.value;
-    const slug = (form.slug.value.trim() || slugify(fm.title)).toLowerCase();
+    const slug = (form.slug.value.trim() || slugify(fm.title));
 
     if (!slug) { alert("Cần tiêu đề hoặc slug"); return; }
     if (!fm.title || !fm.date) { alert("Thiếu tiêu đề hoặc ngày"); return; }
+    if (!ensureStickyAllowed(isSticky, slug)) return;
 
     // Validate body có nội dung text thực sự — tránh case Zola không trích được
     // summary → page.summary = null → templates crash với `striptags` filter →
     // toàn bộ site không build → bài viết không lên web.
+    // Bỏ markdown markup (URL, ![]() image, #, *, -, [], code fence) trước khi đếm.
     const plainText = body
       .replace(/```[\s\S]*?```/g, "")           // code blocks
       .replace(/!\[[^\]]*\]\([^)]*\)/g, "")     // images
@@ -1377,55 +1214,162 @@ tags = ${tagsStr}
 
     const path = CONTENT_DIR + "/" + slug + ".md";
     const content = buildFrontmatter(fm, body);
+    const message = state.editing ? "Sửa bài: " + fm.title : "Bài mới: " + fm.title;
+
+    setStatus("save-status", "Đang tạo file .md…", "info");
+    try {
+      await putPost(path, content, state.editing ? state.editing.sha : null, message);
+      setStatus("save-status",
+        "✓ File '" + slug + ".md' đã tải về. Chạy local: " +
+        "git add " + path + " && git commit -m \"" + message + "\" && git push",
+        "success");
+      // Update state.posts in-place — preserve UI position khi user "Quay lại" list.
+      // Bake metadata stale ~1 phút cho đến rebuild, nhưng UI hiển thị metadata mới gõ.
+      // Nếu bài này được ghim → bỏ sticky mọi bài khác trong state (đồng bộ UI
+      // với rule "chỉ 1 sticky"; file .md các bài cũ sẽ được sửa khi user mở/lưu).
+      if (fm.sticky) {
+        state.posts.forEach((p) => { if (p.slug !== slug) p.sticky = false; });
+      }
+      const savedPost = {
+        slug: slug,
+        title: fm.title,
+        permalink: postPermalink({ slug: slug }),
+        date: fm.date,
+        category: fm.category,
+        featured: fm.featured,
+        sticky: fm.sticky,
+        isNew: !state.editing,
+      };
+      const idx = state.posts.findIndex((p) => p.slug === slug);
+      if (idx >= 0) state.posts[idx] = savedPost;
+      else state.posts.unshift(savedPost);
+      invalidateListCache(); // ép background refresh tiếp theo fetch tươi
+      // Cleanup draft localStorage — bài đã commit lên repo, không cần giữ draft
+      discardDraft(slug);
+      lastDraftSlug = slug;
+    } catch (err) {
+      setStatus("save-status", "✗ " + err.message, "error");
+    }
+  });
+
+  // ============= PUBLISH TO GITHUB =============
+  // Đẩy bài trực tiếp lên repo qua backend /cms/save-post. Backend dùng
+  // access_token GitHub (Redis-side) để PUT content/posting/{slug}.md.
+  // Sau push: GitHub Actions auto-build + deploy ~1-2 phút.
+  $("[data-action='publish']").addEventListener("click", async (e) => {
+    e.preventDefault();
+    const form = $("[data-form='post']");
+    if (!form.reportValidity()) return; // browser native validation
+
+    const sid = getSid();
+    if (!sid) {
+      alert("Phiên đăng nhập đã hết. Đăng nhập lại để publish.");
+      showView("login");
+      return;
+    }
+    if (!AUTH_API) {
+      alert("Backend chưa cấu hình.");
+      return;
+    }
+
+    const fm = collectFormFrontmatter(form);
+    const isSticky = fm.sticky;
+    const body = form.body.value;
+    const slug = (form.slug.value.trim() || slugify(fm.title)).toLowerCase();
+    if (!slug || !fm.title || !fm.date) {
+      alert("Thiếu tiêu đề, slug hoặc ngày.");
+      return;
+    }
+    if (!ensureStickyAllowed(isSticky, slug)) return;
+
+    // Same body length validate as Tải .md submit
+    const plainText = body
+      .replace(/```[\s\S]*?```/g, "")
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+      .replace(/\[[^\]]*\]\([^)]*\)/g, "")
+      .replace(/https?:\/\/\S+/g, "")
+      .replace(/[#*_>`\-+|]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (plainText.length < 50) {
+      alert("Nội dung quá ngắn (cần ≥ 50 ký tự).");
+      return;
+    }
+
+    const content = buildFrontmatter(fm, body);
     const message = state.editing
       ? "CMS: cập nhật bài '" + fm.title + "'"
       : "CMS: bài mới '" + fm.title + "'";
-    const sha = state.editing ? state.editing.sha : null;
 
-    if (opts.confirm) {
-      if (!confirm("Đăng bài '" + fm.title + "' lên GitHub?\n\nFile: " + path +
-                   "\n\nGitHub Actions sẽ tự build + deploy ~1-2 phút.")) {
-        return;
-      }
+    if (!confirm("Đăng bài '" + fm.title + "' lên GitHub?\n\nFile: " +
+                 CONTENT_DIR + "/" + slug + ".md\n\nGitHub Actions sẽ tự build + deploy ~1-2 phút.")) {
+      return;
     }
 
     setStatus("save-status", "Đang đẩy lên GitHub…", "info");
+
     try {
-      const data = await commitPostToGithub({ slug, content, message, sha });
+      const res = await fetch(AUTH_API + "/cms/save-post", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + sid,
+          "Content-Type": "application/json",
+        },
+        credentials: "omit",
+        body: JSON.stringify({ slug, content, message }),
+      });
+
+      if (res.status === 401) {
+        clearSid();
+        alert("Phiên hết hạn. Đăng nhập lại.");
+        showView("login");
+        return;
+      }
+      if (res.status === 403) {
+        setStatus("save-status",
+          "✗ GitHub OAuth thiếu scope 'public_repo'. Đăng xuất và đăng nhập lại để cấp quyền.",
+          "error");
+        return;
+      }
+
+      const data = await res.json();
+      if (!res.ok) {
+        setStatus("save-status", "✗ " + (data.detail || "GitHub API lỗi"), "error");
+        return;
+      }
 
       const commitLink = data.commit_url
         ? ' · <a href="' + data.commit_url + '" target="_blank" rel="noopener">Xem commit</a>'
         : "";
-      const stickyNote = data.demoted_sticky
-        ? " (đã tự bỏ ghim " + data.demoted_sticky + " bài cũ)"
-        : "";
       const statusEl = $("[data-target='save-status']");
       statusEl.className = "editor-status editor-status--success";
       statusEl.innerHTML = "✓ Đã " + (data.action === "updated" ? "cập nhật" : "đăng mới") +
-        " <strong>" + escapeHtml(data.path || path) + "</strong>" + stickyNote + ". " +
-        "Deploy ETA: " + escapeHtml(data.deploy_eta || "~1-2 phút") + commitLink;
+        " <strong>" + escapeHtml(data.path) + "</strong>. " +
+        "Deploy ETA: " + escapeHtml(data.deploy_eta) + commitLink;
 
-      applySavedPostState(slug, fm);
-    } catch (err) {
-      if (err.code === "no_session" || err.code === "expired") {
-        alert(err.message);
-        showView("login");
-        return;
+      // Update state.posts in-place — preserve UI position
+      if (fm.sticky) {
+        state.posts.forEach((p) => { if (p.slug !== slug) p.sticky = false; });
       }
-      setStatus("save-status", "✗ " + err.message, "error");
+      const savedPost = {
+        slug: slug,
+        title: fm.title,
+        permalink: postPermalink({ slug: slug }),
+        date: fm.date,
+        category: fm.category,
+        featured: fm.featured,
+        sticky: fm.sticky,
+        isNew: !state.editing,
+      };
+      const idx = state.posts.findIndex((p) => p.slug === slug);
+      if (idx >= 0) state.posts[idx] = savedPost;
+      else state.posts.unshift(savedPost);
+      invalidateListCache();
+      discardDraft(slug);
+      lastDraftSlug = slug;
+    } catch (err) {
+      setStatus("save-status", "✗ Lỗi mạng: " + err.message, "error");
     }
-  }
-
-  // Form submit (nút "Lưu lên GitHub" + Ctrl+S) → commit, không hỏi xác nhận.
-  $("[data-form='post']").addEventListener("submit", (e) => {
-    e.preventDefault();
-    saveAndCommit({ confirm: false });
-  });
-
-  // Nút "Đăng lên blog" → commit kèm xác nhận (browser validation + confirm).
-  $("[data-action='publish']").addEventListener("click", (e) => {
-    e.preventDefault();
-    saveAndCommit({ confirm: true });
   });
 
   $("[data-action='delete']").addEventListener("click", async () => {
@@ -1444,11 +1388,6 @@ tags = ${tagsStr}
       showView("list");
       renderPostList();
     } catch (err) {
-      if (err.code === "no_session" || err.code === "expired") {
-        alert(err.message);
-        showView("login");
-        return;
-      }
       setStatus("save-status", "✗ " + err.message, "error");
     }
   });
@@ -1796,7 +1735,6 @@ tags = ${tagsStr}
     updateCounter();
     lastRenderedBody = null;
     renderPreview();
-    dispatchHydrated(); // draft khôi phục cũng cần rail re-analyze
   }
 
   function checkDraftFor(slug) {
@@ -2064,54 +2002,16 @@ tags = ${tagsStr}
   setEditorMode(getInitialMode());
 
   // ============= URL PARAM HANDLING =============
-
-  // Normalize slug từ URL param thành relative content path.
-  // Input variants được chấp nhận:
-  //   baochi/liobank-gioi-thieu-ban-be-nhan-thuong
-  //   /baochi/liobank-gioi-thieu-ban-be-nhan-thuong
-  //   /baochi/liobank-gioi-thieu-ban-be-nhan-thuong/
-  //   cai-dat-zola   (simple slug → CONTENT_DIR)
-  // Output: chuỗi clean không có leading/trailing slash, không domain.
-  // Trả về "" nếu input không hợp lệ (unsafe traversal, null byte…).
-  function normalizeEditorSlug(input) {
-    if (!input) return "";
-    var s = input;
-    try { s = decodeURIComponent(s); } catch (e) {}
-    s = s.trim();
-    // Strip domain nếu là full URL (https://seomoney.org/baochi/...)
-    try {
-      var u = new URL(s);
-      s = u.pathname;
-    } catch (e) { /* không phải URL đầy đủ — bỏ qua */ }
-    // Bỏ query string và hash
-    s = s.split("?")[0].split("#")[0];
-    // Bỏ leading/trailing slashes
-    s = s.replace(/^\/+|\/+$/g, "");
-    // Reject unsafe traversal
-    if (/\.\.|\\|\x00/.test(s)) return "";
-    return s;
-  }
-
-  // Mở trực tiếp 1 bài qua ?slug=... — yêu cầu session valid trước.
-  // Hỗ trợ: slug đơn giản (→ CONTENT_DIR), slug có thư mục (→ content/<slug>).
-  // KHÔNG silent-fallback new-post khi slug hiện diện nhưng file không tồn tại.
+  // Mở trực tiếp 1 bài qua ?slug=cai-dat-zola — yêu cầu session valid trước
   function checkUrlParam() {
-    var params = new URLSearchParams(location.search);
-    var rawSlug = params.get("slug");
-    if (!rawSlug) return false;
-
-    var slug = normalizeEditorSlug(rawSlug);
-    if (!slug) return false;
-
-    // Giải quyết content path:
-    //   slug có "/" → nested content path: content/<slug>.md
-    //   slug đơn giản → mặc định dùng CONTENT_DIR: content/posting/<slug>.md
-    var path = (slug.indexOf("/") !== -1)
-      ? "content/" + slug + ".md"
-      : CONTENT_DIR + "/" + slug + ".md";
-
-    openEditor(path);
-    return true;
+    const params = new URLSearchParams(location.search);
+    const slug = params.get("slug");
+    if (slug) {
+      const path = CONTENT_DIR + "/" + slug + ".md";
+      openEditor(path);
+      return true;
+    }
+    return false;
   }
 
   // ============= INIT — GitHub OAuth Flow =============
@@ -2134,14 +2034,6 @@ tags = ${tagsStr}
     if (sid) {
       const user = await fetchMe();
       if (user) {
-        // CMS write auth = SUPERUSER ONLY. Non-super (kể cả VIP) không được vào
-        // trình soạn thảo → clear session, hiện lỗi access_denied.
-        if (!user.is_super) {
-          clearSid();
-          showLoginError("access_denied");
-          showView("login");
-          return;
-        }
         currentUser = user;
         populateUserBar(user);
         if (!checkUrlParam()) await enterDashboard(true);
@@ -2169,279 +2061,4 @@ tags = ${tagsStr}
   });
 
   init();
-})();
-
-/* ============= Editor Markdown Slash Helper =============
-   Lightweight Medium/Notion-style helper:
-   Type /h2, /list, /quote, /link, /tip at the start of a line.
-   Static-first, no dependency, no WYSIWYG.
-*/
-(() => {
-  const COMMANDS = [
-    { key: "h2", label: "Tiêu đề H2", hint: "## Tiêu đề", insert: "## Tiêu đề\n\n" },
-    { key: "h3", label: "Tiêu đề H3", hint: "### Tiêu đề", insert: "### Tiêu đề\n\n" },
-    { key: "list", label: "Danh sách bullet", hint: "- Ý chính", insert: "- Ý chính 1\n- Ý chính 2\n- Ý chính 3\n\n" },
-    { key: "quote", label: "Trích dẫn", hint: "> Ghi chú", insert: "> Ghi chú đáng nhớ\n\n" },
-    { key: "link", label: "Liên kết", hint: "[text](url)", insert: "[Tên liên kết](https://example.com)\n\n" },
-    { key: "tip", label: "Box ghi chú nhẹ", hint: "> 💡 Mẹo", insert: "> 💡 **Mẹo:** Viết ghi chú ngắn ở đây.\n\n" },
-    { key: "code", label: "Code block", hint: "```", insert: "```bash\n# command\n```\n\n" }
-  ];
-
-  function bodyField() {
-    return document.querySelector(
-      "[data-form='post'] textarea[name='body'], " +
-      "[data-form='post'] textarea[name='content'], " +
-      "[data-form='post'] textarea[data-body], " +
-      "[data-form='post'] textarea"
-    );
-  }
-
-  function ensureMenu() {
-    let menu = document.querySelector("[data-md-slash-menu]");
-    if (menu) return menu;
-
-    menu = document.createElement("div");
-    menu.className = "editor-slash-menu";
-    menu.setAttribute("data-md-slash-menu", "");
-    menu.setAttribute("role", "listbox");
-    menu.hidden = true;
-    document.body.appendChild(menu);
-    return menu;
-  }
-
-  function lineBeforeCursor(ta) {
-    const before = ta.value.slice(0, ta.selectionStart);
-    return before.slice(before.lastIndexOf("\n") + 1);
-  }
-
-  function currentQuery(ta) {
-    const line = lineBeforeCursor(ta);
-    const m = line.match(/^\/([a-z0-9-]*)$/i);
-    return m ? m[1].toLowerCase() : null;
-  }
-
-  function replaceSlashWith(ta, text) {
-    const start = ta.selectionStart;
-    const before = ta.value.slice(0, start);
-    const lineStart = before.lastIndexOf("\n") + 1;
-    const after = ta.value.slice(ta.selectionEnd);
-    const prefix = ta.value.slice(0, lineStart);
-
-    ta.value = prefix + text + after;
-    const nextPos = (prefix + text).length;
-    ta.focus();
-    ta.setSelectionRange(nextPos, nextPos);
-    ta.dispatchEvent(new Event("input", { bubbles: true }));
-  }
-
-  function getCaretRect(ta) {
-    const rect = ta.getBoundingClientRect();
-    return {
-      left: Math.min(rect.left + 18, window.innerWidth - 320),
-      top: Math.min(rect.top + 64, window.innerHeight - 260)
-    };
-  }
-
-  function hideMenu() {
-    const menu = document.querySelector("[data-md-slash-menu]");
-    if (menu) menu.hidden = true;
-  }
-
-  function renderMenu(ta) {
-    const q = currentQuery(ta);
-    const menu = ensureMenu();
-
-    if (q === null) {
-      hideMenu();
-      return;
-    }
-
-    const matches = COMMANDS.filter((cmd) =>
-      cmd.key.includes(q) || cmd.label.toLowerCase().includes(q)
-    ).slice(0, 7);
-
-    if (!matches.length) {
-      hideMenu();
-      return;
-    }
-
-    menu.innerHTML = matches.map((cmd, idx) => (
-      '<button type="button" class="editor-slash-menu__item' + (idx === 0 ? ' is-active' : '') + '" data-md-command="' + cmd.key + '" role="option">' +
-        '<span class="editor-slash-menu__label">/' + cmd.key + ' · ' + cmd.label + '</span>' +
-        '<span class="editor-slash-menu__hint">' + cmd.hint.replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</span>' +
-      '</button>'
-    )).join("");
-
-    const pos = getCaretRect(ta);
-    menu.style.left = pos.left + "px";
-    menu.style.top = pos.top + "px";
-    menu.hidden = false;
-
-    menu.querySelectorAll("[data-md-command]").forEach((btn) => {
-      btn.addEventListener("mousedown", (event) => {
-        event.preventDefault();
-        const cmd = COMMANDS.find((x) => x.key === btn.dataset.mdCommand);
-        if (cmd) replaceSlashWith(ta, cmd.insert);
-        hideMenu();
-      });
-    });
-  }
-
-  function activeCommand(menu) {
-    return menu && menu.querySelector(".editor-slash-menu__item.is-active");
-  }
-
-  document.addEventListener("input", (event) => {
-    const ta = bodyField();
-    if (!ta || event.target !== ta) return;
-    renderMenu(ta);
-  });
-
-  document.addEventListener("keydown", (event) => {
-    const ta = bodyField();
-    const menu = document.querySelector("[data-md-slash-menu]");
-    if (!ta || event.target !== ta || !menu || menu.hidden) return;
-
-    const items = Array.from(menu.querySelectorAll(".editor-slash-menu__item"));
-    const current = Math.max(0, items.findIndex((x) => x.classList.contains("is-active")));
-
-    if (event.key === "Escape") {
-      event.preventDefault();
-      hideMenu();
-    }
-
-    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-      event.preventDefault();
-      items.forEach((x) => x.classList.remove("is-active"));
-      const next = event.key === "ArrowDown"
-        ? Math.min(items.length - 1, current + 1)
-        : Math.max(0, current - 1);
-      items[next].classList.add("is-active");
-    }
-
-    if (event.key === "Enter" || event.key === "Tab") {
-      const btn = activeCommand(menu);
-      if (!btn) return;
-      event.preventDefault();
-      const cmd = COMMANDS.find((x) => x.key === btn.dataset.mdCommand);
-      if (cmd) replaceSlashWith(ta, cmd.insert);
-      hideMenu();
-    }
-  });
-
-  document.addEventListener("click", (event) => {
-    if (!event.target.closest("[data-md-slash-menu]")) hideMenu();
-  });
-})();
-
-/* Internal Link Helper — lightweight editor-only helper */
-(() => {
-  const queryInput = document.getElementById("internalLinkQuery");
-  const resultsEl = document.getElementById("internalLinkResults");
-  const bodyInput = document.querySelector('textarea[name="body"]');
-
-  if (!queryInput || !resultsEl || !bodyInput) return;
-
-  const normalize = (value) =>
-    String(value || "")
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-
-  const escapeHtml = (value) =>
-    String(value || "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
-
-  const readPosts = () => {
-    const el = document.getElementById("site-search-data");
-    if (!el) return [];
-
-    try {
-      const raw = JSON.parse(el.textContent || "[]");
-      return Array.isArray(raw)
-        ? raw
-            .map((item) => ({
-              title: item.title || item.name || "Bài viết",
-              url: item.url || item.permalink || item.path || "",
-              description: item.description || item.summary || item.excerpt || "",
-            }))
-            .filter((item) => item.url && item.title)
-        : [];
-    } catch (_) {
-      return [];
-    }
-  };
-
-  const posts = readPosts();
-
-  const insertAtCursor = (text) => {
-    const start = bodyInput.selectionStart || 0;
-    const end = bodyInput.selectionEnd || 0;
-    const before = bodyInput.value.slice(0, start);
-    const after = bodyInput.value.slice(end);
-    bodyInput.value = `${before}${text}${after}`;
-    bodyInput.focus();
-    const cursor = start + text.length;
-    bodyInput.setSelectionRange(cursor, cursor);
-    bodyInput.dispatchEvent(new Event("input", { bubbles: true }));
-  };
-
-  const render = () => {
-    const q = normalize(queryInput.value.trim());
-
-    if (!posts.length) {
-      resultsEl.innerHTML = '<p class="editor-internal-link-helper__empty">Chưa có dữ liệu tìm kiếm nội bộ.</p>';
-      return;
-    }
-
-    if (q.length < 2) {
-      resultsEl.innerHTML = '<p class="editor-internal-link-helper__empty">Nhập ít nhất 2 ký tự để tìm bài cũ.</p>';
-      return;
-    }
-
-    const terms = q.split(/\s+/).filter(Boolean);
-
-    const matches = posts
-      .map((post) => {
-        const haystack = normalize(`${post.title} ${post.description} ${post.url}`);
-        const score = terms.reduce((total, term) => total + (haystack.includes(term) ? 1 : 0), 0);
-        return { ...post, score };
-      })
-      .filter((post) => post.score > 0)
-      .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
-      .slice(0, 6);
-
-    if (!matches.length) {
-      resultsEl.innerHTML = '<p class="editor-internal-link-helper__empty">Chưa tìm thấy bài phù hợp.</p>';
-      return;
-    }
-
-    resultsEl.innerHTML = matches
-      .map((post, index) => `
-        <article class="editor-internal-link-helper__item">
-          <div>
-            <div class="editor-internal-link-helper__item-title">${escapeHtml(post.title)}</div>
-            <div class="editor-internal-link-helper__item-url">${escapeHtml(post.url)}</div>
-          </div>
-          <button class="editor-internal-link-helper__insert" type="button" data-internal-link-index="${index}">
-            Chèn link
-          </button>
-        </article>
-      `)
-      .join("");
-
-    resultsEl.querySelectorAll("[data-internal-link-index]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const post = matches[Number(btn.dataset.internalLinkIndex)];
-        if (!post) return;
-        insertAtCursor(`[${post.title}](${post.url})`);
-      });
-    });
-  };
-
-  queryInput.addEventListener("input", render);
-  render();
 })();

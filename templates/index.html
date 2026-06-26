@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% import "macros/verified.html" as v %}
+{% import "macros/img.html" as img %}
+{% import "macros/premium.html" as premium %}
+{% import "macros/pagination.html" as pager %}
+
+{# Homepage title giàu từ khoá hơn cho SERP (thay vì chỉ hiện tên brand) #}
+{% block title %}{{ config.title }} — Blog công nghệ, du lịch & ẩm thực{% endblock %}
+
+{% block main %}
+    <h1 class="visually-hidden">{{ config.title }} — Blog công nghệ, du lịch &amp; ẩm thực</h1>
+    {# HOTFIX: bài viết sống rải rác ở nhiều section (posting/, baochi/, …).
+       Gộp TẤT CẢ bài lại + sort theo ngày giảm dần → trang chủ hiển thị MỌI
+       bài, không phân biệt section/category; bài mới nhất luôn tự lên đầu. #}
+    {% set posting = get_section(path="posting/_index.md") %}
+    {% set baochi = get_section(path="baochi/_index.md") %}
+    {% set_global all_pages = [] %}
+    {% for page in posting.pages | concat(with=baochi.pages) %}
+        {% if not page.extra.feed_anchor %}
+            {% set_global all_pages = all_pages | concat(with=[page]) %}
+        {% endif %}
+    {% endfor %}
+    {% set all_pages = all_pages | sort(attribute="date") | reverse %}
+
+    {% set per_page = 10 %}
+    {% set page_num = paginator.current_index | default(value=1) %}
+    {% set offset = (page_num - 1) * per_page %}
+
+    {# STICKY: chỉ trang 1; bài ghim (extra.sticky=true) — CMS chặn >1. #}
+    {% set_global sticky = false %}
+    {% if page_num == 1 %}
+        {% for page in all_pages %}
+            {% if not sticky and page.extra.sticky %}{% set_global sticky = page %}{% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {# Feed = tất cả bài, loại sticky khỏi danh sách phân trang. #}
+    {% set_global feed = [] %}
+    {% for page in all_pages %}
+        {% if not sticky or page.slug != sticky.slug %}{% set_global feed = feed | concat(with=[page]) %}{% endif %}
+    {% endfor %}
+
+    {% set feed_total = feed | length %}
+    {% set feed_pages = paginator.number_pagers | default(value=1) %}
+    {% set page_feed = feed | slice(start=offset, end=offset + per_page) %}
+
+    {# Decorative wordmark banner — letters POSTINGS spread evenly #}
+    <div class="home-tabs" aria-hidden="true">
+        <span class="home-tabs__letter">P</span>
+        <span class="home-tabs__letter">O</span>
+        <span class="home-tabs__letter">S</span>
+        <span class="home-tabs__letter">T</span>
+        <span class="home-tabs__letter">I</span>
+        <span class="home-tabs__letter">N</span>
+        <span class="home-tabs__letter">G</span>
+        <span class="home-tabs__letter">S</span>
+    </div>
+
+    {% if sticky %}
+        <section class="home-sticky" aria-label="Bài ghim nổi bật">
+            <article class="home-sticky__card">
+                <a class="home-sticky__image" href="{{ sticky.permalink }}">
+                    <img src="{{ img::thumb_src(thumb=sticky.extra.thumbnail | default(value='')) }}" alt="{{ sticky.title }}"
+                         width="1200" height="800"
+                         loading="eager" fetchpriority="high" decoding="async">
+                </a>
+                <div class="home-sticky__body">
+                    <span class="home-sticky__pin">📌 Ghim nổi bật</span>
+                    {% if sticky.extra.premium %}
+                        {{ premium::badge() }}
+                    {% elif sticky.taxonomies.categories %}
+                        <span class="home-sticky__cat">{{ sticky.taxonomies.categories[0] }}</span>
+                    {% endif %}
+                    <h2 class="home-sticky__title">
+                        <a href="{{ sticky.permalink }}">{{ sticky.title }}</a>
+                    </h2>
+                    <p class="home-sticky__desc">
+                        {{ sticky.description | default(value=sticky.summary | default(value="") | safe | striptags | truncate(length=280)) }}
+                    </p>
+                    <div class="home-sticky__meta">
+                        <span class="home-sticky__author">{{ config.extra.author }}{{ v::badge() }}</span>
+                        <span class="home-sticky__date">{{ sticky.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                    </div>
+                </div>
+            </article>
+        </section>
+    {% endif %}
+
+    {% if page_feed | length > 0 %}
+        <section class="home-latest">
+            <h2 class="home-latest__heading">
+                Bài mới nhất
+                {% if feed_pages > 1 %}
+                <span class="home-latest__page">Trang {{ page_num }}/{{ feed_pages }}</span>
+                {% endif %}
+            </h2>
+            <div class="home-grid">
+                {% for page in page_feed %}
+                    <article class="home-card{% if page.extra.premium %} home-card--premium{% endif %}">
+                        <a class="home-card__image" href="{{ page.permalink }}">
+                            <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                                 width="800" height="500"
+                                 loading="{% if loop.first and page_num == 1 and not sticky %}eager{% else %}lazy{% endif %}"
+                                 {% if loop.first and page_num == 1 and not sticky %}fetchpriority="high"{% endif %}
+                                 decoding="async">
+                        </a>
+                        <div class="home-card__body">
+                            {% if page.extra.premium %}
+                                {{ premium::badge() }}
+                            {% elif page.taxonomies.categories %}
+                                <span class="home-card__cat">{{ page.taxonomies.categories[0] }}</span>
+                            {% endif %}
+                            <span class="home-card__insight">Insights khán giả</span>
+                            <h3 class="home-card__title">
+                                <a href="{{ page.permalink }}">{{ page.title }}</a>
+                            </h3>
+                            <p class="home-card__desc">
+                                {{ page.description | default(value=page.summary | default(value="") | safe | striptags | truncate(length=140)) }}
+                            </p>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+    {% if page_num == 1 %}
+        {# ===== FONT GUIDELINE BAND — chỉ trang chủ 1 ===== #}
+        <section class="home-font">
+            <span class="home-font__bg" aria-hidden="true">Aa</span>
+            <div class="home-font__inner">
+                <p class="home-font__eyebrow">Font Guideline · Letters from Sweden</p>
+                <h2 class="home-font__title">Ericsson Hilda</h2>
+                <p class="home-font__desc">
+                    Typeface độc quyền của Ericsson — humanist sans-serif, digital-first.
+                    Khám phá lịch sử, các độ đậm, type scale và quy tắc sử dụng.
+                </p>
+                <a class="home-font__cta" href="{{ config.base_url }}/font/">Xem Font Guideline →</a>
+            </div>
+        </section>
+
+        <section class="home-branding-cta" style="margin: 40px 0; padding: 30px; background: var(--c-bg-soft); border-radius: 4px; text-align: center;">
+            <h2 style="color: var(--c-text-heading); font-size: 20px; margin-bottom: 12px;">🎨 Design System</h2>
+            <p style="color: var(--c-text-muted); margin-bottom: 16px;">Khám phá hướng dẫn thiết kế Hilda theme — palette màu, typography, và UI rules</p>
+            <a href="{{ config.base_url }}/branding-guideline/" style="display: inline-block; background: var(--c-accent); color: white; padding: 12px 24px; border-radius: 4px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.background='var(--c-accent-hover)'" onmouseout="this.style.background='var(--c-accent)'">
+                Xem Branding Guideline →
+            </a>
+        </section>
+    {% endif %}
+
+    {% if feed_pages > 1 %}
+        <nav class="pagination" aria-label="Phân trang trang chủ">
+            {% if page_num > 1 %}
+                <a class="pagination__btn pagination__btn--prev" href="{{ pager::page_href(base=config.base_url, page_num=page_num - 1) }}">« Trang trước</a>
+            {% else %}
+                <span class="pagination__btn pagination__btn--prev" aria-hidden="true"></span>
+            {% endif %}
+            <span class="pagination__info">Trang {{ page_num }} / {{ feed_pages }} · {{ feed_total }} bài</span>
+            {% if page_num < feed_pages %}
+                <a class="pagination__btn pagination__btn--next" href="{{ pager::page_href(base=config.base_url, page_num=page_num + 1) }}">Trang sau »</a>
+            {% else %}
+                <span class="pagination__btn pagination__btn--next" aria-hidden="true"></span>
+            {% endif %}
+        </nav>
+    {% endif %}
+{% endblock main %}

@@ -7,7 +7,7 @@ aliases = ["/review-cake-by-vpbank/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["cake by vpbank", "ngân hàng số", "ngân hàng số series", "review cake", "vpbank"]
 [extra]
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "review cake by vpbank"
 featured = false
 series = "ngan-hang-so"
@@ -35,7 +35,7 @@ a = "An toàn về hệ thống: Cake gắn với VPBank, dùng sinh trắc họ
 
 ## Cake by VPBank là gì?
 
-Cake là ngân hàng số ra đời từ hợp tác giữa **[VPBank](https://www.vpbank.com.vn)** và **Be Group** (ứng dụng gọi xe Be). Vì gắn với VPBank — một ngân hàng lớn — tài khoản Cake là tài khoản ngân hàng thật, tiền gửi được bảo hiểm. Cake vận hành 100% qua app, mở tài khoản online bằng eKYC trong vài phút (xem [cách mở tài khoản online](/cach-mo-tai-khoan-ngan-hang-so-online/)).
+Cake là ngân hàng số ra đời từ hợp tác giữa **[VPBank](https://www.vpbank.com.vn)** và **Be Group** (ứng dụng gọi xe Be). Vì gắn với VPBank — một ngân hàng lớn — tài khoản Cake là tài khoản ngân hàng thật, tiền gửi được bảo hiểm. Cake vận hành 100% qua app, mở tài khoản online bằng eKYC trong vài phút (xem [cách mở tài khoản online](/zola/posting/cach-mo-tai-khoan-ngan-hang-so-online/)).
 
 ## Review Cake by VPBank: ưu điểm và nhược điểm
 
@@ -56,7 +56,7 @@ Cake mạnh ở **bề rộng tính năng** hơn là một ưu đãi đơn lẻ:
 - **Tiết kiệm linh hoạt**: lãi suất cạnh tranh, gửi/rút dễ.
 - **Tích hợp Be**: tiện cho người hay đi xe công nghệ.
 
-> ⚠️ Phí và ưu đãi của Cake **thay đổi theo thời điểm**. Hãy kiểm tra điều khoản mới nhất trong app. Nếu bạn ưu tiên hoàn tiền hơn bề rộng tính năng, xem [ngân hàng số hoàn tiền nhiều nhất](/ngan-hang-so-hoan-tien-nhieu-nhat/).
+> ⚠️ Phí và ưu đãi của Cake **thay đổi theo thời điểm**. Hãy kiểm tra điều khoản mới nhất trong app. Nếu bạn ưu tiên hoàn tiền hơn bề rộng tính năng, xem [ngân hàng số hoàn tiền nhiều nhất](/zola/posting/ngan-hang-so-hoan-tien-nhieu-nhat/).
 
 ## Bảo mật và trải nghiệm thực tế
 
@@ -70,13 +70,13 @@ Cake dùng **sinh trắc học** và OTP, tuân thủ chuẩn bảo mật của 
 
 - Người muốn **một app nhiều chức năng** (thẻ, tiết kiệm, vay).
 - Người hay dùng **Be** và hệ sinh thái liên quan.
-- Người kinh doanh online cần tài khoản phổ biến — xem [ngân hàng số cho người kinh doanh online](/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
+- Người kinh doanh online cần tài khoản phổ biến — xem [ngân hàng số cho người kinh doanh online](/zola/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
 
-Nếu bạn phân vân giữa Cake và Liobank, đọc ngay bài **[so sánh Cake vs Liobank](/so-sanh-cake-vs-liobank/)** để thấy rõ ai hợp với mình hơn.
+Nếu bạn phân vân giữa Cake và Liobank, đọc ngay bài **[so sánh Cake vs Liobank](/zola/posting/so-sanh-cake-vs-liobank/)** để thấy rõ ai hợp với mình hơn.
 
 ## So sánh nhanh với đối thủ
 
-So với [Liobank by OCB](/review-liobank-by-ocb/) (mạnh hoàn tiền, app gọn), Cake thắng ở **bề rộng tính năng và độ phổ biến**, nhưng hoàn tiền không nổi trội bằng. Toàn cảnh các lựa chọn nằm ở [top ngân hàng số tốt nhất Việt Nam 2026](/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
+So với [Liobank by OCB](/zola/posting/review-liobank-by-ocb/) (mạnh hoàn tiền, app gọn), Cake thắng ở **bề rộng tính năng và độ phổ biến**, nhưng hoàn tiền không nổi trội bằng. Toàn cảnh các lựa chọn nằm ở [top ngân hàng số tốt nhất Việt Nam 2026](/zola/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
 
 ## Có nên mở Cake by VPBank không?
 

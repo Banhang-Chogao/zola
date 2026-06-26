@@ -7,7 +7,7 @@ categories = ["Tất cả", "Khoa học", "Thế giới", "Báo chí"]
 tags = ["địa-chính-trị", "năng-lượng-hạt-nhân", "iran", "mỹ", "thỏa-thuận-quốc-tế", "science uranium series"]
 [extra]
 seo_keyword = "uranium Iran"
-thumbnail = "https://seomoney.org/img/covers/iran-uranium-destruction-what-it-means.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/iran-uranium-destruction-what-it-means.svg"
 featured = false
 hub_series = "science-uranium"
 +++
@@ -55,6 +55,6 @@ Kết quả? Kỳ vọng là Iran mất kho uranium (giảm đe dọa hạt nhâ
 
 ## Đọc thêm — bối cảnh khoa học
 
-Headline về *uranium làm giàu 60%* hoặc *IAEA tiêu hủy* dễ gây bối rối nếu thiếu nền tảng. Tôi đã mở **Series Khoa học — Uranium & năng lượng hạt nhân** (5 bài) — giáo dục, trung lập — bắt đầu từ [Uranium là gì?](/uranium-la-gi-tai-sao-quan-trong/). Danh sách đầy đủ hiển thị ngay bên dưới bài này.
+Headline về *uranium làm giàu 60%* hoặc *IAEA tiêu hủy* dễ gây bối rối nếu thiếu nền tảng. Tôi đã mở **Series Khoa học — Uranium & năng lượng hạt nhân** (5 bài) — giáo dục, trung lập — bắt đầu từ [Uranium là gì?](/zola/posting/uranium-la-gi-tai-sao-quan-trong/). Danh sách đầy đủ hiển thị ngay bên dưới bài này.
 
-Muốn bối cảnh địa chính trị rộng hơn? [Hòa bình Mỹ-Iran tác động túi tiền bạn thế nào?](/baochi/my-iran-peace-deal-global-energy/)
+Muốn bối cảnh địa chính trị rộng hơn? [Hòa bình Mỹ-Iran tác động túi tiền bạn thế nào?](/zola/baochi/my-iran-peace-deal-global-energy/)

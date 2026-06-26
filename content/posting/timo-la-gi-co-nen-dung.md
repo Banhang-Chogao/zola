@@ -7,7 +7,7 @@ aliases = ["/timo-la-gi-co-nen-dung/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["ngân hàng số", "ngân hàng số series", "review timo", "timo", "timo là gì"]
 [extra]
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "timo là gì"
 featured = false
 series = "ngan-hang-so"
@@ -39,7 +39,7 @@ Timo (viết tắt của "Timo — Time is Money") là **ngân hàng số tiên 
 
 ## Timo là gì trong bức tranh ngân hàng số hiện nay?
 
-Là người đi đầu, Timo có lợi thế thương hiệu và sự ổn định, nhưng cũng chịu cạnh tranh gay gắt từ các tên tuổi mới mạnh về hoàn tiền. So với [Liobank](/review-liobank-by-ocb/) hay [Cake](/review-cake-by-vpbank/), Timo thiên về **trải nghiệm ổn định và hỗ trợ**, không chạy đua cashback bằng mọi giá.
+Là người đi đầu, Timo có lợi thế thương hiệu và sự ổn định, nhưng cũng chịu cạnh tranh gay gắt từ các tên tuổi mới mạnh về hoàn tiền. So với [Liobank](/zola/posting/review-liobank-by-ocb/) hay [Cake](/zola/posting/review-cake-by-vpbank/), Timo thiên về **trải nghiệm ổn định và hỗ trợ**, không chạy đua cashback bằng mọi giá.
 
 ## Ưu điểm và nhược điểm của Timo
 
@@ -60,7 +60,7 @@ Timo cung cấp các dịch vụ cơ bản của một ngân hàng số: chuyể
 - Người muốn có nơi **hỗ trợ trực tiếp** (Hangout) thay vì chỉ chat trong app.
 - Người không quá đặt nặng hoàn tiền.
 
-Nếu bạn đang cân nhắc Timo so với một ngân hàng số trẻ khác, đọc [so sánh Timo vs TNEX](/so-sanh-timo-vs-tnex/). Còn nếu muốn hoàn tiền cao, xem [ngân hàng số hoàn tiền nhiều nhất](/ngan-hang-so-hoan-tien-nhieu-nhat/).
+Nếu bạn đang cân nhắc Timo so với một ngân hàng số trẻ khác, đọc [so sánh Timo vs TNEX](/zola/posting/so-sanh-timo-vs-tnex/). Còn nếu muốn hoàn tiền cao, xem [ngân hàng số hoàn tiền nhiều nhất](/zola/posting/ngan-hang-so-hoan-tien-nhieu-nhat/).
 
 ## Lịch sử và vai trò tiên phong của Timo
 
@@ -68,7 +68,7 @@ Khi Timo ra mắt năm 2016, khái niệm "ngân hàng không chi nhánh" còn r
 
 ## Có nên dùng Timo không?
 
-**Nên**, nếu sự ổn định và hỗ trợ trực tiếp quan trọng với bạn hơn cuộc đua ưu đãi. Vì ngân hàng số mở miễn phí, bạn có thể dùng Timo làm tài khoản chính ổn định và kết hợp một app mạnh hoàn tiền cho chi tiêu hằng ngày. Xem toàn cảnh tại [top ngân hàng số tốt nhất Việt Nam 2026](/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
+**Nên**, nếu sự ổn định và hỗ trợ trực tiếp quan trọng với bạn hơn cuộc đua ưu đãi. Vì ngân hàng số mở miễn phí, bạn có thể dùng Timo làm tài khoản chính ổn định và kết hợp một app mạnh hoàn tiền cho chi tiêu hằng ngày. Xem toàn cảnh tại [top ngân hàng số tốt nhất Việt Nam 2026](/zola/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
 
 ## Tóm lại
 

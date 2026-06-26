@@ -7,7 +7,7 @@ categories = ["Tất cả", "Thể thao", "Báo chí"]
 tags = ["world-cup-2026", "ronaldo", "messi", "bo-dao-nha", "bong-da", "chdc-congo"]
 [extra]
 seo_keyword = "Bồ Đào Nha CHDC Congo World Cup 2026"
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 +++
 
@@ -15,7 +15,7 @@ Tôi thức tới 0h ngày 18/6 không phải vì thói quen xem bóng đêm —
 
 <!-- more -->
 
-![Cristiano Ronaldo trong màu áo Bồ Đào Nha tại World Cup 2026](https://seomoney.org/img/placeholder/placeholder-wide.svg)
+![Cristiano Ronaldo trong màu áo Bồ Đào Nha tại World Cup 2026](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg)
 
 ## Ronaldo đang đứng trước cột mốc nào?
 
@@ -66,7 +66,3 @@ Tôi sẽ theo dõi xem Ronaldo có phá vỡ "lời nguyền" knock-out World C
 ---
 
 *Nguồn tham khảo: tổng hợp và phân tích từ [Dân trí](https://dantri.com.vn) (18/6/2026). Số liệu Opta, thành tích vòng loại và đội hình dự kiến theo các bản nhận định trước trận.*
-
-> **Xem thêm trong cụm:** [Lịch thi đấu World Cup 2026 giờ VN: Messi hat-trick](/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick/)
-
-> **Xem thêm trong chuyên mục:** [Du lịch — kinh nghiệm xin visa và hành trình](/du-lich/)

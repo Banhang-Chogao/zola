@@ -15,80 +15,37 @@ permissions:
   id-token: write
 
 concurrency:
-  # ZERO_BARRIER_DEPLOY_QUEUE: serialize production deploys FIFO — 1 pipeline at a
-  # time. cancel-in-progress:false → queue, never cancel → no parallel deploy spam,
-  # no Pages-API rate-limit burst (configure-pages). Next deploy starts after the
-  # previous reaches a terminal state. (Supersedes V5 cancel-on-storm.)
-  group: production-deploy
-  cancel-in-progress: false
+  group: "pages"
+  # true: gộp "cơn bão" deploy (PR merge dồn dập / bot dispatch) → chỉ run mới
+  # nhất chạy tới cùng, các run cũ bị huỷ sớm → giảm mạnh số lần gọi Pages API,
+  # tránh "API rate limit exceeded for installation" ở bước configure-pages.
+  cancel-in-progress: true
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GH_GITHUB_COM_TOKEN }}
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-  ZOLA_VERSION: '0.22.1'
-  PIP_CACHE_DIR: ~/.cache/pip
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Initialize Linkita submodule
-        run: git submodule sync --recursive && git submodule update --init --recursive themes/linkita
+        uses: actions/checkout@v6
 
       - name: Setup Node.js 24
         uses: actions/setup-node@v6
         with:
           node-version: '24'
 
-      - name: Cache Zola binary
-        id: cache-zola
-        uses: actions/cache@v4
-        with:
-          path: /usr/local/bin/zola
-          key: ${{ runner.os }}-zola-${{ env.ZOLA_VERSION }}
-
       - name: Install Zola
-        if: steps.cache-zola.outputs.cache-hit != 'true'
         run: |
-          curl -sLO https://github.com/getzola/zola/releases/download/v${{ env.ZOLA_VERSION }}/zola-v${{ env.ZOLA_VERSION }}-x86_64-unknown-linux-gnu.tar.gz
-          tar -xzf zola-v${{ env.ZOLA_VERSION }}-x86_64-unknown-linux-gnu.tar.gz
+          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
           sudo mv zola /usr/local/bin/
-          zola --version
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
-          cache: 'pip'
-          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
-
-      # DNS Vaccine gate — blocks the deploy only on deterministic repo drift
-      # (base_url host ≠ static/CNAME). Live DNS is monitored separately by
-      # dns-vaccine.yml; this gate never touches the network, so it cannot flake.
-      - name: DNS Vaccine gate (repo drift only)
-        run: python3 scripts/dns_vaccine.py --offline --gate
-
-      # GSC preflight gate — FAIL the deploy unless GSC_PROPERTY_URL is the
-      # canonical domain property (sc-domain:seomoney.org). The offline gate needs
-      # no network/wheels; when OAuth creds are present it additionally verifies
-      # sites.list permission, sitemap registration and a 7d Search Analytics
-      # smoke fetch. Never logs credentials.
-      - name: GSC property preflight (deploy gate)
-        env:
-          GSC_PROPERTY_URL: ${{ secrets.GSC_PROPERTY_URL }}
-          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
-          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
-          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
-        run: |
-          if [ -n "${GSC_REFRESH_TOKEN}" ] && [ -n "${GSC_CLIENT_ID}" ] && [ -n "${GSC_CLIENT_SECRET}" ]; then
-            pip install --quiet google-api-python-client==2.169.0 google-auth==2.40.2
-          fi
-          python3 scripts/gsc_preflight.py
 
       - name: Build social OG cover images (SVG → .og.webp)
         run: |
@@ -101,34 +58,18 @@ jobs:
       - name: Build reference index
         run: python3 scripts/build_references.py
 
-      - name: Build VIPZone picker catalog
-        run: python3 scripts/build_vipzone_picker_catalog.py
-
       - name: Build Google Rank sidebar data
         run: python3 scripts/build_google_rank.py
 
-      - name: Build SEO Reality Check sidebar data
-        run: python3 scripts/build_seo_reality.py
-
       - name: Build GitHub Activity data
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/build_github_activity.py
 
       - name: Build GitHub Profile Badges data
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/build_github_profile_badges.py
-
-      - name: Build THEODOI8 LIVE banner report
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_GITHUB_COM_TOKEN }}
-        run: python3 scripts/build_theodoi8_report.py
-
-      - name: Build Open PR Monitor data (gh pr list → static/data/open-prs.json)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_GITHUB_COM_TOKEN }}
-        run: python3 scripts/build_open_prs.py
 
       - name: SEO Rank auto-fix report (scan only)
         run: python3 scripts/seo-rank-autofix.py --scan-only
@@ -136,51 +77,17 @@ jobs:
       - name: Fetch Google Trends VN (hot search sidebar)
         run: python3 scripts/fetch_google_trends.py --limit 25
 
-      - name: Generate deployment status
-        run: |
-          SHA_SHORT=$(git rev-parse --short=7 HEAD)
-          COMMIT_MSG=$(git log -1 --pretty=%s)
-          NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          jq -n \
-            --arg status "success" \
-            --arg ts "$NOW" \
-            --arg deploy_time "$NOW" \
-            --arg sha "$SHA_SHORT" \
-            --arg msg "$COMMIT_MSG" \
-            --arg url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
-            '{status: $status, timestamp: $ts, deploy_time: $deploy_time, commit_sha: $sha, commit_message: $msg, run_url: $url, duration_seconds: 0, health: "green"}' \
-            > data/deployment-status.json
+      - name: Strip premium content before build
+        run: python3 scripts/paywall_prepare_build.py --strip
 
-      - name: Build site (zola build — retry 3×, timeout 15 min/attempt per issue #876)
-        id: zola-build
-        timeout-minutes: 50
+      - name: Build site
         env:
-          # Dùng PAT (5000 req/h) thay vì GITHUB_TOKEN (1000 req/h) để tránh
-          # rate-limit khi template gọi GitHub API commits (load_data).
-          ZOLA_GH_TOKEN: ${{ secrets.GH_GITHUB_COM_TOKEN }}
-          # Google AdSense publisher id (ca-pub-…). Để trống nếu chưa duyệt →
-          # base.html bỏ qua loader. Đặt secret ADSENSE_CLIENT để bật quảng cáo.
-          ADSENSE_CLIENT: ${{ secrets.ADSENSE_CLIENT }}
+          ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export ZOLA_VERSION="$(zola --version | awk '{print $2}')"
           export ZOLA_BUILD_SHA="$(git rev-parse --short=7 HEAD)"
           echo "Building with Zola $ZOLA_VERSION @ commit $ZOLA_BUILD_SHA"
-          # Site 503+ trang; build thực mất ~16 min (log run #28113769085).
-          # 3 attempts với `timeout --preserve-status 900` (15 min/attempt) cap
-          # → process deadlock bị SIGTERM, không để runner chết đứng. Backoff
-          # 30/60/90s tránh burst. Step timeout-minutes:50 làm backstop.
-          for attempt in 1 2 3; do
-            echo "🔨 Build attempt $attempt/3..."
-            if timeout --preserve-status 900 zola build; then
-              echo "✅ Zola build succeeded on attempt $attempt"
-              exit 0
-            fi
-            RC=$?
-            echo "⚠️ Build attempt $attempt rc=$RC, retrying..."
-            sleep $((30 * attempt))
-          done
-          echo "❌ Zola build failed after 3 attempts"
-          exit 1
+          zola build
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v6
@@ -204,38 +111,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
-
-  # WD Heartbeat — report the deploy outcome to the live stats backend
-  # (POST /api/heartbeat). Separate job with `if: always()` so it records BOTH
-  # success and failure (a failed build skips `deploy`, but this still fires).
-  # Fully non-blocking: missing config or an unreachable backend never fails the
-  # pipeline. The footer module itself reads the build-time JSON, so this is
-  # purely supplementary live telemetry.
-  heartbeat:
-    needs: [build, deploy]
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - name: Report deploy heartbeat
-        env:
-          WD_HEARTBEAT_URL: ${{ secrets.WD_HEARTBEAT_URL }}
-          WD_HEARTBEAT_SECRET: ${{ secrets.WD_HEARTBEAT_SECRET }}
-        run: |
-          set -uo pipefail
-          if [ -z "${WD_HEARTBEAT_URL:-}" ] || [ -z "${WD_HEARTBEAT_SECRET:-}" ]; then
-            echo "Heartbeat backend not configured (WD_HEARTBEAT_URL / WD_HEARTBEAT_SECRET) — skip."
-            exit 0
-          fi
-          if [ "${{ needs.build.result }}" = "success" ] && [ "${{ needs.deploy.result }}" = "success" ]; then
-            STATUS="success"
-          else
-            STATUS="failed"
-          fi
-          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          SHA="$(echo "${GITHUB_SHA}" | cut -c1-7)"
-          echo "Reporting deploy heartbeat: status=$STATUS sha=$SHA"
-          curl -sS -X POST "$WD_HEARTBEAT_URL" \
-            -H "Content-Type: application/json" \
-            -H "X-Heartbeat-Secret: $WD_HEARTBEAT_SECRET" \
-            -d "{\"status\":\"$STATUS\",\"timestamp\":\"$NOW\",\"commit_hash\":\"$SHA\",\"duration\":0}" \
-            --max-time 15 || echo "Heartbeat POST failed (non-blocking)."

@@ -12,7 +12,7 @@ Lấy sid: đăng nhập /editor/ hoặc /bao-cao-tong-ket/ trên blog → mở 
 Dùng:
     python3 scripts/push_report.py <file.md> \
         --sid "<session_id>" \
-        [--api https://blog-vipzone-api.onrender.com] \
+        [--api https://blog-visitor-api.onrender.com] \
         [--name bao-cao-YYYYMMDD-HHMMSS.md]
 
 Env thay cho flag: REPORT_API_SID, REPORT_API_URL.
@@ -29,7 +29,7 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-DEFAULT_API = "https://blog-vipzone-api.onrender.com"
+DEFAULT_API = "https://blog-visitor-api.onrender.com"
 
 
 def main(argv: list[str]) -> int:

@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-14"
 premium_title = "Ngày 14 — Ôn tập tuần 2 & hội thoại mua sắm"
 premium_teaser_words = 210
 seo_keyword = "hội thoại mua sắm tiếng hàn"
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 14
@@ -41,4 +41,4 @@ Nếm thử một câu thôi nhé: bạn cầm cái áo lên hỏi cô bán hàn
 
 Trong bài đầy đủ hôm nay bạn sẽ có: **bảng ôn 5 trợ từ** (은/는 · 이/가 · 을/를 · 에 · 에서) gọn một trang, cách **đọc tiền bằng số Hán-Hàn**, trọn bộ câu vàng khi **mua sắm & gọi món** (이거 주세요, 물 주세요, 메뉴 주세요…), một **đoạn hội thoại mua sắm mẫu** có dịch từng dòng, và **15 câu bài tập kèm đáp án**. Mở khóa để đi chợ Hàn không sợ lạc nhé — 화이팅! 💪
 
-👉 Quay lại [Ngày 13 — số đếm Hàn-Hàn & Hán-Hàn](/so-dem-tieng-han-han-han-thuan-han/) để ôn số, hoặc tiến tới [Ngày 15 — động từ đuôi 아요/어요](/dong-tu-tinh-tu-duoi-ayo-eoyo-tieng-han/). Xem lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) và [kho bài Premium](/categories/premium/).
+👉 Quay lại [Ngày 13 — số đếm Hàn-Hàn & Hán-Hàn](/zola/posting/so-dem-tieng-han-han-han-thuan-han/) để ôn số, hoặc tiến tới [Ngày 15 — động từ đuôi 아요/어요](/zola/posting/dong-tu-tinh-tu-duoi-ayo-eoyo-tieng-han/). Xem lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) và [kho bài Premium](/zola/categories/premium/).

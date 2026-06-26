@@ -5,7 +5,7 @@
 {% set badge_data = load_data(path="data/github-profile-badges.json", required=false) %}
 {% set has_activity = gh and gh.total_contributions is defined %}
 {% if badge_data %}
-    {% if badge_data.badges %}{% set badge_list = badge_data.badges %}{% else %}{% set badge_list = [] %}{% endif %}
+{% set badge_list = badge_data.badges | default(value=[]) %}
 {% else %}
 {% set badge_list = [] %}
 {% endif %}

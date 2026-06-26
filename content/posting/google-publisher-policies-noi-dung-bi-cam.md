@@ -7,7 +7,7 @@ aliases = ["/google-publisher-policies-noi-dung-bi-cam/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["adsense", "adsense foundation series", "google adsense", "monetization", "nội dung bị cấm", "publisher policies"]
 [extra]
-thumbnail = "https://seomoney.org/img/covers/tao-blog-voi-zola.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "google publisher policies nội dung bị cấm"
 featured = false
 series = "adsense-foundation"
@@ -28,9 +28,9 @@ q = "Nội dung adult hoặc bạo lực có chạy AdSense được không?"
 a = "Không. Sexually explicit content, shocking content (bạo lực graphic, gore), dangerous or derogatory content đều nằm trong Policies bị cấm. Một số chủ đề nhạy cảm khác thuộc Restrictions (giới hạn quảng cáo) — series sẽ phân tích ở Bài 5; bài này tập trung nội dung bị cấm hoàn toàn."
 +++
 
-> 📚 **Google AdSense Foundation Series (Bài 4/15)** — Sau [Bài 1: Google AdSense là gì & khung Program policies](/google-adsense-la-gi-chinh-sach-chuong-trinh/), [Bài 2: Điều kiện đủ tư cách AdSense](/dieu-kien-du-tu-cach-adsense/) và [Bài 3: Website sẵn sàng cho AdSense](/website-san-sang-cho-adsense/), bài này đi vào lớp chính sách publisher hay bỏ qua cho đến khi bị cảnh báo: **Google Publisher Policies — nội dung bị cấm hiển thị quảng cáo**. Tôi bám [Google Publisher Policies](https://support.google.com/adsense/answer/9335564?hl=en) — không phải tóm tắt forum, mà là khung Google dùng để disable ads hoặc đóng tài khoản.
+> 📚 **Google AdSense Foundation Series (Bài 4/15)** — Sau [Bài 1: Google AdSense là gì & khung Program policies](/zola/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/), [Bài 2: Điều kiện đủ tư cách AdSense](/zola/posting/dieu-kien-du-tu-cach-adsense/) và [Bài 3: Website sẵn sàng cho AdSense](/zola/posting/website-san-sang-cho-adsense/), bài này đi vào lớp chính sách publisher hay bỏ qua cho đến khi bị cảnh báo: **Google Publisher Policies — nội dung bị cấm hiển thị quảng cáo**. Tôi bám [Google Publisher Policies](https://support.google.com/adsense/answer/9335564?hl=en) — không phải tóm tắt forum, mà là khung Google dùng để disable ads hoặc đóng tài khoản.
 
-[Bài 3](/website-san-sang-cho-adsense/) đã nhắc scraped content và policies khi nói site readiness. Bài 4 **mở rộng toàn bộ** danh mục nội dung bị cấm — giúp bạn audit site **trước** apply và **sau** khi đã monetize, tránh mất doanh thu đột ngột vì một bài vi phạm.
+[Bài 3](/zola/posting/website-san-sang-cho-adsense/) đã nhắc scraped content và policies khi nói site readiness. Bài 4 **mở rộng toàn bộ** danh mục nội dung bị cấm — giúp bạn audit site **trước** apply và **sau** khi đã monetize, tránh mất doanh thu đột ngột vì một bài vi phạm.
 
 <!-- more -->
 
@@ -45,7 +45,7 @@ Trong [AdSense Program policies](https://support.google.com/adsense/answer/48182
 
 **Bài 4** (bài này) = Policies = **cấm tuyệt đối**. **Bài 5** series sẽ cover Restrictions — giới hạn fill rate, không phải disable toàn site.
 
-[Bài 1](/google-adsense-la-gi-chinh-sach-chuong-trinh/) đã vẽ bức tranh tổng thể. [Bài 2](/dieu-kien-du-tu-cach-adsense/) yêu cầu tuân thủ policies **trước khi đăng ký**. [Bài 3](/website-san-sang-cho-adsense/) gắn scraped content với site readiness. Bài 4 là **bản đồ chi tiết** để không vi phạm vô tình.
+[Bài 1](/zola/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/) đã vẽ bức tranh tổng thể. [Bài 2](/zola/posting/dieu-kien-du-tu-cach-adsense/) yêu cầu tuân thủ policies **trước khi đăng ký**. [Bài 3](/zola/posting/website-san-sang-cho-adsense/) gắn scraped content với site readiness. Bài 4 là **bản đồ chi tiết** để không vi phạm vô tình.
 
 Google ghi rõ trong [9335564](https://support.google.com/adsense/answer/9335564?hl=en): publishers **không được** đặt Google ads trên content vi phạm Policies. Vi phạm nghiêm trọng hoặc lặp lại → **account disabled** — khó khôi phục.
 
@@ -76,7 +76,7 @@ Blog giáo dục công nghệ hợp pháp (SEO, Zola, AdSense) thường không 
 
 ### Intellectual property abuse
 
-Cấm content vi phạm bản quyền, nhãn hiệu, hoặc quyền sở hữu trí tuệ khác — không có quyền sử dụng hợp pháp. Liên quan trực tiếp [Bài 3](/website-san-sang-cho-adsense/):
+Cấm content vi phạm bản quyền, nhãn hiệu, hoặc quyền sở hữu trí tuệ khác — không có quyền sử dụng hợp pháp. Liên quan trực tiếp [Bài 3](/zola/posting/website-san-sang-cho-adsense/):
 
 - Copy nguyên bài báo, ebook, ảnh stock không license.
 - Reupload video YouTube người khác làm "nội dung chính" trang.
@@ -126,7 +126,7 @@ Blog lifestyle, sức khỏe giới tính **giáo dục** có thể pass nếu k
 
 ## Scraped content và nội dung không gốc {#scraped-content}
 
-Đây là nhóm publisher Việt Nam hay vi phạm nhất — [Bài 3](/website-san-sang-cho-adsense/) đã cảnh báo.
+Đây là nhóm publisher Việt Nam hay vi phạm nhất — [Bài 3](/zola/posting/website-san-sang-cho-adsense/) đã cảnh báo.
 
 Google định nghĩa **scraped content** gồm:
 
@@ -142,7 +142,7 @@ Google định nghĩa **scraped content** gồm:
 | Tổng hợp tin + 2 câu intro | **Có** — thường |
 | Embed video + phân tích 5 đoạn gốc | **Thường không** — nếu đủ giá trị gốc |
 
-Scraped content vi phạm **cả Publisher Policies lẫn** [Spam policies for Google web search](https://developers.google.com/search/docs/essentials/spam-policies) — mất ads và có thể mất traffic organic. Kết hợp [SEO Foundation Series](/seo-la-gi-huong-dan-co-ban-google-search/) để xây helpful content thay vì aggregate.
+Scraped content vi phạm **cả Publisher Policies lẫn** [Spam policies for Google web search](https://developers.google.com/search/docs/essentials/spam-policies) — mất ads và có thể mất traffic organic. Kết hợp [SEO Foundation Series](/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/) để xây helpful content thay vì aggregate.
 
 ## Phần mềm độc hại và nội dung lừa đảo {#malware-va-lua-dao}
 
@@ -214,25 +214,25 @@ Trước apply và **mỗi quý** sau khi monetize, tôi chạy checklist bám [
 - [ ] **Dangerous/hate**: Không kích động thù hận, phân biệt, quấy rối cá nhân.
 - [ ] **Shocking**: Không gore/violence gratuitous.
 - [ ] **Adult/CSAM**: Không explicit; moderate UGC chặt.
-- [ ] **Scraped**: Mỗi bài có giá trị gốc — pass [Bài 3](/website-san-sang-cho-adsense/) readiness.
+- [ ] **Scraped**: Mỗi bài có giá trị gốc — pass [Bài 3](/zola/posting/website-san-sang-cho-adsense/) readiness.
 - [ ] **Malware/misrepresentation**: Không redirect lừa, không fake brand.
 - [ ] **UGC**: Có quy trình moderate nếu có comment/forum.
 - [ ] **Policy center**: Kiểm tra cảnh báo sau mỗi lần Google email.
 
 ## Bạn nên làm gì sau bài 4? {#sau-bai-4}
 
-Sau khi audit **nội dung bị cấm**, bước tiếp theo trong series là [**Bài 5: Google Publisher Restrictions**](/google-publisher-restrictions-noi-dung-han-che/) — chủ đề *được phép* nhưng quảng cáo bị giới hạn (fill rate thấp hơn, không phải disable). Trước mắt:
+Sau khi audit **nội dung bị cấm**, bước tiếp theo trong series là [**Bài 5: Google Publisher Restrictions**](/zola/posting/google-publisher-restrictions-noi-dung-han-che/) — chủ đề *được phép* nhưng quảng cáo bị giới hạn (fill rate thấp hơn, không phải disable). Trước mắt:
 
 1. **Quét toàn site** — đặc biệt bài cũ, trang tag, archive trước khi gắn ad code.
 2. **Đọc** [Policy center](https://support.google.com/adsense/answer/7003627?hl=en) sau apply — mọi cảnh báo cần xử lý trong deadline Google ghi.
-3. **Giữ site readiness** từ [Bài 3](/website-san-sang-cho-adsense/) — policies và readiness song song, không thay thế nhau.
+3. **Giữ site readiness** từ [Bài 3](/zola/posting/website-san-sang-cho-adsense/) — policies và readiness song song, không thay thế nhau.
 
-Nếu chưa đủ tư cách, quay [Bài 2](/dieu-kien-du-tu-cach-adsense/). Nếu chưa hiểu khung tổng thể, đọc [Bài 1](/google-adsense-la-gi-chinh-sach-chuong-trinh/).
+Nếu chưa đủ tư cách, quay [Bài 2](/zola/posting/dieu-kien-du-tu-cach-adsense/). Nếu chưa hiểu khung tổng thể, đọc [Bài 1](/zola/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/).
 
 ## Tóm lại {#tom-lai}
 
 **Google Publisher Policies** quy định nội dung **bị cấm hoàn toàn** hiển thị quảng cáo Google — từ illegal, IP abuse, hate, shocking, adult, **scraped content**, đến malware và misrepresentation. Vi phạm → ads disabled hoặc account closed; khác **Restrictions** (Bài 5) là giới hạn một phần.
 
-Publisher blog Zola an toàn khi viết **gốc, giáo dục**, moderate UGC, và audit định kỳ. [Bài 3](/website-san-sang-cho-adsense/) giúp site pass review; **Bài 4** giúp **giữ** tài khoản sau duyệt.
+Publisher blog Zola an toàn khi viết **gốc, giáo dục**, moderate UGC, và audit định kỳ. [Bài 3](/zola/posting/website-san-sang-cho-adsense/) giúp site pass review; **Bài 4** giúp **giữ** tài khoản sau duyệt.
 
-Series: Bài 1 (khung policies) → Bài 2 (eligibility) → Bài 3 (site readiness) → **Bài 4** (nội dung bị cấm). Tiếp theo: [**Bài 5: Google Publisher Restrictions**](/google-publisher-restrictions-noi-dung-han-che/) — phân biệt "cấm" vs "giới hạn quảng cáo".
+Series: Bài 1 (khung policies) → Bài 2 (eligibility) → Bài 3 (site readiness) → **Bài 4** (nội dung bị cấm). Tiếp theo: [**Bài 5: Google Publisher Restrictions**](/zola/posting/google-publisher-restrictions-noi-dung-han-che/) — phân biệt "cấm" vs "giới hạn quảng cáo".

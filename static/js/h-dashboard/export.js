@@ -190,26 +190,25 @@
 
     setFont(doc, "headline", 16);
     doc.setTextColor(255, 255, 255);
-    doc.text("H-Dashboard — Coffee Life Analytics", margin, 11);
+    doc.text("H-Dashboard — Báo cáo tài chính", margin, 11);
 
     setFont(doc, "normal", 8.5);
     doc.setTextColor(210, 225, 245);
     const exported = (window.ZolaDateTime && window.ZolaDateTime.formatDisplayDateTime(payload.exported_at))
       || payload.exported_at.replace("T", " ").slice(0, 19);
-    doc.text("Highlands Coffee receipts · " + BLOG_URL_SLUG, margin, 17);
+    doc.text("Hóa đơn mua hàng · " + BLOG_URL_SLUG, margin, 17);
     doc.text("Xuất lúc: " + exported, margin, 22);
 
     doc.setTextColor(INK[0], INK[1], INK[2]);
     return bandH + 6;
   }
 
-  function drawKpiCards(doc, summary, coffee, fmt, margin, pageW, y) {
-    const dna = (coffee && coffee.dna) || {};
+  function drawKpiCards(doc, summary, fmt, margin, pageW, y) {
     const cards = [
-      { label: "Lần ghé", value: String(dna.totalVisits || summary.visit_count || 0), color: INCOME },
-      { label: "Tổng chi tiêu", value: fmt(dna.totalSpend || summary.total_expense), color: EXPENSE },
-      { label: "Hóa đơn TB", value: fmt(dna.avgBill || 0), color: ACCENT },
-      { label: "Đồ uống", value: String(dna.totalDrinks || summary.transaction_count), color: MUTED },
+      { label: "Tổng thu", value: fmt(summary.total_income), color: INCOME },
+      { label: "Tổng chi", value: fmt(summary.total_expense), color: EXPENSE },
+      { label: "Chênh lệch", value: fmt(summary.net_cash_flow), color: ACCENT },
+      { label: "Giao dịch", value: String(summary.transaction_count), color: MUTED },
     ];
     const gap = 4;
     const cardW = (pageW - margin * 2 - gap * 3) / 4;
@@ -244,23 +243,36 @@
     return BRAND_NAVY;
   }
 
-  function drawCoffeeExecBlock(doc, coffee, margin, pageW, y) {
+  function drawHealthBlock(doc, health, margin, pageW, y) {
     const blockW = pageW - margin * 2;
-    const text = (coffee && coffee.executiveSummary) || "Coffee Executive Summary";
-    const wrapped = doc.splitTextToSize(String(text), blockW - 12);
-    const blockH = Math.max(28, wrapped.length * 4.5 + 14);
+    const blockH = 34;
 
-    doc.setFillColor(221, 244, 242);
-    doc.setDrawColor(0, 167, 160);
-    doc.roundedRect(margin, y, blockW, blockH, 3, 3, "FD");
-
-    setFont(doc, "bold", 10);
-    setRgb(doc, INK);
-    doc.text("Coffee Executive Summary", margin + 6, y + 9);
+    doc.setFillColor(BRAND_NAVY[0], BRAND_NAVY[1], BRAND_NAVY[2]);
+    doc.roundedRect(margin, y, blockW, blockH, 3, 3, "F");
 
     setFont(doc, "normal", 9);
-    setRgb(doc, MUTED);
-    doc.text(wrapped, margin + 6, y + 16);
+    doc.setTextColor(210, 225, 245);
+    doc.text("Điểm sức khỏe tài chính", margin + 6, y + 9);
+
+    setFont(doc, "headline", 26);
+    doc.setTextColor(255, 255, 255);
+    doc.text(String(health.financial_score), margin + 6, y + 24);
+
+    const accent = healthAccent(health.health_label);
+    setFont(doc, "bold", 13);
+    doc.setTextColor(accent[0], accent[1], accent[2]);
+    doc.text(health.health_label, margin + 32, y + 24);
+
+    const sr = Math.round(health.saving_rate * 100);
+    const er = Math.round(health.expense_ratio * 100);
+    setFont(doc, "normal", 8.5);
+    doc.setTextColor(230, 238, 252);
+    doc.text(
+      "Tỷ lệ tiết kiệm: " + sr + "%  ·  Tỷ lệ chi: " + er + "%  ·  Dòng tiền: " +
+        global.HDashboardInsights.formatVnd(health.net_cash_flow),
+      margin + 6,
+      y + 30
+    );
 
     setRgb(doc, INK);
     return y + blockH + 8;
@@ -520,30 +532,35 @@
     const topTxns = c.topTxns || {};
     const hasTxns = (summary && summary.transaction_count > 0) || false;
 
-    const timeline = c.timeline && c.timeline.daily;
     const sections = [
       {
-        title: "Visit Timeline",
-        canvasId: "hd-chart-timeline",
-        hasData: Array.isArray(timeline && timeline.labels) && timeline.labels.length > 0,
+        title: "Financial Health Gauge",
+        canvasId: "hd-chart-gauge",
+        hasData: hasTxns,
+        wide: false,
+      },
+      {
+        title: "Thu vs Chi",
+        canvasId: "hd-chart-donut",
+        hasData: donutVals.some((v) => Number(v) > 0),
+        wide: false,
+      },
+      {
+        title: "Số dư theo thời gian",
+        canvasId: "hd-chart-area",
+        hasData: Array.isArray(balance.labels) && balance.labels.length > 0,
         wide: true,
       },
       {
-        title: "Drink Categories",
-        canvasId: "hd-chart-categories",
-        hasData: hasTxns,
+        title: "Giao dịch lớn nhất (thu/chi)",
+        canvasId: "hd-chart-treemap",
+        hasData: Array.isArray(topTxns.items) && topTxns.items.length > 0,
         wide: false,
       },
       {
-        title: "Seasonality",
-        canvasId: "hd-chart-season",
-        hasData: hasTxns,
-        wide: false,
-      },
-      {
-        title: "Monthly Trend",
-        canvasId: "hd-chart-monthly",
-        hasData: hasTxns,
+        title: "Dòng tiền ròng theo ngày",
+        canvasId: "hd-chart-waterfall",
+        hasData: Array.isArray(dailyNet.labels) && dailyNet.labels.length > 0,
         wide: true,
       },
     ];
@@ -562,10 +579,8 @@
   }
 
   function drawPdfReport(doc, payload, transactions, charts) {
-    const { summary, coffee, insights, series_id: series } = payload;
-    const fmt = global.HDashboardCoffee
-      ? global.HDashboardCoffee.formatVnd
-      : (n) => String(n);
+    const { summary, health, insights, series_id: series } = payload;
+    const fmt = global.HDashboardInsights.formatVnd;
     const pageW = doc.internal.pageSize.getWidth();
     const pageH = doc.internal.pageSize.getHeight();
     const margin = 12;
@@ -579,11 +594,15 @@
       y += 6;
     }
 
-    y = drawKpiCards(doc, summary, coffee, fmt, margin, pageW, y);
-    y = drawCoffeeExecBlock(doc, coffee, margin, pageW, y);
+    y = drawKpiCards(doc, summary, fmt, margin, pageW, y);
+    y = drawHealthBlock(doc, health, margin, pageW, y);
 
     const contentW = pageW - margin * 2;
+    // AI Insights — promoted to a full-width, prominent section so the printed
+    // report always surfaces it (previously a small half-column, easy to miss).
     y = drawInsights(doc, insights, margin, contentW, y, pageH);
+    // Financial-health tiers reference, full width below the insights.
+    y = drawHealthTiers(doc, margin, contentW, y);
 
     y = drawChartsBlock(doc, charts, summary, margin, pageW, pageH, y);
 
@@ -623,9 +642,8 @@
       source: "h-dashboard",
       transactions,
       summary: insightsPayload.summary,
-      coffee: insightsPayload.coffee,
+      health: insightsPayload.health,
       insights: insightsPayload.insights,
-      charts: insightsPayload.coffee && insightsPayload.coffee.charts,
     };
   }
 
@@ -689,7 +707,7 @@
     const payload = buildPayload(transactions, insightsPayload);
     const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
     await ensurePdfFonts(doc);
-    drawPdfReport(doc, payload, transactions, insightsPayload && insightsPayload.coffee && insightsPayload.coffee.charts);
+    drawPdfReport(doc, payload, transactions, insightsPayload && insightsPayload.charts);
     finalizePdfPages(doc, payload.series_id, payload);
 
     const stamp = payload.exported_at.slice(0, 10);

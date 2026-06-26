@@ -1,23 +1,23 @@
-base_url = "https://seomoney.org"
-theme = "zulma"
-title = "SEOMONEY"
-
-# Theme system: E-DNA (Enterprise Editorial Design System) is the default visual theme
-# Applied via CSS custom properties (--c-*) + SCSS theme overrides in sass/_themes.scss
-# Users can toggle via theme switcher (requires data-theme attribute on :root)
-description = "SEOMONEY — blog về SEO, công nghệ, du lịch và tài chính cá nhân: chuyện viết code, xây dựng sản phẩm phần mềm và những chuyến đi đáng nhớ. Tác giả: Duy Nguyen."
+base_url = "https://banhang-chogao.github.io/zola"
+title = "Duy Nguyen"
+description = "Blog cá nhân của Duy Nguyen về công nghệ, du lịch và ẩm thực — chuyện viết code, xây dựng sản phẩm phần mềm và những chuyến đi đáng nhớ."
+# Blog tiếng Việt → khai báo để feed (atom/rss) + sitemap mang đúng
+# xml:lang="vi" thay vì mặc định "en", khớp <html lang="vi">.
 default_language = "vi"
-author = "duynguyenlog"
 
 compile_sass = true
 build_search_index = false
 
+# SEO: sinh feed RSS/Atom toàn site + cho từng taxonomy.
+# Zola 0.19+ đổi `generate_rss`→`generate_feeds`, taxonomy `rss`→`feed`.
+# Mặc định generate_feeds=false → trước đây blog KHÔNG có feed nào (chỉ có
+# sitemap.xml). Bật lên để feed reader + Google Discover bắt được nội dung.
 generate_feeds = true
 feed_filenames = ["atom.xml", "rss.xml"]
 
 taxonomies = [
     {name = "categories", feed = true, paginate_by = 10},
-    {name = "tags", feed = false, paginate_by = 10},
+    {name = "tags", feed = true, paginate_by = 10},
 ]
 
 [markdown]
@@ -29,26 +29,16 @@ theme = "catppuccin-mocha"
 extra_syntaxes_and_themes = ["highlight_themes"]
 
 [extra]
-# Zulma theme configuration
-show_menu = true
-enable_search = true
-theme_mode = "darkly"
-allow_theme_toggle = true
-
 author = "duynguyenlog"
-tagline = "SEO · Công nghệ · Tài chính cá nhân"
+tagline = "Duy Nguyen"
 
-enable_qa_dashboard = false
-deployment_status_path = "data/deployment-status.json"
-
-# Cloudflare R2 CDN base (public, non-secret). Static media (img/images/uploads/
-# pdf/reports) is served from here once mirrored via scripts/r2_migrate.py.
-# Bucket name + R2 endpoint + credentials live in environment variables only.
-cdn = "https://cdn.seomoney.org"
-
-author_avatar = "https://seomoney.org/img/author-avatar.webp"
-author_url = "https://seomoney.org"
-author_bio = """\
+# Author box hiển thị cuối mỗi bài viết.
+# Bio, avatar — sửa ở đây ảnh hưởng mọi bài.
+# Avatar: upload file ảnh vào static/img/author-avatar.webp trong repo,
+# Zola sẽ serve tại path dưới sau khi build.
+author_avatar = "https://banhang-chogao.github.io/zola/img/author-avatar.webp"
+author_url    = "https://banhang-chogao.github.io/zola"
+author_bio    = """\
 Mình là Duy Nguyen — một developer Việt Nam mê khám phá điểm chung giữa \
 công nghệ và những chuyến đi. Tại blog này, mình ghi lại những trải nghiệm \
 cá nhân về việc xây dựng các sản phẩm phần mềm: từ những dòng code đầu \
@@ -62,78 +52,105 @@ phải chấp nhận thất bại để trưởng thành. Cảm ơn bạn đã g
 chúng ta có thể đồng hành cùng nhau qua từng bài viết.\
 """
 
+# Menu navigation — CẤU TRÚC 2 TẦNG: Category → Sub-category (dropdown).
+# 3 nhóm chính (Bài viết · Công cụ · Giới thiệu); mỗi nhóm có 'children'
+# xổ xuống chứa các mục con → KHÔNG mục nào bị ẩn, tất cả truy cập được.
+# Item KHÔNG có 'children' = link đơn bình thường (tương thích ngược).
+# Thêm/bớt mục = sửa mảng 'children' tương ứng (giữ pattern url + name).
 menu = [
     { name = "Trang chủ", url = "$BASE_URL/" },
-    { name = "Insights", url = "$BASE_URL/insights" },
-    { name = "Công cụ", url = "$BASE_URL/tools" },
-    { name = "Bài viết", url = "$BASE_URL/posting" },
-    { name = "Vụ Mùa", url = "$BASE_URL/vu-mua" },
+    { name = "Bài viết", url = "$BASE_URL/categories/tat-ca", children = [
+        { url = "$BASE_URL/categories/tat-ca",  name = "Tất cả bài viết" },
+        { url = "$BASE_URL/categories/bao-chi",  name = "Báo chí" },
+        { url = "$BASE_URL/categories/khoa-hoc", name = "Khoa học" },
+        { url = "$BASE_URL/categories/the-gioi", name = "Thế giới" },
+        { url = "$BASE_URL/categories/du-lich",  name = "Du lịch" },
+        { url = "$BASE_URL/categories/cong-nghe", name = "Công nghệ" },
+        { url = "$BASE_URL/categories/am-thuc",  name = "Ẩm thực" },
+        { url = "$BASE_URL/categories/ngan-hang",  name = "Ngân hàng" },
+        { url = "$BASE_URL/categories/bao-hiem",  name = "Bảo hiểm" },
+        { url = "$BASE_URL/categories/premium",   name = "⭐ Premium" },
+    ] },
+    { name = "Công cụ", url = "$BASE_URL/editor", children = [
+        { url = "$BASE_URL/editor",    name = "Viết bài" },
+        { url = "$BASE_URL/tools/content-creator", name = "Content Creator" },
+        { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" },
+        { url = "$BASE_URL/converter", name = "Korean Converter" },
+        { url = "$BASE_URL/changelog", name = "Changelog" },
+        { url = "$BASE_URL/insights",  name = "Insights" },
+        { url = "$BASE_URL/scoring",   name = "Scoring" },
+        { url = "$BASE_URL/tools/f-dashboard", name = "F-Dashboard" },
+        { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" },
+        { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
+        { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" },
+        { url = "$BASE_URL/prompt-support", name = "Prompt Support" },
+        { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" },
+        { url = "$BASE_URL/tools/s-dna", name = "S-DNA" },
+        { url = "$BASE_URL/font",      name = "Font Guideline" },
+    ] },
+    { name = "Giới thiệu", url = "$BASE_URL/about", children = [
+        { url = "$BASE_URL/about",            name = "Giới thiệu" },
+        { url = "$BASE_URL/contact",          name = "Liên hệ" },
+        { url = "$BASE_URL/privacy",          name = "Chính sách bảo mật" },
+        { url = "$BASE_URL/terms",            name = "Điều khoản & Miễn trừ" },
+        { url = "$BASE_URL/copyright",        name = "Tuyên bố bản quyền" },
+        { url = "$BASE_URL/bao-cao-tong-ket", name = "Báo cáo tổng kết" },
+    ] },
 ]
 
-[extra.menus]
-menu = [
-    { name = "Trang chủ", url = "$BASE_URL/" },
-    { name = "Insights", url = "$BASE_URL/insights" },
-    { name = "Công cụ", url = "$BASE_URL/tools" },
-    { name = "Bài viết", url = "$BASE_URL/posting" },
-    { name = "Vụ Mùa", url = "$BASE_URL/vu-mua" },
-]
+# ============= GOOGLE ANALYTICS 4 =============
+# Lấy MEASUREMENT_ID tại https://analytics.google.com → Admin → Data Streams
+# → chọn Web stream → copy "Measurement ID" dạng "G-XXXXXXXXXX"
+# Để trống = GA tracking script không load (silent skip).
+# Property ID: 541698865 (tham chiếu Admin → Property Settings)
+ga_measurement_id = "G-REFBXH86Z5"
 
-[extra.profiles.duynguyenlog]
-avatar_url = "https://seomoney.org/img/author-avatar.webp"
-avatar_alt = "Duy Nguyen"
-name = "Duy Nguyen"
-bio = """\
-Mình là Duy Nguyen — một developer Việt Nam mê khám phá điểm chung giữa \
-công nghệ và những chuyến đi. Tại blog này, mình ghi lại những trải nghiệm \
-cá nhân về việc xây dựng các sản phẩm phần mềm.\
-"""
-social = [
-    { name = "rss", url = "$BASE_URL/atom.xml" },
-]
-
-[extra.footer]
-since = 2024
-license_url = "https://creativecommons.org/licenses/by-sa/4.0/deed"
-copyright = "&copy; $YEAR Duy Nguyen &vert; [CC BY-SA 4.0]($LICENSE_URL)"
-
-[extra.languages.vi]
-locale = "vi_VN"
-date_format = "%d/%m/%Y"
-hreflang = "vi"
-
-[extra.style]
-bg_color = "#f4f4f5"
-bg_dark_color = "#18181b"
-header_blur = false
-header_color = "#e4e4e7"
-header_dark_color = "#27272a"
-
-ga_measurement_id = "G-SMTFZVC0XN"
-ga_property_id = "542421812"
-ga_dashboard_url = "https://analytics.google.com/analytics/web/#/p542421812/reports/intelligenthome"
-ga_fix_url = "https://analytics.google.com/analytics/web/#/p542421812/admin/streams/table"
-
-adsense_client = ""
-
+# ============= GOOGLE SEARCH CONSOLE =============
+# Xác minh sở hữu site → mở khoá submit sitemap + "Request Indexing"
+# (cách NHANH NHẤT để bài mới lên Google thay vì chờ crawl tự nhiên).
+# Cách lấy mã:
+#   1. Vào https://search.google.com/search-console → Add property
+#      → chọn "URL prefix" → nhập https://banhang-chogao.github.io/zola/
+#   2. Chọn phương thức xác minh "HTML tag"
+#   3. Copy phần content="..." trong thẻ <meta google-site-verification ...>
+#      rồi dán giá trị đó vào dưới (chỉ phần trong dấu nháy).
+# Để trống = không render meta (silent skip).
 google_site_verification = "P8D-DHMtUivdNJmeBe9y345PxmIfmIGooscim9x7IM4"
+
+# ============= GOOGLE PROGRAMMABLE SEARCH ENGINE =============
+# Search engine ID (cx) lấy tại https://programmablesearchengine.google.com/
+# → tạo engine giới hạn site https://banhang-chogao.github.io/zola/
+# → copy "Search engine ID" dán vào đây. Để trống = fallback mở Google với
+# truy vấn site:banhang-chogao.github.io/zola nên nút tìm kiếm vẫn hoạt động.
 google_cse_cx = "533c848cb0eb14de2"
 
-cms_auth_url = "https://blog-vipzone-api.onrender.com"
+# CMS auth backend — FastAPI OAuth (cùng service visitor-counter trên Render).
+# PHẢI nằm dưới [extra], KHÔNG đặt trong [extra.giscus] (meta zola-cms-auth-api sẽ không render).
+cms_auth_url = "https://blog-visitor-api.onrender.com"
+
+# Paywall API — FastAPI backend (request/unlock/admin). Để trống = UI hiện nhưng fetch fail.
 paywall_api_url = "https://blog-paywall-api.onrender.com"
-shortensea_api_url = "https://blog-shortensea-api.onrender.com"
-vipzone_api_url = "https://blog-vipzone-api.onrender.com"
-
+# Giá mặc định bài premium (VND) — category "premium" tự áp dụng, không cần extra.price.
 paywall_default_price = 100000
-enable_premium_lock = false
-premium_hidden = false
-premium_free_trial_active = true
-premium_free_trial_until = "2026-07-01"
-momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/y5eVvzz2nlXXeEP"
-donate_momo_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/y5eVvzz2nlXXeEP"
+# Ẩn tạm chuyên mục Premium: /categories/premium/ và mọi bài premium hiển thị
+# locked-state overlay ("Chuyên mục này đã bị ẩn tạm thời.") thay vì nội dung/404.
+# Đặt false để khôi phục hiển thị bình thường.
+premium_hidden = true
+momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
+# Link MoMo cho DONATE (ủng hộ tự nguyện) — key RIÊNG để donate có thể đổi độc
+# lập với paywall sau này. Hiện trỏ cùng tài khoản nhận tiền với momo_payment_link
+# ở trên. DonatePremiumCard (shortcode donate_card) chỉ đọc key này. Trống = ẩn nút.
+donate_momo_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
 
+# ============= GISCUS COMMENTS (GitHub Discussions) =============
+# Setup:
+#   1. Settings → Features → bật Discussions cho repo
+#   2. Install app https://github.com/apps/giscus
+#   3. Vào https://giscus.app → chọn repo Banhang-Chogao/zola
+#      → copy 2 ID dán vào dưới
+# Để trống repo_id hoặc category_id = macro silent skip, không render comment box.
 [extra.giscus]
-repo = "Banhang-Chogao/zola"
-repo_id = "R_kgDOS5xLPw"
-category = "General"
+repo        = "Banhang-Chogao/zola"
+repo_id     = "R_kgDOS5xLPw"
+category    = "General"
 category_id = "DIC_kwDOS5xLP84C_Fx6"

@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-25"
 premium_title = "Ngày 25 — Động từ bất quy tắc (불규칙)"
 premium_teaser_words = 210
 seo_keyword = "động từ bất quy tắc tiếng hàn"
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 25
@@ -41,4 +41,4 @@ Nếm thử nhé: 덥다 (nóng) thuộc nhóm **ㅂ bất quy tắc** → ㅂ b
 
 Trong bài đầy đủ hôm nay, bạn sẽ có **7 loại bất quy tắc**, mỗi loại một **bảng quy tắc + ví dụ + ngoại lệ**: ㅂ (덥다→더워요), ㄷ (듣다→들어요), ㅡ rụng (바쁘다→바빠요), 르 (모르다→몰라요), ㄹ rụng (살다→삽니다), ㅅ (짓다→지어요), ㅎ (그렇다→그래요). Kèm danh sách động từ **đều (ngoại lệ)** dễ nhầm và **15 câu bài tập có đáp án**. Mở khóa để chia động từ chuẩn như người Hàn nào — 화이팅! 💪
 
-👉 Quay lại [Ngày 24 — mong muốn & ý định](/mong-muon-y-dinh-tieng-han/) hoặc tiến tới [Ngày 26 — kính ngữ (높임말)](/kinh-ngu-nopimmal-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/).
+👉 Quay lại [Ngày 24 — mong muốn & ý định](/zola/posting/mong-muon-y-dinh-tieng-han/) hoặc tiến tới [Ngày 26 — kính ngữ (높임말)](/zola/posting/kinh-ngu-nopimmal-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) hoặc [kho bài Premium](/zola/categories/premium/).

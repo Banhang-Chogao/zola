@@ -8,9 +8,11 @@
   const SESSION_KEY = "zola-cms-session-id";
 
   const AUTH_API = (function () {
-    const m1 = document.querySelector('meta[name="vipzone-auth-api"]');
+    const m1 = document.querySelector('meta[name="zola-cms-auth-api"]');
     if (m1 && m1.getAttribute("content")) return m1.getAttribute("content").replace(/\/$/, "");
-    return "https://blog-vipzone-api.onrender.com";
+    const m2 = document.querySelector('meta[name="zola-visitor-api"]');
+    if (m2 && m2.getAttribute("content")) return m2.getAttribute("content").replace(/\/$/, "");
+    return "https://blog-visitor-api.onrender.com";
   })();
 
   const AUTH_ERRORS = {
@@ -35,14 +37,12 @@
   function setSid(sid) {
     try {
       sessionStorage.setItem(SESSION_KEY, sid);
-      localStorage.setItem(SESSION_KEY, sid);
     } catch (e) {}
   }
 
   function clearSid() {
     try {
       sessionStorage.removeItem(SESSION_KEY);
-      localStorage.removeItem(SESSION_KEY);
     } catch (e) {}
   }
 

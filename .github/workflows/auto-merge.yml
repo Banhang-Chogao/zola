@@ -29,9 +29,7 @@ permissions:
   actions: read
 
 concurrency:
-  # ZERO_BARRIER_DEPLOY_QUEUE: single global auto-merge lock → merges run one at a
-  # time (FIFO) → main receives one push at a time → one deploy at a time.
-  group: auto-merge-main
+  group: auto-merge-${{ github.event.workflow_run.head_branch || github.event.inputs.pr_number || 'all' }}
   cancel-in-progress: false
 
 jobs:
@@ -47,10 +45,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
-          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
 
       - name: Try auto-merge eligible PRs
         env:

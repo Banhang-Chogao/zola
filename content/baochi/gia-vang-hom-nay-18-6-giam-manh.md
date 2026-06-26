@@ -7,7 +7,7 @@ categories = ["Tất cả", "Báo chí", "Ngân hàng"]
 tags = ["giá vàng", "vàng SJC", "vàng nhẫn", "Fed", "đầu tư vàng", "tài chính cá nhân"]
 [extra]
 seo_keyword = "giá vàng hôm nay"
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 [[extra.faq]]
 q = "Giá vàng SJC hôm nay 18/6 là bao nhiêu?"
@@ -82,8 +82,8 @@ Thứ nhất, **đừng để cảm xúc đám đông dẫn dắt**. Hôm qua ng
 
 Thứ hai, **luôn nhìn vào chênh lệch mua - bán**. Mức 2,5 - 3 triệu đồng/lượng hiện tại nghĩa là bạn lỗ ngay khoản đó ngay khi vừa mua. Với người lướt sóng ngắn hạn, đây là rào cản lớn; với người mua tích trữ dài hạn, nó bớt quan trọng hơn nhưng vẫn nên cân nhắc giải ngân làm nhiều lần thay vì dồn một cục.
 
-Thứ ba, vàng chỉ nên là **một phần** trong bức tranh tài chính, không phải tất cả. Trước khi nghĩ đến việc bỏ tiền vào kim loại quý, mình tin nên nắm rõ dòng tiền của chính mình đã — thu bao nhiêu, chi bao nhiêu, còn dư bao nhiêu để đầu tư mà không ảnh hưởng cuộc sống. Đó là lý do mình hay dùng công cụ F-Dashboard theo dõi thu chi cá nhân để biết mình thực sự có bao nhiêu "tiền nhàn rỗi". Và nếu bạn tò mò các kênh quản lý, gìn giữ tài sản được giới nhà giàu ưa chuộng, mình từng viết về chuyện này trong bài [Private Banking là gì? Nhìn từ BIDV Sài Gòn](@/baochi/bidv-flagship-private-banking-tphcm.md).
+Thứ ba, vàng chỉ nên là **một phần** trong bức tranh tài chính, không phải tất cả. Trước khi nghĩ đến việc bỏ tiền vào kim loại quý, mình tin nên nắm rõ dòng tiền của chính mình đã — thu bao nhiêu, chi bao nhiêu, còn dư bao nhiêu để đầu tư mà không ảnh hưởng cuộc sống. Đó là lý do mình hay dùng [công cụ F-Dashboard theo dõi thu chi cá nhân](@/tools/f-dashboard.md) để biết mình thực sự có bao nhiêu "tiền nhàn rỗi". Và nếu bạn tò mò các kênh quản lý, gìn giữ tài sản được giới nhà giàu ưa chuộng, mình từng viết về chuyện này trong bài [Private Banking là gì? Nhìn từ BIDV Sài Gòn](@/baochi/bidv-flagship-private-banking-tphcm.md).
 
 Tóm lại, giá vàng hôm nay 18/6 giảm mạnh chủ yếu vì Fed phát tín hiệu cứng rắn hơn về lãi suất, chứ không phải vì vàng "hết thời". Thị trường nhiều khả năng còn giằng co. Người cần vàng cho việc cụ thể (cưới hỏi, quà tặng) thì cứ mua theo nhu cầu; người xem vàng như kênh đầu tư thì nên bình tĩnh, chia nhỏ và đừng vay mượn để "bắt đáy".
 
-📌 *Bài viết tổng hợp từ bản tin thị trường trong nước ngày 18/6/2026 và dữ liệu quốc tế từ Kitco News, CME FedWatch, Fed. Nội dung chỉ mang tính tham khảo, không phải lời khuyên đầu tư hay tư vấn tài chính chuyên nghiệp. Chi tiết tại trang [Điều khoản & Miễn trừ](/terms/).*
+📌 *Bài viết tổng hợp từ bản tin thị trường trong nước ngày 18/6/2026 và dữ liệu quốc tế từ Kitco News, CME FedWatch, Fed. Nội dung chỉ mang tính tham khảo, không phải lời khuyên đầu tư hay tư vấn tài chính chuyên nghiệp. Chi tiết tại trang [Điều khoản & Miễn trừ](/zola/terms/).*

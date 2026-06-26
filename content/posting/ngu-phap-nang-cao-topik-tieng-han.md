@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-29"
 premium_title = "Ngày 29 — Ngữ pháp nâng cao: -는데, -니까, -잖아요, -것 같다"
 premium_teaser_words = 210
 seo_keyword = "ngữ pháp nâng cao tiếng hàn"
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 29
@@ -41,4 +41,4 @@ Nếm thử nhé: 비가 **오는데** 우산이 없어요 = *"trời mưa mà c
 
 Trong bài đầy đủ hôm nay, bạn nhận: cách dùng **-는데/-(으)ㄴ데**, **-(으)니까** (kèm bảng **so sánh -아서 vs -니까**), **-잖아요**, **-(으)ㄴ/는/(으)ㄹ 것 같다** đủ 3 thì, ghi chú vì sao chúng bắc cầu TOPIK II và **15 câu bài tập có đáp án**. Mở khóa để "lên đời" tiếng Hàn — 화이팅! 💪
 
-👉 Ôn lại [Ngày 28 — trích dẫn gián tiếp](/trich-dan-gian-tiep-tieng-han/) rồi chốt hạ ở [Ngày 30 — tổng ôn & chiến lược thi TOPIK](/tong-on-chien-luoc-thi-topik-tieng-han/). Xem lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/). Tra thêm tại [Viện Quốc ngữ Quốc gia Hàn Quốc](https://www.korean.go.kr/).
+👉 Ôn lại [Ngày 28 — trích dẫn gián tiếp](/zola/posting/trich-dan-gian-tiep-tieng-han/) rồi chốt hạ ở [Ngày 30 — tổng ôn & chiến lược thi TOPIK](/zola/posting/tong-on-chien-luoc-thi-topik-tieng-han/). Xem lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) hoặc [kho bài Premium](/zola/categories/premium/). Tra thêm tại [Viện Quốc ngữ Quốc gia Hàn Quốc](https://www.korean.go.kr/).

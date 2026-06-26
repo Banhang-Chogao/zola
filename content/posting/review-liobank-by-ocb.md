@@ -7,7 +7,7 @@ aliases = ["/review-liobank-by-ocb/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["liobank", "ngân hàng số", "ngân hàng số series", "ocb", "review liobank"]
 [extra]
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "review liobank"
 featured = false
 series = "ngan-hang-so"
@@ -36,7 +36,7 @@ a = "An toàn về mặt hệ thống: Liobank thuộc OCB, dùng xác thực si
 
 ## Liobank by OCB là gì?
 
-Liobank là **thương hiệu ngân hàng số của OCB** (Ngân hàng Phương Đông) — không phải một ví điện tử hay fintech độc lập. Điều này quan trọng: tài khoản Liobank là tài khoản ngân hàng thật, tiền gửi được bảo hiểm như mọi ngân hàng được cấp phép tại Việt Nam. Bạn mở tài khoản 100% online bằng eKYC (CCCD gắn chip + nhận diện khuôn mặt), xem thêm ở [cách mở tài khoản ngân hàng số online](/cach-mo-tai-khoan-ngan-hang-so-online/).
+Liobank là **thương hiệu ngân hàng số của OCB** (Ngân hàng Phương Đông) — không phải một ví điện tử hay fintech độc lập. Điều này quan trọng: tài khoản Liobank là tài khoản ngân hàng thật, tiền gửi được bảo hiểm như mọi ngân hàng được cấp phép tại Việt Nam. Bạn mở tài khoản 100% online bằng eKYC (CCCD gắn chip + nhận diện khuôn mặt), xem thêm ở [cách mở tài khoản ngân hàng số online](/zola/posting/cach-mo-tai-khoan-ngan-hang-so-online/).
 
 ## Review Liobank: ưu điểm và nhược điểm
 
@@ -58,7 +58,7 @@ Nhìn chung Liobank phù hợp người **ưu tiên hoàn tiền** và quen giao
 - **Quản lý tài khoản**: không phí duy trì cơ bản.
 - **Thẻ vật lý**: hỗ trợ thanh toán POS và rút ATM.
 
-> ⚠️ Chính sách phí và tỷ lệ hoàn tiền **thay đổi theo thời điểm**. Luôn kiểm tra điều khoản mới nhất trong app trước khi quyết định. Nếu hoàn tiền là ưu tiên số một, xem thêm [ngân hàng số hoàn tiền nhiều nhất](/ngan-hang-so-hoan-tien-nhieu-nhat/).
+> ⚠️ Chính sách phí và tỷ lệ hoàn tiền **thay đổi theo thời điểm**. Luôn kiểm tra điều khoản mới nhất trong app trước khi quyết định. Nếu hoàn tiền là ưu tiên số một, xem thêm [ngân hàng số hoàn tiền nhiều nhất](/zola/posting/ngan-hang-so-hoan-tien-nhieu-nhat/).
 
 ## Bảo mật và trải nghiệm thực tế
 
@@ -68,19 +68,19 @@ Liobank dùng **xác thực sinh trắc học** (vân tay/khuôn mặt) và OTP 
 - Giao diện gọn, ít rối, hợp người mới.
 - Thông báo giao dịch tức thì giúp kiểm soát chi tiêu.
 
-Sau khi dùng, bạn có thể tải sao kê và phân tích thu/chi bằng công cụ **O-Dashboard cho Liobank** ngay trên blog này — chạy hoàn toàn trên trình duyệt, không gửi dữ liệu lên server.
+Sau khi dùng, bạn có thể tải sao kê và phân tích thu/chi bằng công cụ **[O-Dashboard cho Liobank](/zola/tools/o-dashboard/)** ngay trên blog này — chạy hoàn toàn trên trình duyệt, không gửi dữ liệu lên server.
 
 ## Liobank phù hợp với ai?
 
 - Người **thích hoàn tiền** cho chi tiêu hằng ngày.
 - Người cần **thẻ vật lý** nhưng vẫn muốn mọi thứ online.
-- Sinh viên, người đi làm trẻ quen dùng app — xem thêm [ngân hàng số cho sinh viên](/ngan-hang-so-cho-sinh-vien/).
+- Sinh viên, người đi làm trẻ quen dùng app — xem thêm [ngân hàng số cho sinh viên](/zola/posting/ngan-hang-so-cho-sinh-vien/).
 
-Nếu bạn đang phân vân giữa Liobank và đối thủ phổ biến nhất, đọc bài **[so sánh Cake vs Liobank](/so-sanh-cake-vs-liobank/)**.
+Nếu bạn đang phân vân giữa Liobank và đối thủ phổ biến nhất, đọc bài **[so sánh Cake vs Liobank](/zola/posting/so-sanh-cake-vs-liobank/)**.
 
 ## So sánh nhanh với đối thủ
 
-So với [Cake by VPBank](/review-cake-by-vpbank/) (đông người dùng, nhiều tính năng) và các tên tuổi khác, Liobank thắng ở **hoàn tiền + thẻ vật lý + app gọn**, nhưng hệ sinh thái và mạng lưới nhỏ hơn. Bức tranh tổng thể nằm ở bài trụ [top ngân hàng số tốt nhất Việt Nam 2026](/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
+So với [Cake by VPBank](/zola/posting/review-cake-by-vpbank/) (đông người dùng, nhiều tính năng) và các tên tuổi khác, Liobank thắng ở **hoàn tiền + thẻ vật lý + app gọn**, nhưng hệ sinh thái và mạng lưới nhỏ hơn. Bức tranh tổng thể nằm ở bài trụ [top ngân hàng số tốt nhất Việt Nam 2026](/zola/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
 
 ## Có nên mở Liobank không?
 

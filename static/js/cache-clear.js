@@ -1,20 +1,17 @@
 (function () {
-  // Có thể có nhiều nút Xoá cache (side-nav desktop + nav-drawer mobile) →
-  // bind TẤT CẢ, không chỉ nút đầu tiên.
-  var buttons = document.querySelectorAll("[data-clear-cache]");
-  if (!buttons.length) return;
+  var button = document.querySelector("[data-clear-cache]");
+  if (!button) return;
+
+  var label = button.querySelector("[data-clear-cache-label]");
+  var defaultLabel = label ? label.textContent : "Xoá cache";
+
+  function setLabel(text) {
+    if (label) label.textContent = text;
+  }
 
   function clearStorage() {
-    // Giữ lại phiên đăng nhập super-admin/CMS để xoá cache KHÔNG bắt login GitHub lại.
-    var CMS_KEY = "zola-cms-session-id";
-    var sid = "";
-    try { sid = localStorage.getItem(CMS_KEY) || sessionStorage.getItem(CMS_KEY) || ""; } catch (e) {}
     try { localStorage.clear(); } catch (e) {}
     try { sessionStorage.clear(); } catch (e) {}
-    if (sid) {
-      try { localStorage.setItem(CMS_KEY, sid); } catch (e) {}
-      try { sessionStorage.setItem(CMS_KEY, sid); } catch (e) {}
-    }
   }
 
   async function clearCacheStorage() {
@@ -53,28 +50,20 @@
     window.location.replace(url.toString());
   }
 
-  function setupButton(button) {
-    var label = button.querySelector("[data-clear-cache-label]");
-    var defaultLabel = label ? label.textContent : "Xoá cache";
-    function setLabel(text) { if (label) label.textContent = text; }
-
-    button.addEventListener("click", async function () {
-      button.disabled = true;
-      setLabel("Đang xoá...");
-      clearStorage();
-      await Promise.all([
-        clearCacheStorage(),
-        unregisterWorkers(),
-        clearIndexedDb()
-      ]);
-      setLabel("Đã xoá");
-      window.setTimeout(reloadFresh, 250);
-      window.setTimeout(function () {
-        button.disabled = false;
-        setLabel(defaultLabel);
-      }, 3000);
-    });
-  }
-
-  Array.prototype.forEach.call(buttons, setupButton);
+  button.addEventListener("click", async function () {
+    button.disabled = true;
+    setLabel("Đang xoá...");
+    clearStorage();
+    await Promise.all([
+      clearCacheStorage(),
+      unregisterWorkers(),
+      clearIndexedDb()
+    ]);
+    setLabel("Đã xoá");
+    window.setTimeout(reloadFresh, 250);
+    window.setTimeout(function () {
+      button.disabled = false;
+      setLabel(defaultLabel);
+    }, 3000);
+  });
 })();

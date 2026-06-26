@@ -7,7 +7,7 @@ aliases = ["/ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["miễn phí chuyển khoản", "ngân hàng số", "ngân hàng số series", "phí chuyển khoản", "tnex"]
 [extra]
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số miễn phí chuyển khoản"
 featured = false
 series = "ngan-hang-so"
@@ -41,10 +41,10 @@ Khác ngân hàng truyền thống từng thu phí mỗi giao dịch, ngân hàn
 
 | Ngân hàng số | Điểm nhấn về phí |
 |---|---|
-| **[TNEX](/review-tnex-chi-tiet/)** | "Zero fee" — miễn phí tối đa |
-| **[Liobank](/review-liobank-by-ocb/)** | Miễn phí + hoàn tiền |
-| **[Cake](/review-cake-by-vpbank/)** | Miễn phí + nhiều tính năng |
-| **[Timo](/timo-la-gi-co-nen-dung/)** | Miễn phí + ổn định, Hangout |
+| **[TNEX](/zola/posting/review-tnex-chi-tiet/)** | "Zero fee" — miễn phí tối đa |
+| **[Liobank](/zola/posting/review-liobank-by-ocb/)** | Miễn phí + hoàn tiền |
+| **[Cake](/zola/posting/review-cake-by-vpbank/)** | Miễn phí + nhiều tính năng |
+| **[Timo](/zola/posting/timo-la-gi-co-nen-dung/)** | Miễn phí + ổn định, Hangout |
 
 Nhìn chung, sự khác biệt về phí chuyển khoản cơ bản giữa các app là **không lớn** — phần lớn đều miễn phí trong hạn mức rộng. Yếu tố phân biệt thật sự nằm ở hoàn tiền, tính năng và trải nghiệm.
 
@@ -69,7 +69,7 @@ Hiểu rõ những ranh giới này giúp bạn không bất ngờ vì một kho
 
 ## Miễn phí chuyển khoản có nên là tiêu chí số một?
 
-Vì gần như app nào cũng miễn phí chuyển khoản, đây **không nên** là tiêu chí duy nhất. Hãy cân nhắc thêm hoàn tiền (xem [ngân hàng số hoàn tiền nhiều nhất](/ngan-hang-so-hoan-tien-nhieu-nhat/)), tính năng và bảo mật. Toàn cảnh ở [top ngân hàng số tốt nhất Việt Nam 2026](/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
+Vì gần như app nào cũng miễn phí chuyển khoản, đây **không nên** là tiêu chí duy nhất. Hãy cân nhắc thêm hoàn tiền (xem [ngân hàng số hoàn tiền nhiều nhất](/zola/posting/ngan-hang-so-hoan-tien-nhieu-nhat/)), tính năng và bảo mật. Toàn cảnh ở [top ngân hàng số tốt nhất Việt Nam 2026](/zola/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
 
 ## Tóm lại
 

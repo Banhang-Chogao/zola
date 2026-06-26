@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-11"
 premium_title = "Ngày 11 — Trợ từ 은/는 và 이/가"
 premium_teaser_words = 210
 seo_keyword = "trợ từ 은/는 và 이/가"
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 11
@@ -41,4 +41,4 @@ Nếm thử nhé: 저**는** 학생이에요 (jeo-neun...) = "**Tôi** thì là 
 
 Trong bài đầy đủ hôm nay bạn sẽ có: **bảng quy tắc batchim** (은/이 sau phụ âm, 는/가 sau nguyên âm), **3 sắc thái** của 는 (chủ đề · đối lập · cái đã biết) vs 가 (thông tin mới · nhấn mạnh ai), các biến đổi bất quy tắc **내가·제가·누가**, và **14 câu bài tập có đáp án**. Mở khóa để hết "loạn trợ từ" nhé — 화이팅! 💪
 
-👉 Ôn lại [Ngày 10 — 있다/없다 & vị trí](/itda-eopda-vi-tri-tieng-han/), rồi sang [Ngày 12 — trợ từ 을/를, 에, 에서](/tro-tu-eul-reul-e-eseo-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/). Tham khảo thêm tại [Wikipedia: Trợ từ tiếng Hàn](https://en.wikipedia.org/wiki/Korean_postpositions).
+👉 Ôn lại [Ngày 10 — 있다/없다 & vị trí](/zola/posting/itda-eopda-vi-tri-tieng-han/), rồi sang [Ngày 12 — trợ từ 을/를, 에, 에서](/zola/posting/tro-tu-eul-reul-e-eseo-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) hoặc [kho bài Premium](/zola/categories/premium/). Tham khảo thêm tại [Wikipedia: Trợ từ tiếng Hàn](https://en.wikipedia.org/wiki/Korean_postpositions).

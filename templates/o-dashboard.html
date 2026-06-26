@@ -1,14 +1,11 @@
 {% extends "base.html" %}
 
-{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
-{% block robots %}noindex, follow{% endblock %}
-
 {% block title %}O-Dashboard | {{ config.title }}{% endblock %}
 
 {% block extra_head %}
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <meta name="zola-base-url" content="{{ config.base_url | safe }}">
-    {# PDF.js local (CSP 'self') — get_url() respects base / on GitHub Pages #}
+    {# PDF.js local (CSP 'self') — get_url() respects base /zola/ on GitHub Pages #}
     <meta name="od-pdfjs-src" content="{{ get_url(path='vendor/pdfjs/pdf.min.js') }}">
     <meta name="od-pdfjs-worker" content="{{ get_url(path='vendor/pdfjs/pdf.worker.min.js') }}">
 {% endblock %}

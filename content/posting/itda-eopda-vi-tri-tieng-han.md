@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-10"
 premium_title = "Ngày 10 — 있다/없다 & diễn đạt vị trí"
 premium_teaser_words = 210
 seo_keyword = "있다 없다 tiếng hàn"
-thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 10
@@ -41,4 +41,4 @@ Nếm thử nhé: 시간이 **있어요**? (si-gan-i i-sseo-yo) = "(Bạn) **có
 
 Trong bài đầy đủ hôm nay bạn sẽ có: **bảng tra 있어요/없어요** (sở hữu & tồn tại), **9 từ chỉ vị trí** 위·아래·앞·뒤·옆·안·밖·사이·오른쪽 kèm hình dung, mẫu câu vàng **A는 B 위에 있어요**, cách hỏi **어디에 있어요?** (ở đâu?), và **13 câu bài tập có đáp án**. Mở khóa để "định vị" mọi thứ bằng tiếng Hàn nhé — 화이팅! 💪
 
-👉 Ôn lại [Ngày 9 — đại từ & chỉ định 이/그/저](/dai-tu-chi-dinh-tieng-han/), rồi sang [Ngày 11 — trợ từ 은/는 và 이/가](/tro-tu-eun-neun-i-ga-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/). Tham khảo thêm tại [Wikipedia: Ngữ pháp tiếng Hàn](https://en.wikipedia.org/wiki/Korean_grammar).
+👉 Ôn lại [Ngày 9 — đại từ & chỉ định 이/그/저](/zola/posting/dai-tu-chi-dinh-tieng-han/), rồi sang [Ngày 11 — trợ từ 은/는 và 이/가](/zola/posting/tro-tu-eun-neun-i-ga-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) hoặc [kho bài Premium](/zola/categories/premium/). Tham khảo thêm tại [Wikipedia: Ngữ pháp tiếng Hàn](https://en.wikipedia.org/wiki/Korean_grammar).
