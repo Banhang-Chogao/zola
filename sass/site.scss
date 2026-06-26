@@ -89,6 +89,13 @@
 @import "island-v2";
 /* @import "island"; — replaced by island-v2 (WWDC redesign) */
 
+/* Article ending sections — breadcrumb, FAQ, related posts, copyright, heartbeat */
+@import "breadcrumb-article";
+@import "faq-accordion";
+@import "related-posts-thumbnail";
+@import "copyright-notice";
+@import "pipeline-heartbeat-inline";
+
 /* Mobile readability hardening — MUST stay last so its defensive
    overflow/wrapping guards win over earlier component rules. */
 @import "mobile-blog-momo-spirit";

@@ -1,0 +1,76 @@
+{# ===== Breadcrumb macro — article/blog post variant =====
+   Renders semantic breadcrumb navigation for blog posts.
+
+   Usage:
+     {% import "macros/breadcrumb-article.html" as bc %}
+     {{ bc::article(
+        base_url=config.base_url,
+        category_name=page.extra.category or "Tất cả",
+        category_url=get_taxonomy_url(kind="category", name=page.extra.category or "Tất cả"),
+        post_title=page.title
+     ) }}
+#}
+
+{% macro article(base_url, category_name, category_url, post_title) %}
+<nav class="breadcrumb breadcrumb--article" aria-label="Breadcrumb">
+  <ol class="breadcrumb__list">
+    <li class="breadcrumb__item">
+      <a class="breadcrumb__link" href="{{ base_url | safe }}/">Trang chủ</a>
+    </li>
+    <li class="breadcrumb__item">
+      <a class="breadcrumb__link" href="{{ base_url | safe }}/blog/">Blog</a>
+    </li>
+    {% if category_name and category_url %}
+    <li class="breadcrumb__item">
+      <a class="breadcrumb__link" href="{{ category_url | safe }}">{{ category_name }}</a>
+    </li>
+    {% endif %}
+    <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">
+      {{ post_title }}
+    </li>
+  </ol>
+</nav>
+
+{# JSON-LD BreadcrumbList for SEO #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Trang chủ",
+      "item": "{{ base_url | safe }}/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "{{ base_url | safe }}/blog/"
+    }
+    {% if category_name and category_url %},
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ category_name }}",
+      "item": "{{ category_url | safe }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "{{ post_title }}",
+      "item": "{{ base_url | safe }}{{ page.permalink | safe }}"
+    }
+    {% else %},
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ post_title }}",
+      "item": "{{ base_url | safe }}{{ page.permalink | safe }}"
+    }
+    {% endif %}
+  ]
+}
+</script>
+{% endmacro article %}
