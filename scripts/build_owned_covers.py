@@ -300,11 +300,17 @@ def build(check: bool = False) -> int:
         for md in sorted(cdir.glob("*.md")):
             if md.name.startswith("_"):
                 continue
+            # Bỏ qua stub hạ tầng feed-anchor (gitignored, sinh bởi build_feed_pagination):
+            # KHÔNG sinh cover riêng → tránh non-determinism khi script chạy sau pagination.
+            if md.name.startswith("feed-anchor-"):
+                continue
             text = md.read_text(encoding="utf-8")
             fm, body = parse_frontmatter(text)
             if not fm:
                 continue
             if fm.get("draft") is True:
+                continue
+            if fm.get("extra", {}).get("feed_anchor") is True:
                 continue
             extra = fm.get("extra") or {}
             title = fm.get("title") or md.stem

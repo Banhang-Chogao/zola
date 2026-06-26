@@ -13,7 +13,6 @@ tags = ["MCC", "merchants", "payment-processing", "fees"]
 series = "merchant-category-codes-series"
 series_part = 7
 seo_keyword = "MCC merchants payment processing fees interchange"
-thumbnail = "/images/blog/mcc-merchant.jpg"
 +++
 
 ## How MCC Choice Impacts Your Merchant Fees

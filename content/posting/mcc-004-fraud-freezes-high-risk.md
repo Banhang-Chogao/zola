@@ -13,7 +13,6 @@ tags = ["MCC", "fraud", "card-blocks", "international"]
 series = "merchant-category-codes-series"
 series_part = 4
 seo_keyword = "MCC fraud detection card blocks high-risk merchants"
-thumbnail = "/images/blog/mcc-fraud.jpg"
 +++
 
 ## How Fraud Engines Use MCC + Location + Behavior

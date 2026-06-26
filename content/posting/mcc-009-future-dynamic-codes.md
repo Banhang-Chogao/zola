@@ -13,7 +13,6 @@ tags = ["MCC", "fintech", "AI", "innovation"]
 series = "merchant-category-codes-series"
 series_part = 9
 seo_keyword = "MCC future dynamic codes AI machine learning merchant classification"
-thumbnail = "/images/blog/mcc-future.jpg"
 +++
 
 ## The Limitations of Today's 4-Digit System
