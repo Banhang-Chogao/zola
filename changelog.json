@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "resolve zola build hang caused by missing series manifest & duplicate rendering [claude/blog-build-status-mifbme]",
+      "tag": "fix",
+      "lines_added": 45,
+      "lines_removed": 9,
+      "highlights": [
+        "data/merge-conflict-preflight-series.json (added, +45/-0)",
+        "templates/page.html (modified, +0/-9)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 972
+    },
+    {
+      "date": "2026-06-26",
       "title": "Merge Conflict Preflight System — Auto-resolve conflicts before merge",
       "tag": "feat",
       "lines_added": 3600,
