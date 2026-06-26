@@ -75,14 +75,35 @@
     } catch (e) {}
   }
   // Read a #sid=... handed back by the Google comment-login redirect.
+  // Also scroll to #comments if present (after login).
   function consumeHashSid() {
     if (!location.hash) return;
     var m = location.hash.match(/(?:^|[#&])sid=([A-Za-z0-9_\-]+)/);
     if (!m) return;
     setSid(m[1]);
+    // Check if fragment contains 'comments' (from backend redirect: #sid=...&comments).
+    var hasComments = /[#&]comments(?:[#&]|$)/.test(location.hash);
+    // Clean URL: keep pathname + search, add back #comments anchor if present.
     var clean = location.pathname + location.search;
+    if (hasComments) {
+      clean += "#comments";
+    }
     try {
       history.replaceState(null, "", clean);
+    } catch (e) {}
+    // Scroll smoothly to #comments if anchor exists.
+    if (hasComments) {
+      scrollToComments();
+    }
+  }
+
+  // Smooth scroll to comment section, accounting for sticky navbar offset.
+  function scrollToComments() {
+    if (!root) return;
+    try {
+      var offset = 60; // Default navbar height; adjust if changed in CSS.
+      var top = root.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: top, behavior: "smooth" });
     } catch (e) {}
   }
 
@@ -261,10 +282,11 @@
   }
 
   function loginUrl() {
+    var returnTo = PATH + "#comments";
     return (
       API +
       "/auth/comment/start?return_to=" +
-      encodeURIComponent(PATH)
+      encodeURIComponent(returnTo)
     );
   }
 
@@ -480,6 +502,13 @@
 
     loadComments();
     loadMe().then(renderAuth);
+
+    // Scroll to #comments if anchor is in URL (e.g., direct navigation or bookmark).
+    if (location.hash.indexOf("#comments") > -1) {
+      setTimeout(function () {
+        scrollToComments();
+      }, 100); // Defer slightly to allow page layout to settle.
+    }
   }
 
   init();

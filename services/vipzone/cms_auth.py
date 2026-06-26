@@ -181,9 +181,25 @@ def is_admin(email: str | None, username: str | None) -> bool:
 
 
 def normalize_return_to(return_to: str) -> str:
+    """Normalize and validate return_to URL (same-origin only).
+
+    Preserves fragment (#comments, #...) for safe anchors.
+    Validates: no cross-site redirects, only internal paths allowed.
+    """
     rt = (return_to or "").strip()
     if not rt:
         return "/tools/vipzone-admin/"
+
+    # Extract fragment and validate it.
+    fragment = ""
+    if "#" in rt:
+        rt, frag = rt.split("#", 1)
+        # Only allow safe anchors: #comments (for comment login) or empty.
+        # Prevent anchors to sensitive routes like #admin, #editor, etc.
+        if frag in {"comments", "comment"}:
+            fragment = "#" + frag
+        # Silently drop unsafe fragments (e.g., #admin, #sidebar, malicious anchors).
+
     if rt.startswith("http://") or rt.startswith("https://"):
         parsed = urlparse(rt)
         blog = urlparse(BLOG_URL)
@@ -192,9 +208,11 @@ def normalize_return_to(return_to: str) -> str:
         path = parsed.path or "/"
         if parsed.query:
             path += "?" + parsed.query
-        return path
+        return path + fragment
+
     if rt.startswith("/"):
-        return rt
+        return rt + fragment
+
     return "/tools/vipzone-admin/"
 
 
@@ -205,6 +223,12 @@ def build_blog_url(
     extra_query: dict[str, str] | None = None,
 ) -> str:
     rt = normalize_return_to(return_to)
+    # Extract any fragment that normalize_return_to() already appended.
+    fragment_from_return_to = ""
+    if "#" in rt:
+        rt, fragment_from_return_to = rt.split("#", 1)
+        fragment_from_return_to = "#" + fragment_from_return_to
+
     if _BLOG_BASE_PATH and rt.startswith(_BLOG_BASE_PATH + "/"):
         rt = rt[len(_BLOG_BASE_PATH) :]
     if _BLOG_BASE_PATH and rt == _BLOG_BASE_PATH:
@@ -216,7 +240,9 @@ def build_blog_url(
         for key, val in extra_query.items():
             sep = "&" if "?" in url else "?"
             url = f"{url}{sep}{key}={val}"
-    return url + (f"#{fragment}" if fragment else "")
+    # Prefer explicit fragment param; fall back to fragment from return_to.
+    final_fragment = fragment or fragment_from_return_to
+    return url + (f"#{final_fragment}" if final_fragment else "")
 
 
 def attach_session_cookie(response: Response, sid: str) -> None:
@@ -692,8 +718,18 @@ async def auth_google_callback(
         }
 
     sid = db.create_cms_session(session_payload, SESSION_TTL)
+    # Extract safe fragment from return_to (e.g., #comments) to preserve in redirect.
+    safe_fragment = ""
+    if return_to and "#" in return_to:
+        _, frag = return_to.split("#", 1)
+        if frag in {"comments", "comment"}:
+            safe_fragment = frag
+    # Build fragment: sid= always included for session; append safe_fragment if present.
+    fragment_value = f"sid={sid}"
+    if safe_fragment:
+        fragment_value += f"&{safe_fragment}"
     response = RedirectResponse(
-        build_blog_url(return_to, fragment=f"sid={sid}", extra_query={"auth": "success"}),
+        build_blog_url(return_to, fragment=fragment_value, extra_query={"auth": "success"}),
     )
     attach_session_cookie(response, sid)
     return response
