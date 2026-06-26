@@ -51,6 +51,10 @@
     {% endfor %}
     {% if not build_sha %}{% set_global numeric_id = latest_commit.sha | truncate(length=7, end="") %}{% endif %}
 {% endif %}
+
+{# Deploy Monitor Widget data — load at global scope so all templates can access it #}
+{% set dm = load_data(path="data/deploy-monitor.json", required=false) %}
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -1328,9 +1332,7 @@
             </div>
         </nav>
 
-        {# Deploy Monitor Widget — load build-time data/deploy-monitor.json
-           Displays deployment queue status, pending count, stale warning. #}
-        {% set dm = load_data(path="data/deploy-monitor.json", required=false) %}
+        {# Deploy Monitor Widget — displays deployment queue status, pending count, stale warning #}
         {% if dm %}
         <div class="deploy-watch" role="status" aria-label="Deploy queue status">
             <div class="container">
