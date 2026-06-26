@@ -5,7 +5,8 @@ description = "Tại sao phát hiện conflict trước khi merge lại quan tr�
 date = 2026-06-26
 updated = 2026-06-26
 slug = "merge-conflict-preflight-catch-early"
-category = "Công nghệ"
+[taxonomies]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["CI/CD", "merge-conflict", "preflight", "early-detection"]
 series = "merge-conflict-preflight"
 extra.series_part = 4

@@ -5,7 +5,8 @@ description = "7 PR conflict → hệ thống tự động → vaccine library. 
 date = 2026-06-26
 updated = 2026-06-26
 slug = "bai-hoc-merge-conflict-future"
-category = "Công nghệ"
+[taxonomies]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["CI/CD", "lessons-learned", "zero-barrier", "automation"]
 series = "merge-conflict-preflight"
 extra.series_part = 5

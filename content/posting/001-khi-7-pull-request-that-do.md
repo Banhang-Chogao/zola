@@ -5,7 +5,8 @@ description = "Câu chuyện thực tế: Ngày 18/6, 7 PR đều conflict đồ
 date = 2026-06-26
 updated = 2026-06-26
 slug = "merge-conflict-khung-hoang-7-pr-that-bai"
-category = "Công nghệ"
+[taxonomies]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["CI/CD", "DevOps", "merge-conflict", "automation", "zero-barrier"]
 series = "merge-conflict-preflight"
 extra.series_part = 1
