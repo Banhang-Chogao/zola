@@ -7,12 +7,13 @@
         <p class="stats-hero__eyebrow">Speed Insights</p>
         <h1 class="stats-hero__title">Thống kê hiệu năng</h1>
         <p class="stats-hero__sub">
-            Speed Insights + analytics đo trực tiếp trên trình duyệt này. Dữ liệu cá nhân hoá, không chia sẻ.
+            Core Web Vitals đo thực tế (Real-User-Monitoring) từ mọi khách truy cập, tổng hợp P75 / median / trung bình theo 24h · 7 ngày · 30 ngày.
         </p>
     </header>
 
-    <div class="stats-app" id="stats-app">
-        <p class="stats-loading">Đang tổng hợp dữ liệu…</p>
+    <div class="stats-app" id="stats-app"
+         data-rum-api="{{ config.extra.cms_auth_url | default(value='') | safe }}">
+        <p class="stats-loading">Đang tải dữ liệu Speed Insights…</p>
     </div>
 {% endblock main %}
 

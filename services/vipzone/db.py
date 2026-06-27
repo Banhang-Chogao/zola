@@ -169,6 +169,25 @@ class VipzoneDB:
                 );
                 CREATE INDEX IF NOT EXISTS idx_changelog_date ON changelog(date DESC);
                 CREATE INDEX IF NOT EXISTS idx_changelog_created_at ON changelog(created_at DESC);
+
+                -- Real-User-Monitoring (RUM) Web Vitals — anonymous, cross-visitor
+                -- field data so Speed Insights reflects the WHOLE blog instead of a
+                -- single browser's localStorage. No PII is ever stored: only the
+                -- metric, its value/rating, the page path, a coarse device class and
+                -- a server timestamp. Rows older than the retention window are pruned
+                -- on insert so the table stays bounded.
+                CREATE TABLE IF NOT EXISTS web_vitals (
+                    id TEXT PRIMARY KEY,
+                    metric TEXT NOT NULL,
+                    value REAL NOT NULL,
+                    rating TEXT NOT NULL DEFAULT '',
+                    page_path TEXT NOT NULL DEFAULT '/',
+                    device TEXT NOT NULL DEFAULT 'unknown',
+                    navigation_type TEXT NOT NULL DEFAULT '',
+                    created_at TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS idx_web_vitals_metric ON web_vitals(metric, created_at);
+                CREATE INDEX IF NOT EXISTS idx_web_vitals_created ON web_vitals(created_at);
                 """
             )
 
@@ -889,3 +908,67 @@ class VipzoneDB:
         with self._conn() as conn:
             cur = conn.execute("DELETE FROM changelog WHERE id = ?", (entry_id,))
         return cur.rowcount > 0
+
+    # ===== Web Vitals RUM (anonymous field data) =====
+    def insert_web_vital(self, data: dict[str, Any], retention_days: int = 90) -> str:
+        """Store one RUM Web-Vitals sample and prune rows past the retention window.
+
+        The prune runs inside the same transaction (cheap: index on created_at) so
+        the table can never grow without bound from a busy page.
+        """
+        vid = data.get("id") or f"wv_{uuid.uuid4().hex[:16]}"
+        cutoff = (
+            datetime.now(timezone.utc) - timedelta(days=max(1, retention_days))
+        ).strftime("%Y-%m-%dT%H:%M:%SZ")
+        with self._conn() as conn:
+            conn.execute(
+                """
+                INSERT OR IGNORE INTO web_vitals
+                    (id, metric, value, rating, page_path, device, navigation_type, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    vid,
+                    data.get("metric", ""),
+                    float(data.get("value", 0.0)),
+                    data.get("rating", ""),
+                    data.get("page_path", "/"),
+                    data.get("device", "unknown"),
+                    data.get("navigation_type", ""),
+                    data.get("created_at") or _now(),
+                ),
+            )
+            conn.execute("DELETE FROM web_vitals WHERE created_at < ?", (cutoff,))
+        return vid
+
+    def web_vitals_samples(
+        self, metric: str, since_iso: str, device: str | None = None
+    ) -> list[dict[str, Any]]:
+        """Return (value, page_path) rows for one metric in the window — newest cap.
+
+        Aggregation (p75/median/avg/distribution) is done in Python by the caller
+        so the threshold table lives in exactly one place (rum.py)."""
+        sql = "SELECT value, page_path FROM web_vitals WHERE metric = ? AND created_at >= ?"
+        params: list[Any] = [metric, since_iso]
+        if device and device != "all":
+            sql += " AND device = ?"
+            params.append(device)
+        with self._conn() as conn:
+            rows = conn.execute(sql, params).fetchall()
+        return [{"value": float(r["value"]), "page_path": r["page_path"]} for r in rows]
+
+    def web_vitals_last_updated(self, since_iso: str) -> str | None:
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT MAX(created_at) AS last FROM web_vitals WHERE created_at >= ?",
+                (since_iso,),
+            ).fetchone()
+        return row["last"] if row and row["last"] else None
+
+    def web_vitals_total(self, since_iso: str) -> int:
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT COUNT(*) AS c FROM web_vitals WHERE created_at >= ?",
+                (since_iso,),
+            ).fetchone()
+        return int(row["c"]) if row else 0

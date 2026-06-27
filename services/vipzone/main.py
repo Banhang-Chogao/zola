@@ -280,6 +280,22 @@ except Exception as exc:  # pragma: no cover - defensive: keep the rest of the A
     print(f"[vipzone] changelog router not mounted: {exc!r}")
 
 
+# ============= Web Vitals RUM (anonymous field data → Speed Insights) =============
+# Public pages POST web-vitals samples here so the Speed Insights dashboard shows
+# real cross-visitor field data instead of a single browser's localStorage. Mounted
+# like comments so get_db is injected without a circular import. Fully anonymous —
+# no auth, no PII stored.
+try:
+    import rum as rum_mod
+
+    rum_mod.configure(get_db=get_db)
+    app.include_router(rum_mod.router)
+    RUM_MOUNTED = True
+except Exception as exc:  # pragma: no cover - defensive: keep the rest of the API up
+    RUM_MOUNTED = False
+    print(f"[vipzone] rum router not mounted: {exc!r}")
+
+
 # ============= MoMo Links Admin (manage payment links) =============
 try:
     import momo_links
@@ -487,6 +503,7 @@ def _health_payload() -> dict[str, Any]:
         "personal_mounted": PERSONAL_MOUNTED,
         "comments_mounted": COMMENTS_MOUNTED,
         "reports_mounted": REPORTS_MOUNTED,
+        "rum_mounted": RUM_MOUNTED,
         "critical_routes": _critical_routes_status(),
         "gsc_configured": bool(os.getenv("GSC_CLIENT_ID") and os.getenv("GSC_CLIENT_SECRET")),
     }

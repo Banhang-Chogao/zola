@@ -412,9 +412,14 @@
     {% set asset_version = now(timestamp=true) %}
     <link rel="stylesheet" href="{{ get_url(path='site.css') }}?v={{ asset_version }}">
 
-    {# Speed Insights tracking — đo Core Web Vitals mọi page #}
+    {# Speed Insights tracking — đo Core Web Vitals mọi page, gửi RUM tới GA4 +
+       VIPZone backend (không phụ thuộc localStorage). API base + GA id bake từ config. #}
     <script src="https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js" defer></script>
-    <script src="{{ get_url(path='js/speed-vitals.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/speed-vitals.js') }}?v={{ asset_version }}"
+            id="speed-vitals-js"
+            data-rum-api="{{ config.extra.cms_auth_url | default(value='') | safe }}"
+            data-ga-id="{{ config.extra.ga_measurement_id | default(value='') | safe }}"
+            defer></script>
 
     {# Google Analytics 4 đã được dời xuống trước </body> để tối ưu page
        load — KHÔNG block <head> render. Tham khảo block GA dưới cùng. #}
