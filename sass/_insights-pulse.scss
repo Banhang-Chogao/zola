@@ -1,0 +1,321 @@
+// GitHub Pulse section styles
+// Inspired by GitHub's Pulse UI: calm, professional, information-dense
+
+.insights__pulse {
+  margin: 2rem 0;
+  padding: 2rem;
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  background: var(--c-bg-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media (max-width: 720px) {
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 12px;
+  }
+}
+
+.insights__pulse-error {
+  padding: 1rem;
+  border-left: 4px solid var(--c-text-warning, #d97706);
+  background: color-mix(in srgb, var(--c-text-warning, #d97706) 10%, var(--c-bg-surface));
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: var(--c-text-body);
+  margin: 1rem 0;
+}
+
+.insights__pulse-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+
+  @media (max-width: 540px) {
+    flex-wrap: wrap;
+  }
+}
+
+.insights__pulse-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--c-text-heading);
+}
+
+// Active PRs / Issues bars
+.insights__pulse-active {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.insights__pulse-active-bars {
+  display: flex;
+  gap: 0.5rem;
+  height: 2rem;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--c-bg-soft);
+}
+
+.insights__pulse-bar {
+  flex: 1;
+  border-radius: 0;
+
+  &--prs {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    box-shadow: 0 2px 4px rgba(124, 58, 237, 0.3);
+  }
+
+  &--issues {
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+  }
+}
+
+.insights__pulse-active-labels {
+  display: flex;
+  gap: 2rem;
+
+  @media (max-width: 540px) {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+.insights__pulse-active-label {
+  font-size: 0.95rem;
+  color: var(--c-text-body);
+
+  strong {
+    font-weight: 600;
+    color: var(--c-text-heading);
+  }
+}
+
+// 4 stat cards grid
+.insights__pulse-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 540px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.insights__pulse-stat {
+  padding: 1.25rem;
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  background: var(--c-bg-page);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    border-color: var(--c-accent);
+    background: var(--c-bg-soft);
+  }
+}
+
+.insights__pulse-stat-icon {
+  color: var(--c-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.insights__pulse-stat-num {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--c-text-heading);
+  line-height: 1;
+}
+
+.insights__pulse-stat-label {
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+  font-weight: 500;
+}
+
+// Summary and Top Committers grid
+.insights__pulse-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.insights__pulse-card {
+  padding: 1.5rem;
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  background: var(--c-bg-page);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.insights__pulse-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--c-text-heading);
+}
+
+.insights__pulse-summary-text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--c-text-body);
+
+  strong {
+    font-weight: 600;
+    color: var(--c-text-heading);
+  }
+
+  code {
+    background: var(--c-bg-soft);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+}
+
+// Top Committers list
+.insights__pulse-committers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.insights__pulse-committer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.insights__pulse-committer-avatar,
+.insights__pulse-committer-avatar-fallback {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: white;
+  border: 1px solid var(--c-border);
+}
+
+.insights__pulse-committer-avatar {
+  border: none;
+}
+
+.insights__pulse-committer-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.insights__pulse-committer-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--c-text-heading);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.insights__pulse-committer-bar {
+  height: 6px;
+  background: var(--c-bg-soft);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.insights__pulse-committer-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7c3aed, #6d28d9);
+  border-radius: 3px;
+  transition: width 0.3s ease-out;
+}
+
+.insights__pulse-committer-count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  flex-shrink: 0;
+}
+
+// Responsive adjustments
+@media (max-width: 720px) {
+  .insights__pulse {
+    .insights__pulse-active-bars {
+      height: 1.75rem;
+    }
+
+    .insights__pulse-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .insights__pulse-stat {
+      padding: 1rem;
+    }
+
+    .insights__pulse-stat-num {
+      font-size: 1.5rem;
+    }
+
+    .insights__pulse-summary-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media (max-width: 540px) {
+  .insights__pulse {
+    .insights__pulse-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .insights__pulse-active-labels {
+      flex-direction: column;
+    }
+  }
+}
