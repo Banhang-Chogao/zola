@@ -14,32 +14,32 @@ thumbnail = "/img/placeholder/placeholder.svg"
 toc = true
 
 [[extra.faq]]
-question = "CodeQL là gì và có tác dụng như thế nào?"
-answer = "CodeQL là một ngôn ngữ truy vấn (query language) cho phép lập trình viên phân tích source code để tìm lỗi bảo mật, bug, và chất lượng code. Nó được GitHub phát triển và cho phép tự động hoá việc kiểm tra code quy mô lớn."
+q = "CodeQL là gì và có tác dụng như thế nào?"
+a = "CodeQL là một ngôn ngữ truy vấn (query language) cho phép lập trình viên phân tích source code để tìm lỗi bảo mật, bug, và chất lượng code. Nó được GitHub phát triển và cho phép tự động hoá việc kiểm tra code quy mô lớn."
 
 [[extra.faq]]
-question = "CodeQL có phù hợp với dự án cá nhân không?"
-answer = "Có. CodeQL hoàn toàn miễn phí cho các dự án open source công khai trên GitHub. Với dự án private, bạn có thể sử dụng phiên bản community hoặc trả phí nếu cần tích hợp vào quy trình CI/CD."
+q = "CodeQL có phù hợp với dự án cá nhân không?"
+a = "Có. CodeQL hoàn toàn miễn phí cho các dự án open source công khai trên GitHub. Với dự án private, bạn có thể sử dụng phiên bản community hoặc trả phí nếu cần tích hợp vào quy trình CI/CD."
 
 [[extra.faq]]
-question = "Tôi cần biết ngôn ngữ lập trình nào để sử dụng CodeQL?"
-answer = "CodeQL hỗ trợ Java, Python, JavaScript/TypeScript, C/C++, C#, Ruby, Go. Bạn không cần bằng cấp chuyên sâu - chỉ cần hiểu cơ bản về syntax của ngôn ngữ bạn muốn phân tích."
+q = "Tôi cần biết ngôn ngữ lập trình nào để sử dụng CodeQL?"
+a = "CodeQL hỗ trợ Java, Python, JavaScript/TypeScript, C/C++, C#, Ruby, Go. Bạn không cần bằng cấp chuyên sâu - chỉ cần hiểu cơ bản về syntax của ngôn ngữ bạn muốn phân tích."
 
 [[extra.faq]]
-question = "CodeQL và SonarQube khác nhau như thế nào?"
-answer = "CodeQL tập trung vào phân tích bảo mật và bug qua query language mạnh mẽ, miễn phí cho open source. SonarQube là platform quản lý chất lượng code toàn diện (smell code, test coverage, complexity). CodeQL phù hợp hơn cho phân tích chi tiết bảo mật."
+q = "CodeQL và SonarQube khác nhau như thế nào?"
+a = "CodeQL tập trung vào phân tích bảo mật và bug qua query language mạnh mẽ, miễn phí cho open source. SonarQube là platform quản lý chất lượng code toàn diện (smell code, test coverage, complexity). CodeQL phù hợp hơn cho phân tích chi tiết bảo mật."
 
 [[extra.faq]]
-question = "Làm sao để chạy CodeQL trên dự án hiện tại của tôi?"
-answer = "Cách nhanh nhất: dùng GitHub Actions với action `github/codeql-action`. Thêm file `.github/workflows/codeql.yml` để chạy tự động mỗi lần push. Hoặc chạy local qua CLI `codeql` sau khi cài đặt."
+q = "Làm sao để chạy CodeQL trên dự án hiện tại của tôi?"
+a = "Cách nhanh nhất: dùng GitHub Actions với action `github/codeql-action`. Thêm file `.github/workflows/codeql.yml` để chạy tự động mỗi lần push. Hoặc chạy local qua CLI `codeql` sau khi cài đặt."
 
 [[extra.faq]]
-question = "CodeQL có thể tích hợp vào CI/CD không?"
-answer = "Có, CodeQL tích hợp rất tốt với CI/CD. GitHub Actions có sẵn action `codeql-action` cho phép chạy analysis tự động. Bạn cũng có thể tích hợp vào Jenkins, GitLab CI, CircleCI thông qua CLI."
+q = "CodeQL có thể tích hợp vào CI/CD không?"
+a = "Có, CodeQL tích hợp rất tốt với CI/CD. GitHub Actions có sẵn action `codeql-action` cho phép chạy analysis tự động. Bạn cũng có thể tích hợp vào Jenkins, GitLab CI, CircleCI thông qua CLI."
 
 [[extra.faq]]
-question = "CodeQL viết queries mất bao lâu để học?"
-answer = "Nếu quen SQL, bạn sẽ nắm cơ bản trong 1-2 ngày. Viết query phức tạp cho use case riêng cần thêm thời gian, nhưng có template sẵn từ GitHub để tham khảo."
+q = "CodeQL viết queries mất bao lâu để học?"
+a = "Nếu quen SQL, bạn sẽ nắm cơ bản trong 1-2 ngày. Viết query phức tạp cho use case riêng cần thêm thời gian, nhưng có template sẵn từ GitHub để tham khảo."
 +++
 
 CodeQL phân tích code là một công cụ tuyệt vời mà nhiều lập trình viên chưa biết đến hoặc hiểu rõ tác dụng. Mình đã sử dụng nó để quét lỗi bảo mật trong vài dự án năm ngoái, và thật sự ấn tượng với khả năng phát hiện bug mà static analysis thông thường bỏ sót. Bài viết này sẽ chia sẻ kinh nghiệm thực tế về CodeQL phân tích code - từ cơ bản đến cách ứng dụng trong dự án thực tế.
