@@ -1,24 +1,62 @@
 {
-  "updated_at": "2026-06-27T06:50:57Z",
+  "updated_at": "2026-06-27T06:55:56Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 39,
+    "today": 40,
     "this_week": 192,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "fix": 93,
+      "ci": 7,
       "feature": 43,
-      "fix": 94,
-      "ci": 6,
       "unknown": 51,
       "chore": 1,
       "content": 5
     }
   },
   "merges": [
+    {
+      "pr_number": 1070,
+      "pr_title": "fix(comments): scope logout to comment session + reset stale avatar",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1070",
+      "merged_at": "2026-06-27T06:45:45Z",
+      "merge_commit_sha": "7e6162cf3ced152756e0a8fb89d6aeef16999160",
+      "merge_commit_short": "7e6162c",
+      "head_branch": "claude/momo-url-oauth-bug-jdp0hi",
+      "summary_vi": "Follow-up nhỏ, low-risk cho PR #1069 — sửa 2 vấn đề auth/session phụ mà adversarial review tìm ra. **Chỉ đụng `static/js/comments.js`** (không đụng logic MoMo URL, không đụng backend, không làm yếu admin auth).",
+      "change_type": "fix",
+      "files_changed": 1,
+      "additions": 16,
+      "deletions": 5,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1276,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28281590821",
+      "build_conclusion": "in_progress"
+    },
+    {
+      "pr_number": 1073,
+      "pr_title": "docs: add \"Merged is not live\" deployment lesson (V21 + merged-pr-rou…",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1073",
+      "merged_at": "2026-06-27T06:45:13Z",
+      "merge_commit_sha": "c4fb45edc08006dc23fd5696d1f0114b02ea9824",
+      "merge_commit_short": "c4fb45e",
+      "head_branch": "claude/seomoney-merged-not-live-kq2sem",
+      "summary_vi": "Teach agents/contributors that a merged PR does not mean a route is live on production. A new public route/page is only done when both checks pass: public/<route>/index.html exists AND production returns HTTP 200.",
+      "change_type": "ci",
+      "files_changed": 2,
+      "additions": 151,
+      "deletions": 1,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1275,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28281577046",
+      "build_conclusion": "cancelled"
+    },
     {
       "pr_number": 1071,
       "pr_title": "feat(auto-healing): add auto-build-failed-healing maintainer bot",
@@ -36,7 +74,7 @@
       "auto_merged": false,
       "build_run_number": 1274,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28281565068",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 1069,
@@ -528,9 +566,9 @@
       "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1246,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28276458927",
-      "build_conclusion": "failure"
+      "build_run_number": 1250,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28277126580",
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 1027,
@@ -550,25 +588,6 @@
       "build_run_number": 1250,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28277126580",
       "build_conclusion": "cancelled"
-    },
-    {
-      "pr_number": 1042,
-      "pr_title": "fix: resolve Zola build failure in tools section",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1042",
-      "merged_at": "2026-06-27T02:44:35Z",
-      "merge_commit_sha": "0a43768122b069526f1f5edd9fdedc8c8636d556",
-      "merge_commit_short": "0a43768",
-      "head_branch": "claude/menu-access-issue-sjdvet",
-      "summary_vi": "Fixed Zola build failure caused by tools section rendering with incompatible template.",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 1,
-      "deletions": 1,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": 1248,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28276702211",
-      "build_conclusion": "failure"
     },
     {
       "pr_number": 1042,
@@ -623,9 +642,9 @@
       "deletions": 4776,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1246,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28276458927",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 1039,
@@ -642,9 +661,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1246,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28276458927",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 992,
@@ -661,9 +680,9 @@
       "deletions": 782,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1246,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28276458927",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 1038,
@@ -1039,25 +1058,6 @@
       "files_changed": 2,
       "additions": 70,
       "deletions": 5,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 1019,
-      "pr_title": "fix(ui): remove public navbar Xoá cache button",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1019",
-      "merged_at": "2026-06-26T19:11:18Z",
-      "merge_commit_sha": "e2ed870c1ad4e7e920ab8706c1504d5aa5fe7a5c",
-      "merge_commit_short": "e2ed870",
-      "head_branch": "fix/remove-public-cache-button",
-      "summary_vi": "Removes the visible **Xoá cache** button from the public blog navbar — confusing for readers and not needed on production pages.",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 0,
-      "deletions": 8,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
@@ -3782,6 +3782,25 @@
       "build_conclusion": ""
     },
     {
+      "pr_number": 668,
+      "pr_title": "fix(vaccine-hotfix): hotfix/broken-f-dashboard-link",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/668",
+      "merged_at": "2026-06-21T15:28:29Z",
+      "merge_commit_sha": "7b16eef6303a6c2772578e4319bbee9920370b20",
+      "merge_commit_short": "7b16eef",
+      "head_branch": "vaccine-hotfix/hotfix-broken-f-dashboard-link",
+      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
+      "change_type": "fix",
+      "files_changed": 2,
+      "additions": 2,
+      "deletions": 7,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
       "pr_number": 666,
       "pr_title": "fix(vaccine-hotfix): deploy_fail-27908456036",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/666",
@@ -3794,25 +3813,6 @@
       "files_changed": 1,
       "additions": 1,
       "deletions": 6,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 662,
-      "pr_title": "fix(vaccine-hotfix): deploy_fail-27907151018",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/662",
-      "merged_at": "2026-06-21T14:23:35Z",
-      "merge_commit_sha": "261f89a6554e79c050773c2fb15b02d2d0831b03",
-      "merge_commit_short": "261f89a",
-      "head_branch": "vaccine-hotfix/deploy_fail-27907151018",
-      "summary_vi": "Automated **Vaccine Hotfix** (`deploy_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by Vacxin\").",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 0,
-      "deletions": 19,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
