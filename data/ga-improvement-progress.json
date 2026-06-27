@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-27T17:43:38Z",
+  "updated_at": "2026-06-27T21:42:42Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,27 +15,27 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "0 broken links · 17 weak related pairs",
+      "detail": "0 broken links · 19 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-27T10:49:13Z"
+      "updated_at": "2026-06-27T19:00:31Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 59/100 · LCP 7.6 s · needs work",
+      "detail": "Mobile 53/100 · LCP 9.2 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-27T16:49:10+00:00"
+      "updated_at": "2026-06-27T20:43:19+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 796/796 pages",
+      "detail": "15 pages missing FAQ/schema · 808/808 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-27T10:49:13Z"
+      "updated_at": "2026-06-27T19:00:31Z"
     },
     {
       "id": "content_refresh",
@@ -53,7 +53,7 @@
       "status": "done",
       "detail": "1047 links OK · IndexNow on publish",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-27T15:07:55Z"
+      "updated_at": "2026-06-27T20:21:26Z"
     },
     {
       "id": "image_opt",
@@ -62,16 +62,16 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-27T10:49:13Z"
+      "updated_at": "2026-06-27T19:00:31Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 59/100 vs desktop 72/100 (Δ13) · 796/796 ready",
+      "detail": "Mobile 53/100 vs desktop 85/100 (Δ32) · 808/808 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-27T16:49:10+00:00"
+      "updated_at": "2026-06-27T20:43:19+00:00"
     }
   ],
   "summary": {
