@@ -94,14 +94,14 @@
 
     {# Load GitHub Pulse weekly data #}
     {% set pulse_data = load_data(path="data/github-pulse-weekly.json", required=false) %}
-    {% if pulse_data %}
-        {% set pulse_metrics = pulse_data.metrics | default(value={}) %}
+    {% if pulse_data and pulse_data.metrics %}
+        {% set pulse_metrics = pulse_data.metrics %}
         {% set pulse_committers = pulse_data.top_committers | default(value=[]) %}
-        {% set pulse_period_start = pulse_data.period_start | default(value="") %}
-        {% set pulse_period_end = pulse_data.period_end | default(value="") %}
+        {% set pulse_period_start = pulse_data.period_start %}
+        {% set pulse_period_end = pulse_data.period_end %}
         {% set pulse_fetch_error = pulse_data.fetch_error | default(value="") %}
     {% else %}
-        {% set pulse_metrics = {} %}
+        {% set pulse_metrics = false %}
         {% set pulse_committers = [] %}
         {% set pulse_period_start = "" %}
         {% set pulse_period_end = "" %}
@@ -139,7 +139,7 @@
         </div>
         {% endif %}
 
-        {% if pulse_metrics and pulse_metrics.active_pull_requests is defined %}
+        {% if pulse_metrics %}
         <section class="insights__pulse">
             <header class="insights__pulse-header">
                 <h3 class="insights__pulse-title">Overview</h3>
