@@ -64,6 +64,36 @@ CORS_ORIGIN = os.getenv("VIPZONE_CORS_ORIGIN", "https://seomoney.org")
 BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://seomoney.org").rstrip("/")
 DB_PATH = os.getenv("VIPZONE_DB_PATH", "")
 
+
+def _cors_allow_origins() -> list[str]:
+    """Build the explicit CORS allowlist.
+
+    Credentialed fetches (``credentials: "include"`` from the admin tools) forbid
+    the ``*`` wildcard, so we keep an explicit list. The primary origin comes from
+    ``VIPZONE_CORS_ORIGIN`` (or the seomoney.org default) and an optional
+    comma-separated ``VIPZONE_CORS_ORIGINS`` adds more. We always include the
+    www. variant, the legacy GitHub Pages origin and localhost so a custom-domain
+    migration never silently breaks /auth/me (auth-vaccine A1)."""
+    origins: list[str] = []
+
+    def _add(o: str) -> None:
+        o = (o or "").strip().rstrip("/")
+        if o and o not in origins:
+            origins.append(o)
+
+    _add(CORS_ORIGIN)
+    for extra in os.getenv("VIPZONE_CORS_ORIGINS", "").split(","):
+        _add(extra)
+    # www. twin of the primary custom domain (apex ↔ www both reach the API).
+    if CORS_ORIGIN.startswith("https://") and "://www." not in CORS_ORIGIN:
+        _add(CORS_ORIGIN.replace("https://", "https://www.", 1))
+    _add("https://seomoney.org")
+    _add("https://www.seomoney.org")
+    _add("https://banhang-chogao.github.io")  # legacy GitHub Pages origin
+    _add("http://127.0.0.1:1111")
+    _add("http://localhost:1111")
+    return origins
+
 ADMIN_EMAILS = {
     e.strip().lower()
     for e in os.getenv("ADMIN_EMAILS", "292648126+banhang-chogao@users.noreply.github.com").split(",")
@@ -107,7 +137,7 @@ def get_db() -> VipzoneDB:
 app = FastAPI(title="VIPZone API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[CORS_ORIGIN, "http://127.0.0.1:1111", "http://localhost:1111"],
+    allow_origins=_cors_allow_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

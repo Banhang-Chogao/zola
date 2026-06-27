@@ -15,11 +15,16 @@ import tempfile
 from pathlib import Path
 from typing import Any, Literal
 
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, Cookie, Depends, Header, HTTPException
 from pydantic import BaseModel
 
-from cms_auth import cms_profile_from_session, is_admin
-from db import VipzoneDB
+from cms_auth import (
+    SESSION_COOKIE_NAME,
+    cms_profile_from_session,
+    is_admin,
+    is_commenter_only,
+)
+from roles import is_superadmin
 
 router = APIRouter(prefix="/admin", tags=["admin-momo"])
 
@@ -54,21 +59,41 @@ def _validate_momo_url(url: str) -> bool:
     return True
 
 
-async def _require_google_admin(authorization: str, db: VipzoneDB) -> dict[str, Any]:
-    """Require Google admin session."""
-    profile = await cms_profile_from_session(db, authorization or "")
-    if not is_admin(profile):
-        raise HTTPException(403, "Admin access required")
-    # Check if user authenticated via Google (optional: could check provider)
-    if not profile or not profile.get("email"):
-        raise HTTPException(403, "Google authentication required")
+async def require_momo_admin(
+    authorization: str = Header(default=""),
+    cookie_sid: str | None = Cookie(default=None, alias=SESSION_COOKIE_NAME),
+) -> dict[str, Any]:
+    """Admin-only guard for the MoMo link manager.
+
+    Resolves the VIPZone CMS session from the ``Authorization: Bearer <sid>``
+    header (primary, cross-origin-safe) OR the session cookie (fallback), then
+    requires an admin/superadmin profile. A commenter-only session can never pass
+    (defense-in-depth). Raises 401 when there is no session and 403 when the
+    authenticated account is not on the admin allowlist.
+
+    Previously this router read ``authorization`` as a *query parameter* (so the
+    real Bearer header never reached it) and the GET endpoint skipped the check
+    entirely — leaving the admin data endpoint effectively unauthenticated yet
+    unreachable with a valid token. This dependency fixes both (auth-vaccine A1).
+    """
+    from main import get_db
+
+    profile = await cms_profile_from_session(
+        get_db(), authorization or "", cookie_sid=cookie_sid
+    )
+    if is_commenter_only(profile):
+        raise HTTPException(403, "admin_only")
+    if not (
+        is_admin(profile.get("email"), profile.get("username"))
+        or is_superadmin(profile)
+    ):
+        raise HTTPException(403, "admin_only")
     return profile
 
 
 @router.get("/momo-links")
 async def get_momo_links(
-    authorization: str = "",
-    db: VipzoneDB = Depends(lambda: None),
+    _admin: dict[str, Any] = Depends(require_momo_admin),
 ) -> dict[str, Any]:
     """
     Scan repo and return all MoMo links, their locations, and usage.
@@ -128,7 +153,7 @@ async def get_momo_links(
 @router.post("/momo-links/replace", response_model=ReplaceResponse)
 async def replace_momo_link(
     request: ReplaceRequest,
-    authorization: str = "",
+    _admin: dict[str, Any] = Depends(require_momo_admin),
 ) -> ReplaceResponse:
     """
     Replace old MoMo link with new one.

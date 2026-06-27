@@ -684,6 +684,55 @@ fenced blocks.
   `question=`/`answer=` → vỡ build → đỏ qa-check trên #1064 + #1054/#1057/#1061. Fix 7 cặp FAQ trên
   cả 4 branch → build xanh trở lại. Cùng họ bug với fix FAQ ở #1055 (CodeQL/GitHub Actions posts).
 
+#### V20 (auth-vaccine A1) — OAuth callback success nhưng UI vẫn KHOÁ (modal kẹt / spinner quay mãi) (27/06/2026)
+
+> Auth UX vaccine — recurring. **Dấu hiệu khớp → fix NGAY theo FIXER, không chẩn lại.** Đây là pattern
+> rất hay gặp với Google login VIPZone: OAuth thành công (`?auth=success`) nhưng frontend auth gate
+> không đồng bộ trạng thái → modal "Đăng nhập để tiếp tục" vẫn che trang, hoặc spinner comment quay vô hạn.
+
+- **Dấu hiệu:**
+  1. `/tools/momo-url/?auth=success` — login Google xong nhưng modal admin vẫn hiện, click bị "nuốt",
+     site giật/loop.
+  2. Card bình luận "Đăng nhập để tham gia thảo luận" có spinner quay **mãi** dù guest/đã login/lỗi.
+- **Nguyên nhân GỐC (giống nhau cho cả 2 — CSS thắng `[hidden]`):** một rule `display:flex/block` trên
+  cùng phần tử **ghi đè** thuộc tính `[hidden]` của HTML. JS gọi `el.hidden = true` nhưng UA rule
+  `[hidden]{display:none}` (origin UA) **luôn thua** author rule `.x{display:flex}` → phần tử KHÔNG bao
+  giờ ẩn. Cụ thể: `.auth-gate{display:flex}` (overlay z-index:1000 không ẩn được) và
+  `.comments__state--loading{display:flex}` (spinner không ẩn được).
+- **Nguyên nhân PHỤ (làm bug khó chẩn + vi phạm yêu cầu):**
+  - Frontend chỉ đọc `#sid=` ở hash, **không xử lý / không dọn** `?auth=success` (lingering, init lặp).
+  - Không có timeout khi gọi `/auth/me` → backend Render cold-start (30–60s) làm spinner/checking treo.
+  - Không có **state machine** (`checking · authenticated · guest · unauthorized · error`) → không phân
+    biệt "không có quyền" với "chưa đăng nhập" với "lỗi mạng".
+  - Nút "Đăng nhập bằng Google" lại trỏ `/auth/login` (endpoint **GitHub**) thay vì `/auth/google/start`.
+  - Backend admin endpoint đọc `authorization` như **query param** (không phải header) và **bỏ qua**
+    auth check → vừa thủng bảo mật vừa không nhận Bearer thật.
+  - CORS allowlist không gồm domain mới (`seomoney.org` / `www`) sau khi đổi custom domain.
+- **FIXER (đã áp 27/06/2026 — branch `claude/momo-url-oauth-bug-jdp0hi`):**
+  1. **CSS bắt `[hidden]` luôn thắng:** `.auth-gate[hidden]{display:none!important}` (sass/_admin-momo-url.scss);
+     `.comments [hidden]{display:none!important}` (sass/_comments.scss). Quy tắc chung: **mọi phần tử bị JS
+     toggle bằng `hidden` mà có rule `display:*` riêng → phải có `[hidden]{display:none!important}`.**
+  2. **State machine + consume `auth=success`:** verify session bằng `/auth/me` (KHÔNG tin URL param);
+     `credentials:"include"` + `Authorization: Bearer <sid>`; dọn `?auth=success`/`auth_error`/`#sid` bằng
+     `history.replaceState`; single-init guard (`window.__momoAuthInitDone` / `data-comments-init`);
+     single-flight `/auth/me` + **AbortController timeout** (8s admin, 7s comment); luôn clear loading khi
+     resolve; nút login → `/auth/google/start` (Google only, KHÔNG GitHub) giữ `return_to`.
+  3. **Spinner KHÔNG phải default:** template comment để loading `hidden`, guest hiện mặc định; spinner chỉ
+     bật khi **đang thực sự** gọi `/auth/me` (có sid).
+  4. **Backend admin guard đúng:** `momo_links.py` dùng `Depends(require_momo_admin)` đọc `Authorization`
+     header + cookie, check `is_admin(email, username) or is_superadmin(profile)`, chặn `commenter`. Sửa
+     `is_admin(profile)` (sai chữ ký) → `is_admin(profile.get("email"), profile.get("username"))`.
+  5. **CORS đa-origin:** `main.py` `_cors_allow_origins()` gồm seomoney.org + www + legacy github.io +
+     localhost; env `VIPZONE_CORS_ORIGIN`/`VIPZONE_CORS_ORIGINS`. Giữ `allow_credentials=True` (không `*`).
+- **Phân tách scope (BẮT BUỘC):** comment login = **comment-only** (không bao giờ chạm CMS/admin), admin
+  tool vẫn yêu cầu whitelist. Comment dùng session key riêng (`seomoney-comment-sid`, sessionStorage),
+  admin dùng `zola-cms-session-id` (localStorage) → không trộn scope.
+- **Auto-healing hint:** URL có `auth=success` mà modal/admin vẫn khoá → kiểm: (a) có rule `display:*`
+  ghi đè `[hidden]` không; (b) verify `/auth/me` với `credentials:include` + Bearer; (c) cookie
+  SameSite=None;Secure + CORS allow origin; (d) dọn query param; (e) chặn double-init; (f) clear loading
+  trong `finally`. Spinner comment quay mãi → thêm state machine hữu hạn + timeout + ẩn spinner ở
+  guest/authenticated/error + `[hidden]{display:none!important}`.
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
