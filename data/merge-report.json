@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-06-27T10:12:30Z",
+  "updated_at": "2026-06-27T10:18:30Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 51,
+    "today": 52,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 1088,
+      "pr_title": "feat(editor): CMS dashboard newsroom layout",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1088",
+      "merged_at": "2026-06-27T10:06:57Z",
+      "merge_commit_sha": "136b7a92b622ec6820f26daec73a07824c7bddae",
+      "merge_commit_short": "136b7a9",
+      "head_branch": "feature/editor-cms-dashboard",
+      "summary_vi": "Refactor `/editor/` into a modern newsroom CMS dashboard: top app bar, KPI cards, filter sidebar, card-based article list with thumbnails, tabs, pagination, quick detail drawer, and toast feedback.",
+      "change_type": "feature",
+      "files_changed": 4,
+      "additions": 2179,
+      "deletions": 212,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1290,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28286071639",
+      "build_conclusion": "failure"
+    },
     {
       "pr_number": 1086,
       "pr_title": "feat(worldcup-cms): Content Manager cho trang World Cup 2026 + unblock 404 gate",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1289,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28286052961",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 1084,
@@ -547,9 +566,9 @@
       "deletions": 17,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1260,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28278827361",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1267,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28279200428",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 1052,
@@ -604,9 +623,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1260,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28278827361",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 1051,
@@ -1058,25 +1077,6 @@
       "files_changed": 1,
       "additions": 685,
       "deletions": 95,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 1030,
-      "pr_title": "feat: add breadcrumb and full datetime display for blog posts",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1030",
-      "merged_at": "2026-06-26T23:07:46Z",
-      "merge_commit_sha": "4b09fd71267749acf6362f0d4730b2694f6cf37f",
-      "merge_commit_short": "4b09fd7",
-      "head_branch": "claude/seomoney-breadcrumb-metadata-c9i4o9",
-      "summary_vi": "Implement breadcrumb navigation and enhanced date/time metadata for article pages:",
-      "change_type": "feature",
-      "files_changed": 2,
-      "additions": 41,
-      "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
@@ -3459,6 +3459,25 @@
       "build_conclusion": ""
     },
     {
+      "pr_number": 879,
+      "pr_title": "fix(ci): increase zola build timeout to 15 min/attempt (issue #876) [fix/zola-build-timeout-900]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/879",
+      "merged_at": "2026-06-24T21:24:50Z",
+      "merge_commit_sha": "ca28fa74dfedbc42a2ed06f4ddf1630c0563bfa6",
+      "merge_commit_short": "ca28fa7",
+      "head_branch": "fix/zola-build-timeout-900",
+      "summary_vi": "fix(ci): increase zola build timeout to 15 min/attempt (issue #876)",
+      "change_type": "fix",
+      "files_changed": 2,
+      "additions": 24,
+      "deletions": 11,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
       "pr_number": 878,
       "pr_title": "fix(deploy): revert 12min cap — zola build needs ~16min [fix/revert-deploy-cap-878]",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/878",
@@ -3794,25 +3813,6 @@
       "files_changed": 7,
       "additions": 888,
       "deletions": 23,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 727,
-      "pr_title": "fix(conflict): resolve V10/V12 merge conflict — index.html + seo-qa-scores [vaccine-hotfix/claude-happy-hopper-tp7w7f]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/727",
-      "merged_at": "2026-06-22T19:40:54Z",
-      "merge_commit_sha": "0da8e7d3eda6cf9f6e4e216e05827ca8d0df6565",
-      "merge_commit_short": "0da8e7d",
-      "head_branch": "vaccine-hotfix/claude-happy-hopper-tp7w7f",
-      "summary_vi": "- feat(series): add Q&A Khoa Học part 10 + update QA scores",
-      "change_type": "fix",
-      "files_changed": 36,
-      "additions": 4897,
-      "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
