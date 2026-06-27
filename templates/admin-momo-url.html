@@ -12,6 +12,22 @@
   <div class="auth-gate" id="auth-gate" hidden>
     <div class="auth-gate__overlay"></div>
     <div class="auth-gate__dialog">
+      <div class="auth-gate__brand">
+        <div class="auth-gate__brand-logo" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="12" fill="url(#momo-grad-auth)"/>
+            <text x="20" y="28" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="900" fill="white">M</text>
+            <defs>
+              <linearGradient id="momo-grad-auth" x1="0" y1="0" x2="40" y2="40">
+                <stop stop-color="#ae2070"/>
+                <stop offset="1" stop-color="#50275d"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="auth-gate__brand-name">MoMo Admin</span>
+      </div>
+
       <!-- checking: only while actually verifying the session -->
       <div class="auth-gate__view auth-gate__checking" id="auth-view-checking" data-auth-view="checking">
         <div class="spinner"></div>
@@ -58,7 +74,24 @@
   <!-- Main content (hidden until auth) -->
   <div class="admin-momo-url__inner" id="admin-content" hidden>
     <header class="admin-momo-url__header">
-      <h1 class="admin-momo-url__title">Quản lý MoMo URL &amp; Content Placement</h1>
+      <div class="admin-momo-url__header-brand">
+        <div class="momo-logo-mark" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect width="48" height="48" rx="14" fill="url(#momo-grad-hdr)"/>
+            <text x="24" y="34" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="26" font-weight="900" fill="white">M</text>
+            <defs>
+              <linearGradient id="momo-grad-hdr" x1="0" y1="0" x2="48" y2="48">
+                <stop stop-color="#ae2070"/>
+                <stop offset="1" stop-color="#50275d"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <div class="admin-momo-url__brand-tag">MoMo Payment</div>
+          <h1 class="admin-momo-url__title">Quản lý MoMo URL &amp; Content Placement</h1>
+        </div>
+      </div>
       <p class="admin-momo-url__subtitle">Quản lý payment link, nội dung hiển thị (CTA/banner/notice) và vị trí render theo placement ID</p>
     </header>
 
