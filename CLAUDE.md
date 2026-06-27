@@ -1,5 +1,38 @@
 # CLAUDE.md — Quy tắc làm việc
 
+## Public vs Private Agent Memory
+
+> Đọc trước khi học bài học mới từ bug. Chi tiết văn hoá deploy/QA: **[`CULTURE_OF_DEPLOYMENT.md`](CULTURE_OF_DEPLOYMENT.md)**.
+
+`CLAUDE.md` là **public-safe guidance** cho agent và contributor — ai cũng đọc được trong repo public:
+runbook, deployment culture, high-level QA policy, public-safe vaccine summaries, non-sensitive command
+patterns, general coding rules, link tới docs công khai.
+
+Private strategy, sensitive deployment tactics, fragile internal notes, backend/auth/VIPZone caveats, và
+local-only auto-healing heuristics phải nằm trong **`CLAUDE_PRIVATE.md`**.
+
+`CLAUDE_PRIVATE.md` **cố ý gitignore** và **KHÔNG được commit**. CI **không** phụ thuộc file này — checkout
+sạch vẫn phải pass. Public auto-healing chỉ dùng rule/script **đã commit, an toàn, công khai**. Agent
+local (Claude/OpenCode) **được** đọc `CLAUDE_PRIVATE.md` khi có. **Không** in nội dung private vào CI log.
+
+Khi học từ một bug:
+
+- Bài học **public-safe + tái dùng được** → thêm summary ngắn vào `CLAUDE.md` (vd vaccine `#### V<N>`).
+- Bài học **tactical/sensitive** → ghi chi tiết vào `CLAUDE_PRIVATE.md` (local), để lại trace đã sanitize ở public nếu cần.
+- **Không bao giờ** lộ secret hay chi tiết backend/auth nhạy cảm vào docs công khai.
+
+Template private an toàn: `CLAUDE_PRIVATE.example.md` (copy → `CLAUDE_PRIVATE.md` để dùng local).
+
+### Deployment culture (tóm tắt)
+
+> `Bug found → Fix it → Learn from it → Auto-healing` · pipeline `Detect → Classify → Heal → Build → Learn → Deploy`.
+
+QA là **deployment immune system**, KHÔNG phải cảnh sát chặn deploy. Chỉ **P0** (build vỡ, Tera/SCSS lỗi,
+frontmatter TOML invalid, conflict markers, workflow YAML invalid, secret commit, critical route hỏng,
+auth/VIPZone nguy hiểm) mới fail CI. **P1** thử auto-heal trước khi fail. **P2/P3** (SEO/content/PageSpeed/
+compliance/external-link…) **KHÔNG** được block deploy — chỉ report. Severity model đầy đủ + QA Decision
+Rule: xem [`CULTURE_OF_DEPLOYMENT.md`](CULTURE_OF_DEPLOYMENT.md) §4.
+
 ## Repository Automation Policy (effective 2026-06-18 — ZERO_BARRIER_AUTOMATION)
 
 > **100% tự động:** CI pass → auto-merge `main` → deploy production. Không kiểm duyệt trung gian.
@@ -960,6 +993,28 @@ Bắt buộc với MỌI task có thay đổi code (đã commit + push).
   báo mọi thứ (CI success / merge-conflict) → nếu có `send_later` thì hẹn tự
   check-in ~1h tái kiểm tra state/CI/mergeability rồi re-arm cho tới khi merge.
   Dừng theo dõi khi user yêu cầu (`unsubscribe_pr_activity`).
+
+### Bugfix PR Summary Standard
+
+Mọi PR sửa bug PHẢI ghi rõ QA outcome + nơi lưu bài học, theo format (xem
+[`CULTURE_OF_DEPLOYMENT.md`](CULTURE_OF_DEPLOYMENT.md) §13):
+
+```text
+P0 blockers:
+P1 healed/candidates:
+P2 warnings:
+P3 info:
+Build result:
+Experience added:
+- Public CLAUDE.md: Yes/No
+- Private CLAUDE_PRIVATE.md: Yes/No/Local-only
+Reason:
+```
+
+- `Public CLAUDE.md: Yes` — chỉ khi bài học an toàn + tái dùng được công khai.
+- `Private CLAUDE_PRIVATE.md: Yes/Local-only` — cho bài học sensitive/tactical.
+- `No` — khi bug trivial hoặc không tái dùng.
+- **Không** lộ secret hay chi tiết backend/auth nhạy cảm vào PR summary hay CI log.
 
 ## Quy tắc SEO QA cho mỗi bài blog (BẮT BUỘC)
 

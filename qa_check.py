@@ -775,6 +775,19 @@ def main():
     if all_issues:
         print()
 
+    # Severity summary (CULTURE_OF_DEPLOYMENT.md §4). qa_check.py hiện chỉ phân
+    # error/warning → map error→P0 (hard block), warning→P2 (advisory, KHÔNG block).
+    # Additive: không đổi exit code. TODO: tách check theo severity để phân loại
+    # mịn hơn P1 (auto-heal candidate) và P3 (info) khi refactor QA tầng sau.
+    p0, p2 = len(errors), len(warnings)
+    decision = "AUTO_HEAL" if fix_mode else ("FAIL" if p0 else "PASS")
+    print(BOLD("QA SUMMARY"))
+    print(f"P0 blockers: {p0}")
+    print("P1 auto-heal candidates: 0")
+    print(f"P2 warnings: {p2}")
+    print("P3 info: 0")
+    print(f"Decision: {decision}\n")
+
     if fix_mode == "perf":
         perf_msg = f", {perf_fix_count} <img> tags fixed in {len(perf_fixed_files)} file(s)" if perf_fix_count else ""
         summary = f"Summary: {len(errors)} error(s), {len(warnings)} warning(s){perf_msg}"
