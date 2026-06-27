@@ -29,7 +29,7 @@ a = "Khi bảo trì, app thường báo lỗi kết nối máy chủ dù mạng 
 
 <!-- more -->
 
-> 💡 **Lưu ý:** Bài viết chỉ mang tính tham khảo dựa trên kinh nghiệm sử dụng thực tế, **không phải lời khuyên tài chính hay bảo mật chính thức** từ ngân hàng. Với thao tác liên quan tài khoản, hãy luôn đối chiếu hướng dẫn chính thức của BIDV. Chi tiết tại [Điều khoản & Miễn trừ](/zola/terms/).
+> 💡 **Lưu ý:** Bài viết chỉ mang tính tham khảo dựa trên kinh nghiệm sử dụng thực tế, **không phải lời khuyên tài chính hay bảo mật chính thức** từ ngân hàng. Với thao tác liên quan tài khoản, hãy luôn đối chiếu hướng dẫn chính thức của BIDV. Chi tiết tại [Điều khoản & Miễn trừ](/terms/).
 
 ## Vì sao BIDV SmartBanking không vào được?
 

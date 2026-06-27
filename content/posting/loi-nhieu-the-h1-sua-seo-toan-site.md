@@ -102,7 +102,7 @@ for f in glob.glob("content/**/*.md", recursive=True):
             break
 ```
 
-Bước "bỏ qua code fence" này cứu mình một bàn thua. Có bốn bài kỹ thuật chứa `# comment` trong các khối bash/Python — nếu sửa nhầm chúng thành `##` thì vừa hỏng nội dung code, vừa chẳng liên quan gì đến H1 thật. Nếu bạn thích đọc thêm về việc dựng pipeline kiểm tra tự động kiểu này, mình có viết riêng một bài về [QA Gatekeeper giúp blog tự fix lỗi 24/7](/zola/posting/qa-gatekeeper-tu-fix-loi-blog/).
+Bước "bỏ qua code fence" này cứu mình một bàn thua. Có bốn bài kỹ thuật chứa `# comment` trong các khối bash/Python — nếu sửa nhầm chúng thành `##` thì vừa hỏng nội dung code, vừa chẳng liên quan gì đến H1 thật. Nếu bạn thích đọc thêm về việc dựng pipeline kiểm tra tự động kiểu này, mình có viết riêng một bài về [QA Gatekeeper giúp blog tự fix lỗi 24/7](/posting/qa-gatekeeper-tu-fix-loi-blog/).
 
 ## Sửa hàng loạt: hạ cấp H1 thừa xuống H2
 
@@ -142,7 +142,7 @@ Cách xử lý đúng không phải là cằn nhằn "không phải lỗi của 
 /archive/             →  /zola/archive/
 ```
 
-Build lại, chạy lại đúng gate đó, lần này nó in `OK: no internal links missing /zola/ prefix`. PR xanh, tự động merge. Nếu bạn quan tâm cách một blog tĩnh deploy lên GitHub Pages và vì sao có cái tiền tố `/zola/` này, mình giải thích trong bài [tạo blog với Zola từ A đến Z](/zola/posting/tao-blog-voi-zola/).
+Build lại, chạy lại đúng gate đó, lần này nó in `OK: no internal links missing /zola/ prefix`. PR xanh, tự động merge. Nếu bạn quan tâm cách một blog tĩnh deploy lên GitHub Pages và vì sao có cái tiền tố `/zola/` này, mình giải thích trong bài [tạo blog với Zola từ A đến Z](/posting/tao-blog-voi-zola/).
 
 ## Tự động hoá để lỗi H1 không quay lại
 
@@ -184,10 +184,10 @@ Từ vụ này, mình rút ra mấy nguyên tắc tự dặn để không lặp 
 - **Nội dung nhiều nguồn thì sửa hết các nguồn.** Đừng để bước restore ghi đè công sức của bạn.
 - **Coi CI là kiểm tra cả repo.** Nhánh cũ có thể "hồi sinh" bug đã ngủ; rebase lên bản mới nhất trước khi tin vào kết quả CI.
 
-Mấy nguyên tắc này nghe hiển nhiên, nhưng chính sự hiển nhiên khiến mình lơ là. Tự động hoá việc kiểm tra — như cách mình dựng các script chấm điểm và gate link — là cách bền vững nhất để chúng không bị quên. Bạn có thể xem thêm góc nhìn kỹ thuật ở bài [giúp Google tìm thấy nội dung của site](/zola/posting/giup-google-tim-noi-dung-site/) hoặc bài chia sẻ về [cài đặt Git lần đầu](/zola/posting/cai-dat-git-cau-hinh-lan-dau/) nếu bạn mới bắt đầu tự quản lý mã nguồn blog.
+Mấy nguyên tắc này nghe hiển nhiên, nhưng chính sự hiển nhiên khiến mình lơ là. Tự động hoá việc kiểm tra — như cách mình dựng các script chấm điểm và gate link — là cách bền vững nhất để chúng không bị quên. Bạn có thể xem thêm góc nhìn kỹ thuật ở bài [giúp Google tìm thấy nội dung của site](/posting/giup-google-tim-noi-dung-site/) hoặc bài chia sẻ về [cài đặt Git lần đầu](/posting/cai-dat-git-cau-hinh-lan-dau/) nếu bạn mới bắt đầu tự quản lý mã nguồn blog.
 
 ## Kết luận
 
 Lỗi nhiều thẻ H1 là kiểu lỗi "vô hình": không làm gãy trang, không làm người đọc khó chịu, nên rất dễ sống sót qua nhiều tháng. Nhưng nó phản ánh một thói quen tốt hay xấu trong cách bạn viết và build nội dung. Sửa nó không khó — hạ một dấu thăng là xong — cái khó là **phát hiện đúng và sửa trọn vẹn** trên toàn site, kèm việc dọn luôn những bug ngủ đông mà CI lôi ra.
 
-Nếu blog của bạn cũng là một site tĩnh tự vận hành, mình khuyên bạn dành một buổi build sạch rồi chấm điểm toàn bộ HTML. Bạn sẽ ngạc nhiên vì những thứ "vẫn chạy" nhưng không hề sạch. Và nếu thấy bài này hữu ích, ghé thêm chuyên mục [Công nghệ](/zola/categories/cong-nghe/) của mình — nơi mình ghi lại những lần debug thật như thế này, hoặc đọc tiếp bài kỹ thuật về [Sentence Transformers (SBERT)](/zola/posting/sentence-transformers-sbert-deep-dive/) nếu bạn quan tâm tới phần AI đằng sau blog. Bạn đang vướng lỗi SEO kỹ thuật nào? Cứ để lại bình luận, mình rất sẵn lòng mổ xẻ cùng.
+Nếu blog của bạn cũng là một site tĩnh tự vận hành, mình khuyên bạn dành một buổi build sạch rồi chấm điểm toàn bộ HTML. Bạn sẽ ngạc nhiên vì những thứ "vẫn chạy" nhưng không hề sạch. Và nếu thấy bài này hữu ích, ghé thêm chuyên mục [Công nghệ](/categories/cong-nghe/) của mình — nơi mình ghi lại những lần debug thật như thế này, hoặc đọc tiếp bài kỹ thuật về [Sentence Transformers (SBERT)](/posting/sentence-transformers-sbert-deep-dive/) nếu bạn quan tâm tới phần AI đằng sau blog. Bạn đang vướng lỗi SEO kỹ thuật nào? Cứ để lại bình luận, mình rất sẵn lòng mổ xẻ cùng.

@@ -197,7 +197,7 @@ Mình khuyến cáo sử dụng CodeQL cùng ESLint hoặc Pylint - chúng bổ 
 
 ## Tips khi sử dụng CodeQL
 
-Để tận dụng CodeQL hiệu quả, hãy tham khảo các [bài viết khác trên blog](/zola/categories/tat-ca/) để hiểu sâu hơn về các lỗ hổng bảo mật thường gặp.
+Để tận dụng CodeQL hiệu quả, hãy tham khảo các [bài viết khác trên blog](/categories/tat-ca/) để hiểu sâu hơn về các lỗ hổng bảo mật thường gặp.
 
 **1. Bắt đầu với query có sẵn**
 Đừng cố viết query phức tạp ngay. GitHub cung cấp thư viện query khổng lồ cho các lỗ hổng phổ biến. Sử dụng những query đó trước.

@@ -25,7 +25,7 @@ fatal: origin/main...HEAD: no merge base
 
 Pull Request không thể merge. Git báo rằng không tìm thấy common ancestor giữa branch và main. Nhưng tại sao? Branch được tạo từ main chỉ 2 ngày trước, làm sao lại không có common ancestor?
 
-Đây là câu chuyện về **git stale branch** — hiện tượng branch mất liên kết với main sau khi main bị force-push. Bài viết phân tích nguyên nhân merge-base fail, tại sao CI fail 7 phút, và cách xây dựng hệ thống **5 lớp phòng ngừa** để nó **không bao giờ tái diễn**. Đây cũng là một bài học về **automation và early detection** trong quy trình DevOps. Nội dung bài viết áp dụng cho [các công nghệ](/zola/categories/cong-nghe/) development, CI/CD, và quản lý repository.
+Đây là câu chuyện về **git stale branch** — hiện tượng branch mất liên kết với main sau khi main bị force-push. Bài viết phân tích nguyên nhân merge-base fail, tại sao CI fail 7 phút, và cách xây dựng hệ thống **5 lớp phòng ngừa** để nó **không bao giờ tái diễn**. Đây cũng là một bài học về **automation và early detection** trong quy trình DevOps. Nội dung bài viết áp dụng cho [các công nghệ](/categories/cong-nghe/) development, CI/CD, và quản lý repository.
 
 ---
 
