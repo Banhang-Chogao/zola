@@ -69,11 +69,12 @@
                 <div class="left-sidebar-widget__box">
                     <h3 class="left-sidebar-widget__title">📂 Categories</h3>
                     <ul class="left-sidebar-widget__categories">
-                        {% if section.taxonomies %}
-                            {% for category_name, pages in section.taxonomies.categories.items() %}
+                        {% set category_tax = get_taxonomy(kind="categories", lang=config.default_language) %}
+                        {% if category_tax.items %}
+                            {% for category in category_tax.items %}
                             <li>
-                                <a href="/categories/{{ category_name | slugify }}/">
-                                    {{ category_name }} ({{ pages | length }})
+                                <a href="{{ category.permalink }}">
+                                    {{ category.name }} ({{ category.pages | length }})
                                 </a>
                             </li>
                             {% endfor %}
