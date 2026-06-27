@@ -22,9 +22,10 @@
    ============================================================ #}
 
 {% macro placeholder(id, type="generic", label="Quảng cáo", desktop_only=false, mobile_only=false, min_height=false) %}
-  {%- set ads_config = config.extra.ads | default(value={enabled: false, placeholders: false}) -%}
+  {%- set ads_config = config.extra.ads | default(value=false) -%}
+  {%- set show_placeholder = (ads_config and (ads_config.enabled or ads_config.placeholders)) or false -%}
 
-  {%- if ads_config.enabled or ads_config.placeholders -%}
+  {%- if show_placeholder -%}
     {%- set default_heights = {
       "home-top": "300px",
       "home-feed": "300px",
