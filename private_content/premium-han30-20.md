@@ -1,4 +1,4 @@
-# 🇰🇷 Ngày 20 — Liên từ nối câu: 그래서, 하지만, -아서, -고
+## 🇰🇷 Ngày 20 — Liên từ nối câu: 그래서, 하지만, -아서, -고
 
 > **Mục tiêu hôm nay (20–30 phút):** Nối hai câu lại với nhau cho mượt bằng **6 liên từ đầu câu** (그리고, 그래서, 하지만, 그런데, 그래도, 그러면) và **3 đuôi nối câu** quan trọng nhất: `-고` (liệt kê), `-아서/어서` (nguyên nhân + trình tự), `-지만` (nhưng). Cuối bài có **12 câu bài tập + đáp án**.
 

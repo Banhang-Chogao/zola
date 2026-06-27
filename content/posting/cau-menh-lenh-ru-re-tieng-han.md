@@ -33,7 +33,7 @@ q = "Rủ rê, đề nghị trong tiếng Hàn nói thế nào?"
 a = "Rủ trang trọng dùng -(으)ㅂ시다 (같이 갑시다 = cùng đi nào). Đề nghị/hỏi ý mềm mại hơn dùng -(으)ㄹ까요? (뭐 먹을까요? = ăn gì nhỉ?, 같이 갈까요? = cùng đi nhé?). Ngày 19 phân biệt sắc thái từng dạng."
 +++
 
-# 🇰🇷 Ngày 19 — Mệnh lệnh & rủ rê (으세요, ㅂ시다, 을까요)
+## 🇰🇷 Ngày 19 — Mệnh lệnh & rủ rê (으세요, ㅂ시다, 을까요)
 
 > **Mục tiêu hôm nay (20–30 phút):** Giao tiếp "có hồn" với 5 nhóm cấu trúc: **mời/sai lịch sự** -(으)세요, **cấm đoán** -지 마세요, **nhờ giúp** -아/어 주세요, **rủ trang trọng** -(으)ㅂ시다, và **đề nghị mềm** -(으)ㄹ까요?. Cuối bài có **15 câu bài tập + đáp án**.
 

@@ -33,7 +33,7 @@ q = "ㅇ trong tiếng Hàn đọc thế nào?"
 a = "ㅇ có hai vai trò: khi đứng ĐẦU âm tiết nó CÂM (không đọc), chỉ làm chỗ tựa cho nguyên âm (아 = 'a'); khi đứng CUỐI âm tiết (patchim) nó đọc là 'ng' (강 = 'kang'). Day 5 sẽ học patchim chi tiết."
 +++
 
-# 🇰🇷 Ngày 2 — Phụ âm cơ bản & cách ghép âm tiết
+## 🇰🇷 Ngày 2 — Phụ âm cơ bản & cách ghép âm tiết
 
 > **Mục tiêu hôm nay (20–30 phút):** Đọc – viết được **10 phụ âm cơ bản** thường gặp nhất (ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅎ), hiểu mẹo nhớ theo **hình miệng – lưỡi**, và ghép phụ âm + nguyên âm thành **âm tiết hoàn chỉnh** (가·나·다·라…) để đọc từ thật. Cuối bài có **12 câu bài tập + đáp án**.
 

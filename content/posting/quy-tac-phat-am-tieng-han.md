@@ -33,7 +33,7 @@ q = "Quy tắc mũi hóa (비음화) trong tiếng Hàn hoạt động thế nà
 a = "Mũi hóa (비음화) là khi patchim [ㄱ ㄷ ㅂ] gặp phụ âm mũi ㄴ ㅁ thì biến thành âm mũi tương ứng [ㅇ ㄴ ㅁ]. Ví dụ 입니다 đọc [임니다], 한국말 đọc [한궁말]. Đây là lý do đuôi lịch sự -ㅂ니다 nghe như -ㅁ니다."
 +++
 
-# 🇰🇷 Ngày 6 — Quy tắc phát âm: nối âm & đồng hóa
+## 🇰🇷 Ngày 6 — Quy tắc phát âm: nối âm & đồng hóa
 
 > **Mục tiêu hôm nay (20–30 phút):** Nắm **6 quy tắc biến âm** quan trọng nhất của tiếng Hàn — nối âm (연음), căng hóa (경음화), mũi hóa (비음화), bật hơi hóa (격음화), ㅎ yếu hóa, và ㄹ-hóa (유음화). Sau bài này bạn hiểu vì sao **chữ viết ≠ cách đọc** và đọc đúng như người bản xứ. Cuối bài có **14 câu bài tập + đáp án**.
 

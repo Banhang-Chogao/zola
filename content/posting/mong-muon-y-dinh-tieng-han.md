@@ -33,7 +33,7 @@ q = "Ngữ pháp -러 가다 trong tiếng Hàn nghĩa là gì?"
 a = "-(으)러 가다/오다 diễn tả mục đích của việc đi/đến: làm gì đó. Ví dụ 밥을 먹으러 가요 = đi để ăn cơm. Vế trước -러 là mục đích, vế sau luôn là động từ di chuyển (가다, 오다, 다니다)."
 +++
 
-# 🇰🇷 Ngày 24 — Mong muốn & ý định: -고 싶다, -려고 하다, -기로 하다
+## 🇰🇷 Ngày 24 — Mong muốn & ý định: -고 싶다, -려고 하다, -기로 하다
 
 > **Mục tiêu hôm nay (20–30 phút):** Bày tỏ **mong muốn** với -고 싶다 (và -고 싶어 하다 cho ngôi 3), **ý định** với -(으)려고 하다, **mục đích đi đâu đó** với -(으)러 가다/오다, **quyết định đã chốt** với -기로 하다, và **kế hoạch** với -(으)ㄹ 계획이다. Cuối bài có **13 câu bài tập + đáp án**.
 

@@ -33,7 +33,7 @@ q = "Cách phân biệt động từ bất quy tắc và quy tắc tiếng Hàn?
 a = "Không có quy luật tuyệt đối nên cần học từng từ, nhưng có gợi ý: một số như 받다 (nhận), 웃다 (cười), 입다 (mặc) chia ĐỀU dù trông giống bất quy tắc. Bài học cung cấp danh sách ngoại lệ phổ biến cho từng loại để bạn ghi nhớ."
 +++
 
-# 🇰🇷 Ngày 25 — Động từ bất quy tắc (불규칙)
+## 🇰🇷 Ngày 25 — Động từ bất quy tắc (불규칙)
 
 > **Mục tiêu hôm nay (20–30 phút):** Chinh phục **7 loại bất quy tắc** (불규칙) — ㅂ, ㄷ, ㅡ, 르, ㄹ, ㅅ, ㅎ. Mỗi loại có quy luật riêng + ngoại lệ chia ĐỀU dễ nhầm. Cuối bài có **15 câu bài tập + đáp án**.
 

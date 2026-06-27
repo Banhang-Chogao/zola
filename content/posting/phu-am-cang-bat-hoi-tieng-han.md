@@ -33,7 +33,7 @@ q = "Làm sao phân biệt ㄱ, ㅋ và ㄲ trong tiếng Hàn?"
 a = "Cả ba cùng vùng âm 'g/k' nhưng khác hơi: ㄱ phát nhẹ (lax), ㅋ bật hơi mạnh (aspirated), ㄲ căng gồng họng (tense). Bài đầy đủ có bảng đối chiếu 3 bậc ㄱ–ㅋ–ㄲ, ㄷ–ㅌ–ㄸ kèm từ thật để luyện tai."
 +++
 
-# 🇰🇷 Ngày 3 — Phụ âm căng & phụ âm bật hơi
+## 🇰🇷 Ngày 3 — Phụ âm căng & phụ âm bật hơi
 
 > **Mục tiêu hôm nay (20–30 phút):** Phân biệt và phát âm được **3 bậc phụ âm** của tiếng Hàn — nhẹ (평음) vs bật hơi (격음 ㅋㅌㅍㅊ) vs căng (경음 ㄲㄸㅃㅆㅉ). Sau bài này bảng phụ âm của bạn **đầy đủ 19 chữ**. Cuối bài có **13 câu bài tập + đáp án**.
 

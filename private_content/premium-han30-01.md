@@ -1,4 +1,4 @@
-# 🇰🇷 Ngày 1 — Bảng chữ Hangul & 10 nguyên âm cơ bản
+## 🇰🇷 Ngày 1 — Bảng chữ Hangul & 10 nguyên âm cơ bản
 
 > **Mục tiêu hôm nay (20–30 phút):** Hiểu Hangul được cấu tạo thế nào, đọc – viết được **10 nguyên âm cơ bản**, và ghép chúng với phụ âm câm `ㅇ` để đọc thành chữ thật (아, 어, 오, 우…). Cuối bài có **15 câu bài tập + đáp án**.
 

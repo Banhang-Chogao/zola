@@ -1,5 +1,6 @@
 +++
 title = "Ngày 27 — Câu điều kiện & nghĩa vụ tiếng Hàn"
+description = "Học câu điều kiện tiếng Hàn với đuôi -(으)면: diễn đạt nếu, phải, được phép và cấm đoán, kèm bảng so sánh ngữ pháp và 15 câu bài tập có đáp án."
 date = 2026-06-18
 aliases = ["/cau-dieu-kien-gia-dinh-tieng-han/"]
 
@@ -8,6 +9,7 @@ categories = ["premium"]
 tags = ["câu điều kiện tiếng hàn", "hoc tieng han series", "học tiếng hàn", "ngữ pháp tiếng hàn", "tiếng hàn sơ cấp", "topik"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+seo_keyword = "câu điều kiện tiếng Hàn"
 premium = true
 +++
 

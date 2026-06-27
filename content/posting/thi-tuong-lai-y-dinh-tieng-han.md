@@ -33,7 +33,7 @@ q = "거예요 và 겠 khác nhau thế nào?"
 a = "(으)ㄹ 거예요 thiên về kế hoạch đã định và dự đoán có cơ sở; 겠 thiên về ý chí mạnh, lịch sự trang trọng và suy đoán ngay tức thì khi vừa thấy/nghe. Ngày 17 có bảng so sánh chi tiết kèm ví dụ."
 +++
 
-# 🇰🇷 Ngày 17 — Thì tương lai & ý định (ㄹ 거예요, 겠)
+## 🇰🇷 Ngày 17 — Thì tương lai & ý định (ㄹ 거예요, 겠)
 
 > **Mục tiêu hôm nay (20–30 phút):** Diễn tả **tương lai & ý định** với hai cấu trúc: **-(으)ㄹ 거예요** (kế hoạch / dự đoán) và **-겠-** (ý chí lịch sự / suy đoán tức thì). Biết khi nào dùng cái nào. Cuối bài có **15 câu bài tập + đáp án**.
 

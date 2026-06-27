@@ -33,7 +33,7 @@ q = "Khi nào dùng 에 và khi nào dùng 에서 với địa điểm?"
 a = "Dùng 에 với động từ di chuyển/tồn tại tĩnh (가다, 오다, 있다): 학교에 가요. Dùng 에서 khi có hành động diễn ra tại nơi đó (공부하다, 일하다, 먹다): 학교에서 공부해요 (học ở trường)."
 +++
 
-# 🇰🇷 Ngày 12 — Trợ từ 을/를, 에, 에서
+## 🇰🇷 Ngày 12 — Trợ từ 을/를, 에, 에서
 
 > **Mục tiêu hôm nay (20–30 phút):** Làm chủ ba trợ từ "hành động": **을/를** (tân ngữ), **에** (đích đến · thời gian · vị trí tĩnh) và **에서** (nơi diễn ra hành động · điểm xuất phát). Biết khi nào dùng **에 vs 에서** với địa điểm. Cuối bài có **14 câu bài tập + đáp án**.
 

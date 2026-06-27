@@ -1,4 +1,4 @@
-# 🇰🇷 Ngày 30 — Tổng ôn & chiến lược thi TOPIK I
+## 🇰🇷 Ngày 30 — Tổng ôn & chiến lược thi TOPIK I
 
 > **Mục tiêu hôm nay (30–40 phút):** Tổng ôn toàn bộ hành trình 30 ngày qua **bảng checklist ngữ pháp theo tuần**, giải mã **cấu trúc đề TOPIK I** (듣기 + 읽기, 200 điểm), nắm **chiến lược làm bài & quản lý thời gian**, soát **checklist must-know cấp 1–2** và vạch **lộ trình lên cấp 3–4 (TOPIK II)**. Cuối bài có **15 câu bài tập tổng hợp + đáp án**.
 

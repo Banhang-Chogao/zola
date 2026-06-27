@@ -1,4 +1,4 @@
-# 🇰🇷 Ngày 2 — Phụ âm cơ bản & cách ghép âm tiết
+## 🇰🇷 Ngày 2 — Phụ âm cơ bản & cách ghép âm tiết
 
 > **Mục tiêu hôm nay (20–30 phút):** Đọc – viết được **10 phụ âm cơ bản** thường gặp nhất (ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅎ), hiểu mẹo nhớ theo **hình miệng – lưỡi**, và ghép phụ âm + nguyên âm thành **âm tiết hoàn chỉnh** (가·나·다·라…) để đọc từ thật. Cuối bài có **12 câu bài tập + đáp án**.
 

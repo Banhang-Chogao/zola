@@ -1,4 +1,4 @@
-# 🇰🇷 Ngày 7 — Ôn tập tuần 1 & chào hỏi cơ bản
+## 🇰🇷 Ngày 7 — Ôn tập tuần 1 & chào hỏi cơ bản
 
 > **Mục tiêu hôm nay (20–30 phút):** **Củng cố toàn bộ Hangul** đã học (nguyên âm, phụ âm, patchim, quy tắc biến âm) qua bảng tổng + bài đọc thử, RỒI học **bộ câu chào hỏi thiết yếu** để bắt đầu giao tiếp thật. Cuối bài có **15 câu bài tập + đáp án**.
 

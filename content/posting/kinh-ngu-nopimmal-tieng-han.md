@@ -33,7 +33,7 @@ q = "Động từ tôn kính đặc biệt trong tiếng Hàn gồm những gì?
 a = "Một số động từ có dạng tôn kính riêng, không chỉ gắn -시-: 있다 → 계시다, 먹다/마시다 → 드시다/잡수시다, 자다 → 주무시다, 말하다 → 말씀하시다, còn 주다 → 드리다 là dạng khiêm nhường khi mình cho người trên."
 +++
 
-# 🇰🇷 Ngày 26 — Kính ngữ (높임말) trong tiếng Hàn
+## 🇰🇷 Ngày 26 — Kính ngữ (높임말) trong tiếng Hàn
 
 > **Mục tiêu hôm nay (20–30 phút):** Hiểu hệ thống **kính ngữ** (높임말) tiếng Hàn: gắn đuôi tôn kính **-(으)시-**, dùng đúng **trợ từ kính ngữ** 께서·께·님·분, thuộc lòng **động từ tôn kính đặc biệt** (계시다, 드시다, 주무시다…) và biết khi nào hạ mình bằng **khiêm nhường** (낮춤말). Cuối bài có **15 câu bài tập + đáp án**.
 

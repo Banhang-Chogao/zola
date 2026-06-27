@@ -1,4 +1,4 @@
-# 🇰🇷 Ngày 4 — Nguyên âm đôi & nguyên âm ghép
+## 🇰🇷 Ngày 4 — Nguyên âm đôi & nguyên âm ghép
 
 > **Mục tiêu hôm nay (20–30 phút):** Đọc – viết được **11 nguyên âm đôi/ghép** (ㅐ ㅔ ㅒ ㅖ ㅘ ㅙ ㅚ ㅝ ㅞ ㅟ ㅢ), hiểu chúng **ghép từ nguyên âm gốc** thế nào, và đọc được hàng loạt từ thông dụng (사과, 의사, 회사…). Cuối bài có **14 câu bài tập + đáp án**.
 
