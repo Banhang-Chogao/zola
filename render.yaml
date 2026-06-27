@@ -99,6 +99,18 @@ services:
       - key: COMMENTS_ALLOWED_DOMAINS
         sync: false
 
+      # ----- Web Vitals RUM (anonymous field data → Speed Insights /rum/*) -----
+      # Public pages POST web-vitals samples; dashboard reads aggregated P75. No
+      # secrets, no PII. retention_days bounds the table; rate limits guard floods.
+      - key: RUM_ENABLED
+        value: "true"
+      - key: RUM_RETENTION_DAYS
+        value: "90"
+      - key: RUM_RATE_WINDOW
+        value: "60"
+      - key: RUM_RATE_MAX
+        value: "120"
+
       # ----- Google Search Console (SEO Reality Check, /gsc/* routes) -----
       - key: GSC_CLIENT_ID
         sync: false
