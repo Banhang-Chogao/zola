@@ -11,13 +11,8 @@ name: Compliance Score Audit
 # ở job `audit`.
 
 on:
-  # --- TRIGGER GỐC (disabled — uncomment để mở lại) ---
-  # schedule:
-  #   - cron: '0 */12 * * *'   # every 12 hours (UTC)
-  # workflow_run:
-  #   workflows:
-  #     - "Build and deploy Zola site to GitHub Pages"
-  #   types: [completed]
+  schedule:
+    - cron: '0 3,15 * * *'   # 2x/day: 09:00 AM & 21:00 (GMT+7)
   workflow_dispatch:
 
 permissions:
@@ -33,8 +28,6 @@ concurrency:
 
 jobs:
   audit:
-    # ⛔ DISABLED — workflow tắt tới khi user mở lại. Xoá dòng `if` này để bật.
-    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

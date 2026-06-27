@@ -9,7 +9,7 @@ name: Slack Commit Notification
 on:
   push:
     branches:
-      - '**'
+      - main
 
 permissions:
   contents: read

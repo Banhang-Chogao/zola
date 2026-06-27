@@ -8,8 +8,7 @@ name: Security Audit
 
 on:
   schedule:
-    - cron: '0 3 * * 6'    # Weekly Saturday 03:00 UTC (10:00 VN)
-    - cron: '0 4 * * *'    # Daily 11:00 GMT+7 = 04:00 UTC
+    - cron: '0 6,18 * * *'    # 2x/day: 12:00 PM & 24:00 (GMT+7)
   workflow_dispatch:
 
 concurrency:

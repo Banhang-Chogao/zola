@@ -9,11 +9,8 @@ name: Fetch Merge Report
 # ở job `fetch`.
 
 on:
-  # --- TRIGGER GỐC (disabled — uncomment để mở lại) ---
-  # push:
-  #   branches: [main]
-  # schedule:
-  #   - cron: '20 * * * *'
+  schedule:
+    - cron: '0 */3 * * *'   # every 3 hours (UTC) = ~3h intervals (GMT+7)
   workflow_dispatch:
 
 permissions:
@@ -29,8 +26,6 @@ concurrency:
 
 jobs:
   fetch:
-    # ⛔ DISABLED — workflow tắt tới khi user mở lại. Xoá dòng `if` này để bật.
-    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
