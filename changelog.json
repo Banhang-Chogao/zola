@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-27",
+      "title": "update SEO QA scores after bb article [claude/bb-16o2m6]",
+      "tag": "chore",
+      "lines_added": 2270,
+      "lines_removed": 782,
+      "highlights": [
+        "feat: add bb article — trai-cay-mua-he-bu-nuoc-an-toan (inspired by VTC News)",
+        "chore: update SEO QA scores after bb article",
+        "content/baochi/trai-cay-mua-he-bu-nuoc-an-toan.md (added, +100/-0)",
+        "data/seo-qa-scores.json (modified, +92/-1)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha"
+      ],
+      "pr": 992
+    },
+    {
+      "date": "2026-06-27",
       "title": "update google-preferred-sources series post dates for series navigation",
       "tag": "fix",
       "lines_added": 4,
