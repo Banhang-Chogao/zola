@@ -42,6 +42,8 @@
   let auditData = null;
   let authState = null;
   let mePromise = null;
+  let cpData = null; // { placements:[], blocks:[] } from /admin/content-placements
+  let cpEditingId = null; // block id being edited, or null when creating
 
   // ============= DOM Elements =============
   const authGate = document.getElementById("auth-gate");

@@ -291,6 +291,37 @@ except Exception as exc:  # pragma: no cover - defensive: keep the rest of the A
     print(f"[vipzone] momo_links router not mounted: {exc!r}")
 
 
+# ============= Content Placement Admin (placement registry + content blocks) =============
+# Admins (Google whitelist) manage editable content blocks bound to stable
+# placement IDs; writes commit data/content-placements.json so deploy.yml rebuilds.
+# The commit token prefers a service PAT (Google admins have no GitHub OAuth token)
+# and falls back to the admin's GitHub OAuth token when present.
+try:
+    import content_placements
+
+    async def _cp_get_token(authorization: str, cookie_sid: str | None = None) -> str:
+        svc = (
+            os.getenv("CONTENT_PLACEMENTS_GH_TOKEN")
+            or os.getenv("ZOLA_GH_TOKEN")
+            or os.getenv("WORKFLOW_BOT_PAT")
+            or os.getenv("GH_PAT")
+        )
+        if svc:
+            return svc
+        from main import get_db
+
+        return await github_token_from_session(
+            get_db(), authorization or "", cookie_sid=cookie_sid
+        )
+
+    content_placements.configure(get_token=_cp_get_token)
+    app.include_router(content_placements.router)
+    CONTENT_PLACEMENTS_MOUNTED = True
+except Exception as exc:  # pragma: no cover - defensive: keep the rest of the API up
+    CONTENT_PLACEMENTS_MOUNTED = False
+    print(f"[vipzone] content_placements router not mounted: {exc!r}")
+
+
 async def require_admin(profile: dict[str, Any] = Depends(session_dep)) -> dict[str, Any]:
     # A public commenter session can never be an admin (defense-in-depth on top of
     # the is_admin/is_super checks, which are already false for them).

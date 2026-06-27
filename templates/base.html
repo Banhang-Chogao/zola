@@ -4,6 +4,7 @@
 {% import "macros/img.html" as img %}
 {% import "macros/footer-countdown.html" as footer_countdown %}
 {% import "macros/datetime.html" as dt %}
+{% import "macros/placement.html" as placement %}
 {# ============================================================================
    GitHub commits — fetch ở BUILD-TIME qua load_data, KHÔNG fetch client-side.
    - CI build: có ZOLA_GH_TOKEN → 5000 req/h, đủ vô tận.
@@ -714,6 +715,9 @@
         <div class="navbar__backdrop" data-backdrop aria-hidden="true"></div>
     </nav>
 
+    {# Content placement hook: global_header_below (managed at /tools/momo-url/). #}
+    {{ placement::render(id="global_header_below", page=page | default(value=false), section=section | default(value=false)) }}
+
     <div class="site-search" role="dialog" aria-modal="true" aria-labelledby="site-search-title" data-site-search hidden>
         <div class="site-search__backdrop" data-search-close></div>
         <section class="site-search__panel">
@@ -868,6 +872,9 @@
             {% endblock sidebar %}
         </div>
     </main>
+
+    {# Content placement hook: footer_above (managed at /tools/momo-url/). #}
+    {{ placement::render(id="footer_above", page=page | default(value=false), section=section | default(value=false)) }}
 
     <footer class="site-footer">
         {# Tag cloud đã chuyển sang RIGHT SIDEBAR (text-only) — xem block
