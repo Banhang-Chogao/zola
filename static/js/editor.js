@@ -349,6 +349,50 @@
     return d.toISOString().split("T")[0];
   }
 
+  // Ngày hôm nay theo giờ Việt Nam (GMT+7), dạng YYYY-MM-DD.
+  function todayIsoVN() {
+    try {
+      return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Ho_Chi_Minh" });
+    } catch (e) {
+      return todayIso();
+    }
+  }
+
+  // Thời điểm hiện tại theo giờ Việt Nam, ISO8601 có offset +07:00
+  // (vd 2026-06-27T14:30:00+07:00). GMT+7 không có DST nên offset luôn cố định.
+  function nowIsoVN() {
+    try {
+      const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Asia/Ho_Chi_Minh",
+        year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false,
+      }).formatToParts(new Date());
+      const get = (t) => ((parts.find((p) => p.type === t) || {}).value || "00");
+      let hour = get("hour");
+      if (hour === "24") hour = "00"; // vài môi trường trả "24" cho nửa đêm
+      return get("year") + "-" + get("month") + "-" + get("day") +
+        "T" + hour + ":" + get("minute") + ":" + get("second") + "+07:00";
+    } catch (e) {
+      return todayIsoVN();
+    }
+  }
+
+  // Tính giá trị `date` frontmatter sao cho hiển thị THỜI GIAN THỰC TẾ, không phải 00:00 giả:
+  //  - Giữ nguyên timestamp gốc nếu user không đổi ngày (không ghi đè giờ đã ghi).
+  //  - Ngày = hôm nay (GMT+7) mà chưa có giờ → đóng dấu giờ thực tại.
+  //  - Ngày khác (quá khứ/tương lai do user chọn) → giữ date-only, KHÔNG bịa giờ.
+  function resolvePublishDate(formDate, originalDate) {
+    const dateOnly = String(formDate || "").slice(0, 10);
+    if (!dateOnly) return formDate;
+    if (originalDate && String(originalDate).slice(0, 10) === dateOnly) {
+      return originalDate; // bảo toàn giờ gốc của bài
+    }
+    if (dateOnly === todayIsoVN()) {
+      return nowIsoVN(); // đăng/sửa trong hôm nay → giờ thực
+    }
+    return dateOnly; // ngày khác → không có giờ thực để hiển thị
+  }
+
   // Encode UTF-8 string → base64 (GitHub yêu cầu)
   function b64encode(str) {
     return btoa(unescape(encodeURIComponent(str)));
@@ -831,7 +875,9 @@ tags = ${tagsStr}
 
     const fm = {
       title: form.title.value.trim(),
-      date: form.date.value,
+      // Đóng dấu thời gian thực (GMT+7) khi đăng hôm nay; giữ timestamp gốc khi sửa
+      // bài cũ mà không đổi ngày → "Đăng: HH:MM" hiển thị giờ thật, không phải 00:00.
+      date: resolvePublishDate(form.date.value, state.editing && state.editing.originalDate),
       category: category,
       tags: form.tags.value.split(",").map((t) => t.trim()).filter(Boolean),
       thumbnail: form.thumbnail.value.trim(),
@@ -1289,9 +1335,11 @@ tags = ${tagsStr}
       const thumbInp = bodyEl.querySelector("[data-drawer-thumb]");
       const stickyInp = bodyEl.querySelector("[data-drawer-sticky]");
       const featuredInp = bodyEl.querySelector("[data-drawer-featured]");
+      const originalDate = fm.date; // giá trị gốc (có thể kèm giờ thực)
       fm.title = titleInp ? titleInp.value.trim() : fm.title;
       fm.category = catInp ? catInp.value : fm.category;
-      fm.date = dateInp ? dateInp.value : fm.date;
+      // Giữ giờ gốc nếu không đổi ngày; đóng dấu giờ thực nếu chuyển sang hôm nay.
+      fm.date = resolvePublishDate(dateInp ? dateInp.value : fm.date, originalDate);
       fm.thumbnail = thumbInp ? thumbInp.value.trim() : fm.thumbnail;
       fm.sticky = !!(stickyInp && stickyInp.checked);
       fm.featured = !!(featuredInp && featuredInp.checked);
@@ -1785,7 +1833,7 @@ tags = ${tagsStr}
         const fm = parsed.fm;
         form.title.value = fm.title || file.name.replace(/\.md$/i, "");
         form.slug.value = slugify(form.title.value);
-        form.date.value = fm.date || todayIso();
+        form.date.value = String(fm.date || "").slice(0, 10) || todayIso();
         rebuildCategoryOptions(fm.category || "Tất cả");
         form.tags.value = (fm.tags || []).join(", ");
         form.thumbnail.value = fm.thumbnail || "";
@@ -2091,7 +2139,9 @@ tags = ${tagsStr}
 
     getPost(path).then((data) => {
       const { fm, body } = parseFrontmatter(data.content);
-      state.editing = { path: data.path, sha: data.sha, wasFeatured: fm.featured, featuredAt: fm.featured_at, wasSticky: fm.sticky };
+      // originalDate = giá trị `date` gốc (có thể kèm giờ) → bảo toàn khi lưu lại,
+      // vì <input type="date"> chỉ giữ phần ngày, không có giờ.
+      state.editing = { path: data.path, sha: data.sha, originalDate: fm.date, wasFeatured: fm.featured, featuredAt: fm.featured_at, wasSticky: fm.sticky };
       // Edit bài đã có slug → khoá auto-fill để không phá URL hiện tại khi đổi title
       slugLocked = true;
       form.title.value = fm.title;
@@ -2099,7 +2149,8 @@ tags = ${tagsStr}
       const slug = data.path.replace(new RegExp("^" + CONTENT_DIR + "/"), "").replace(/\.md$/, "");
       form.slug.value = slug;
       lastDraftSlug = slug; // track để autosave xoá draft cũ khi user đổi slug
-      form.date.value = fm.date;
+      // <input type="date"> chỉ nhận YYYY-MM-DD → cắt phần giờ để không bị xoá trắng.
+      form.date.value = String(fm.date || "").slice(0, 10);
       rebuildCategoryOptions(fm.category);
       form.tags.value = fm.tags.join(", ");
       form.thumbnail.value = fm.thumbnail;

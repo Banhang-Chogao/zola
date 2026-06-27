@@ -871,6 +871,31 @@ Do not report "done/live" until both checks pass.
   `ancestry: ${{ }}` ở dòng cuối). Fix bằng array-join + env + block scalar + sửa concurrency context →
   34/34 workflow valid; validator bắt lại bản cũ (exit 2).
 
+#### V24 — "Đăng: 00:00" trên mọi bài: `date` chỉ có ngày (date-only) → giờ luôn mặc định nửa đêm (27/06/2026)
+
+- **Dấu hiệu:** Bài nào cũng hiển thị `Đăng: 00:00, dd/mm/yyyy` ở `post-meta` — giờ luôn `00:00` bất kể
+  đăng lúc nào. User hiểu nhầm đây là **mockup/hardcode**. Thực ra KHÔNG hardcode: `page.html` format
+  `page.date | date(format="%H:%M")`, nhưng frontmatter `date` chỉ có **ngày** (`date = 2026-06-27`) → Zola
+  coi là **nửa đêm** → `%H:%M` ra `00:00`.
+- **Nguyên nhân GỐC:** mọi đường ghi bài đều ghi `date` date-only, KHÔNG kèm giờ:
+  - Editor CMS (`static/js/editor.js`): `<input type="date">` + `todayIso()` → chỉ `YYYY-MM-DD`.
+  - `scripts/content_creator.py`: `date.today().isoformat()` → date-only.
+  - `scripts/scheduled_publish.py`: khi flip draft→published lại **cắt** về `strftime("%Y-%m-%d")`, vứt giờ.
+- **FIXER (đã áp — branch `claude/post-timestamp-bug`):**
+  1. **Ghi giờ thực khi tạo/đăng** (GMT+7, ISO8601 có offset `+07:00`, vd `2026-06-27T14:37:00+07:00` — TOML hợp lệ,
+     Zola parse được): `content_creator.py` dùng `datetime.now(ZoneInfo("Asia/Ho_Chi_Minh"))`; `scheduled_publish.py`
+     set `date` = `publish_dt.isoformat()` (giữ giờ hẹn). Editor thêm `nowIsoVN()`/`resolvePublishDate()`:
+     đóng dấu giờ thực khi đăng **hôm nay**; **bảo toàn** timestamp gốc khi sửa bài cũ không đổi ngày; ngày khác
+     (quá khứ/tương lai) giữ date-only (KHÔNG bịa giờ). `<input type="date">` chỉ giữ `YYYY-MM-DD` nên khi load
+     phải `.slice(0,10)` kẻo bị xoá trắng.
+  2. **Hiển thị TRUNG THỰC** (`templates/page.html`): chỉ render giờ khi `page.date is containing("T")` (có
+     thành phần giờ); bài cũ date-only → hiện `Đăng: dd/mm/yyyy` (KHÔNG hiện `00:00` giả). Áp dụng cho cả `Cập nhật`.
+- **Quy tắc chung:** thời gian đăng phải là **thời gian thực**, không phải `00:00` giả. KHÔNG bịa giờ cho bài cũ
+  (không có dữ liệu giờ thực) — thà bỏ giờ còn hơn hiện mockup. Mọi nơi GHI `date` cho bài public nên kèm giờ
+  GMT+7; mọi nơi HIỂN THỊ giờ phải guard date-only.
+- **Validation:** `zola build` PASS; bài date-only render `Đăng: 27/06/2026`; bài có timestamp render
+  `Đăng: 14:37, 27/06/2026` + `Cập nhật: 15:42, 27/06/2026`; `qa_check.py` PASS; `check_internal_links.py` OK.
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
