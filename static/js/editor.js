@@ -2901,8 +2901,17 @@ tags = ${tagsStr}
   });
 
   // Scroll viewport hoặc textarea → đóng menu (position:fixed không follow scroll)
-  bodyTextarea.addEventListener("scroll", () => { if (slashState.open) closeSlashMenu(); });
-  window.addEventListener("scroll", () => { if (slashState.open) closeSlashMenu(); }, { passive: true });
+  // Throttle scroll handler to avoid jank during high-frequency scroll events
+  let lastScrollClose = 0;
+  const throttledScrollClose = () => {
+    const now = Date.now();
+    if (now - lastScrollClose >= 100) {
+      if (slashState.open) closeSlashMenu();
+      lastScrollClose = now;
+    }
+  };
+  bodyTextarea.addEventListener("scroll", throttledScrollClose);
+  window.addEventListener("scroll", throttledScrollClose, { passive: true });
 
   // Init mode trên contentWrap — phải gọi sau khi renderPreview defined.
   setEditorMode(getInitialMode());
