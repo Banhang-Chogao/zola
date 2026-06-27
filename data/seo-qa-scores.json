@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-27T18:23:02.083464+07:00",
+  "updated_at": "2026-06-27T20:09:38.021102+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -19200,6 +19200,96 @@
           "scored_at": "2026-06-27T18:23:02.083464+07:00",
           "score": 100.0,
           "grade": "A+"
+        }
+      ]
+    },
+    "content/posting/gh-run-list-monitor-deploy.md": {
+      "title": "Một câu lệnh nhỏ giúp theo dõi deploy GitHub Pages rõ ràng hơn",
+      "slug": "gh-run-list-monitor-deploy",
+      "keyword": "gh run list github pages deploy monitor",
+      "score": 70.8,
+      "grade": "C",
+      "word_count": 1437,
+      "published": true,
+      "scored_at": "2026-06-27T20:09:38.021102+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 0.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 0.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 0.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 4.8,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 0.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "từ khoá 'gh run list github pages deploy monitor' chưa có trong title",
+        "từ khoá 'gh run list github pages deploy monitor' chưa có trong đoạn mở đầu",
+        "từ khoá 'gh run list github pages deploy monitor' chưa xuất hiện trong heading H2 nào",
+        "không nên dùng H1 (#) trong body — title đã là H1",
+        "thiếu internal link (liên kết tới bài/section khác trong blog)"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-27T20:09:38.021102+07:00",
+          "score": 70.8,
+          "grade": "C"
         }
       ]
     }
