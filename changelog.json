@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-27",
+      "title": "implement left-sidebar blog layout with AdSense-compatible ad spots",
+      "tag": "feat",
+      "lines_added": 2436,
+      "lines_removed": 0,
+      "highlights": [
+        "Left Sidebar (30%): Sticky post widget, category links, date widget, ad placeholder (300×250)",
+        "Main Content (70%): Breadcrumb, ad spot (728×90), sticky/featured posts, normal posts feed, pagination, in-article ad (728×90)",
+        "Responsive Design: 2-column desktop layout → 1-column mobile with sidebar below content",
+        "Ad Safety: Fixed min-height and aspect-ratio on all ad placeholders to prevent Cumulative Layout Shift (CLS)",
+        "Zero Breaking Changes: Coexists with existing layout without affecting current pages"
+      ],
+      "pr": 1039
+    },
+    {
+      "date": "2026-06-27",
       "title": "update SEO QA scores after bb article [claude/bb-16o2m6]",
       "tag": "chore",
       "lines_added": 2270,
