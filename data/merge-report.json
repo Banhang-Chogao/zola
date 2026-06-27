@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-27T06:19:46Z",
+  "updated_at": "2026-06-27T06:27:55Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
@@ -10,15 +10,34 @@
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "fix": 94,
       "ci": 6,
-      "feature": 44,
-      "fix": 93,
+      "feature": 43,
       "unknown": 51,
       "chore": 1,
       "content": 5
     }
   },
   "merges": [
+    {
+      "pr_number": 1067,
+      "pr_title": "fix: gỡ prefix /zola sót lại trong bài giải-quyết-merge-conflict (#1064 follow-up)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1067",
+      "merged_at": "2026-06-27T06:12:50Z",
+      "merge_commit_sha": "11abd10e938c478845a5e1ba253395b39f64d32b",
+      "merge_commit_short": "11abd10",
+      "head_branch": "claude/codeql-vietnamese-blog-evmh70",
+      "summary_vi": "Follow-up cho #1064. Bài `giai-quyet-merge-conflict-tu-dong-ci-cd.md` merge **ngay sau** #1066 (migration strip `/zola` toàn site sang seomoney.org root) nên còn sót **5 internal link `/zola/...`** — sai convention mới.",
+      "change_type": "fix",
+      "files_changed": 15,
+      "additions": 422,
+      "deletions": 37,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1272,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28280861458",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 1068,
       "pr_title": "docs: deployment & QA culture + public/private agent memory",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1271,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28280842856",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 1064,
@@ -545,25 +564,6 @@
       "files_changed": 5,
       "additions": 303,
       "deletions": 4776,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": 1246,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28276458927",
-      "build_conclusion": "failure"
-    },
-    {
-      "pr_number": 1039,
-      "pr_title": "feat: implement left-sidebar blog layout with AdSense-compatible ad spots",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1039",
-      "merged_at": "2026-06-27T02:27:54Z",
-      "merge_commit_sha": "52ed86c96364c58b09400f301824847b35fec966",
-      "merge_commit_short": "52ed86c",
-      "head_branch": "claude/blog-layout-adsense-replace-gl5gln",
-      "summary_vi": "Implements a new responsive 30/70 left-sidebar blog layout as an alternative to the current full-width design. The layout features:",
-      "change_type": "feature",
-      "files_changed": 13,
-      "additions": 2436,
-      "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": 1246,
