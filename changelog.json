@@ -1,6 +1,21 @@
 {
   "items": [
     {
+      "date": "2026-06-27",
+      "title": "feat(home): nút chuyển bản desktop ↔ điện thoại trên trang chủ",
+      "tag": "refactor",
+      "lines_added": 164,
+      "lines_removed": 1,
+      "highlights": [
+        "static/js/view-switcher.js — đổi thẻ <meta name=\"viewport\"> sang width=1024 (desktop) hoặc width=device-width (mobile); lưu lựa chọn vào localStorage (key seomoney-view-mode).",
+        "templates/base.html — script nhỏ áp dụng preference sớm trước paint (tránh nháy layout), site-wide.",
+        "templates/index.html — nút .view-switcher + load js/view-switcher.js qua extra_scripts.",
+        "sass/_view-switcher.scss — pill mềm, semantic token var(--c-*) (light/dark), touch target 44px; ẩn ở desktop ≥1025px. Import sau archive trong site.scss.",
+        "node --check static/js/view-switcher.js → PASS"
+      ],
+      "pr": 1035
+    },
+    {
       "date": "2026-06-26",
       "title": "CMS: cập nhật bài 'Google Preferred Sources: Từ thuật toán sang tùy chọn của người dùng'",
       "tag": "chore",
