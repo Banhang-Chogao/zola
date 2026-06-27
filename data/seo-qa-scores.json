@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-27T10:12:37.071969+07:00",
+  "updated_at": "2026-06-27T11:06:47.559538+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -18482,6 +18482,123 @@
           "scored_at": "2026-06-27T10:12:37.071969+07:00",
           "score": 82.8,
           "grade": "B"
+        }
+      ]
+    },
+    "content/posting/tera-template-syntax-error-conditional.md": {
+      "title": "Lỗi Tera Template Syntax Error: Cách khắc phục",
+      "slug": "tera-template-syntax-error-conditional",
+      "keyword": "tera template syntax error",
+      "score": 92.8,
+      "grade": "A",
+      "word_count": 820,
+      "published": true,
+      "scored_at": "2026-06-27T11:06:47.559538+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 4.8,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 0.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "không nên dùng H1 (#) trong body — title đã là H1",
+        "chưa gắn tag nào"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-27T11:06:01.298263+07:00",
+          "score": 59.8,
+          "grade": "F"
+        },
+        {
+          "scored_at": "2026-06-27T11:06:08.269789+07:00",
+          "score": 70.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-27T11:06:16.115821+07:00",
+          "score": 82.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-27T11:06:24.135782+07:00",
+          "score": 86.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-27T11:06:28.565539+07:00",
+          "score": 86.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-27T11:06:37.349408+07:00",
+          "score": 86.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-27T11:06:47.559538+07:00",
+          "score": 92.8,
+          "grade": "A"
         }
       ]
     }
