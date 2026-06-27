@@ -14,24 +14,24 @@ thumbnail = "/img/placeholder.svg"
 toc = true
 
 [[extra.faq]]
-question = "Tại sao GitHub Actions workflow bị fail khi secret không được set?"
-answer = "Khi một script hoặc workflow cần truy cập vào environment variable nhưng biến đó không được configure trong GitHub Actions secrets, script sẽ không có giá trị cần thiết và có thể exit với code lỗi. Điều này dẫn đến workflow failure và blocking CI/CD pipeline."
+q = "Tại sao GitHub Actions workflow bị fail khi secret không được set?"
+a = "Khi một script hoặc workflow cần truy cập vào environment variable nhưng biến đó không được configure trong GitHub Actions secrets, script sẽ không có giá trị cần thiết và có thể exit với code lỗi. Điều này dẫn đến workflow failure và blocking CI/CD pipeline."
 
 [[extra.faq]]
-question = "Có cách nào để workflow không fail khi secret missing?"
-answer = "Có, bạn có thể implement graceful degradation bằng cách kiểm tra xem secret có giá trị hay không, sau đó trả về exit code 0 thay vì 1. Điều này cho phép workflow tiếp tục mà vẫn cung cấp thông báo hữu ích cho người dùng."
+q = "Có cách nào để workflow không fail khi secret missing?"
+a = "Có, bạn có thể implement graceful degradation bằng cách kiểm tra xem secret có giá trị hay không, sau đó trả về exit code 0 thay vì 1. Điều này cho phép workflow tiếp tục mà vẫn cung cấp thông báo hữu ích cho người dùng."
 
 [[extra.faq]]
-question = "Làm sao để add secret vào GitHub Actions?"
-answer = "Truy cập repository settings → Secrets and variables → Actions → New repository secret. Nhập tên secret (ví dụ: VIPZONE_ADMIN_TOKEN) và giá trị của nó. Secret sẽ tự động được mask trong logs và chỉ có thể truy cập thông qua GitHub Actions workflows."
+q = "Làm sao để add secret vào GitHub Actions?"
+a = "Truy cập repository settings → Secrets and variables → Actions → New repository secret. Nhập tên secret (ví dụ: VIPZONE_ADMIN_TOKEN) và giá trị của nó. Secret sẽ tự động được mask trong logs và chỉ có thể truy cập thông qua GitHub Actions workflows."
 
 [[extra.faq]]
-question = "Nên log lỗi như thế nào để không expose secret?"
-answer = "Luôn mask secret pattern (token, API key, password) trong logs bằng regex hoặc string replacement. Khi log lỗi, chỉ báo rằng 'secret not set' mà không hiển thị giá trị hoặc hint về secret value."
+q = "Nên log lỗi như thế nào để không expose secret?"
+a = "Luôn mask secret pattern (token, API key, password) trong logs bằng regex hoặc string replacement. Khi log lỗi, chỉ báo rằng 'secret not set' mà không hiển thị giá trị hoặc hint về secret value."
 
 [[extra.faq]]
-question = "Làm sao để tránh loại lỗi này trong tương lai?"
-answer = "Implement comprehensive secret management strategy: (1) Document required secrets trong .github/SETUP.md; (2) Thêm pre-flight checks để xác minh tất cả required secrets; (3) Add automation tests để phát hiện missing secrets sớm; (4) Maintain vaccine/playbook trong CLAUDE.md cho debugging."
+q = "Làm sao để tránh loại lỗi này trong tương lai?"
+a = "Implement comprehensive secret management strategy: (1) Document required secrets trong .github/SETUP.md; (2) Thêm pre-flight checks để xác minh tất cả required secrets; (3) Add automation tests để phát hiện missing secrets sớm; (4) Maintain vaccine/playbook trong CLAUDE.md cho debugging."
 +++
 
 ## Troubleshooting Build Failure: Tóm tắt vấn đề
