@@ -68,6 +68,7 @@
     {% set nganhang_series = load_data(path="data/ngan-hang-so-series.json", required=false) %}
     {% set korean_series = load_data(path="data/korean-30day-series.json", required=false) %}
     {% set trends_data = load_data(path="data/google-trends-vn.json", required=false) %}
+    {% set ga_stats = load_data(path="data/ga-stats.json", required=false) %}
 
     <div class="home-discovery" data-home-discovery>
         <header class="home-discovery__hero">
@@ -339,26 +340,61 @@
                 {{ ad::placeholder(id="home-ad-sidebar", type="home-sidebar", label="Quảng cáo", min_height="320px") }}
 
                 {% if trends_data and trends_data.items %}
-                    <section class="home-discovery__rail-block">
-                        <h3 class="home-discovery__rail-block-title">Chủ đề hot</h3>
-                        <ol class="home-discovery__hot-list" role="list">
-                            {% for item in trends_data.items | slice(end=5) %}
-                                <li>
-                                    <span class="home-discovery__hot-rank">{{ item.rank }}</span>
-                                    <a href="{{ item.search_url }}" rel="noopener noreferrer">{{ item.keyword }}</a>
+                    <section class="home-discovery__rail-block search-rank" aria-label="Xếp hạng tìm kiếm Google Trends Việt Nam">
+                        <div class="search-rank__head">
+                            <h3 class="home-discovery__rail-block-title search-rank__title">
+                                <svg class="search-rank__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+                                Xếp hạng tìm kiếm
+                            </h3>
+                            {% if trends_data.fetched_at %}
+                                <span class="search-rank__updated">Cập nhật {{ trends_data.fetched_at | date(format="%H:%M %d/%m", timezone="Asia/Ho_Chi_Minh") }}</span>
+                            {% endif %}
+                        </div>
+                        <ol class="search-rank__list" role="list">
+                            {% for item in trends_data.items | slice(end=8) %}
+                                <li class="search-rank__item">
+                                    <span class="search-rank__rank{% if item.rank <= 4 %} search-rank__rank--top{% endif %}">{{ item.rank }}</span>
+                                    <div class="search-rank__body">
+                                        <a class="search-rank__kw" href="{{ item.search_url }}" rel="noopener noreferrer">{{ item.keyword }}</a>
+                                        <div class="search-rank__meta">
+                                            {% if item.volume_label %}<span class="search-rank__vol">{{ item.volume_label }}</span>{% endif %}
+                                            <span class="search-rank__active"><span class="search-rank__dot" aria-hidden="true"></span>Active</span>
+                                        </div>
+                                        {% set bd = item.breakdown | default(value=[]) %}
+                                        {% if bd | length > 0 %}
+                                            <div class="search-rank__breakdown">
+                                                {% for term in bd | slice(end=2) %}
+                                                    <span class="search-rank__chip">{{ term }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
                                 </li>
                             {% endfor %}
                         </ol>
+                        <a class="search-rank__more" href="{{ trends_data.source_page }}" target="_blank" rel="noopener noreferrer">Xem tất cả trên Google Trends →</a>
                     </section>
                 {% endif %}
 
-                <section class="home-discovery__rail-block">
-                    <h3 class="home-discovery__rail-block-title">Bài mới cập nhật</h3>
-                    <ul class="home-discovery__recent-list" role="list">
+                <section class="home-discovery__rail-block recent-fresh">
+                    <h3 class="home-discovery__rail-block-title recent-fresh__title">Bài mới cập nhật</h3>
+                    <ul class="recent-fresh__list" role="list">
                         {% for page in all_pages | slice(end=5) %}
-                            <li>
-                                <a href="{{ page.permalink }}">{{ page.title }}</a>
-                                <time datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
+                            {% set_global primary_cat = "" %}
+                            {% for c in page.taxonomies.categories | default(value=[]) %}
+                                {% if c != "Tất cả" and not primary_cat %}{% set_global primary_cat = c %}{% endif %}
+                            {% endfor %}
+                            <li class="recent-fresh__item">
+                                <a class="recent-fresh__link" href="{{ page.permalink }}">
+                                    <span class="recent-fresh__thumb">
+                                        <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}" loading="lazy" decoding="async" width="64" height="64">
+                                    </span>
+                                    <span class="recent-fresh__body">
+                                        {% if primary_cat %}<span class="recent-fresh__cat">{{ primary_cat }}</span>{% endif %}
+                                        <span class="recent-fresh__headline">{{ page.title }}</span>
+                                        <time class="recent-fresh__date" datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
+                                    </span>
+                                </a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -373,6 +409,79 @@
                         <a href="{{ get_url(path='@/archive/_index.md') }}">Archive</a>
                     </div>
                 </section>
+
+                {% if ga_stats %}
+                    {% set organic = ga_stats.organic | default(value=false) %}
+                    {% set channels = ga_stats.channels | default(value=[]) %}
+                    <section class="home-discovery__rail-block ga-board" aria-label="Số liệu truy cập từ Google Analytics">
+                        <h3 class="home-discovery__rail-block-title">Số liệu truy cập</h3>
+
+                        <div class="ga-board__organic">
+                            <span class="ga-board__organic-label">Organic Search · 30 ngày</span>
+                            <p class="ga-board__organic-main">
+                                <span class="ga-board__organic-num">{{ organic.sessions | default(value=0) }}</span>
+                                <span class="ga-board__organic-unit">phiên</span>
+                            </p>
+                            {% if organic.percent | default(value=0) > 0 %}
+                                <span class="ga-board__organic-pct">{{ organic.percent }}% tổng truy cập · {{ organic.users | default(value=0) }} người dùng</span>
+                            {% else %}
+                                <span class="ga-board__organic-pct ga-board__organic-pct--pending">Đang cập nhật dữ liệu tìm kiếm…</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="ga-board__kpis">
+                            <div class="ga-board__kpi">
+                                <span class="ga-board__kpi-num">{{ ga_stats.month_users | default(value=0) }}</span>
+                                <span class="ga-board__kpi-label">Người dùng 30d</span>
+                            </div>
+                            <div class="ga-board__kpi">
+                                <span class="ga-board__kpi-num">{{ ga_stats.month_pageviews | default(value=0) }}</span>
+                                <span class="ga-board__kpi-label">Lượt xem 30d</span>
+                            </div>
+                            <div class="ga-board__kpi">
+                                <span class="ga-board__kpi-num">{{ ga_stats.month_sessions | default(value=0) }}</span>
+                                <span class="ga-board__kpi-label">Phiên 30d</span>
+                            </div>
+                            <div class="ga-board__kpi">
+                                <span class="ga-board__kpi-num">{{ ga_stats.today_users | default(value=0) }}</span>
+                                <span class="ga-board__kpi-label">Hôm nay</span>
+                            </div>
+                        </div>
+
+                        {% if channels | length > 0 %}
+                            <div class="ga-board__channels">
+                                <span class="ga-board__channels-title">Nguồn truy cập</span>
+                                {% for ch in channels | slice(end=6) %}
+                                    {% set ch_low = ch.channel | lower %}
+                                    <div class="ga-board__channel">
+                                        <div class="ga-board__channel-row">
+                                            <span class="ga-board__channel-name">{{ ch.channel }}</span>
+                                            <span class="ga-board__channel-val">{{ ch.sessions }} · {{ ch.percent }}%</span>
+                                        </div>
+                                        <div class="ga-board__bar" role="presentation">
+                                            <span class="ga-board__bar-fill{% if ch_low is starting_with('organic search') %} ga-board__bar-fill--organic{% endif %}" style="width: {{ ch.percent }}%"></span>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="ga-board__pending">Phân tích nguồn truy cập sẽ hiển thị sau lần đồng bộ kế tiếp.</p>
+                        {% endif %}
+
+                        <ul class="ga-board__engage" role="list">
+                            <li><span class="ga-board__engage-num">{{ ga_stats.month_engagement_rate_pct | default(value=0) }}%</span> tương tác</li>
+                            <li><span class="ga-board__engage-num">{{ ga_stats.month_bounce_rate_pct | default(value=0) }}%</span> thoát</li>
+                            <li><span class="ga-board__engage-num">{{ ga_stats.month_avg_session_duration_str | default(value='0s') }}</span> TB phiên</li>
+                        </ul>
+
+                        <div class="ga-board__meta">
+                            <span>{{ ga_stats.top_country | default(value='—') }} · {{ ga_stats.top_device | default(value='—') }}</span>
+                            {% if ga_stats.updated_at %}
+                                <time datetime="{{ ga_stats.updated_at }}">Cập nhật {{ ga_stats.updated_at | date(format="%H:%M %d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
+                            {% endif %}
+                        </div>
+                    </section>
+                {% endif %}
             </aside>
         </div>
     </div>

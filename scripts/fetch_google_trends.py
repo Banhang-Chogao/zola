@@ -67,6 +67,39 @@ def _opener() -> urllib.request.OpenerDirector:
     return opener
 
 
+def _extract_breakdown(row: list, keyword: str, max_terms: int = 3) -> list[str]:
+    """Best-effort: lấy danh sách 'trend breakdown' (truy vấn liên quan) từ row.
+
+    Cấu trúc i0OFE không có schema công khai ổn định → quét phòng thủ: tìm list
+    chuỗi ngắn giống truy vấn (không URL, không nguồn báo), bỏ trùng keyword.
+    Lỗi/không thấy → trả [] (template tự ẩn). KHÔNG bao giờ raise.
+    """
+    try:
+        kw_low = keyword.strip().lower()
+        for el in row:
+            if not isinstance(el, list) or not el:
+                continue
+            if not all(isinstance(x, str) for x in el):
+                continue
+            terms: list[str] = []
+            for x in el:
+                xs = (x or "").strip()
+                low = xs.lower()
+                if not xs or low == kw_low:
+                    continue
+                if "http" in low or "//" in xs or "." in xs and " " not in xs:
+                    continue  # bỏ URL / domain nguồn
+                if len(xs) > 60:
+                    continue
+                if xs not in terms:
+                    terms.append(xs)
+            if terms:
+                return terms[:max_terms]
+    except Exception:
+        pass
+    return []
+
+
 def fetch_batchexecute(limit: int) -> list[dict]:
     """Trending now list via internal Trends UI RPC (i0OFE)."""
     opener = _opener()
@@ -107,6 +140,7 @@ def fetch_batchexecute(limit: int) -> list[dict]:
                 "keyword": keyword,
                 "volume": volume if isinstance(volume, int) else None,
                 "volume_label": format_volume(volume),
+                "breakdown": _extract_breakdown(row, keyword),
                 "search_url": search_url(keyword),
                 "trends_url": trends_explore_url(keyword),
             }
@@ -142,6 +176,7 @@ def fetch_rss(limit: int) -> list[dict]:
                 "keyword": keyword,
                 "volume": volume,
                 "volume_label": label or format_volume(volume),
+                "breakdown": [],
                 "search_url": search_url(keyword),
                 "trends_url": trends_explore_url(keyword),
             }
