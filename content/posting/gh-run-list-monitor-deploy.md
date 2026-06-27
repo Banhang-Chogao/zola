@@ -1,13 +1,13 @@
 +++
 title = "Một câu lệnh nhỏ giúp theo dõi deploy GitHub Pages rõ ràng hơn"
 date = 2026-06-27
+aliases = ["/gh-run-list-monitor-deploy/"]
 slug = "gh-run-list-monitor-deploy"
 description = "Làm sao biết deploy lên production lúc nào? Học cách dùng gh run list để giám sát GitHub Pages trực tiếp từ terminal, đỡ vào dashboard rồi đoán mò."
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["github-actions", "github-pages", "deploy", "devops", "webops", "zola", "monitoring"]
-
+tags = ["deploy", "devops", "github-actions", "github-pages", "monitoring", "webops", "zola"]
 [extra]
 seo_keyword = "gh run list github pages deploy monitor"
 thumbnail = "https://cdn.jsdelivr.net/gh/banhang-chogao/zola@main/static/img/placeholder/placeholder.svg"

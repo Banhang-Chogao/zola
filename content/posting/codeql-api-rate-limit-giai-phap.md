@@ -1,6 +1,7 @@
 +++
 title = "CodeQL API Rate Limit: Giải Pháp Chi Tiết Cho GitHub Actions"
 date = 2026-06-27
+aliases = ["/codeql-api-rate-limit-giai-phap/"]
 
 [taxonomies]
 categories = ["Tất cả"]

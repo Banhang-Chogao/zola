@@ -1,6 +1,7 @@
 +++
 title = "Fix QA Gatekeeper GitHub Actions: bài học từ nút Countdown bị mất"
 date = 2026-06-22
+aliases = ["/fix-qa-gatekeeper-github-actions-merge-conflict-zola/"]
 
 [taxonomies]
 categories = ["Tất cả"]
