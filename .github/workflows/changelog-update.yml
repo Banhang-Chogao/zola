@@ -138,5 +138,7 @@ jobs:
       - name: Handle backend push failure
         if: failure() && steps.changelog.outcome == 'failure'
         run: |
-          echo "⚠️  Failed to push changelog entry to backend. Will retry on next merge."
+          echo "⚠️  Failed to push changelog entry to backend."
+          echo "   This is expected if VIPZONE_ADMIN_TOKEN secret is not configured."
+          echo "   To fix: Set VIPZONE_ADMIN_TOKEN in repository settings."
           exit 0
