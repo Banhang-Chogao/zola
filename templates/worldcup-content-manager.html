@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}World Cup 2026 — Content Manager | {{ config.title }}{% endblock %}
+{% block description %}Bảng quản trị nội dung trang World Cup 2026: thêm/sửa/xoá/sắp xếp tin tức, lịch thi đấu, BXH, vua phá lưới — xuất JSON.{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block extra_head %}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
+{% endblock %}
+
+{% block main %}
+{% set data = load_data(path="data/worldcup_2026.json", format="json") %}
+<div class="wcm" id="wcm-root">
+
+    <header class="wcm__head">
+        <div class="wcm__head-main">
+            <h1 class="wcm__title">🛠️ World Cup 2026 — <span>Content Manager</span></h1>
+            <p class="wcm__sub">Thêm · sửa · xoá · sắp xếp nội dung cho trang công khai, rồi xuất JSON để đăng lên site.</p>
+        </div>
+        <div class="wcm__head-actions">
+            <a class="wcm__ghost" href="{{ get_url(path='worldcup-2026') }}" target="_blank" rel="noopener">👁️ Xem trang công khai</a>
+            <span class="wcm__saved" id="wcm-saved">Sẵn sàng</span>
+        </div>
+    </header>
+
+    <div class="wcm__toolbar">
+        <button class="wcm__btn wcm__btn--ghost" id="wcm-reload" type="button" title="Nạp lại dữ liệu gốc đang chạy trên site">↺ Tải lại từ site</button>
+        <button class="wcm__btn wcm__btn--ghost" id="wcm-restore" type="button" title="Khôi phục bản nháp đã lưu trong trình duyệt" hidden>⤺ Khôi phục nháp</button>
+        <span class="wcm__spacer"></span>
+        <button class="wcm__btn wcm__btn--soft" id="wcm-copy" type="button">📋 Sao chép JSON (đưa cho Claude)</button>
+        <button class="wcm__btn wcm__btn--primary" id="wcm-download" type="button">⬇️ Tải worldcup_2026.json</button>
+    </div>
+
+    <div class="wcm__hint" id="wcm-hint">
+        <b>Cách đăng nội dung:</b> chỉnh sửa bên dưới → bấm <b>Sao chép JSON</b> rồi dán cho Claude trong khung chat
+        (mình sẽ commit + deploy giúp bạn), <i>hoặc</i> <b>Tải file</b> rồi upload đè vào
+        <code>data/worldcup_2026.json</code> trên GitHub. Bản nháp tự lưu trong trình duyệt — không mất khi reload.
+    </div>
+
+    <nav class="wcm__tabs" id="wcm-tabs" aria-label="Nhóm nội dung"></nav>
+
+    <main class="wcm__editor" id="wcm-editor"><!-- section editor injected by JS --></main>
+
+    <details class="wcm__panel" id="wcm-preview-panel">
+        <summary>🔎 Xem trước nhanh (tin nổi bật + danh sách + lịch thi đấu)</summary>
+        <div class="wcm__preview" id="wcm-preview"></div>
+    </details>
+
+    <details class="wcm__panel">
+        <summary>{ } Xem JSON sẽ xuất ra</summary>
+        <pre class="wcm__json" id="wcm-json"></pre>
+    </details>
+
+    <div class="wcm__toast" id="wcm-toast" role="status" aria-live="polite"></div>
+
+    {# Embed current published data as the editor's starting point #}
+    <script type="application/json" id="wcm-data">{{ data | json_encode | safe }}</script>
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/worldcup-content-manager.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
+{% endblock %}
