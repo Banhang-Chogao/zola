@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-18T21:21:31Z",
+  "updated_at": "2026-06-27T13:15:28Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,45 +15,45 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "0 broken links · 9 weak related pairs",
+      "detail": "0 broken links · 17 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-18T21:11:46Z"
+      "updated_at": "2026-06-27T10:49:13Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 65/100 · LCP 7.0 s · needs work",
+      "detail": "Mobile 58/100 · LCP 8.8 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-18T12:02:29+00:00"
+      "updated_at": "2026-06-27T12:16:52+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 458/458 pages",
+      "detail": "15 pages missing FAQ/schema · 796/796 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-18T21:11:46Z"
+      "updated_at": "2026-06-27T10:49:13Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
-      "status": "done",
-      "detail": "Latest: CMS: cập nhật bài 'Fintech 2026: Paywall premium trên blog c",
-      "source": "changelog.json",
-      "updated_at": "2026-06-18"
+      "status": "pending",
+      "detail": "Workflow not in latest snapshot",
+      "source": "build-dashboard.json",
+      "updated_at": null
     },
     {
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "done",
-      "detail": "356 links OK · IndexNow on publish",
+      "detail": "943 links OK · IndexNow on publish",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-18T04:30:00Z"
+      "updated_at": "2026-06-26T23:34:12Z"
     },
     {
       "id": "image_opt",
@@ -62,22 +62,22 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-18T21:11:46Z"
+      "updated_at": "2026-06-27T10:49:13Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 65/100 vs desktop 98/100 (Δ33) · 458/458 ready",
+      "detail": "Mobile 58/100 vs desktop 82/100 (Δ24) · 796/796 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-18T12:02:29+00:00"
+      "updated_at": "2026-06-27T12:16:52+00:00"
     }
   ],
   "summary": {
-    "pending": 0,
+    "pending": 1,
     "running": 5,
-    "done": 3
+    "done": 2
   },
   "note": "Statuses from QA/SEO/PERF snapshots — informational, not GA metrics."
 }
