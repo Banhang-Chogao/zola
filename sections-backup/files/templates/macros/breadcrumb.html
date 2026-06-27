@@ -1,0 +1,30 @@
+{# ===== Breadcrumb macro — playful tools/utilities variant =====
+   Renders a pill-style breadcrumb bar above page titles on /tools/* pages.
+
+   Usage — 2 cấp (Home → Section là trang hiện tại):
+     {% import "macros/breadcrumb.html" as bc %}
+     {{ bc::tools(base_url=config.base_url, section_label="Công cụ") }}
+
+   Usage — 3 cấp (Home → Section → Trang hiện tại):
+     {% import "macros/breadcrumb.html" as bc %}
+     {{ bc::tools(base_url=config.base_url, section_label="Công cụ",
+                  section_url=config.base_url~"/tools/", page_label="Lịch & sự kiện") }}
+#}
+{% macro tools(base_url, section_label="Công cụ", section_url="", page_label="") %}
+<nav class="breadcrumb breadcrumb--tools" aria-label="Breadcrumb">
+  <span class="breadcrumb__icon" aria-hidden="true">🧭</span>
+  <ol class="breadcrumb__list">
+    <li class="breadcrumb__item">
+      <a class="breadcrumb__link" href="{{ base_url | safe }}/">Trang chủ</a>
+    </li>
+    {% if page_label %}
+    <li class="breadcrumb__item">
+      <a class="breadcrumb__link" href="{{ section_url | safe }}">{{ section_label }}</a>
+    </li>
+    <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">{{ page_label }}</li>
+    {% else %}
+    <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">{{ section_label }}</li>
+    {% endif %}
+  </ol>
+</nav>
+{% endmacro tools %}

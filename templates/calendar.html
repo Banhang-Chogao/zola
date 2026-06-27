@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% import "macros/breadcrumb.html" as bc %}
+
+{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}Lịch | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block extra_head %}
+    <meta name="zola-base-url" content="{{ config.base_url | safe }}">
+{% endblock %}
+
+{% block main %}
+{{ bc::tools(base_url=config.base_url, section_label="Công cụ", section_url=config.base_url~"/tools/", page_label=page.title | default(value="Lịch & sự kiện")) }}
+<div class="priv" data-priv-root>
+  {# ===== Loading (auth check) ===== #}
+  <div class="priv__loading" data-priv-loading>
+    <span class="priv__spinner" aria-hidden="true"></span>
+    <span>Đang kiểm tra đăng nhập…</span>
+  </div>
+
+  {# ===== Login-required gate — NO private data rendered until authed ===== #}
+  <section class="priv__gate" data-priv-gate hidden role="dialog" aria-labelledby="priv-gate-title">
+    <div class="priv__gate-card">
+      <div class="priv__gate-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="40" height="40"><path d="M12 1l9 4v6c0 5-3.8 9.4-9 11-5.2-1.6-9-6-9-11V5l9-4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h1 class="priv__gate-title" id="priv-gate-title">Khu vực riêng tư</h1>
+      <p class="priv__gate-sub">
+        Lịch &amp; Bảng ghi chú 3M là công cụ cá nhân. Đăng nhập GitHub để truy cập —
+        dữ liệu được lưu an toàn phía máy chủ, không hiển thị công khai.
+      </p>
+      <p class="priv__gate-error" data-priv-error role="status" aria-live="polite" hidden></p>
+      <button type="button" class="priv__gate-btn" data-priv-login>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 00-3.64 22.42c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.75.4-1.27.73-1.56-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 015.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.25 5.69.41.36.78 1.05.78 2.12v3.14c0 .31.21.67.8.56A11.5 11.5 0 0012 .5z"/></svg>
+        <span>Đăng nhập GitHub</span>
+      </button>
+      <p class="priv__gate-hint" data-priv-hint hidden>Backend xác thực chưa được cấu hình.</p>
+    </div>
+  </section>
+
+  {# ===== Authenticated workspace — Calendar (left) + 3M Whiteboard (right) ===== #}
+  <div class="priv__app" data-priv-app hidden>
+    <header class="priv__userbar" data-priv-userbar hidden>
+      <img class="priv__avatar" data-priv-avatar src="" alt="" loading="lazy" decoding="async">
+      <span class="priv__userinfo">
+        <span class="priv__username" data-priv-name></span>
+        <span class="priv__useremail" data-priv-email></span>
+      </span>
+      <span class="priv__rolechip" title="Quyền truy cập">RIÊNG TƯ</span>
+      <button type="button" class="priv__logout" data-priv-logout>Đăng xuất</button>
+    </header>
+
+    <div class="priv__workspace">
+      <section class="priv__pane priv__pane--cal" aria-label="Lịch">
+<div id="cal-app" class="cal" data-cal-root>
+  {# ===== Toolbar — Microsoft 365 command bar ===== #}
+  <header class="cal__toolbar">
+    <div class="cal__toolbar-group">
+      <button type="button" class="cal__btn cal__btn--primary" data-cal-new>
+        <svg class="cal__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        <span>Sự kiện mới</span>
+      </button>
+      <button type="button" class="cal__btn cal__btn--ghost" data-cal-today>Hôm nay</button>
+      <div class="cal__nav" role="group" aria-label="Điều hướng thời gian">
+        <button type="button" class="cal__navbtn" data-cal-prev aria-label="Trước">
+          <svg class="cal__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button type="button" class="cal__navbtn" data-cal-next aria-label="Sau">
+          <svg class="cal__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+      <h1 class="cal__period" data-cal-period aria-live="polite">—</h1>
+    </div>
+
+    <div class="cal__toolbar-group cal__toolbar-group--end">
+      <div class="cal__viewswitch" role="tablist" aria-label="Chế độ xem">
+        <button type="button" class="cal__view-tab" role="tab" data-cal-view-btn="day" aria-selected="false">Ngày</button>
+        <button type="button" class="cal__view-tab" role="tab" data-cal-view-btn="week" aria-selected="false">Tuần</button>
+        <button type="button" class="cal__view-tab cal__view-tab--active" role="tab" data-cal-view-btn="month" aria-selected="true">Tháng</button>
+      </div>
+      <button type="button" class="cal__btn cal__btn--ghost cal__btn--icon" data-cal-side-toggle aria-label="Ẩn/hiện agenda" aria-pressed="true">
+        <svg class="cal__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="cal__body" data-cal-body>
+    {# ===== Side agenda — mini month + day agenda ===== #}
+    <aside class="cal__side" data-cal-side aria-label="Bảng điều hướng">
+      <section class="cal__mini" data-cal-mini aria-label="Lịch thu nhỏ"></section>
+      <section class="cal__agenda" aria-label="Lịch trình">
+        <header class="cal__agenda-head">
+          <h2 class="cal__agenda-title" data-cal-agenda-title>Lịch trình</h2>
+          <span class="cal__agenda-count" data-cal-agenda-count></span>
+        </header>
+        <div class="cal__agenda-list" data-cal-agenda></div>
+      </section>
+    </aside>
+
+    {# ===== Main view surface — rendered by JS ===== #}
+    <main class="cal__main" data-cal-main>
+      <div class="cal__view" data-cal-view tabindex="0" aria-label="Lưới lịch"></div>
+    </main>
+  </div>
+
+  {# ===== Event editor dialog ===== #}
+  <div class="cal__modal" data-cal-modal hidden role="dialog" aria-modal="true" aria-labelledby="cal-modal-title">
+    <div class="cal__modal-backdrop" data-cal-modal-close></div>
+    <form class="cal__dialog" data-cal-form novalidate>
+      <header class="cal__dialog-head">
+        <h2 class="cal__dialog-title" id="cal-modal-title" data-cal-dialog-title>Sự kiện mới</h2>
+        <button type="button" class="cal__dialog-x" data-cal-modal-close aria-label="Đóng">
+          <svg class="cal__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </header>
+
+      <input type="hidden" data-cal-f-id>
+
+      <div class="cal__dialog-field">
+        <label for="cal-f-title">Tiêu đề</label>
+        <input id="cal-f-title" type="text" data-cal-f-title placeholder="Thêm tiêu đề" autocomplete="off" required>
+      </div>
+
+      <label class="cal__dialog-check">
+        <input type="checkbox" data-cal-f-allday>
+        <span>Cả ngày</span>
+      </label>
+
+      <div class="cal__dialog-row">
+        <div class="cal__dialog-field">
+          <label for="cal-f-sdate">Bắt đầu</label>
+          <input id="cal-f-sdate" type="date" data-cal-f-sdate required>
+        </div>
+        <div class="cal__dialog-field" data-cal-f-stime-wrap>
+          <label for="cal-f-stime">Giờ</label>
+          <input id="cal-f-stime" type="time" step="300" data-cal-f-stime>
+        </div>
+      </div>
+
+      <div class="cal__dialog-row">
+        <div class="cal__dialog-field">
+          <label for="cal-f-edate">Kết thúc</label>
+          <input id="cal-f-edate" type="date" data-cal-f-edate required>
+        </div>
+        <div class="cal__dialog-field" data-cal-f-etime-wrap>
+          <label for="cal-f-etime">Giờ</label>
+          <input id="cal-f-etime" type="time" step="300" data-cal-f-etime>
+        </div>
+      </div>
+
+      <div class="cal__dialog-field">
+        <span class="cal__dialog-label">Màu</span>
+        <div class="cal__swatches" data-cal-f-colors role="radiogroup" aria-label="Màu sự kiện"></div>
+      </div>
+
+      <div class="cal__dialog-field">
+        <label for="cal-f-loc">Địa điểm</label>
+        <input id="cal-f-loc" type="text" data-cal-f-loc placeholder="Thêm địa điểm" autocomplete="off">
+      </div>
+
+      <div class="cal__dialog-field">
+        <label for="cal-f-notes">Ghi chú</label>
+        <textarea id="cal-f-notes" rows="2" data-cal-f-notes placeholder="Thêm mô tả"></textarea>
+      </div>
+
+      <footer class="cal__dialog-foot">
+        <button type="button" class="cal__btn cal__btn--danger" data-cal-delete hidden>Xoá</button>
+        <span class="cal__dialog-spacer"></span>
+        <button type="button" class="cal__btn cal__btn--ghost" data-cal-modal-close>Huỷ</button>
+        <button type="submit" class="cal__btn cal__btn--primary">Lưu</button>
+      </footer>
+    </form>
+  </div>
+
+  <div class="cal__toast" data-cal-toast role="status" aria-live="polite"></div>
+
+  {# ===== Keyboard hint ===== #}
+  <p class="cal__kbd-hint">
+    Phím tắt: <kbd>N</kbd> sự kiện mới · <kbd>T</kbd> hôm nay · <kbd>D</kbd>/<kbd>W</kbd>/<kbd>M</kbd> đổi xem ·
+    <kbd>←</kbd>/<kbd>→</kbd> điều hướng · <kbd>Esc</kbd> đóng
+  </p>
+</div>
+      </section>
+
+      {# ===== 3M Whiteboard — yellow post-it sticky notes ===== #}
+      <aside class="priv__pane priv__pane--wb" aria-label="Bảng ghi chú 3M">
+        <div id="wb-app" class="wb" data-wb-root>
+          <header class="wb__head">
+            <div class="wb__headings">
+              <h2 class="wb__title">Bảng ghi chú 3M</h2>
+              <p class="wb__sub">Giấy nhớ cá nhân — lưu riêng tư, an toàn.</p>
+            </div>
+            <button type="button" class="wb__add" data-wb-add>
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <span>Ghi chú</span>
+            </button>
+          </header>
+          <p class="wb__empty" data-wb-empty hidden>Chưa có ghi chú. Bấm “Ghi chú” để dán một tờ giấy nhớ.</p>
+          <div class="wb__board" data-wb-board aria-live="polite"></div>
+          <div class="wb__toast" data-wb-toast role="status" aria-live="polite"></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    {# Shared GitHub-OAuth guard first → emits private-auth:authed for the apps. #}
+    <script src="{{ get_url(path='js/private-auth.js') }}" defer></script>
+    <script src="{{ get_url(path='js/calendar/app.js') }}" defer></script>
+    <script src="{{ get_url(path='js/whiteboard/app.js') }}" defer></script>
+{% endblock %}

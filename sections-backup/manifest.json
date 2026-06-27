@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-06-28T03:16:47.645055+07:00",
-  "generated_at_display": "03:16 28/06/2026",
+  "generated_at": "2026-06-28T03:21:10.404966+07:00",
+  "generated_at_display": "03:21 28/06/2026",
   "source_ref": "claude/theme-migration-missing-sections-72sjx2",
   "include_posts": true,
   "counts": {
     "sections": 15,
-    "feature_pages": 23,
+    "feature_pages": 25,
     "posts": 196,
-    "files_copied": 388
+    "files_copied": 402
   },
   "taxonomies_raw": "taxonomies = [\n    {name = \"categories\", feed = true, paginate_by = 10},\n    {name = \"tags\", feed = true, paginate_by = 10},\n]",
-  "menu_raw": "menu = [\n    { name = \"Trang chủ\", url = \"$BASE_URL/\" },\n    # \"Bài viết\" dùng MEGA MENU: 'groups' = các nhóm chuyên mục (mỗi nhóm có\n    # heading + children). base.html render groups → mega menu nhiều cột (desktop)\n    # / accordion (mobile). KHÔNG đổi URL category nào — chỉ nhóm lại theo biên tập\n    # cho gọn (thay 1 list dọc dài). Mỗi group là 1 inline-table 1 dòng (TOML:\n    # inline table không xuống dòng được). Premium tách riêng nhóm \"Đặc biệt\".\n    { name = \"Bài viết\", url = \"$BASE_URL/categories/tat-ca\", groups = [\n        { name = \"Tổng quan\", children = [ { url = \"$BASE_URL/categories/tat-ca\", name = \"Tất cả bài viết\" } ] },\n        { name = \"Chủ đề tri thức\", children = [ { url = \"$BASE_URL/categories/bao-chi\", name = \"Báo chí\" }, { url = \"$BASE_URL/categories/khoa-hoc\", name = \"Khoa học\" }, { url = \"$BASE_URL/categories/the-gioi\", name = \"Thế giới\" }, { url = \"$BASE_URL/categories/cong-nghe\", name = \"Công nghệ\" } ] },\n        { name = \"Đời sống\", children = [ { url = \"$BASE_URL/categories/du-lich\", name = \"Du lịch\" }, { url = \"$BASE_URL/categories/am-thuc\", name = \"Ẩm thực\" } ] },\n        { name = \"Tài chính cá nhân\", children = [ { url = \"$BASE_URL/categories/ngan-hang\", name = \"Ngân hàng\" }, { url = \"$BASE_URL/categories/bao-hiem\", name = \"Bảo hiểm\" } ] },\n        { name = \"Đặc biệt\", children = [ { url = \"$BASE_URL/categories/premium\", name = \"⭐ Premium\" } ] },\n    ] },\n    # \"Công cụ\" dùng MEGA MENU: 'groups' = các nhóm (mỗi nhóm có heading + children).\n    # base.html render groups → mega menu (desktop) / accordion (mobile). KHÔNG xoá/\n    # đổi URL tool nào — chỉ nhóm lại cho gọn. Mỗi group là 1 inline-table 1 dòng\n    # (ràng buộc TOML: inline table không xuống dòng được).\n    # Refactor 27/06/2026: tách 'Dashboard' và 'Công cụ phụ' (→ 'Tiện ích') thành\n    # top-level riêng để 'Công cụ' gọn hơn — chỉ còn 3 nhóm viết/SEO/guideline.\n    { name = \"Công cụ\", url = \"$BASE_URL/editor\", groups = [\n        { name = \"Viết & biên tập\", children = [ { url = \"$BASE_URL/editor\", name = \"Viết bài\" }, { url = \"$BASE_URL/tools/content-creator\", name = \"Content Creator\" }, { url = \"$BASE_URL/prompt-support\", name = \"Prompt Support\" } ] },\n        { name = \"SEO & phân tích\", children = [ { url = \"$BASE_URL/seo-bang-vang\", name = \"Bảng Vàng SEO\" }, { url = \"$BASE_URL/insights\", name = \"Insights\" }, { url = \"$BASE_URL/scoring\", name = \"Scoring\" }, { url = \"$BASE_URL/tools/theme-log\", name = \"Theme log\" } ] },\n        { name = \"Hệ thống & guideline\", children = [ { url = \"$BASE_URL/branding-guideline\", name = \"Branding Guideline\" }, { url = \"$BASE_URL/tools/s-dna\", name = \"S-DNA\" }, { url = \"$BASE_URL/font\", name = \"Font Guideline\" } ] },\n    ] },\n    # \"Dashboard\" — top-level riêng (tách khỏi Công cụ). Dropdown đơn (children) gom\n    # 4 dashboard tài chính F/L/O/H. KHÔNG đổi URL dashboard.\n    { name = \"Dashboard\", url = \"$BASE_URL/tools/f-dashboard\", children = [\n        { url = \"$BASE_URL/tools/f-dashboard\", name = \"F-Dashboard\" },\n        { url = \"$BASE_URL/tools/l-dashboard\", name = \"L-Dashboard\" },\n        { url = \"$BASE_URL/tools/o-dashboard\", name = \"O-Dashboard\" },\n        { url = \"$BASE_URL/tools/h-dashboard\", name = \"H-Dashboard\" },\n    ] },\n    # \"Tiện ích\" — top-level riêng (đổi tên từ nhóm cũ 'Công cụ phụ' cho gọn navbar +\n    # mobile). Dropdown đơn (children). KHÔNG đổi URL tool.\n    { name = \"Tiện ích\", url = \"$BASE_URL/converter\", children = [\n        { url = \"$BASE_URL/converter\", name = \"Korean Converter\" },\n        { url = \"$BASE_URL/changelog\", name = \"Changelog\" },\n        { url = \"$BASE_URL/tools/momo-url\", name = \"MoMo URL\" },\n    ] },\n]",
+  "menu_raw": "menu = [\n    { name = \"Trang chủ\", url = \"$BASE_URL/\" },\n    # \"Bài viết\" dùng MEGA MENU: 'groups' = các nhóm chuyên mục (mỗi nhóm có\n    # heading + children). base.html render groups → mega menu nhiều cột (desktop)\n    # / accordion (mobile). KHÔNG đổi URL category nào — chỉ nhóm lại theo biên tập\n    # cho gọn (thay 1 list dọc dài). Mỗi group là 1 inline-table 1 dòng (TOML:\n    # inline table không xuống dòng được). Premium tách riêng nhóm \"Đặc biệt\".\n    { name = \"Bài viết\", url = \"$BASE_URL/categories/tat-ca\", groups = [\n        { name = \"Tổng quan\", children = [ { url = \"$BASE_URL/categories/tat-ca\", name = \"Tất cả bài viết\" } ] },\n        { name = \"Chủ đề tri thức\", children = [ { url = \"$BASE_URL/categories/bao-chi\", name = \"Báo chí\" }, { url = \"$BASE_URL/categories/khoa-hoc\", name = \"Khoa học\" }, { url = \"$BASE_URL/categories/the-gioi\", name = \"Thế giới\" }, { url = \"$BASE_URL/categories/cong-nghe\", name = \"Công nghệ\" } ] },\n        { name = \"Đời sống\", children = [ { url = \"$BASE_URL/categories/du-lich\", name = \"Du lịch\" }, { url = \"$BASE_URL/categories/am-thuc\", name = \"Ẩm thực\" } ] },\n        { name = \"Tài chính cá nhân\", children = [ { url = \"$BASE_URL/categories/ngan-hang\", name = \"Ngân hàng\" }, { url = \"$BASE_URL/categories/bao-hiem\", name = \"Bảo hiểm\" } ] },\n        { name = \"Đặc biệt\", children = [ { url = \"$BASE_URL/categories/premium\", name = \"⭐ Premium\" } ] },\n    ] },\n    # \"Công cụ\" dùng MEGA MENU: 'groups' = các nhóm (mỗi nhóm có heading + children).\n    # base.html render groups → mega menu (desktop) / accordion (mobile). KHÔNG xoá/\n    # đổi URL tool nào — chỉ nhóm lại cho gọn. Mỗi group là 1 inline-table 1 dòng\n    # (ràng buộc TOML: inline table không xuống dòng được).\n    # Refactor 27/06/2026: tách 'Dashboard' và 'Công cụ phụ' (→ 'Tiện ích') thành\n    # top-level riêng để 'Công cụ' gọn hơn — chỉ còn 3 nhóm viết/SEO/guideline.\n    { name = \"Công cụ\", url = \"$BASE_URL/editor\", groups = [\n        { name = \"Viết & biên tập\", children = [ { url = \"$BASE_URL/editor\", name = \"Viết bài\" }, { url = \"$BASE_URL/tools/content-creator\", name = \"Content Creator\" }, { url = \"$BASE_URL/prompt-support\", name = \"Prompt Support\" } ] },\n        { name = \"SEO & phân tích\", children = [ { url = \"$BASE_URL/seo-bang-vang\", name = \"Bảng Vàng SEO\" }, { url = \"$BASE_URL/insights\", name = \"Insights\" }, { url = \"$BASE_URL/tools/content-direction\", name = \"Content Direction\" }, { url = \"$BASE_URL/scoring\", name = \"Scoring\" }, { url = \"$BASE_URL/tools/theme-log\", name = \"Theme log\" } ] },\n        { name = \"Hệ thống & guideline\", children = [ { url = \"$BASE_URL/branding-guideline\", name = \"Branding Guideline\" }, { url = \"$BASE_URL/tools/s-dna\", name = \"S-DNA\" }, { url = \"$BASE_URL/font\", name = \"Font Guideline\" } ] },\n    ] },\n    # \"Dashboard\" — top-level riêng (tách khỏi Công cụ). Dropdown đơn (children) gom\n    # 4 dashboard tài chính F/L/O/H. KHÔNG đổi URL dashboard.\n    { name = \"Dashboard\", url = \"$BASE_URL/tools/f-dashboard\", children = [\n        { url = \"$BASE_URL/tools/f-dashboard\", name = \"F-Dashboard\" },\n        { url = \"$BASE_URL/tools/l-dashboard\", name = \"L-Dashboard\" },\n        { url = \"$BASE_URL/tools/o-dashboard\", name = \"O-Dashboard\" },\n        { url = \"$BASE_URL/tools/h-dashboard\", name = \"H-Dashboard\" },\n    ] },\n    # \"Tiện ích\" — top-level riêng (đổi tên từ nhóm cũ 'Công cụ phụ' cho gọn navbar +\n    # mobile). Dropdown đơn (children). KHÔNG đổi URL tool.\n    { name = \"Tiện ích\", url = \"$BASE_URL/converter\", children = [\n        { url = \"$BASE_URL/converter\", name = \"Korean Converter\" },\n        { url = \"$BASE_URL/tools/calendar\", name = \"Lịch & Ghi chú\" },\n        { url = \"$BASE_URL/changelog\", name = \"Changelog\" },\n        { url = \"$BASE_URL/tools/momo-url\", name = \"MoMo URL\" },\n    ] },\n]",
   "scss_imports": [
     "brand-vars",
     "themes",
@@ -75,7 +75,10 @@
     "comments",
     "archive",
     "ad-placeholder",
-    "view-switcher"
+    "view-switcher",
+    "content-direction",
+    "calendar",
+    "whiteboard"
   ],
   "sections": [
     {
@@ -468,6 +471,39 @@
       "generator": []
     },
     {
+      "content_file": "content/tools/calendar.md",
+      "title": "Lịch & Bảng ghi chú",
+      "template": "calendar.html",
+      "aliases": [
+        "/calendar/",
+        "/tools/calendar"
+      ],
+      "path": "",
+      "menu": {
+        "url": "$BASE_URL/tools/calendar",
+        "name": "Lịch & Ghi chú"
+      },
+      "scss_partials": [
+        "sass/_breadcrumb.scss",
+        "sass/_calendar.scss",
+        "sass/_whiteboard.scss"
+      ],
+      "js_assets": [
+        "static/js/private-auth.js",
+        "static/js/calendar/app.js",
+        "static/js/whiteboard/app.js"
+      ],
+      "data_files": [],
+      "macros": [
+        "templates/macros/breadcrumb.html"
+      ],
+      "templates": [
+        "templates/calendar.html",
+        "templates/macros/breadcrumb.html"
+      ],
+      "generator": []
+    },
+    {
       "content_file": "content/tools/content-creator.md",
       "title": "Content Creator",
       "template": "content-creator.html",
@@ -493,6 +529,33 @@
       ]
     },
     {
+      "content_file": "content/tools/content-direction.md",
+      "title": "Content Direction",
+      "template": "content-direction.html",
+      "aliases": [
+        "/content-direction/"
+      ],
+      "path": "",
+      "menu": {
+        "url": "$BASE_URL/tools/content-direction",
+        "name": "Content Direction"
+      },
+      "scss_partials": [
+        "sass/_content-direction.scss"
+      ],
+      "js_assets": [],
+      "data_files": [
+        "static/data/content-direction/report.json"
+      ],
+      "macros": [],
+      "templates": [
+        "templates/content-direction.html"
+      ],
+      "generator": [
+        "scripts/content_direction.py"
+      ]
+    },
+    {
       "content_file": "content/tools/f-dashboard.md",
       "title": "F-Dashboard",
       "template": "f-dashboard.html",
@@ -503,8 +566,8 @@
         "name": "F-Dashboard"
       },
       "scss_partials": [
-        "sass/_f-dashboard.scss",
-        "sass/_insights.scss"
+        "sass/_insights.scss",
+        "sass/_f-dashboard.scss"
       ],
       "js_assets": [
         "static/js/datetime-format.js",
@@ -535,8 +598,8 @@
         "name": "H-Dashboard"
       },
       "scss_partials": [
-        "sass/_h-dashboard.scss",
-        "sass/_insights.scss"
+        "sass/_insights.scss",
+        "sass/_h-dashboard.scss"
       ],
       "js_assets": [
         "static/js/datetime-format.js",
@@ -569,8 +632,8 @@
         "name": "L-Dashboard"
       },
       "scss_partials": [
-        "sass/_l-dashboard.scss",
-        "sass/_insights.scss"
+        "sass/_insights.scss",
+        "sass/_l-dashboard.scss"
       ],
       "js_assets": [
         "static/js/datetime-format.js",

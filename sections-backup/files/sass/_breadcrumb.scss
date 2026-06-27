@@ -1,0 +1,68 @@
+/* ===== Breadcrumb (global) — điều hướng phân cấp đầu bài viết =====
+   Hiển thị: Trang chủ › Chuyên mục › Bài hiện tại. Dùng semantic token (var(--c-*))
+   để đúng cả light/dark. Component mới, không sửa selector global đang chạy. */
+
+.breadcrumb {
+  margin: 0 0 0.9rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.breadcrumb__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.breadcrumb__item {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  color: var(--c-text-muted);
+}
+
+.breadcrumb__item:not(:first-child)::before {
+  content: "›";
+  margin: 0 0.45rem;
+  color: var(--c-border);
+  font-weight: 600;
+}
+
+.breadcrumb__link {
+  color: var(--c-text-muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.breadcrumb__link:hover,
+.breadcrumb__link:focus-visible {
+  color: var(--c-accent);
+  text-decoration: underline;
+}
+
+.breadcrumb__item--current {
+  color: var(--c-text-heading);
+  font-weight: 500;
+  /* Rút gọn tiêu đề dài ở crumb hiện tại để không tràn dòng */
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ===== MOBILE (≤ 540px) — rút gọn để không vỡ layout ===== */
+@media (max-width: 540px) {
+  .breadcrumb {
+    font-size: 0.78rem;
+  }
+  .breadcrumb__item:not(:first-child)::before {
+    margin: 0 0.35rem;
+  }
+  .breadcrumb__item--current {
+    max-width: 58vw;
+  }
+}
