@@ -57,12 +57,12 @@
       "slug": "git-branch-lam-viec-voi-nhanh"
     },
     {
-      "score": 0.8295,
-      "slug": "github-actions-secrets-setup-guide"
-    },
-    {
       "score": 0.8182,
       "slug": "git-la-gi-version-control-cho-nguoi-moi"
+    },
+    {
+      "score": 0.8055,
+      "slug": "git-workflow-chuyen-nghiep-gitflow-github-flow"
     }
   ],
   "bao-mat-ngan-hang-so-vietinbank": [
@@ -335,16 +335,16 @@
       "slug": "premium-fintech-paywall-demo"
     },
     {
+      "score": 0.5495,
+      "slug": "phan-trang-trang-chu-zola-archive"
+    },
+    {
       "score": 0.543,
       "slug": "seo-la-gi-huong-dan-co-ban-google-search"
     },
     {
       "score": 0.5425,
       "slug": "doc-bao-cao-google-analytics-15-phut-moi-ngay"
-    },
-    {
-      "score": 0.5414,
-      "slug": "phan-trang-trang-chu-zola-archive"
     }
   ],
   "chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua": [
@@ -371,45 +371,45 @@
   ],
   "codeql-api-rate-limit-giai-phap": [
     {
-      "score": 0.7054,
+      "score": 0.7124,
       "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
     },
     {
-      "score": 0.4688,
+      "score": 0.454,
       "slug": "github-actions-secrets-setup-guide"
     },
     {
-      "score": 0.4573,
-      "slug": "git-la-gi-version-control-cho-nguoi-moi"
-    },
-    {
-      "score": 0.4557,
+      "score": 0.4435,
       "slug": "bao-mat-best-practices-git-github"
     },
     {
-      "score": 0.4467,
-      "slug": "lenh-git-co-ban-init-add-commit-status"
+      "score": 0.4415,
+      "slug": "github-actions-ci-cd-build-failure-vipzone-token"
+    },
+    {
+      "score": 0.4405,
+      "slug": "git-la-gi-version-control-cho-nguoi-moi"
     }
   ],
   "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien": [
     {
-      "score": 0.7054,
+      "score": 0.7124,
       "slug": "codeql-api-rate-limit-giai-phap"
     },
     {
-      "score": 0.4158,
-      "slug": "sentence-transformers-sbert-deep-dive"
-    },
-    {
-      "score": 0.4128,
+      "score": 0.4198,
       "slug": "github-actions-secrets-setup-guide"
     },
     {
-      "score": 0.392,
+      "score": 0.418,
+      "slug": "sentence-transformers-sbert-deep-dive"
+    },
+    {
+      "score": 0.3976,
       "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
     },
     {
-      "score": 0.3909,
+      "score": 0.3969,
       "slug": "bao-mat-best-practices-git-github"
     }
   ],
@@ -423,7 +423,7 @@
       "slug": "tu-dong-deploy-zola-github-actions"
     },
     {
-      "score": 0.7476,
+      "score": 0.7469,
       "slug": "phan-trang-trang-chu-zola-archive"
     },
     {
@@ -503,23 +503,23 @@
   ],
   "debug-zola-series-navigation-links": [
     {
-      "score": 0.6748,
+      "score": 0.6752,
       "slug": "zola-faq-schema-template-variable-error"
     },
     {
-      "score": 0.6009,
-      "slug": "fix-internal-links-checker-ci-failure"
-    },
-    {
-      "score": 0.5959,
+      "score": 0.5971,
       "slug": "phan-trang-trang-chu-zola-archive"
     },
     {
-      "score": 0.5841,
+      "score": 0.5845,
       "slug": "zola-responsive-layout-context-detection"
     },
     {
-      "score": 0.5023,
+      "score": 0.5838,
+      "slug": "fix-internal-links-checker-ci-failure"
+    },
+    {
+      "score": 0.504,
       "slug": "tera-template-syntax-error-conditional"
     }
   ],
@@ -789,24 +789,46 @@
   ],
   "fix-internal-links-checker-ci-failure": [
     {
-      "score": 0.6009,
-      "slug": "debug-zola-series-navigation-links"
-    },
-    {
-      "score": 0.6004,
+      "score": 0.6138,
       "slug": "loi-yaml-github-actions-workflow-invalid-case-study"
     },
     {
-      "score": 0.5629,
+      "score": 0.5838,
+      "slug": "debug-zola-series-navigation-links"
+    },
+    {
+      "score": 0.5556,
+      "slug": "github-actions-ci-cd-build-failure-vipzone-token"
+    },
+    {
+      "score": 0.5391,
       "slug": "zola-faq-schema-template-variable-error"
     },
     {
-      "score": 0.5257,
+      "score": 0.5387,
       "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
+    }
+  ],
+  "fix-qa-gatekeeper-github-actions-merge-conflict-zola": [
+    {
+      "score": 0.6917,
+      "slug": "qa-gatekeeper-tu-fix-loi-blog"
     },
     {
-      "score": 0.5173,
+      "score": 0.6404,
+      "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
+    },
+    {
+      "score": 0.6224,
+      "slug": "git-merge-va-xu-ly-conflict"
+    },
+    {
+      "score": 0.6163,
       "slug": "github-actions-ci-cd-build-failure-vipzone-token"
+    },
+    {
+      "score": 0.5751,
+      "slug": "bao-mat-best-practices-git-github"
     }
   ],
   "gia-vang-hom-nay-18-6-giam-manh": [
@@ -833,24 +855,24 @@
   ],
   "giai-quyet-merge-conflict-tu-dong-ci-cd": [
     {
-      "score": 0.6669,
-      "slug": "git-merge-va-xu-ly-conflict"
-    },
-    {
-      "score": 0.6027,
+      "score": 0.6215,
       "slug": "github-actions-ci-cd-build-failure-vipzone-token"
     },
     {
-      "score": 0.5912,
+      "score": 0.6134,
+      "slug": "git-merge-va-xu-ly-conflict"
+    },
+    {
+      "score": 0.5727,
       "slug": "github-actions-ci-cd-cho-nguoi-moi"
     },
     {
-      "score": 0.5908,
+      "score": 0.5711,
       "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
     },
     {
-      "score": 0.5257,
-      "slug": "fix-internal-links-checker-ci-failure"
+      "score": 0.5554,
+      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
     }
   ],
   "git-branch-lam-viec-voi-nhanh": [
@@ -1009,23 +1031,23 @@
   ],
   "git-stale-branch-root-cause-analysis-va-giai-phap": [
     {
-      "score": 0.6967,
+      "score": 0.6969,
       "slug": "git-merge-va-xu-ly-conflict"
     },
     {
-      "score": 0.6728,
+      "score": 0.6743,
       "slug": "git-stash-cherry-pick-reflog-nang-cao"
     },
     {
-      "score": 0.6693,
-      "slug": "git-branch-lam-viec-voi-nhanh"
-    },
-    {
-      "score": 0.6646,
+      "score": 0.6655,
       "slug": "git-rebase-lam-sach-lich-su-commit"
     },
     {
-      "score": 0.651,
+      "score": 0.6645,
+      "slug": "git-branch-lam-viec-voi-nhanh"
+    },
+    {
+      "score": 0.6498,
       "slug": "git-reset-revert-khoi-phuc-su-co"
     }
   ],
@@ -1075,24 +1097,24 @@
   ],
   "github-actions-ci-cd-build-failure-vipzone-token": [
     {
-      "score": 0.6656,
+      "score": 0.6832,
       "slug": "github-actions-secrets-setup-guide"
     },
     {
-      "score": 0.6444,
+      "score": 0.6496,
       "slug": "github-actions-ci-cd-cho-nguoi-moi"
     },
     {
-      "score": 0.6397,
+      "score": 0.6408,
       "slug": "loi-yaml-github-actions-workflow-invalid-case-study"
     },
     {
-      "score": 0.6121,
-      "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
+      "score": 0.6215,
+      "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
     },
     {
-      "score": 0.6027,
-      "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
+      "score": 0.6163,
+      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
     }
   ],
   "github-actions-ci-cd-cho-nguoi-moi": [
@@ -1109,34 +1131,34 @@
       "slug": "git-workflow-chuyen-nghiep-gitflow-github-flow"
     },
     {
-      "score": 0.7124,
-      "slug": "cai-dat-git-cau-hinh-lan-dau"
+      "score": 0.7171,
+      "slug": "github-actions-secrets-setup-guide"
     },
     {
-      "score": 0.7058,
-      "slug": "git-la-gi-version-control-cho-nguoi-moi"
+      "score": 0.7124,
+      "slug": "cai-dat-git-cau-hinh-lan-dau"
     }
   ],
   "github-actions-secrets-setup-guide": [
     {
-      "score": 0.8295,
+      "score": 0.8022,
       "slug": "bao-mat-best-practices-git-github"
     },
     {
-      "score": 0.7044,
+      "score": 0.7171,
       "slug": "github-actions-ci-cd-cho-nguoi-moi"
     },
     {
-      "score": 0.683,
-      "slug": "lenh-git-co-ban-init-add-commit-status"
+      "score": 0.6832,
+      "slug": "github-actions-ci-cd-build-failure-vipzone-token"
     },
     {
-      "score": 0.6827,
-      "slug": "git-la-gi-version-control-cho-nguoi-moi"
-    },
-    {
-      "score": 0.6732,
+      "score": 0.6581,
       "slug": "cai-dat-git-cau-hinh-lan-dau"
+    },
+    {
+      "score": 0.6473,
+      "slug": "lenh-git-co-ban-init-add-commit-status"
     }
   ],
   "github-la-gi-tao-repository-dau-tien": [
@@ -1251,133 +1273,133 @@
   ],
   "google-preferred-sources-1-tu-thuat-toi-giao-dien-tim-kiem": [
     {
-      "score": 0.8761,
-      "slug": "google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong"
-    },
-    {
-      "score": 0.8467,
+      "score": 0.8638,
       "slug": "google-preferred-sources-6-tuong-lai-seo"
     },
     {
-      "score": 0.6904,
+      "score": 0.8567,
+      "slug": "google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong"
+    },
+    {
+      "score": 0.6577,
       "slug": "google-preferred-sources-5-analytics-va-toi-uu-hoa"
     },
     {
-      "score": 0.2826,
+      "score": 0.2897,
       "slug": "tro-tu-eun-neun-i-ga-tieng-han"
     },
     {
-      "score": 0.2725,
+      "score": 0.2771,
       "slug": "ung-ho-du-an-ai-ten-mien-ai"
     }
   ],
   "google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong": [
     {
-      "score": 0.8761,
+      "score": 0.8567,
       "slug": "google-preferred-sources-1-tu-thuat-toi-giao-dien-tim-kiem"
     },
     {
-      "score": 0.7368,
+      "score": 0.7485,
       "slug": "google-preferred-sources-6-tuong-lai-seo"
     },
     {
-      "score": 0.7172,
+      "score": 0.6798,
       "slug": "google-preferred-sources-5-analytics-va-toi-uu-hoa"
     },
     {
-      "score": 0.3101,
+      "score": 0.3095,
       "slug": "ung-ho-du-an-ai-ten-mien-ai"
     },
     {
-      "score": 0.2514,
+      "score": 0.2527,
       "slug": "thi-tuong-lai-y-dinh-tieng-han"
     }
   ],
   "google-preferred-sources-3-huong-dan-thiet-lap-ky-thuat": [
     {
-      "score": 0.5482,
+      "score": 0.5442,
       "slug": "google-nhin-trang-giong-nguoi-dung"
     },
     {
-      "score": 0.5306,
+      "score": 0.5265,
       "slug": "giup-google-tim-noi-dung-site"
     },
     {
-      "score": 0.4768,
+      "score": 0.4724,
       "slug": "bao-lau-de-thay-ket-qua-seo"
     },
     {
-      "score": 0.476,
+      "score": 0.4702,
       "slug": "seo-la-gi-huong-dan-co-ban-google-search"
     },
     {
-      "score": 0.4458,
+      "score": 0.4423,
       "slug": "website-san-sang-cho-adsense"
     }
   ],
   "google-preferred-sources-4-chien-luoc-noi-dung": [
     {
-      "score": 0.1888,
+      "score": 0.1892,
       "slug": "kha-nang-kinh-nghiem-tieng-han"
     },
     {
-      "score": 0.1824,
+      "score": 0.1802,
       "slug": "quy-tac-phat-am-tieng-han"
     },
     {
-      "score": 0.153,
+      "score": 0.1557,
       "slug": "phu-am-cang-bat-hoi-tieng-han"
     },
     {
-      "score": 0.1398,
+      "score": 0.143,
       "slug": "troi-mua-sai-gon-an-gi"
     },
     {
-      "score": 0.1278,
+      "score": 0.1252,
       "slug": "an-khuya-sai-gon"
     }
   ],
   "google-preferred-sources-5-analytics-va-toi-uu-hoa": [
     {
-      "score": 0.7172,
+      "score": 0.6798,
       "slug": "google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong"
     },
     {
-      "score": 0.6904,
+      "score": 0.6577,
       "slug": "google-preferred-sources-1-tu-thuat-toi-giao-dien-tim-kiem"
     },
     {
-      "score": 0.6704,
+      "score": 0.6513,
       "slug": "google-preferred-sources-6-tuong-lai-seo"
     },
     {
-      "score": 0.3573,
+      "score": 0.3554,
       "slug": "tong-on-chien-luoc-thi-topik-tieng-han"
     },
     {
-      "score": 0.3408,
+      "score": 0.3391,
       "slug": "thi-tuong-lai-y-dinh-tieng-han"
     }
   ],
   "google-preferred-sources-6-tuong-lai-seo": [
     {
-      "score": 0.8467,
+      "score": 0.8638,
       "slug": "google-preferred-sources-1-tu-thuat-toi-giao-dien-tim-kiem"
     },
     {
-      "score": 0.7368,
+      "score": 0.7485,
       "slug": "google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong"
     },
     {
-      "score": 0.6704,
+      "score": 0.6513,
       "slug": "google-preferred-sources-5-analytics-va-toi-uu-hoa"
     },
     {
-      "score": 0.378,
+      "score": 0.3872,
       "slug": "thi-tuong-lai-y-dinh-tieng-han"
     },
     {
-      "score": 0.3526,
+      "score": 0.3577,
       "slug": "tro-tu-eun-neun-i-ga-tieng-han"
     }
   ],
@@ -1471,7 +1493,7 @@
   ],
   "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude": [
     {
-      "score": 0.4123,
+      "score": 0.4204,
       "slug": "codeql-api-rate-limit-giai-phap"
     },
     {
@@ -1483,12 +1505,12 @@
       "slug": "sentence-transformers-sbert-deep-dive"
     },
     {
-      "score": 0.33,
-      "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
+      "score": 0.3362,
+      "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
     },
     {
-      "score": 0.3258,
-      "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
+      "score": 0.3337,
+      "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
     }
   ],
   "hoc-tieng-han-bang-chu-hangul-nguyen-am": [
@@ -1647,7 +1669,7 @@
   ],
   "lam-theme-log-sua-menu-cong-cu": [
     {
-      "score": 0.605,
+      "score": 0.6115,
       "slug": "phan-trang-trang-chu-zola-archive"
     },
     {
@@ -1823,45 +1845,45 @@
   ],
   "loi-nhieu-the-h1-sua-seo-toan-site": [
     {
-      "score": 0.6009,
+      "score": 0.6044,
       "slug": "phan-trang-trang-chu-zola-archive"
     },
     {
-      "score": 0.5915,
+      "score": 0.5809,
       "slug": "cong-nghe-blog-duy-nguyen"
     },
     {
-      "score": 0.5244,
-      "slug": "tao-blog-voi-zola"
-    },
-    {
-      "score": 0.5149,
+      "score": 0.5115,
       "slug": "chon-ngach-noi-dung-giu-chan-nguoi-doc"
     },
     {
-      "score": 0.4933,
-      "slug": "lam-theme-log-sua-menu-cong-cu"
+      "score": 0.5091,
+      "slug": "tao-blog-voi-zola"
+    },
+    {
+      "score": 0.4908,
+      "slug": "fix-internal-links-checker-ci-failure"
     }
   ],
   "loi-yaml-github-actions-workflow-invalid-case-study": [
     {
-      "score": 0.6397,
+      "score": 0.6408,
       "slug": "github-actions-ci-cd-build-failure-vipzone-token"
     },
     {
-      "score": 0.6004,
+      "score": 0.6138,
       "slug": "fix-internal-links-checker-ci-failure"
     },
     {
-      "score": 0.5478,
+      "score": 0.5638,
       "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
     },
     {
-      "score": 0.5433,
+      "score": 0.5411,
       "slug": "git-workflow-chuyen-nghiep-gitflow-github-flow"
     },
     {
-      "score": 0.5024,
+      "score": 0.5047,
       "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
     }
   ],
@@ -1919,15 +1941,15 @@
       "slug": "mcc-future-dynamic-ai-codes"
     },
     {
+      "score": 0.3229,
+      "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
+    },
+    {
       "score": 0.3184,
       "slug": "macos-27-golden-gate-co-gi-moi"
     },
     {
-      "score": 0.3149,
-      "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
-    },
-    {
-      "score": 0.3028,
+      "score": 0.3036,
       "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
     }
   ],
@@ -2011,12 +2033,12 @@
       "slug": "mcc-cross-border-fees-interchange"
     },
     {
-      "score": 0.1474,
-      "slug": "ngu-phap-nang-cao-topik-tieng-han"
+      "score": 0.1483,
+      "slug": "google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong"
     },
     {
-      "score": 0.1399,
-      "slug": "dai-tu-chi-dinh-tieng-han"
+      "score": 0.1474,
+      "slug": "ngu-phap-nang-cao-topik-tieng-han"
     }
   ],
   "mcc-future-dynamic-ai-codes": [
@@ -2033,7 +2055,7 @@
       "slug": "macos-27-golden-gate-co-gi-moi"
     },
     {
-      "score": 0.3827,
+      "score": 0.3846,
       "slug": "codeql-api-rate-limit-giai-phap"
     },
     {
@@ -2077,11 +2099,11 @@
       "slug": "premium-fintech-paywall-demo"
     },
     {
-      "score": 0.2657,
+      "score": 0.2667,
       "slug": "codeql-api-rate-limit-giai-phap"
     },
     {
-      "score": 0.2498,
+      "score": 0.2479,
       "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
     }
   ],
@@ -2699,24 +2721,24 @@
   ],
   "phan-trang-trang-chu-zola-archive": [
     {
-      "score": 0.8485,
+      "score": 0.8391,
       "slug": "tao-blog-voi-zola"
     },
     {
-      "score": 0.7706,
+      "score": 0.7647,
       "slug": "tu-dong-deploy-zola-github-actions"
     },
     {
-      "score": 0.7476,
+      "score": 0.7469,
       "slug": "cong-nghe-blog-duy-nguyen"
     },
     {
-      "score": 0.6331,
+      "score": 0.628,
       "slug": "zola-vs-hugo"
     },
     {
-      "score": 0.6266,
-      "slug": "zola-responsive-layout-context-detection"
+      "score": 0.6115,
+      "slug": "lam-theme-log-sua-menu-cong-cu"
     }
   ],
   "phu-am-cang-bat-hoi-tieng-han": [
@@ -2799,7 +2821,7 @@
       "slug": "qa-gatekeeper-tu-fix-loi-blog"
     },
     {
-      "score": 0.4475,
+      "score": 0.449,
       "slug": "loi-nhieu-the-h1-sua-seo-toan-site"
     },
     {
@@ -2853,6 +2875,10 @@
   ],
   "qa-gatekeeper-tu-fix-loi-blog": [
     {
+      "score": 0.6917,
+      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
+    },
+    {
       "score": 0.6544,
       "slug": "cong-nghe-blog-duy-nguyen"
     },
@@ -2865,12 +2891,8 @@
       "slug": "tao-blog-voi-zola"
     },
     {
-      "score": 0.5284,
+      "score": 0.5413,
       "slug": "github-actions-secrets-setup-guide"
-    },
-    {
-      "score": 0.5122,
-      "slug": "phan-trang-trang-chu-zola-archive"
     }
   ],
   "quan-ly-chi-tieu-voi-app-liobank": [
@@ -3007,24 +3029,24 @@
   ],
   "sentence-transformers-sbert-deep-dive": [
     {
-      "score": 0.4825,
+      "score": 0.4875,
       "slug": "zola-responsive-layout-context-detection"
     },
     {
-      "score": 0.4158,
+      "score": 0.418,
       "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
     },
     {
-      "score": 0.3815,
+      "score": 0.3825,
       "slug": "tera-template-syntax-error-conditional"
+    },
+    {
+      "score": 0.3445,
+      "slug": "debug-zola-series-navigation-links"
     },
     {
       "score": 0.3435,
       "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude"
-    },
-    {
-      "score": 0.342,
-      "slug": "lenh-git-co-ban-init-add-commit-status"
     }
   ],
   "seo-la-gi-huong-dan-co-ban-google-search": [
@@ -3191,7 +3213,7 @@
       "slug": "cong-nghe-blog-duy-nguyen"
     },
     {
-      "score": 0.8485,
+      "score": 0.8391,
       "slug": "phan-trang-trang-chu-zola-archive"
     },
     {
@@ -3227,24 +3249,24 @@
   ],
   "tera-template-syntax-error-conditional": [
     {
-      "score": 0.731,
+      "score": 0.7239,
       "slug": "zola-faq-schema-template-variable-error"
     },
     {
-      "score": 0.6447,
+      "score": 0.6336,
       "slug": "zola-responsive-layout-context-detection"
     },
     {
-      "score": 0.5023,
+      "score": 0.504,
       "slug": "debug-zola-series-navigation-links"
     },
     {
-      "score": 0.4916,
-      "slug": "fix-internal-links-checker-ci-failure"
+      "score": 0.4726,
+      "slug": "loi-yaml-github-actions-workflow-invalid-case-study"
     },
     {
-      "score": 0.4653,
-      "slug": "loi-yaml-github-actions-workflow-invalid-case-study"
+      "score": 0.4641,
+      "slug": "fix-internal-links-checker-ci-failure"
     }
   ],
   "tet-doan-ngo-han-viet-trung": [
@@ -3631,7 +3653,7 @@
       "slug": "cong-nghe-blog-duy-nguyen"
     },
     {
-      "score": 0.7706,
+      "score": 0.7647,
       "slug": "phan-trang-trang-chu-zola-archive"
     },
     {
@@ -3689,19 +3711,19 @@
   ],
   "ung-ho-du-an-ai-ten-mien-ai": [
     {
-      "score": 0.3124,
+      "score": 0.3167,
       "slug": "google-preferred-sources-6-tuong-lai-seo"
     },
     {
-      "score": 0.3101,
+      "score": 0.3095,
       "slug": "google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong"
     },
     {
-      "score": 0.2725,
+      "score": 0.2771,
       "slug": "google-preferred-sources-1-tu-thuat-toi-giao-dien-tim-kiem"
     },
     {
-      "score": 0.2425,
+      "score": 0.2328,
       "slug": "google-preferred-sources-5-analytics-va-toi-uu-hoa"
     },
     {
@@ -4041,7 +4063,7 @@
   ],
   "vneid-2-2-8-phan-anh-lua-dao-quet-qr": [
     {
-      "score": 0.4184,
+      "score": 0.4206,
       "slug": "loi-nhieu-the-h1-sua-seo-toan-site"
     },
     {
@@ -4049,16 +4071,16 @@
       "slug": "mcc-future-dynamic-ai-codes"
     },
     {
-      "score": 0.355,
+      "score": 0.3585,
       "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
     },
     {
-      "score": 0.3412,
-      "slug": "phan-trang-trang-chu-zola-archive"
+      "score": 0.3319,
+      "slug": "git-ra-doi-tu-bitkeeper"
     },
     {
-      "score": 0.3322,
-      "slug": "fix-internal-links-checker-ci-failure"
+      "score": 0.3307,
+      "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
     }
   ],
   "vpbank-circle-sieu-the-free-tron-doi-gen-z": [
@@ -4107,45 +4129,45 @@
   ],
   "zola-faq-schema-template-variable-error": [
     {
-      "score": 0.731,
+      "score": 0.7239,
       "slug": "tera-template-syntax-error-conditional"
     },
     {
-      "score": 0.6831,
+      "score": 0.6767,
       "slug": "zola-responsive-layout-context-detection"
     },
     {
-      "score": 0.6748,
+      "score": 0.6752,
       "slug": "debug-zola-series-navigation-links"
     },
     {
-      "score": 0.5752,
+      "score": 0.5601,
       "slug": "phan-trang-trang-chu-zola-archive"
     },
     {
-      "score": 0.5629,
+      "score": 0.5391,
       "slug": "fix-internal-links-checker-ci-failure"
     }
   ],
   "zola-responsive-layout-context-detection": [
     {
-      "score": 0.6831,
+      "score": 0.6767,
       "slug": "zola-faq-schema-template-variable-error"
     },
     {
-      "score": 0.6447,
+      "score": 0.6336,
       "slug": "tera-template-syntax-error-conditional"
     },
     {
-      "score": 0.6266,
+      "score": 0.6026,
       "slug": "phan-trang-trang-chu-zola-archive"
     },
     {
-      "score": 0.5841,
+      "score": 0.5845,
       "slug": "debug-zola-series-navigation-links"
     },
     {
-      "score": 0.5769,
+      "score": 0.5706,
       "slug": "tao-blog-voi-zola"
     }
   ],
@@ -4155,7 +4177,7 @@
       "slug": "tao-blog-voi-zola"
     },
     {
-      "score": 0.6331,
+      "score": 0.628,
       "slug": "phan-trang-trang-chu-zola-archive"
     },
     {

@@ -1104,6 +1104,35 @@
     "external_count": 1,
     "internal_count": 8
   },
+  "content/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola.md": {
+    "external": [
+      {
+        "title": "GitHub Actions — Understanding workflow triggers",
+        "url": "https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/triggering-a-workflow",
+        "kind": "external"
+      },
+      {
+        "title": "GitHub Docs — About merge conflicts",
+        "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/about-merge-conflicts",
+        "kind": "external"
+      },
+      {
+        "title": "Zola — Static site generator documentation",
+        "url": "https://www.getzola.org/documentation/getting-started/overview",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "⏱ Countdown",
+        "url": "https://seomoney.org/admin-countdown/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Actions — Understanding workflow triggers, GitHub Docs — About merge conflicts và Zola — Static site generator documentation. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
+    "internal_count": 1
+  },
   "content/posting/giai-quyet-merge-conflict-tu-dong-ci-cd.md": {
     "external": [
       {
@@ -6029,6 +6058,29 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ github.com/Banhang-Chogao/zola. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
     "internal_count": 1
+  },
+  "content/pages/content-placement-system.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "Quản lý MoMo URL",
+        "url": "https://seomoney.org/tools/momo-url/",
+        "kind": "internal"
+      },
+      {
+        "title": "Giới thiệu",
+        "url": "https://seomoney.org/about/",
+        "kind": "internal"
+      },
+      {
+        "title": "Insights",
+        "url": "https://seomoney.org/insights/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 3
   },
   "content/pages/copyright.md": {
     "external": [
