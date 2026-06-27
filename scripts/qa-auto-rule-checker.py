@@ -506,6 +506,63 @@ def scan_seo_rules(conflicts: list[Conflict]) -> None:
         )
 
 
+def scan_stale_branches(conflicts: list[Conflict]) -> None:
+    """Detect open PRs with branches that have no common ancestor with main.
+
+    This happens when a branch is created from an old commit and main is force-pushed,
+    causing git to lose the merge base. Such branches cannot be rebased/merged properly.
+    """
+    if not TOKEN:
+        return  # Skip if no GitHub token available
+
+    try:
+        # Fetch list of open PRs
+        prs_data = _api_get("pulls?state=open&base=main&per_page=100")
+        if not isinstance(prs_data, list):
+            return
+
+        for pr in prs_data:
+            if not pr.get("base", {}).get("ref") == "main":
+                continue  # Skip non-main PRs
+
+            pr_num = pr.get("number")
+            head_sha = pr.get("head", {}).get("sha")
+            head_branch = pr.get("head", {}).get("ref")
+
+            if not pr_num or not head_sha or not head_branch:
+                continue
+
+            # Try to find common ancestor
+            try:
+                result = subprocess.run(
+                    ["git", "merge-base", head_sha, "origin/main"],
+                    capture_output=True,
+                    text=True,
+                    timeout=5,
+                    cwd=str(REPO_ROOT),
+                )
+                if result.returncode != 0:
+                    # No common ancestor found
+                    conflicts.append(
+                        Conflict(
+                            id=f"stale_branch_pr_{pr_num}",
+                            category="Git History",
+                            severity="CRITICAL",
+                            title=f"PR #{pr_num}: Branch '{head_branch}' has no common ancestor with main",
+                            rule_a=f"Branch {head_branch} created from old commit (before main force-push)",
+                            rule_b="PR branches must have valid merge-base with main",
+                            resolution=f"Rebase branch onto main: git fetch origin && git rebase origin/main && git push --force-with-lease",
+                            confidence=0.99,
+                            files=[],
+                        )
+                    )
+            except (subprocess.TimeoutExpired, FileNotFoundError):
+                pass  # Skip if git command fails or times out
+
+    except Exception:
+        pass  # Silently skip if PR fetch fails
+
+
 def run_all_scanners() -> list[Conflict]:
     conflicts: list[Conflict] = []
     scan_claude_md(conflicts)
@@ -514,6 +571,7 @@ def run_all_scanners() -> list[Conflict]:
     scan_dashboard_rules(conflicts)
     scan_content_rules(conflicts)
     scan_seo_rules(conflicts)
+    scan_stale_branches(conflicts)
     order = {s: i for i, s in enumerate(SEVERITIES)}
     conflicts.sort(key=lambda c: (order.get(c.severity, 9), -c.confidence))
     return conflicts

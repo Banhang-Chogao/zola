@@ -8,19 +8,15 @@
 {# CONTEXT DETECTION: Handle both page and section contexts #}
 {% set is_section = section is defined and section.title is defined %}
 {% set is_page = page is defined and page.title is defined %}
-{# Tera không hỗ trợ ternary `X if cond else Y` trong {% set %} → tách thành
-   khối if/else tường minh (set_global để dùng được trong các block bên dưới). #}
 {% if is_section %}
-    {% set_global display_title = section.title %}
+  {% set display_title = section.title %}
+  {% set current_page_index = paginator.current_index | default(value=1) %}
 {% elif is_page %}
-    {% set_global display_title = page.title %}
+  {% set display_title = page.title %}
+  {% set current_page_index = 1 %}
 {% else %}
-    {% set_global display_title = "Not Found" %}
-{% endif %}
-{% if is_section %}
-    {% set_global current_page_index = paginator.current_index | default(value=1) %}
-{% else %}
-    {% set_global current_page_index = 1 %}
+  {% set display_title = "Not Found" %}
+  {% set current_page_index = 1 %}
 {% endif %}
 
 {% block title %}{{ display_title }} — {{ config.title }}{% endblock %}
