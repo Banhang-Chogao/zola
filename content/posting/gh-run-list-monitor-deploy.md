@@ -1,4 +1,4 @@
----
++++
 title = "Một câu lệnh nhỏ giúp theo dõi deploy GitHub Pages rõ ràng hơn"
 date = 2026-06-27
 slug = "gh-run-list-monitor-deploy"
@@ -33,7 +33,7 @@ a = "Có thể là cache trình duyệt. Mở DevTools → bật Disable cache (
 q = "Có thể dùng gh run list cho các workflow khác không?"
 a = "Được chứ. Thay `--workflow=deploy.yml` bằng workflow mà bạn muốn giám sát, ví dụ `--workflow=qa.yml`, `--workflow=build-related.yml`. Hoặc bỏ flag `--workflow` để xem tất cả."
 
----
++++
 
 ## Vấn đề thường ngày: "Đã lên production chưa?"
 
