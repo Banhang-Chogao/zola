@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated_at": "2026-06-26T22:00:00+07:00",
+    "updated_at": "2026-06-27T08:00:00+07:00",
     "tournament": "FIFA World Cup 2026",
     "hosts": ["Canada", "Mexico", "USA"],
     "teams_count": 48,
@@ -8,166 +8,145 @@
     "start_date": "2026-06-08",
     "end_date": "2026-07-12"
   },
+  "ticker": [
+    "Iran tạo kỳ tích bất bại tại World Cup 2026",
+    "Messi & Argentina nhận tin vui lớn",
+    "Neymar bật khóc ngày trở lại tuyển Brazil sau 981 ngày",
+    "Uzbekistan đập tan giấc mơ CHDC Congo",
+    "Mbappe lập hat-trick, vươn lên đầu BXH Vua phá lưới"
+  ],
+  "stats": [
+    { "icon": "⚽", "label": "Tổng bàn thắng", "value": 167 },
+    { "icon": "🏟️", "label": "Trận đã đấu", "value": 48 },
+    { "icon": "🟨", "label": "Thẻ vàng", "value": 214 },
+    { "icon": "🟥", "label": "Thẻ đỏ", "value": 9 },
+    { "icon": "👑", "label": "Vua phá lưới hiện tại", "text": "Mbappe — 8 bàn" }
+  ],
   "news": [
     {
-      "id": "wc-001",
-      "title": "32 đội bóng đá đã xác nhận danh sách tham dự World Cup 2026",
-      "summary": "Vòng loại giải vô địch bóng đá thế giới 2026 kết thúc. Toàn bộ đội bóng được xác nhận sẽ tham dự giải đấu lần thứ 22 của FIFA, bao gồm các đội mạnh và những đội mới xuất hiện.",
+      "id": "wc-iran",
+      "title": "Làng bóng đá hết lời tán dương kỳ tích bất bại của Iran",
+      "summary": "Đội tuyển Iran khiến cả thế giới ngỡ ngàng khi giữ vững thành tích bất bại tại vòng bảng World Cup 2026, trở thành hiện tượng được tán dương khắp các mặt báo quốc tế.",
       "category": "tin-nong",
-      "date": "2026-06-20",
+      "date": "2026-06-27",
       "source_label": "SEOMONEY Editorial",
+      "image": "iran-wc",
+      "views": "24.512",
+      "comments": "318",
       "url": null,
       "is_featured": true
     },
     {
-      "id": "wc-002",
-      "title": "Lịch thi đấu vòng bảng World Cup 2026 chính thức được công bố",
-      "summary": "FIFA công bố lịch thi đấu chi tiết cho vòng bảng với 12 bảng đấu và 4 đội mỗi bảng. Lịch sẽ bắt đầu từ 8 tháng 6 năm 2026 với các trận đấu được phân bổ hợp lý.",
-      "category": "lich-thi-dau",
-      "date": "2026-06-18",
+      "id": "wc-uzbekistan",
+      "title": "Dự đoán tỉ số World Cup: Uzbekistan đập tắt giấc mơ của CHDC Congo",
+      "summary": "Phân tích sức mạnh hai đội trước trận cầu được dự báo nhiều bất ngờ. Chuyên gia nghiêng về một chiến thắng sít sao cho Uzbekistan.",
+      "category": "nhan-dinh",
+      "date": "2026-06-27",
       "source_label": "SEOMONEY Editorial",
-      "url": null,
-      "is_featured": true
-    },
-    {
-      "id": "wc-003",
-      "title": "Đội tuyển Việt Nam: Kỳ vọng trong vòng loại thẻ vàng?",
-      "summary": "Với lần đầu tham dự vòng loại World Cup 2026, đội tuyển bóng đá nam Việt Nam sẽ đối mặt với những thử thách lớn. Phân tích kỹ năng, lịch thi đấu và những yếu tố giúp Việt Nam vượt qua vòng loại khu vực.",
-      "category": "doi-tuyen",
-      "date": "2026-06-15",
-      "source_label": "SEOMONEY Editorial",
+      "image": "uzb-congo",
+      "views": "8.204",
+      "comments": "92",
       "url": null,
       "is_featured": false
     },
     {
-      "id": "wc-004",
-      "title": "Văn hóa cổ vũ bóng đá: Khi cả thế giới chỉ nhìn vào một quả bóng",
-      "summary": "World Cup không chỉ là giải đấu bóng đá. Đó là lễ hội văn hóa toàn cầu, nơi các nước thể hiện niềm tự hào dân tộc, hát vang quốc ca và mặc trang phục truyền thống để cổ vũ cho đội nhà.",
-      "category": "ben-le",
-      "date": "2026-06-16",
+      "id": "wc-pho-sanjose",
+      "title": "Đi xem World Cup ở quán phở San Jose",
+      "summary": "Không khí cuồng nhiệt của cộng đồng người Việt theo dõi World Cup nơi xứ người, nơi bát phở nóng và tiếng hò reo hòa làm một.",
+      "category": "vui",
+      "date": "2026-06-26",
       "source_label": "SEOMONEY Editorial",
+      "image": "pho-sanjose",
+      "views": "12.580",
+      "comments": "241",
       "url": null,
       "is_featured": false
     },
     {
-      "id": "wc-005",
-      "title": "Lịch sinh hoạt cộng đồng mùa World Cup: Gọi các dân bóng đá Sài Gòn",
-      "summary": "Mùa World Cup là thời gian lý tưởng để tạo nên những buổi gặp mặt, xem bóng cùng bạn bè. Hướng dẫn tổ chức party, chọn địa điểm xem bóng đá lớn và các hoạt động lành mạnh mùa giải.",
-      "category": "goc-nhin-doi-song",
-      "date": "2026-06-17",
+      "id": "wc-neymar",
+      "title": "Neymar bật khóc khi trở lại tuyển Brazil sau 981 ngày",
+      "summary": "Khoảnh khắc xúc động khi số 10 huyền thoại tái xuất trong màu áo Selecao sau quãng thời gian dài vắng bóng vì chấn thương.",
+      "category": "tin-nong",
+      "date": "2026-06-26",
       "source_label": "SEOMONEY Editorial",
+      "image": "neymar-brazil",
+      "views": "31.117",
+      "comments": "506",
+      "url": null,
+      "is_featured": false
+    },
+    {
+      "id": "wc-ao-algeria",
+      "title": "Dự đoán tỉ số World Cup: Áo và Algeria hòa ít bàn thắng",
+      "summary": "Hai đội đều ưu tiên sự chắc chắn, một trận cầu được dự báo căng thẳng và ít cơ hội. Kèo dự đoán nghiêng về một tỉ số hòa.",
+      "category": "nhan-dinh",
+      "date": "2026-06-26",
+      "source_label": "SEOMONEY Editorial",
+      "image": "austria-algeria",
+      "views": "5.902",
+      "comments": "77",
+      "url": null,
+      "is_featured": false
+    },
+    {
+      "id": "wc-messi",
+      "title": "Messi và tuyển Argentina nhận tin vui lớn ở World Cup 2026",
+      "summary": "Đội trưởng Albiceleste lấy lại phong độ đỉnh cao đúng thời điểm quan trọng, mang đến niềm tin lớn cho người hâm mộ.",
+      "category": "tin-nong",
+      "date": "2026-06-25",
+      "source_label": "SEOMONEY Editorial",
+      "image": "messi-argentina",
+      "views": "45.330",
+      "comments": "812",
       "url": null,
       "is_featured": false
     }
   ],
   "matches": [
-    {
-      "id": "m-001",
-      "stage": "Group A",
-      "home": "Canada",
-      "away": "Morocco",
-      "date": "2026-06-08",
-      "time_vn": "08:00",
-      "venue": "Toronto",
-      "status": "upcoming",
-      "score": null
-    },
-    {
-      "id": "m-002",
-      "stage": "Group A",
-      "home": "USA",
-      "away": "Mexico",
-      "date": "2026-06-09",
-      "time_vn": "07:00",
-      "venue": "Arlington, Texas",
-      "status": "upcoming",
-      "score": null
-    },
-    {
-      "id": "m-003",
-      "stage": "Group B",
-      "home": "England",
-      "away": "Iran",
-      "date": "2026-06-09",
-      "time_vn": "10:00",
-      "venue": "Boston",
-      "status": "upcoming",
-      "score": null
-    },
-    {
-      "id": "m-004",
-      "stage": "Quarter Finals",
-      "home": "TBD",
-      "away": "TBD",
-      "date": "2026-07-02",
-      "time_vn": "07:00",
-      "venue": "TBD",
-      "status": "upcoming",
-      "score": null
-    }
+    { "id": "m-iran-por", "stage": "Bảng G", "home": "Iran", "home_flag": "🇮🇷", "away": "Bồ Đào Nha", "away_flag": "🇵🇹", "date": "2026-06-26", "time_vn": "23:00", "venue": "Dallas", "status": "done", "score": "1 - 1" },
+    { "id": "m-arg-mex", "stage": "Bảng H", "home": "Argentina", "home_flag": "🇦🇷", "away": "Mexico", "away_flag": "🇲🇽", "date": "2026-06-27", "time_vn": "02:00", "venue": "Los Angeles", "status": "live", "score": "2 - 0" },
+    { "id": "m-bra-cro", "stage": "Bảng G", "home": "Brazil", "home_flag": "🇧🇷", "away": "Croatia", "away_flag": "🇭🇷", "date": "2026-06-26", "time_vn": "08:00", "venue": "Miami", "status": "done", "score": "3 - 1" },
+    { "id": "m-uzb-cod", "stage": "Bảng F", "home": "Uzbekistan", "home_flag": "🇺🇿", "away": "CHDC Congo", "away_flag": "🇨🇩", "date": "2026-06-27", "time_vn": "20:00", "venue": "Houston", "status": "upcoming", "score": null },
+    { "id": "m-aut-alg", "stage": "Bảng E", "home": "Áo", "home_flag": "🇦🇹", "away": "Algeria", "away_flag": "🇩🇿", "date": "2026-06-26", "time_vn": "05:00", "venue": "Toronto", "status": "done", "score": "1 - 1" },
+    { "id": "m-fra-ned", "stage": "Bảng H", "home": "Pháp", "home_flag": "🇫🇷", "away": "Hà Lan", "away_flag": "🇳🇱", "date": "2026-06-28", "time_vn": "02:00", "venue": "New York", "status": "upcoming", "score": null }
+  ],
+  "standings": {
+    "H": [
+      { "team": "Argentina", "flag": "🇦🇷", "p": 3, "w": 3, "d": 0, "l": 0, "gd": "+6", "pts": 9 },
+      { "team": "Pháp", "flag": "🇫🇷", "p": 3, "w": 2, "d": 0, "l": 1, "gd": "+3", "pts": 6 },
+      { "team": "Mexico", "flag": "🇲🇽", "p": 3, "w": 1, "d": 0, "l": 2, "gd": "-2", "pts": 3 },
+      { "team": "CHDC Congo", "flag": "🇨🇩", "p": 3, "w": 0, "d": 0, "l": 3, "gd": "-7", "pts": 0 }
+    ],
+    "G": [
+      { "team": "Brazil", "flag": "🇧🇷", "p": 3, "w": 2, "d": 1, "l": 0, "gd": "+5", "pts": 7 },
+      { "team": "Bồ Đào Nha", "flag": "🇵🇹", "p": 3, "w": 2, "d": 0, "l": 1, "gd": "+2", "pts": 6 },
+      { "team": "Iran", "flag": "🇮🇷", "p": 3, "w": 1, "d": 2, "l": 0, "gd": "+1", "pts": 5 },
+      { "team": "Croatia", "flag": "🇭🇷", "p": 3, "w": 0, "d": 1, "l": 2, "gd": "-8", "pts": 1 }
+    ]
+  },
+  "scorers": [
+    { "name": "Kylian Mbappe", "country": "🇫🇷 Pháp", "goals": 8, "emoji": "⚡" },
+    { "name": "Lionel Messi", "country": "🇦🇷 Argentina", "goals": 7, "emoji": "🐐" },
+    { "name": "Vinicius Jr", "country": "🇧🇷 Brazil", "goals": 6, "emoji": "🌟" },
+    { "name": "Harry Kane", "country": "🏴 Anh", "goals": 5, "emoji": "🎯" },
+    { "name": "Erling Haaland", "country": "🇳🇴 Na Uy", "goals": 5, "emoji": "🤖" },
+    { "name": "Lautaro Martinez", "country": "🇦🇷 Argentina", "goals": 4, "emoji": "🔥" }
+  ],
+  "videos": [
+    { "title": "Top 10 bàn thắng đẹp nhất vòng bảng 🔥", "seed": "wcvideo1", "yt": "dQw4w9WgXcQ" },
+    { "title": "Neymar bật khóc ngày trở lại 😭", "seed": "wcvideo2", "yt": "dQw4w9WgXcQ" }
   ],
   "teams": [
-    {
-      "id": "t-001",
-      "name": "Việt Nam",
-      "group": "TBD",
-      "flag": "🇻🇳",
-      "note": "Lần đầu tham dự World Cup"
-    },
-    {
-      "id": "t-002",
-      "name": "Brazil",
-      "group": "TBD",
-      "flag": "🇧🇷",
-      "note": "5 lần vô địch"
-    },
-    {
-      "id": "t-003",
-      "name": "France",
-      "group": "TBD",
-      "flag": "🇫🇷",
-      "note": "Đương kim vô địch"
-    },
-    {
-      "id": "t-004",
-      "name": "Argentina",
-      "group": "TBD",
-      "flag": "🇦🇷",
-      "note": "Vô địch 2022"
-    },
-    {
-      "id": "t-005",
-      "name": "Germany",
-      "group": "TBD",
-      "flag": "🇩🇪",
-      "note": "4 lần vô địch"
-    },
-    {
-      "id": "t-006",
-      "name": "Spain",
-      "group": "TBD",
-      "flag": "🇪🇸",
-      "note": "Vô địch 2010"
-    }
+    { "name": "Việt Nam", "flag": "🇻🇳", "note": "Lần đầu tham dự World Cup" },
+    { "name": "Brazil", "flag": "🇧🇷", "note": "5 lần vô địch" },
+    { "name": "France", "flag": "🇫🇷", "note": "Đương kim vô địch" },
+    { "name": "Argentina", "flag": "🇦🇷", "note": "Vô địch 2022" },
+    { "name": "Germany", "flag": "🇩🇪", "note": "4 lần vô địch" },
+    { "name": "Spain", "flag": "🇪🇸", "note": "Vô địch 2010" }
   ],
   "editorials": [
-    {
-      "id": "ed-001",
-      "title": "Xem bóng đá lành mạnh: Hướng dẫn cho gia đình",
-      "slug": "xem-bong-da-lanh-manh",
-      "excerpt": "World Cup là cơ hội tốt để gia đình gắn kết thêm. Nhưng làm sao để xem bóng đá mà vẫn giữ được không khí lành mạnh, tránh tranh cãi không cần thiết?"
-    },
-    {
-      "id": "ed-002",
-      "title": "Kinh tế học World Cup: Tại sao giải đấu này lại quan trọng?",
-      "slug": "kinh-te-hoc-world-cup",
-      "excerpt": "World Cup không chỉ ảnh hưởng đến các cầu thủ, ban huấn luyện mà còn tác động tới kinh tế của các đất nước chủ nhà."
-    },
-    {
-      "id": "ed-003",
-      "title": "Kỷ niệm World Cup trong lịch sử bóng đá Việt Nam",
-      "slug": "ky-niem-world-cup-viet-nam",
-      "excerpt": "Mặc dù Việt Nam chưa bao giờ tham dự World Cup trước đây, nhưng bóng đá Việt Nam có những câu chuyện lịch sử đáng nhớ."
-    }
+    { "title": "Xem bóng đá lành mạnh: Hướng dẫn cho gia đình", "excerpt": "Bí quyết tổ chức buổi xem bóng vui vẻ, an toàn và gắn kết cho cả nhà mùa World Cup.", "slug": "xem-bong-da-lanh-manh" },
+    { "title": "Kinh tế học World Cup: Tại sao giải đấu này lại quan trọng?", "excerpt": "Góc nhìn về dòng tiền, du lịch và thương hiệu quốc gia phía sau ngày hội bóng đá.", "slug": "kinh-te-hoc-world-cup" },
+    { "title": "Kỷ niệm World Cup trong lịch sử bóng đá Việt Nam", "excerpt": "Những ký ức khó quên của người hâm mộ Việt qua các kỳ World Cup.", "slug": "ky-niem-world-cup-viet-nam" }
   ]
 }
