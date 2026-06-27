@@ -1,45 +1,46 @@
 +++
-title = "Demo: Left Sidebar Layout"
-description = "Documentation for the new 30/70 responsive left-sidebar blog layout with fixed ad spots"
+title = "Demo Layout Blog"
+description = "Trực quan giao diện left-sidebar blog layout 30/70 với 3 ad spots cố định, tối ưu cho AdSense."
 date = 2026-06-27
 path = "demo-left-sidebar-layout"
 template = "posting-left-sidebar.html"
 
 [taxonomies]
 categories = ["Tất cả"]
-tags = ["layout", "demo", "design"]
+tags = ["demo", "layout", "guideline"]
 +++
 
-This page demonstrates the new **30/70 responsive layout** with:
+Demo layout này hiển thị thiết kế **30/70 responsive layout** dành cho blog monetization với AdSense.
 
-- **Left Sidebar (30%):** Sticky post widget, categories, date widget, ad spot
-- **Main Content (70%):** Sticky post, featured post, normal posts, pagination
-- **Ad Spots:** 3 fixed-height placeholders (728×90, 300×250, 728×90)
-- **Responsive:** 2-column desktop → 1-column mobile
+## Tính năng chính
 
-## Design Features
+✅ **Sidebar trái (30%)** — Sticky post widget, categories, date widget, ad spot 300×250  
+✅ **Nội dung chính (70%)** — Sticky post, featured post, bài viết thường, pagination  
+✅ **3 Ad spots** — 728×90 (header), 300×250 (sidebar), 728×90 (in-article) — cố định min-height, chống CLS  
+✅ **Responsive an toàn** — Desktop: 30/70 grid → Mobile: 1 cột, sidebar xuống dưới  
+✅ **Zero breaking changes** — Coexist với blog layout hiện tại, không affect trang khác
 
-✅ **Anti-Layout-Shift Protection** — Fixed min-height and aspect-ratio on all ad placeholders  
-✅ **Mobile-First Responsive** — Flexbox with order property for sidebar reflow at 768px  
-✅ **Semantic HTML5** — Proper accessibility attributes and structure  
-✅ **Zero Breaking Changes** — Can coexist with existing blog layout  
+## Kiến trúc template
 
-## Implementation
+Template sử dụng **context detection** trong Tera để hoạt động an toàn với cả section context (trang này) và page context:
 
-The template extends `base.html` and integrates with:
-- Existing Zola macros (img, pagination, series-nav)
-- Current blog taxonomies and categories
-- Real post data from the posting section
-- All existing styling and configuration
+- **Section context** (trang demo): Hiển thị sidebar + main feed + pagination
+- **Page context** (single page): Hiển thị single page content
 
-## Next Steps
+Điều này đảm bảo template linh hoạt, tái sử dụng, không gây lỗi build.
 
-This layout can be:
-1. **Applied per-section** — Add `template = "posting-left-sidebar.html"` to specific sections
-2. **Made site-wide** — Update `config.toml` default template
-3. **Added as theme option** — Create a theme selector for users to choose layouts
-4. **Further customized** — Adjust sidebar width, ad spots, widgets per needs
+## Test responsive trên thiết bị
+
+- **Desktop (1024px+):** Sidebar trái, main content phải, 3 ad spots hiển thị đúng
+- **Tablet (768px):** Grid collapse 1 cột, sidebar chuyển xuống dưới
+- **Mobile (360–480px):** Single column, ad spots scale tương ứng, không horizontal scroll
+
+## Tìm hiểu thêm
+
+- Hướng dẫn chi tiết: [Zola responsive layout context detection Tera template](/posting/zola-responsive-layout-context-detection/)
+- Kiến trúc template: [templates/posting-left-sidebar.html](https://github.com/Banhang-Chogao/zola/blob/main/templates/posting-left-sidebar.html)
+- Audit compatibility: [LAYOUT_COMPATIBILITY_REPORT.md](https://github.com/Banhang-Chogao/zola/blob/main/docs/LAYOUT_COMPATIBILITY_REPORT.md)
 
 ---
 
-*Scroll down to see the layout in action with real blog posts and navigation.*
+*Demo này minh hoạ layout 30/70 left-sidebar được tối ưu cho AdSense với các ad spots cố định, chống layout shift.*
