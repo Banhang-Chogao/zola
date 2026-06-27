@@ -118,7 +118,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Append entry to changelog.json
+      - name: Push entry to VIPZone backend API
         if: steps.meta.outputs.skip != 'true'
         id: changelog
         env:
@@ -131,15 +131,12 @@ jobs:
           PR_DELETIONS: ${{ steps.meta.outputs.deletions }}
           PR_MERGED_AT: ${{ steps.meta.outputs.merged_at }}
           PR_LABELS: ${{ steps.meta.outputs.labels }}
-        run: python3 .github/scripts/update_changelog.py
+          VIPZONE_BACKEND_URL: ${{ secrets.VIPZONE_BACKEND_URL || 'https://blog-vipzone-api.onrender.com' }}
+          VIPZONE_ADMIN_TOKEN: ${{ secrets.VIPZONE_ADMIN_TOKEN }}
+        run: python3 .github/scripts/push_changelog_entry.py
 
-      - name: Push changelog to main
-        if: steps.meta.outputs.skip != 'true' && steps.changelog.outputs.changed == 'true'
-        env:
-          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COMMIT_MESSAGE: ${{ steps.changelog.outputs.commit_message }}
-          SKIP_CHANGELOG_TAG: "false"
+      - name: Handle backend push failure
+        if: failure() && steps.changelog.outcome == 'failure'
         run: |
-          chmod +x .github/scripts/push_to_main.sh
-          .github/scripts/push_to_main.sh "$COMMIT_MESSAGE" changelog.json
+          echo "⚠️  Failed to push changelog entry to backend. Will retry on next merge."
+          exit 0

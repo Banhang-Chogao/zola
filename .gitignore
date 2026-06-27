@@ -30,6 +30,10 @@ data/.paywall-content-backup.json
 # VIPZone backend local/test SQLite (default path khi không set VIPZONE_DB_PATH)
 data/vipzone.db
 
+# Changelog data — moved to VIPZone backend API (admin-gated)
+# Never commit changelog.json locally; all entries pushed to backend
+changelog.json
+
 # ff.py AI-Agent — logs + teach feedback (local only)
 .ff/
 
