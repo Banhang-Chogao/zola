@@ -14,32 +14,32 @@ thumbnail = "/img/placeholder.svg"
 toc = true
 
 [[extra.faq]]
-question = "GitHub Actions secrets là gì và tại sao cần dùng?"
-answer = "GitHub Actions secrets là cách an toàn để lưu trữ sensitive data (API keys, passwords, tokens) mà không expose trong code hoặc logs. Secrets được encrypted tại rest và chỉ được decrypt khi workflow chạy. Bạn không bao giờ nên hardcode secrets vào code hay commit vào repository."
+q = "GitHub Actions secrets là gì và tại sao cần dùng?"
+a = "GitHub Actions secrets là cách an toàn để lưu trữ sensitive data (API keys, passwords, tokens) mà không expose trong code hoặc logs. Secrets được encrypted tại rest và chỉ được decrypt khi workflow chạy. Bạn không bao giờ nên hardcode secrets vào code hay commit vào repository."
 
 [[extra.faq]]
-question = "Làm sao để tạo GitHub Actions secret?"
-answer = "Truy cập Repository Settings → Secrets and variables → Actions → Click 'New repository secret'. Nhập Secret name (ví dụ: API_KEY) và value. Secret sẽ tự động masked trong logs. Có thể tạo repository-level secrets (tất cả workflows) hoặc environment-level secrets (specific environment)."
+q = "Làm sao để tạo GitHub Actions secret?"
+a = "Truy cập Repository Settings → Secrets and variables → Actions → Click 'New repository secret'. Nhập Secret name (ví dụ: API_KEY) và value. Secret sẽ tự động masked trong logs. Có thể tạo repository-level secrets (tất cả workflows) hoặc environment-level secrets (specific environment)."
 
 [[extra.faq]]
-question = "Cách sử dụng secret trong workflow file?"
-answer = "Trong .github/workflows/*.yml file, sử dụng syntax `${{ secrets.SECRET_NAME }}`. Ví dụ: `env: API_KEY: ${{ secrets.API_KEY }}`. Secret sẽ tự động được substitute khi workflow chạy. Luôn sử dụng env variables để pass secrets, không bao giờ pass vào command line arguments."
+q = "Cách sử dụng secret trong workflow file?"
+a = "Trong .github/workflows/*.yml file, sử dụng syntax `${{ secrets.SECRET_NAME }}`. Ví dụ: `env: API_KEY: ${{ secrets.API_KEY }}`. Secret sẽ tự động được substitute khi workflow chạy. Luôn sử dụng env variables để pass secrets, không bao giờ pass vào command line arguments."
 
 [[extra.faq]]
-question = "Làm sao để verify secret được setup đúng?"
-answer = "Thêm step debug vào workflow (nhưng KHÔNG echo secret value). Ví dụ: `- run: echo 'Secret is set: ${{ secrets.API_KEY != '' }}'`. Hoặc check workflow run logs xem có `***` mask pattern không. Nếu secret không được mask, có thể chưa được tạo hoặc workflow chưa referencing nó đúng."
+q = "Làm sao để verify secret được setup đúng?"
+a = "Thêm step debug vào workflow (nhưng KHÔNG echo secret value). Ví dụ: `- run: echo 'Secret is set: ${{ secrets.API_KEY != '' }}'`. Hoặc check workflow run logs xem có `***` mask pattern không. Nếu secret không được mask, có thể chưa được tạo hoặc workflow chưa referencing nó đúng."
 
 [[extra.faq]]
-question = "Có thể share secrets giữa multiple workflows không?"
-answer = "Có, repository-level secrets tự động accessible từ tất cả workflows. Environment-level secrets chỉ accessible từ deployments vào environment đó. Để tránh lặp lại, tạo shared repository secrets cho data dùng chung, và environment secrets cho environment-specific data."
+q = "Có thể share secrets giữa multiple workflows không?"
+a = "Có, repository-level secrets tự động accessible từ tất cả workflows. Environment-level secrets chỉ accessible từ deployments vào environment đó. Để tránh lặp lại, tạo shared repository secrets cho data dùng chung, và environment secrets cho environment-specific data."
 
 [[extra.faq]]
-question = "Nên lưu secrets nào trong GitHub Actions?"
-answer = "Nên: API keys, OAuth tokens, database passwords, deployment credentials. KHÔNG nên: Business logic, non-sensitive config (dùng variables thay thế), large files. Nếu secret có size > 48KB hoặc cần thường xuyên đổi, cân nhắc lưu ở secret manager service khác."
+q = "Nên lưu secrets nào trong GitHub Actions?"
+a = "Nên: API keys, OAuth tokens, database passwords, deployment credentials. KHÔNG nên: Business logic, non-sensitive config (dùng variables thay thế), large files. Nếu secret có size > 48KB hoặc cần thường xuyên đổi, cân nhắc lưu ở secret manager service khác."
 
 [[extra.faq]]
-question = "Làm sao để rotate (thay đổi) secrets an toàn?"
-answer = "1) Tạo secret mới trên GitHub với giá trị mới. 2) Update workflows để dùng secret mới (hoặc keep cả 2 trong transition period). 3) Xoá secret cũ khỏi GitHub. 4) Update external systems (API providers, databases, etc) để revoke old credential. Luôn test workflow sau khi change secret."
+q = "Làm sao để rotate (thay đổi) secrets an toàn?"
+a = "1) Tạo secret mới trên GitHub với giá trị mới. 2) Update workflows để dùng secret mới (hoặc keep cả 2 trong transition period). 3) Xoá secret cũ khỏi GitHub. 4) Update external systems (API providers, databases, etc) để revoke old credential. Luôn test workflow sau khi change secret."
 +++
 
 ## Giới thiệu: Tại sao GitHub Actions Secrets quan trọng?
