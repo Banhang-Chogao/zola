@@ -62,13 +62,25 @@
                 <span class="post-meta__date">
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                     <span class="post-meta__date-times">
-                        {% set pub_time = page.date | date(format="%H:%M", timezone="Asia/Ho_Chi_Minh") %}
+                        {# Thời gian đăng = thời gian THỰC TẾ. Chỉ hiện giờ khi frontmatter
+                           `date` có thành phần giờ (ISO8601 có "T", vd 2026-06-27T14:30:00+07:00).
+                           Bài cũ chỉ có ngày (date-only) → KHÔNG hiện "00:00" giả, chỉ hiện ngày. #}
                         {% set pub_date = page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") %}
-                        <span class="post-meta__published">Đăng: {{ pub_time }}, {{ pub_date }}</span>
+                        {% if page.date and page.date is containing("T") %}
+                            {% set pub_time = page.date | date(format="%H:%M", timezone="Asia/Ho_Chi_Minh") %}
+                            <span class="post-meta__published">Đăng: {{ pub_time }}, {{ pub_date }}</span>
+                        {% else %}
+                            <span class="post-meta__published">Đăng: {{ pub_date }}</span>
+                        {% endif %}
                         {% if page.updated or page.extra.updated_at %}
-                            {% set upd_time = page.updated | default(value=page.extra.updated_at) | date(format="%H:%M", timezone="Asia/Ho_Chi_Minh") %}
-                            {% set upd_date = page.updated | default(value=page.extra.updated_at) | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") %}
-                            <span class="post-meta__updated">Cập nhật: {{ upd_time }}, {{ upd_date }}</span>
+                            {% set upd_raw = page.updated | default(value=page.extra.updated_at) %}
+                            {% set upd_date = upd_raw | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") %}
+                            {% if upd_raw is containing("T") %}
+                                {% set upd_time = upd_raw | date(format="%H:%M", timezone="Asia/Ho_Chi_Minh") %}
+                                <span class="post-meta__updated">Cập nhật: {{ upd_time }}, {{ upd_date }}</span>
+                            {% else %}
+                                <span class="post-meta__updated">Cập nhật: {{ upd_date }}</span>
+                            {% endif %}
                         {% endif %}
                     </span>
                 </span>
