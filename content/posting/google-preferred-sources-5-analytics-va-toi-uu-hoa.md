@@ -1,7 +1,7 @@
 +++
 title = "Analytics & Tối ưu hóa Preferred Sources"
 description = "Cách theo dõi, measure impact, và tối ưu hóa Preferred Sources bằng GA4, GSC, và tracking."
-date = 2026-06-26
+date = 2026-06-25
 aliases = ["/google-preferred-sources-5-analytics-va-toi-uu-hoa/"]
 [taxonomies]
 categories = ["Tất cả", "SEO"]
