@@ -160,6 +160,14 @@ jobs:
               fi
             fi
 
+            # Pages site đã tồn tại (409 already exists) → idempotent, coi như thành
+            # công (build_type=workflow đã set sẵn) thay vì báo lỗi giả mỗi deploy.
+            if echo "$RESPONSE" | grep -qi "already exists\|name already\|HTTP 409"; then
+              echo "✅ GitHub Pages already configured (idempotent) — nothing to change"
+              SUCCESS=1
+              break
+            fi
+
             # Non-rate-limit error (auth, bad request, etc.) → fail immediately
             echo "❌ FAILED: Non-recoverable error"
             echo "   Error: $RESPONSE"
@@ -187,8 +195,44 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      # Lấy URL từ lần deploy nào thành công (||  trả operand truthy đầu tiên).
+      url: ${{ steps.deploy_attempt_1.outputs.page_url || steps.deploy_attempt_2.outputs.page_url || steps.deploy_attempt_3.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      # V5 (mở rộng) — "API rate limit exceeded for installation" KHÔNG chỉ xảy ra ở
+      # configure-pages (build job) mà còn ở chính bước tạo Pages deployment của
+      # actions/deploy-pages (createPagesDeployment → 403). Action chính thức KHÔNG
+      # tự retry call này → "bão deploy" (nhiều PR/bot push dồn dập làm cạn quota API
+      # theo giờ của installation) khiến deploy job đỏ dù build PASS.
+      #
+      # FIX: tự retry với exponential backoff (0 → 60s → 120s), CHỈ dùng action chính
+      # thức (không thêm dependency bên thứ ba). Mỗi attempt xin OIDC token mới nên
+      # an toàn lặp lại; chỉ tạo deployment khi quota đã hồi. Hai attempt đầu
+      # continue-on-error (nuốt lỗi để còn retry); attempt cuối KHÔNG nuốt lỗi → lỗi
+      # thật vẫn nổi lên, không che giấu deploy hỏng vĩnh viễn.
+      - name: Deploy to GitHub Pages (attempt 1)
+        id: deploy_attempt_1
+        continue-on-error: true
+        uses: actions/deploy-pages@v5
+
+      - name: Backoff before attempt 2 (Pages API rate limit)
+        if: steps.deploy_attempt_1.outcome == 'failure'
+        run: |
+          echo "⚠️  Deploy attempt 1 failed (thường do Pages API rate limit). Chờ 60s rồi thử lại…"
+          sleep 60
+
+      - name: Deploy to GitHub Pages (attempt 2)
+        id: deploy_attempt_2
+        if: steps.deploy_attempt_1.outcome == 'failure'
+        continue-on-error: true
+        uses: actions/deploy-pages@v5
+
+      - name: Backoff before attempt 3 (Pages API rate limit)
+        if: steps.deploy_attempt_1.outcome == 'failure' && steps.deploy_attempt_2.outcome == 'failure'
+        run: |
+          echo "⚠️  Deploy attempt 2 failed. Chờ 120s rồi thử lần cuối…"
+          sleep 120
+
+      - name: Deploy to GitHub Pages (attempt 3, final)
+        id: deploy_attempt_3
+        if: steps.deploy_attempt_1.outcome == 'failure' && steps.deploy_attempt_2.outcome == 'failure'
         uses: actions/deploy-pages@v5
