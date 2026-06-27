@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-27T02:36:41Z",
+  "updated_at": "2026-06-27T02:41:31Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 7,
+    "today": 8,
     "this_week": 190,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "feature": 43,
       "unknown": 46,
+      "feature": 43,
       "fix": 100,
       "chore": 3,
       "content": 5,
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 1040,
+      "pr_title": "Claude/changelog access control ravbul",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1040",
+      "merged_at": "2026-06-27T02:32:40Z",
+      "merge_commit_sha": "4bfbeb2ca37a3a96f72034f4b76839d71576ee58",
+      "merge_commit_short": "4bfbeb2",
+      "head_branch": "claude/changelog-access-control-ravbul",
+      "summary_vi": "Claude/changelog access control ravbul",
+      "change_type": "unknown",
+      "files_changed": 5,
+      "additions": 303,
+      "deletions": 4776,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1241,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28275997861",
+      "build_conclusion": "cancelled"
+    },
     {
       "pr_number": 1039,
       "pr_title": "feat: implement left-sidebar blog layout with AdSense-compatible ad spots",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1240,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28275883854",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 992,
@@ -414,9 +433,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1212,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28267882601",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1220,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28269061276",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 1021,
@@ -471,9 +490,9 @@
       "deletions": 86,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1211,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28258476254",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 1016,
@@ -490,9 +509,9 @@
       "deletions": 1344,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1211,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28258476254",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 1017,
@@ -509,9 +528,9 @@
       "deletions": 12,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1211,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28258476254",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 1015,
@@ -1001,25 +1020,6 @@
       "files_changed": 1,
       "additions": 129,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 985,
-      "pr_title": "Remove unused wd-heartbeat.html partial file [claude/pipeline-heartbeat-placeholder-718rnt]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/985",
-      "merged_at": "2026-06-26T08:24:49Z",
-      "merge_commit_sha": "58e5a24c907dc7a71c9d7bb153966df86cdaf291",
-      "merge_commit_short": "58e5a24",
-      "head_branch": "claude/pipeline-heartbeat-placeholder-718rnt",
-      "summary_vi": "- Remove PIPELINE HEARTBEAT placeholder section from blog footer",
-      "change_type": "unknown",
-      "files_changed": 2,
-      "additions": 0,
-      "deletions": 94,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
