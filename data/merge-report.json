@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-27T05:42:30Z",
+  "updated_at": "2026-06-27T05:48:26Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
@@ -10,8 +10,8 @@
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 95,
-      "feature": 43,
+      "feature": 44,
+      "fix": 94,
       "unknown": 51,
       "ci": 5,
       "chore": 1,
@@ -19,6 +19,44 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 1064,
+      "pr_title": "feat: bài Công nghệ — giải quyết merge conflict tự động (CI/CD) + vaccine V18",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1064",
+      "merged_at": "2026-06-27T05:34:56Z",
+      "merge_commit_sha": "3376700f0c4420b5f4b1969238ab0485f1b43b96",
+      "merge_commit_short": "3376700",
+      "head_branch": "claude/codeql-vietnamese-blog-evmh70",
+      "summary_vi": "Bài viết Công nghệ (tiếng Việt) đúc kết case study **giải quyết merge conflict tự động** từ phiên xử lý 4 PR vừa rồi, kèm vaccine V18 ghi lại pattern này vào CLAUDE.md.",
+      "change_type": "feature",
+      "files_changed": 5,
+      "additions": 376,
+      "deletions": 15,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1270,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28280045560",
+      "build_conclusion": "in_progress"
+    },
+    {
+      "pr_number": 1066,
+      "pr_title": "fix: gỡ prefix /zola sai trong internal link + sửa FAQ schema chặn deploy production",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1066",
+      "merged_at": "2026-06-27T05:34:35Z",
+      "merge_commit_sha": "525139b60609652b66f5553d0af15bb8dbf3102e",
+      "merge_commit_short": "525139b",
+      "head_branch": "claude/gg-qjbxum",
+      "summary_vi": "2 PR đang mở (#1064, #1065) đều **đỏ qa-check** vì 2 lỗi nằm sẵn trên `main` — không PR nào auto-merge được, và production deploy đang fail. PR này gỡ cả hai.",
+      "change_type": "fix",
+      "files_changed": 139,
+      "additions": 714,
+      "deletions": 714,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1269,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28280038201",
+      "build_conclusion": "cancelled"
+    },
     {
       "pr_number": 1065,
       "pr_title": "fix: sửa schema FAQ q/a — gỡ lỗi build đang chặn toàn bộ deploy production",
@@ -36,7 +74,7 @@
       "auto_merged": false,
       "build_run_number": 1268,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28280033901",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 1054,
@@ -552,25 +590,6 @@
       "build_conclusion": "failure"
     },
     {
-      "pr_number": 1038,
-      "pr_title": "fix: update google-preferred-sources series post dates for series navigation",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1038",
-      "merged_at": "2026-06-27T02:18:17Z",
-      "merge_commit_sha": "ddfadb2eb1819e2415a1c762cba35c81bd03e60d",
-      "merge_commit_short": "ddfadb2",
-      "head_branch": "claude/momo-url-admin-page-mhvtgx",
-      "summary_vi": "Fix series navigation links for google-preferred-sources series by setting sequential publication dates.",
-      "change_type": "fix",
-      "files_changed": 4,
-      "additions": 4,
-      "deletions": 4,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": 1244,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28276264044",
-      "build_conclusion": "failure"
-    },
-    {
       "pr_number": 1037,
       "pr_title": "Claude/blog layout adsense replace gl5gln",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1037",
@@ -588,25 +607,6 @@
       "build_run_number": 1243,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28276162376",
       "build_conclusion": "failure"
-    },
-    {
-      "pr_number": 1036,
-      "pr_title": "fix: enable tools section pages (momo-url 404 fix)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1036",
-      "merged_at": "2026-06-27T02:01:10Z",
-      "merge_commit_sha": "8c6fe79c3a47a78e847b520834596c18dca8a0d5",
-      "merge_commit_short": "8c6fe79",
-      "head_branch": "claude/menu-access-issue-sjdvet",
-      "summary_vi": "Fixed 404 errors on `/tools/momo-url/` and other admin pages by adding the missing `content/tools/_index.md` file.",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 10,
-      "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
     },
     {
       "pr_number": 1036,
