@@ -429,7 +429,7 @@
 
     <a href="#main-content" class="skip-link">Bỏ qua đến nội dung chính</a>
 
-    {# Header: logo left + ad banner right #}
+    {# Header: logo + blog version #}
     <header class="site-header">
         <div class="container site-header__inner">
             {# Version scheme: '<zola_version>·<commit_id>'.
@@ -468,113 +468,7 @@
                     <strong class="version-id">#{{ numeric_id }}</strong>
                 </span>
             </a>
-
-            {# Latest deployments card — Ở LEFT, ngay dưới title block (theo
-               user feedback). GitHub box bên phải sẽ giãn đủ full width còn lại. #}
-            <div class="header-deploy-card is-success" data-deploy-status data-deploy-card>
-                <p class="header-deploy-card__label">Latest deployments from pinned environments</p>
-                <a class="header-deploy-card__panel"
-                   href="https://github.com/Banhang-Chogao/zola/deployments/github-pages"
-                   target="_blank" rel="noopener">
-                    <div class="header-deploy-card__head">
-                        <span class="header-deploy-card__icon" data-deploy-icon aria-hidden="true">✓</span>
-                        <span class="header-deploy-card__title">github-pages</span>
-                        <span class="header-deploy-card__ext" aria-hidden="true">
-                            <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor">
-                                <path d="M3.75 2A1.75 1.75 0 0 0 2 3.75v8.5A1.75 1.75 0 0 0 3.75 14h8.5A1.75 1.75 0 0 0 14 12.25v-3a.75.75 0 0 0-1.5 0v3a.25.25 0 0 1-.25.25h-8.5a.25.25 0 0 1-.25-.25v-8.5a.25.25 0 0 1 .25-.25h3a.75.75 0 0 0 0-1.5h-3Zm8 1H10A.75.75 0 0 1 10 1.5h3.25c.41 0 .75.34.75.75V5.5a.75.75 0 0 1-1.5 0V4.06L8.78 7.78a.75.75 0 0 1-1.06-1.06L11.44 3Z"/>
-                            </svg>
-                        </span>
-                    </div>
-                    <div class="header-deploy-card__body">
-                        <span class="header-deploy-card__row">
-                            Last <span data-deploy-verb>deployed</span>
-                            <span data-deploy-time>—</span>
-                        </span>
-                        <span class="header-deploy-card__url">{{ config.base_url | safe }}/</span>
-                    </div>
-                </a>
-            </div>
             </div> {# /.site-header__left #}
-
-            <div class="header-side">
-            {#
-                Khu vực bên cạnh logo — rotation Ad ⇄ GitHub đang BẬT (luân phiên mỗi 3s).
-                Để tắt lại banner quảng cáo: comment block "Slide A" bên dưới, đổi
-                data-rotate="false" và trả is-active về "Slide B" (GitHub). Banner quảng
-                cáo dưới tiêu đề bài viết KHÔNG bị ảnh hưởng.
-            #}
-            <div class="header-rotator" data-rotate="true" data-interval="3000">
-                {# Slide A: Ad banner — slide đầu (is-active) khi load, rồi rotate sang GitHub #}
-                <a class="header-ad header-rotator__slide is-active" href="{{ config.base_url }}" title="Khu vực quảng cáo — Trang chủ">
-                    <div class="header-ad__icon">
-                        <img src="{{ get_url(path='img/placeholder/placeholder-wide.svg') }}" alt="Banner quảng cáo — về trang chủ" onerror="this.style.display='none'; this.parentNode.classList.add('header-ad__icon--placeholder')" loading="lazy" decoding="async">
-                        <span class="header-ad__emoji" aria-hidden="true">🐻</span>
-                    </div>
-                    <div class="header-ad__text">
-                        <span class="header-ad__label">QUẢNG CÁO</span>
-                        <strong class="header-ad__title">Đặt banner của bạn tại đây</strong>
-                        <span class="header-ad__desc">Khu vực 728×90 sẵn sàng cho banner ngang — Liên hệ admin để hợp tác.</span>
-                    </div>
-                    <span class="header-ad__arrow" aria-hidden="true">→</span>
-                </a>
-
-                {# Slide B: GitHub commit status — render từ load_data (build-time) #}
-                <a class="header-github header-rotator__slide" href="https://github.com/Banhang-Chogao/zola{% if latest_commit %}/commit/{{ latest_commit.sha }}{% endif %}" target="_blank" rel="noopener" title="Xem commit trên GitHub">
-                    <div class="header-github__tags">
-                        {% if latest_commit %}
-                            <span class="tag tag--active">HOẠT ĐỘNG</span>
-                        {% else %}
-                            <span class="tag tag--code">OFFLINE BUILD</span>
-                        {% endif %}
-                        <span class="tag tag--code">SOURCE CODE</span>
-                    </div>
-                    <div class="header-github__row">
-                        <div class="header-github__main">
-                            <span class="header-github__brand-title">GitHub</span>
-                            <p class="header-github__commit">
-                                {% if latest_commit %}
-                                    <strong>{{ latest_commit.commit.message | split(pat="\n") | first | truncate(length=80) }}</strong>
-                                    <span class="header-github__meta">
-                                        <code>{{ latest_commit.sha | truncate(length=7, end="") }}</code>
-                                        <span class="dot">·</span>
-                                        <span>Commit đã được bake vào build này.</span>
-                                    </span>
-                                {% else %}
-                                    <strong>Local build — chưa có commit data</strong>
-                                    <span class="header-github__meta">
-                                        <code>local</code>
-                                        <span class="dot">·</span>
-                                        <span>CI build sẽ fetch commit mới nhất.</span>
-                                    </span>
-                                {% endif %}
-                            </p>
-                        </div>
-                        <div class="header-github__side">
-                            <span class="header-github__brand">⌘ GitHub</span>
-                            <span class="header-github__clock" title="Thời điểm commit lên main (giờ Việt Nam UTC+7)">
-                                {%- if latest_commit -%}
-                                    {{ dt::display_datetime(value=latest_commit.commit.committer.date) }}
-                                {%- else -%}
-                                    --:-- --/--/----
-                                {%- endif -%}
-                            </span>
-                        </div>
-                    </div>
-
-                    {# DEPLOYED row — nằm gọn TRONG GitHub box, không tách riêng.
-                       Real-time fetch qua deploy-status.js (cùng [data-deploy-status]
-                       attr với card bên phải → share 1 fetch, sync 1 state). #}
-                    <div class="header-github__deploy" data-deploy-status>
-                        <span class="header-github__deploy-badge header-github__deploy-badge--success" data-deploy-badge>✓ DEPLOYED</span>
-                        <span class="header-github__deploy-msg">
-                            <span class="status-dot status-dot--success"></span>
-                            <span data-deploy-text>Build hiện tại đã deploy lên GitHub Pages</span>
-                        </span>
-                    </div>
-                </a>
-            </div>
-
-            </div> {# /.header-side #}
         </div>
     </header>
 
@@ -931,11 +825,9 @@
     #}
 
     <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/header-rotator.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/sidebar.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/google-rank.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/auth.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/deploy-status.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/ga-improvement-progress.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/staging-queue.js') }}?v={{ asset_version }}" defer></script>
