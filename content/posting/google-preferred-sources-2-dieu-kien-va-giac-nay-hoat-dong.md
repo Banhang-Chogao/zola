@@ -1,7 +1,7 @@
 +++
 title = "Preferred Sources: Điều kiện sử dụng & Cách hoạt động"
 description = "Tìm hiểu ai đủ điều kiện dùng Preferred Sources, cách hiển thị badge và ảnh hưởng đến xếp hạng."
-date = 2026-06-26
+date = 2026-06-22
 aliases = ["/google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong/"]
 [taxonomies]
 categories = ["Tất cả", "SEO"]

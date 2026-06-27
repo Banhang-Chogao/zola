@@ -1,7 +1,7 @@
 +++
 title = "Setup Guide: Hướng dẫn kỹ thuật Preferred Sources"
 description = "5 bước triển khai Preferred Sources trên trang web: code, CTA placement, tracking, và tối ưu hóa."
-date = 2026-06-26
+date = 2026-06-23
 aliases = ["/google-preferred-sources-3-huong-dan-thiet-lap-ky-thuat/"]
 [taxonomies]
 categories = ["Tất cả", "SEO", "Công nghệ"]
