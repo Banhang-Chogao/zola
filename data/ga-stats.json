@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-27T13:15:28+00:00",
+  "updated_at": "2026-06-27T17:43:38+00:00",
   "today_users": 0,
   "today_pageviews": 0,
   "week_users": 90,
@@ -13,10 +13,35 @@
   "month_engagement_rate_pct": 17,
   "top_country": "United States",
   "top_device": "desktop",
-  "channels": [],
+  "channels": [
+    {
+      "channel": "Direct",
+      "sessions": 79,
+      "users": 74,
+      "percent": 82
+    },
+    {
+      "channel": "Organic Social",
+      "sessions": 8,
+      "users": 8,
+      "percent": 8
+    },
+    {
+      "channel": "Referral",
+      "sessions": 7,
+      "users": 6,
+      "percent": 7
+    },
+    {
+      "channel": "Organic Search",
+      "sessions": 2,
+      "users": 2,
+      "percent": 2
+    }
+  ],
   "organic": {
-    "sessions": 0,
-    "users": 0,
-    "percent": 0
+    "sessions": 2,
+    "users": 2,
+    "percent": 2
   }
 }
