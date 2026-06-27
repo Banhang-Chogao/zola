@@ -12,7 +12,8 @@
 {% endblock %}
 
 {% block main %}
-{{ bc::tools(base_url=config.base_url, section_label="Công cụ", section_url=config.base_url~"/tools/", page_label=page.title | default(value="Lịch & sự kiện")) }}
+{# 2-cấp: Trang chủ → trang hiện tại. KHÔNG link "/tools/" (content/tools/_index.md render=false → route không tồn tại → 404). #}
+{{ bc::tools(base_url=config.base_url, section_label=page.title | default(value="Lịch & sự kiện")) }}
 <div class="priv" data-priv-root>
   {# ===== Loading (auth check) ===== #}
   <div class="priv__loading" data-priv-loading>
