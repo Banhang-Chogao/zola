@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-27T01:40:42Z",
+  "updated_at": "2026-06-27T02:05:54Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 2,
+    "today": 3,
     "this_week": 190,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "feature": 43,
       "fix": 102,
+      "feature": 43,
       "chore": 4,
       "unknown": 43,
       "content": 5,
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 1036,
+      "pr_title": "fix: enable tools section pages (momo-url 404 fix)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1036",
+      "merged_at": "2026-06-27T02:01:10Z",
+      "merge_commit_sha": "8c6fe79c3a47a78e847b520834596c18dca8a0d5",
+      "merge_commit_short": "8c6fe79",
+      "head_branch": "claude/menu-access-issue-sjdvet",
+      "summary_vi": "Fixed 404 errors on `/tools/momo-url/` and other admin pages by adding the missing `content/tools/_index.md` file.",
+      "change_type": "fix",
+      "files_changed": 1,
+      "additions": 10,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1236,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28275240513",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 1035,
       "pr_title": "feat(home): nút chuyển bản desktop ↔ điện thoại trên trang chủ",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1235,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28274620794",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 1034,
@@ -509,9 +528,9 @@
       "deletions": 26,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1206,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28252292293",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 1008,
@@ -528,9 +547,9 @@
       "deletions": 31,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1206,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28252292293",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 1009,
@@ -547,9 +566,9 @@
       "deletions": 11,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1206,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28252292293",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 996,
@@ -3243,25 +3262,6 @@
       "files_changed": 1,
       "additions": 13,
       "deletions": 1,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 830,
-      "pr_title": "fix(ci): fix blog heartbeat heredoc [fix/blog-heartbeat-heredoc]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/830",
-      "merged_at": "2026-06-24T06:32:44Z",
-      "merge_commit_sha": "e8e98dc82ae323b115e3bf13ddef20e3b7a8e67d",
-      "merge_commit_short": "e8e98dc",
-      "head_branch": "fix/blog-heartbeat-heredoc",
-      "summary_vi": "fix(ci): fix blog heartbeat heredoc",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 1,
-      "deletions": 14,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
