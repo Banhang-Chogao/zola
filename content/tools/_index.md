@@ -1,7 +1,7 @@
 +++
 title = "Công cụ"
 description = "Bộ công cụ hỗ trợ viết bài, phân tích SEO, quản lý dashboard tài chính."
-template = "section.html"
+render = false
 
 [extra]
 skip_feed = true
