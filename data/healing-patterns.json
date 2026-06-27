@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "note": "Public-safe healing registry for the auto-build-failed-healing bot. NO secrets, tokens, or private tactics. Each pattern: id, human title, match[] (lowercase substrings searched in the failure log), severity (P0/P1/P2/P3), safe_fix (human description), fixer (optional id of a deterministic safe fixer the bot may run), commands[] (validation to run), requires_pr (always true — bot never pushes main).",
+  "patterns": [
+    {
+      "id": "generated-json-conflict",
+      "title": "Generated data JSON conflict / drift",
+      "match": ["merge conflict", "conflict (content)", "data/references.json", "data/related.json", "data/seo-qa-scores.json"],
+      "severity": "P1",
+      "safe_fix": "Take main for auto-generated data files, then regenerate via existing scripts (build_references.py). Never keep stale PR data.",
+      "fixer": "regenerate-references",
+      "commands": ["zola build"],
+      "requires_pr": true
+    },
+    {
+      "id": "stale-public-artifact",
+      "title": "Stale public/ build artifact",
+      "match": ["public/", "stale artifact", "already exists", "output directory"],
+      "severity": "P1",
+      "safe_fix": "Remove the stale public/ output directory (gitignored) and rebuild from clean content.",
+      "fixer": "clean-public",
+      "commands": ["zola build"],
+      "requires_pr": false
+    },
+    {
+      "id": "missing-references-block",
+      "title": "Missing generated references data",
+      "match": ["references.json", "no such file", "failed to load data", "load_data"],
+      "severity": "P1",
+      "safe_fix": "Regenerate data/references.json with scripts/build_references.py before zola build.",
+      "fixer": "regenerate-references",
+      "commands": ["zola build"],
+      "requires_pr": true
+    },
+    {
+      "id": "tera-python-filter-kwargs",
+      "title": "Tera filter uses Python-style kwargs (replace old=/new=)",
+      "match": ["filter `replace` expected an arg called `from`", "replace(old=", "expected an arg called"],
+      "severity": "P0",
+      "safe_fix": "Tera replace uses from=/to=, not Python old=/new=. Fix the template filter call. Requires human review of the template (manual PR).",
+      "fixer": null,
+      "commands": ["zola build"],
+      "requires_pr": true
+    },
+    {
+      "id": "tera-items-method-not-supported",
+      "title": "Tera does not support Python .items()/method calls",
+      "match": ["expected +, -, *, /", ".items()", "failed to parse"],
+      "severity": "P1",
+      "safe_fix": "Replace Python-style .items() usage with valid Tera-compatible iteration or simplify data access. Requires template review (manual PR).",
+      "fixer": null,
+      "commands": ["zola build"],
+      "requires_pr": true
+    },
+    {
+      "id": "tera-python-ternary",
+      "title": "Python-style ternary inside Tera set",
+      "match": ["expected `or`, `and`, `not`", "{% set", " if ", " else "],
+      "severity": "P0",
+      "safe_fix": "Tera has no Python ternary. Convert `{% set x = a if cond else b %}` to an if/elif/else block. Requires template review (manual PR).",
+      "fixer": null,
+      "commands": ["zola build"],
+      "requires_pr": true
+    },
+    {
+      "id": "missing-template-partial",
+      "title": "Missing template partial / include",
+      "match": ["failed to render", "tried to render", "does not exist", "include"],
+      "severity": "P0",
+      "safe_fix": "A referenced template/include is missing. Restore the partial or fix the include path. Requires template review (manual PR).",
+      "fixer": null,
+      "commands": ["zola build"],
+      "requires_pr": true
+    },
+    {
+      "id": "faq-field-naming",
+      "title": "FAQ frontmatter uses question=/answer= instead of q=/a=",
+      "match": ["variable `item.q` not found", "variable `item.a` not found", "[[extra.faq]]"],
+      "severity": "P0",
+      "safe_fix": "Rename FAQ frontmatter keys question=/answer= to q=/a= (line-anchored, frontmatter only). Deterministic and safe.",
+      "fixer": "faq-field-rename",
+      "commands": ["zola build"],
+      "requires_pr": true
+    },
+    {
+      "id": "internal-link-404",
+      "title": "Broken internal link (safe route remap)",
+      "match": ["broken internal link", "qa-404", "internal link", "exit code 2"],
+      "severity": "P1",
+      "safe_fix": "Fix internal 404 links by remapping to the nearest valid route using qa-404-checker.py --fix (source .md only).",
+      "fixer": "internal-link-fix",
+      "commands": ["zola build"],
+      "requires_pr": true
+    },
+    {
+      "id": "css-hidden-override",
+      "title": "CSS display:* overrides [hidden] (auth UI locked)",
+      "match": ["auth=success", "modal remains", "spinner forever", "[hidden]"],
+      "severity": "P1",
+      "safe_fix": "Add `[hidden]{display:none!important}` for elements toggled by JS hidden. Verify /auth/me, credentials include, cleanup auth query, prevent double init, clear loading in finally. Auth-adjacent → manual PR review.",
+      "fixer": null,
+      "commands": ["zola build"],
+      "requires_pr": true
+    },
+    {
+      "id": "route-404-demo-page-missing",
+      "title": "Expected route has no content route",
+      "match": ["route 404", "index.html missing", "public/", "missing"],
+      "severity": "P1",
+      "safe_fix": "Create a real Zola content route and verify public/<route>/index.html exists after build. Requires content review (manual PR).",
+      "fixer": null,
+      "commands": ["zola build"],
+      "requires_pr": true
+    },
+    {
+      "id": "configure-pages-rate-limit",
+      "title": "Pages configure rate limit (V5)",
+      "match": ["api rate limit exceeded", "get pages site failed", "configure-pages"],
+      "severity": "P2",
+      "safe_fix": "Advisory only — deploy.yml already retries with exponential backoff + continue-on-error. Do not block; report.",
+      "fixer": null,
+      "commands": [],
+      "requires_pr": false
+    },
+    {
+      "id": "external-link-timeout",
+      "title": "External link timeout / quota (advisory)",
+      "match": ["external link", "timeout", "quota", "rate limit"],
+      "severity": "P2",
+      "safe_fix": "Advisory only — external link/quota failures must not block deploy. Report and continue.",
+      "fixer": null,
+      "commands": [],
+      "requires_pr": false
+    },
+    {
+      "id": "seo-content-advisory",
+      "title": "SEO / compliance content warning (advisory)",
+      "match": ["seo score", "thin content", "missing faq", "compliance", "pagespeed", "weak internal"],
+      "severity": "P2",
+      "safe_fix": "Advisory only — SEO/compliance/content warnings are report-only and must not block deploy.",
+      "fixer": null,
+      "commands": [],
+      "requires_pr": false
+    }
+  ]
+}

@@ -194,6 +194,28 @@ Before failing CI, the system must:
 
 These require a human or an explicit, reviewed vaccine.
 
+### Auto maintainer bot — `auto-build-failed-healing`
+
+The auto-healing policy above is executed automatically by the
+`auto-build-failed-healing` bot. It runs the full pipeline as code —
+`Detect → Classify → Heal → Build → Learn → PR`:
+
+- **Detect** — scans GitHub Actions build/deploy/qa runs that **failed in the
+  last 48h** (older failures are `stale_ignored` — never revived).
+- **Classify** — matches the failure against the public-safe registry
+  `data/healing-patterns.json` (+ `CLAUDE.md`, this file) into P0/P1/P2/P3.
+- **Heal** — runs a safe deterministic fixer (regenerate references, clean
+  `public/`, internal-link remap, FAQ key rename) when matched; P2/P3 are
+  advisory and **never block**.
+- **Build** — targeted `zola build` validation.
+- **PR** — opens a hotfix PR `auto-build-failed-healing/<pattern-id>-<run-id>`
+  (labels `auto-healing`, `build-fix`); **never pushes `main`**; dedups against
+  existing open PRs for the same run/pattern.
+
+It reads only committed public-safe sources and **never requires, reads, or
+commits `CLAUDE_PRIVATE.md`** — a clean checkout passes. Full docs:
+[`docs/HEALING_PATTERNS.md`](docs/HEALING_PATTERNS.md).
+
 ---
 
 ## 6. Public vs Private Agent Memory
