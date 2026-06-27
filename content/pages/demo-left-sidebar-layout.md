@@ -1,9 +1,8 @@
 +++
 title = "Demo: Left Sidebar Layout"
-description = "Live demo of the new 30/70 responsive left-sidebar blog layout with fixed ad spots"
+description = "Documentation for the new 30/70 responsive left-sidebar blog layout with fixed ad spots"
 date = 2026-06-27
 slug = "demo-left-sidebar-layout"
-template = "posting-left-sidebar.html"
 
 [taxonomies]
 categories = ["Tất cả"]
