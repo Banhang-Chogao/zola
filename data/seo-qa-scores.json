@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-27T11:30:54.150199+07:00",
+  "updated_at": "2026-06-27T11:16:57.992727+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -18485,15 +18485,15 @@
         }
       ]
     },
-    "content/posting/codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien.md": {
-      "title": "CodeQL: Công cụ phân tích code tự động tìm lỗ hổng bảo mật",
-      "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien",
-      "keyword": "CodeQL phân tích code",
-      "score": 100.0,
+    "content/posting/loi-nhieu-the-h1-sua-seo-toan-site.md": {
+      "title": "Lỗi nhiều thẻ H1: chẩn đoán và sửa SEO toàn site",
+      "slug": "loi-nhieu-the-h1-sua-seo-toan-site",
+      "keyword": "lỗi nhiều thẻ H1",
+      "score": 96.8,
       "grade": "A+",
-      "word_count": 1267,
+      "word_count": 1243,
       "published": true,
-      "scored_at": "2026-06-27T11:30:54.150199+07:00",
+      "scored_at": "2026-06-27T11:08:10.599875+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -18524,7 +18524,7 @@
           "max": 6
         },
         "headings": {
-          "got": 8.0,
+          "got": 4.8,
           "max": 8
         },
         "word_count": {
@@ -18560,66 +18560,99 @@
           "max": 3
         }
       },
-      "issues": [],
+      "issues": [
+        "không nên dùng H1 (#) trong body — title đã là H1"
+      ],
       "history": [
         {
-          "scored_at": "2026-06-27T11:00:07.173959+07:00",
-          "score": 82.0,
-          "grade": "B"
-        },
-        {
-          "scored_at": "2026-06-27T11:00:15.409485+07:00",
-          "score": 88.0,
-          "grade": "B"
-        },
-        {
-          "scored_at": "2026-06-27T11:00:20.119617+07:00",
-          "score": 94.0,
-          "grade": "A"
-        },
-        {
-          "scored_at": "2026-06-27T11:00:26.284229+07:00",
-          "score": 100.0,
+          "scored_at": "2026-06-27T11:08:10.599875+07:00",
+          "score": 96.8,
           "grade": "A+"
+        }
+      ]
+    },
+    "content/posting/phan-trang-trang-chu-zola-archive.md": {
+      "title": "Phân trang trang chủ Zola: khi blog tưởng như mất bài",
+      "slug": "phan-trang-trang-chu-zola-archive",
+      "keyword": "phân trang trang chủ Zola",
+      "score": 96.8,
+      "grade": "A+",
+      "word_count": 1720,
+      "published": true,
+      "scored_at": "2026-06-27T11:16:57.992727+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
         },
-        {
-          "scored_at": "2026-06-27T11:05:45.118811+07:00",
-          "score": 100.0,
-          "grade": "A+"
+        "title_length": {
+          "got": 6.0,
+          "max": 6
         },
-        {
-          "scored_at": "2026-06-27T11:13:12.364567+07:00",
-          "score": 94.0,
-          "grade": "A"
+        "description": {
+          "got": 10.0,
+          "max": 10
         },
-        {
-          "scored_at": "2026-06-27T11:13:30.288450+07:00",
-          "score": 100.0,
-          "grade": "A+"
+        "slug": {
+          "got": 6.0,
+          "max": 6
         },
-        {
-          "scored_at": "2026-06-27T11:21:12.735611+07:00",
-          "score": 94.0,
-          "grade": "A"
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
         },
-        {
-          "scored_at": "2026-06-27T11:21:37.313568+07:00",
-          "score": 100.0,
-          "grade": "A+"
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
         },
-        {
-          "scored_at": "2026-06-27T11:30:37.533370+07:00",
-          "score": 94.0,
-          "grade": "A"
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
         },
-        {
-          "scored_at": "2026-06-27T11:30:47.305189+07:00",
-          "score": 100.0,
-          "grade": "A+"
+        "headings": {
+          "got": 4.8,
+          "max": 8
         },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "không nên dùng H1 (#) trong body — title đã là H1"
+      ],
+      "history": [
         {
-          "scored_at": "2026-06-27T11:30:54.150199+07:00",
-          "score": 100.0,
+          "scored_at": "2026-06-27T11:16:57.992727+07:00",
+          "score": 96.8,
           "grade": "A+"
         }
       ]
