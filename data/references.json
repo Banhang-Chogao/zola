@@ -380,6 +380,43 @@
     "external_count": 2,
     "internal_count": 6
   },
+  "content/posting/codeql-api-rate-limit-giai-phap.md": {
+    "external": [
+      {
+        "title": "GitHub",
+        "url": "https://docs.github.com/en/rest/overview/resources-in-the-rest-api",
+        "kind": "external"
+      },
+      {
+        "title": "tài liệu chính thức GitHub",
+        "url": "https://docs.github.com/en/rest/using-the-rest-api/rate-limiting-for-the-rest-api",
+        "kind": "external"
+      }
+    ],
+    "internal": [],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub và tài liệu chính thức GitHub. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 0
+  },
+  "content/posting/codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien.md": {
+    "external": [
+      {
+        "title": "GitHub Release",
+        "url": "https://github.com/github/codeql-cli-binaries/releases",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "bài viết khác trên blog",
+        "url": "https://seomoney.org/categories/tat-ca/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Release. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 1
+  },
   "content/posting/cong-nghe-blog-duy-nguyen.md": {
     "external": [
       {
@@ -552,18 +589,18 @@
         "kind": "internal"
       },
       {
-        "title": "Cách setup Zola series navigation cho multiple-part articles",
-        "url": "https://seomoney.org/posting/zola-series-nav-setup/",
+        "title": "Tạo blog với Zola từ A–Z",
+        "url": "https://seomoney.org/posting/tao-blog-voi-zola/",
         "kind": "internal"
       },
       {
-        "title": "SEO best practices cho series content",
-        "url": "https://seomoney.org/posting/seo-series-articles/",
+        "title": "Tự động deploy Zola với GitHub Actions",
+        "url": "https://seomoney.org/posting/tu-dong-deploy-zola-github-actions/",
         "kind": "internal"
       },
       {
-        "title": "Debugging Zola build issues — phần 1: template errors",
-        "url": "https://seomoney.org/posting/zola-build-debug-templates/",
+        "title": "Zola vs Hugo: so sánh chi tiết",
+        "url": "https://seomoney.org/posting/zola-vs-hugo/",
         "kind": "internal"
       }
     ],
@@ -1008,6 +1045,60 @@
     "external_count": 2,
     "internal_count": 9
   },
+  "content/posting/fix-internal-links-checker-ci-failure.md": {
+    "external": [
+      {
+        "title": "GitHub Actions CI",
+        "url": "https://docs.github.com/en/actions",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Cách setup Zola series navigation",
+        "url": "https://seomoney.org/posting/zola-series-nav-setup/",
+        "kind": "internal"
+      },
+      {
+        "title": "SEO best practices cho series",
+        "url": "https://seomoney.org/posting/seo-series-articles/",
+        "kind": "internal"
+      },
+      {
+        "title": "Debugging Zola build issues",
+        "url": "https://seomoney.org/posting/zola-build-debug-templates/",
+        "kind": "internal"
+      },
+      {
+        "title": "Tạo blog với Zola từ A–Z",
+        "url": "https://seomoney.org/posting/tao-blog-voi-zola/",
+        "kind": "internal"
+      },
+      {
+        "title": "Tự động deploy Zola với GitHub Actions",
+        "url": "https://seomoney.org/posting/tu-dong-deploy-zola-github-actions/",
+        "kind": "internal"
+      },
+      {
+        "title": "Zola vs Hugo: so sánh chi tiết",
+        "url": "https://seomoney.org/posting/zola-vs-hugo/",
+        "kind": "internal"
+      },
+      {
+        "title": "https://seomoney.org/(?!zola/",
+        "url": "https://seomoney.org/(?!zola/",
+        "kind": "internal"
+      },
+      {
+        "title": "Debug Lỗi Zola Series Navigation: Từ 11 Broken Links Đến Fix",
+        "url": "https://seomoney.org/posting/debug-zola-series-navigation-links/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Actions CI. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 8
+  },
   "content/posting/git-branch-lam-viec-voi-nhanh.md": {
     "external": [
       {
@@ -1323,6 +1414,35 @@
     "external_count": 1,
     "internal_count": 2
   },
+  "content/posting/github-actions-ci-cd-build-failure-vipzone-token.md": {
+    "external": [
+      {
+        "title": "CLAUDEM.md - Vaccine Library",
+        "url": "https://github.com/banhang-chogao/zola/blob/main/CLAUDE.md",
+        "kind": "external"
+      },
+      {
+        "title": "GitHub Actions Secrets Documentation",
+        "url": "https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions",
+        "kind": "external"
+      },
+      {
+        "title": "GitHub CLI Reference",
+        "url": "https://cli.github.com/manual/gh_run_view",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "CI/CD Pipeline Best Practices",
+        "url": "https://seomoney.org/categories/cong-nghe/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ CLAUDEM.md - Vaccine Library, GitHub Actions Secrets Documentation và GitHub CLI Reference. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
+    "internal_count": 1
+  },
   "content/posting/github-actions-ci-cd-cho-nguoi-moi.md": {
     "external": [
       {
@@ -1351,6 +1471,35 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Actions. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
     "internal_count": 3
+  },
+  "content/posting/github-actions-secrets-setup-guide.md": {
+    "external": [
+      {
+        "title": "GitHub Actions Environment Variables",
+        "url": "https://docs.github.com/en/actions/learn-github-actions/environment-variables",
+        "kind": "external"
+      },
+      {
+        "title": "GitHub Actions Secrets Documentation",
+        "url": "https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions",
+        "kind": "external"
+      },
+      {
+        "title": "Security Hardening for GitHub Actions",
+        "url": "https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Troubleshooting GitHub Actions Build Failures",
+        "url": "https://seomoney.org/posting/github-actions-ci-cd-build-failure-vipzone-token/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Actions Environment Variables, GitHub Actions Secrets Documentation và Security Hardening for GitHub Actions. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
+    "internal_count": 1
   },
   "content/posting/github-la-gi-tao-repository-dau-tien.md": {
     "external": [
@@ -2144,6 +2293,60 @@
     "external_count": 1,
     "internal_count": 3
   },
+  "content/posting/loi-nhieu-the-h1-sua-seo-toan-site.md": {
+    "external": [
+      {
+        "title": "Google Search Central",
+        "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+        "kind": "external"
+      },
+      {
+        "title": "MDN Web Docs",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements",
+        "kind": "external"
+      },
+      {
+        "title": "web.dev",
+        "url": "https://web.dev/learn/html/headings-and-sections",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "QA Gatekeeper giúp blog tự fix lỗi 24/7",
+        "url": "https://seomoney.org/posting/qa-gatekeeper-tu-fix-loi-blog/",
+        "kind": "internal"
+      },
+      {
+        "title": "tạo blog với Zola từ A đến Z",
+        "url": "https://seomoney.org/posting/tao-blog-voi-zola/",
+        "kind": "internal"
+      },
+      {
+        "title": "giúp Google tìm thấy nội dung của site",
+        "url": "https://seomoney.org/posting/giup-google-tim-noi-dung-site/",
+        "kind": "internal"
+      },
+      {
+        "title": "cài đặt Git lần đầu",
+        "url": "https://seomoney.org/posting/cai-dat-git-cau-hinh-lan-dau/",
+        "kind": "internal"
+      },
+      {
+        "title": "Công nghệ",
+        "url": "https://seomoney.org/categories/cong-nghe/",
+        "kind": "internal"
+      },
+      {
+        "title": "Sentence Transformers (SBERT)",
+        "url": "https://seomoney.org/posting/sentence-transformers-sbert-deep-dive/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Google Search Central, MDN Web Docs và web.dev. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
+    "internal_count": 6
+  },
   "content/posting/lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam.md": {
     "external": [
       {
@@ -2683,6 +2886,55 @@
     "copyright": "Nội dung dựa trên tài liệu chính thức Google AdSense Help (Publisher Policies, Publisher Restrictions, Policy center). Google có thể cập nhật nhãn và quy trình xử lý bất cứ lúc nào — publisher có trách nhiệm đối chiếu phiên bản mới nhất theo Terms and Conditions.",
     "external_count": 6,
     "internal_count": 5
+  },
+  "content/posting/phan-trang-trang-chu-zola-archive.md": {
+    "external": [
+      {
+        "title": "trang pagination của Zola",
+        "url": "https://www.getzola.org/documentation/templates/pagination",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "tạo blog với Zola từ con số 0",
+        "url": "https://seomoney.org/posting/tao-blog-voi-zola/",
+        "kind": "internal"
+      },
+      {
+        "title": "Zola với Hugo",
+        "url": "https://seomoney.org/posting/zola-vs-hugo/",
+        "kind": "internal"
+      },
+      {
+        "title": "QA Gatekeeper tự fix lỗi blog",
+        "url": "https://seomoney.org/posting/qa-gatekeeper-tu-fix-loi-blog/",
+        "kind": "internal"
+      },
+      {
+        "title": "tự động deploy Zola bằng GitHub Actions",
+        "url": "https://seomoney.org/posting/tu-dong-deploy-zola-github-actions/",
+        "kind": "internal"
+      },
+      {
+        "title": "làm theme log, sửa menu công cụ",
+        "url": "https://seomoney.org/posting/lam-theme-log-sua-menu-cong-cu/",
+        "kind": "internal"
+      },
+      {
+        "title": "Công nghệ",
+        "url": "https://seomoney.org/categories/cong-nghe/",
+        "kind": "internal"
+      },
+      {
+        "title": "trang lưu trữ tất cả bài viết",
+        "url": "https://seomoney.org/archive/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ trang pagination của Zola. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 7
   },
   "content/posting/premium-fintech-paywall-demo.md": {
     "external": [

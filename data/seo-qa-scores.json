@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-27T11:10:23.850698+07:00",
+  "updated_at": "2026-06-27T11:40:31.649162+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -18485,15 +18485,15 @@
         }
       ]
     },
-    "content/posting/tera-template-syntax-error-conditional.md": {
-      "title": "Lỗi Tera Template Syntax Error: Cách khắc phục",
-      "slug": "tera-template-syntax-error-conditional",
-      "keyword": "tera template syntax error",
-      "score": 92.8,
-      "grade": "A",
-      "word_count": 820,
+    "content/posting/loi-nhieu-the-h1-sua-seo-toan-site.md": {
+      "title": "Lỗi nhiều thẻ H1: chẩn đoán và sửa SEO toàn site",
+      "slug": "loi-nhieu-the-h1-sua-seo-toan-site",
+      "keyword": "lỗi nhiều thẻ H1",
+      "score": 96.8,
+      "grade": "A+",
+      "word_count": 1243,
       "published": true,
-      "scored_at": "2026-06-27T11:08:27.503191+07:00",
+      "scored_at": "2026-06-27T11:08:10.599875+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -18548,7 +18548,7 @@
           "max": 4
         },
         "tags": {
-          "got": 0.0,
+          "got": 4.0,
           "max": 4
         },
         "date": {
@@ -18561,61 +18561,25 @@
         }
       },
       "issues": [
-        "không nên dùng H1 (#) trong body — title đã là H1",
-        "chưa gắn tag nào"
+        "không nên dùng H1 (#) trong body — title đã là H1"
       ],
       "history": [
         {
-          "scored_at": "2026-06-27T11:06:01.298263+07:00",
-          "score": 59.8,
-          "grade": "F"
-        },
-        {
-          "scored_at": "2026-06-27T11:06:08.269789+07:00",
-          "score": 70.8,
-          "grade": "C"
-        },
-        {
-          "scored_at": "2026-06-27T11:06:16.115821+07:00",
-          "score": 82.8,
-          "grade": "B"
-        },
-        {
-          "scored_at": "2026-06-27T11:06:24.135782+07:00",
-          "score": 86.8,
-          "grade": "B"
-        },
-        {
-          "scored_at": "2026-06-27T11:06:28.565539+07:00",
-          "score": 86.8,
-          "grade": "B"
-        },
-        {
-          "scored_at": "2026-06-27T11:06:37.349408+07:00",
-          "score": 86.8,
-          "grade": "B"
-        },
-        {
-          "scored_at": "2026-06-27T11:06:47.559538+07:00",
-          "score": 92.8,
-          "grade": "A"
-        },
-        {
-          "scored_at": "2026-06-27T11:08:27.503191+07:00",
-          "score": 92.8,
-          "grade": "A"
+          "scored_at": "2026-06-27T11:08:10.599875+07:00",
+          "score": 96.8,
+          "grade": "A+"
         }
       ]
     },
-    "content/posting/zola-faq-schema-template-variable-error.md": {
-      "title": "Fix 'Variable not found' lỗi FAQ schema trong Zola",
-      "slug": "zola-faq-schema-template-variable-error",
-      "keyword": "zola faq schema variable not found",
-      "score": 92.8,
-      "grade": "A",
-      "word_count": 955,
+    "content/posting/phan-trang-trang-chu-zola-archive.md": {
+      "title": "Phân trang trang chủ Zola: khi blog tưởng như mất bài",
+      "slug": "phan-trang-trang-chu-zola-archive",
+      "keyword": "phân trang trang chủ Zola",
+      "score": 96.8,
+      "grade": "A+",
+      "word_count": 1720,
       "published": true,
-      "scored_at": "2026-06-27T11:10:23.850698+07:00",
+      "scored_at": "2026-06-27T11:16:57.992727+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -18670,7 +18634,7 @@
           "max": 4
         },
         "tags": {
-          "got": 0.0,
+          "got": 4.0,
           "max": 4
         },
         "date": {
@@ -18683,29 +18647,104 @@
         }
       },
       "issues": [
-        "không nên dùng H1 (#) trong body — title đã là H1",
-        "chưa gắn tag nào"
+        "không nên dùng H1 (#) trong body — title đã là H1"
       ],
       "history": [
         {
-          "scored_at": "2026-06-27T11:10:08.827759+07:00",
-          "score": 76.8,
-          "grade": "C"
+          "scored_at": "2026-06-27T11:16:57.992727+07:00",
+          "score": 96.8,
+          "grade": "A+"
+        }
+      ]
+    },
+    "content/posting/github-actions-ci-cd-build-failure-vipzone-token.md": {
+      "title": "Troubleshooting GitHub Actions Workflow Build Failure",
+      "slug": "github-actions-ci-cd-build-failure-vipzone-token",
+      "keyword": "github actions workflow build failure troubleshooting",
+      "score": 96.8,
+      "grade": "A+",
+      "word_count": 701,
+      "published": true,
+      "scored_at": "2026-06-27T11:40:31.649162+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 4.8,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "không nên dùng H1 (#) trong body — title đã là H1"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-27T11:40:29.563801+07:00",
+          "score": 96.8,
+          "grade": "A+"
         },
         {
-          "scored_at": "2026-06-27T11:10:13.706646+07:00",
-          "score": 82.8,
-          "grade": "B"
-        },
-        {
-          "scored_at": "2026-06-27T11:10:18.495068+07:00",
-          "score": 88.8,
-          "grade": "B"
-        },
-        {
-          "scored_at": "2026-06-27T11:10:23.850698+07:00",
-          "score": 92.8,
-          "grade": "A"
+          "scored_at": "2026-06-27T11:40:31.649162+07:00",
+          "score": 96.8,
+          "grade": "A+"
         }
       ]
     }

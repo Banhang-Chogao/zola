@@ -273,7 +273,7 @@ Preferred Sources Dashboard
 
 ---
 
-**Bước tiếp theo**: Bài 6 — [Tương lai của Preferred Sources & SEO evolution](/posting/google-preferred-sources-6-tuong-lai-seo/).
+**Bước tiếp theo**: Bài 6 — [Tương lai của Preferred Sources & SEO evolution](/zola/posting/google-preferred-sources-6-tuong-lai-seo/).
 
 ---
 
