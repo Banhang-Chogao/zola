@@ -503,6 +503,10 @@
   ],
   "debug-zola-series-navigation-links": [
     {
+      "score": 0.6748,
+      "slug": "zola-faq-schema-template-variable-error"
+    },
+    {
       "score": 0.6009,
       "slug": "fix-internal-links-checker-ci-failure"
     },
@@ -511,16 +515,12 @@
       "slug": "phan-trang-trang-chu-zola-archive"
     },
     {
-      "score": 0.4656,
-      "slug": "tu-dong-deploy-zola-github-actions"
+      "score": 0.5841,
+      "slug": "zola-responsive-layout-context-detection"
     },
     {
-      "score": 0.4406,
-      "slug": "bao-lau-de-thay-ket-qua-seo"
-    },
-    {
-      "score": 0.4361,
-      "slug": "github-actions-ci-cd-build-failure-vipzone-token"
+      "score": 0.5023,
+      "slug": "tera-template-syntax-error-conditional"
     }
   ],
   "di-han-het-bao-nhieu-tien": [
@@ -793,6 +793,10 @@
       "slug": "debug-zola-series-navigation-links"
     },
     {
+      "score": 0.5629,
+      "slug": "zola-faq-schema-template-variable-error"
+    },
+    {
       "score": 0.5173,
       "slug": "github-actions-ci-cd-build-failure-vipzone-token"
     },
@@ -801,12 +805,8 @@
       "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
     },
     {
-      "score": 0.4769,
-      "slug": "phan-trang-trang-chu-zola-archive"
-    },
-    {
-      "score": 0.4721,
-      "slug": "loi-nhieu-the-h1-sua-seo-toan-site"
+      "score": 0.4916,
+      "slug": "tera-template-syntax-error-conditional"
     }
   ],
   "gia-vang-hom-nay-18-6-giam-manh": [
@@ -2671,8 +2671,8 @@
       "slug": "zola-vs-hugo"
     },
     {
-      "score": 0.605,
-      "slug": "lam-theme-log-sua-menu-cong-cu"
+      "score": 0.6266,
+      "slug": "zola-responsive-layout-context-detection"
     }
   ],
   "phu-am-cang-bat-hoi-tieng-han": [
@@ -2963,8 +2963,16 @@
   ],
   "sentence-transformers-sbert-deep-dive": [
     {
+      "score": 0.4825,
+      "slug": "zola-responsive-layout-context-detection"
+    },
+    {
       "score": 0.4158,
       "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
+    },
+    {
+      "score": 0.3815,
+      "slug": "tera-template-syntax-error-conditional"
     },
     {
       "score": 0.3435,
@@ -2973,14 +2981,6 @@
     {
       "score": 0.342,
       "slug": "lenh-git-co-ban-init-add-commit-status"
-    },
-    {
-      "score": 0.3388,
-      "slug": "google-nhin-trang-giong-nguoi-dung"
-    },
-    {
-      "score": 0.3383,
-      "slug": "debug-zola-series-navigation-links"
     }
   ],
   "seo-la-gi-huong-dan-co-ban-google-search": [
@@ -3179,6 +3179,28 @@
     {
       "score": 0.2649,
       "slug": "git-ra-doi-tu-bitkeeper"
+    }
+  ],
+  "tera-template-syntax-error-conditional": [
+    {
+      "score": 0.731,
+      "slug": "zola-faq-schema-template-variable-error"
+    },
+    {
+      "score": 0.6447,
+      "slug": "zola-responsive-layout-context-detection"
+    },
+    {
+      "score": 0.5023,
+      "slug": "debug-zola-series-navigation-links"
+    },
+    {
+      "score": 0.4916,
+      "slug": "fix-internal-links-checker-ci-failure"
+    },
+    {
+      "score": 0.4224,
+      "slug": "phan-trang-trang-chu-zola-archive"
     }
   ],
   "tet-doan-ngo-han-viet-trung": [
@@ -4037,6 +4059,50 @@
     {
       "score": 0.8009,
       "slug": "google-publisher-restrictions-noi-dung-han-che"
+    }
+  ],
+  "zola-faq-schema-template-variable-error": [
+    {
+      "score": 0.731,
+      "slug": "tera-template-syntax-error-conditional"
+    },
+    {
+      "score": 0.6831,
+      "slug": "zola-responsive-layout-context-detection"
+    },
+    {
+      "score": 0.6748,
+      "slug": "debug-zola-series-navigation-links"
+    },
+    {
+      "score": 0.5752,
+      "slug": "phan-trang-trang-chu-zola-archive"
+    },
+    {
+      "score": 0.5629,
+      "slug": "fix-internal-links-checker-ci-failure"
+    }
+  ],
+  "zola-responsive-layout-context-detection": [
+    {
+      "score": 0.6831,
+      "slug": "zola-faq-schema-template-variable-error"
+    },
+    {
+      "score": 0.6447,
+      "slug": "tera-template-syntax-error-conditional"
+    },
+    {
+      "score": 0.6266,
+      "slug": "phan-trang-trang-chu-zola-archive"
+    },
+    {
+      "score": 0.5841,
+      "slug": "debug-zola-series-navigation-links"
+    },
+    {
+      "score": 0.5769,
+      "slug": "tao-blog-voi-zola"
     }
   ],
   "zola-vs-hugo": [

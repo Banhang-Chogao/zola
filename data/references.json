@@ -3526,6 +3526,25 @@
     "external_count": 1,
     "internal_count": 2
   },
+  "content/posting/tera-template-syntax-error-conditional.md": {
+    "external": [
+      {
+        "title": "docs chính thức",
+        "url": "https://keats.github.io/tera",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Công nghệ",
+        "url": "https://seomoney.org/categories/cong-nghe/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ docs chính thức. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 1
+  },
   "content/posting/tet-doan-ngo-han-viet-trung.md": {
     "external": [
       {
@@ -4777,6 +4796,64 @@
     "copyright": "Nội dung dựa trên tài liệu chính thức Google AdSense Help (Make sure your site's pages are ready for AdSense, user experience guidelines). Google có thể cập nhật yêu cầu bất cứ lúc nào — publisher có trách nhiệm theo dõi và tuân thủ phiên bản mới nhất theo Terms and Conditions.",
     "external_count": 10,
     "internal_count": 5
+  },
+  "content/posting/zola-faq-schema-template-variable-error.md": {
+    "external": [
+      {
+        "title": "Zola frontmatter documentation",
+        "url": "https://www.getzola.org/documentation/content/page",
+        "kind": "external"
+      },
+      {
+        "title": "FAQPage schema của Google",
+        "url": "https://schema.org/FAQPage",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "bài viết về Tera template errors",
+        "url": "https://seomoney.org/categories/cong-nghe/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Zola frontmatter documentation và FAQPage schema của Google. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 1
+  },
+  "content/posting/zola-responsive-layout-context-detection.md": {
+    "external": [
+      {
+        "title": "Google AdSense - Layout Shift Guidelines",
+        "url": "https://support.google.com/adsense/answer/10734659",
+        "kind": "external"
+      },
+      {
+        "title": "Web Vitals - Cumulative Layout Shift",
+        "url": "https://web.dev/articles/cls",
+        "kind": "external"
+      },
+      {
+        "title": "Zola Documentation - Templates",
+        "url": "https://www.getzola.org/documentation/templates/overview",
+        "kind": "external"
+      },
+      {
+        "title": "Tera Template Language - Conditionals",
+        "url": "https://tera.netlify.app/docs",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Tera template engine",
+        "url": "https://seomoney.org/categories/cong-nghe/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Google AdSense - Layout Shift Guidelines, Web Vitals - Cumulative Layout Shift, Zola Documentation - Templates và Tera Template Language - Conditionals. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 4,
+    "internal_count": 1
   },
   "content/posting/zola-vs-hugo.md": {
     "external": [
