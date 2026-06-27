@@ -1,0 +1,79 @@
+# ============================================
+# CODEQL CẤU HÌNH NÂNG CAO
+# File này được tham chiếu từ workflow chính
+# ============================================
+
+# ----- 1. CHỈ ĐỊNH THƯ MỤC CẦN QUÉT -----
+# Chỉ định thư mục CodeQL sẽ phân tích
+paths:
+  - src/
+  - app/
+  - lib/
+  - '**/*.py'    # Python files
+  - '**/*.js'    # JavaScript files
+  - '**/*.ts'    # TypeScript files
+
+# Bỏ qua các thư mục/folder không cần quét
+paths-ignore:
+  - '**/tests/**'
+  - '**/test/**'
+  - '**/node_modules/**'
+  - '**/vendor/**'
+  - '**/dist/**'
+  - '**/build/**'
+  - '**/*.min.js'
+  - '**/*.generated.*'
+  - '**/migrations/**'
+
+# ----- 2. CẤU HÌNH QUERY (Bộ quy tắc) -----
+# Thêm các bộ quy tắc bổ sung (tùy chọn)
+queries:
+  # Sử dụng bộ quy tắc mở rộng cho Python
+  - uses: codeql/python-queries:codeql-suites/python-security-extended.qls
+  
+  # Sử dụng bộ quy tắc mở rộng cho JavaScript
+  - uses: codeql/javascript-queries:codeql-suites/javascript-security-extended.qls
+
+# Tắt bộ quy tắc mặc định của CodeQL (chỉ dùng khi bạn muốn tự định nghĩa toàn bộ)
+# disable-default-queries: true
+
+# ----- 3. LỌC BỎ CẢNH BÁO (Filter false positives) -----
+# Loại bỏ các cảnh báo sai hoặc không cần thiết
+query-filters:
+  # Lọc bỏ cảnh báo về import không dùng đến (ví dụ trong Python)
+  - exclude:
+      id: py/unused-import
+  
+  # Lọc bỏ cảnh báo về so sánh thiếu equals (Python)
+  - exclude:
+      id: py/missing-equals
+  
+  # Lọc bỏ cảnh báo về biến không được sử dụng (JavaScript)
+  - exclude:
+      id: js/unused-local-variable
+  
+  # Lọc bỏ cảnh báo về code không truy cập được
+  - exclude:
+      id: js/unreachable-code
+
+  # Lọc bỏ cảnh báo theo severity (threshold)
+  # - exclude:
+  #     severity: low
+  #     confidence: low
+
+  # Lọc bỏ tất cả cảnh báo trong 1 file cụ thể
+  # - exclude:
+  #     path: "src/legacy/old-code.js"
+
+  # Lọc bỏ cảnh báo trên 1 dòng cụ thể (có thể dùng # lgtm, # noqa)
+  # - exclude:
+  #     path: "src/sensitive-file.py"
+  #     start-line: 10
+  #     end-line: 15
+
+# ----- 4. THAM SỐ DÀNH CHO QUERY (Tùy chọn) -----
+# Nếu bộ quy tắc có tham số, bạn có thể cấu hình ở đây
+# query-packs:
+#   - name: my-custom-queries
+#     queries: 
+#       - src/queries/my-query.ql
