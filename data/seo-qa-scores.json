@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-27T11:08:10.599875+07:00",
+  "updated_at": "2026-06-27T11:06:06.521681+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -18485,15 +18485,15 @@
         }
       ]
     },
-    "content/posting/loi-nhieu-the-h1-sua-seo-toan-site.md": {
-      "title": "Lỗi nhiều thẻ H1: chẩn đoán và sửa SEO toàn site",
-      "slug": "loi-nhieu-the-h1-sua-seo-toan-site",
-      "keyword": "lỗi nhiều thẻ H1",
-      "score": 96.8,
-      "grade": "A+",
-      "word_count": 1243,
+    "content/posting/codeql-api-rate-limit-giai-phap.md": {
+      "title": "CodeQL API Rate Limit: Giải Pháp Chi Tiết Cho GitHub Actions",
+      "slug": "codeql-api-rate-limit-giai-phap",
+      "keyword": "CodeQL API rate limit",
+      "score": 92.8,
+      "grade": "A",
+      "word_count": 1089,
       "published": true,
-      "scored_at": "2026-06-27T11:08:10.599875+07:00",
+      "scored_at": "2026-06-27T11:06:06.521681+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -18548,7 +18548,7 @@
           "max": 4
         },
         "tags": {
-          "got": 4.0,
+          "got": 0.0,
           "max": 4
         },
         "date": {
@@ -18561,13 +18561,44 @@
         }
       },
       "issues": [
-        "không nên dùng H1 (#) trong body — title đã là H1"
+        "không nên dùng H1 (#) trong body — title đã là H1",
+        "chưa gắn tag nào"
       ],
       "history": [
         {
-          "scored_at": "2026-06-27T11:08:10.599875+07:00",
-          "score": 96.8,
-          "grade": "A+"
+          "scored_at": "2026-06-27T11:04:39.090098+07:00",
+          "score": 76.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-27T11:04:48.364914+07:00",
+          "score": 69.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-27T11:04:54.424296+07:00",
+          "score": 76.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-27T11:05:45.582548+07:00",
+          "score": 86.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-27T11:05:55.310160+07:00",
+          "score": 92.8,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-27T11:06:01.165319+07:00",
+          "score": 92.8,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-27T11:06:06.521681+07:00",
+          "score": 92.8,
+          "grade": "A"
         }
       ]
     }
