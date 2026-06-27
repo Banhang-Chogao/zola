@@ -39,3 +39,7 @@ Template sử dụng **context detection** trong Tera để hoạt động an to
 - Hướng dẫn chi tiết: [Zola responsive layout context detection Tera template](/posting/zola-responsive-layout-context-detection/)
 - Kiến trúc template: [templates/posting-left-sidebar.html](https://github.com/Banhang-Chogao/zola/blob/main/templates/posting-left-sidebar.html)
 - Audit compatibility: [LAYOUT_COMPATIBILITY_REPORT.md](https://github.com/Banhang-Chogao/zola/blob/main/docs/LAYOUT_COMPATIBILITY_REPORT.md)
+
+---
+
+*Demo này minh hoạ layout 30/70 left-sidebar được tối ưu cho AdSense với các ad spots cố định, chống layout shift.*
