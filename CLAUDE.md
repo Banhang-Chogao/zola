@@ -2063,6 +2063,78 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 | Tests | `scripts/test_f_dashboard.py` |
 | Deps | `scripts/requirements-f-dashboard.txt` (`openpyxl`) |
 
+## Manual Broken Links Healing Bot (workflow_dispatch only)
+
+> **Manual trigger only** — user runs via GitHub Actions to fix broken internal links.
+> Safe auto-fix patterns only: `/zola/` prefix, trailing slashes, case normalization,
+> known aliases, anchor cleanup. Unsafe links (external, payment, API, auth) reported
+> for manual review. Always opens PR, never pushes `main` directly.
+
+**Trigger:** `workflow_dispatch` — **never automatic, no cron, no push trigger**.
+
+**Modes:**
+- `scan-only` — Report broken links without modifying files
+- `fix` — Scan, apply safe fixes, run QA, open PR if changes exist
+
+**Safe auto-fix rules:**
+1. `/zola/` prefix normalization (`/zola/page/` → `/page/`)
+2. Trailing slash correction (`/page` → `/page/`)
+3. Case/slug normalization (unique matches only)
+4. Known alias mapping (explicit, verified)
+5. Anchor fragment cleanup (when base page exists)
+
+**Unsafe (never auto-fix):**
+- External URLs, payment links, MoMo, API endpoints, auth, admin routes
+- URLs in code blocks or historical quotes
+- Ambiguous or unclear targets
+
+**QA (when fixes applied):**
+- `zola build`
+- `qa_check.py`
+- `check_internal_links.py`
+- `qa-404-checker.py`
+- `build_references.py`
+
+**PR behavior (fix mode):**
+- Opens PR only if safe fixes applied and all QA passes
+- Branch: `bot/heal-broken-links-{run-number}`
+- Title: `fix(links): heal broken internal links`
+- Labels: `auto-healing`, `links`
+- Auto-merges when CI passes (ZERO_BARRIER policy)
+
+**Reports:**
+- JSON: `data/broken-links-report.json` (machine-readable)
+- Markdown: `reports/broken-links/report-YYYYMMDD-HHMMSS.md` (human-readable)
+
+| Thành phần | Path |
+|------------|------|
+| Workflow | `.github/workflows/broken-link-healer.yml` |
+| Script | `scripts/heal_broken_links.py` |
+| Docs | `docs/broken-link-healer.md` |
+
+```bash
+# Scan only (no changes)
+python3 scripts/heal_broken_links.py --scan --stdout
+
+# Scan and apply safe fixes
+python3 scripts/heal_broken_links.py --fix --stdout
+```
+
+**Usage:**
+1. Go to **Actions** → **Manual Broken Links Healing Bot**
+2. Click **Run workflow**
+3. Select mode (`scan-only` or `fix`)
+4. Wait for results
+5. Check artifact reports
+
+**Rules (mandatory):**
+- Only `workflow_dispatch` trigger (never automatic)
+- Never push directly to `main`
+- All fixes go through PR flow
+- High-confidence fixes only (verified targets)
+- Manual review required for unsafe patterns
+- Full QA + build verification before PR
+
 ## Auto Build Failed Healing (bot maintainer tự động)
 
 > SEOMONEY auto maintainer: `Bug found → Fix it → Learn from it → Auto-healing`.
