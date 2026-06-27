@@ -219,9 +219,11 @@ Sau khi quen CodeQL, bạn có thể viết query tìm pattern riêng của dự
 
 CodeQL là công cụ phân tích code mạnh mẽ mà mỗi lập trình viên, đặc biệt là backend developer, nên biết. Nó miễn phí cho open source, cộng tác tốt với GitHub, và thực sự hiệu quả trong việc tìm lỗ hổng bảo mật.
 
-Bắt đầu từ GitHub Code Scanning - rất dễ setup, chỉ cần thêm workflow. Sau đó, khi quen rồi, hãy thử chạy local hoặc viết custom query cho logic dự án của bạn.
+Bắt đầu từ GitHub Code Scanning - rất dễ setup, chỉ cần thêm workflow. Sau đó, khi quen rồi, hãy thử chạy local hoặc viết custom query cho logic dự án của bạn. Đây là bước quan trọng để nâng cao chất lượng bảo mật codebase của bạn. Khám phá thêm các bài viết khác trong [chuyên mục Công nghệ](/categories/cong-nghe/) để tiếp tục học hỏi.
 
-**Bước tiếp theo:** nếu bạn muốn hiểu sâu hơn về bảo mật code, hãy xem thêm bài viết về [SQL injection](/zola/posting/sql-injection-la-gi/) hay [command injection](/zola/posting/command-injection-phat-hien-fix/). Hoặc nếu bạn làm việc với Python, hãy tìm hiểu [static analysis cho Python](/zola/posting/python-static-analysis/).
+---
+
+**Có câu hỏi về CodeQL không?** Để lại comment hoặc liên hệ qua email. Mình sẽ cố gắng trả lời chi tiết hơn. Chúc bạn thành công với việc bảo vệ code!.
 
 ---
 
