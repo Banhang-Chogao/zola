@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-push_report.py — Đẩy 1 báo cáo .md lên backend (SQLite, OAuth-gated).
+push_report.py — Đẩy 1 báo cáo .md lên backend (Redis, OAuth-gated).
 
 Từ khi report được chặn THẬT (không còn nằm trong static/ public), file .md tạo
 qua phím tắt `??` phải đẩy lên backend qua endpoint POST /reports thay vì commit
@@ -12,7 +12,7 @@ Lấy sid: đăng nhập /editor/ hoặc /bao-cao-tong-ket/ trên blog → mở 
 Dùng:
     python3 scripts/push_report.py <file.md> \
         --sid "<session_id>" \
-        [--api https://blog-vipzone-api.onrender.com] \
+        [--api https://blog-visitor-api.onrender.com] \
         [--name bao-cao-YYYYMMDD-HHMMSS.md]
 
 Env thay cho flag: REPORT_API_SID, REPORT_API_URL.
@@ -23,26 +23,13 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import re
 import sys
 import urllib.error
 import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
 
-DEFAULT_API = "https://blog-vipzone-api.onrender.com"
-
-
-def extract_preview(content: str, max_chars: int = 500) -> str:
-    """Extract preview text from markdown content (remove frontmatter + markdown syntax)."""
-    # Strip frontmatter
-    if content.startswith("+++"):
-        match = re.search(r"^\+\+\+\n(.*?)\n\+\+\+\n(.*)$", content, re.DOTALL)
-        if match:
-            content = match.group(2)
-    # Remove markdown syntax and limit length
-    text = content.replace("#", "").replace("*", "").replace("[", "").replace("]", "")
-    text = re.sub(r"\n\n+", " ", text).strip()
-    return text[:max_chars]
+DEFAULT_API = "https://blog-visitor-api.onrender.com"
 
 
 def main(argv: list[str]) -> int:
@@ -63,12 +50,12 @@ def main(argv: list[str]) -> int:
 
     filename = args.name.strip() or path.name
     content = path.read_text(encoding="utf-8")
-    preview = extract_preview(content)
+    created_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     payload = json.dumps({
-        "filename": filename,
-        "content": content,
-        "preview": preview,
+        "filename":   filename,
+        "content":    content,
+        "created_at": created_at,
     }).encode("utf-8")
 
     req = urllib.request.Request(
@@ -83,9 +70,8 @@ def main(argv: list[str]) -> int:
     try:
         with urllib.request.urlopen(req, timeout=30) as res:
             body = json.loads(res.read().decode("utf-8"))
-        created_at = body.get("created_at", "")
         print(f"✓ Đã đẩy '{filename}' lên backend ({created_at}).")
-        print(json.dumps(body, ensure_ascii=False, indent=2))
+        print(json.dumps(body, ensure_ascii=False))
         return 0
     except urllib.error.HTTPError as e:
         detail = e.read().decode("utf-8", "replace")[:300]

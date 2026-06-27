@@ -48,10 +48,6 @@ jobs:
           cache: 'pip'
           cache-dependency-path: scripts/requirements.txt
 
-      - name: Preflight checks (P5 — catch config errors early)
-        run: bash .github/scripts/preflight-checks.sh
-        continue-on-error: true
-
       - name: Cache HuggingFace model
         uses: actions/cache@v5
         with:

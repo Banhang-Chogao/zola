@@ -1,4 +1,4 @@
-## 🇰🇷 Ngày 21 — Ôn tập tuần 3 & kể chuyện một ngày (하루 일과)
+# 🇰🇷 Ngày 21 — Ôn tập tuần 3 & kể chuyện một ngày (하루 일과)
 
 > **Mục tiêu hôm nay (20–30 phút):** Gom lại toàn bộ **tuần 3**: ba thì (hiện tại `-아/어요`, quá khứ `-았/었어요`, tương lai `-(으)ㄹ 거예요`), **phủ định** (안, 못, -지 않다) và **liên từ** (그래서, 하지만, -고, -아서). Sau đó tự viết một đoạn **하루 일과** kể một ngày từ sáng tới tối. Cuối bài có **bài tập viết + đáp án mẫu**.
 

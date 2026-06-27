@@ -1,419 +1,335 @@
 /**
- * Speed Insights dashboard.
- *
- * Production source: VIPZone RUM field data (GET {API}/rum/web-vitals/summary) —
- * real, cross-visitor Core Web Vitals that survive a browser wipe. localStorage
- * (`zola-vitals`) is used ONLY as a clearly-labelled "Local debug only" fallback
- * when the backend is unreachable. The data source is always shown in the UI.
- *
- * Core Web Vitals: LCP, INP, CLS. Diagnostic (NOT core): FCP, TTFB.
- * A metric with 0 samples shows "Chưa đủ dữ liệu" — never a fake good score.
+ * Stats page — aggregates browser-local analytics:
+ *   localStorage.zola-vitals  → Core Web Vitals samples
+ *   localStorage.zola-events  → view/click/full events
  */
 (function () {
-  "use strict";
-
-  var container = document.getElementById("stats-app");
+  const container = document.getElementById("stats-app");
   if (!container) return;
 
-  var API = (container.getAttribute("data-rum-api") || "").replace(/\/+$/, "");
+  const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+  const cutoff = Date.now() - THIRTY_DAYS_MS;
 
-  var CORE = ["LCP", "INP", "CLS"];
-  var DIAGNOSTIC = ["FCP", "TTFB"];
-  var ALL_METRICS = CORE.concat(DIAGNOSTIC);
+  const vitals = loadJSON("zola-vitals", []).filter(
+    (s) => s && typeof s.name === "string" && typeof s.value === "number"
+  );
+  const events = loadJSON("zola-events", []).filter(
+    (e) => e && typeof e.ts === "number" && e.ts >= cutoff
+  );
 
-  // Google's good / needs-improvement boundaries.
-  var THRESHOLDS = {
-    LCP: [2500, 4000],
-    INP: [200, 500],
-    CLS: [0.1, 0.25],
-    FCP: [1800, 3000],
-    TTFB: [800, 1800],
-  };
-  var GOOD_TARGET = {
-    LCP: "≤ 2,5s",
-    INP: "≤ 200ms",
-    CLS: "≤ 0,1",
-    FCP: "≤ 1,8s",
-    TTFB: "≤ 800ms",
-  };
+  // ===== UTIL =====
+  function loadJSON(key, fallback) {
+    try {
+      const raw = JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));
+      return Array.isArray(raw) ? raw : fallback;
+    } catch {
+      return fallback;
+    }
+  }
 
-  var WINDOWS = [
-    { key: "24h", label: "24 giờ" },
-    { key: "7d", label: "7 ngày" },
-    { key: "30d", label: "30 ngày" },
-  ];
-
-  var state = { window: "30d" };
-
-  // ===== util =====
   function escapeHtml(s) {
-    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
-    });
+    return String(s || "").replace(/[&<>"']/g, (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c])
+    );
+  }
+
+  function pathFromUrl(url) {
+    try {
+      return new URL(url, window.location.origin).pathname;
+    } catch {
+      return String(url || "/");
+    }
   }
 
   function fmtMs(v) {
     if (v == null) return "—";
     if (v < 1000) return Math.round(v) + " ms";
-    return (v / 1000).toFixed(2).replace(".", ",") + " s";
+    return (v / 1000).toFixed(2) + " s";
   }
 
   function fmtCls(v) {
-    if (v == null) return "—";
-    return Number(v).toFixed(3).replace(".", ",");
+    return (v ?? 0).toFixed(3);
   }
 
-  function fmtVal(name, v) {
-    return name === "CLS" ? fmtCls(v) : fmtMs(v);
-  }
-
-  function fmtWhen(iso) {
-    if (!iso) return "—";
+  function fmtWhen(ts) {
+    if (!ts) return "—";
     try {
-      return new Date(iso).toLocaleString("vi-VN", {
-        timeZone: "Asia/Ho_Chi_Minh",
+      return new Date(ts).toLocaleString("vi-VN", {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
         hour: "2-digit",
         minute: "2-digit",
       });
-    } catch (e) {
+    } catch {
       return "—";
     }
   }
 
+  // ===== WEB VITALS THRESHOLDS (Google) =====
+  const THRESHOLDS = {
+    LCP: [2500, 4000],
+    FCP: [1800, 3000],
+    INP: [200, 500],
+    TTFB: [800, 1800],
+    CLS: [0.1, 0.25],
+  };
+
   function rateValue(name, v) {
-    if (v == null || !THRESHOLDS[name]) return "none";
-    var t = THRESHOLDS[name];
-    if (v <= t[0]) return "good";
-    if (v <= t[1]) return "needs-improvement";
+    if (v == null || !THRESHOLDS[name]) return "unknown";
+    const [good, ni] = THRESHOLDS[name];
+    if (v <= good) return "good";
+    if (v <= ni) return "needs-improvement";
     return "poor";
   }
 
   function rateLabel(r) {
     return (
-      {
-        good: "Tốt",
-        "needs-improvement": "Cần cải thiện",
-        poor: "Kém",
-        none: "Chưa đủ dữ liệu",
-      }[r] || "—"
+      { good: "Tốt", "needs-improvement": "Cần cải thiện", poor: "Kém", unknown: "—" }[r] || r
     );
   }
 
-  // ===== local-debug aggregation (fallback only) =====
-  function loadDebug() {
-    try {
-      var raw = JSON.parse(localStorage.getItem("zola-vitals") || "[]");
-      return Array.isArray(raw) ? raw : [];
-    } catch (e) {
-      return [];
-    }
+  // ===== AGGREGATE =====
+  function avg(arr) {
+    if (!arr.length) return null;
+    return arr.reduce((s, v) => s + v, 0) / arr.length;
   }
 
-  function windowMs(key) {
-    return { "24h": 86400000, "7d": 604800000, "30d": 2592000000 }[key] || 2592000000;
-  }
-
-  function percentile(sorted, q) {
-    if (!sorted.length) return null;
-    if (sorted.length === 1) return sorted[0];
-    var idx = Math.min(sorted.length - 1, Math.round(q * (sorted.length - 1)));
-    return sorted[idx];
-  }
-
-  function median(sorted) {
-    if (!sorted.length) return null;
-    var mid = Math.floor(sorted.length / 2);
+  function median(arr) {
+    if (!arr.length) return null;
+    const sorted = [...arr].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
     return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
   }
 
-  function aggregate(name, values) {
-    var sorted = values.slice().sort(function (a, b) { return a - b; });
-    var count = sorted.length;
-    if (!count) {
-      return { metric: name, count: 0, p75: null, median: null, average: null,
-        rating: "none", distribution: { good: 0, "needs-improvement": 0, poor: 0 },
-        core: CORE.indexOf(name) >= 0 };
-    }
-    var p75 = percentile(sorted, 0.75);
-    var dist = { good: 0, "needs-improvement": 0, poor: 0 };
-    sorted.forEach(function (v) { dist[rateValue(name, v)]++; });
-    return {
-      metric: name,
-      count: count,
-      p75: p75,
-      median: median(sorted),
-      average: sorted.reduce(function (s, v) { return s + v; }, 0) / count,
-      rating: rateValue(name, p75),
-      distribution: dist,
-      core: CORE.indexOf(name) >= 0,
-    };
+  function p75(arr) {
+    if (!arr.length) return null;
+    const sorted = [...arr].sort((a, b) => a - b);
+    return sorted[Math.floor(sorted.length * 0.75)];
   }
 
-  function buildLocalSummary(win) {
-    var cutoff = Date.now() - windowMs(win);
-    var samples = loadDebug().filter(function (s) {
-      return s && typeof s.value === "number" && (!s.ts || s.ts >= cutoff);
+  function distribution(samples, name) {
+    const arr = samples.filter((s) => s.name === name).map((s) => s.value);
+    const dist = { good: 0, "needs-improvement": 0, poor: 0 };
+    arr.forEach((v) => {
+      const bucket = rateValue(name, v);
+      if (bucket in dist) dist[bucket]++;
     });
-    var byMetric = {};
-    var byPageLcp = {};
-    var lastTs = 0;
-    samples.forEach(function (s) {
-      (byMetric[s.name] = byMetric[s.name] || []).push(s.value);
-      if (s.ts && s.ts > lastTs) lastTs = s.ts;
-      if (s.name === "LCP") (byPageLcp[s.path || "/"] = byPageLcp[s.path || "/"] || []).push(s.value);
-    });
-    var metrics = {};
-    ALL_METRICS.forEach(function (m) { metrics[m] = aggregate(m, byMetric[m] || []); });
-    var slow = Object.keys(byPageLcp)
-      .map(function (p) {
-        var vals = byPageLcp[p].slice().sort(function (a, b) { return a - b; });
-        return { path: p, lcp_p75: percentile(vals, 0.75), samples: vals.length };
-      })
-      .filter(function (r) { return r.samples >= 2; })
-      .sort(function (a, b) { return b.lcp_p75 - a.lcp_p75; })
-      .slice(0, 5);
-    return {
-      source: "local-debug",
-      window: win,
-      total_samples: samples.length,
-      metrics: metrics,
-      slow_pages: slow,
-      last_updated: lastTs ? new Date(lastTs).toISOString() : null,
-    };
+    return { total: arr.length, dist };
   }
 
-  // ===== RUM fetch =====
-  function fetchSummary(win) {
-    if (!API) return Promise.resolve(null);
-    var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
-    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 8000) : null;
-    return fetch(API + "/rum/web-vitals/summary?window=" + encodeURIComponent(win), {
-      method: "GET",
-      mode: "cors",
-      credentials: "omit",
-      signal: ctrl ? ctrl.signal : undefined,
-    })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (data) {
-        if (timer) clearTimeout(timer);
-        if (!data || data.enabled === false || !data.metrics) return null;
-        return data;
-      })
-      .catch(function () {
-        if (timer) clearTimeout(timer);
-        return null;
+  function latestTimestamp() {
+    const ts = [
+      ...vitals.map((s) => s.ts).filter(Boolean),
+      ...events.map((e) => e.ts).filter(Boolean),
+    ];
+    return ts.length ? Math.max(...ts) : null;
+  }
+
+  // ===== RENDERERS =====
+  function renderVitalCard(name) {
+    const samples = vitals.filter((s) => s.name === name).map((s) => s.value);
+    const fmt = name === "CLS" ? fmtCls : fmtMs;
+    const p75v = p75(samples);
+    const rating = rateValue(name, p75v);
+    const dist = distribution(vitals, name);
+    const total = dist.total;
+
+    const bar = total
+      ? `<div class="vital-bar" role="img" aria-label="Phân bố ${name}">
+          ${dist.dist.good ? `<div class="vital-bar__seg vital-bar__seg--good" style="flex: ${dist.dist.good}" title="Tốt: ${dist.dist.good}"></div>` : ""}
+          ${dist.dist["needs-improvement"] ? `<div class="vital-bar__seg vital-bar__seg--ni" style="flex: ${dist.dist["needs-improvement"]}" title="Cần cải thiện: ${dist.dist["needs-improvement"]}"></div>` : ""}
+          ${dist.dist.poor ? `<div class="vital-bar__seg vital-bar__seg--poor" style="flex: ${dist.dist.poor}" title="Kém: ${dist.dist.poor}"></div>` : ""}
+        </div>`
+      : `<div class="vital-bar vital-bar--empty">Chưa có dữ liệu</div>`;
+
+    const [good, ni] = THRESHOLDS[name] || [];
+
+    return `
+      <article class="vital-card vital-card--${rating}">
+        <div class="vital-card__name">${name}</div>
+        <div class="vital-card__value">${fmt(p75v)}</div>
+        <div class="vital-card__label">${rateLabel(rating)}</div>
+        <div class="vital-card__meta">
+          P75 từ <strong>${total}</strong> mẫu<br>
+          Median: ${fmt(median(samples))}<br>
+          Trung bình: ${fmt(avg(samples))}
+        </div>
+        ${bar}
+        <div class="vital-card__thresholds">
+          <span class="vital-th vital-th--good">≤ ${name === "CLS" ? fmtCls(good) : fmtMs(good)}</span>
+          <span class="vital-th vital-th--ni">≤ ${name === "CLS" ? fmtCls(ni) : fmtMs(ni)}</span>
+          <span class="vital-th vital-th--poor">&gt; ${name === "CLS" ? fmtCls(ni) : fmtMs(ni)}</span>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderTopPages() {
+    const counts = {};
+    events
+      .filter((e) => e.type === "view")
+      .forEach((e) => {
+        const path = pathFromUrl(e.url);
+        counts[path] = (counts[path] || 0) + 1;
       });
-  }
-
-  // ===== renderers =====
-  function sourceBadge(source) {
-    var map = {
-      "vipzone-rum": { cls: "live", label: "VIPZone RUM", note: "Dữ liệu thực tế từ mọi khách truy cập (Real-User-Monitoring), không phụ thuộc trình duyệt này." },
-      "local-debug": { cls: "debug", label: "Local debug only", note: "Backend RUM không phản hồi — đang hiển thị dữ liệu cục bộ của trình duyệt này. Xoá dữ liệu duyệt web sẽ mất." },
-    };
-    var info = map[source] || map["local-debug"];
-    return (
-      '<div class="stats-source stats-source--' + info.cls + '">' +
-      '<span class="stats-source__dot" aria-hidden="true"></span>' +
-      '<span class="stats-source__label">Nguồn dữ liệu: <strong>' + escapeHtml(info.label) + "</strong></span>" +
-      '<span class="stats-source__note">' + escapeHtml(info.note) + "</span>" +
-      "</div>"
-    );
-  }
-
-  function windowToggle() {
-    return (
-      '<div class="stats-window" role="group" aria-label="Khoảng thời gian">' +
-      WINDOWS.map(function (w) {
-        var active = w.key === state.window;
-        return (
-          '<button type="button" class="stats-window__btn' + (active ? " is-active" : "") +
-          '" data-window="' + w.key + '"' + (active ? ' aria-pressed="true"' : ' aria-pressed="false"') +
-          ">" + escapeHtml(w.label) + "</button>"
-        );
-      }).join("") +
-      "</div>"
-    );
-  }
-
-  function distBar(name, dist, count) {
-    if (!count) return '<div class="vital-bar vital-bar--empty">Chưa đủ dữ liệu</div>';
-    function seg(kind, n, label) {
-      return n
-        ? '<div class="vital-bar__seg vital-bar__seg--' + kind + '" style="flex:' + n +
-            '" title="' + label + ": " + n + '"></div>'
-        : "";
+    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    if (!sorted.length) {
+      return `<p class="stats-empty">Chưa có lượt xem nào được ghi nhận.</p>`;
     }
-    return (
-      '<div class="vital-bar" role="img" aria-label="Phân bố ' + name + '">' +
-      seg("good", dist.good, "Tốt") +
-      seg("ni", dist["needs-improvement"], "Cần cải thiện") +
-      seg("poor", dist.poor, "Kém") +
-      "</div>"
-    );
+    return `
+      <div class="stats-table-wrap">
+        <table class="stats-table">
+          <thead><tr><th>#</th><th>Đường dẫn</th><th>Lượt xem</th></tr></thead>
+          <tbody>
+            ${sorted
+              .map(
+                (row, i) => `
+              <tr>
+                <td>${i + 1}</td>
+                <td><a href="${escapeHtml(row[0])}"><code>${escapeHtml(row[0])}</code></a></td>
+                <td><strong>${row[1]}</strong></td>
+              </tr>
+            `
+              )
+              .join("")}
+          </tbody>
+        </table>
+      </div>
+    `;
   }
 
-  function renderVitalCard(name, m) {
-    var hasData = m.count > 0;
-    var rating = hasData ? m.rating : "none";
-    var valueText = hasData ? fmtVal(name, m.p75) : "Chưa đủ dữ liệu";
-    var meta = hasData
-      ? "P75 từ <strong>" + m.count + "</strong> mẫu<br>Median: " + fmtVal(name, m.median) +
-        "<br>Trung bình: " + fmtVal(name, m.average)
-      : "Chưa có mẫu nào trong khoảng này.<br>Hãy truy cập vài trang để bắt đầu thu thập.";
-
-    return (
-      '<article class="vital-card vital-card--' + rating + (hasData ? "" : " vital-card--empty") + '">' +
-      '<div class="vital-card__head">' +
-      '<span class="vital-card__name">' + name + "</span>" +
-      '<span class="vital-card__target" title="Ngưỡng “tốt” của Google">Mục tiêu ' + GOOD_TARGET[name] + "</span>" +
-      "</div>" +
-      '<div class="vital-card__value' + (hasData ? "" : " vital-card__value--empty") + '">' + escapeHtml(valueText) + "</div>" +
-      '<div class="vital-card__label">' + rateLabel(rating) + "</div>" +
-      '<div class="vital-card__meta">' + meta + "</div>" +
-      distBar(name, m.distribution, m.count) +
-      "</article>"
-    );
-  }
-
-  function renderMetricGrid(names, metrics) {
-    return (
-      '<div class="vitals-grid">' +
-      names.map(function (n) { return renderVitalCard(n, metrics[n] || aggregate(n, [])); }).join("") +
-      "</div>"
-    );
-  }
-
-  function renderSlowPages(slow) {
-    if (!slow || !slow.length) {
-      return '<p class="stats-empty">Chưa đủ dữ liệu để xếp hạng trang chậm.</p>';
-    }
-    return (
-      '<div class="stats-table-wrap"><table class="stats-table">' +
-      "<thead><tr><th>#</th><th>Đường dẫn</th><th>LCP P75</th><th>Mẫu</th></tr></thead><tbody>" +
-      slow
-        .map(function (row, i) {
-          return (
-            "<tr><td>" + (i + 1) + "</td>" +
-            '<td><a href="' + escapeHtml(row.path) + '"><code>' + escapeHtml(row.path) + "</code></a></td>" +
-            "<td><strong>" + fmtMs(row.lcp_p75) + "</strong></td>" +
-            "<td>" + row.samples + "</td></tr>"
-          );
-        })
-        .join("") +
-      "</tbody></table></div>"
-    );
-  }
-
-  function renderLocalActivity() {
-    var events;
-    try {
-      events = JSON.parse(localStorage.getItem("zola-events") || "[]");
-      if (!Array.isArray(events)) events = [];
-    } catch (e) {
-      events = [];
-    }
-    var cutoff = Date.now() - 2592000000;
-    events = events.filter(function (e) { return e && typeof e.ts === "number" && e.ts >= cutoff; });
-    var typeCounts = {};
-    events.forEach(function (e) { typeCounts[e.type] = (typeCounts[e.type] || 0) + 1; });
-    var types = [["view", "Lượt xem"], ["click", "Click"], ["full", "Đọc hết"]];
-    return (
-      '<div class="event-types">' +
-      types
-        .map(function (t) {
-          return (
-            '<div class="event-type event-type--' + t[0] + '">' +
-            '<div class="event-type__count">' + (typeCounts[t[0]] || 0) + "</div>" +
-            '<div class="event-type__label">' + t[1] + "</div></div>"
-          );
-        })
-        .join("") +
-      "</div>"
-    );
-  }
-
-  // ===== main render =====
-  function render(summary) {
-    var src = summary.source;
-    var metrics = summary.metrics;
-
-    container.innerHTML =
-      sourceBadge(src) +
-      '<div class="stats-controls">' +
-      windowToggle() +
-      '<p class="stats-meta">Cập nhật lần cuối: <strong>' + fmtWhen(summary.last_updated) +
-      "</strong> · Tổng mẫu: <strong>" + (summary.total_samples || 0) + "</strong></p>" +
-      "</div>" +
-
-      '<section class="stats-section">' +
-      '<h2 class="stats-heading">Core Web Vitals</h2>' +
-      '<p class="stats-help">3 chỉ số xếp hạng chính của Google. Giá trị là <strong>P75</strong> ' +
-      "(percentile 75) trên cửa sổ <strong>" + escapeHtml(state.window) + "</strong>. " +
-      'Tham chiếu <a href="https://web.dev/articles/vitals" target="_blank" rel="noopener">web.dev</a>.</p>' +
-      renderMetricGrid(CORE, metrics) +
-      "</section>" +
-
-      '<section class="stats-section">' +
-      '<h2 class="stats-heading">Chỉ số chẩn đoán</h2>' +
-      '<p class="stats-help">FCP và TTFB giúp chẩn đoán nguyên nhân, <strong>không phải Core Web Vitals chính</strong> ' +
-      "và không trực tiếp ảnh hưởng xếp hạng.</p>" +
-      renderMetricGrid(DIAGNOSTIC, metrics) +
-      "</section>" +
-
-      '<section class="stats-section">' +
-      '<h2 class="stats-heading">Top trang chậm nhất (LCP P75)</h2>' +
-      renderSlowPages(summary.slow_pages) +
-      "</section>" +
-
-      '<section class="stats-section stats-section--local">' +
-      '<h2 class="stats-heading">Hoạt động cục bộ <span class="stats-tag">Local debug only</span></h2>' +
-      '<p class="stats-help">Lượt xem/đọc ghi ở localStorage của riêng trình duyệt này (không phải số liệu toàn blog).</p>' +
-      renderLocalActivity() +
-      '<button type="button" class="stats-btn stats-btn--danger" id="clear-stats">Xoá dữ liệu cục bộ (debug)</button>' +
-      "</section>";
-
-    // wire window toggle
-    Array.prototype.forEach.call(container.querySelectorAll("[data-window]"), function (btn) {
-      btn.addEventListener("click", function () {
-        var win = btn.getAttribute("data-window");
-        if (win === state.window) return;
-        state.window = win;
-        load();
-      });
+  function renderActivityChart() {
+    const now = Date.now();
+    const ONE_HOUR = 3600000;
+    const buckets = new Array(24).fill(0);
+    events.forEach((e) => {
+      const hoursAgo = Math.floor((now - e.ts) / ONE_HOUR);
+      if (hoursAgo >= 0 && hoursAgo < 24) buckets[23 - hoursAgo]++;
     });
-
-    var clearBtn = container.querySelector("#clear-stats");
-    if (clearBtn) {
-      clearBtn.addEventListener("click", function () {
-        if (!confirm("Xoá Web Vitals + events cục bộ khỏi trình duyệt này? (Không ảnh hưởng dữ liệu RUM trên máy chủ)")) return;
-        try {
-          localStorage.removeItem("zola-vitals");
-          localStorage.removeItem("zola-events");
-        } catch (e) {}
-        load();
-      });
-    }
+    const max = Math.max(...buckets, 1);
+    return `
+      <div class="activity-chart" role="img" aria-label="Hoạt động 24 giờ gần đây">
+        <div class="activity-chart__gridlines" aria-hidden="true"></div>
+        <div class="activity-chart__bars">
+          ${buckets
+            .map((v, i) => {
+              const hoursAgo = 23 - i;
+              const showLabel = hoursAgo % 3 === 0 || hoursAgo === 23;
+              return `
+            <div class="activity-bar" title="${v} event ${hoursAgo}h trước">
+              <div class="activity-bar__fill" style="height: ${(v / max) * 100}%"></div>
+              <span class="activity-bar__label${showLabel ? "" : " activity-bar__label--hidden"}">${hoursAgo}h</span>
+            </div>
+          `;
+            })
+            .join("")}
+        </div>
+      </div>
+    `;
   }
 
-  function renderLoading() {
-    container.innerHTML = '<p class="stats-loading">Đang tải dữ liệu Speed Insights…</p>';
-  }
-
-  function load() {
-    renderLoading();
-    fetchSummary(state.window).then(function (rum) {
-      if (rum) {
-        render(rum);
-      } else {
-        // Backend unreachable → labelled local-debug fallback.
-        render(buildLocalSummary(state.window));
-      }
+  function renderEventTypes() {
+    const typeCounts = {};
+    events.forEach((e) => {
+      typeCounts[e.type] = (typeCounts[e.type] || 0) + 1;
     });
+    const types = ["click", "view", "full"];
+    return `
+      <div class="event-types">
+        ${types
+          .map(
+            (t) => `
+          <div class="event-type event-type--${t}">
+            <div class="event-type__count">${typeCounts[t] || 0}</div>
+            <div class="event-type__label">${t === "click" ? "Click" : t === "view" ? "Xem" : "Đọc hết"}</div>
+          </div>
+        `
+          )
+          .join("")}
+      </div>
+    `;
   }
 
-  load();
+  function renderSummary() {
+    return `
+      <div class="stats-summary">
+        <div class="summary-card">
+          <div class="summary-card__value">${vitals.length}</div>
+          <div class="summary-card__label">Mẫu Web Vitals</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card__value">${events.length}</div>
+          <div class="summary-card__label">Event tổng</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card__value">${events.filter((e) => e.type === "view").length}</div>
+          <div class="summary-card__label">Lượt xem</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card__value">${new Set(events.map((e) => e.url)).size}</div>
+          <div class="summary-card__label">Trang khác nhau</div>
+        </div>
+      </div>
+    `;
+  }
+
+  const lastUpdated = latestTimestamp();
+
+  // ===== RENDER =====
+  container.innerHTML = `
+    <p class="stats-meta" aria-live="polite">
+      Cập nhật lần cuối: <time datetime="${lastUpdated || ""}">${fmtWhen(lastUpdated)}</time>
+      · Cửa sổ dữ liệu: 30 ngày
+    </p>
+
+    <section class="stats-section">
+      <h2 class="stats-heading">Tổng quan</h2>
+      ${renderSummary()}
+    </section>
+
+    <section class="stats-section">
+      <h2 class="stats-heading">Speed Insights — Core Web Vitals</h2>
+      <p class="stats-help">
+        Đo trực tiếp trên trình duyệt này theo
+        <a href="https://web.dev/vitals/" target="_blank" rel="noopener">chuẩn Google Web Vitals</a>.
+        Giá trị hiển thị là <strong>P75</strong> (percentile thứ 75) — Google dùng P75 để xếp hạng PageSpeed.
+      </p>
+      <div class="vitals-grid">
+        ${["LCP", "FCP", "INP", "TTFB", "CLS"].map(renderVitalCard).join("")}
+      </div>
+    </section>
+
+    <section class="stats-section">
+      <h2 class="stats-heading">Hoạt động 24h gần đây</h2>
+      ${renderActivityChart()}
+    </section>
+
+    <section class="stats-section stats-section--split">
+      <div class="stats-panel">
+        <h2 class="stats-heading">Phân loại event</h2>
+        ${renderEventTypes()}
+      </div>
+      <div class="stats-panel">
+        <h2 class="stats-heading">Top trang xem nhiều</h2>
+        ${renderTopPages()}
+      </div>
+    </section>
+
+    <section class="stats-section stats-section--manage">
+      <h2 class="stats-heading">Quản lý dữ liệu</h2>
+      <p class="stats-help">
+        Dữ liệu chỉ lưu ở localStorage của trình duyệt này (per-visitor).
+        Truy cập trang khác hoặc clear browser data sẽ mất.
+      </p>
+      <button type="button" class="stats-btn stats-btn--danger" id="clear-stats">Xoá toàn bộ dữ liệu thống kê</button>
+    </section>
+  `;
+
+  document.getElementById("clear-stats")?.addEventListener("click", () => {
+    if (!confirm("Xoá toàn bộ Web Vitals + events khỏi browser này?")) return;
+    localStorage.removeItem("zola-vitals");
+    localStorage.removeItem("zola-events");
+    location.reload();
+  });
 })();

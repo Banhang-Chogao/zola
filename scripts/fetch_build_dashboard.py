@@ -182,32 +182,6 @@ def is_build_error(normalized: str) -> bool:
     return normalized == "failed"
 
 
-def ui_icon_for_status(normalized: str) -> str:
-    """Icon hiển thị status trên dashboard (✓, ✗, ⊘, etc)."""
-    icons = {
-        "success": "✓",
-        "failed": "✗",
-        "cancelled": "⊘",
-        "skipped": "⊘",
-        "in_progress": "…",
-        "unknown": "?",
-    }
-    return icons.get(normalized, "?")
-
-
-def ui_class_for_status(normalized: str) -> str:
-    """CSS class cho status card styling."""
-    classes = {
-        "success": "--success",
-        "failed": "--failed",
-        "cancelled": "--cancelled",
-        "skipped": "--skipped",
-        "in_progress": "--in-progress",
-        "unknown": "--unknown",
-    }
-    return classes.get(normalized, "--unknown")
-
-
 def _parse_ts(ts: str) -> datetime | None:
     if not ts:
         return None
@@ -553,9 +527,7 @@ def fetch_builds() -> list[dict]:
                 "gh_status": gh_status,
                 "success": normalized == "success",
                 "is_error": is_build_error(normalized),
-                "severity": "critical" if normalized == "failed" else "warning" if normalized == "cancelled" else "info",
-                "ui_icon": ui_icon_for_status(normalized),
-                "ui_class": ui_class_for_status(normalized),
+                "severity": "critical" if normalized == "failed" else "info",
                 "conclusion": conclusion or ("in_progress" if normalized == "in_progress" else "unknown"),
                 "cancel_reason": cancel_reason,
                 "cause_vi": cause,

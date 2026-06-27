@@ -21,7 +21,6 @@ Usage:
 Stdlib only, không cần pip install gì.
 """
 
-import json
 import os
 import re
 import sys
@@ -65,13 +64,6 @@ CONFLICT_MARKERS = (
     re.compile(r"^=======\s*$", re.MULTILINE),
     re.compile(r"^>>>>>>>\s", re.MULTILINE),
 )
-
-# Theme log (rollback ledger) — gate giá trị committed data/theme-log.json.
-# Phải đồng bộ THEME_LOG_START_DATE trong scripts/theme_audit.py. Nếu maintainer
-# đổi mốc bắt đầu mà KHÔNG cập nhật cả hai → QA fail (đổi mốc trở nên "visible").
-THEME_LOG_PATH = "data/theme-log.json"
-THEME_LOG_EXPECTED_START = "2026-06-14T00:00:00+07:00"
-THEME_LOG_HASH_RE = re.compile(r"^[0-9a-f]{7,40}$")
 
 # ANSI colors — disable trên CI hoặc non-tty
 USE_COLOR = sys.stdout.isatty() and os.environ.get("NO_COLOR") is None
@@ -628,58 +620,6 @@ def apply_fixes(all_fixes):
     return touched
 
 
-def check_theme_log():
-    """Repo-level QA cho rollback ledger data/theme-log.json (shallow-safe — KHÔNG
-    cần git, đọc thẳng JSON đã commit).
-
-    Gate (error):
-      1. File tồn tại + parse được.
-      2. baseline.start_date == THEME_LOG_EXPECTED_START (đổi mốc → visible).
-      3. Có ≥1 hàng theme.
-      4. Có ≥1 hàng trong cửa sổ ĐẦU [2026-06-14, 2026-06-25) — chứng minh đã
-         backfill tới mốc nền móng, không chỉ batch theme gần đây.
-      5. Mọi commit_hash là hex hợp lệ (7–40) — không có hash chưa-verify/placeholder
-         lọt vào bảng.
-    """
-    issues = []
-    path = REPO_ROOT / THEME_LOG_PATH
-    try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-    except FileNotFoundError:
-        return [Issue("error", THEME_LOG_PATH, 1,
-                      "Theme log: thiếu data/theme-log.json — chạy python3 scripts/theme_audit.py")]
-    except (OSError, ValueError) as exc:
-        return [Issue("error", THEME_LOG_PATH, 1, f"Theme log: JSON không đọc được — {exc}")]
-
-    baseline = data.get("baseline") or {}
-    start = baseline.get("start_date")
-    if start != THEME_LOG_EXPECTED_START:
-        issues.append(Issue("error", THEME_LOG_PATH, 1,
-            f"Theme log: baseline.start_date={start!r} ≠ {THEME_LOG_EXPECTED_START!r} "
-            "(đồng bộ THEME_LOG_START_DATE trong scripts/theme_audit.py + qa_check.py)"))
-
-    themes = data.get("themes") or []
-    if not themes:
-        issues.append(Issue("error", THEME_LOG_PATH, 1, "Theme log: không có hàng theme nào"))
-        return issues
-
-    early = 0
-    for t in themes:
-        h = (t.get("commit_hash") or "").strip()
-        if not THEME_LOG_HASH_RE.match(h):
-            issues.append(Issue("error", THEME_LOG_PATH, 1,
-                f"Theme log: commit_hash không hợp lệ/chưa-verify: {h!r} "
-                f"(theme_id={t.get('theme_id')})"))
-        d = (t.get("datetime") or "")[:10]
-        if "2026-06-14" <= d < "2026-06-25":
-            early += 1
-    if early == 0:
-        issues.append(Issue("error", THEME_LOG_PATH, 1,
-            "Theme log: không có hàng nào trong [2026-06-14, 2026-06-25) — backfill "
-            "nền móng từ 14/06 bị thiếu (regenerate với full git history)"))
-    return issues
-
-
 def main():
     import argparse
     parser = argparse.ArgumentParser(
@@ -754,11 +694,6 @@ def main():
 
     print(f"{BOLD('[QA]')} Scanned {scanned} files\n")
 
-    # Repo-level check: rollback ledger data/theme-log.json (chỉ khi scan toàn repo,
-    # không khi user truyền file cụ thể → tránh false-fail lúc scan 1 file lẻ).
-    if not args.targets:
-        all_issues.extend(check_theme_log())
-
     # Apply content fixes CHỈ ở --fix safe mode (perf mode đã apply img
     # fixes inline trong loop ở trên, không touch content frontmatter)
     fixed_count = 0
@@ -774,19 +709,6 @@ def main():
 
     if all_issues:
         print()
-
-    # Severity summary (CULTURE_OF_DEPLOYMENT.md §4). qa_check.py hiện chỉ phân
-    # error/warning → map error→P0 (hard block), warning→P2 (advisory, KHÔNG block).
-    # Additive: không đổi exit code. TODO: tách check theo severity để phân loại
-    # mịn hơn P1 (auto-heal candidate) và P3 (info) khi refactor QA tầng sau.
-    p0, p2 = len(errors), len(warnings)
-    decision = "AUTO_HEAL" if fix_mode else ("FAIL" if p0 else "PASS")
-    print(BOLD("QA SUMMARY"))
-    print(f"P0 blockers: {p0}")
-    print("P1 auto-heal candidates: 0")
-    print(f"P2 warnings: {p2}")
-    print("P3 info: 0")
-    print(f"Decision: {decision}\n")
 
     if fix_mode == "perf":
         perf_msg = f", {perf_fix_count} <img> tags fixed in {len(perf_fixed_files)} file(s)" if perf_fix_count else ""

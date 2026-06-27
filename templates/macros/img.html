@@ -19,67 +19,6 @@
      {% if height %}height="{{ height }}"{% endif %}>
 {%- endmacro picture_webp %}
 
-{# ============================================================================
-   Resolver ảnh OWNED (SEOMONEY) — chuỗi fallback AdSense/SEO-safe, KHÔNG ảnh ngoài.
-   Thứ tự ưu tiên (khớp scripts/build_owned_covers.py):
-     1. extra.image / extra.cover / extra.thumbnail (placeholder chung KHÔNG tính)
-     2. Ảnh local /uploads/ trong bài  ─┐ (manifest data/owned-covers.json)
-     3. Cover editorial SEOMONEY tự sinh ┘
-     4. Placeholder theo chuyên mục
-     5. Fallback site-level og-default.webp
-   Dùng: {{ img::cover_src(page=page) }} cho card/hero; {{ img::cover_alt(page=page) }} cho alt.
-   ============================================================================ #}
-{% macro cover_src(page) -%}
-{%- set img = page.extra.image | default(value="") -%}
-{%- set cov = page.extra.cover | default(value="") -%}
-{%- set thumb = page.extra.thumbnail | default(value="") -%}
-{%- set resolved = "" -%}
-{%- if img -%}{%- set resolved = img -%}
-{%- elif cov -%}{%- set resolved = cov -%}
-{%- elif thumb and "/img/placeholder/" not in thumb -%}{%- set resolved = thumb -%}
-{%- endif -%}
-{%- if resolved -%}
-{# normalize raster nội bộ → .webp (giống thumb_src); URL ngoài/svg giữ nguyên #}
-{%- if resolved is ending_with(".jpg") or resolved is ending_with(".jpeg") -%}
-{{- resolved | replace(from=".jpg", to=".webp") | replace(from=".jpeg", to=".webp") -}}
-{%- elif resolved is ending_with(".png") -%}
-{{- resolved | replace(from=".png", to=".webp") -}}
-{%- else -%}
-{{- resolved -}}
-{%- endif -%}
-{%- else -%}
-{%- set data = load_data(path="data/owned-covers.json") -%}
-{%- set slug = page.slug -%}
-{%- if slug in data.covers -%}
-{{- get_url(path=data.covers[slug].image) -}}
-{%- else -%}
-{# Bài CHƯA có trong manifest (vd feed-anchor, bài mới chưa chạy script) →
-   placeholder owned theo chuyên mục (if/elif, KHÔNG index map động — Tera lỗi
-   với key non-ASCII có dấu cách). Chạy build_owned_covers.py để có cover riêng. #}
-{%- set cat = page.taxonomies.categories | default(value=[]) -%}
-{%- set primary = "" -%}
-{%- for c in cat -%}{%- if c != "Tất cả" and not primary -%}{%- set_global primary = c -%}{%- endif -%}{%- endfor -%}
-{%- if primary == "Công nghệ" -%}{{- get_url(path="img/placeholders/category-tech.svg") -}}
-{%- elif primary == "Ngân hàng" or primary == "Bảo hiểm" -%}{{- get_url(path="img/placeholders/category-finance.svg") -}}
-{%- elif primary == "Khoa học" -%}{{- get_url(path="img/placeholders/category-ai.svg") -}}
-{%- elif primary == "làm affiliate" -%}{{- get_url(path="img/placeholders/category-seo.svg") -}}
-{%- else -%}{{- get_url(path="img/placeholders/category-default.svg") -}}
-{%- endif -%}
-{%- endif -%}
-{%- endif -%}
-{%- endmacro cover_src %}
-
-{% macro cover_alt(page) -%}
-{%- set alt = page.extra.image_alt | default(value="") -%}
-{%- if alt -%}{{- alt -}}
-{%- else -%}
-{%- set data = load_data(path="data/owned-covers.json") -%}
-{%- set slug = page.slug -%}
-{%- if slug in data.covers -%}{{- data.covers[slug].image_alt -}}
-{%- else -%}{{- page.title -}}{%- endif -%}
-{%- endif -%}
-{%- endmacro cover_alt %}
-
 {% macro thumb_src(thumb="") -%}
 {%- if thumb -%}
 {%- if thumb is ending_with(".jpg") or thumb is ending_with(".jpeg") -%}

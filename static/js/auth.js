@@ -2,7 +2,7 @@
  * CMS auth gate — GitHub OAuth là cổng đăng nhập duy nhất.
  *
  * Trước đây: OTP modal (4 số hashed SHA-256). Giờ thay bằng full OAuth flow
- * qua backend FastAPI (services/vipzone/cms_auth.py).
+ * qua backend FastAPI (services/visitor-counter/main.py).
  *
  * Flow:
  *   1. User click [data-auth-trigger] (link Admin ở footer)
@@ -30,22 +30,6 @@
   const meta = document.querySelector('meta[name="zola-cms-auth-api"]');
   const apiUrl = (meta && meta.getAttribute("content")) || "";
 
-  // Chọn endpoint OAuth start theo provider đang bật (hỏi /auth/config).
-  // dual/google → Google start; github → GitHub start. Lỗi fetch → GitHub
-  // (giữ hành vi cũ, an toàn). Cache trong 1 page load để khỏi gọi lặp.
-  let startPathPromise = null;
-  function resolveStartPath() {
-    if (startPathPromise) return startPathPromise;
-    startPathPromise = fetch(apiUrl + "/auth/config", { cache: "no-store" })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (cfg) {
-        if (cfg && cfg.google && cfg.google.enabled) return "/auth/google/start";
-        return "/auth/login";
-      })
-      .catch(function () { return "/auth/login"; });
-    return startPathPromise;
-  }
-
   triggers.forEach(function (el) {
     el.addEventListener("click", function (e) {
       // Nếu backend chưa configure → fallback navigate thẳng /editor/,
@@ -61,10 +45,8 @@
         if (u.origin === location.origin) returnPath = u.pathname + u.search;
       } catch (err) { /* invalid href → giữ default */ }
 
-      resolveStartPath().then(function (startPath) {
-        window.location.href =
-          apiUrl + startPath + "?return_to=" + encodeURIComponent(returnPath);
-      });
+      const url = apiUrl + "/auth/login?return_to=" + encodeURIComponent(returnPath);
+      window.location.href = url;
     });
   });
 })();

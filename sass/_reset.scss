@@ -64,16 +64,6 @@ button { font-family: inherit; cursor: pointer; }
 
 ul, ol { padding: 0; margin: 0; list-style: none; }
 
-/* Respect user motion preferences across all transitions */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
 /* ============= iPhone Safe Area Insets =============
    Bật bởi <meta viewport-fit=cover>. Các env(safe-area-inset-*) trả
    pixel offset từ Dynamic Island / Home Indicator / Notch:

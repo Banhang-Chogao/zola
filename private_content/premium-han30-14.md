@@ -1,4 +1,4 @@
-## 🇰🇷 Ngày 14 — Ôn tập tuần 2 & hội thoại mua sắm
+# 🇰🇷 Ngày 14 — Ôn tập tuần 2 & hội thoại mua sắm
 
 > **Mục tiêu hôm nay (20–30 phút):** Gom lại **5 trợ từ** (은/는, 이/가, 을/를, 에, 에서) và **số đếm** đã học, rồi ráp tất cả vào **hội thoại mua sắm & gọi món** thực chiến: hỏi giá, mặc cả, mua, gọi đồ ăn. Cuối bài có **15 câu bài tập + đáp án**.
 

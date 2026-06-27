@@ -41,7 +41,6 @@ jobs:
           pip install -r backend/requirements.txt
           pip install -r scripts/requirements-f-dashboard.txt
           pip install -r scripts/requirements-l-dashboard.txt
-          pip install PyYAML  # workflow YAML validation gate (V21)
 
       - name: Unit tests — paywall + dashboards + footer countdown + ai_diagnose
         run: |
@@ -49,9 +48,6 @@ jobs:
 
       - name: Run QA checks (conflicts/secrets/SEO/SCSS syntax)
         run: python3 qa_check.py
-
-      - name: Validate GitHub Actions workflow YAML (P0 — V21)
-        run: python3 scripts/validate_workflows.py
 
       - name: Install Zola for build check
         run: |
@@ -81,14 +77,8 @@ jobs:
       - name: SEO Rank auto-fix report (scan only)
         run: python3 scripts/seo-rank-autofix.py --scan-only
 
-      - name: Publish premium content (paywall off — full body for build)
+      - name: Strip premium content before build
         run: python3 scripts/paywall_prepare_build.py --strip
-
-      - name: Validate series template registration (V8 prevention)
-        run: python3 scripts/validate_series_registration.py
-
-      - name: Validate content placements registry + hooks
-        run: python3 scripts/validate_content_placements.py
 
       - name: Zola build smoke test
         env:

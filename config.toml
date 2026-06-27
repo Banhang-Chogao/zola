@@ -32,10 +32,6 @@ extra_syntaxes_and_themes = ["highlight_themes"]
 author = "duynguyenlog"
 tagline = "Duy Nguyen"
 
-# Cloudflare R2 CDN (DISCONNECTED — reversible). Static media served from GitHub Pages.
-# Re-enable ONLY when owner allows by uncommenting:
-# cdn = "https://cdn.seomoney.org"
-
 # Author box hiển thị cuối mỗi bài viết.
 # Bio, avatar — sửa ở đây ảnh hưởng mọi bài.
 # Avatar: upload file ảnh vào static/img/author-avatar.webp trong repo,
@@ -63,43 +59,42 @@ chúng ta có thể đồng hành cùng nhau qua từng bài viết.\
 # Thêm/bớt mục = sửa mảng 'children' tương ứng (giữ pattern url + name).
 menu = [
     { name = "Trang chủ", url = "$BASE_URL/" },
-    # "Bài viết" dùng MEGA MENU: 'groups' = các nhóm chuyên mục (mỗi nhóm có
-    # heading + children). base.html render groups → mega menu nhiều cột (desktop)
-    # / accordion (mobile). KHÔNG đổi URL category nào — chỉ nhóm lại theo biên tập
-    # cho gọn (thay 1 list dọc dài). Mỗi group là 1 inline-table 1 dòng (TOML:
-    # inline table không xuống dòng được). Premium tách riêng nhóm "Đặc biệt".
-    { name = "Bài viết", url = "$BASE_URL/categories/tat-ca", groups = [
-        { name = "Tổng quan", children = [ { url = "$BASE_URL/categories/tat-ca", name = "Tất cả bài viết" } ] },
-        { name = "Chủ đề tri thức", children = [ { url = "$BASE_URL/categories/bao-chi", name = "Báo chí" }, { url = "$BASE_URL/categories/khoa-hoc", name = "Khoa học" }, { url = "$BASE_URL/categories/the-gioi", name = "Thế giới" }, { url = "$BASE_URL/categories/cong-nghe", name = "Công nghệ" } ] },
-        { name = "Đời sống", children = [ { url = "$BASE_URL/categories/du-lich", name = "Du lịch" }, { url = "$BASE_URL/categories/am-thuc", name = "Ẩm thực" } ] },
-        { name = "Tài chính cá nhân", children = [ { url = "$BASE_URL/categories/ngan-hang", name = "Ngân hàng" }, { url = "$BASE_URL/categories/bao-hiem", name = "Bảo hiểm" } ] },
-        { name = "Đặc biệt", children = [ { url = "$BASE_URL/categories/premium", name = "⭐ Premium" } ] },
+    { name = "Bài viết", url = "$BASE_URL/categories/tat-ca", children = [
+        { url = "$BASE_URL/categories/tat-ca",  name = "Tất cả bài viết" },
+        { url = "$BASE_URL/categories/bao-chi",  name = "Báo chí" },
+        { url = "$BASE_URL/categories/khoa-hoc", name = "Khoa học" },
+        { url = "$BASE_URL/categories/the-gioi", name = "Thế giới" },
+        { url = "$BASE_URL/categories/du-lich",  name = "Du lịch" },
+        { url = "$BASE_URL/categories/cong-nghe", name = "Công nghệ" },
+        { url = "$BASE_URL/categories/am-thuc",  name = "Ẩm thực" },
+        { url = "$BASE_URL/categories/ngan-hang",  name = "Ngân hàng" },
+        { url = "$BASE_URL/categories/bao-hiem",  name = "Bảo hiểm" },
+        { url = "$BASE_URL/categories/premium",   name = "⭐ Premium" },
     ] },
-    # "Công cụ" dùng MEGA MENU: 'groups' = các nhóm (mỗi nhóm có heading + children).
-    # base.html render groups → mega menu (desktop) / accordion (mobile). KHÔNG xoá/
-    # đổi URL tool nào — chỉ nhóm lại cho gọn. Mỗi group là 1 inline-table 1 dòng
-    # (ràng buộc TOML: inline table không xuống dòng được).
-    # Refactor 27/06/2026: tách 'Dashboard' và 'Công cụ phụ' (→ 'Tiện ích') thành
-    # top-level riêng để 'Công cụ' gọn hơn — chỉ còn 3 nhóm viết/SEO/guideline.
-    { name = "Công cụ", url = "$BASE_URL/editor", groups = [
-        { name = "Viết & biên tập", children = [ { url = "$BASE_URL/editor", name = "Viết bài" }, { url = "$BASE_URL/tools/content-creator", name = "Content Creator" }, { url = "$BASE_URL/prompt-support", name = "Prompt Support" } ] },
-        { name = "SEO & phân tích", children = [ { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" }, { url = "$BASE_URL/insights", name = "Insights" }, { url = "$BASE_URL/scoring", name = "Scoring" }, { url = "$BASE_URL/tools/theme-log", name = "Theme log" } ] },
-        { name = "Hệ thống & guideline", children = [ { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" }, { url = "$BASE_URL/tools/s-dna", name = "S-DNA" }, { url = "$BASE_URL/font", name = "Font Guideline" } ] },
-    ] },
-    # "Dashboard" — top-level riêng (tách khỏi Công cụ). Dropdown đơn (children) gom
-    # 4 dashboard tài chính F/L/O/H. KHÔNG đổi URL dashboard.
-    { name = "Dashboard", url = "$BASE_URL/tools/f-dashboard", children = [
+    { name = "Công cụ", url = "$BASE_URL/editor", children = [
+        { url = "$BASE_URL/editor",    name = "Viết bài" },
+        { url = "$BASE_URL/tools/content-creator", name = "Content Creator" },
+        { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" },
+        { url = "$BASE_URL/converter", name = "Korean Converter" },
+        { url = "$BASE_URL/changelog", name = "Changelog" },
+        { url = "$BASE_URL/insights",  name = "Insights" },
+        { url = "$BASE_URL/scoring",   name = "Scoring" },
         { url = "$BASE_URL/tools/f-dashboard", name = "F-Dashboard" },
         { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" },
         { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
         { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" },
+        { url = "$BASE_URL/prompt-support", name = "Prompt Support" },
+        { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" },
+        { url = "$BASE_URL/tools/s-dna", name = "S-DNA" },
+        { url = "$BASE_URL/font",      name = "Font Guideline" },
     ] },
-    # "Tiện ích" — top-level riêng (đổi tên từ nhóm cũ 'Công cụ phụ' cho gọn navbar +
-    # mobile). Dropdown đơn (children). KHÔNG đổi URL tool.
-    { name = "Tiện ích", url = "$BASE_URL/converter", children = [
-        { url = "$BASE_URL/converter", name = "Korean Converter" },
-        { url = "$BASE_URL/changelog", name = "Changelog" },
-        { url = "$BASE_URL/tools/momo-url", name = "MoMo URL" },
+    { name = "Giới thiệu", url = "$BASE_URL/about", children = [
+        { url = "$BASE_URL/about",            name = "Giới thiệu" },
+        { url = "$BASE_URL/contact",          name = "Liên hệ" },
+        { url = "$BASE_URL/privacy",          name = "Chính sách bảo mật" },
+        { url = "$BASE_URL/terms",            name = "Điều khoản & Miễn trừ" },
+        { url = "$BASE_URL/copyright",        name = "Tuyên bố bản quyền" },
+        { url = "$BASE_URL/bao-cao-tong-ket", name = "Báo cáo tổng kết" },
     ] },
 ]
 
@@ -107,8 +102,8 @@ menu = [
 # Lấy MEASUREMENT_ID tại https://analytics.google.com → Admin → Data Streams
 # → chọn Web stream → copy "Measurement ID" dạng "G-XXXXXXXXXX"
 # Để trống = GA tracking script không load (silent skip).
-# Property ID: 542421812 (tham chiếu Admin → Property Settings)
-ga_measurement_id = "G-SMTFZVC0XN"
+# Property ID: 541698865 (tham chiếu Admin → Property Settings)
+ga_measurement_id = "G-REFBXH86Z5"
 
 # ============= GOOGLE SEARCH CONSOLE =============
 # Xác minh sở hữu site → mở khoá submit sitemap + "Request Indexing"
@@ -129,17 +124,18 @@ google_site_verification = "P8D-DHMtUivdNJmeBe9y345PxmIfmIGooscim9x7IM4"
 # truy vấn site:seomoney.org nên nút tìm kiếm vẫn hoạt động.
 google_cse_cx = "533c848cb0eb14de2"
 
-# CMS auth backend — FastAPI OAuth chạy trên VIPZone (service blog-vipzone-api).
+# CMS auth backend — FastAPI OAuth (cùng service visitor-counter trên Render).
 # PHẢI nằm dưới [extra], KHÔNG đặt trong [extra.giscus] (meta zola-cms-auth-api sẽ không render).
-cms_auth_url = "https://blog-vipzone-api.onrender.com"
+cms_auth_url = "https://blog-visitor-api.onrender.com"
 
-# Paywall DISABLED (hotfix SEOMONEY 2026-06-27): mọi bài public, không gate thanh toán.
-paywall_api_url = ""
-# Giá mặc định bài premium (VND) — chỉ metadata, không kích hoạt paywall UI.
+# Paywall API — FastAPI backend (request/unlock/admin). Để trống = UI hiện nhưng fetch fail.
+paywall_api_url = "https://blog-paywall-api.onrender.com"
+# Giá mặc định bài premium (VND) — category "premium" tự áp dụng, không cần extra.price.
 paywall_default_price = 100000
-# Premium lock OFF — category "premium" là nhãn bình thường, nội dung đọc miễn phí.
-enable_premium_lock = false
-premium_hidden = false
+# Ẩn tạm chuyên mục Premium: /categories/premium/ và mọi bài premium hiển thị
+# locked-state overlay ("Chuyên mục này đã bị ẩn tạm thời.") thay vì nội dung/404.
+# Đặt false để khôi phục hiển thị bình thường.
+premium_hidden = true
 momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
 # Link MoMo cho DONATE (ủng hộ tự nguyện) — key RIÊNG để donate có thể đổi độc
 # lập với paywall sau này. Hiện trỏ cùng tài khoản nhận tiền với momo_payment_link
@@ -153,33 +149,8 @@ donate_momo_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
 #   3. Vào https://giscus.app → chọn repo Banhang-Chogao/zola
 #      → copy 2 ID dán vào dưới
 # Để trống repo_id hoặc category_id = macro silent skip, không render comment box.
-#
-# ⚠️ Giscus (đăng nhập GitHub) ĐÃ ĐƯỢC THAY bằng hệ thống bình luận native đăng nhập
-# Google (xem [extra.comments] bên dưới). Block Giscus chỉ render lại khi
-# legacy_enabled = true — giữ để xem comment GitHub cũ (read-only), KHÔNG xoá tự động.
 [extra.giscus]
 repo        = "Banhang-Chogao/zola"
 repo_id     = "R_kgDOS5xLPw"
 category    = "General"
 category_id = "DIC_kwDOS5xLP84C_Fx6"
-legacy_enabled = false
-
-# ============= NATIVE COMMENTS (đăng nhập Google, có kiểm duyệt) =============
-# Hệ thống bình luận tự xây, backend VIPZone (config.extra.cms_auth_url):
-#   GET  /comments?path=...   → bình luận đã duyệt (public)
-#   POST /comments            → gửi bình luận (cần đăng nhập Google)
-#   /auth/comment/start       → đăng nhập Google để bình luận (KHÔNG vào được CMS)
-# Cấu hình status mặc định + độ dài tối đa khớp env backend (render.yaml).
-[extra.comments]
-enabled = true
-auth_provider = "google"
-default_status = "pending"   # bình luận mới chờ duyệt (an toàn AdSense)
-max_length = 1500
-
-# ============= ADSENSE PLACEHOLDERS =============
-# Bật/tắt hệ thống placeholder quảng cáo (không phải quảng cáo thật).
-# enabled = false   → không render placeholder nào
-# placeholders = true → render placeholder UI để test vị trí, chờ gắn mã AdSense thật
-[extra.ads]
-enabled = false
-placeholders = true

@@ -1,4 +1,4 @@
-## 🇰🇷 Ngày 6 — Quy tắc phát âm: nối âm & đồng hóa
+# 🇰🇷 Ngày 6 — Quy tắc phát âm: nối âm & đồng hóa
 
 > **Mục tiêu hôm nay (20–30 phút):** Nắm **6 quy tắc biến âm** quan trọng nhất của tiếng Hàn — nối âm (연음), căng hóa (경음화), mũi hóa (비음화), bật hơi hóa (격음화), ㅎ yếu hóa, và ㄹ-hóa (유음화). Sau bài này bạn hiểu vì sao **chữ viết ≠ cách đọc** và đọc đúng như người bản xứ. Cuối bài có **14 câu bài tập + đáp án**.
 

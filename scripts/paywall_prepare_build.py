@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """
-Prepare premium posts for Zola build.
-
-When enable_premium_lock / premium_hidden is ON: strip bodies → private_content/.
-When lock is OFF (hotfix / free mode): merge private_content/ → full public content.
+Strip premium post bodies before Zola build — full content → private_content/.
 
 Usage:
   python3 scripts/paywall_prepare_build.py --strip   # before zola build
   python3 scripts/paywall_prepare_build.py --restore # after build (local dev)
+
+Reads Zola TOML frontmatter (+++): premium, premium_post_id, premium_teaser_words
 """
 
 from __future__ import annotations
@@ -22,11 +21,9 @@ ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
 PRIVATE = ROOT / "private_content"
 BACKUP = ROOT / "data" / ".paywall-content-backup.json"
-CONFIG = ROOT / "config.toml"
 
 PREMIUM_CATEGORY = "premium"
 DEFAULT_PREMIUM_PRICE = 100_000
-MORE_MARKER = "<!-- more -->"
 
 
 def _parse_zola_md(text: str) -> tuple[dict, str, str] | None:
@@ -48,20 +45,11 @@ def _write_zola_md(path: Path, fm_block: str, body: str) -> None:
 
 def _split_more(body: str) -> tuple[str, str]:
     """Tách phần public (trước <!-- more -->) và phần premium (sau)."""
-    if MORE_MARKER in body:
-        head, tail = body.split(MORE_MARKER, 1)
+    marker = "<!-- more -->"
+    if marker in body:
+        head, tail = body.split(marker, 1)
         return head.strip(), tail.strip()
     return body.strip(), ""
-
-
-def _premium_lock_enabled() -> bool:
-    """enable_premium_lock ưu tiên; fallback premium_hidden (deprecated)."""
-    if not CONFIG.exists():
-        return False
-    extra = tomllib.loads(CONFIG.read_text(encoding="utf-8")).get("extra") or {}
-    if "enable_premium_lock" in extra:
-        return bool(extra["enable_premium_lock"])
-    return bool(extra.get("premium_hidden", False))
 
 
 def _teaser(body: str, words: int) -> str:
@@ -127,41 +115,6 @@ def find_premium_posts() -> list[Path]:
     return posts
 
 
-def _full_body_for_publish(current_body: str, post_id: str) -> str:
-    """Ghép nội dung đầy đủ từ private_content/ khi premium lock tắt."""
-    private_path = PRIVATE / f"{post_id}.md"
-    if not private_path.exists():
-        return current_body
-    private_body = private_path.read_text(encoding="utf-8").strip()
-    if MORE_MARKER in current_body:
-        head, _ = current_body.split(MORE_MARKER, 1)
-        return f"{head.strip()}\n\n{MORE_MARKER}\n\n{private_body}"
-    return private_body
-
-
-def publish_premium() -> int:
-    """Merge private_content → content/ cho build public (lock tắt)."""
-    backup: dict[str, str] = {}
-    count = 0
-
-    for md in find_premium_posts():
-        parsed = _parse_zola_md(md.read_text(encoding="utf-8"))
-        if not parsed:
-            continue
-        meta, body, fm_block = parsed
-        pm = _premium_meta(meta)
-        post_id = pm.get("premium_post_id") or pm.get("slug") or md.stem
-        backup[str(md.relative_to(ROOT))] = body
-        full_body = _full_body_for_publish(body, post_id)
-        _write_zola_md(md, fm_block, full_body)
-        count += 1
-
-    BACKUP.parent.mkdir(parents=True, exist_ok=True)
-    BACKUP.write_text(json.dumps(backup, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"paywall_prepare: published {count} premium posts (full content, lock off)")
-    return count
-
-
 def strip_premium() -> int:
     PRIVATE.mkdir(parents=True, exist_ok=True)
     backup: dict[str, str] = {}
@@ -174,14 +127,12 @@ def strip_premium() -> int:
         meta, body, fm_block = parsed
         pm = _premium_meta(meta)
         _public, premium_body = _split_more(body)
+        stored_premium = premium_body if premium_body else body
         post_id = pm.get("premium_post_id") or pm.get("slug") or md.stem
         teaser_words = int(pm.get("premium_teaser_words", 180))
 
         private_path = PRIVATE / f"{post_id}.md"
-        if premium_body:
-            private_path.write_text(premium_body, encoding="utf-8")
-        elif not private_path.exists():
-            private_path.write_text(body, encoding="utf-8")
+        private_path.write_text(stored_premium, encoding="utf-8")
 
         backup[str(md.relative_to(ROOT))] = body
         fm_out = _inject_premium_flags(fm_block, meta)
@@ -221,10 +172,7 @@ def main() -> int:
     args = parser.parse_args()
 
     if args.strip:
-        if _premium_lock_enabled():
-            strip_premium()
-        else:
-            publish_premium()
+        strip_premium()
     else:
         restore_premium()
     return 0

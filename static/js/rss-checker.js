@@ -24,7 +24,7 @@
     if (m1 && m1.getAttribute("content")) return m1.getAttribute("content");
     const m2 = document.querySelector('meta[name="zola-visitor-api"]');
     if (m2 && m2.getAttribute("content")) return m2.getAttribute("content");
-    return "https://blog-vipzone-api.onrender.com";
+    return "https://blog-visitor-api.onrender.com";
   })();
 
   const root = document.getElementById("baochi-app");

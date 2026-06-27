@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 """
-Post-build checker: detect broken internal links.
+Post-build checker: detect internal hrefs missing GitHub Pages /zola/ prefix.
 
-Scans public/*.html for href="/..." that don't exist in the built site.
-Verifies that all internal links resolve to actual files.
-
-Options:
-    --fix   Strip legacy /zola/ from source files when checker detects stale paths.
+Scans public/*.html for href="/..." that would 404 on
+https://seomoney.org/ (browser resolves to github.io root).
 
 Exit 0 if clean, 1 if any bad links found.
 Stdlib only.
@@ -14,25 +11,19 @@ Stdlib only.
 
 from __future__ import annotations
 
-import argparse
 import re
-import subprocess
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 PUBLIC = REPO / "public"
-SCRIPTS = REPO / "scripts"
+SITE_PREFIX = "/zola"
+BASE_URL = "https://seomoney.org"
 
-sys.path.insert(0, str(SCRIPTS))
-from site_link_prefix import read_base_url  # noqa: E402
-
-BASE_URL = read_base_url()
-
-# href="/foo" or href="/posting/..." etc
-_HREF_RE = re.compile(
-    r"""href=["']([^"'#?]+)["']""",
+# href="/foo" but not href="/zola/..." or href="//..."
+_BAD_HREF_RE = re.compile(
+    r"""href=["'](/(?!zola/)[^"'#?]+)["']""",
     re.IGNORECASE,
 )
 
@@ -52,36 +43,17 @@ class LinkParser(HTMLParser):
             self.links.append(href)
 
 
-def _resolve_path(href: str) -> Path | None:
-    """Resolve href to a file in public/."""
-    if not href.startswith("/"):
-        return None
-
-    relative = href.lstrip("/")
-
-    candidates = [
-        PUBLIC / relative,
-        PUBLIC / relative / "index.html",
-    ]
-
-    for candidate in candidates:
-        if candidate.exists():
-            return candidate
-
-    return None
-
-
 def _is_bad_href(href: str) -> bool:
-    """Check if href is an internal link that doesn't exist."""
     href = href.strip()
     if not href or any(href.startswith(p) for p in SKIP_PREFIXES):
         return False
     if href.startswith(BASE_URL):
         return False
-    if not href.startswith("/"):
+    if href.startswith(SITE_PREFIX + "/") or href == SITE_PREFIX + "/":
         return False
-
-    return _resolve_path(href) is None
+    if href.startswith("/"):
+        return True
+    return False
 
 
 def scan() -> dict[str, list[str]]:
@@ -97,10 +69,11 @@ def scan() -> dict[str, list[str]]:
             continue
 
         found: list[str] = []
-        for m in _HREF_RE.finditer(text):
+        for m in _BAD_HREF_RE.finditer(text):
             href = m.group(1)
             if _is_bad_href(href):
                 found.append(href)
+        # dedupe preserve order
         seen: set[str] = set()
         unique = []
         for h in found:
@@ -113,54 +86,14 @@ def scan() -> dict[str, list[str]]:
     return bad
 
 
-def _run_stale_prefix_fix() -> bool:
-    fixer = SCRIPTS / "fix_stale_zola_links.py"
-    if not fixer.is_file():
-        return False
-    res = subprocess.run(
-        [sys.executable, str(fixer), "--apply"],
-        cwd=REPO,
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    if res.stdout:
-        print(res.stdout.strip())
-    if res.stderr:
-        print(res.stderr.strip(), file=sys.stderr)
-    return res.returncode == 0
-
-
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--fix",
-        action="store_true",
-        help="Auto-strip legacy /zola/ from source when stale paths detected",
-    )
-    args = parser.parse_args()
-
     bad = scan()
-    stale_zola = any(
-        h == "/zola/" or h.startswith("/zola/")
-        for hrefs in bad.values()
-        for h in hrefs
-    )
-
-    if bad and args.fix and stale_zola:
-        print("Auto-heal: stripping stale /zola/ prefix from sources…\n")
-        _run_stale_prefix_fix()
-        print(
-            "\nRe-run `zola build` then this checker again "
-            "(CI runs build before this step)."
-        )
-
     total = sum(len(v) for v in bad.values())
     if not bad:
-        print("OK: all internal links exist")
+        print("OK: no internal links missing /zola/ prefix")
         return 0
 
-    print(f"FAIL: {total} broken link(s) in {len(bad)} file(s)\n")
+    print(f"FAIL: {total} bad href(s) in {len(bad)} file(s)\n")
     for path, hrefs in sorted(bad.items()):
         print(f"  {path}")
         for h in hrefs[:10]:

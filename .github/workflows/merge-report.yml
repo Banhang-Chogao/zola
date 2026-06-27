@@ -1,14 +1,12 @@
 name: Fetch Merge Report
 
 # Thu thập lịch sử merge auto → data/merge-report.json
-#
-# RE-ENABLED with optimized schedule (27/06/2026): runs every 3 hours (8x/day)
-# instead of hourly (24x/day) with push trigger. Removed push trigger to reduce
-# quota usage. Estimated ~720 runs/month → 192 runs/month (~73% reduction).
 
 on:
+  push:
+    branches: [main]
   schedule:
-    - cron: '0 */3 * * *'   # Every 3 hours (8x/day, reduces from 24x/day)
+    - cron: '20 * * * *'
   workflow_dispatch:
 
 permissions:

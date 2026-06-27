@@ -183,16 +183,6 @@ def fix_hf_model_org_prefix() -> bool:
     return True
 
 
-def fix_stale_zola_prefix() -> bool:
-    """V19 — strip legacy /zola/ from content/static after seomoney.org migration."""
-    fixer = ROOT / "scripts" / "fix_stale_zola_links.py"
-    if not fixer.exists():
-        log("fix_stale_zola_links.py missing")
-        return False
-    sh(["python3", str(fixer), "--apply"], check=False)
-    return sh_rc(["git", "diff", "--quiet"]) != 0
-
-
 def fix_frontmatter(_target_file: str | None) -> bool:
     qa = ROOT / "qa_check.py"
     if not qa.exists():
@@ -209,8 +199,6 @@ def apply_fix(pattern: dict) -> bool:
         return bool(module and fix_missing_python_dep(module))
     if kind == "hf_model_org_prefix":
         return fix_hf_model_org_prefix()
-    if kind == "stale_zola_prefix":
-        return fix_stale_zola_prefix()
     if kind == "frontmatter_issue":
         return fix_frontmatter(pattern.get("file"))
     return False
@@ -243,7 +231,7 @@ def push_fix_to_main(
             "git", "add",
             "content/", "scripts/", "sass/", "templates/", "static/",
             "config.toml", "qa_check.py",
-            "services/vipzone/requirements.txt",
+            "services/visitor-counter/requirements.txt",
             "scripts/requirements.txt",
         ],
         check=False,

@@ -51,9 +51,9 @@ main.container:has(.insights) {
 
 .insights__grid {
   display: grid;
-  /* Timeline PR bên trái đã gỡ — Overview giờ chiếm trọn center stage,
-     1 cột full-width khớp với pulse section phía trên + vaccine panel dưới. */
-  grid-template-columns: 1fr;
+  /* Wider canvas: cho timeline rộng hơn (2fr) để PR title không xuống dòng
+     gấp, Overview side giữ ~1fr cho cards. Gap nới ra 2rem cho breathing. */
+  grid-template-columns: 2fr 1fr;
   gap: 2rem;
 }
 

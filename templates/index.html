@@ -3,22 +3,15 @@
 {% import "macros/img.html" as img %}
 {% import "macros/premium.html" as premium %}
 {% import "macros/pagination.html" as pager %}
-{% import "macros/placement.html" as placement %}
-{% import "partials/ad-placeholder.html" as ad %}
 
-{% block title %}{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân{% endblock %}
-
-{% block extra_head %}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-{% endblock %}
-
-{% block sidebar %}{% endblock %}
+{# Homepage title giàu từ khoá hơn cho SERP (thay vì chỉ hiện tên brand) #}
+{% block title %}{{ config.title }} — Blog công nghệ, du lịch & ẩm thực{% endblock %}
 
 {% block main %}
-    <h1 class="visually-hidden">{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân</h1>
-
+    <h1 class="visually-hidden">{{ config.title }} — Blog công nghệ, du lịch &amp; ẩm thực</h1>
+    {# HOTFIX: bài viết sống rải rác ở nhiều section (posting/, baochi/, …).
+       Gộp TẤT CẢ bài lại + sort theo ngày giảm dần → trang chủ hiển thị MỌI
+       bài, không phân biệt section/category; bài mới nhất luôn tự lên đầu. #}
     {% set posting = get_section(path="posting/_index.md") %}
     {% set baochi = get_section(path="baochi/_index.md") %}
     {% set_global all_pages = [] %}
@@ -29,10 +22,11 @@
     {% endfor %}
     {% set all_pages = all_pages | sort(attribute="date") | reverse %}
 
-    {% set per_page = 12 %}
+    {% set per_page = 10 %}
     {% set page_num = paginator.current_index | default(value=1) %}
     {% set offset = (page_num - 1) * per_page %}
 
+    {# STICKY: chỉ trang 1; bài ghim (extra.sticky=true) — CMS chặn >1. #}
     {% set_global sticky = false %}
     {% if page_num == 1 %}
         {% for page in all_pages %}
@@ -40,17 +34,7 @@
         {% endfor %}
     {% endif %}
 
-    {% set_global featured = false %}
-    {% for page in all_pages %}
-        {% if not featured and page.extra.featured %}{% set_global featured = page %}{% endif %}
-    {% endfor %}
-    {% if not featured %}
-        {% for page in all_pages %}
-            {% if not featured and not page.extra.unfeatured %}{% set_global featured = page %}{% endif %}
-        {% endfor %}
-    {% endif %}
-    {% if not featured %}{% set_global featured = all_pages | first %}{% endif %}
-
+    {# Feed = tất cả bài, loại sticky khỏi danh sách phân trang. #}
     {% set_global feed = [] %}
     {% for page in all_pages %}
         {% if not sticky or page.slug != sticky.slug %}{% set_global feed = feed | concat(with=[page]) %}{% endif %}
@@ -58,434 +42,125 @@
 
     {% set feed_total = feed | length %}
     {% set feed_pages = paginator.number_pagers | default(value=1) %}
-    {% set slice_end = offset + per_page %}
-    {% set page_feed = feed | slice(start=offset, end=slice_end) %}
-    {% set page_feed_count = page_feed | length %}
-    {% set range_start = offset + 1 %}
-    {% set range_end = offset + page_feed_count %}
+    {% set page_feed = feed | slice(start=offset, end=offset + per_page) %}
 
-    {% set seo_series = load_data(path="data/seo-foundation-series.json", required=false) %}
-    {% set nganhang_series = load_data(path="data/ngan-hang-so-series.json", required=false) %}
-    {% set korean_series = load_data(path="data/korean-30day-series.json", required=false) %}
-    {% set trends_data = load_data(path="data/google-trends-vn.json", required=false) %}
-    {% set ga_stats = load_data(path="data/ga-stats.json", required=false) %}
-
-    <div class="home-discovery" data-home-discovery>
-        <header class="home-discovery__hero">
-            <div class="home-discovery__hero-inner">
-                <p class="home-discovery__eyebrow">{{ config.title }}</p>
-                <h2 class="home-discovery__title">SEO, AI WebOps &amp; Tài chính cá nhân</h2>
-                <p class="home-discovery__subtitle">Khám phá bài viết, case study, công cụ và kinh nghiệm vận hành blog.</p>
-                <form class="home-discovery__search" data-home-search-form role="search" aria-label="Tìm bài viết">
-                    <label class="home-discovery__search-label">
-                        <span aria-hidden="true">🔍</span>
-                        <input type="search" class="home-discovery__search-input" data-home-search-input
-                               placeholder="Tìm bài viết, chủ đề, case study, công cụ…" autocomplete="off">
-                    </label>
-                    <button type="submit" class="home-discovery__search-btn">Tìm kiếm</button>
-                </form>
-                <div class="home-discovery__search-results" data-home-search-results hidden></div>
-            </div>
-        </header>
-
-        {{ placement::render(id="home_hero_after") }}
-
-        {# Ad placeholder: top of homepage, before filters #}
-        {{ ad::placeholder(id="home-ad-top", type="home-top", label="Quảng cáo") }}
-
-        <div class="home-discovery__layout">
-            <aside class="home-discovery__rail" aria-label="Lọc chủ đề">
-                <div class="home-discovery__rail-head">
-                    <h2 class="home-discovery__rail-title">Khám phá</h2>
-                    <button type="button" class="home-discovery__rail-toggle" data-home-filter-toggle
-                            aria-expanded="false" aria-controls="home-filter-panel">Lọc</button>
-                </div>
-                <nav class="home-discovery__rail-nav" id="home-filter-panel" data-home-filter-panel>
-                    <ul class="home-discovery__topics" role="list">
-                        <li><button type="button" class="home-discovery__topic is-active" data-filter-category="">Tất cả</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="Công nghệ">Công nghệ</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="SEO">SEO</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="AI WebOps">AI WebOps</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="Tài chính cá nhân">Tài chính cá nhân</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="Ngân hàng">Ngân hàng</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="Du lịch">Du lịch</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="Đời sống">Đời sống</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="Báo chí">Báo chí</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="case-study">Case Study</button></li>
-                    </ul>
-                    <p class="home-discovery__quick-label">Lọc nhanh</p>
-                    <div class="home-discovery__chips" role="group" aria-label="Lọc nhanh">
-                        <button type="button" class="home-discovery__chip is-active" data-filter-quick="latest">Mới nhất</button>
-                        <button type="button" class="home-discovery__chip" data-filter-quick="featured">Biên tập chọn</button>
-                        <button type="button" class="home-discovery__chip" data-filter-quick="sticky">Bài nổi bật</button>
-                        <button type="button" class="home-discovery__chip" data-filter-quick="series">Có series</button>
-                        <button type="button" class="home-discovery__chip" data-filter-quick="faq">Có FAQ</button>
-                    </div>
-                    <ul class="home-discovery__topic-links" role="list">
-                        <li><a href="{{ get_url(path='@/archive/_index.md') }}">Xem toàn bộ {{ feed_total }} bài →</a></li>
-                    </ul>
-                </nav>
-            </aside>
-
-            <section class="home-discovery__feed" aria-label="Bài viết mới">
-                {% if sticky and page_num == 1 %}
-                    {% set_global sticky_cat = "" %}
-                    {% set_global sticky_cats = [] %}
-                    {% for c in sticky.taxonomies.categories %}
-                        {% if c != "Tất cả" and c != "premium" %}
-                            {% if sticky_cat == "" %}{% set_global sticky_cat = c %}{% endif %}
-                            {% set_global sticky_cats = sticky_cats | concat(with=[c]) %}
-                        {% endif %}
-                    {% endfor %}
-                    {# Ensure at least "Tất cả" is in the list for filtering #}
-                    {% if sticky_cats | length == 0 %}
-                        {% set_global sticky_cats = sticky_cats | concat(with=["Tất cả"]) %}
-                    {% endif %}
-                    <div class="home-discovery__spotlight">
-                        <p class="home-discovery__spotlight-label">Bài nổi bật hôm nay</p>
-                        <article class="home-discovery__card home-discovery__card--spotlight"
-                                 data-category="{{ sticky_cat }}"
-                                 data-categories="{{ sticky_cats | join(sep=',') }}"
-                                 data-tags="{{ sticky.taxonomies.tags | join(sep=' ') | lower }}"
-                                 data-sticky="true"
-                                 {% if sticky.extra.featured %}data-featured="true"{% endif %}
-                                 {% if sticky.extra.series %}data-series="{{ sticky.extra.series }}"{% endif %}
-                                 {% if sticky.extra.faq %}data-faq="true"{% endif %}>
-                            <a class="home-discovery__card-media" href="{{ sticky.permalink }}">
-                                <img src="{{ img::cover_src(page=sticky) }}" alt="{{ img::cover_alt(page=sticky) }}"
-                                     width="1200" height="750" loading="eager" fetchpriority="high" decoding="async">
-                            </a>
-                            <div class="home-discovery__card-body">
-                                {% if sticky.extra.premium %}
-                                    {{ premium::badge() }}
-                                {% elif sticky_cat %}
-                                    <span class="home-discovery__card-cat">{{ sticky_cat }}</span>
-                                {% endif %}
-                                <h3 class="home-discovery__card-title"><a href="{{ sticky.permalink }}">{{ sticky.title }}</a></h3>
-                                <p class="home-discovery__card-excerpt">{{ sticky.description | default(value=sticky.summary | default(value="") | safe | striptags | truncate(length=200)) }}</p>
-                                <div class="home-discovery__card-meta">
-                                    <time datetime="{{ sticky.date }}">{{ sticky.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                                    {% if sticky.reading_time %}<span class="home-discovery__card-read">{{ sticky.reading_time }} phút đọc</span>{% endif %}
-                                </div>
-                                <a class="home-discovery__card-cta" href="{{ sticky.permalink }}">Đọc bài viết →</a>
-                            </div>
-                        </article>
-                    </div>
-                {% endif %}
-
-                <div class="home-discovery__feed-head">
-                    <h2 class="home-discovery__feed-title">Bài viết</h2>
-                    {% if page_feed_count > 0 %}
-                        <p class="home-discovery__feed-count">Hiển thị {{ range_start }}–{{ range_end }} trong {{ feed_total }} bài viết</p>
-                    {% endif %}
-                </div>
-
-                <p class="home-discovery__filter-empty" data-filter-empty hidden>Không có bài phù hợp bộ lọc. Thử chủ đề khác hoặc xem <a href="{{ get_url(path='@/archive/_index.md') }}">toàn bộ bài viết</a>.</p>
-
-                <div class="home-discovery__feed-list" data-home-feed>
-                    {% for page in page_feed %}
-                        {% set_global card_cat = "" %}
-                        {% set_global card_cats = [] %}
-                        {% for c in page.taxonomies.categories %}
-                            {% if c != "Tất cả" and c != "premium" %}
-                                {% if card_cat == "" %}{% set_global card_cat = c %}{% endif %}
-                                {% set_global card_cats = card_cats | concat(with=[c]) %}
-                            {% endif %}
-                        {% endfor %}
-                        {# Ensure at least "Tất cả" is in the list for filtering #}
-                        {% if card_cats | length == 0 %}
-                            {% set_global card_cats = card_cats | concat(with=["Tất cả"]) %}
-                        {% endif %}
-                        <article class="home-discovery__card{% if page.extra.premium %} home-discovery__card--premium{% endif %}"
-                                 data-category="{{ card_cat }}"
-                                 data-categories="{{ card_cats | join(sep=',') }}"
-                                 data-tags="{{ page.taxonomies.tags | join(sep=' ') | lower }} {{ card_cats | join(sep=' ') | lower }}"
-                                 {% if page.extra.featured %}data-featured="true"{% endif %}
-                                 {% if page.extra.sticky %}data-sticky="true"{% endif %}
-                                 {% if page.extra.series %}data-series="{{ page.extra.series }}"{% endif %}
-                                 {% if page.extra.faq %}data-faq="true"{% endif %}>
-                            <a class="home-discovery__card-media" href="{{ page.permalink }}">
-                                <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
-                                     width="800" height="500"
-                                     loading="{% if loop.first and page_num == 1 and not sticky %}eager{% else %}lazy{% endif %}"
-                                     {% if loop.first and page_num == 1 and not sticky %}fetchpriority="high"{% endif %}
-                                     decoding="async">
-                            </a>
-                            <div class="home-discovery__card-body">
-                                {% if page.extra.premium %}
-                                    {{ premium::badge() }}
-                                {% elif card_cat %}
-                                    <span class="home-discovery__card-cat">{{ card_cat }}</span>
-                                {% endif %}
-                                <h3 class="home-discovery__card-title"><a href="{{ page.permalink }}">{{ page.title }}</a></h3>
-                                <p class="home-discovery__card-excerpt">{{ page.description | default(value=page.summary | default(value="") | safe | striptags | truncate(length=160)) }}</p>
-                                <div class="home-discovery__card-meta">
-                                    <time datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                                    {% if page.reading_time %}<span class="home-discovery__card-read">{{ page.reading_time }} phút đọc</span>{% endif %}
-                                </div>
-                                {% if page.taxonomies.tags %}
-                                    <div class="home-discovery__card-tags">
-                                        {% for tag in page.taxonomies.tags | slice(end=3) %}
-                                            <span class="home-discovery__card-tag">{{ tag }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                                <a class="home-discovery__card-cta" href="{{ page.permalink }}">Đọc bài viết →</a>
-                            </div>
-                        </article>
-
-                        {# Ad placeholder: after post #3 #}
-                        {% if loop.index == 3 %}
-                            {{ ad::placeholder(id="home-ad-feed-1", type="home-feed", label="Quảng cáo") }}
-                        {% endif %}
-
-                        {# Ad placeholder: after post #8 (desktop only) #}
-                        {% if loop.index == 8 %}
-                            {{ ad::placeholder(id="home-ad-feed-2", type="home-feed", label="Quảng cáo", desktop_only=true) }}
-                        {% endif %}
-                    {% endfor %}
-                </div>
-
-                {{ placement::render(id="home_top_banner_below") }}
-
-                {% if feed_pages > 1 %}
-                    <nav class="home-discovery__pagination" aria-label="Phân trang trang chủ">
-                        <p class="home-discovery__pagination-summary">Hiển thị {{ range_start }}–{{ range_end }} trong {{ feed_total }} bài viết</p>
-                        <div class="home-discovery__pagination-nav">
-                            {% if page_num > 1 %}
-                                <a class="home-discovery__page-btn" href="{{ pager::page_href(base=config.base_url, page_num=page_num - 1) }}" rel="prev">‹</a>
-                            {% else %}
-                                <span class="home-discovery__page-btn is-disabled" aria-hidden="true">‹</span>
-                            {% endif %}
-                            {% for _pad in all_pages | slice(end=feed_pages) %}
-                                {% set p = loop.index %}
-                                {% if p == page_num %}
-                                    <span class="home-discovery__page-num is-current" aria-current="page">{{ p }}</span>
-                                {% elif p == 1 or p == feed_pages or (p >= page_num - 1 and p <= page_num + 1) %}
-                                    <a class="home-discovery__page-num" href="{{ pager::page_href(base=config.base_url, page_num=p) }}">{{ p }}</a>
-                                {% elif p == page_num - 2 or p == page_num + 2 %}
-                                    <span class="home-discovery__page-num" aria-hidden="true">…</span>
-                                {% endif %}
-                            {% endfor %}
-                            {% if page_num < feed_pages %}
-                                <a class="home-discovery__page-btn" href="{{ pager::page_href(base=config.base_url, page_num=page_num + 1) }}" rel="next">›</a>
-                            {% else %}
-                                <span class="home-discovery__page-btn is-disabled" aria-hidden="true">›</span>
-                            {% endif %}
-                        </div>
-                    </nav>
-                {% endif %}
-            </section>
-
-            <aside class="home-discovery__editorial-rail" aria-label="Biên tập & gợi ý">
-                {% if featured %}
-                    <section class="home-discovery__rail-block">
-                        <h3 class="home-discovery__rail-block-title">Biên tập chọn</h3>
-                        <a class="home-discovery__editorial-media" href="{{ featured.permalink }}">
-                            <img src="{{ img::cover_src(page=featured) }}" alt="{{ img::cover_alt(page=featured) }}"
-                                 width="600" height="375" loading="lazy" decoding="async">
-                        </a>
-                        {% set_global featured_cat = "" %}
-                        {% for c in featured.taxonomies.categories %}
-                            {% if c != "Tất cả" and c != "premium" and featured_cat == "" %}
-                                {% set_global featured_cat = c %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if featured_cat %}
-                            <span class="home-discovery__editorial-cat">{{ featured_cat }}</span>
-                        {% endif %}
-                        <h4 class="home-discovery__editorial-title"><a href="{{ featured.permalink }}">{{ featured.title }}</a></h4>
-                        <time class="home-discovery__editorial-date" datetime="{{ featured.date }}">{{ featured.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                        <ul class="home-discovery__editorial-list">
-                            {% for page in all_pages %}
-                                {% if page.extra.featured and page.slug != featured.slug %}
-                                    <li><a href="{{ page.permalink }}">{{ page.title }}</a></li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </section>
-                {% endif %}
-
-                <section class="home-discovery__rail-block">
-                    <h3 class="home-discovery__rail-block-title">Series nên đọc</h3>
-                    <ul class="home-discovery__series-list" role="list">
-                        {% if seo_series and seo_series.title_vi %}
-                            <li>
-                                <a href="{{ config.base_url }}/posting/{{ seo_series.pillar_slug }}/">
-                                    <span class="home-discovery__series-name">{{ seo_series.title_vi }}</span>
-                                    <span class="home-discovery__series-meta">{{ seo_series.total_parts }} phần · SEO</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if nganhang_series and nganhang_series.title_vi %}
-                            <li>
-                                <a href="{{ config.base_url }}/posting/{{ nganhang_series.pillar_slug }}/">
-                                    <span class="home-discovery__series-name">{{ nganhang_series.title_vi }}</span>
-                                    <span class="home-discovery__series-meta">{{ nganhang_series.total_parts }} phần · Ngân hàng</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if korean_series and korean_series.title_vi %}
-                            <li>
-                                <a href="{{ config.base_url }}/posting/{{ korean_series.pillar_slug }}/">
-                                    <span class="home-discovery__series-name">{{ korean_series.title_vi }}</span>
-                                    <span class="home-discovery__series-meta">{{ korean_series.total_parts }} phần · Tiếng Hàn</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </section>
-
-                {# Ad placeholder: sidebar after Series section #}
-                {{ ad::placeholder(id="home-ad-sidebar", type="home-sidebar", label="Quảng cáo", min_height="320px") }}
-
-                {% if trends_data and trends_data.items %}
-                    <section class="home-discovery__rail-block search-rank" aria-label="Xếp hạng tìm kiếm Google Trends Việt Nam">
-                        <div class="search-rank__head">
-                            <h3 class="home-discovery__rail-block-title search-rank__title">
-                                <svg class="search-rank__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
-                                Xếp hạng tìm kiếm
-                            </h3>
-                            {% if trends_data.fetched_at %}
-                                <span class="search-rank__updated">Cập nhật {{ trends_data.fetched_at | date(format="%H:%M %d/%m", timezone="Asia/Ho_Chi_Minh") }}</span>
-                            {% endif %}
-                        </div>
-                        <ol class="search-rank__list" role="list">
-                            {% for item in trends_data.items | slice(end=8) %}
-                                <li class="search-rank__item">
-                                    <span class="search-rank__rank{% if item.rank <= 4 %} search-rank__rank--top{% endif %}">{{ item.rank }}</span>
-                                    <div class="search-rank__body">
-                                        <a class="search-rank__kw" href="{{ item.search_url }}" rel="noopener noreferrer">{{ item.keyword }}</a>
-                                        <div class="search-rank__meta">
-                                            {% if item.volume_label %}<span class="search-rank__vol">{{ item.volume_label }}</span>{% endif %}
-                                            <span class="search-rank__active"><span class="search-rank__dot" aria-hidden="true"></span>Active</span>
-                                        </div>
-                                        {% set bd = item.breakdown | default(value=[]) %}
-                                        {% if bd | length > 0 %}
-                                            <div class="search-rank__breakdown">
-                                                {% for term in bd | slice(end=2) %}
-                                                    <span class="search-rank__chip">{{ term }}</span>
-                                                {% endfor %}
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                </li>
-                            {% endfor %}
-                        </ol>
-                        <a class="search-rank__more" href="{{ trends_data.source_page }}" target="_blank" rel="noopener noreferrer">Xem tất cả trên Google Trends →</a>
-                    </section>
-                {% endif %}
-
-                <section class="home-discovery__rail-block recent-fresh">
-                    <h3 class="home-discovery__rail-block-title recent-fresh__title">Bài mới cập nhật</h3>
-                    <ul class="recent-fresh__list" role="list">
-                        {% for page in all_pages | slice(end=5) %}
-                            {% set cats = page.taxonomies.categories | default(value=[]) %}
-                            {% set primary_cat = cats[1] | default(value="") %}
-                            <li class="recent-fresh__item">
-                                <a class="recent-fresh__link" href="{{ page.permalink }}">
-                                    <span class="recent-fresh__thumb">
-                                        <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}" loading="lazy" decoding="async" width="64" height="64">
-                                    </span>
-                                    <span class="recent-fresh__body">
-                                        {% if primary_cat and primary_cat != "Tất cả" %}<span class="recent-fresh__cat">{{ primary_cat }}</span>{% endif %}
-                                        <span class="recent-fresh__headline">{{ page.title }}</span>
-                                        <time class="recent-fresh__date" datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                                    </span>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </section>
-
-                <section class="home-discovery__rail-block home-discovery__follow">
-                    <h3 class="home-discovery__rail-block-title">Theo dõi SEOMONEY</h3>
-                    <p class="home-discovery__follow-text">Nhận bài mới qua feed hoặc xem toàn bộ kho nội dung.</p>
-                    <div class="home-discovery__follow-links">
-                        <a href="{{ get_url(path='atom.xml', trailing_slash=false) }}">Atom</a>
-                        <a href="{{ get_url(path='rss.xml', trailing_slash=false) }}">RSS</a>
-                        <a href="{{ get_url(path='@/archive/_index.md') }}">Archive</a>
-                    </div>
-                </section>
-
-                {% if ga_stats %}
-                    {% set organic = ga_stats.organic | default(value=false) %}
-                    {% set channels = ga_stats.channels | default(value=[]) %}
-                    <section class="home-discovery__rail-block ga-board" aria-label="Số liệu truy cập từ Google Analytics">
-                        <h3 class="home-discovery__rail-block-title">Số liệu truy cập</h3>
-
-                        <div class="ga-board__organic">
-                            <span class="ga-board__organic-label">Organic Search · 30 ngày</span>
-                            <p class="ga-board__organic-main">
-                                <span class="ga-board__organic-num">{{ organic.sessions | default(value=0) }}</span>
-                                <span class="ga-board__organic-unit">phiên</span>
-                            </p>
-                            {% if organic.percent | default(value=0) > 0 %}
-                                <span class="ga-board__organic-pct">{{ organic.percent }}% tổng truy cập · {{ organic.users | default(value=0) }} người dùng</span>
-                            {% else %}
-                                <span class="ga-board__organic-pct ga-board__organic-pct--pending">Đang cập nhật dữ liệu tìm kiếm…</span>
-                            {% endif %}
-                        </div>
-
-                        <div class="ga-board__kpis">
-                            <div class="ga-board__kpi">
-                                <span class="ga-board__kpi-num">{{ ga_stats.month_users | default(value=0) }}</span>
-                                <span class="ga-board__kpi-label">Người dùng 30d</span>
-                            </div>
-                            <div class="ga-board__kpi">
-                                <span class="ga-board__kpi-num">{{ ga_stats.month_pageviews | default(value=0) }}</span>
-                                <span class="ga-board__kpi-label">Lượt xem 30d</span>
-                            </div>
-                            <div class="ga-board__kpi">
-                                <span class="ga-board__kpi-num">{{ ga_stats.month_sessions | default(value=0) }}</span>
-                                <span class="ga-board__kpi-label">Phiên 30d</span>
-                            </div>
-                            <div class="ga-board__kpi">
-                                <span class="ga-board__kpi-num">{{ ga_stats.today_users | default(value=0) }}</span>
-                                <span class="ga-board__kpi-label">Hôm nay</span>
-                            </div>
-                        </div>
-
-                        {% if channels | length > 0 %}
-                            <div class="ga-board__channels">
-                                <span class="ga-board__channels-title">Nguồn truy cập</span>
-                                {% for ch in channels | slice(end=6) %}
-                                    {% set ch_low = ch.channel | lower %}
-                                    <div class="ga-board__channel">
-                                        <div class="ga-board__channel-row">
-                                            <span class="ga-board__channel-name">{{ ch.channel }}</span>
-                                            <span class="ga-board__channel-val">{{ ch.sessions }} · {{ ch.percent }}%</span>
-                                        </div>
-                                        <div class="ga-board__bar" role="presentation">
-                                            <span class="ga-board__bar-fill{% if ch_low is starting_with('organic search') %} ga-board__bar-fill--organic{% endif %}" style="width: {{ ch.percent }}%"></span>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            <p class="ga-board__pending">Phân tích nguồn truy cập sẽ hiển thị sau lần đồng bộ kế tiếp.</p>
-                        {% endif %}
-
-                        <ul class="ga-board__engage" role="list">
-                            <li><span class="ga-board__engage-num">{{ ga_stats.month_engagement_rate_pct | default(value=0) }}%</span> tương tác</li>
-                            <li><span class="ga-board__engage-num">{{ ga_stats.month_bounce_rate_pct | default(value=0) }}%</span> thoát</li>
-                            <li><span class="ga-board__engage-num">{{ ga_stats.month_avg_session_duration_str | default(value='0s') }}</span> TB phiên</li>
-                        </ul>
-
-                        <div class="ga-board__meta">
-                            <span>{{ ga_stats.top_country | default(value='—') }} · {{ ga_stats.top_device | default(value='—') }}</span>
-                            {% if ga_stats.updated_at %}
-                                <time datetime="{{ ga_stats.updated_at }}">Cập nhật {{ ga_stats.updated_at | date(format="%H:%M %d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                            {% endif %}
-                        </div>
-                    </section>
-                {% endif %}
-            </aside>
-        </div>
+    {# Decorative wordmark banner — letters POSTINGS spread evenly #}
+    <div class="home-tabs" aria-hidden="true">
+        <span class="home-tabs__letter">P</span>
+        <span class="home-tabs__letter">O</span>
+        <span class="home-tabs__letter">S</span>
+        <span class="home-tabs__letter">T</span>
+        <span class="home-tabs__letter">I</span>
+        <span class="home-tabs__letter">N</span>
+        <span class="home-tabs__letter">G</span>
+        <span class="home-tabs__letter">S</span>
     </div>
-{% endblock main %}
 
-{% block extra_scripts %}
-    {{ super() }}
-    <script src="{{ get_url(path='js/home-discovery.js') }}?v={{ asset_version }}" defer></script>
-{% endblock extra_scripts %}
+    {% if sticky %}
+        <section class="home-sticky" aria-label="Bài ghim nổi bật">
+            <article class="home-sticky__card">
+                <a class="home-sticky__image" href="{{ sticky.permalink }}">
+                    <img src="{{ img::thumb_src(thumb=sticky.extra.thumbnail | default(value='')) }}" alt="{{ sticky.title }}"
+                         width="1200" height="800"
+                         loading="eager" fetchpriority="high" decoding="async">
+                </a>
+                <div class="home-sticky__body">
+                    <span class="home-sticky__pin">📌 Ghim nổi bật</span>
+                    {% if sticky.extra.premium %}
+                        {{ premium::badge() }}
+                    {% elif sticky.taxonomies.categories %}
+                        <span class="home-sticky__cat">{{ sticky.taxonomies.categories[0] }}</span>
+                    {% endif %}
+                    <h2 class="home-sticky__title">
+                        <a href="{{ sticky.permalink }}">{{ sticky.title }}</a>
+                    </h2>
+                    <p class="home-sticky__desc">
+                        {{ sticky.description | default(value=sticky.summary | default(value="") | safe | striptags | truncate(length=280)) }}
+                    </p>
+                    <div class="home-sticky__meta">
+                        <span class="home-sticky__author">{{ config.extra.author }}{{ v::badge() }}</span>
+                        <span class="home-sticky__date">{{ sticky.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                    </div>
+                </div>
+            </article>
+        </section>
+    {% endif %}
+
+    {% if page_feed | length > 0 %}
+        <section class="home-latest">
+            <h2 class="home-latest__heading">
+                Bài mới nhất
+                {% if feed_pages > 1 %}
+                <span class="home-latest__page">Trang {{ page_num }}/{{ feed_pages }}</span>
+                {% endif %}
+            </h2>
+            <div class="home-grid">
+                {% for page in page_feed %}
+                    <article class="home-card{% if page.extra.premium %} home-card--premium{% endif %}">
+                        <a class="home-card__image" href="{{ page.permalink }}">
+                            <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                                 width="800" height="500"
+                                 loading="{% if loop.first and page_num == 1 and not sticky %}eager{% else %}lazy{% endif %}"
+                                 {% if loop.first and page_num == 1 and not sticky %}fetchpriority="high"{% endif %}
+                                 decoding="async">
+                        </a>
+                        <div class="home-card__body">
+                            {% if page.extra.premium %}
+                                {{ premium::badge() }}
+                            {% elif page.taxonomies.categories %}
+                                <span class="home-card__cat">{{ page.taxonomies.categories[0] }}</span>
+                            {% endif %}
+                            <span class="home-card__insight">Insights khán giả</span>
+                            <h3 class="home-card__title">
+                                <a href="{{ page.permalink }}">{{ page.title }}</a>
+                            </h3>
+                            <p class="home-card__desc">
+                                {{ page.description | default(value=page.summary | default(value="") | safe | striptags | truncate(length=140)) }}
+                            </p>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+    {% if page_num == 1 %}
+        {# ===== FONT GUIDELINE BAND — chỉ trang chủ 1 ===== #}
+        <section class="home-font">
+            <span class="home-font__bg" aria-hidden="true">Aa</span>
+            <div class="home-font__inner">
+                <p class="home-font__eyebrow">Font Guideline · Letters from Sweden</p>
+                <h2 class="home-font__title">Ericsson Hilda</h2>
+                <p class="home-font__desc">
+                    Typeface độc quyền của Ericsson — humanist sans-serif, digital-first.
+                    Khám phá lịch sử, các độ đậm, type scale và quy tắc sử dụng.
+                </p>
+                <a class="home-font__cta" href="{{ config.base_url }}/font/">Xem Font Guideline →</a>
+            </div>
+        </section>
+
+        <section class="home-branding-cta" style="margin: 40px 0; padding: 30px; background: var(--c-bg-soft); border-radius: 4px; text-align: center;">
+            <h2 style="color: var(--c-text-heading); font-size: 20px; margin-bottom: 12px;">🎨 Design System</h2>
+            <p style="color: var(--c-text-muted); margin-bottom: 16px;">Khám phá hướng dẫn thiết kế Hilda theme — palette màu, typography, và UI rules</p>
+            <a href="{{ config.base_url }}/branding-guideline/" style="display: inline-block; background: var(--c-accent); color: white; padding: 12px 24px; border-radius: 4px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.background='var(--c-accent-hover)'" onmouseout="this.style.background='var(--c-accent)'">
+                Xem Branding Guideline →
+            </a>
+        </section>
+    {% endif %}
+
+    {% if feed_pages > 1 %}
+        <nav class="pagination" aria-label="Phân trang trang chủ">
+            {% if page_num > 1 %}
+                <a class="pagination__btn pagination__btn--prev" href="{{ pager::page_href(base=config.base_url, page_num=page_num - 1) }}">« Trang trước</a>
+            {% else %}
+                <span class="pagination__btn pagination__btn--prev" aria-hidden="true"></span>
+            {% endif %}
+            <span class="pagination__info">Trang {{ page_num }} / {{ feed_pages }} · {{ feed_total }} bài</span>
+            {% if page_num < feed_pages %}
+                <a class="pagination__btn pagination__btn--next" href="{{ pager::page_href(base=config.base_url, page_num=page_num + 1) }}">Trang sau »</a>
+            {% else %}
+                <span class="pagination__btn pagination__btn--next" aria-hidden="true"></span>
+            {% endif %}
+        </nav>
+    {% endif %}
+{% endblock main %}

@@ -175,9 +175,7 @@ def render_card(data: dict) -> str:
     return template.format(
         url=data.get("url", "#"),
         title=data.get("title", "(no title)"),
-        # Owned-image policy: KHÔNG fallback ảnh ngoài/random (Pixabay/Unsplash/
-        # picsum…). Thiếu thumbnail → dùng OG owned site-level của SEOMONEY.
-        thumbnail=data.get("thumbnail", "/img/og-default.webp"),
+        thumbnail=data.get("thumbnail", "https://picsum.photos/800/500"),
         excerpt=data.get("excerpt", "")[:200],
         category_block=category_block,
         meta_block=meta_block,

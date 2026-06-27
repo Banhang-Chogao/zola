@@ -72,32 +72,8 @@ Chi tiết: [.github/BRANCH-PROTECTION.md](../.github/BRANCH-PROTECTION.md)
 
 Deploy **chỉ** xảy ra khi PR đã được merge vào `main` (push event từ merge). Đây là luồng hợp lệ duy nhất để cập nhật production.
 
-## QA theo severity (deployment immune system)
-
-QA là **deployment immune system**, không phải cảnh sát chặn deploy. Chỉ chặn lỗi
-thật sự làm hỏng production; còn lại report / auto-heal / đưa vào backlog.
-
-```text
-PASS       nếu P0 == 0 và build thành công.
-AUTO_HEAL  nếu P1 > 0 và có known safe fix.
-FAIL       chỉ khi P0 > 0, hoặc auto-healing đã thử nhưng vẫn fail.
-P2 / P3    không bao giờ block deploy.
-```
-
-- **P0** (hard block): `zola build` vỡ · Tera/SCSS lỗi · frontmatter TOML invalid ·
-  conflict markers · workflow YAML invalid · secret commit · critical route hỏng
-  (homepage/nav/sitemap/canonical/editor-admin) · auth/VIPZone nguy hiểm.
-- **P1** (auto-heal / hotfix PR): generated JSON conflict · report stale · missing
-  generated data có script regen · known vaccine pattern. Thử auto-heal **trước** khi fail.
-- **P2** (advisory, không block): SEO/title/thin-content/FAQ/internal-link/compliance/
-  PageSpeed/external-link/GA-GSC fetch fail → ghi report cho Editor/Insights.
-- **P3** (info): UX/taxonomy/internal-linking/OG suggestions.
-
-Chi tiết đầy đủ + auto-healing + public/private agent memory: **`../CULTURE_OF_DEPLOYMENT.md`**.
-
 ## Tài liệu liên quan
 
-- `../CULTURE_OF_DEPLOYMENT.md` — deployment & QA culture, severity model, auto-healing
-- `CLAUDE.md` — rule cho AI agent (public-safe; private memory → `CLAUDE_PRIVATE.md`, gitignored)
+- `CLAUDE.md` — rule cho AI agent
 - `shortcuts.md` §4.5 — rule cho phím tắt
 - `.github/workflows/main-guard.yml` — chặn push trực tiếp (bot + human không qua PR)

@@ -64,12 +64,12 @@ website đó; bạn nên đọc chính sách riêng của họ khi truy cập.
 Một số bài viết (ví dụ về dịch vụ ngân hàng) có thể chứa **liên kết giới thiệu**.
 Nếu bạn đăng ký qua các liên kết này, tác giả có thể nhận được phần thưởng. Điều
 này **không làm phát sinh chi phí thêm** cho bạn và không ảnh hưởng tới tính
-trung thực của nội dung. Xem thêm tại trang [Điều khoản & Miễn trừ](/terms/).
+trung thực của nội dung. Xem thêm tại trang [Điều khoản & Miễn trừ](/zola/terms/).
 
 ## 7. Quyền của bạn
 
 Bạn có quyền tắt cookies, từ chối quảng cáo cá nhân hóa, và yêu cầu thông tin về
-dữ liệu liên quan tới bạn (nếu có) qua trang [Liên hệ](/contact/).
+dữ liệu liên quan tới bạn (nếu có) qua trang [Liên hệ](/zola/contact/).
 
 ## 8. Thay đổi chính sách
 
@@ -79,4 +79,4 @@ Chúng tôi có thể cập nhật chính sách này theo thời gian. Mọi tha
 ## 9. Liên hệ
 
 Mọi thắc mắc về chính sách bảo mật, vui lòng liên hệ qua email
-**292648126+Banhang-Chogao@users.noreply.github.com** hoặc trang [Liên hệ](/contact/).
+**292648126+Banhang-Chogao@users.noreply.github.com** hoặc trang [Liên hệ](/zola/contact/).

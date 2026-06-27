@@ -25,9 +25,8 @@ import argparse
 import json
 import re
 import unicodedata
-from datetime import datetime
+from datetime import date
 from pathlib import Path
-from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent.parent
 POSTING = ROOT / "content" / "posting"
@@ -258,9 +257,7 @@ def main() -> int:
     count = max(1, min(30, count))
     if not series_id:
         series_id = slugify(topic) + "-series"
-    # Thời gian đăng = thời gian THỰC TẾ (GMT+7), kèm giờ phút → "Đăng: HH:MM"
-    # hiển thị đúng, không phải 00:00 giả. ISO8601 có offset +07:00 (TOML hợp lệ).
-    today = datetime.now(ZoneInfo("Asia/Ho_Chi_Minh")).replace(microsecond=0).isoformat()
+    today = date.today().isoformat()
 
     POSTING.mkdir(parents=True, exist_ok=True)
     DATA.mkdir(parents=True, exist_ok=True)

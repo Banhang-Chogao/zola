@@ -1,4 +1,4 @@
-## 🇰🇷 Ngày 26 — Kính ngữ (높임말) trong tiếng Hàn
+# 🇰🇷 Ngày 26 — Kính ngữ (높임말) trong tiếng Hàn
 
 > **Mục tiêu hôm nay (20–30 phút):** Hiểu hệ thống **kính ngữ** (높임말) tiếng Hàn: gắn đuôi tôn kính **-(으)시-**, dùng đúng **trợ từ kính ngữ** 께서·께·님·분, thuộc lòng **động từ tôn kính đặc biệt** (계시다, 드시다, 주무시다…) và biết khi nào hạ mình bằng **khiêm nhường** (낮춤말). Cuối bài có **15 câu bài tập + đáp án**.
 

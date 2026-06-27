@@ -118,7 +118,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Push entry to VIPZone backend API
+      - name: Append entry to changelog.json
         if: steps.meta.outputs.skip != 'true'
         id: changelog
         env:
@@ -131,14 +131,15 @@ jobs:
           PR_DELETIONS: ${{ steps.meta.outputs.deletions }}
           PR_MERGED_AT: ${{ steps.meta.outputs.merged_at }}
           PR_LABELS: ${{ steps.meta.outputs.labels }}
-          VIPZONE_BACKEND_URL: ${{ secrets.VIPZONE_BACKEND_URL || 'https://blog-vipzone-api.onrender.com' }}
-          VIPZONE_ADMIN_TOKEN: ${{ secrets.VIPZONE_ADMIN_TOKEN }}
-        run: python3 .github/scripts/push_changelog_entry.py
+        run: python3 .github/scripts/update_changelog.py
 
-      - name: Handle backend push failure
-        if: failure() && steps.changelog.outcome == 'failure'
+      - name: Push changelog to main
+        if: steps.meta.outputs.skip != 'true' && steps.changelog.outputs.changed == 'true'
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMIT_MESSAGE: ${{ steps.changelog.outputs.commit_message }}
+          SKIP_CHANGELOG_TAG: "false"
         run: |
-          echo "⚠️  Failed to push changelog entry to backend."
-          echo "   This is expected if VIPZONE_ADMIN_TOKEN secret is not configured."
-          echo "   To fix: Set VIPZONE_ADMIN_TOKEN in repository settings."
-          exit 0
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "$COMMIT_MESSAGE" changelog.json

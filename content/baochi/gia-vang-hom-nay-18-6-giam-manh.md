@@ -86,4 +86,4 @@ Thứ ba, vàng chỉ nên là **một phần** trong bức tranh tài chính, k
 
 Tóm lại, giá vàng hôm nay 18/6 giảm mạnh chủ yếu vì Fed phát tín hiệu cứng rắn hơn về lãi suất, chứ không phải vì vàng "hết thời". Thị trường nhiều khả năng còn giằng co. Người cần vàng cho việc cụ thể (cưới hỏi, quà tặng) thì cứ mua theo nhu cầu; người xem vàng như kênh đầu tư thì nên bình tĩnh, chia nhỏ và đừng vay mượn để "bắt đáy".
 
-📌 *Bài viết tổng hợp từ bản tin thị trường trong nước ngày 18/6/2026 và dữ liệu quốc tế từ Kitco News, CME FedWatch, Fed. Nội dung chỉ mang tính tham khảo, không phải lời khuyên đầu tư hay tư vấn tài chính chuyên nghiệp. Chi tiết tại trang [Điều khoản & Miễn trừ](/terms/).*
+📌 *Bài viết tổng hợp từ bản tin thị trường trong nước ngày 18/6/2026 và dữ liệu quốc tế từ Kitco News, CME FedWatch, Fed. Nội dung chỉ mang tính tham khảo, không phải lời khuyên đầu tư hay tư vấn tài chính chuyên nghiệp. Chi tiết tại trang [Điều khoản & Miễn trừ](/zola/terms/).*

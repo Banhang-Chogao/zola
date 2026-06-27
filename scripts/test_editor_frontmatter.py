@@ -71,34 +71,5 @@ momo_payment_link = "https://me.momo.vn/abc"
         self.assertEqual(momo, "https://me.momo.vn/abc")
 
 
-_STICKY_LINE_RE = re.compile(r"(?m)^sticky\s*=\s*true\s*\n?")
-_FEATURED_LINE_RE = re.compile(r"(?m)^featured\s*=\s*true\s*\n?")
-_FEATURED_AT_LINE_RE = re.compile(r'(?m)^featured_at\s*=\s*"[^"]*"\s*\n?')
-
-
-def demote_sticky_frontmatter(content: str) -> str:
-    return _STICKY_LINE_RE.sub("", content)
-
-
-def demote_featured_frontmatter(content: str) -> str:
-    text = _FEATURED_LINE_RE.sub("", content)
-    return _FEATURED_AT_LINE_RE.sub("", text)
-
-
-class PlacementFrontmatterTests(unittest.TestCase):
-    def test_demote_sticky(self):
-        md = "+++\n[extra]\nsticky = true\nfeatured = true\n+++\nbody"
-        out = demote_sticky_frontmatter(md)
-        self.assertNotIn("sticky = true", out)
-        self.assertIn("featured = true", out)
-
-    def test_demote_featured(self):
-        md = '+++\n[extra]\nfeatured = true\nfeatured_at = "2026-06-27"\nsticky = true\n+++\n'
-        out = demote_featured_frontmatter(md)
-        self.assertNotIn("featured = true", out)
-        self.assertNotIn("featured_at", out)
-        self.assertIn("sticky = true", out)
-
-
 if __name__ == "__main__":
     unittest.main()

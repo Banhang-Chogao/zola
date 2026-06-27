@@ -327,8 +327,8 @@ thống đó.
 ---
 
 Đọc thêm về kiến trúc blog này tại
-[Hành trình công nghệ blog cá nhân](/posting/cong-nghe-blog-duy-nguyen/)
-hoặc xem cách [Semantic Related Posts với SBERT](/posting/sentence-transformers-sbert-deep-dive/)
+[Hành trình công nghệ blog cá nhân](/zola/posting/cong-nghe-blog-duy-nguyen/)
+hoặc xem cách [Semantic Related Posts với SBERT](/zola/posting/sentence-transformers-sbert-deep-dive/)
 được tự động build qua GitHub Actions workflow tương tự.
 
 Reference: [GitHub Actions docs](https://docs.github.com/en/actions),

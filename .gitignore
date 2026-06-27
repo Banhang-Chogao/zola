@@ -16,13 +16,6 @@ pr-body.md
 reports/performance/*.json
 !reports/performance/.gitkeep
 
-# Private agent memory / local strategy (see CULTURE_OF_DEPLOYMENT.md §6)
-# Local-only tactical notes for Claude/OpenCode — NEVER commit. CI must not depend on these.
-CLAUDE_PRIVATE.md
-claude-private.md
-.claude-private.md
-.claude/private/
-
 # Sensitive: never commit tokens/keys
 ghp_*
 *.pem
@@ -34,20 +27,9 @@ ghp_*
 data/paywall.db
 data/.paywall-content-backup.json
 
-# VIPZone backend local/test SQLite (default path khi không set VIPZONE_DB_PATH)
-data/vipzone.db
-
-# Changelog data — moved to VIPZone backend API (admin-gated)
-# Never commit changelog.json locally; all entries pushed to backend
-changelog.json
-
 # ff.py AI-Agent — logs + teach feedback (local only)
 .ff/
 
 # Generated pagination anchors (scripts/build_feed_pagination.py)
 content/feed-anchor-*.md
 content/posting/feed-anchor-*.md
-node_modules/
-
-# auto-build-failed-healing runtime log (artifact, not source)
-data/auto-healing.log

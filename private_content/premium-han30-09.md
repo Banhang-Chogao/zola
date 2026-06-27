@@ -1,4 +1,4 @@
-## 🇰🇷 Ngày 9 — Đại từ & chỉ định 이/그/저
+# 🇰🇷 Ngày 9 — Đại từ & chỉ định 이/그/저
 
 > **Mục tiêu hôm nay (20–30 phút):** Làm chủ bộ ba chỉ định **이 (này) · 그 (đó) · 저 (kia)**, dùng được **이것·그것·저것** (cái này/đó/kia) và **여기·거기·저기** (nơi này/đó/kia), thuộc lòng các **từ để hỏi** 무엇·누구·어디, và phân biệt **đại từ nhân xưng** 저/나 · 저희/우리. Cuối bài có **12 câu bài tập + đáp án**.
 

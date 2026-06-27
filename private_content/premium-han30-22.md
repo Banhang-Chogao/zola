@@ -1,4 +1,4 @@
-## 🇰🇷 Ngày 22 — Định ngữ (관형사형): -는, -은/ㄴ, -을/ㄹ
+# 🇰🇷 Ngày 22 — Định ngữ (관형사형): -는, -은/ㄴ, -을/ㄹ
 
 > **Mục tiêu hôm nay (20–30 phút):** Hiểu **định ngữ** (관형사형) — biến cả một mệnh đề thành cụm bổ nghĩa cho danh từ. Phân biệt thì của định ngữ **động từ** (-는 hiện tại, -(으)ㄴ quá khứ, -(으)ㄹ tương lai), **tính từ** (-(으)ㄴ), và các trường hợp đặc biệt 있다/없다, 이다. Cuối bài có **14 câu bài tập + đáp án**.
 

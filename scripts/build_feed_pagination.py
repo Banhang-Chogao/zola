@@ -41,7 +41,7 @@ feed_anchor = true
 
 Trang kỹ thuật này cho phép Zola tạo route phân trang (`/page/N/`) cho feed blog. Không liên kết từ menu, đánh dấu `noindex`, và **không** thay thế bài viết thật.
 
-Độc giả nên đọc nội dung trên [trang chủ](/) hoặc qua danh mục và thẻ tag.
+Độc giả nên đọc nội dung trên [trang chủ](/zola/) hoặc qua danh mục và thẻ tag.
 
 ### Ghi chú triển khai
 

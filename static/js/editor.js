@@ -1,12 +1,11 @@
 /**
  * Mini CMS — viết bài blog, đẩy file .md vào repo GitHub qua REST API.
  *
- * Authentication: GitHub/Google OAuth qua backend FastAPI (services/vipzone).
- * Phiên = cookie HttpOnly `zola_cms_sid` (bền, Max-Age 30 ngày) + sid opaque
- * trong localStorage làm Bearer fallback. Không lưu OAuth token nào ở client.
+ * Authentication: GitHub Personal Access Token (PAT) lưu localStorage.
+ * Token chỉ ở trình duyệt này, không gửi đi đâu khác (chỉ tới api.github.com).
  *
  * Workflow:
- *   1. User login bằng OAuth (GitHub/Google)
+ *   1. User login bằng PAT
  *   2. List bài viết (GET /contents/content/)
  *   3. Tạo/sửa bài → PUT /contents/content/{slug}.md với base64 content
  *   4. GitHub Actions auto-build + deploy site sau ~1 phút
@@ -24,65 +23,37 @@
      OAuth flow (replaces OTP):
        1. User click "Đăng nhập GitHub" → redirect BACKEND/auth/login
        2. GitHub OAuth → BACKEND callback → check email white-list
-       3. Backend set cookie HttpOnly + redirect /editor/#sid=... → JS đọc hash
-          → lưu localStorage (Bearer fallback)
-       4. /auth/me validate session mỗi page load (credentials:include → cookie)
+       3. Backend redirect /editor/#sid=... → JS đọc hash → sessionStorage
+       4. /auth/me validate session mỗi page load
        5. Save bài = download .md (DRAFT-ONLY mode giữ nguyên từ PR #34)
 
      Security:
-       - sid là opaque random, KHÔNG carry info (KHÔNG phải OAuth token)
-       - access_token GitHub / id_token Google giữ server-side, KHÔNG về client
-       - cookie HttpOnly = nguồn phiên bền (Max-Age = SESSION_TTL, mặc định 30d)
-       - localStorage sống qua đóng tab + xoá static cache; chỉ mất khi xoá
-         cookie/site data → khi đó logout là ĐÚNG kỳ vọng
+       - sid là opaque random 32-byte, KHÔNG carry info
+       - access_token GitHub giữ Redis-side trên backend, KHÔNG về client
+       - sessionStorage → auto-clear khi đóng tab
+       - Backend TTL 2h → idle quá tự logout
        - White-list email check server-side, client KHÔNG bypass được */
 
   const SESSION_KEY = "zola-cms-session-id";
-  // Persistence model (fix: "xoá cache xong bị bắt đăng nhập lại"):
-  //   - Nguồn phiên BỀN VỮNG là cookie HttpOnly `zola_cms_sid` do backend set
-  //     (Secure + SameSite=None, Max-Age = SESSION_TTL). Mọi fetch dùng
-  //     credentials:"include" để cookie tự gửi → còn cookie là còn đăng nhập,
-  //     kể cả khi xoá "cached images/files" hay đóng/mở lại tab.
-  //   - sid cũng lưu localStorage làm Bearer fallback cho trình duyệt CHẶN
-  //     cookie bên thứ ba (Safari ITP, Firefox). localStorage sống qua đóng tab
-  //     + xoá static cache; CHỈ mất khi user "clear cookies / site data" → khi
-  //     đó logout là ĐÚNG kỳ vọng. (Trước đây dùng sessionStorage → mất ngay
-  //     khi đóng tab nên hay bị bắt login lại.)
-  //   - sid là opaque, KHÔNG phải OAuth token; access_token GitHub luôn ở
-  //     server-side. Không lưu OAuth token nào trong trình duyệt.
   // Fallback chain: meta cms-auth → meta visitor-api → hardcode prod URL
   const AUTH_API = (function () {
     const m1 = document.querySelector('meta[name="zola-cms-auth-api"]');
     if (m1 && m1.getAttribute("content")) return m1.getAttribute("content");
     const m2 = document.querySelector('meta[name="zola-visitor-api"]');
     if (m2 && m2.getAttribute("content")) return m2.getAttribute("content");
-    return "https://blog-vipzone-api.onrender.com";
+    return "https://blog-visitor-api.onrender.com";
   })();
 
   let currentUser = null; // { email, username, name, avatar }
 
   function getSid() {
-    try {
-      // localStorage là nguồn chính (bền qua đóng tab). Migrate sid cũ còn kẹt
-      // trong sessionStorage (phiên trước bản vá này) sang localStorage 1 lần.
-      let sid = localStorage.getItem(SESSION_KEY) || "";
-      if (!sid) {
-        const legacy = sessionStorage.getItem(SESSION_KEY) || "";
-        if (legacy) {
-          localStorage.setItem(SESSION_KEY, legacy);
-          sessionStorage.removeItem(SESSION_KEY);
-          sid = legacy;
-        }
-      }
-      return sid;
-    } catch (e) { return ""; }
+    try { return sessionStorage.getItem(SESSION_KEY) || ""; }
+    catch (e) { return ""; }
   }
   function setSid(sid) {
-    try { localStorage.setItem(SESSION_KEY, sid); } catch (e) {}
-    try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+    try { sessionStorage.setItem(SESSION_KEY, sid); } catch (e) {}
   }
   function clearSid() {
-    try { localStorage.removeItem(SESSION_KEY); } catch (e) {}
     try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
   }
 
@@ -108,53 +79,21 @@
     return err;
   }
 
-  // Xác thực phiên. Thử Bearer (nếu có sid localStorage) TRƯỚC; nếu thiếu sid
-  // hoặc Bearer 401 thì thử lại CHỈ bằng cookie HttpOnly (credentials:include)
-  // → còn cookie là còn đăng nhập dù localStorage trống (vd vừa xoá static cache
-  // ở trình duyệt cho cookie sống nhưng không cho JS đọc sid). Network fail →
-  // trả "unknown" để KHÔNG logout phá UI (xem init()).
-  async function meRequest(useBearer) {
-    const opts = { credentials: "include", cache: "no-store", headers: {} };
-    if (useBearer) {
-      const sid = getSid();
-      if (!sid) return { status: 0 };
-      opts.headers["Authorization"] = "Bearer " + sid;
-    }
-    try {
-      const res = await fetch(AUTH_API + "/auth/me", opts);
-      if (!res.ok) return { status: res.status };
-      return { status: 200, user: await res.json() };
-    } catch (e) {
-      return { status: -1 }; // network/CORS fail → transient, KHÔNG coi là logout
-    }
-  }
-
   async function fetchMe() {
-    if (!AUTH_API) return null;
     const sid = getSid();
-    // 1. Bearer trước (nếu có sid). 2. Cookie-only fallback.
-    let r = sid ? await meRequest(true) : { status: 0 };
-    if (r.status === 200) return r.user;
-    // Bearer thiếu / 401 / lỗi → thử cookie HttpOnly.
-    if (r.status === 0 || r.status === 401 || r.status === -1) {
-      const c = await meRequest(false);
-      if (c.status === 200) return c.user;
-      // Chỉ clear sid khi backend KHẲNG ĐỊNH 401 (cả Bearer lẫn cookie đều fail).
-      if (c.status === 401 && sid) clearSid();
+    if (!sid || !AUTH_API) return null;
+    try {
+      const res = await fetch(AUTH_API + "/auth/me", {
+        headers: { "Authorization": "Bearer " + sid },
+        credentials: "omit",
+        cache: "no-store",
+      });
+      if (res.status === 401) { clearSid(); return null; }
+      if (!res.ok) return null;
+      return await res.json();
+    } catch (e) {
+      return null; // network fail → coi như chưa login, không phá UI
     }
-    return null;
-  }
-
-  // Phiên hết hạn GIỮA lúc đang soạn (save/publish/list trả 401): lưu bản nháp
-  // hiện tại vào localStorage TRƯỚC khi đẩy về màn login, rồi báo rõ cho user.
-  // Draft được khôi phục qua draft-recovery banner sau khi đăng nhập lại.
-  function handleSessionExpired() {
-    try { if (typeof autosaveDraft === "function") autosaveDraft(); } catch (e) {}
-    clearSid();
-    alert(
-      "Phiên đăng nhập đã hết hạn. Bản nháp đã được lưu tạm trước khi đăng nhập lại."
-    );
-    showView("login");
   }
 
   async function logoutRemote() {
@@ -164,7 +103,7 @@
       await fetch(AUTH_API + "/auth/logout", {
         method: "POST",
         headers: { "Authorization": "Bearer " + sid },
-        credentials: "include",
+        credentials: "omit",
         keepalive: true,
       });
     } catch (e) { /* network fail OK — session client-side đã clear */ }
@@ -174,41 +113,17 @@
   const AUTH_ERROR_MESSAGES = {
     access_denied:                "Truy cập bị từ chối: Bạn không có quyền quản trị blog này.",
     invalid_state:                "Phiên đăng nhập hết hạn. Vui lòng thử lại.",
-    missing_params:               "Callback thiếu tham số. Thử lại.",
-    token_exchange_failed:        "Lỗi xác thực. Thử lại sau.",
+    missing_params:               "GitHub callback thiếu tham số. Thử lại.",
+    token_exchange_failed:        "Lỗi xác thực GitHub. Thử lại sau.",
     github_unreachable:           "Không kết nối được GitHub. Kiểm tra mạng.",
     github_profile_fetch_failed:  "Không đọc được profile GitHub. Thử lại.",
-    github_disabled:              "Đăng nhập GitHub đang tắt. Dùng Google.",
-    // ----- Google OAuth -----
-    google_disabled:              "Đăng nhập Google đang tắt.",
-    google_not_configured:        "Backend chưa cấu hình Google OAuth. Liên hệ admin.",
-    google_unreachable:           "Không kết nối được Google. Kiểm tra mạng.",
-    google_consent_denied:        "Bạn đã huỷ cấp quyền Google. Thử lại nếu muốn đăng nhập.",
-    id_token_invalid:             "Không xác thực được Google id_token. Thử lại.",
-    id_token_aud_mismatch:        "Google id_token sai client. Liên hệ admin.",
-    id_token_iss_mismatch:        "Google id_token sai nguồn phát hành. Liên hệ admin.",
-    email_missing:                "Tài khoản Google không có email. Dùng tài khoản khác.",
-    email_not_verified:           "Email Google chưa được xác minh. Xác minh rồi thử lại.",
   };
 
   function showLoginError(code) {
     const el = $("[data-login-error]");
     if (!el) return;
-    el.dataset.code = code || "";
     el.textContent = AUTH_ERROR_MESSAGES[code] || ("Lỗi xác thực: " + code);
     el.hidden = false;
-  }
-
-  // Dismiss a stale provider warning (e.g. an old ?auth_error=google_disabled)
-  // once /auth/config proves that provider is actually available. Only clears the
-  // listed codes so genuine errors (access_denied, invalid_state…) stay visible.
-  function clearLoginErrorCodes(codes) {
-    const el = $("[data-login-error]");
-    if (!el || el.hidden) return;
-    if (codes.indexOf(el.dataset.code || "") === -1) return;
-    el.hidden = true;
-    el.textContent = "";
-    el.dataset.code = "";
   }
 
   function showLoginHint() {
@@ -224,62 +139,11 @@
     const email = $("[data-user-email]");
     if (avatar && user.avatar) {
       avatar.src = user.avatar;
-      avatar.alt = user.username || user.name || "Avatar";
+      avatar.alt = user.username || "";
     }
-    if (name) name.textContent = user.name || user.username || "";
+    if (name)  name.textContent  = user.name || user.username || "";
     if (email) email.textContent = user.email || "";
-  }
-
-  function showToast(message, type) {
-    const host = $("[data-toast-host]");
-    if (!host) return;
-    const el = document.createElement("div");
-    el.className = "ecms-toast ecms-toast--" + (type || "info");
-    el.setAttribute("role", "status");
-    el.textContent = message;
-    host.appendChild(el);
-    window.setTimeout(function () {
-      el.style.opacity = "0";
-      el.style.transition = "opacity 0.2s ease";
-      window.setTimeout(function () { el.remove(); }, 220);
-    }, 3800);
-  }
-
-  function postStatus(p) {
-    if (p.draft) return "draft";
-    if (p.publish_at) return "scheduled";
-    return "published";
-  }
-
-  function statusLabel(p) {
-    const s = postStatus(p);
-    if (s === "draft") return "Bản nháp";
-    if (s === "scheduled") return "Lịch đăng";
-    return "Đã xuất bản";
-  }
-
-  function resolveThumbUrl(post) {
-    const raw = (post.thumbnail || post.image || "").trim();
-    if (raw && !/\/img\/placeholder\//.test(raw)) {
-      if (/^https?:\/\//i.test(raw)) return raw;
-      const base = location.pathname.replace(/\/editor\/?$/, "").replace(/\/$/, "");
-      if (raw.startsWith("/")) return location.origin + base + raw;
-      return location.origin + base + "/" + raw.replace(/^\//, "");
-    }
-    return PLACEHOLDER_THUMB;
-  }
-
-  function formatDisplayDate(iso) {
-    if (!iso) return "—";
-    try {
-      if (window.DateTimeFormat && window.DateTimeFormat.formatDate) {
-        return window.DateTimeFormat.formatDate(iso);
-      }
-    } catch (e) { /* fallback */ }
-    const d = String(iso).slice(0, 10);
-    const p = d.split("-");
-    if (p.length === 3) return p[2] + "/" + p[1] + "/" + p[0];
-    return d;
+    bar.hidden = false;
   }
 
   const root = document.getElementById("editor-app");
@@ -287,34 +151,11 @@
 
   // ============= STATE & UTIL =============
   let state = {
-    posts: [],
-    bakeMetadata: [],
-    editing: null,
-    filter: {
-      query: "",
-      sort: "date-desc",
-      placement: "",
-      status: "all",
-      category: "",
-      flags: { sticky: false, featured: false, hasThumb: false, premium: false },
-      preset: "",
-    },
-    pagination: { page: 1, pageSize: 6 },
-    drawerSlug: null,
-    drawerLoading: false,
+    posts: [],          // unified display list: { slug, title, date, category, featured, isNew? }
+    bakeMetadata: [],   // raw bake từ <script id="posts-metadata">, immutable trong session
+    editing: null,      // { path, sha, wasFeatured, featuredAt }
+    filter: { query: "", sort: "date-desc" },
   };
-
-  const GOOGLE_CSE_CX = (function () {
-    const m = document.querySelector('meta[name="editor-google-cse-cx"]');
-    return m && m.getAttribute("content") ? m.getAttribute("content") : "";
-  })();
-
-  const PLACEHOLDER_THUMB = (function () {
-    const base = document.querySelector('link[rel="canonical"]');
-    const origin = base ? new URL(base.href).origin : location.origin;
-    const path = location.pathname.replace(/\/editor\/?$/, "");
-    return origin + path + "/img/placeholder/placeholder.svg";
-  })();
 
   function $(sel, parent) { return (parent || root).querySelector(sel); }
   function $$(sel, parent) { return Array.from((parent || root).querySelectorAll(sel)); }
@@ -347,50 +188,6 @@
   function todayIso() {
     const d = new Date();
     return d.toISOString().split("T")[0];
-  }
-
-  // Ngày hôm nay theo giờ Việt Nam (GMT+7), dạng YYYY-MM-DD.
-  function todayIsoVN() {
-    try {
-      return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Ho_Chi_Minh" });
-    } catch (e) {
-      return todayIso();
-    }
-  }
-
-  // Thời điểm hiện tại theo giờ Việt Nam, ISO8601 có offset +07:00
-  // (vd 2026-06-27T14:30:00+07:00). GMT+7 không có DST nên offset luôn cố định.
-  function nowIsoVN() {
-    try {
-      const parts = new Intl.DateTimeFormat("en-CA", {
-        timeZone: "Asia/Ho_Chi_Minh",
-        year: "numeric", month: "2-digit", day: "2-digit",
-        hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false,
-      }).formatToParts(new Date());
-      const get = (t) => ((parts.find((p) => p.type === t) || {}).value || "00");
-      let hour = get("hour");
-      if (hour === "24") hour = "00"; // vài môi trường trả "24" cho nửa đêm
-      return get("year") + "-" + get("month") + "-" + get("day") +
-        "T" + hour + ":" + get("minute") + ":" + get("second") + "+07:00";
-    } catch (e) {
-      return todayIsoVN();
-    }
-  }
-
-  // Tính giá trị `date` frontmatter sao cho hiển thị THỜI GIAN THỰC TẾ, không phải 00:00 giả:
-  //  - Giữ nguyên timestamp gốc nếu user không đổi ngày (không ghi đè giờ đã ghi).
-  //  - Ngày = hôm nay (GMT+7) mà chưa có giờ → đóng dấu giờ thực tại.
-  //  - Ngày khác (quá khứ/tương lai do user chọn) → giữ date-only, KHÔNG bịa giờ.
-  function resolvePublishDate(formDate, originalDate) {
-    const dateOnly = String(formDate || "").slice(0, 10);
-    if (!dateOnly) return formDate;
-    if (originalDate && String(originalDate).slice(0, 10) === dateOnly) {
-      return originalDate; // bảo toàn giờ gốc của bài
-    }
-    if (dateOnly === todayIsoVN()) {
-      return nowIsoVN(); // đăng/sửa trong hôm nay → giờ thực
-    }
-    return dateOnly; // ngày khác → không có giờ thực để hiển thị
   }
 
   // Encode UTF-8 string → base64 (GitHub yêu cầu)
@@ -464,66 +261,14 @@
     try { sessionStorage.removeItem(LIST_CACHE_KEY); } catch (e) {}
   }
 
-  function matchesSearch(post, q) {
-    if (!q) return true;
-    const hay = normalizeStr([
-      post.title, post.slug, post.category,
-      (post.categories || []).join(" "),
-      (post.tags || []).join(" "),
-      post.description,
-    ].join(" "));
-    return hay.includes(q);
-  }
-
-  function applyPresetFilter(posts, preset) {
-    if (!preset) return posts;
-    const now = Date.now();
-    const week = 7 * 24 * 60 * 60 * 1000;
-    if (preset === "published-7d") {
-      return posts.filter((p) => {
-        if (postStatus(p) !== "published" || !p.date) return false;
-        const t = Date.parse(p.date);
-        return !isNaN(t) && (now - t) <= week;
-      });
-    }
-    if (preset === "needs-featured") {
-      return posts.filter((p) => !p.featured && postStatus(p) === "published");
-    }
-    if (preset === "seo-high") {
-      return posts.filter((p) => (p.seo_score != null && p.seo_score < 80) || p.seo_score == null);
-    }
-    return posts;
-  }
-
+  // Pure: filter + sort state.posts theo state.filter, return array mới.
   function getDisplayPosts() {
-    let filtered = state.posts.slice();
+    const posts = state.posts.slice();
     const q = normalizeStr(state.filter.query);
-    if (q) filtered = filtered.filter((p) => matchesSearch(p, q));
-
-    const pf = state.filter.placement;
-    if (pf === "sticky") filtered = filtered.filter((p) => p.sticky);
-    else if (pf === "featured") filtered = filtered.filter((p) => p.featured);
-
-    const st = state.filter.status;
-    if (st && st !== "all") {
-      filtered = filtered.filter((p) => postStatus(p) === st);
-    }
-
-    if (state.filter.category) {
-      const cat = normalizeStr(state.filter.category);
-      filtered = filtered.filter((p) => {
-        const cats = p.categories && p.categories.length ? p.categories : [p.category];
-        return cats.some((c) => normalizeStr(c) === cat);
-      });
-    }
-
-    const fl = state.filter.flags;
-    if (fl.sticky) filtered = filtered.filter((p) => p.sticky);
-    if (fl.featured) filtered = filtered.filter((p) => p.featured);
-    if (fl.hasThumb) filtered = filtered.filter((p) => !!(p.thumbnail || p.image));
-    if (fl.premium) filtered = filtered.filter((p) => p.premium);
-
-    filtered = applyPresetFilter(filtered, state.filter.preset);
+    const filtered = q ? posts.filter((p) => {
+      const hay = normalizeStr((p.title || "") + " " + (p.slug || "") + " " + (p.category || ""));
+      return hay.includes(q);
+    }) : posts;
 
     switch (state.filter.sort) {
       case "date-asc":
@@ -536,123 +281,36 @@
     }
   }
 
-  function getPaginatedPosts() {
-    const all = getDisplayPosts();
-    const size = state.pagination.pageSize;
-    const totalPages = Math.max(1, Math.ceil(all.length / size));
-    if (state.pagination.page > totalPages) state.pagination.page = totalPages;
-    if (state.pagination.page < 1) state.pagination.page = 1;
-    const start = (state.pagination.page - 1) * size;
-    return { all: all, pageItems: all.slice(start, start + size), totalPages: totalPages };
-  }
-
   function postPermalink(post) {
     if (post.permalink) return post.permalink;
     const base = location.pathname.replace(/\/editor\/?$/, "").replace(/\/$/, "");
     return location.origin + base + "/" + CONTENT_DIR.replace(/^content\//, "") + "/" + post.slug + "/";
   }
 
-  function renderKPIs() {
-    const posts = state.posts.filter((p) => p && p.slug);
-    const totalEl = $("[data-kpi-total]");
-    const draftsEl = $("[data-kpi-drafts]");
-    const stickyEl = $("[data-kpi-sticky]");
-    const featuredEl = $("[data-kpi-featured]");
-    if (totalEl) totalEl.textContent = String(posts.length);
-    if (draftsEl) draftsEl.textContent = String(posts.filter((p) => p.draft).length);
-    if (stickyEl) stickyEl.textContent = String(posts.filter((p) => p.sticky).length);
-    if (featuredEl) featuredEl.textContent = String(posts.filter((p) => p.featured).length);
-  }
+  function renderHeaderWidget() {
+    const widget = $("[data-header-widget]");
+    if (!widget) return;
+    const total = $("[data-header-total]");
+    const latestLink = $("[data-header-latest]");
+    const posts = state.posts
+      .filter((p) => p && p.slug)
+      .slice()
+      .sort((a, b) => (b.date || "").localeCompare(a.date || ""));
 
-  function renderFilterCounts() {
-    const posts = state.posts;
-    const set = function (sel, n) {
-      const el = $(sel);
-      if (el) el.textContent = n ? "(" + n + ")" : "";
-    };
-    set("[data-count-status-all]", posts.length);
-    set("[data-count-status-published]", posts.filter((p) => postStatus(p) === "published").length);
-    set("[data-count-status-draft]", posts.filter((p) => postStatus(p) === "draft").length);
-    set("[data-count-status-scheduled]", posts.filter((p) => postStatus(p) === "scheduled").length);
-  }
-
-  function renderCategoryFilterList() {
-    const ul = $("[data-filter-categories]");
-    if (!ul) return;
-    const q = normalizeStr($("[data-filter-category-search]") && $("[data-filter-category-search]").value);
-    const counts = {};
-    state.posts.forEach((p) => {
-      const cats = p.categories && p.categories.length ? p.categories : [p.category || "Tất cả"];
-      cats.forEach((c) => {
-        if (!c) return;
-        counts[c] = (counts[c] || 0) + 1;
-      });
-    });
-    const cats = Object.keys(counts).sort((a, b) => normalizeStr(a).localeCompare(normalizeStr(b)));
-    const filtered = q ? cats.filter((c) => normalizeStr(c).includes(q)) : cats;
-    const active = state.filter.category;
-    let html = '<li><label><input type="radio" name="ecms-cat" value=""' +
-      (!active ? " checked" : "") + '> Tất cả <span>(' + state.posts.length + ')</span></label></li>';
-    filtered.slice(0, 24).forEach((c) => {
-      const esc = escapeHtml(c);
-      html += '<li><label><input type="radio" name="ecms-cat" value="' + esc + '"' +
-        (active === c ? " checked" : "") + "> " + esc + " <span>(" + counts[c] + ")</span></label></li>";
-    });
-    ul.innerHTML = html;
-    ul.querySelectorAll('input[name="ecms-cat"]').forEach((inp) => {
-      inp.addEventListener("change", () => {
-        state.filter.category = inp.value;
-        state.pagination.page = 1;
-        renderPostList();
-      });
-    });
-  }
-
-  function renderPaginationUI(allCount, totalPages) {
-    const wrap = $("[data-pagination]");
-    const info = $("[data-pagination-info]");
-    const nav = $("[data-pagination-nav]");
-    if (!wrap || !info || !nav) return;
-    if (allCount === 0) {
-      wrap.hidden = true;
-      return;
-    }
-    wrap.hidden = false;
-    const size = state.pagination.pageSize;
-    const page = state.pagination.page;
-    const start = (page - 1) * size + 1;
-    const end = Math.min(page * size, allCount);
-    info.textContent = "Hiển thị " + start + "–" + end + " trong " + allCount + " bài viết";
-
-    let html = "";
-    html += '<button type="button" class="ecms-page-btn" data-page-prev' +
-      (page <= 1 ? " disabled" : "") + ">&lt;</button>";
-    const pages = [];
-    for (let i = 1; i <= totalPages; i++) {
-      if (i === 1 || i === totalPages || Math.abs(i - page) <= 1) pages.push(i);
-      else if (pages[pages.length - 1] !== "…") pages.push("…");
-    }
-    pages.forEach((n) => {
-      if (n === "…") {
-        html += '<span class="ecms-page-btn" style="border:0;background:transparent">…</span>';
+    if (total) total.textContent = String(posts.length);
+    if (latestLink) {
+      const latest = posts[0];
+      if (latest) {
+        latestLink.textContent = latest.title || latest.slug;
+        latestLink.href = postPermalink(latest);
+        latestLink.title = (latest.title || latest.slug) + " - " + latestLink.href;
       } else {
-        html += '<button type="button" class="ecms-page-btn' +
-          (n === page ? " is-active" : "") + '" data-page="' + n + '">' + n + "</button>";
+        latestLink.textContent = "-";
+        latestLink.removeAttribute("href");
+        latestLink.removeAttribute("title");
       }
-    });
-    html += '<button type="button" class="ecms-page-btn" data-page-next' +
-      (page >= totalPages ? " disabled" : "") + ">&gt;</button>";
-    nav.innerHTML = html;
-    const prev = nav.querySelector("[data-page-prev]");
-    const next = nav.querySelector("[data-page-next]");
-    if (prev) prev.addEventListener("click", () => { state.pagination.page--; renderPostList(); });
-    if (next) next.addEventListener("click", () => { state.pagination.page++; renderPostList(); });
-    nav.querySelectorAll("[data-page]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        state.pagination.page = parseInt(btn.dataset.page, 10) || 1;
-        renderPostList();
-      });
-    });
+    }
+    widget.hidden = false;
   }
 
   // ============= API CALLS =============
@@ -785,7 +443,7 @@
   }
 
   function categoryLabel(cat) {
-    if (isPremiumCategory(cat)) return "Premium";
+    if (isPremiumCategory(cat)) return "Premium (thu phí)";
     return cat;
   }
 
@@ -861,7 +519,14 @@ tags = ${tagsStr}
     }
     // sticky = bài ghim (chỉ 1 bài tại 1 thời điểm — đã validate trước khi save).
     if (fm.sticky) fmText += `sticky = true\n`;
-    // Premium category = label only (paywall disabled). Không ghi premium/momo flags.
+    // Premium category: enable paywall flag + optional per-post MoMo link.
+    // Non-premium saves omit both fields (backward compatible cleanup).
+    if (isPremiumCategory(fm.category)) {
+      fmText += `premium = true\n`;
+      if (fm.momo_payment_link) {
+        fmText += `momo_payment_link = "${String(fm.momo_payment_link).replace(/"/g, '\\"')}"\n`;
+      }
+    }
     fmText += "+++\n\n";
     return fmText + body;
   }
@@ -875,9 +540,7 @@ tags = ${tagsStr}
 
     const fm = {
       title: form.title.value.trim(),
-      // Đóng dấu thời gian thực (GMT+7) khi đăng hôm nay; giữ timestamp gốc khi sửa
-      // bài cũ mà không đổi ngày → "Đăng: HH:MM" hiển thị giờ thật, không phải 00:00.
-      date: resolvePublishDate(form.date.value, state.editing && state.editing.originalDate),
+      date: form.date.value,
       category: category,
       tags: form.tags.value.split(",").map((t) => t.trim()).filter(Boolean),
       thumbnail: form.thumbnail.value.trim(),
@@ -888,6 +551,12 @@ tags = ${tagsStr}
       momo_payment_link: "",
     };
 
+    if (isPremiumCategory(category)) {
+      fm.premium = true;
+      const momoInput = form.querySelector("[name='momo_link']");
+      const momoLink = momoInput ? momoInput.value.trim() : "";
+      if (momoLink) fm.momo_payment_link = momoLink;
+    }
     return fm;
   }
 
@@ -900,7 +569,9 @@ tags = ${tagsStr}
     if (!show && input) input.value = "";
   }
 
-  // ============= HOMEPAGE PLACEMENT — Sticky / Featured (single-active) =============
+  // ============= STICKY VALIDATION — chỉ 1 bài ghim tại 1 thời điểm =============
+  // Trả về slug của bài KHÁC đang sticky (nếu có), hoặc null. Dùng state.posts
+  // (đã gộp bake + local). Bỏ qua chính bài đang sửa (currentSlug).
   function findOtherSticky(currentSlug) {
     for (const p of state.posts) {
       if (p.sticky && p.slug !== currentSlug) return p;
@@ -908,269 +579,43 @@ tags = ${tagsStr}
     return null;
   }
 
-  function findOtherFeatured(currentSlug) {
-    for (const p of state.posts) {
-      if (p.featured && p.slug !== currentSlug) return p;
-    }
-    return null;
-  }
-
-  function confirmSlotReplace(slot, other) {
+  // Nếu user tick Sticky nhưng đã có bài khác sticky → báo lỗi ra màn hình +
+  // trả về false (chặn save). title/slug bài đang xung đột hiển thị rõ.
+  function ensureStickyAllowed(isSticky, currentSlug) {
+    if (!isSticky) return true;
+    const other = findOtherSticky(currentSlug);
     if (!other) return true;
     const name = other.title || other.slug;
-    const label = slot === "sticky" ? "Sticky" : "Featured";
-    return confirm(
-      'Bài "' + name + '" đang là ' + label + ".\n\n" +
-      "Thao tác này sẽ thay thế bài " + label + " hiện tại. Tiếp tục?"
-    );
+    const msg = "⚠️ Chỉ được ghim (Sticky) 1 bài tại một thời điểm. " +
+      'Bài "' + name + '" đang được ghim. ' +
+      "Hãy bỏ ghim bài đó trước, rồi ghim bài này.";
+    setStatus("save-status", msg, "error");
+    alert(msg);
+    return false;
   }
 
-  function reconcileDualPlacement(fm, enabling) {
-    if (enabling === "sticky" && fm.featured) {
-      if (!confirm("Bài không thể vừa Sticky vừa Featured.\n\nBỏ Featured và đặt làm Sticky?")) return false;
-      fm.featured = false;
-      fm.featured_at = "";
-    }
-    if (enabling === "featured" && fm.sticky) {
-      if (!confirm("Bài không thể vừa Sticky vừa Featured.\n\nBỏ Sticky và đặt làm Featured?")) return false;
-      fm.sticky = false;
-    }
-    return true;
-  }
-
-  function validatePlacementBeforeSave(fm, slug) {
-    if (fm.sticky) {
-      if (!reconcileDualPlacement(fm, "sticky")) return false;
-      if (!confirmSlotReplace("sticky", findOtherSticky(slug))) return false;
-    }
-    if (fm.featured) {
-      if (!reconcileDualPlacement(fm, "featured")) return false;
-      if (!confirmSlotReplace("featured", findOtherFeatured(slug))) return false;
-    }
-    return true;
-  }
-
-  function syncPlacementCheckboxes(form, fm) {
-    if (form.featured) form.featured.checked = !!fm.featured;
-    if (form.sticky) form.sticky.checked = !!fm.sticky;
-    updatePlacementUI();
-  }
-
-  function updatePlacementUI() {
-    const form = $("[data-form='post']");
-    if (!form) return;
-    const stickyOn = !!(form.sticky && form.sticky.checked);
-    const featuredOn = !!(form.featured && form.featured.checked);
-
-    const stickyBadge = $("[data-placement-badge='sticky']");
-    const featuredBadge = $("[data-placement-badge='featured']");
-    if (stickyBadge) {
-      stickyBadge.textContent = stickyOn ? "Currently Sticky" : "Not sticky";
-      stickyBadge.classList.toggle("is-active", stickyOn);
-    }
-    if (featuredBadge) {
-      featuredBadge.textContent = featuredOn ? "Currently Featured" : "Not featured";
-      featuredBadge.classList.toggle("is-active", featuredOn);
-    }
-
-    const stickyOnBtn = $("[data-action='placement-sticky-on']");
-    const stickyOffBtn = $("[data-action='placement-sticky-off']");
-    const featuredOnBtn = $("[data-action='placement-featured-on']");
-    const featuredOffBtn = $("[data-action='placement-featured-off']");
-    if (stickyOnBtn) stickyOnBtn.hidden = stickyOn;
-    if (stickyOffBtn) stickyOffBtn.hidden = !stickyOn;
-    if (featuredOnBtn) featuredOnBtn.hidden = featuredOn;
-    if (featuredOffBtn) featuredOffBtn.hidden = !featuredOn;
-  }
-
-  function applySavedPostState(slug, fm) {
-    if (fm.sticky) {
-      state.posts.forEach((p) => { if (p.slug !== slug) p.sticky = false; });
-    }
-    if (fm.featured) {
-      state.posts.forEach((p) => { if (p.slug !== slug) p.featured = false; });
-    }
-    const savedPost = {
-      slug: slug,
-      title: fm.title,
-      permalink: postPermalink({ slug: slug }),
-      date: fm.date,
-      category: fm.category,
-      featured: fm.featured,
-      sticky: fm.sticky,
-      isNew: !state.editing,
-    };
-    const idx = state.posts.findIndex((p) => p.slug === slug);
-    if (idx >= 0) state.posts[idx] = savedPost;
-    else state.posts.unshift(savedPost);
-    invalidateListCache();
-    discardDraft(slug);
-    lastDraftSlug = slug;
-    updatePlacementUI();
-  }
-
-  function formatPlacementSaveNote(data) {
-    let note = "";
-    if (data.demoted_sticky) note += " (đã bỏ ghim " + data.demoted_sticky + " bài cũ)";
-    if (data.demoted_featured) note += " (đã bỏ Featured " + data.demoted_featured + " bài cũ)";
-    return note;
-  }
-
-  async function quickPlacement(slug, mode) {
-    const sid = getSid();
-    if (!sid || !AUTH_API) {
-      alert("Cần đăng nhập để cập nhật placement.");
-      return;
-    }
-
-    const path = CONTENT_DIR + "/" + slug + ".md";
-    setStatus("[data-status]", "Đang cập nhật placement…", "info");
-
-    try {
-      const data = await getPost(path);
-      const { fm, body } = parseFrontmatter(data.content);
-
-      if (mode === "sticky-on") {
-        if (!reconcileDualPlacement(fm, "sticky")) return;
-        if (!confirmSlotReplace("sticky", findOtherSticky(slug))) return;
-        fm.sticky = true;
-      } else if (mode === "sticky-off") {
-        fm.sticky = false;
-      } else if (mode === "featured-on") {
-        if (!reconcileDualPlacement(fm, "featured")) return;
-        if (!confirmSlotReplace("featured", findOtherFeatured(slug))) return;
-        fm.featured = true;
-        fm.featured_at = new Date().toISOString();
-      } else if (mode === "featured-off") {
-        fm.featured = false;
-        fm.featured_at = "";
-      }
-
-      const content = buildFrontmatter(fm, body);
-      const message = "CMS: placement " + mode + " — " + (fm.title || slug);
-
-      const res = await fetch(AUTH_API + "/cms/save-post", {
-        method: "POST",
-        headers: {
-          "Authorization": "Bearer " + sid,
-          "Content-Type": "application/json",
-        },
-        credentials: "omit",
-        body: JSON.stringify({ slug, content, message, sha: data.sha }),
-      });
-
-      if (res.status === 401) {
-        clearSid();
-        alert("Phiên hết hạn. Đăng nhập lại.");
-        showView("login");
-        return;
-      }
-
-      const payload = await res.json();
-      if (!res.ok) {
-        setStatus("[data-status]", "✗ " + (payload.detail || "Lỗi lưu placement"), "error");
-        return;
-      }
-
-      applySavedPostState(slug, fm);
-      renderPostList();
-      let msg = "Đã cập nhật placement cho \"" + (fm.title || slug) + "\"";
-      if (mode === "sticky-on") {
-        msg = "Đã đặt bài này làm Sticky.";
-        if (payload.demoted_sticky) msg += " Bài Sticky cũ đã được bỏ ghim.";
-      } else if (mode === "featured-on") {
-        msg = "Đã đặt bài này làm Featured.";
-        if (payload.demoted_featured) msg += " Bài Featured cũ đã được thay thế.";
-      } else if (mode === "sticky-off") msg = "Đã bỏ Sticky.";
-      else if (mode === "featured-off") msg = "Đã bỏ Featured.";
-      showToast(msg, "success");
-      setStatus("[data-status]", "✓ " + msg, "success");
-    } catch (err) {
-      showToast("Không thể lưu thay đổi. " + err.message, "error");
-      setStatus("[data-status]", "✗ " + err.message, "error");
-    }
-  }
-
-  // ============= LOGIN BUTTONS → REDIRECT OAUTH (GitHub / Google) =============
-  function startOAuth(startPath) {
-    if (!AUTH_API) { showLoginHint(); return; }
-    const returnTo = location.pathname + location.search;
-    location.href = AUTH_API + startPath + "?return_to=" + encodeURIComponent(returnTo);
-  }
-
+  // ============= LOGIN BUTTON → REDIRECT GITHUB OAUTH =============
   const loginBtn = $("[data-action='github-login']");
   if (loginBtn) {
-    loginBtn.addEventListener("click", function () { startOAuth("/auth/login"); });
-  }
-  const googleBtn = $("[data-action='google-login']");
-  if (googleBtn) {
-    googleBtn.addEventListener("click", function () { startOAuth("/auth/google/start"); });
-  }
-
-  // Provider availability từ /auth/config — bền với cả schema mới (nested) lẫn cũ.
-  //   mới: { provider, google:{enabled,configured}, github:{enabled,configured} }
-  //   cũ : { google:true } | { google_enabled:true } | { providers:{google:true} }
-  // Theo contract backend hiện tại: available khi enabled===true && configured===true
-  // && provider ∈ {dual, <tên>}. Trả null nếu không suy được (giữ default UI).
-  function providerAvailable(cfg, name) {
-    if (!cfg) return null;
-    const provider = cfg.provider || cfg.auth_provider || "";
-    // provider gate: dual bật cả hai; ngược lại phải khớp đúng tên provider.
-    if (provider && provider !== "dual" && provider !== name) return false;
-    const node = cfg[name];
-    if (node && typeof node === "object") {
-      // Schema mới: yêu cầu enabled; configured mặc định true nếu không khai báo.
-      return node.enabled === true && node.configured !== false;
-    }
-    // Schema cũ (boolean) — backward-compatible, không phá GitHub login.
-    if (node === true) return true;
-    if (cfg[name + "_enabled"] === true) return true;
-    if (cfg.providers && cfg.providers[name] === true) return true;
-    if (node === false) return false;
-    // Không có thông tin node → suy theo provider gate (dual/đúng tên ⇒ bật).
-    return provider === "dual" || provider === name;
-  }
-
-  // Fetch /auth/config, render đúng nút (Google primary trong dual/google), và
-  // TRẢ availability để init quyết định có nên hiện cảnh báo *_disabled hay không.
-  //   dual   → Google (primary) + GitHub (phụ)
-  //   google → chỉ Google
-  //   github → chỉ GitHub (mặc định, giữ hành vi cũ nếu fetch lỗi)
-  async function applyAuthProviders() {
-    if (!AUTH_API) return null;
-    let cfg = null;
-    try {
-      const res = await fetch(AUTH_API + "/auth/config", { cache: "no-store" });
-      if (res.ok) cfg = await res.json();
-    } catch (e) { /* network fail → giữ default (cả 2 nút) */ }
-    if (!cfg) return null;
-    const googleOk = providerAvailable(cfg, "google");
-    const githubOk = providerAvailable(cfg, "github");
-    const gBtn = $("[data-provider-btn='google']");
-    const ghBtn = $("[data-provider-btn='github']");
-    if (gBtn  && googleOk !== null) gBtn.hidden  = !googleOk;
-    if (ghBtn && githubOk !== null) ghBtn.hidden = !githubOk;
-    // Trong dual/google, Google là primary; hạ GitHub xuống nút phụ (ghost).
-    if (googleOk && gBtn && ghBtn) {
-      gBtn.classList.add("editor-btn--primary");
-      ghBtn.classList.remove("editor-btn--primary");
-      ghBtn.classList.add("editor-btn--ghost");
-    }
-    // Tự sửa cảnh báo cũ mâu thuẫn: nếu config xác nhận provider đang BẬT thì gỡ
-    // cảnh báo *_disabled còn sót lại (vd ?auth_error=google_disabled cũ).
-    if (googleOk) clearLoginErrorCodes(["google_disabled", "google_not_configured"]);
-    if (githubOk) clearLoginErrorCodes(["github_disabled"]);
-    return { google: googleOk, github: githubOk };
+    loginBtn.addEventListener("click", function () {
+      if (!AUTH_API) { showLoginHint(); return; }
+      const returnTo = location.pathname + location.search;
+      location.href = AUTH_API + "/auth/login?return_to=" + encodeURIComponent(returnTo);
+    });
   }
 
   let bakeLoaded = false;
 
   function showDashboardLoading(message) {
     setStatus("[data-status]", message || "Đang tải dữ liệu mới nhất từ GitHub…", "info");
-    const list = $("[data-target='post-list']");
-    if (list) list.innerHTML = '<div class="ecms-list__empty">Đang tải danh sách bài viết…</div>';
-    const kpi = $("[data-kpi-total]");
-    if (kpi) kpi.textContent = "…";
+    const tbody = $("[data-target='post-rows']");
+    if (tbody) {
+      tbody.innerHTML = '<tr><td colspan="5" class="editor-empty">Đang tải danh sách bài viết…</td></tr>';
+    }
+    const total = $("[data-header-total]");
+    if (total) total.textContent = "…";
+    const counter = $("[data-target='post-count']");
+    if (counter) counter.textContent = "…";
   }
 
   // force=true: sau login / mở CMS — luôn fetch tươi từ GitHub, bỏ cache cũ.
@@ -1230,294 +675,97 @@ tags = ${tagsStr}
     const bar = $("[data-bulk-bar]");
     const count = $("[data-bulk-count]");
     if (!bar) return;
-    const n = selectedSlugs.size;
-    bar.hidden = n === 0;
-    if (count) count.textContent = String(n);
-    const disable = n === 0;
-    ["bulk-delete", "bulk-sticky", "bulk-featured"].forEach((act) => {
-      const btn = $('[data-action="' + act + '"]');
-      if (btn) btn.disabled = disable || (act !== "bulk-delete" && n > 1);
-    });
+    if (selectedSlugs.size === 0) {
+      bar.hidden = true;
+    } else {
+      bar.hidden = false;
+      if (count) count.textContent = selectedSlugs.size;
+    }
+    // Sync "select all" checkbox state
     const selectAll = $("[data-select-all]");
     if (selectAll) {
-      const pageItems = getPaginatedPosts().pageItems;
-      const visibleSelected = pageItems.filter((p) => selectedSlugs.has(p.slug)).length;
-      selectAll.checked = pageItems.length > 0 && visibleSelected === pageItems.length;
-      selectAll.indeterminate = visibleSelected > 0 && visibleSelected < pageItems.length;
-    }
-  }
-
-  function openDrawer(slug) {
-    const drawer = $("[data-detail-drawer]");
-    const body = $("[data-drawer-body]");
-    if (!drawer || !body) return;
-    state.drawerSlug = slug;
-    drawer.hidden = false;
-    drawer.classList.add("is-open");
-    const post = state.posts.find((p) => p.slug === slug);
-    if (!post) {
-      body.innerHTML = '<p class="ecms-drawer__placeholder">Không tìm thấy bài.</p>';
-      return;
-    }
-    const thumb = resolveThumbUrl(post);
-    const seo = post.seo_score != null
-      ? '<div class="ecms-drawer__seo">SEO ' + post.seo_score + (post.seo_grade ? " · " + escapeHtml(post.seo_grade) : "") + "</div>"
-      : "";
-    const cats = (function () {
-      try {
-        const raw = document.getElementById("categories-data");
-        return raw ? JSON.parse(raw.textContent || "[]") : [];
-      } catch (e) { return []; }
-    })();
-    let catOpts = cats.map((c) =>
-      '<option value="' + escapeHtml(c) + '"' + (post.category === c ? " selected" : "") + ">" + escapeHtml(c) + "</option>"
-    ).join("");
-    body.innerHTML =
-      '<div class="ecms-drawer__thumb"><img src="' + escapeHtml(thumb) + '" alt="" loading="lazy" decoding="async"></div>' +
-      seo +
-      '<div class="ecms-drawer__field"><label>Tiêu đề</label><input type="text" data-drawer-title value="' + escapeHtml(post.title || "") + '"></div>' +
-      '<div class="ecms-drawer__field"><label>Slug</label><div class="ecms-drawer__slug-row">' +
-        '<input type="text" data-drawer-slug value="' + escapeHtml(post.slug) + '" readonly>' +
-        '<button type="button" class="ecms-btn ecms-btn--ghost ecms-btn--small" data-drawer-copy-slug>Copy</button></div></div>' +
-      '<div class="ecms-drawer__field"><label>Category</label><select data-drawer-category>' + catOpts + '</select></div>' +
-      '<div class="ecms-drawer__field"><label>Trạng thái</label><select data-drawer-status disabled>' +
-        '<option>' + escapeHtml(statusLabel(post)) + '</option></select></div>' +
-      '<div class="ecms-drawer__field"><label>Ngày đăng</label><input type="date" data-drawer-date value="' + escapeHtml((post.date || "").slice(0, 10)) + '"></div>' +
-      '<div class="ecms-drawer__field"><label>Ảnh thumbnail</label><input type="url" data-drawer-thumb value="' + escapeHtml(post.thumbnail || post.image || "") + '"></div>' +
-      '<div class="ecms-drawer__toggles">' +
-        '<label class="ecms-drawer__toggle">Sticky<input type="checkbox" data-drawer-sticky' + (post.sticky ? " checked" : "") + "></label>" +
-        '<label class="ecms-drawer__toggle">Featured<input type="checkbox" data-drawer-featured' + (post.featured ? " checked" : "") + "></label>" +
-        (post.premium ? '<label class="ecms-drawer__toggle">Premium<input type="checkbox" checked disabled></label>' : "") +
-      "</div>" +
-      '<div class="ecms-drawer__actions">' +
-        '<button type="button" class="ecms-btn ecms-btn--primary" data-drawer-save>Lưu</button>' +
-        '<a class="ecms-btn ecms-btn--ghost" href="' + escapeHtml(postPermalink(post)) + '" target="_blank" rel="noopener">Xem trước</a>' +
-        '<button type="button" class="ecms-btn ecms-btn--ghost" data-drawer-edit>Sửa đầy đủ</button>' +
-        '<button type="button" class="ecms-btn ecms-btn--ghost" data-drawer-close>Hủy</button>' +
-      "</div>";
-
-    body.querySelector("[data-drawer-copy-slug]").addEventListener("click", () => {
-      const slugInp = body.querySelector("[data-drawer-slug]");
-      if (slugInp) navigator.clipboard.writeText(slugInp.value).then(() => showToast("Đã copy slug", "success"));
-    });
-    body.querySelector("[data-drawer-edit]").addEventListener("click", () => {
-      closeDrawer();
-      openEditor(CONTENT_DIR + "/" + slug + ".md");
-    });
-    body.querySelectorAll("[data-drawer-close]").forEach((b) => b.addEventListener("click", closeDrawer));
-    body.querySelector("[data-drawer-save]").addEventListener("click", () => quickSaveFromDrawer(slug, body));
-  }
-
-  function closeDrawer() {
-    const drawer = $("[data-detail-drawer]");
-    if (!drawer) return;
-    drawer.classList.remove("is-open");
-    drawer.hidden = true;
-    state.drawerSlug = null;
-  }
-
-  async function quickSaveFromDrawer(slug, bodyEl) {
-    const btn = bodyEl.querySelector("[data-drawer-save]");
-    const sid = getSid();
-    if (!sid || !AUTH_API) {
-      showToast("Cần đăng nhập để lưu.", "error");
-      return;
-    }
-    const path = CONTENT_DIR + "/" + slug + ".md";
-    if (btn) { btn.disabled = true; btn.classList.add("is-loading"); btn.textContent = "Đang lưu…"; }
-    try {
-      const data = await getPost(path);
-      const parsed = parseFrontmatter(data.content);
-      const fm = parsed.fm;
-      const titleInp = bodyEl.querySelector("[data-drawer-title]");
-      const catInp = bodyEl.querySelector("[data-drawer-category]");
-      const dateInp = bodyEl.querySelector("[data-drawer-date]");
-      const thumbInp = bodyEl.querySelector("[data-drawer-thumb]");
-      const stickyInp = bodyEl.querySelector("[data-drawer-sticky]");
-      const featuredInp = bodyEl.querySelector("[data-drawer-featured]");
-      const originalDate = fm.date; // giá trị gốc (có thể kèm giờ thực)
-      fm.title = titleInp ? titleInp.value.trim() : fm.title;
-      fm.category = catInp ? catInp.value : fm.category;
-      // Giữ giờ gốc nếu không đổi ngày; đóng dấu giờ thực nếu chuyển sang hôm nay.
-      fm.date = resolvePublishDate(dateInp ? dateInp.value : fm.date, originalDate);
-      fm.thumbnail = thumbInp ? thumbInp.value.trim() : fm.thumbnail;
-      fm.sticky = !!(stickyInp && stickyInp.checked);
-      fm.featured = !!(featuredInp && featuredInp.checked);
-      if (fm.featured && !fm.featured_at) fm.featured_at = new Date().toISOString();
-      if (!fm.featured) fm.featured_at = "";
-      if (!validatePlacementBeforeSave(fm, slug)) return;
-      const content = buildFrontmatter(fm, parsed.body);
-      const headers = { "Content-Type": "application/json" };
-      if (sid) headers.Authorization = "Bearer " + sid;
-      const res = await fetch(AUTH_API + "/cms/save-post", {
-        method: "POST",
-        headers: headers,
-        credentials: "include",
-        body: JSON.stringify({ slug, content, message: "CMS quick edit: " + fm.title, sha: data.sha }),
-      });
-      if (res.status === 401) { handleSessionExpired(); return; }
-      const payload = await res.json();
-      if (!res.ok) {
-        showToast("Không thể lưu thay đổi. Vui lòng thử lại.", "error");
-        return;
-      }
-      applySavedPostState(slug, fm);
-      renderPostList();
-      showToast("Đã lưu thay đổi thành công", "success");
-      if (payload.demoted_sticky) showToast("Đã bỏ ghim bài Sticky cũ.", "info");
-      if (payload.demoted_featured) showToast("Bài Featured cũ đã được thay thế.", "info");
-      openDrawer(slug);
-    } catch (err) {
-      showToast("Không thể lưu thay đổi. " + err.message, "error");
-    } finally {
-      if (btn) { btn.disabled = false; btn.classList.remove("is-loading"); btn.textContent = "Lưu"; }
+      const displayPosts = getDisplayPosts();
+      const visibleSelected = displayPosts.filter((p) => selectedSlugs.has(p.slug)).length;
+      selectAll.checked = displayPosts.length > 0 && visibleSelected === displayPosts.length;
+      selectAll.indeterminate = visibleSelected > 0 && visibleSelected < displayPosts.length;
     }
   }
 
   function renderPostList() {
-    const list = $("[data-target='post-list']");
-    if (!list) return;
-    const paginated = getPaginatedPosts();
-    const displayPosts = paginated.pageItems;
-    const allCount = paginated.all.length;
+    const tbody = $("[data-target='post-rows']");
+    const counter = $("[data-target='post-count']");
+    const displayPosts = getDisplayPosts();
 
-    renderKPIs();
-    renderFilterCounts();
-    renderCategoryFilterList();
-    renderPaginationUI(allCount, paginated.totalPages);
+    renderHeaderWidget();
+    if (counter) counter.textContent = displayPosts.length + "/" + state.posts.length;
 
     if (!state.posts.length) {
-      list.innerHTML = '<div class="ecms-list__empty">Chưa có bài nào. Bấm "+ Viết bài mới".</div>';
+      tbody.innerHTML = '<tr><td colspan="5" class="editor-empty">Chưa có bài nào. Click "+ Viết bài mới".</td></tr>';
       updateBulkBar();
       return;
     }
-    if (!allCount) {
-      list.innerHTML = '<div class="ecms-list__empty">Không có bài khớp bộ lọc.</div>';
+    if (!displayPosts.length) {
+      tbody.innerHTML = '<tr><td colspan="5" class="editor-empty">Không có bài khớp.</td></tr>';
       updateBulkBar();
       return;
     }
 
-    list.innerHTML = displayPosts.map((p) => {
+    tbody.innerHTML = displayPosts.map((p) => {
+      const badges = [];
+      if (p.sticky) badges.push('<span class="editor-badge editor-badge--sticky" title="Bài ghim (Sticky)">📌</span>');
+      if (p.featured) badges.push('<span class="editor-badge editor-badge--featured" title="Bài nổi bật">⭐</span>');
+      if (p.isNew) badges.push('<span class="editor-badge editor-badge--new" title="Vừa publish, đang build (~1 phút)">🆕</span>');
       const path = CONTENT_DIR + "/" + p.slug + ".md";
-      const slugEsc = escapeHtml(p.slug);
+      const dateCell = p.date ? escapeHtml(p.date) : '<em class="editor-pending">đang build…</em>';
       const checked = selectedSlugs.has(p.slug) ? " checked" : "";
-      const st = postStatus(p);
-      const chipClass = st === "draft" ? "ecms-chip--draft" : (st === "scheduled" ? "ecms-chip--scheduled" : "ecms-chip--published");
-      const cardClass = "ecms-card" +
-        (selectedSlugs.has(p.slug) ? " is-selected" : "") +
-        (p.sticky ? " is-sticky" : "") +
-        (p.featured ? " is-featured" : "");
-      const thumb = resolveThumbUrl(p);
-      const readMin = p.reading_time ? p.reading_time + " phút" : "";
-      return '<article class="' + cardClass + '" data-card-slug="' + slugEsc + '">' +
-        '<div class="ecms-card__check"><input type="checkbox" data-row-select value="' + slugEsc + '"' + checked + ' aria-label="Chọn bài"></div>' +
-        '<div class="ecms-card__thumb"><img src="' + escapeHtml(thumb) + '" alt="" loading="lazy" decoding="async"></div>' +
-        '<div class="ecms-card__body">' +
-          '<h4 class="ecms-card__title"><button type="button" data-open-drawer="' + slugEsc + '">' + escapeHtml(p.title || p.slug) + '</button></h4>' +
-          '<div class="ecms-card__slug">/' + slugEsc + '</div>' +
-          '<div class="ecms-card__meta">' +
-            '<span class="ecms-chip">' + escapeHtml(p.category || "—") + '</span>' +
-            '<span class="ecms-chip ' + chipClass + '">' + escapeHtml(statusLabel(p)) + '</span>' +
-            (p.isNew ? '<span class="ecms-chip ecms-chip--new">Mới</span>' : "") +
-            '<span>' + escapeHtml(formatDisplayDate(p.date)) + '</span>' +
-            (readMin ? '<span>' + escapeHtml(readMin) + '</span>' : "") +
-            (p.seo_score != null ? '<span>SEO ' + p.seo_score + '</span>' : "") +
-          '</div>' +
-        '</div>' +
-        '<div class="ecms-card__actions">' +
-          '<button type="button" class="ecms-pill-toggle ecms-pill-toggle--sticky' + (p.sticky ? " is-on" : "") + '" data-quick-placement="' + (p.sticky ? "sticky-off" : "sticky-on") + '" data-slug="' + slugEsc + '">' +
-            '<svg viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M5 7h14l-1 7H6z"/></svg> Sticky</button>' +
-          '<button type="button" class="ecms-pill-toggle ecms-pill-toggle--featured' + (p.featured ? " is-on" : "") + '" data-quick-placement="' + (p.featured ? "featured-off" : "featured-on") + '" data-slug="' + slugEsc + '">' +
-            '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Featured</button>' +
-          '<div class="ecms-card__btns">' +
-            '<button type="button" class="ecms-btn ecms-btn--ghost ecms-btn--small" data-edit="' + escapeHtml(path) + '">Edit</button>' +
-            '<a class="ecms-btn ecms-btn--ghost ecms-btn--small" href="' + escapeHtml(postPermalink(p)) + '" target="_blank" rel="noopener">Preview</a>' +
-            '<button type="button" class="ecms-btn ecms-btn--ghost ecms-btn--small" data-duplicate="' + slugEsc + '">Copy</button>' +
-          '</div>' +
-        '</div>' +
-      '</article>';
+      return '<tr>' +
+        '<td class="editor-table__check"><input type="checkbox" data-row-select value="' + escapeHtml(p.slug) + '" aria-label="Chọn bài \'' + escapeHtml(p.title || p.slug) + '\'"' + checked + '></td>' +
+        '<td><strong>' + escapeHtml(p.title || p.slug) + '</strong>' + badges.join("") + '</td>' +
+        '<td>' + dateCell + '</td>' +
+        '<td>' + escapeHtml(p.category || "—") + '</td>' +
+        '<td><button class="editor-btn editor-btn--small" data-edit="' + escapeHtml(path) + '">Sửa</button></td>' +
+      '</tr>';
     }).join("");
 
-    list.querySelectorAll("[data-edit]").forEach((btn) => {
+    tbody.querySelectorAll("[data-edit]").forEach((btn) => {
       btn.addEventListener("click", () => openEditor(btn.dataset.edit));
     });
-    list.querySelectorAll("[data-open-drawer]").forEach((btn) => {
-      btn.addEventListener("click", () => openDrawer(btn.dataset.openDrawer));
-    });
-    list.querySelectorAll("[data-quick-placement]").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        quickPlacement(btn.dataset.slug, btn.dataset.quickPlacement);
-      });
-    });
-    list.querySelectorAll("[data-duplicate]").forEach((btn) => {
-      btn.addEventListener("click", () => duplicatePost(btn.dataset.duplicate));
-    });
-    list.querySelectorAll("[data-row-select]").forEach((cb) => {
+    tbody.querySelectorAll("[data-row-select]").forEach((cb) => {
       cb.addEventListener("change", () => {
         if (cb.checked) selectedSlugs.add(cb.value);
         else selectedSlugs.delete(cb.value);
-        renderPostList();
+        updateBulkBar();
       });
     });
     updateBulkBar();
   }
 
-  async function duplicatePost(slug) {
-    const path = CONTENT_DIR + "/" + slug + ".md";
-    try {
-      const data = await getPost(path);
-      const { fm, body } = parseFrontmatter(data.content);
-      fm.title = (fm.title || slug) + " (bản sao)";
-      const newSlug = slugify(fm.title) + "-" + Date.now().toString(36).slice(-4);
-      showView("edit");
-      const form = $("[data-form='post']");
-      form.reset();
-      state.editing = null;
-      slugLocked = false;
-      form.title.value = fm.title;
-      form.slug.value = newSlug;
-      form.date.value = todayIso();
-      rebuildCategoryOptions(fm.category);
-      form.tags.value = (fm.tags || []).join(", ");
-      form.thumbnail.value = fm.thumbnail || "";
-      form.body.value = body.trim();
-      if (form.sticky) form.sticky.checked = false;
-      form.featured.checked = false;
-      updatePlacementUI();
-      showToast("Đã tạo bản sao — chỉnh sửa và lưu.", "info");
-    } catch (err) {
-      showToast("Không copy được bài: " + err.message, "error");
-    }
-  }
-
   // ============= BULK ACTIONS =============
+  // Select all checkbox in header
   const selectAllCb = $("[data-select-all]");
   if (selectAllCb) {
     selectAllCb.addEventListener("change", () => {
-      const pageItems = getPaginatedPosts().pageItems;
-      if (selectAllCb.checked) pageItems.forEach((p) => selectedSlugs.add(p.slug));
-      else pageItems.forEach((p) => selectedSlugs.delete(p.slug));
+      const displayPosts = getDisplayPosts();
+      if (selectAllCb.checked) {
+        displayPosts.forEach((p) => selectedSlugs.add(p.slug));
+      } else {
+        displayPosts.forEach((p) => selectedSlugs.delete(p.slug));
+      }
       renderPostList();
     });
   }
 
   // Clear selection button
-  const bulkClearBtn = $("[data-action='bulk-clear']");
-  if (bulkClearBtn) {
-    bulkClearBtn.addEventListener("click", () => {
-      selectedSlugs.clear();
-      renderPostList();
-    });
-  }
+  $("[data-action='bulk-clear']").addEventListener("click", () => {
+    selectedSlugs.clear();
+    renderPostList();
+  });
 
-  const bulkDeleteBtn = $("[data-action='bulk-delete']");
-  if (bulkDeleteBtn) {
-    bulkDeleteBtn.addEventListener("click", () => {
-      if (selectedSlugs.size === 0) return;
-      openBulkModal();
-    });
-  }
+  // Bulk delete button → open modal
+  $("[data-action='bulk-delete']").addEventListener("click", () => {
+    if (selectedSlugs.size === 0) return;
+    openBulkModal();
+  });
 
   function openBulkModal() {
     const modal = $("[data-modal='bulk-delete']");
@@ -1576,7 +824,7 @@ tags = ${tagsStr}
           "Authorization": "Bearer " + sid,
           "Content-Type": "application/json",
         },
-        credentials: "include",
+        credentials: "omit",
         body: JSON.stringify({ slugs: slugs }),
       });
       if (res.status === 401) {
@@ -1601,7 +849,7 @@ tags = ${tagsStr}
       statusEl.innerHTML = "✓ Đã xoá " + data.deleted_count + " bài" + commitLink +
         ". Deploy ETA: " + escapeHtml(data.deploy_eta || "~2 phút");
       renderPostList();
-      showToast("Đã xoá " + data.deleted_count + " bài viết", "success");
+      // Auto-close sau 2.5s để user thấy success message
       setTimeout(closeBulkModal, 2500);
     } catch (err) {
       statusEl.className = "editor-modal__status editor-modal__status--error";
@@ -1634,8 +882,10 @@ tags = ${tagsStr}
     invalidateListCache();
     setReloadLoading(btn, true);
     setStatus("[data-status]", "Đang xoá cache và quét lại GitHub…", "info");
-    const list = $("[data-target='post-list']");
-    if (list) list.innerHTML = '<div class="ecms-list__empty">Đang tải lại danh sách bài viết…</div>';
+    const tbody = $("[data-target='post-rows']");
+    if (tbody) {
+      tbody.innerHTML = '<tr><td colspan="5" class="editor-empty">Đang tải lại danh sách bài viết…</td></tr>';
+    }
 
     try {
       await refreshInBackground({ force: true });
@@ -1653,41 +903,16 @@ tags = ${tagsStr}
     reloadBtn.addEventListener("click", () => reloadPostsFromSource(reloadBtn));
   }
 
+  // Search input — debounce 100ms để không lag khi gõ nhanh.
   const searchInput = $("[data-search]");
-  const searchForm = $("[data-google-search-form]");
-  const searchModeEl = $("[data-search-mode]");
-
-  if (searchModeEl) {
-    searchModeEl.textContent = GOOGLE_CSE_CX
-      ? "Google CSE + lọc client"
-      : "Lọc client-side (title, slug, category, tag)";
-  }
-
-  function applyClientSearchQuery(val) {
-    state.filter.query = val;
-    state.pagination.page = 1;
-    renderPostList();
-  }
-
   if (searchInput) {
     searchInput.addEventListener("input", debounce(() => {
-      applyClientSearchQuery(searchInput.value);
-    }, 120));
+      state.filter.query = searchInput.value;
+      renderPostList();
+    }, 100));
   }
 
-  if (searchForm) {
-    searchForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const q = searchInput ? searchInput.value.trim() : "";
-      applyClientSearchQuery(q);
-      if (GOOGLE_CSE_CX && q) {
-        const url = "https://cse.google.com/cse?cx=" + encodeURIComponent(GOOGLE_CSE_CX) +
-          "&q=" + encodeURIComponent(q + " site:seomoney.org");
-        window.open(url, "_blank", "noopener");
-      }
-    });
-  }
-
+  // Sort dropdown — re-render ngay khi đổi.
   const sortSelect = $("[data-sort]");
   if (sortSelect) {
     sortSelect.addEventListener("change", () => {
@@ -1696,222 +921,7 @@ tags = ${tagsStr}
     });
   }
 
-  const pageSizeSelect = $("[data-page-size]");
-  if (pageSizeSelect) {
-    pageSizeSelect.addEventListener("change", () => {
-      state.pagination.pageSize = parseInt(pageSizeSelect.value, 10) || 6;
-      state.pagination.page = 1;
-      renderPostList();
-    });
-  }
-
-  $$("[data-filter-placement]").forEach((chip) => {
-    chip.addEventListener("click", () => {
-      state.filter.placement = chip.dataset.filterPlacement || "";
-      state.pagination.page = 1;
-      $$("[data-filter-placement]").forEach((c) => {
-        const on = c === chip;
-        c.classList.toggle("is-active", on);
-        c.setAttribute("aria-selected", on ? "true" : "false");
-      });
-      renderPostList();
-    });
-  });
-
-  $$('input[name="ecms-status"]').forEach((inp) => {
-    inp.addEventListener("change", () => {
-      if (!inp.checked) return;
-      state.filter.status = inp.value;
-      state.pagination.page = 1;
-      renderPostList();
-    });
-  });
-
-  $$("[data-filter-flag]").forEach((inp) => {
-    inp.addEventListener("change", () => {
-      const key = inp.dataset.filterFlag;
-      if (key && state.filter.flags[key] !== undefined) {
-        state.filter.flags[key] = inp.checked;
-        state.pagination.page = 1;
-        renderPostList();
-      }
-    });
-  });
-
-  $$("[data-filter-preset]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      state.filter.preset = btn.dataset.filterPreset || "";
-      state.pagination.page = 1;
-      renderPostList();
-      showToast("Đã áp dụng bộ lọc: " + btn.textContent.trim(), "info");
-    });
-  });
-
-  const clearFiltersBtn = $("[data-action='clear-filters']");
-  if (clearFiltersBtn) {
-    clearFiltersBtn.addEventListener("click", () => {
-      state.filter.query = "";
-      state.filter.status = "all";
-      state.filter.category = "";
-      state.filter.preset = "";
-      state.filter.flags = { sticky: false, featured: false, hasThumb: false, premium: false };
-      state.pagination.page = 1;
-      if (searchInput) searchInput.value = "";
-      const allSt = $('input[name="ecms-status"][value="all"]');
-      if (allSt) allSt.checked = true;
-      $$("[data-filter-flag]").forEach((inp) => { inp.checked = false; });
-      renderPostList();
-      showToast("Đã xóa bộ lọc", "info");
-    });
-  }
-
-  const catSearch = $("[data-filter-category-search]");
-  if (catSearch) {
-    catSearch.addEventListener("input", debounce(() => renderCategoryFilterList(), 100));
-  }
-
-  function toggleFilterSidebar(open) {
-    const sidebar = $("[data-filter-sidebar]");
-    const backdrop = $("[data-filter-backdrop]");
-    if (!sidebar) return;
-    const on = open == null ? !sidebar.classList.contains("is-open") : open;
-    sidebar.classList.toggle("is-open", on);
-    if (backdrop) backdrop.hidden = !on;
-  }
-
-  const toggleFiltersBtn = $("[data-action='toggle-filters']");
-  if (toggleFiltersBtn) toggleFiltersBtn.addEventListener("click", () => toggleFilterSidebar());
-
-  const filterBackdrop = $("[data-filter-backdrop]");
-  if (filterBackdrop) filterBackdrop.addEventListener("click", () => toggleFilterSidebar(false));
-
-  $$("[data-drawer-close]").forEach((el) => el.addEventListener("click", closeDrawer));
-
-  const focusSearchBtn = $("[data-action='focus-search']");
-  if (focusSearchBtn) {
-    focusSearchBtn.addEventListener("click", () => {
-      if (searchInput) { searchInput.focus(); searchInput.scrollIntoView({ behavior: "smooth", block: "center" }); }
-    });
-  }
-
-  const helpBtn = $("[data-action='help']");
-  if (helpBtn) {
-    helpBtn.addEventListener("click", () => {
-      showToast("Editor CMS: lọc trái · danh sách giữa · chi tiết phải. Sticky/Featured chỉ 1 bài mỗi loại.", "info");
-    });
-  }
-
-  const userMenuBtn = $("[data-action='user-menu']");
-  const userDropdown = $("[data-user-dropdown]");
-  if (userMenuBtn && userDropdown) {
-    userMenuBtn.addEventListener("click", () => {
-      userDropdown.hidden = !userDropdown.hidden;
-    });
-    document.addEventListener("click", (e) => {
-      if (!userMenuBtn.contains(e.target) && !userDropdown.contains(e.target)) {
-        userDropdown.hidden = true;
-      }
-    });
-  }
-
-  const importBtn = $("[data-action='import']");
-  const importFile = $("[data-import-file]");
-  if (importBtn && importFile) {
-    importBtn.addEventListener("click", () => importFile.click());
-    importFile.addEventListener("change", () => {
-      const file = importFile.files && importFile.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        const text = String(reader.result || "");
-        const parsed = parseFrontmatter(text);
-        showView("edit");
-        const form = $("[data-form='post']");
-        form.reset();
-        state.editing = null;
-        slugLocked = false;
-        const fm = parsed.fm;
-        form.title.value = fm.title || file.name.replace(/\.md$/i, "");
-        form.slug.value = slugify(form.title.value);
-        form.date.value = String(fm.date || "").slice(0, 10) || todayIso();
-        rebuildCategoryOptions(fm.category || "Tất cả");
-        form.tags.value = (fm.tags || []).join(", ");
-        form.thumbnail.value = fm.thumbnail || "";
-        form.body.value = (parsed.body || "").trim();
-        showToast("Đã nhập file — kiểm tra và lưu.", "success");
-        importFile.value = "";
-      };
-      reader.readAsText(file, "UTF-8");
-    });
-  }
-
-  async function bulkSetPlacement(mode) {
-    if (selectedSlugs.size !== 1) {
-      showToast("Chỉ chọn đúng 1 bài để đặt Sticky/Featured.", "error");
-      return;
-    }
-    const slug = Array.from(selectedSlugs)[0];
-    await quickPlacement(slug, mode);
-    selectedSlugs.clear();
-    renderPostList();
-  }
-
-  const bulkStickyBtn = $("[data-action='bulk-sticky']");
-  if (bulkStickyBtn) bulkStickyBtn.addEventListener("click", () => bulkSetPlacement("sticky-on"));
-
-  const bulkFeaturedBtn = $("[data-action='bulk-featured']");
-  if (bulkFeaturedBtn) bulkFeaturedBtn.addEventListener("click", () => bulkSetPlacement("featured-on"));
-
-  function bindPlacementRail() {
-    const form = $("[data-form='post']");
-    if (!form) return;
-
-    const stickyOn = $("[data-action='placement-sticky-on']");
-    const stickyOff = $("[data-action='placement-sticky-off']");
-    const featuredOn = $("[data-action='placement-featured-on']");
-    const featuredOff = $("[data-action='placement-featured-off']");
-
-    if (stickyOn) {
-      stickyOn.addEventListener("click", () => {
-        const slug = (form.slug.value.trim() || slugify(form.title.value)).toLowerCase();
-        const fm = collectFormFrontmatter(form);
-        fm.sticky = true;
-        if (!reconcileDualPlacement(fm, "sticky")) return;
-        if (!confirmSlotReplace("sticky", findOtherSticky(slug))) return;
-        if (form.sticky) form.sticky.checked = true;
-        if (form.featured && !fm.featured) form.featured.checked = false;
-        updatePlacementUI();
-      });
-    }
-    if (stickyOff) {
-      stickyOff.addEventListener("click", () => {
-        if (form.sticky) form.sticky.checked = false;
-        updatePlacementUI();
-      });
-    }
-    if (featuredOn) {
-      featuredOn.addEventListener("click", () => {
-        const slug = (form.slug.value.trim() || slugify(form.title.value)).toLowerCase();
-        const fm = collectFormFrontmatter(form);
-        fm.featured = true;
-        if (!reconcileDualPlacement(fm, "featured")) return;
-        if (!confirmSlotReplace("featured", findOtherFeatured(slug))) return;
-        if (form.featured) form.featured.checked = true;
-        if (form.sticky && !fm.sticky) form.sticky.checked = false;
-        updatePlacementUI();
-      });
-    }
-    if (featuredOff) {
-      featuredOff.addEventListener("click", () => {
-        if (form.featured) form.featured.checked = false;
-        updatePlacementUI();
-      });
-    }
-  }
-  bindPlacementRail();
-
-  const logoutBtn = $("[data-action='logout']");
-  if (logoutBtn) logoutBtn.addEventListener("click", async () => {
+  $("[data-action='logout']").addEventListener("click", async () => {
     if (!confirm("Đăng xuất khỏi CMS?")) return;
     await logoutRemote();
     currentUser = null;
@@ -1920,8 +930,7 @@ tags = ${tagsStr}
     showView("login");
   });
 
-  const newBtn = $("[data-action='new']");
-  if (newBtn) newBtn.addEventListener("click", () => openEditor(null));
+  $("[data-action='new']").addEventListener("click", () => openEditor(null));
 
   // ============= AUTO-SLUG FROM TITLE =============
   // Khi user gõ tiêu đề, tự fill slug field theo realtime. Nếu user đã sửa slug
@@ -1958,7 +967,7 @@ tags = ${tagsStr}
     try {
       const res = await fetch(AUTH_API + "/api/categories/list", {
         headers: { "Authorization": "Bearer " + sid },
-        credentials: "include",
+        credentials: "omit",
         cache: "no-store",
       });
       if (res.status === 401) { clearSid(); return; }
@@ -1984,7 +993,7 @@ tags = ${tagsStr}
         "Authorization": "Bearer " + sid,
         "Content-Type": "application/json",
       },
-      credentials: "include",
+      credentials: "omit",
       body: JSON.stringify({ name }),
     });
     if (res.status === 401) { clearSid(); throw new Error("Phiên hết hạn"); }
@@ -2126,7 +1135,6 @@ tags = ${tagsStr}
       updateCounter();
       lastRenderedBody = null;
       renderPreview();
-      updatePlacementUI();
       showView("edit");
       return;
     }
@@ -2139,9 +1147,7 @@ tags = ${tagsStr}
 
     getPost(path).then((data) => {
       const { fm, body } = parseFrontmatter(data.content);
-      // originalDate = giá trị `date` gốc (có thể kèm giờ) → bảo toàn khi lưu lại,
-      // vì <input type="date"> chỉ giữ phần ngày, không có giờ.
-      state.editing = { path: data.path, sha: data.sha, originalDate: fm.date, wasFeatured: fm.featured, featuredAt: fm.featured_at, wasSticky: fm.sticky };
+      state.editing = { path: data.path, sha: data.sha, wasFeatured: fm.featured, featuredAt: fm.featured_at, wasSticky: fm.sticky };
       // Edit bài đã có slug → khoá auto-fill để không phá URL hiện tại khi đổi title
       slugLocked = true;
       form.title.value = fm.title;
@@ -2149,8 +1155,7 @@ tags = ${tagsStr}
       const slug = data.path.replace(new RegExp("^" + CONTENT_DIR + "/"), "").replace(/\.md$/, "");
       form.slug.value = slug;
       lastDraftSlug = slug; // track để autosave xoá draft cũ khi user đổi slug
-      // <input type="date"> chỉ nhận YYYY-MM-DD → cắt phần giờ để không bị xoá trắng.
-      form.date.value = String(fm.date || "").slice(0, 10);
+      form.date.value = fm.date;
       rebuildCategoryOptions(fm.category);
       form.tags.value = fm.tags.join(", ");
       form.thumbnail.value = fm.thumbnail;
@@ -2165,7 +1170,6 @@ tags = ${tagsStr}
       updateCounter();
       lastRenderedBody = null;
       renderPreview();
-      updatePlacementUI();
       setStatus("save-status", "✓ Đã tải bài", "success");
       // Check có draft chưa lưu cho slug này không — hiển thị banner khôi phục
       checkDraftFor(slug);
@@ -2179,13 +1183,13 @@ tags = ${tagsStr}
     const form = e.target;
 
     const fm = collectFormFrontmatter(form);
+    const isSticky = fm.sticky;
     const body = form.body.value;
     const slug = (form.slug.value.trim() || slugify(fm.title));
 
     if (!slug) { alert("Cần tiêu đề hoặc slug"); return; }
     if (!fm.title || !fm.date) { alert("Thiếu tiêu đề hoặc ngày"); return; }
-    if (!validatePlacementBeforeSave(fm, slug)) return;
-    syncPlacementCheckboxes(form, fm);
+    if (!ensureStickyAllowed(isSticky, slug)) return;
 
     // Validate body có nội dung text thực sự — tránh case Zola không trích được
     // summary → page.summary = null → templates crash với `striptags` filter →
@@ -2219,7 +1223,30 @@ tags = ${tagsStr}
         "✓ File '" + slug + ".md' đã tải về. Chạy local: " +
         "git add " + path + " && git commit -m \"" + message + "\" && git push",
         "success");
-      applySavedPostState(slug, fm);
+      // Update state.posts in-place — preserve UI position khi user "Quay lại" list.
+      // Bake metadata stale ~1 phút cho đến rebuild, nhưng UI hiển thị metadata mới gõ.
+      // Nếu bài này được ghim → bỏ sticky mọi bài khác trong state (đồng bộ UI
+      // với rule "chỉ 1 sticky"; file .md các bài cũ sẽ được sửa khi user mở/lưu).
+      if (fm.sticky) {
+        state.posts.forEach((p) => { if (p.slug !== slug) p.sticky = false; });
+      }
+      const savedPost = {
+        slug: slug,
+        title: fm.title,
+        permalink: postPermalink({ slug: slug }),
+        date: fm.date,
+        category: fm.category,
+        featured: fm.featured,
+        sticky: fm.sticky,
+        isNew: !state.editing,
+      };
+      const idx = state.posts.findIndex((p) => p.slug === slug);
+      if (idx >= 0) state.posts[idx] = savedPost;
+      else state.posts.unshift(savedPost);
+      invalidateListCache(); // ép background refresh tiếp theo fetch tươi
+      // Cleanup draft localStorage — bài đã commit lên repo, không cần giữ draft
+      discardDraft(slug);
+      lastDraftSlug = slug;
     } catch (err) {
       setStatus("save-status", "✗ " + err.message, "error");
     }
@@ -2229,29 +1256,31 @@ tags = ${tagsStr}
   // Đẩy bài trực tiếp lên repo qua backend /cms/save-post. Backend dùng
   // access_token GitHub (Redis-side) để PUT content/posting/{slug}.md.
   // Sau push: GitHub Actions auto-build + deploy ~1-2 phút.
-  async function handlePublishClick(e) {
+  $("[data-action='publish']").addEventListener("click", async (e) => {
     e.preventDefault();
     const form = $("[data-form='post']");
     if (!form.reportValidity()) return; // browser native validation
 
     const sid = getSid();
+    if (!sid) {
+      alert("Phiên đăng nhập đã hết. Đăng nhập lại để publish.");
+      showView("login");
+      return;
+    }
     if (!AUTH_API) {
       alert("Backend chưa cấu hình.");
       return;
     }
-    // KHÔNG chặn cứng khi thiếu sid: phiên có thể còn sống qua cookie HttpOnly
-    // (credentials:include). Backend trả 401 nếu thật sự hết hạn →
-    // handleSessionExpired() lưu draft + báo + về login.
 
     const fm = collectFormFrontmatter(form);
+    const isSticky = fm.sticky;
     const body = form.body.value;
     const slug = (form.slug.value.trim() || slugify(fm.title)).toLowerCase();
     if (!slug || !fm.title || !fm.date) {
       alert("Thiếu tiêu đề, slug hoặc ngày.");
       return;
     }
-    if (!validatePlacementBeforeSave(fm, slug)) return;
-    syncPlacementCheckboxes(form, fm);
+    if (!ensureStickyAllowed(isSticky, slug)) return;
 
     // Same body length validate as Tải .md submit
     const plainText = body
@@ -2280,17 +1309,20 @@ tags = ${tagsStr}
     setStatus("save-status", "Đang đẩy lên GitHub…", "info");
 
     try {
-      const headers = { "Content-Type": "application/json" };
-      if (sid) headers["Authorization"] = "Bearer " + sid;
       const res = await fetch(AUTH_API + "/cms/save-post", {
         method: "POST",
-        headers: headers,
-        credentials: "include",
+        headers: {
+          "Authorization": "Bearer " + sid,
+          "Content-Type": "application/json",
+        },
+        credentials: "omit",
         body: JSON.stringify({ slug, content, message }),
       });
 
       if (res.status === 401) {
-        handleSessionExpired(); // lưu draft + báo + về login
+        clearSid();
+        alert("Phiên hết hạn. Đăng nhập lại.");
+        showView("login");
         return;
       }
       if (res.status === 403) {
@@ -2312,21 +1344,32 @@ tags = ${tagsStr}
       const statusEl = $("[data-target='save-status']");
       statusEl.className = "editor-status editor-status--success";
       statusEl.innerHTML = "✓ Đã " + (data.action === "updated" ? "cập nhật" : "đăng mới") +
-        " <strong>" + escapeHtml(data.path) + "</strong>" + formatPlacementSaveNote(data) + ". " +
+        " <strong>" + escapeHtml(data.path) + "</strong>. " +
         "Deploy ETA: " + escapeHtml(data.deploy_eta) + commitLink;
 
-      applySavedPostState(slug, fm);
-      const railStatus = $("[data-rail-status]");
-      if (railStatus) {
-        railStatus.textContent = "Đã đăng — deploy ~1–2 phút.";
+      // Update state.posts in-place — preserve UI position
+      if (fm.sticky) {
+        state.posts.forEach((p) => { if (p.slug !== slug) p.sticky = false; });
       }
+      const savedPost = {
+        slug: slug,
+        title: fm.title,
+        permalink: postPermalink({ slug: slug }),
+        date: fm.date,
+        category: fm.category,
+        featured: fm.featured,
+        sticky: fm.sticky,
+        isNew: !state.editing,
+      };
+      const idx = state.posts.findIndex((p) => p.slug === slug);
+      if (idx >= 0) state.posts[idx] = savedPost;
+      else state.posts.unshift(savedPost);
+      invalidateListCache();
+      discardDraft(slug);
+      lastDraftSlug = slug;
     } catch (err) {
       setStatus("save-status", "✗ Lỗi mạng: " + err.message, "error");
     }
-  }
-
-  $$("[data-action='publish']").forEach((btn) => {
-    btn.addEventListener("click", handlePublishClick);
   });
 
   $("[data-action='delete']").addEventListener("click", async () => {
@@ -2952,17 +1995,8 @@ tags = ${tagsStr}
   });
 
   // Scroll viewport hoặc textarea → đóng menu (position:fixed không follow scroll)
-  // Throttle scroll handler to avoid jank during high-frequency scroll events
-  let lastScrollClose = 0;
-  const throttledScrollClose = () => {
-    const now = Date.now();
-    if (now - lastScrollClose >= 100) {
-      if (slashState.open) closeSlashMenu();
-      lastScrollClose = now;
-    }
-  };
-  bodyTextarea.addEventListener("scroll", throttledScrollClose);
-  window.addEventListener("scroll", throttledScrollClose, { passive: true });
+  bodyTextarea.addEventListener("scroll", () => { if (slashState.open) closeSlashMenu(); });
+  window.addEventListener("scroll", () => { if (slashState.open) closeSlashMenu(); }, { passive: true });
 
   // Init mode trên contentWrap — phải gọi sau khi renderPreview defined.
   setEditorMode(getInitialMode());
@@ -2980,53 +2014,35 @@ tags = ${tagsStr}
     return false;
   }
 
-  // ============= INIT — GitHub/Google OAuth Flow =============
-  // Cảnh báo *_disabled chỉ hợp lệ nếu /auth/config xác nhận provider đang tắt.
-  const _CONTRADICTABLE = {
-    google_disabled: "google",
-    google_not_configured: "google",
-    github_disabled: "github",
-  };
-  function _isContradictedError(code, avail) {
-    const p = _CONTRADICTABLE[code];
-    return !!(p && avail && avail[p] === true);
-  }
-
+  // ============= INIT — GitHub OAuth Flow =============
   async function init() {
     // 1. Consume #sid=... từ callback redirect (nếu vừa OAuth xong)
     consumeUrlHashSid();
-    // 2. Consume ?auth_error=... (luôn strip param khỏi URL qua replaceState).
-    //    KHÔNG hiện ngay — chờ /auth/config để bỏ cảnh báo mâu thuẫn (vd
-    //    google_disabled cũ trong khi backend đã bật Google ở chế độ dual).
+    // 2. Consume ?auth_error=... (backend redirect khi denied)
     const errCode = consumeUrlAuthError();
+    if (errCode) showLoginError(errCode);
 
-    // 3. Nếu backend chưa configure → không verify được config, hiện lỗi thô.
+    // 3. Nếu backend chưa configure → hiển thị hint trên login view
     if (!AUTH_API) {
-      if (errCode) showLoginError(errCode);
       showLoginHint();
       showView("login");
       return;
     }
 
-    // 4. Validate phiên qua /auth/me — thử Bearer (localStorage) RỒI cookie
-    //    HttpOnly. Gọi cả khi localStorage trống: nếu cookie còn sống (vd user
-    //    chỉ xoá static cache, không xoá site data) thì vẫn đăng nhập được,
-    //    KHÔNG bắt login lại.
-    const user = await fetchMe();
-    if (user) {
-      currentUser = user;
-      populateUserBar(user);
-      if (!checkUrlParam()) await enterDashboard(true);
-      return;
+    // 4. Có sid → validate qua backend /auth/me
+    const sid = getSid();
+    if (sid) {
+      const user = await fetchMe();
+      if (user) {
+        currentUser = user;
+        populateUserBar(user);
+        if (!checkUrlParam()) await enterDashboard(true);
+        return;
+      }
+      // Session expired/invalid → đã clearSid trong fetchMe
     }
-    // Hết phiên thật (cả Bearer lẫn cookie fail) → rơi xuống màn login.
 
-    // 5. Chưa login → fetch /auth/config TRƯỚC (render đúng nút + biết provider
-    //    nào đang bật), rồi mới quyết định có hiện cảnh báo *_disabled không.
-    const avail = await applyAuthProviders();
-    if (errCode && !_isContradictedError(errCode, avail)) {
-      showLoginError(errCode);
-    }
+    // 5. Chưa login → show login screen
     showView("login");
   }
 

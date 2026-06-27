@@ -84,9 +84,6 @@ Format bắt buộc:
 | `runner` | Retry / tiếp tục lệnh, workflow, macro đang dở hoặc bị gián đoạn |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
-| `bb` | Viết lại bài báo (Dân Trí/VnExpress) → nhánh baochi → PR → merge |
-| `bb9 <topic>` | Viết bài theo chủ đề + hẹn giờ đăng (draft, n+3 lúc 20:00 GMT+7) |
-| `bb10` | Viết lại bài Wikipedia (EN/VI) → category "Kiến thức" + dẫn nguồn gốc cuối bài |
 | `pp` | Liệt kê toàn bộ rule/quy tắc + thư viện vaccine hotfix trong CLAUDE.md (để ghi nhớ) |
 | ... | ... |
 
@@ -1392,116 +1389,6 @@ buổi tối**, với điều kiện vượt qua QA gate. Đây là biến thể
 
 **Đăng sớm thủ công**: chạy `python3 scripts/scheduled_publish.py` (sau khi sửa
 `publish_at` về quá khứ) hoặc trigger workflow `scheduled-publish` (workflow_dispatch).
-
----
-
-### `bb10` — Xử lý bài từ Wikipedia (EN/VI) → viết lại + dẫn nguồn gốc
-
-**Mục đích**: Copy-paste nội dung một bài Wikipedia (tiếng Anh và/hoặc tiếng Việt)
-→ Claude viết lại theo phong cách blog cá nhân → auto-commit vào nhánh `baochi`
-→ PR → merge ngay. **Logic Y HỆT `bb`**, chỉ khác 3 điểm: (a) nguồn dán vào là
-Wikipedia (không phải Dân Trí/VnExpress), (b) category mặc định là **`"Kiến thức"`**
-(không phải `"Báo chí"` — vì nội dung bách khoa), (c) cuối bài LUÔN có đường dẫn
-tới bài Wikipedia gốc.
-
-**Hành động**:
-
-1. **Prompt user**:
-   - Gõ `bb10`
-   - Claude hỏi: "📚 Dán nội dung bài Wikipedia (EN/VI) — kèm URL bài gốc:"
-
-2. **Nhập liệu**:
-   - User copy-paste nội dung bài Wikipedia (EN, VI, hoặc cả hai) + **URL bài gốc**
-     (BẮT BUỘC nếu có — để dẫn nguồn cuối bài).
-   - Chấp nhận text thô hoặc markdown. Có thể dán cả 2 phiên bản EN + VI để Claude
-     tổng hợp đầy đủ hơn.
-
-3. **Parse + analyze**:
-   - Extract title, nội dung chính, các mục/section quan trọng.
-   - Detect category theo nội dung (map vào `categories.json`): "Khoa học",
-     "Công nghệ", "Thế giới", "Du lịch", "Điện ảnh", "Thể thao"…
-   - **BẮT BUỘC**: mọi bài sinh bằng `bb10` PHẢI có category mặc định `"Tất cả"`
-     (đứng đầu) + `"Kiến thức"`, kèm category auto-detect theo content. Ví dụ
-     `categories = ["Tất cả", "Khoa học", "Kiến thức"]`.
-     Nếu category mới chưa có trong `categories.json` → thêm vào file đó.
-   - Sinh slug kebab-case từ title.
-
-4. **Rewrite engine** (giống `bb`):
-   - Claude viết lại bài từ đầu bằng văn phong riêng — **KHÔNG copy nguyên văn**
-     Wikipedia (nội dung Wikipedia là CC BY-SA → diễn đạt lại + dẫn nguồn).
-   - Giọng cá nhân: 1st person ("mình", "tôi"), có quan điểm/góc nhìn riêng.
-   - Tổng hợp + mở rộng từ nội dung gốc; nếu dán cả EN + VI → hợp nhất thông tin,
-     ưu tiên dữ kiện chính xác, bỏ phần thừa/đặc thù wiki (template, "cần dẫn
-     nguồn", chú thích số…).
-   - Thêm internal links tới 2–3 bài liên quan nếu có.
-   - Output tối thiểu ~1000 từ (lý tưởng 1000–1800), Tiếng Việt tự nhiên — tuân
-     thủ đủ "Tiêu chí AdSense-friendly" ở mục `bb`.
-
-5. **Build frontmatter** (tuân thủ rule SEO + rule Category trong CLAUDE.md):
-   ```toml
-   +++
-   title = "<Tiêu đề hấp dẫn 20–65 ký tự, chứa từ khoá chính>"
-   description = "<50–160 ký tự, chứa từ khoá chính>"
-   date = <hôm nay>
-   [taxonomies]
-   categories = ["Tất cả", "<content-category auto-detected>", "Kiến thức"]
-   tags = [<3-6 tags relevant>]
-   [extra]
-   thumbnail = "https://picsum.photos/seed/<slug>/600/400"
-   seo_keyword = "<từ khoá chính>"
-   featured = false
-   # Dẫn nguồn Wikipedia gốc → render ở block "Tham khảo & Nguồn dữ liệu" cuối bài
-   [[extra.references_external]]
-   title = "Wikipedia (Tiếng Việt) — <Tên bài>"
-   url = "<URL bài Wikipedia VI>"
-   [[extra.references_external]]
-   title = "Wikipedia (English) — <Tên bài>"
-   url = "<URL bài Wikipedia EN>"
-   +++
-   ```
-   - Nếu chỉ có 1 phiên bản (EN hoặc VI) → chỉ khai báo 1 block
-     `[[extra.references_external]]` tương ứng.
-   - Nếu không detect được content-category → chỉ `["Tất cả", "Kiến thức"]`.
-
-6. **Dẫn nguồn cuối bài (BẮT BUỘC — điểm khác `bb`)**:
-   - LUÔN có đường dẫn tới bài Wikipedia gốc ở cuối bài. Ưu tiên qua
-     `[[extra.references_external]]` (tự render trong block References) + thêm một
-     dòng ghi công minh bạch, ví dụ:
-     `> 📚 Bài viết tham khảo và biên soạn lại từ Wikipedia (CC BY-SA). Xem bản gốc:
-     [Tiếng Việt](<url-vi>) · [English](<url-en>).`
-   - KHÔNG bịa URL Wikipedia — chỉ dùng URL user cung cấp (hoặc URL chuẩn
-     `https://vi.wikipedia.org/wiki/<Tên_bài>` / `https://en.wikipedia.org/wiki/<Title>`
-     khi chắc chắn đúng tên bài).
-
-7. **Auto-workflow** (giống `bb`):
-   - Checkout nhánh `baochi` (hoặc create nếu không tồn tại)
-   - Write file `content/baochi/<slug>.md`
-   - Commit: `feat: Add Wikipedia article — <short title>`
-   - Push lên `baochi`
-   - Tạo PR từ `baochi` → `main`
-   - **MERGE NGAY** (bypass rule giờ vì là article aggregation, KHÔNG code)
-   - Trigger deploy
-
-8. **Output summary**:
-   ```
-   ✅ Bài Wikipedia xử lý thành công
-   📝 Slug: <slug>
-   🏷️ Category: Kiến thức + <auto-detected>
-   📚 Nguồn gốc: <URL Wikipedia>
-   🔗 PR: #<số> → merged
-   🚀 Deploy: in progress
-   ```
-
-**Quality checks** (giống `bb`):
-- Tiếng Việt tự nhiên, KHÔNG AI-generated flavor.
-- KHÔNG copy nguyên văn Wikipedia → viết lại + dẫn nguồn (CC BY-SA).
-- Có quan điểm cá nhân hoặc góc nhìn mới, không chỉ dịch máy.
-- Internal links semantic (không generic "xem thêm").
-- Áp dụng đủ "Tiêu chí AdSense-friendly" ở mục `bb` (≥ ~1000 từ, ≥ 2 H2, FAQ cho
-  bài "là gì"/giải thích, ảnh có alt…).
-
-**Network fallback**: nếu user dán URL mà network blocked → dùng nội dung họ paste,
-KHÔNG vì không fetch được mà block shortcut.
 
 ---
 

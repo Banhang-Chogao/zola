@@ -18,8 +18,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-SCRIPTS = REPO / "scripts"
-sys.path.insert(0, str(SCRIPTS))
 DATA = REPO / "data"
 SCORE_FILE = DATA / "compliance-score.json"
 LINK_REPORT_FILE = DATA / "compliance-link-report.json"
@@ -190,32 +188,25 @@ def fix_internal_links(log: list[dict]) -> bool:
         for slug in sorted(draft_slugs):
             fixed_targets.append(f"draft:{slug} (removed from scores.json)")
 
-    # 1) Markdown: align root-absolute links with config.toml base_url path
+    # 1) Markdown: ensure GitHub Pages /zola/ prefix on root-absolute links
     _md_link_re = re.compile(r"\]\((/[^)\s\"'#]+)")
-    try:
-        from site_link_prefix import ensure_runtime_prefix, strip_stale_zola_path
-    except ImportError:
-        ensure_runtime_prefix = strip_stale_zola_path = None  # type: ignore[assignment]
+    site_prefix = "/zola"
+    for md in CONTENT.rglob("*.md"):
+        try:
+            raw = md.read_text(encoding="utf-8")
+        except OSError:
+            continue
 
-    if ensure_runtime_prefix is not None:
-        for md in CONTENT.rglob("*.md"):
-            try:
-                raw = md.read_text(encoding="utf-8")
-            except OSError:
-                continue
+        def _add_prefix(m: re.Match[str]) -> str:
+            path = m.group(1)
+            if path.startswith(f"{site_prefix}/") or path == site_prefix:
+                return m.group(0)
+            return f"]({site_prefix}{path}"
 
-            def _normalize_link(m: re.Match[str]) -> str:
-                path = m.group(1)
-                fixed = strip_stale_zola_path(path)
-                fixed = ensure_runtime_prefix(fixed)
-                if fixed == path:
-                    return m.group(0)
-                return f"]({fixed}"
-
-            new = _md_link_re.sub(_normalize_link, raw)
-            if new != raw:
-                md.write_text(new, encoding="utf-8")
-                changed = True
+        new = _md_link_re.sub(_add_prefix, raw)
+        if new != raw:
+            md.write_text(new, encoding="utf-8")
+            changed = True
 
     # 2) Dead article link → existing post
     st = CONTENT / "posting" / "sentence-transformers-sbert-deep-dive.md"
@@ -239,18 +230,14 @@ def fix_internal_links(log: list[dict]) -> bool:
             ch.write_text(raw, encoding="utf-8")
             changed = True
 
-    # 4) Converter back link → site root (respect runtime prefix)
+    # 4) Converter back link: ../ → site root
     conv = STATIC / "converter" / "index.html"
     if conv.is_file():
         raw = conv.read_text(encoding="utf-8")
-        home_href = 'href="/"'
-        if ensure_runtime_prefix is not None:
-            home_href = f'href="{ensure_runtime_prefix("/")}"'
-        for old in ('href="../"', 'href="/zola/"'):
-            if old in raw and home_href not in raw:
-                raw = raw.replace(old, home_href)
-                conv.write_text(raw, encoding="utf-8")
-                changed = True
+        if 'href="../"' in raw:
+            raw = raw.replace('href="../"', 'href="/zola/"')
+            conv.write_text(raw, encoding="utf-8")
+            changed = True
 
     # 5) SEO board: mark draft posts unpublished so template skips dead links
     scores_path = DATA / "seo-qa-scores.json"
@@ -281,7 +268,7 @@ def fix_internal_links(log: list[dict]) -> bool:
 
     if changed:
         msg = "Đã sửa: " + "; ".join(fixed_targets) if fixed_targets else (
-            "Đã chuẩn hoá internal link theo base_url, sửa bài không tồn tại, changelog và converter"
+            "Đã thêm prefix /zola/, sửa bài không tồn tại, changelog.json và converter"
         )
         log.append(_log_entry(
             category="Links", label="Internal links", status="warn",

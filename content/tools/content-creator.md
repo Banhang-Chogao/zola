@@ -1,6 +1,5 @@
 +++
 title = "Content Creator"
-date = 2026-06-11
 description = "Tạo series bài viết tự động từ chủ đề — sinh prompt thủ công, kích hoạt workflow viết bài liên tục rồi tự build & deploy production, không cần phê duyệt."
 template = "content-creator.html"
 

@@ -3,15 +3,15 @@ name: Compliance Score Audit
 # Deterministic SEO + site-quality audit → data/compliance-score.json
 # for /insights/ (public label: "Compliance Score" only).
 # Auto-fix warn/fail items (low priority) → rebuild → re-score.
-#
-# RE-ENABLED with optimized schedule (27/06/2026): runs 2x/day (09:00 & 21:00 GMT+7)
-# instead of every 12 hours with workflow_run trigger. Removed workflow_run trigger
-# to reduce quota usage. Estimated ~240 runs/month → 48 runs/month (~80% reduction).
 
 on:
   schedule:
-    - cron: '0 3,15 * * *'   # 2 times/day: 09:00 & 21:00 GMT+7 (03:00 & 15:00 UTC)
+    - cron: '0 */12 * * *'   # every 12 hours (UTC)
   workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "Build and deploy Zola site to GitHub Pages"
+    types: [completed]
 
 permissions:
   contents: write

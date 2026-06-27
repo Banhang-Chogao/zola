@@ -1,4 +1,4 @@
-## 🇰🇷 Ngày 17 — Thì tương lai & ý định (ㄹ 거예요, 겠)
+# 🇰🇷 Ngày 17 — Thì tương lai & ý định (ㄹ 거예요, 겠)
 
 > **Mục tiêu hôm nay (20–30 phút):** Diễn tả **tương lai & ý định** với hai cấu trúc: **-(으)ㄹ 거예요** (kế hoạch / dự đoán) và **-겠-** (ý chí lịch sự / suy đoán tức thì). Biết khi nào dùng cái nào. Cuối bài có **15 câu bài tập + đáp án**.
 

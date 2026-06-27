@@ -1,9 +1,12 @@
 +++
 title = "Premium"
-description = "Chuyên mục Premium — bài viết chọn lọc, đọc miễn phí."
+description = "Chuyên mục Premium đang tạm ẩn. Vui lòng quay lại sau."
 path = "categories/premium"
-render = false
+template = "premium-locked.html"
+render = true
 
 [extra]
-# Stub tắt render — taxonomy /categories/premium/ do Zola sinh từ bài có category "premium".
+# Trang khoá tĩnh đảm bảo /categories/premium/ luôn trả 200 (không 404) kể cả khi
+# chưa có bài premium nào được publish. Khi có bài premium publish, taxonomy term
+# page sẽ render ở cùng URL (taxonomy_single.html cũng hiển thị overlay khi ẩn).
 +++

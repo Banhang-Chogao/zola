@@ -20,14 +20,10 @@ name: Keepalive Scheduler
 # ============================================================================
 
 on:
-  # ── ĐÃ TẮT (27/06/2026) — Keepalive Scheduler không còn tự chạy theo lịch ──
-  # Các mốc cron dưới đây đã được comment để tắt scheduler. Workflow vẫn giữ lại
-  # và có thể kích TAY qua `workflow_dispatch` khi cần. Muốn bật lại scheduler →
-  # bỏ comment khối `schedule:` bên dưới.
-  # schedule:
-  #   - cron: '0 4 * * *'    # 11:00 GMT+7 — mốc chính
-  #   - cron: '10 4 * * *'   # +10' dự phòng nếu mốc chính bị skip
-  #   - cron: '25 4 * * *'   # +25' dự phòng lần 2
+  schedule:
+    - cron: '0 4 * * *'    # 11:00 GMT+7 — mốc chính
+    - cron: '10 4 * * *'   # +10' dự phòng nếu mốc chính bị skip
+    - cron: '25 4 * * *'   # +25' dự phòng lần 2
   workflow_dispatch:        # cho phép kích tay bất kỳ lúc nào
 
 # actions:write cần để gọi workflow_dispatch sang workflow khác.

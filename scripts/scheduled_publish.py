@@ -9,8 +9,7 @@ Cơ chế "viết trước, đăng sau" (phím tắt `bb9`):
   - Script này (chạy bởi workflow cron buổi tối) quét content, bài nào có
     `publish_at <= bây giờ` (giờ Việt Nam) thì:
         * draft = true  -> draft = false
-        * date          -> set bằng thời điểm publish ĐẦY ĐỦ (ISO8601 kèm giờ +07:00,
-                           vd 2026-06-19T20:00:00+07:00) → hiển thị đúng giờ đăng thực tế
+        * date          -> set bằng ngày publish (hiển thị đúng ngày đăng)
         * xoá dòng publish_at
     rồi để workflow commit + push lên main → deploy + QA gate.
 
@@ -66,9 +65,8 @@ def flip_to_published(text: str, publish_dt: datetime) -> str:
 
     # draft = true -> false
     fm = re.sub(r"(?m)^(\s*draft\s*=\s*)true\s*$", r"\1false", fm)
-    # date = ... -> thời điểm publish ĐẦY ĐỦ (kèm giờ, offset +07:00) để
-    # "Đăng: HH:MM" hiển thị giờ thực tế theo lịch hẹn, không bị cắt còn 00:00.
-    date_str = publish_dt.replace(microsecond=0).isoformat()
+    # date = ... -> ngày publish (top-level, dòng đầu tiên match)
+    date_str = publish_dt.strftime("%Y-%m-%d")
     if re.search(r"(?m)^\s*date\s*=", fm):
         fm = re.sub(r"(?m)^(\s*date\s*=\s*).*$", rf"\g<1>{date_str}", fm, count=1)
     # Xoá dòng publish_at (cả khi có comment trailing)

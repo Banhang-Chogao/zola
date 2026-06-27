@@ -47,7 +47,7 @@ sử dụng thông tin trên blog. Bạn tự chịu trách nhiệm cho các quy
 ## 6. Quảng cáo
 
 Blog có thể hiển thị quảng cáo của bên thứ ba (như Google AdSense). Việc thu thập
-dữ liệu phục vụ quảng cáo được nêu trong [Chính sách bảo mật](/privacy/).
+dữ liệu phục vụ quảng cáo được nêu trong [Chính sách bảo mật](/zola/privacy/).
 
 ## 7. Thay đổi điều khoản
 
@@ -57,4 +57,4 @@ website đồng nghĩa với việc chấp nhận phiên bản mới nhất.
 ## 8. Liên hệ
 
 Thắc mắc về điều khoản, vui lòng gửi về **292648126+Banhang-Chogao@users.noreply.github.com** hoặc trang
-[Liên hệ](/contact/).
+[Liên hệ](/zola/contact/).
