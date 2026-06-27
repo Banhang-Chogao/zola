@@ -733,6 +733,64 @@ fenced blocks.
   trong `finally`. Spinner comment quay mãi → thêm state machine hữu hạn + timeout + ẩn spinner ở
   guest/authenticated/error + `[hidden]{display:none!important}`.
 
+#### V21 — "Merged is not live": PR merged ≠ route live trên production (404 dù đã merge) (27/06/2026)
+
+> Deployment-verification vaccine — public-safe. **Merged is not live.** Một PR đã merge vào `main`
+> KHÔNG có nghĩa feature/route đã lên production. Với MỌI route/page public mới, task chỉ **xong** khi
+> CẢ HAI check pass. Auto-healing pattern: **`merged-pr-route-still-404`**.
+
+**Nguyên tắc (BẮT BUỘC — không report "done/live" tới khi cả 2 pass):**
+
+```text
+Merged is not live.
+
+A PR merged into main does not mean the feature is live on production.
+
+For every new public route/page, the task is only complete when both checks pass:
+
+1. Zola build output exists:
+   public/<route>/index.html
+
+2. Production URL returns HTTP 200:
+   curl -I https://seomoney.org/<route>/
+
+Do not report "done/live" until both checks pass.
+```
+
+- **Dấu hiệu:** PR đã merge thành công nhưng route public kỳ vọng vẫn trả **404** trên production
+  (vd Claude báo `/demo-left-sidebar-layout/` sẽ live, nhưng `https://seomoney.org/demo-left-sidebar-layout/`
+  vẫn 404). Build local có thể OK nhưng deploy chưa gồm commit, hoặc route source sai chỗ / draft / slug sai.
+- **Nguyên nhân có thể:** (a) GitHub Pages deploy chưa chạy xong; (b) deploy chạy nhưng KHÔNG gồm merge
+  commit; (c) file source Zola đặt sai thư mục; (d) frontmatter `path`/`slug` sai; (e) page là `draft`
+  hoặc không render; (f) template tồn tại nhưng không có content route nào tham chiếu; (g) chưa sinh ra
+  `public/<route>/index.html`; (h) navbar trỏ `/route/` nhưng route thật ở `/pages/route/` hoặc path khác.
+- **FIXER (`merged-pr-route-still-404`) — verify trước, fix sau:**
+  1. Check deploy workflow gần nhất (đã chạy xong chưa).
+  2. Confirm commit đã deploy gồm thay đổi route.
+  3. Chạy `zola build`.
+  4. Confirm `public/<route>/index.html` tồn tại.
+  5. Check navbar/menu link trỏ đúng route chính xác.
+  6. Chạy `curl -I https://seomoney.org/<route>/`.
+  7. Chỉ đánh dấu **live** khi HTTP **200**.
+- **Safe fix:** thêm/sửa Zola content route thật — section route ưu tiên `content/<route>/_index.md`; hoặc
+  page file đặt `path = "<route>"` rõ ràng ở frontmatter; đảm bảo `draft = false`; template được tham
+  chiếu đúng; rebuild + redeploy.
+- **Severity:** **P1** nếu route do user yêu cầu hoặc được link trong navbar; **P2** nếu route nội bộ/demo
+  không được link; **P0** chỉ khi route critical/homepage/nav/sitemap hỏng.
+- **Required final report (mọi task tạo route/page public mới):**
+  ```text
+  Route source file:
+  Template used:
+  Zola output exists:
+  - public/<route>/index.html: Yes/No
+  Production check:
+  - https://seomoney.org/<route>/ status:
+  Deployed commit:
+  Live verified: Yes/No
+  ```
+- **KHÔNG:** report "live" chỉ dựa vào PR merged; nhầm "PR merged" với "GitHub Pages deployed"; bỏ qua
+  check `public/<route>/index.html`; bỏ qua verify production HTTP 200.
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một

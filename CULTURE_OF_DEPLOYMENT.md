@@ -364,7 +364,99 @@ Never leak secrets or sensitive backend/auth detail into a PR summary.
 
 ---
 
-## 14. Definition of Done
+## 14. "Merged is not live" — Deployment Verification Rule
+
+> Public-safe rule. Applies to **every** new public route/page. Teaches all
+> agents/contributors that a **merged PR is not a live feature**.
+
+```text
+Merged is not live.
+
+A PR merged into main does not mean the feature is live on production.
+
+For every new public route/page, the task is only complete when both checks pass:
+
+1. Zola build output exists:
+   public/<route>/index.html
+
+2. Production URL returns HTTP 200:
+   curl -I https://seomoney.org/<route>/
+
+Do not report "done/live" until both checks pass.
+```
+
+**Why:** we had a case where a PR was merged into `main`, an agent reported the demo
+route would be available at `/demo-left-sidebar-layout/`, but the production URL still
+returned **404** (`https://seomoney.org/demo-left-sidebar-layout/`). Merged ≠ deployed;
+deployed ≠ routed; routed ≠ live. Only an HTTP 200 from production proves "live".
+
+### Auto-healing pattern: `merged-pr-route-still-404`
+
+```text
+Symptom:
+- PR merged successfully.
+- Expected public route still returns 404 on production.
+
+Possible root causes:
+- GitHub Pages deploy has not completed.
+- Deploy ran but did not include the merge commit.
+- Zola route source file is in the wrong folder.
+- Frontmatter path/slug is wrong.
+- Page is draft or not rendered.
+- Template exists but no content route references it.
+- Output file public/<route>/index.html was never generated.
+- Navbar points to /route/ but actual route is /pages/route/ or another path.
+
+Verification steps:
+1. Check latest deploy workflow.
+2. Confirm deployed commit includes the route change.
+3. Run zola build.
+4. Confirm public/<route>/index.html exists.
+5. Check navbar/menu link points to the exact route.
+6. Run production curl.
+7. Only mark live if HTTP 200.
+
+Safe fix:
+- Add or fix the real Zola content route.
+- Prefer content/<route>/_index.md for section routes.
+- Or set explicit frontmatter path = "<route>" if using a page file.
+- Ensure draft = false.
+- Ensure template is referenced correctly.
+- Rebuild and redeploy.
+
+Severity:
+- P1 if route is requested by user or linked in navbar.
+- P2 if route is internal/demo and not linked.
+- P0 only if critical public route/homepage/nav/sitemap is broken.
+```
+
+### Required final report — new public page/route
+
+Every task that creates a new public page/route must end with this report:
+
+```text
+Route source file:
+Template used:
+Zola output exists:
+- public/<route>/index.html: Yes/No
+Production check:
+- https://seomoney.org/<route>/ status:
+Deployed commit:
+Live verified: Yes/No
+```
+
+**Do not:**
+
+- report "live" based only on PR merge,
+- confuse "PR merged" with "GitHub Pages deployed",
+- skip checking `public/<route>/index.html`,
+- skip production HTTP 200 verification.
+
+Cross-reference: `CLAUDE.md` vaccine **V21** (`merged-pr-route-still-404`).
+
+---
+
+## 15. Definition of Done
 
 A deployment-culture change is done when:
 
