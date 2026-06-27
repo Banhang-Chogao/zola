@@ -3,6 +3,8 @@ title = "CodeQL API Rate Limit: Giải Pháp Chi Tiết Cho GitHub Actions"
 description = "Hướng dẫn xử lý lỗi GitHub API rate limit khi chạy CodeQL. Tìm hiểu nguyên nhân, phát hiện sớm và áp dụng giải pháp thực tế."
 date = 2026-06-27
 slug = "codeql-api-rate-limit-giai-phap"
+
+[taxonomies]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["github", "codeql", "ci-cd", "devops"]
 
