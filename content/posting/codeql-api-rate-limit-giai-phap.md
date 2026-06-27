@@ -39,7 +39,7 @@ answer = "Dùng GitHub CLI hoặc curl: `gh api rate_limit` hoặc `curl -H 'Aut
 
 ## Hiểu Về CodeQL Và Vấn Đề API Rate Limit
 
-CodeQL là công cụ phân tích bảo mật mạnh mẽ do GitHub phát triển, giúp các dev team phát hiện lỗ hổng bảo mật trong mã nguồn một cách tự động. Mỗi khi CodeQL chạy trên [GitHub Actions](/categories/github-actions/), nó sẽ thực hiện một quy trình phức tạp gồm nhiều bước. Quá trình này đôi khi gặp vấn đề liên quan đến giới hạn API của GitHub, đặc biệt khi bạn thiết lập [CI/CD pipeline](/categories/ci-cd/) với nhiều workflows chạy song song.
+CodeQL là công cụ phân tích bảo mật mạnh mẽ do GitHub phát triển, giúp các dev team phát hiện lỗ hổng bảo mật trong mã nguồn một cách tự động. Mỗi khi CodeQL chạy trên GitHub Actions, nó sẽ thực hiện một quy trình phức tạp gồm nhiều bước. Quá trình này đôi khi gặp vấn đề liên quan đến giới hạn API của GitHub (github api rate limit), đặc biệt khi bạn thiết lập CI/CD pipeline với nhiều workflows chạy song song.
 
 Khi sử dụng CodeQL làm phần của workflow CI/CD, bạn có thể nhận được cảnh báo hoặc lỗi:
 
@@ -110,7 +110,7 @@ Request ID 5C10:3AB951:119C959:3E53CBC:6A3F4A32
 
 ### 1. Telemetry Gathering Quá Tần Suất
 
-CodeQL gửi telemetry sau MỖI job chạy, không batch hay cache. Nếu bạn chạy CodeQL cho 3 ngôn ngữ (Python, JavaScript, Actions), đó là 3 lệnh gọi API riêng biệt. Để giảm API calls, tham khảo bài về [tối ưu hóa GitHub Actions workflow](/categories/devops/) để hiểu cách batch requests hiệu quả.
+CodeQL gửi telemetry sau MỖI job chạy, không batch hay cache. Nếu bạn chạy CodeQL cho 3 ngôn ngữ (Python, JavaScript, Actions), đó là 3 lệnh gọi API riêng biệt. Để giảm API calls, hãy áp dụng các best practices về batch requests và caching trong CI/CD workflows.
 
 ### 2. Batch Deploy Gây API Spike
 
@@ -126,7 +126,7 @@ Các cron job (perf-audit, build-dashboard, ...) có thể được schedule và
 
 ## Giải Pháp 1: Implement Exponential Backoff Retry
 
-Cách tốt nhất để xử lý rate limit là thử lại (retry) với độ trễ tăng dần. Đây là pattern được khuyến cáo bởi [GitHub](https://docs.github.com/en/rest/overview/resources-in-the-rest-api#dealing-with-secondary-rate-limits). Nếu bạn chưa quen với automation workflows, hãy tìm hiểu về [GitHub Actions cơ bản](/categories/automation/) trước.
+Cách tốt nhất để xử lý rate limit là thử lại (retry) với độ trễ tăng dần. Đây là pattern được khuyến cáo bởi [GitHub](https://docs.github.com/en/rest/overview/resources-in-the-rest-api#dealing-with-secondary-rate-limits). Nếu bạn chưa quen với automation workflows, nên tìm hiểu kỹ về GitHub Actions cơ bản trước khi áp dụng.
 
 Cập nhật workflow như sau:
 
