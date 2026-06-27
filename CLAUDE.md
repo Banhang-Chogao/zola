@@ -492,6 +492,29 @@ score **97.8/100 (A+)**. Root cause: 104 `feed-anchor` + 10 homepage `/page/N/` 
 code-fence demotion in `sentence-transformers-sbert-deep-dive.md` — demoter skips
 fenced blocks.
 
+#### V13 — Changelog Backend Migration: workflow auto-updates deleted file (merge conflict forever)
+
+- **Dấu hiệu:** PR xoá `changelog.json` + `.gitignore` để move tới backend API. Build fail:
+  `changelog.json CONFLICT (content)`. Main đã auto-push entry qua workflow vào file vừa bị PR xoá.
+  Mỗi lần rebase → conflict lại.
+- **Nguyên nhân:** `changelog-update.yml` trigger trên `push main` → gọi `update_changelog.py` →
+  ghi/push vào `changelog.json` local. PR xoá file nhưng workflow vẫn tạo lại → conflict vĩnh viễn.
+  **KHÔNG** phải merge race; workflow chạy CHÍNH xác sau push nên file luôn có trên `main`.
+- **FIXER (permanent):** (1) Tạo `push_changelog_entry.py` — POST entry trực tiếp tới VIPZone
+  backend API thay vì ghi JSON local. (2) Update `changelog-update.yml` — gọi
+  `push_changelog_entry.py` thay vì `update_changelog.py`; xoá step push JSON. (3) Xoá
+  `changelog.json` khỏi git + thêm vào `.gitignore`. (4) Workflow từ nay chỉ log vào backend —
+  KHÔNG commit vào main nữa.
+- **Rule mới:** Khi migrate file tới backend: (a) cập nhật workflow đẩy dữ liệu trước,
+  (b) xoá file khỏi tracking, (c) thêm `.gitignore`, (d) commit tất cả cùng 1 PR. **KHÔNG**
+  để workflow cũ chạy song song với PR xoá file.
+- **Prevention:** `qa-auto-rule-checker.py` phát hiện pattern "workflow đẩy vào file XYZ mà
+  file đó nằm trong `.gitignore` hoặc bị xoá trên branch khác" → báo conflict risk (MEDIUM).
+  Tự động disable workflow hoặc gợi ý rebase trước merge.
+- **Validation (đã áp 27/06/2026 — PR #1027):** `changelog-update.yml` gọi
+  `push_changelog_entry.py` (backend), `.gitignore` chứa `changelog.json`, `git ls-files
+  changelog.json` trả rỗng (xoá khỏi index). Merge clean.
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
