@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-27T02:31:52Z",
+  "updated_at": "2026-06-27T02:36:41Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 6,
+    "today": 7,
     "this_week": 190,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "feature": 43,
       "unknown": 46,
-      "fix": 101,
-      "feature": 42,
+      "fix": 100,
       "chore": 3,
       "content": 5,
       "ci": 3
     }
   },
   "merges": [
+    {
+      "pr_number": 1039,
+      "pr_title": "feat: implement left-sidebar blog layout with AdSense-compatible ad spots",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1039",
+      "merged_at": "2026-06-27T02:27:54Z",
+      "merge_commit_sha": "52ed86c96364c58b09400f301824847b35fec966",
+      "merge_commit_short": "52ed86c",
+      "head_branch": "claude/blog-layout-adsense-replace-gl5gln",
+      "summary_vi": "Implements a new responsive 30/70 left-sidebar blog layout as an alternative to the current full-width design. The layout features:",
+      "change_type": "feature",
+      "files_changed": 13,
+      "additions": 2436,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1240,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28275883854",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 992,
       "pr_title": "chore: update SEO QA scores after bb article [claude/bb-16o2m6]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1239,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28275860306",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 1038,
@@ -471,8 +490,8 @@
       "deletions": 1344,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1210,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28257192124",
+      "build_run_number": 1211,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28258476254",
       "build_conclusion": "success"
     },
     {
@@ -509,9 +528,9 @@
       "deletions": 73,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1210,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28257192124",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 1014,
@@ -528,9 +547,9 @@
       "deletions": 14,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1210,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28257192124",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 1012,
@@ -1008,18 +1027,18 @@
       "build_conclusion": ""
     },
     {
-      "pr_number": 984,
-      "pr_title": "Remove PIPELINE HEARTBEAT placeholder section from blog footer [claude/pipeline-heartbeat-placeholder-718rnt]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/984",
-      "merged_at": "2026-06-26T08:13:14Z",
-      "merge_commit_sha": "d7b27f4b67fb3c596856a76c17bf3e0fe26622db",
-      "merge_commit_short": "d7b27f4",
+      "pr_number": 985,
+      "pr_title": "Remove unused wd-heartbeat.html partial file [claude/pipeline-heartbeat-placeholder-718rnt]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/985",
+      "merged_at": "2026-06-26T08:24:49Z",
+      "merge_commit_sha": "58e5a24c907dc7a71c9d7bb153966df86cdaf291",
+      "merge_commit_short": "58e5a24",
       "head_branch": "claude/pipeline-heartbeat-placeholder-718rnt",
-      "summary_vi": "Remove PIPELINE HEARTBEAT placeholder section from blog footer",
+      "summary_vi": "- Remove PIPELINE HEARTBEAT placeholder section from blog footer",
       "change_type": "unknown",
-      "files_changed": 1,
+      "files_changed": 2,
       "additions": 0,
-      "deletions": 3,
+      "deletions": 94,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
@@ -3242,25 +3261,6 @@
       "change_type": "chore",
       "files_changed": 7,
       "additions": 240,
-      "deletions": 54,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 836,
-      "pr_title": "fix(home): remove old welcome banner [fix/home-remove-old-welcome-banner]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/836",
-      "merged_at": "2026-06-24T11:13:53Z",
-      "merge_commit_sha": "04f22612c0d59aacdee86b9fb93e3be19de7822e",
-      "merge_commit_short": "04f2261",
-      "head_branch": "fix/home-remove-old-welcome-banner",
-      "summary_vi": "fix(home): remove old welcome banner",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 0,
       "deletions": 54,
       "merged_by": "",
       "auto_merged": false,
