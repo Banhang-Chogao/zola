@@ -2,18 +2,13 @@ name: Fetch Merge Report
 
 # Thu thập lịch sử merge auto → data/merge-report.json
 #
-# ⛔ DISABLED (theo yêu cầu user — 27/06/2026): workflow này TẮT permanently
-# tới khi user mở lại. Mọi trigger tự động (push / schedule) đã comment;
-# job có guard `if: ${{ false }}` nên cả workflow_dispatch cũng no-op.
-# ĐỂ MỞ LẠI: bỏ comment block `on:` gốc bên dưới + xoá dòng `if: ${{ false }}`
-# ở job `fetch`.
+# RE-ENABLED with optimized schedule (27/06/2026): runs every 3 hours (8x/day)
+# instead of hourly (24x/day) with push trigger. Removed push trigger to reduce
+# quota usage. Estimated ~720 runs/month → 192 runs/month (~73% reduction).
 
 on:
-  # --- TRIGGER GỐC (disabled — uncomment để mở lại) ---
-  # push:
-  #   branches: [main]
-  # schedule:
-  #   - cron: '20 * * * *'
+  schedule:
+    - cron: '0 */3 * * *'   # Every 3 hours (8x/day, reduces from 24x/day)
   workflow_dispatch:
 
 permissions:
@@ -29,8 +24,6 @@ concurrency:
 
 jobs:
   fetch:
-    # ⛔ DISABLED — workflow tắt tới khi user mở lại. Xoá dòng `if` này để bật.
-    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
