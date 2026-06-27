@@ -3,9 +3,11 @@ title = "Giới thiệu bạn mở thẻ Liobank: thưởng đến 500k"
 description = "Cách tham gia chương trình giới thiệu Liobank nhận thưởng đến 500.000đ mỗi lượt: mời bạn mở thẻ, mức thưởng theo hạn mức và mẹo gửi link, quét QR an toàn."
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Ngân hàng"]
+categories = ["Tất cả", "Ngân hàng"]
 tags = ["ngân hàng", "liobank", "thẻ tín dụng", "giới thiệu nhận thưởng", "referral"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 thumbnail = "https://seomoney.org/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.webp"
 seo_keyword = "giới thiệu Liobank nhận thưởng"
 featured = false

@@ -3,9 +3,11 @@ title = "Hòa bình Mỹ-Iran: bước ngoặt hay ảo vọng?"
 description = "Thỏa thuận hòa bình sơ bộ Mỹ - Iran: phân tích tác động tới eo biển Hormuz, giá dầu và bàn cờ địa chính trị Trung Đông — bước ngoặt hay ảo vọng?"
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Thế giới", "Báo chí"]
+categories = ["Tất cả", "Thế giới"]
 tags = ["quốc tế", "an-ninh", "mỹ-iran", "trung-đông"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "hòa bình Mỹ-Iran"
 thumbnail = "https://seomoney.org/img/covers/my-iran-hoa-binh-trung-dong.svg"
 featured = false

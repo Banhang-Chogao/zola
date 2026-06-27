@@ -3,9 +3,11 @@ title = "Remote baggage screening: Hành lý Incheon không cần lấy lại"
 description = "Remote baggage screening ở Incheon giúp tiết kiệm 20+ phút chuyển tiếp tới Mỹ. Công nghệ mới soi X-quang lúc bay, tự động chuyển hành lý sang chuyến tiếp."
 date = 2026-06-26
 [taxonomies]
-categories = ["Tất cả", "Du lịch", "Báo chí"]
+categories = ["Tất cả", "Du lịch"]
 tags = ["incheon-airport", "du-lich-hang-khong", "cong-nghe-san-bay", "los-angeles", "seattle", "han-quoc"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 thumbnail = "https://picsum.photos/seed/incheon-remote-baggage/600/400"
 seo_keyword = "remote baggage screening"
 featured = false

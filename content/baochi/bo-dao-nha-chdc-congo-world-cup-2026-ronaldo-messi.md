@@ -3,9 +3,11 @@ title = "Bồ Đào Nha vs Congo: Messi gọi, Ronaldo trả lời?"
 description = "Nhận định trận Bồ Đào Nha - CHDC Congo (0h 18/6): Ronaldo kỳ World Cup thứ 6, Opta dự đoán 54,6% thắng và câu chuyện đối đầu Messi."
 date = 2026-06-18
 [taxonomies]
-categories = ["Tất cả", "Thể thao", "Báo chí"]
+categories = ["Tất cả", "Thể thao"]
 tags = ["world-cup-2026", "ronaldo", "messi", "bo-dao-nha", "bong-da", "chdc-congo"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "Bồ Đào Nha CHDC Congo World Cup 2026"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 featured = false

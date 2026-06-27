@@ -3,9 +3,11 @@ title = "Vụ rơi tiêm kích F/A-18 và bài học 57 triệu USD"
 description = "Vụ rơi tiêm kích F/A-18 trị giá 57 triệu USD ở Washington: ghế thoát hiểm cứu phi công và bài học về điều tra kỹ thuật khi công nghệ gặp sự cố."
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Thế giới", "Báo chí"]
+categories = ["Tất cả", "Thế giới"]
 tags = ["công-nghệ-quân-sự", "an-toàn-hàng-không", "kỹ-thuật", "sự-cố", "điều-tra-kỹ-thuật"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "tiêm kích F/A-18"
 thumbnail = "https://seomoney.org/img/covers/f18-crash-when-technology-fails.svg"
 featured = false

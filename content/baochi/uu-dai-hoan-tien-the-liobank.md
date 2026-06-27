@@ -3,9 +3,11 @@ title = "Ưu đãi hoàn tiền thẻ Liobank: tiêu đúng, lợi hơn"
 description = "Ưu đãi hoàn tiền Liobank hoạt động ra sao và cách tiêu cho hời: nhóm chi tiêu được hoàn, mẹo tối ưu cashback và lưu ý tránh bẫy lãi — Phần 3 series Liobank."
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Ngân hàng"]
+categories = ["Tất cả", "Ngân hàng"]
 tags = ["ngân hàng", "liobank", "hoàn tiền", "cashback", "series liobank"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 thumbnail = "https://seomoney.org/img/covers/liobank-app-quan-ly-chi-tieu.webp"
 seo_keyword = "ưu đãi hoàn tiền Liobank"
 featured = false

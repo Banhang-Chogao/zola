@@ -3,9 +3,11 @@ title = "Hòa bình Mỹ-Iran tác động túi tiền bạn thế nào?"
 description = "Hòa bình Mỹ - Iran tác động túi tiền bạn thế nào: giá dầu giảm 5-6%, eo biển Hormuz mở lại, giá xăng và phân bón hạ nhiệt ảnh hưởng chi phí sống."
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Thế giới", "Báo chí"]
+categories = ["Tất cả", "Thế giới"]
 tags = ["kinh-tế", "địa-chính-trị", "năng-lượng", "dầu-mỏ", "thị-trường-tài-chính"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "hòa bình Mỹ-Iran"
 thumbnail = "https://seomoney.org/img/covers/my-iran-peace-deal-global-energy.svg"
 featured = false

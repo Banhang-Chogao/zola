@@ -3,9 +3,11 @@ title = "Liobank là gì? 5 ưu điểm ngân hàng số đáng thử"
 description = "Liobank là gì và vì sao đáng mở thẻ? Tổng quan ngân hàng số Liobank: mở thẻ online, hoàn tiền, bảo mật và quản lý chi tiêu — mở màn series trải nghiệm thực tế."
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Ngân hàng"]
+categories = ["Tất cả", "Ngân hàng"]
 tags = ["ngân hàng", "liobank", "ngân hàng số", "thẻ tín dụng", "series liobank"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 thumbnail = "https://seomoney.org/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.webp"
 seo_keyword = "Liobank là gì"
 featured = false

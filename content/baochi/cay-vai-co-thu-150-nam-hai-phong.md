@@ -3,9 +3,11 @@ title = "Cây vải cổ thụ 150 năm ở Hải Phòng, mỗi mùa thu 5 tạ 
 description = "Cây vải cổ thụ 150 năm tuổi ở thôn Phù Tinh, Hải Phòng mỗi mùa cho 3-5 tạ quả, chiết từ cây vải Tổ gần 200 năm. Chuyện 4 đời giữ cây và góc nhìn của mình."
 date = 2026-06-27
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Du lịch"]
+categories = ["Tất cả", "Du lịch"]
 tags = ["cây vải cổ thụ", "hải phòng", "vải thiều", "đặc sản", "du lịch nông nghiệp"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "cây vải cổ thụ 150 năm"
 thumbnail = "https://seomoney.org/img/covers/cay-vai-co-thu-150-nam-hai-phong.svg"
 featured = false
@@ -77,7 +79,7 @@ Mong muốn của gia đình cũng rất giản dị: lan tỏa hình ảnh cây
 
 Câu chuyện cây vải cũng gắn với nhịp mùa rất Việt Nam. Tháng 5 Âm lịch — mùa vải chín rộ — cũng là dịp [Tết Đoan Ngọ](/posting/tet-doan-ngo-han-viet-trung/), khi nhà nhà bày mâm vải, mận để "giết sâu bọ". Những phong tục và sản vật cứ thế gắn bó với nhau, làm nên bản sắc mà mình nghĩ rất nên được kể lại cho thế hệ sau.
 
-Nếu bạn cũng thích kiểu nội dung đi sâu vào đặc sản, vùng đất và con người, mình mời bạn ghé qua chuyên mục [Du lịch](/categories/du-lich/) và [Ẩm thực](/categories/am-thuc/) trên blog — nơi mình gom những câu chuyện tương tự. Và nếu muốn theo dõi các bài tổng hợp tin tức được mình kể lại theo góc nhìn riêng, hãy xem thêm ở chuyên mục [Báo chí](/categories/bao-chi/).
+Nếu bạn cũng thích kiểu nội dung đi sâu vào đặc sản, vùng đất và con người, mình mời bạn ghé qua chuyên mục [Du lịch](/categories/du-lich/) và [Ẩm thực](/categories/am-thuc/) trên blog — nơi mình gom những câu chuyện tương tự. Và nếu muốn theo dõi các bài tổng hợp tin tức được mình kể lại theo góc nhìn riêng, hãy xem thêm ở [tất cả bài viết](/categories/tat-ca/) trên blog.
 
 Còn bạn, bạn đã bao giờ thấy một cái cây nào ở quê mình sống lâu đến mức trở thành "nhân chứng" của cả dòng họ chưa? Nếu có, mình rất muốn nghe câu chuyện đó. Biết đâu đó lại là một di sản sống khác đang chờ được kể.
 

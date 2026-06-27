@@ -3,9 +3,11 @@ title = "Tên miền .ai và hòn đảo 16.000 dân hốt bạc nhờ AI"
 description = "Tên miền .ai biến Anguilla — hòn đảo 16.000 dân — thành mỏ vàng số, thu hàng chục triệu USD mỗi năm từ Google và x.ai khi cơn sốt AI bùng nổ."
 date = 2026-06-18
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Công nghệ"]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["tên miền", "trí tuệ nhân tạo", "anguilla", "kinh tế số", "công nghệ"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "tên miền .ai"
 thumbnail = "https://seomoney.org/img/covers/ten-mien-ai-hon-dao-anguilla-hot-bac.svg"
 featured = false

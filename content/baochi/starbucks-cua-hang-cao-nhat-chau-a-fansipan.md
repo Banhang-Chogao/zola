@@ -3,9 +3,11 @@ title = "Starbucks Fansipan: cửa hàng cà phê cao nhất châu Á"
 description = "Starbucks Fansipan vừa khai trương — cửa hàng cà phê cao nhất châu Á trên 'nóc nhà Đông Dương' tại Sa Pa. Vì sao Starbucks chọn các điểm di sản? Góc nhìn riêng."
 date = 2026-06-18
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Du lịch"]
+categories = ["Tất cả", "Du lịch"]
 tags = ["Starbucks", "Fansipan", "Sa Pa", "du lịch", "cà phê", "F&B"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "Starbucks Fansipan"
 featured = false
 
