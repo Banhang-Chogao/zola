@@ -1,8 +1,8 @@
 +++
 title = "Demo Layout Blog"
 description = "Trực quan giao diện left-sidebar blog layout 30/70 với 3 ad spots cố định, tối ưu cho AdSense."
-sort_by = "date"
 template = "posting-left-sidebar.html"
+paginate_by = 0
 
 [taxonomies]
 categories = ["Tất cả"]
