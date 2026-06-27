@@ -141,7 +141,7 @@
               <th>Trạng thái</th>
             </tr>
           </thead>
-          <tbody id="placement-registry-body"><!-- JS --></tbody>
+          <tbody id="cp-registry-body"><!-- JS --></tbody>
         </table>
       </div>
     </section>
@@ -150,7 +150,7 @@
     <section class="cp-panel" data-tab-panel="blocks" hidden>
       <div class="cp-blocks__toolbar">
         <p class="cp-panel__hint">Tạo/sửa khối nội dung (CTA, banner, notice…) và gắn vào một placement ID.</p>
-        <button class="btn btn--primary" id="cp-new-block-btn">+ Tạo content block</button>
+        <button class="btn btn--primary" id="cp-create-btn">+ Tạo content block</button>
       </div>
       <div class="cp-commit-status" id="cp-commit-status" hidden></div>
       <div class="admin-momo-url__table-wrapper">
@@ -198,24 +198,23 @@
 <dialog class="modal modal--wide" id="block-modal">
   <div class="modal__content">
     <div class="modal__header">
-      <h2 class="modal__title" id="block-modal-title">Tạo content block</h2>
-      <button class="modal__close" id="cp-close-block-modal" aria-label="Đóng">&times;</button>
+      <h2 class="modal__title">Tạo/sửa content block</h2>
+      <button class="modal__close" id="close-block-modal" aria-label="Đóng">&times;</button>
     </div>
     <div class="modal__body cp-editor">
-      <div class="cp-editor__form">
+      <form class="cp-editor__form" id="block-form">
         <div class="form-group">
-          <label for="cp-f-placement">Placement ID</label>
-          <select class="form-control" id="cp-f-placement"><!-- JS --></select>
-          <small class="form-text" id="cp-f-placement-hint"></small>
+          <label for="block-placement">Placement ID</label>
+          <select class="form-control" id="block-placement"><!-- JS --></select>
         </div>
         <div class="form-group">
-          <label for="cp-f-id">Block ID</label>
-          <input type="text" class="form-control" id="cp-f-id" placeholder="vd: momo_donate_header_cta">
+          <label for="block-id">Block ID</label>
+          <input type="text" class="form-control" id="block-id" placeholder="vd: momo_donate_header_cta">
           <small class="form-text">chữ thường, số, gạch ngang/underscore. Không sửa được sau khi tạo.</small>
         </div>
         <div class="form-group">
-          <label for="cp-f-type">Type</label>
-          <select class="form-control" id="cp-f-type">
+          <label for="block-type">Type</label>
+          <select class="form-control" id="block-type">
             <option value="momo_cta">momo_cta</option>
             <option value="donate_box">donate_box</option>
             <option value="premium_cta">premium_cta</option>
@@ -224,64 +223,70 @@
             <option value="link_card">link_card</option>
             <option value="html_safe">html_safe</option>
           </select>
-          <small class="form-text cp-warn" id="cp-html-warn" hidden>⚠️ html_safe render HTML thô. Chỉ dùng nội dung tin cậy — không chèn &lt;script&gt;.</small>
+          <small class="form-text cp-warn" id="html-safe-warning" hidden>⚠️ html_safe render HTML thô. Chỉ dùng nội dung tin cậy — không chèn &lt;script&gt;.</small>
         </div>
         <div class="form-group">
-          <label for="cp-f-title">Tiêu đề</label>
-          <input type="text" class="form-control" id="cp-f-title" maxlength="200">
+          <label for="block-title">Tiêu đề</label>
+          <input type="text" class="form-control" id="block-title" maxlength="200">
         </div>
         <div class="form-group">
-          <label for="cp-f-body">Nội dung</label>
-          <textarea class="form-control" id="cp-f-body" rows="3" maxlength="4000"></textarea>
+          <label for="block-body">Nội dung</label>
+          <textarea class="form-control" id="block-body" rows="3" maxlength="4000"></textarea>
         </div>
         <div class="form-group">
-          <label for="cp-f-button">Nút CTA (button text)</label>
-          <input type="text" class="form-control" id="cp-f-button" maxlength="60">
+          <label for="block-button">Nút CTA (button text)</label>
+          <input type="text" class="form-control" id="block-button" maxlength="60">
         </div>
         <div class="form-group">
-          <label for="cp-f-url">URL</label>
-          <input type="url" class="form-control" id="cp-f-url" placeholder="https://me.momo.vn/...">
+          <label for="block-url">URL</label>
+          <input type="url" class="form-control" id="block-url" placeholder="https://me.momo.vn/...">
           <small class="form-text">momo_cta/donate_box phải dùng https://me.momo.vn/…</small>
         </div>
         <div class="cp-editor__row">
           <div class="form-group">
-            <label for="cp-f-style">Style</label>
-            <select class="form-control" id="cp-f-style">
+            <label for="block-style">Style</label>
+            <select class="form-control" id="block-style">
               <option value="default">default</option>
               <option value="compact">compact</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="cp-f-priority">Priority</label>
-            <input type="number" class="form-control" id="cp-f-priority" value="100">
+            <label for="block-priority">Priority</label>
+            <input type="number" class="form-control" id="block-priority" value="100">
           </div>
           <div class="form-group form-group--check">
-            <label class="radio-label"><input type="checkbox" id="cp-f-enabled"> Bật (enabled)</label>
+            <label class="radio-label"><input type="checkbox" id="block-enabled"> Bật (enabled)</label>
           </div>
         </div>
         <div class="cp-editor__row">
           <div class="form-group">
-            <label for="cp-f-pages">Pages (phân tách bằng dấu phẩy)</label>
-            <input type="text" class="form-control" id="cp-f-pages" placeholder="*">
+            <label for="block-pages">Pages (phân tách bằng dấu phẩy)</label>
+            <input type="text" class="form-control" id="block-pages" placeholder="*">
           </div>
           <div class="form-group">
-            <label for="cp-f-exclude">Exclude pages</label>
-            <input type="text" class="form-control" id="cp-f-exclude" placeholder="/editor/, /admin-author/">
+            <label for="block-exclude">Exclude pages</label>
+            <input type="text" class="form-control" id="block-exclude" placeholder="/editor/, /admin-author/">
           </div>
         </div>
-      </div>
+        <div class="cp-editor__row">
+          <div class="form-group">
+            <label for="block-start">Ngày bắt đầu</label>
+            <input type="date" class="form-control" id="block-start">
+          </div>
+          <div class="form-group">
+            <label for="block-end">Ngày kết thúc</label>
+            <input type="date" class="form-control" id="block-end">
+          </div>
+        </div>
+      </form>
       <div class="cp-editor__preview">
         <div class="cp-preview__label">Preview tại placement: <code id="cp-preview-placement">—</code></div>
         <div class="cp-preview__stage" id="cp-preview-stage"><!-- JS live preview --></div>
       </div>
     </div>
     <div class="modal__footer">
-      <button class="btn btn--secondary" id="cp-cancel-block">Huỷ</button>
-      <button class="btn btn--primary" id="cp-save-block">Lưu</button>
-    </div>
-    <div class="modal__status" id="cp-block-status" hidden role="status">
-      <div class="spinner spinner--small"></div>
-      <span id="cp-block-status-text">Đang lưu...</span>
+      <button class="btn btn--secondary" id="cancel-block-btn">Huỷ</button>
+      <button class="btn btn--primary" id="submit-block-btn">Lưu</button>
     </div>
   </div>
 </dialog>

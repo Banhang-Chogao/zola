@@ -203,6 +203,8 @@
       currentUser = user;
       setAuthState(STATE.AUTHENTICATED);
       loadMoMoLinks();
+      // Preload placements data in background
+      loadPlacements().catch(() => {});
       return;
     }
     if (user) {
@@ -545,6 +547,306 @@
     detailsModal.showModal();
   };
 
+  // ============= Content Placements =============
+  async function loadPlacements() {
+    try {
+      const opts = {
+        credentials: "include",
+        cache: "no-store",
+        headers: {},
+      };
+      const sid = getSid();
+      if (sid) opts.headers["Authorization"] = "Bearer " + sid;
+
+      const res = await fetch(AUTH_API + "/admin/content-placements", opts);
+      if (res.status === 401 || res.status === 403) {
+        setAuthState(STATE.GUEST);
+        return;
+      }
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+      cpData = await res.json();
+      renderPlacementRegistry();
+      renderBlocksTable();
+    } catch (e) {
+      console.error("loadPlacements error:", e);
+      alert(`Tải placement dữ liệu thất bại: ${e.message}`);
+    }
+  }
+
+  function renderPlacementRegistry() {
+    if (!cpData || !cpData.placements) return;
+    const tbody = document.getElementById("cp-registry-body");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
+    cpData.placements.forEach((placement) => {
+      const row = document.createElement("tr");
+      const blockCount = (cpData.blocks || []).filter(
+        (b) => b.placement_id === placement.id
+      ).length;
+
+      row.innerHTML = `
+        <td><code>${escapeHtml(placement.id)}</code></td>
+        <td>${escapeHtml(placement.label)}</td>
+        <td><span class="badge">${escapeHtml(placement.scope)}</span></td>
+        <td><small>${escapeHtml(placement.template_hint || "—")}</small></td>
+        <td><strong>${blockCount}</strong></td>
+        <td>${placement.hooked ? '✓' : '—'}</td>
+        <td>${placement.enabled ? '✓' : '—'}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  function renderBlocksTable() {
+    if (!cpData || !cpData.blocks) return;
+    const tbody = document.getElementById("cp-blocks-body");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
+    const sorted = [...cpData.blocks].sort((a, b) => (a.priority || 100) - (b.priority || 100));
+    sorted.forEach((block) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td><code>${escapeHtml(block.id)}</code></td>
+        <td>${escapeHtml(block.placement_id)}</td>
+        <td><span class="badge badge--sm">${escapeHtml(block.type)}</span></td>
+        <td>${escapeHtml(block.title || "—")}</td>
+        <td>${block.enabled ? '✓' : '—'}</td>
+        <td>
+          <button class="btn btn--small btn--secondary" onclick="window.editBlock('${escapeAttr(block.id)}')">Sửa</button>
+          <button class="btn btn--small btn--danger" onclick="window.deleteBlock('${escapeAttr(block.id)}')">Xóa</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  function getPlacementDropdown() {
+    if (!cpData || !cpData.placements) return "";
+    return cpData.placements
+      .map((p) => `<option value="${escapeAttr(p.id)}">${escapeHtml(p.label)}</option>`)
+      .join("");
+  }
+
+  window.openBlockModal = function (blockId = null) {
+    cpEditingId = blockId;
+    const modal = document.getElementById("block-modal");
+    if (!modal) return;
+
+    const form = document.getElementById("block-form");
+    const placementSelect = document.getElementById("block-placement");
+
+    // Populate placement dropdown
+    if (placementSelect && cpData && cpData.placements) {
+      placementSelect.innerHTML = cpData.placements
+        .map((p) => `<option value="${escapeAttr(p.id)}">${escapeHtml(p.label)}</option>`)
+        .join("");
+    }
+
+    if (blockId && cpData && cpData.blocks) {
+      const block = cpData.blocks.find((b) => b.id === blockId);
+      if (block) {
+        document.getElementById("block-id").value = block.id;
+        document.getElementById("block-id").disabled = true;
+        document.getElementById("block-placement").value = block.placement_id;
+        document.getElementById("block-type").value = block.type;
+        document.getElementById("block-title").value = block.title || "";
+        document.getElementById("block-body").value = block.body || "";
+        document.getElementById("block-button").value = block.button_text || "";
+        document.getElementById("block-url").value = block.url || "";
+        document.getElementById("block-style").value = block.style || "default";
+        document.getElementById("block-priority").value = block.priority || 100;
+        document.getElementById("block-enabled").checked = block.enabled || false;
+        document.getElementById("block-pages").value = (block.pages || ["*"]).join(", ");
+        document.getElementById("block-exclude").value = (block.exclude_pages || []).join(", ");
+        document.getElementById("block-start").value = block.start_date || "";
+        document.getElementById("block-end").value = block.end_date || "";
+      }
+    } else {
+      // Reset for create
+      document.getElementById("block-id").disabled = false;
+      form.reset();
+      document.getElementById("block-id").focus();
+    }
+
+    updateTypeWarning();
+    renderBlockPreview();
+    modal.showModal();
+  };
+
+  window.editBlock = function (blockId) {
+    openBlockModal(blockId);
+  };
+
+  window.deleteBlock = async function (blockId) {
+    if (!confirm(`Xóa block "${blockId}"?`)) return;
+
+    try {
+      const opts = {
+        method: "DELETE",
+        credentials: "include",
+        headers: {},
+      };
+      const sid = getSid();
+      if (sid) opts.headers["Authorization"] = "Bearer " + sid;
+
+      const res = await fetch(AUTH_API + `/admin/content-blocks/${encodeURIComponent(blockId)}`, opts);
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+      const result = await res.json();
+      await loadPlacements();
+      showCommitStatus(result);
+      alert("✓ Block đã xóa");
+    } catch (e) {
+      alert(`❌ Xóa thất bại: ${e.message}`);
+    }
+  };
+
+  function updateTypeWarning() {
+    const type = document.getElementById("block-type").value;
+    const warning = document.getElementById("html-safe-warning");
+    if (warning) warning.hidden = type !== "html_safe";
+  }
+
+  function renderBlockPreview() {
+    const title = document.getElementById("block-title").value;
+    const body = document.getElementById("block-body").value;
+    const button = document.getElementById("block-button").value;
+    const url = document.getElementById("block-url").value;
+    const type = document.getElementById("block-type").value;
+    const style = document.getElementById("block-style").value;
+
+    const stage = document.getElementById("cp-preview-stage");
+    if (!stage) return;
+
+    const ctaHtml =
+      button && url
+        ? `<a href="#" class="placement-block__cta" onclick="return false">${escapeHtml(button)}</a>`
+        : "";
+
+    stage.innerHTML = `
+      <div class="placement-block placement-block--${escapeHtml(type)} placement-block--${escapeHtml(style)}">
+        ${title ? `<h3 class="placement-block__title">${escapeHtml(title)}</h3>` : ""}
+        ${body ? `<p class="placement-block__body">${escapeHtml(body)}</p>` : ""}
+        ${ctaHtml}
+      </div>
+    `;
+  }
+
+  async function submitBlock() {
+    const id = document.getElementById("block-id").value.trim();
+    const placement = document.getElementById("block-placement").value;
+    const type = document.getElementById("block-type").value;
+    const title = document.getElementById("block-title").value;
+    const body = document.getElementById("block-body").value;
+    const button = document.getElementById("block-button").value;
+    const url = document.getElementById("block-url").value;
+    const style = document.getElementById("block-style").value;
+    const priority = parseInt(document.getElementById("block-priority").value) || 100;
+    const enabled = document.getElementById("block-enabled").checked;
+    const pagesStr = document.getElementById("block-pages").value;
+    const excludeStr = document.getElementById("block-exclude").value;
+    const start = document.getElementById("block-start").value;
+    const end = document.getElementById("block-end").value;
+
+    if (!id || !placement || !type) {
+      alert("Vui lòng điền tất cả trường bắt buộc");
+      return;
+    }
+
+    const payload = {
+      id: id,
+      placement_id: placement,
+      type: type,
+      title: title || null,
+      body: body || null,
+      button_text: button || null,
+      url: url || null,
+      style: style || "default",
+      priority: priority,
+      enabled: enabled,
+      pages: pagesStr ? pagesStr.split(",").map((s) => s.trim()) : ["*"],
+      exclude_pages: excludeStr ? excludeStr.split(",").map((s) => s.trim()) : [],
+      start_date: start || null,
+      end_date: end || null,
+    };
+
+    try {
+      const opts = {
+        method: cpEditingId ? "PATCH" : "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const sid = getSid();
+      if (sid) opts.headers["Authorization"] = "Bearer " + sid;
+
+      const url_path = cpEditingId
+        ? `/admin/content-blocks/${encodeURIComponent(cpEditingId)}`
+        : "/admin/content-blocks";
+
+      const res = await fetch(AUTH_API + url_path, {
+        ...opts,
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const err = await res.text();
+        throw new Error(err);
+      }
+
+      const result = await res.json();
+      await loadPlacements();
+      showCommitStatus(result);
+
+      document.getElementById("block-modal").close();
+      cpEditingId = null;
+      alert("✓ Block " + (cpEditingId ? "cập nhật" : "tạo") + " thành công");
+    } catch (e) {
+      alert(`❌ Lưu block thất bại: ${e.message}`);
+    }
+  }
+
+  function showCommitStatus(result) {
+    const status = document.getElementById("cp-commit-status");
+    if (!status) return;
+
+    if (result.committed) {
+      status.innerHTML = `
+        <div class="commit-ok">
+          ✓ Đã commit: <a href="${escapeHtml(result.commit_url)}" target="_blank">${result.commit_sha.slice(0, 7)}</a>
+          <br/>Deploy: ${escapeHtml(result.deploy_eta || "1-2 phút")}
+        </div>
+      `;
+    } else {
+      status.innerHTML = `
+        <div class="commit-warning">
+          ⚠ Lưu cục bộ (chưa commit): ${escapeHtml(result.reason || "không có token")}
+        </div>
+      `;
+    }
+    status.hidden = false;
+  }
+
+  function switchTab(tabName) {
+    document.querySelectorAll(".cp-tab").forEach((btn) => {
+      btn.classList.toggle("cp-tab--active", btn.getAttribute("data-tab") === tabName);
+      btn.setAttribute("aria-selected", btn.getAttribute("data-tab") === tabName);
+    });
+
+    document.querySelectorAll(".cp-panel").forEach((panel) => {
+      panel.hidden = panel.getAttribute("data-tab-panel") !== tabName;
+    });
+
+    // Load placements data on first switch to tabs 2 or 3
+    if ((tabName === "placements" || tabName === "blocks") && !cpData) {
+      loadPlacements();
+    }
+  }
+
   // ============= Utility Functions =============
   window.copyToClipboard = function (text) {
     navigator.clipboard.writeText(text).then(() => {
@@ -613,6 +915,57 @@
   document.querySelectorAll('input[name="replace-scope"]').forEach((radio) => {
     radio.addEventListener("change", updateReplaceScope);
   });
+
+  // Tab switching
+  document.querySelectorAll(".cp-tab").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      switchTab(btn.getAttribute("data-tab"));
+    });
+  });
+
+  // Block form
+  const blockModal = document.getElementById("block-modal");
+  if (blockModal) {
+    document.getElementById("block-placement").addEventListener("change", () => {
+      renderBlockPreview();
+    });
+    document.getElementById("block-type").addEventListener("change", () => {
+      updateTypeWarning();
+      renderBlockPreview();
+    });
+    document.getElementById("block-title").addEventListener("input", () => {
+      renderBlockPreview();
+    });
+    document.getElementById("block-body").addEventListener("input", () => {
+      renderBlockPreview();
+    });
+    document.getElementById("block-button").addEventListener("input", () => {
+      renderBlockPreview();
+    });
+    document.getElementById("block-url").addEventListener("input", () => {
+      renderBlockPreview();
+    });
+    document.getElementById("block-style").addEventListener("change", () => {
+      renderBlockPreview();
+    });
+
+    document.getElementById("close-block-modal")?.addEventListener("click", () => {
+      blockModal.close();
+      cpEditingId = null;
+    });
+    document.getElementById("cancel-block-btn")?.addEventListener("click", () => {
+      blockModal.close();
+      cpEditingId = null;
+    });
+    document.getElementById("submit-block-btn")?.addEventListener("click", submitBlock);
+  }
+
+  const cpCreateBtn = document.getElementById("cp-create-btn");
+  if (cpCreateBtn) {
+    cpCreateBtn.addEventListener("click", () => {
+      openBlockModal();
+    });
+  }
 
   // ============= Init =============
   function init() {
