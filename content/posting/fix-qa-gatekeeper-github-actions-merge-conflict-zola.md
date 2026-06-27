@@ -7,7 +7,8 @@ categories = ["Tất cả"]
 tags = ["ci cd", "debug", "github actions", "merge conflict", "qa gatekeeper", "regression test", "zola"]
 
 [extra]
-sticky = true
+featured = true
+featured_at = "2026-06-27T11:43:42.298Z"
 +++
 
 Khoảng 2:02 sáng ngày 22/06/2026, tôi ngồi ở The Coffee Bean & Tea Leaf, trước mặt là chiếc MacBook, một ly nước đã vơi dần và một pull request tưởng như chỉ còn "xử lý conflict cho xong". Bài này là case study thực tế về cách **fix QA Gatekeeper GitHub Actions** khi PR bị vướng nhiều lớp: merge conflict, stale branch, conflict marker còn sót — rồi cuối cùng nhìn GitHub Actions chạy hơn 10 phút và tự auto-merge vào `main`.
