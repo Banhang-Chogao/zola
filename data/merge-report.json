@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-27T04:36:22Z",
+  "updated_at": "2026-06-27T04:41:14Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 22,
+    "today": 23,
     "this_week": 190,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "feature": 43,
+      "feature": 44,
       "unknown": 47,
       "ci": 4,
-      "fix": 100,
+      "fix": 99,
       "chore": 1,
       "content": 5
     }
   },
   "merges": [
+    {
+      "pr_number": 1052,
+      "pr_title": "feat: Add CodeQL Vietnamese blog post with A+ SEO optimization",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1052",
+      "merged_at": "2026-06-27T04:34:20Z",
+      "merge_commit_sha": "20a82b627bce79b13a7a3e875d40222645fbcab2",
+      "merge_commit_short": "20a82b6",
+      "head_branch": "claude/codeql-vietnamese-blog-evmh70",
+      "summary_vi": "Add comprehensive Vietnamese blog post about **CodeQL** - a powerful code analysis tool for finding security vulnerabilities and bugs.",
+      "change_type": "feature",
+      "files_changed": 1,
+      "additions": 228,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1259,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28278720664",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 1059,
       "pr_title": "feat(content): bài Công nghệ — phân trang trang chủ Zola & trang lưu trữ",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1258,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28278655686",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 1056,
@@ -471,9 +490,9 @@
       "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1229,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28270977378",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1232,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28271396015",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 1031,
@@ -604,9 +623,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1229,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28270977378",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 999,
@@ -3205,25 +3224,6 @@
       "files_changed": 8,
       "additions": 832,
       "deletions": 278,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 855,
-      "pr_title": "fix: heartbeat module — replace PR/CI data with blog health status, fix desktop display [fix/heartbeat-module]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/855",
-      "merged_at": "2026-06-24T17:15:09Z",
-      "merge_commit_sha": "46ef9d5efb1f8ff7a2cf80ad8ce7f69d793dfb4f",
-      "merge_commit_short": "46ef9d5",
-      "head_branch": "fix/heartbeat-module",
-      "summary_vi": "fix: heartbeat module — replace PR/CI data with blog health status, fix desktop display",
-      "change_type": "fix",
-      "files_changed": 4,
-      "additions": 62,
-      "deletions": 54,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
