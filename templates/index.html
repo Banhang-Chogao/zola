@@ -380,17 +380,15 @@
                     <h3 class="home-discovery__rail-block-title recent-fresh__title">Bài mới cập nhật</h3>
                     <ul class="recent-fresh__list" role="list">
                         {% for page in all_pages | slice(end=5) %}
-                            {% set_global primary_cat = "" %}
-                            {% for c in page.taxonomies.categories | default(value=[]) %}
-                                {% if c != "Tất cả" and not primary_cat %}{% set_global primary_cat = c %}{% endif %}
-                            {% endfor %}
+                            {% set cats = page.taxonomies.categories | default(value=[]) %}
+                            {% set primary_cat = cats[1] | default(value="") %}
                             <li class="recent-fresh__item">
                                 <a class="recent-fresh__link" href="{{ page.permalink }}">
                                     <span class="recent-fresh__thumb">
                                         <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}" loading="lazy" decoding="async" width="64" height="64">
                                     </span>
                                     <span class="recent-fresh__body">
-                                        {% if primary_cat %}<span class="recent-fresh__cat">{{ primary_cat }}</span>{% endif %}
+                                        {% if primary_cat and primary_cat != "Tất cả" %}<span class="recent-fresh__cat">{{ primary_cat }}</span>{% endif %}
                                         <span class="recent-fresh__headline">{{ page.title }}</span>
                                         <time class="recent-fresh__date" datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
                                     </span>
