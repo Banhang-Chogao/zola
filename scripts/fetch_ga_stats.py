@@ -2,7 +2,7 @@
 Fetch Google Analytics 4 stats qua Data API, output data/ga-stats.json.
 
 Service Account key: env GA_SERVICE_ACCOUNT_KEY (JSON string).
-Property: 541698865 (GA4 'banhang-chogao' blog).
+Property: 542421812 (GA4 'banhang-chogao' blog).
 
 Output format (mở rộng — gồm 6 chỉ số cơ bản + 5 chỉ số nâng cao 30d):
 {
@@ -45,7 +45,7 @@ from google.api_core.exceptions import PermissionDenied
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "data" / "ga-stats.json"
-PROPERTY_ID = "541698865"
+PROPERTY_ID = "542421812"
 
 
 def get_client():
