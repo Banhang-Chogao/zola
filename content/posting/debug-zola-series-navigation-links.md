@@ -225,7 +225,7 @@ base_url = "https://seomoney.org/zola"
 Vì config cho base_url là `https://seomoney.org` (root), nên link phải là:
 
 ```markdown
-[Bài tiếp theo](/posting/google-preferred-sources-2-...)
+[Bài tiếp theo](/zola/posting/google-preferred-sources-2-...)
 ```
 
 **Chọn cách nào?** Phụ thuộc vào actual deployment. Nếu:
@@ -307,7 +307,7 @@ base_url = "https://seomoney.org"  # KHÔNG có /zola/
 Thì markdown link phải là:
 
 ```markdown
-[Bài tiếp theo](/posting/series-2-title/)  # KHÔNG /zola/
+[Bài tiếp theo](/zola/posting/series-2-title/)  # KHÔNG /zola/
 ```
 
 Kiểm tra:
@@ -534,9 +534,9 @@ Với quy trình này, "11 broken links" → "0 broken links" chỉ trong vài p
 
 ## Bài viết liên quan
 
-- [Cách setup Zola series navigation cho multiple-part articles](/posting/zola-series-nav-setup/) — guide chi tiết cấu trúc series
-- [SEO best practices cho series content](/posting/seo-series-articles/) — tối ưu hóa rank cho toàn series
-- [Debugging Zola build issues — phần 1: template errors](/posting/zola-build-debug-templates/) — common template bugs
+- [Cách setup Zola series navigation cho multiple-part articles](/zola/posting/zola-series-nav-setup/) — guide chi tiết cấu trúc series
+- [SEO best practices cho series content](/zola/posting/seo-series-articles/) — tối ưu hóa rank cho toàn series
+- [Debugging Zola build issues — phần 1: template errors](/zola/posting/zola-build-debug-templates/) — common template bugs
 
 ---
 
