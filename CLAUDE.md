@@ -2114,10 +2114,22 @@ Bot phát hiện rule/policy/workflow/automation xung đột — schedule mỗi 
 
 ## Watermark Rules
 
+### 1. Print/PDF Watermark (Premium Content)
 - Dynamic watermark overlay khi đọc online: `blogName • emailHash • postId • traceCode`.
 - Print/PDF: `@media print` chèn watermark `{traceCode16}_{blogDomain}` + bản quyền.
 - Ví dụ in: `A9F328BC71D06E2A_banhang-chogao.github.io` + «Bản quyền thuộc blog. Không được sao chép hoặc phân phối lại.»
 - `POST /api/paywall/log-print` ghi log khi user in.
+
+### 2. Image Upload Watermark (Owned Images)
+Tất cả ảnh raster (.jpg/.jpeg/.png) được upload/commit từ local vào blog sẽ tự động thêm watermark khi convert sang WebP.
+- **Format:** `{commit-hash}-seomoney.org` (8 ký tự commit hash, lowercase)
+- **Vị trí:** bottom-right corner, transparent (opacity ~100/255), font gray (RGB 128,128,128)
+- **Font size:** động theo chiều cao ảnh (~3% height), fallback DejaVuSans
+- **Margin:** 2% chiều cao từ góc
+- **Engine:** `scripts/to_webp.py` gọi `add_watermark()` tự động khi convert raster → WebP
+- **Workflow:** `.github/workflows/optimize-images.yml` trigger trên push raster → `to_webp.py --replace` → WebP + watermark + xoá raster gốc → commit `chore(img): convert raster assets to WebP only`
+- **Skip watermark:** dùng flag `--no-watermark` (vd `python3 scripts/to_webp.py static/img --no-watermark` để test không cần watermark)
+- **Lợi ích:** trace ownership, prevent reuse, anti-plagiarism (ảnh nào leak ra ngoài vẫn ghi dấu tới commit publish gốc)
 
 ## Security Rules (Paywall + F-Dashboard)
 
