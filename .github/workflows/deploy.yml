@@ -109,12 +109,73 @@ jobs:
           test "$(cat public/CNAME)" = "seomoney.org"
           echo "public/CNAME = $(cat public/CNAME)"
 
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@v6
-        with:
-          # Tự bật Pages nếu "Get Pages site failed" — đúng khuyến nghị của action
-          # cho lỗi rate limit/Pages chưa cấu hình (xem log configure-pages).
-          enablement: true
+      - name: Setup GitHub Pages (with exponential backoff retry)
+        id: configure_pages
+        continue-on-error: true
+        run: |
+          set +e
+
+          echo "🔧 Configuring GitHub Pages with exponential backoff retry..."
+          echo "   (prevents API rate limit exceeded errors during batch deploys)"
+          echo ""
+
+          MAX_RETRIES=3
+          BACKOFF=10
+          ATTEMPT=1
+          SUCCESS=0
+
+          while [ $ATTEMPT -le $MAX_RETRIES ]; do
+            echo "[Attempt $ATTEMPT/$MAX_RETRIES] Calling Pages API..."
+
+            # Call GitHub Pages configuration API
+            RESPONSE=$(gh api \
+              --method POST \
+              -H "Accept: application/vnd.github+json" \
+              /repos/${{ github.repository }}/pages \
+              -f 'build_type=workflow' \
+              -f 'source={branch: "main", path: "/"}' \
+              2>&1)
+
+            PAGES_STATUS=$?
+
+            if [ $PAGES_STATUS -eq 0 ]; then
+              echo "✅ GitHub Pages configured successfully"
+              SUCCESS=1
+              break
+            fi
+
+            # Check if error is rate-limit related
+            if echo "$RESPONSE" | grep -qi "rate limit\|api.*quota\|api.*limit"; then
+              if [ $ATTEMPT -lt $MAX_RETRIES ]; then
+                echo "⚠️  Rate limited. Waiting ${BACKOFF}s before retry..."
+                echo "   Error: $(echo "$RESPONSE" | head -1)"
+                sleep $BACKOFF
+                BACKOFF=$((BACKOFF * 2))  # Exponential backoff: 10→20→40
+                ATTEMPT=$((ATTEMPT + 1))
+                continue
+              else
+                echo "❌ FAILED: Pages API rate limited after $MAX_RETRIES attempts"
+                echo "   Full response: $RESPONSE"
+                break
+              fi
+            fi
+
+            # Non-rate-limit error (auth, bad request, etc.) → fail immediately
+            echo "❌ FAILED: Non-recoverable error"
+            echo "   Error: $RESPONSE"
+            break
+          done
+
+          if [ $SUCCESS -eq 1 ]; then
+            exit 0
+          else
+            echo ""
+            echo "⏳ GitHub Pages API rate limit will reset in ~30 minutes"
+            echo "ℹ️  Build artifacts are still available and will deploy on next run"
+            exit 1
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v5
