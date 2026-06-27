@@ -12,28 +12,28 @@ thumbnail = "/img/placeholder/placeholder.svg"
 toc = true
 
 [[extra.faq]]
-question = "Lỗi 'API rate limit exceeded' trên CodeQL có nghĩa gì?"
-answer = "Lỗi này xảy ra khi CodeQL cố gắng gửi dữ liệu telemetry lên GitHub API nhưng vượt quá số lệnh gọi API được phép trong khoảng thời gian nhất định. Mặc dù lỗi này không dừng quá trình phân tích CodeQL, nó sẽ skip việc gửi báo cáo telemetry và có thể ảnh hưởng đến theo dõi hiệu suất."
+q = "Lỗi 'API rate limit exceeded' trên CodeQL có nghĩa gì?"
+a = "Lỗi này xảy ra khi CodeQL cố gắng gửi dữ liệu telemetry lên GitHub API nhưng vượt quá số lệnh gọi API được phép trong khoảng thời gian nhất định. Mặc dù lỗi này không dừng quá trình phân tích CodeQL, nó sẽ skip việc gửi báo cáo telemetry và có thể ảnh hưởng đến theo dõi hiệu suất."
 
 [[extra.faq]]
-question = "Có phải CodeQL analysis fail khi gặp lỗi rate limit không?"
-answer = "Không. Lỗi API rate limit chỉ ảnh hưởng đến telemetry gathering. Quá trình phân tích bảo mật thực tế (extraction, analysis) vẫn tiếp tục và hoàn thành bình thường. GitHub Actions sẽ bỏ qua việc gửi telemetry và tiếp tục workflow."
+q = "Có phải CodeQL analysis fail khi gặp lỗi rate limit không?"
+a = "Không. Lỗi API rate limit chỉ ảnh hưởng đến telemetry gathering. Quá trình phân tích bảo mật thực tế (extraction, analysis) vẫn tiếp tục và hoàn thành bình thường. GitHub Actions sẽ bỏ qua việc gửi telemetry và tiếp tục workflow."
 
 [[extra.faq]]
-question = "Tại sao GitHub API rate limit xảy ra thường xuyên?"
-answer = "Rate limit xảy ra vì GitHub API có giới hạn số request (thường 5,000 per hour cho authenticated requests). Khi many workflows chạy đồng thời hoặc các action khác cũng gọi API, quota sẽ cạn nhanh. CodeQL action cũng gọi API để gather telemetry ngoài việc thực hiện phân tích."
+q = "Tại sao GitHub API rate limit xảy ra thường xuyên?"
+a = "Rate limit xảy ra vì GitHub API có giới hạn số request (thường 5,000 per hour cho authenticated requests). Khi many workflows chạy đồng thời hoặc các action khác cũng gọi API, quota sẽ cạn nhanh. CodeQL action cũng gọi API để gather telemetry ngoài việc thực hiện phân tích."
 
 [[extra.faq]]
-question = "Làm sao để tránh lỗi rate limit trên CodeQL?"
-answer = "Có nhiều cách: (1) Sử dụng GitHub token với tầng cao hơn, (2) Implement exponential backoff retry logic, (3) Schedule CodeQL chạy vào thời gian có ít workflow khác, (4) Dùng concurrency group để giảm số workflow chạy đồng thời, (5) Disable telemetry nếu không cần."
+q = "Làm sao để tránh lỗi rate limit trên CodeQL?"
+a = "Có nhiều cách: (1) Sử dụng GitHub token với tầng cao hơn, (2) Implement exponential backoff retry logic, (3) Schedule CodeQL chạy vào thời gian có ít workflow khác, (4) Dùng concurrency group để giảm số workflow chạy đồng thời, (5) Disable telemetry nếu không cần."
 
 [[extra.faq]]
-question = "Token nào nên dùng cho CodeQL?"
-answer = "GitHub Actions mặc định cấp GITHUB_TOKEN với quyền hạn nhất định. Nếu bạn cần quota cao hơn, có thể dùng Personal Access Token (PAT) hoặc GitHub App token. Tuy nhiên, cho CodeQL, GITHUB_TOKEN thường đủ nếu không có quá nhiều workflow chạy song song."
+q = "Token nào nên dùng cho CodeQL?"
+a = "GitHub Actions mặc định cấp GITHUB_TOKEN với quyền hạn nhất định. Nếu bạn cần quota cao hơn, có thể dùng Personal Access Token (PAT) hoặc GitHub App token. Tuy nhiên, cho CodeQL, GITHUB_TOKEN thường đủ nếu không có quá nhiều workflow chạy song parallel."
 
 [[extra.faq]]
-question = "Làm sao để check API rate limit hiện tại của repo?"
-answer = "Dùng GitHub CLI hoặc curl: `gh api rate_limit` hoặc `curl -H 'Authorization: token TOKEN' https://api.github.com/rate_limit`. Trả về số remaining request, tổng limit, và thời gian reset."
+q = "Làm sao để check API rate limit hiện tại của repo?"
+a = "Dùng GitHub CLI hoặc curl: `gh api rate_limit` hoặc `curl -H 'Authorization: token TOKEN' https://api.github.com/rate_limit`. Trả về số remaining request, tổng limit, và thời gian reset."
 
 +++
 
