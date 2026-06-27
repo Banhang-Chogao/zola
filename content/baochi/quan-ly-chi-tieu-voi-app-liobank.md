@@ -3,9 +3,11 @@ title = "Quản lý chi tiêu với app Liobank: gọn trong tầm tay"
 description = "Cách quản lý chi tiêu Liobank ngay trên app: theo dõi dòng tiền, phân loại giao dịch, đặt giới hạn và tận dụng giới thiệu nhận thưởng — Phần 5 khép lại series."
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Ngân hàng"]
+categories = ["Tất cả", "Ngân hàng"]
 tags = ["ngân hàng", "liobank", "quản lý chi tiêu", "tài chính cá nhân", "series liobank"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 thumbnail = "https://seomoney.org/img/covers/liobank-app-quan-ly-chi-tieu.webp"
 seo_keyword = "quản lý chi tiêu Liobank"
 featured = false

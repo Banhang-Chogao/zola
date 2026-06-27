@@ -3,9 +3,11 @@ title = "MSB Digital Bank thay mBank: cần làm gì?"
 description = "MSB chính thức ra mắt MSB Digital Bank thay thế mBank từ 01/06/2026. Cách tải app mới, xác thực lại CCCD và chuyển dữ liệu chỉ trong 5 phút."
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Ngân hàng"]
+categories = ["Tất cả", "Ngân hàng"]
 tags = ["ngân hàng", "tài chính", "msb", "msb-digital-bank", "ngân hàng số"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "MSB Digital Bank"
 featured = false

@@ -108,7 +108,8 @@ nhanh mà không phải mở file. Mục đích: tra cứu tại chỗ.
    - **CSS / Responsive** (Mobile ≠ Desktop, cấm anti-pattern scroll…)
    - **Timezone & Date** (GMT+7, dd/mm/yyyy…)
    - **SEO QA bài viết** (≥600 từ, seo_keyword, ≥2 H2…)
-   - **Category** ("Tất cả" đầu mảng, "Báo chí" cho `bb`…)
+   - **Category** ("Tất cả" đầu mảng; chuyên mục NỘI DUNG thật suy từ nội dung;
+     `baochi` là nguồn ở `[extra]`, KHÔNG phải category…)
    - **References / TOC / Ảnh WebP / Placeholder**
    - **Bảo mật** (static host, không hardcode secret…)
    - **Paywall / Momo / Watermark / F-L-O-Dashboard**
@@ -1247,14 +1248,25 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
    - Format chấp nhận: text thô hoặc đã format markdown
    - URL bài báo (optional, để tham khảo source)
 
-3. **Parse + analyze**:
+3. **Parse + analyze + PHÂN LOẠI CHUYÊN MỤC THẬT** (đổi 27/06/2026 — xem
+   `CLAUDE.md` §"Quy tắc Category"):
    - Extract title, publish date (nếu có), nội dung chính
-   - Detect category theo content từ nội dung:
-     - "Du lịch", "Ẩm thực", "Công nghệ", "Ngân hàng", "Thế giới", "Bảo hiểm", "Điện ảnh"… → map vào `categories.json`
-   - **BẮT BUỘC**: mọi bài sinh bằng `bb` PHẢI có category mặc định `"Tất cả"`
-     (đứng đầu) + `"Báo chí"`, kèm category auto-detect theo content. Ví dụ
-     `categories = ["Tất cả", "Bảo hiểm", "Báo chí"]`.
-     Nếu category mới chưa có trong `categories.json` → thêm vào file đó.
+   - **`baochi` KHÔNG còn là category.** Nó chỉ là **nguồn/loại bài** (origin của
+     phím tắt `bb`) → ghi vào `[extra]`, KHÔNG đưa vào `[taxonomies] categories`.
+   - **Phân loại chuyên mục NỘI DUNG thật** từ title/body/keywords (dùng bộ phân
+     loại `scripts/audit_category_mapping.py` làm chuẩn): map vào chuyên mục
+     canonical sẵn có — `Ngân hàng`, `Tài chính`, `Công nghệ`, `SEO`, `Du lịch`,
+     `Đời sống`, `Học tiếng Hàn`, `Khoa học`, `Bảo hiểm`, `Thế giới`, `Thể thao`,
+     `Ẩm thực`, `Điện ảnh`…
+     - Ví dụ: bài về lãi suất / mở thẻ / app banking → `Ngân hàng`; visa / sân bay
+       → `Du lịch`; thuế / giá vàng / đầu tư → `Tài chính`; iPhone / AI / phần mềm
+       → `Công nghệ`.
+   - **Confidence ≥ 0.65** → dùng chuyên mục đó. **< 0.65** → fallback an toàn
+     `"Đời sống"` (KHÔNG bao giờ default về `"Báo chí"`).
+   - **KHÔNG tự tạo category mới** trừ khi nội dung rõ ràng thuộc chủ đề thiếu
+     (confidence ≥ 0.82, slug sạch, không trùng/alias category đã có); ưu tiên
+     dùng category sẵn trong `categories.json`.
+   - **KHÔNG bao giờ tự gán `premium`** — chỉ khi biên tập chọn tay.
    - Sinh slug kebab-case từ title
 
 4. **Rewrite engine**:
@@ -1272,17 +1284,26 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
    description = "<50–160 ký tự, chứa từ khoá chính>"
    date = <hôm nay>
    [taxonomies]
-   categories = ["Tất cả", "<content-category auto-detected>", "Báo chí"]
+   categories = ["Tất cả", "<chuyên mục NỘI DUNG thật, vd Ngân hàng>"]
    tags = [<3-6 tags relevant>]
    [extra]
    thumbnail = "https://picsum.photos/seed/<slug>/600/400"
    seo_keyword = "<từ khoá chính>"
    featured = false
+   # 'baochi' là NGUỒN/LOẠI bài (origin phím tắt bb), KHÔNG phải category:
+   source = "bb"
+   content_origin = "baochi"
+   original_source_type = "news_rewrite"
+   category_confidence = <0..1, vd 0.91>
+   category_reason = "<1 câu vì sao chọn chuyên mục này>"
    +++
    ```
-   - **Bắt buộc**: bài viết bằng `bb` thuộc nhánh `baochi` → LUÔN có category
-     mặc định `"Tất cả"` + `"Báo chí"`, kèm category theo content nếu detect được.
-   - Nếu không detect được content-category → chỉ `["Tất cả", "Báo chí"]`.
+   - **Bắt buộc**: `categories` = `"Tất cả"` (đầu mảng) + **chuyên mục nội dung
+     thật** suy ra từ nội dung. **KHÔNG** thêm `"Báo chí"` vào `categories`.
+   - Dấu nguồn `bb`/`baochi` ghi ở `[extra] source` + `content_origin` (để
+     truy vết + filter nội bộ), KHÔNG dùng làm chuyên mục khám phá.
+   - Nếu confidence < 0.65 → `categories = ["Tất cả", "Đời sống"]` (fallback), kèm
+     `category_reason` nêu rõ lý do fallback. KHÔNG để trang chỉ có `["Tất cả"]`.
 
 6. **Auto-workflow**:
    - Checkout nhánh `baochi` (hoặc create nếu không tồn tại)
@@ -1362,8 +1383,11 @@ buổi tối**, với điều kiện vượt qua QA gate. Đây là biến thể
 
 1. Từ `<topic>` → viết bài mới (giọng cá nhân 1st person, **tối thiểu ~1000 từ**,
    tuân thủ đủ "Tiêu chí AdSense-friendly" ở mục `bb`), frontmatter SEO đầy đủ,
-   category `["Tất cả", "<auto theo topic>", "Báo chí"]`, tự sinh slug kebab-case
-   từ topic, ảnh nội bộ (nếu có) → sinh `.webp` theo rule Ảnh.
+   **chuyên mục nội dung thật** suy từ topic: `categories = ["Tất cả",
+   "<chuyên mục nội dung, vd Ngân hàng>"]` (KHÔNG thêm `"Báo chí"` — đó là nguồn,
+   ghi ở `[extra] source = "bb"` + `content_origin = "baochi"`; xem mục `bb` §3/§5
+   và `CLAUDE.md` §"Quy tắc Category"). Tự sinh slug kebab-case từ topic, ảnh nội
+   bộ (nếu có) → sinh `.webp` theo rule Ảnh.
 2. **Khác `bb`**: KHÔNG merge/đăng ngay. Frontmatter thêm:
    ```toml
    date = <ngày n+3, tức hôm nay + 3>

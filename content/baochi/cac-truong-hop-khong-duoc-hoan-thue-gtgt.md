@@ -3,9 +3,11 @@ title = "Các trường hợp không được hoàn thuế GTGT [cập nhật 20
 description = "Tổng hợp các trường hợp không được hoàn thuế GTGT: chưa đủ vốn, nợ thuế, hóa đơn vi phạm, sai kê khai… cùng cách phòng tránh hồ sơ hoàn thuế bị từ chối."
 date = 2026-06-18
 [taxonomies]
-categories = ["Tất cả", "Ngân hàng", "Báo chí"]
+categories = ["Tất cả", "Ngân hàng"]
 tags = ["thuế", "hoàn thuế gtgt", "thuế gtgt", "kế toán", "tài chính doanh nghiệp"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "không được hoàn thuế GTGT"
 featured = false

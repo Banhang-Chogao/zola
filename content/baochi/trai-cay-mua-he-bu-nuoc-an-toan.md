@@ -3,9 +3,11 @@ title = "Trái cây mùa hè bù nước an toàn: cách chọn và ăn đúng"
 description = "Hướng dẫn bù nước mùa hè bằng trái cây an toàn, hạ nhiệt hiệu quả: dưa hấu, cam, thanh long—cách ăn tránh sốc."
 date = 2026-06-26
 [taxonomies]
-categories = ["Tất cả", "Đời sống", "Báo chí"]
+categories = ["Tất cả", "Đời sống"]
 tags = ["mùa hè", "sức khỏe", "bù nước", "trái cây", "hạ nhiệt", "ẩm thực", "điều dưỡng"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 thumbnail = "https://picsum.photos/seed/trai-cay-mua-he-bu-nuoc-an-toan/600/400"
 seo_keyword = "trái cây mùa hè bù nước"
 featured = false

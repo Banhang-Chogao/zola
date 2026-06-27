@@ -110,7 +110,6 @@
                         <li><button type="button" class="home-discovery__topic" data-filter-category="Ngân hàng">Ngân hàng</button></li>
                         <li><button type="button" class="home-discovery__topic" data-filter-category="Du lịch">Du lịch</button></li>
                         <li><button type="button" class="home-discovery__topic" data-filter-category="Đời sống">Đời sống</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="Báo chí">Báo chí</button></li>
                         <li><button type="button" class="home-discovery__topic" data-filter-category="case-study">Case Study</button></li>
                     </ul>
                     <p class="home-discovery__quick-label">Lọc nhanh</p>
@@ -132,7 +131,7 @@
                     {% set_global sticky_cat = "" %}
                     {% set_global sticky_cats = [] %}
                     {% for c in sticky.taxonomies.categories %}
-                        {% if c != "Tất cả" and c != "premium" %}
+                        {% if c != "Tất cả" and c != "premium" and c != "Báo chí" %}
                             {% if sticky_cat == "" %}{% set_global sticky_cat = c %}{% endif %}
                             {% set_global sticky_cats = sticky_cats | concat(with=[c]) %}
                         {% endif %}
@@ -187,7 +186,7 @@
                         {% set_global card_cat = "" %}
                         {% set_global card_cats = [] %}
                         {% for c in page.taxonomies.categories %}
-                            {% if c != "Tất cả" and c != "premium" %}
+                            {% if c != "Tất cả" and c != "premium" and c != "Báo chí" %}
                                 {% if card_cat == "" %}{% set_global card_cat = c %}{% endif %}
                                 {% set_global card_cats = card_cats | concat(with=[c]) %}
                             {% endif %}
@@ -287,7 +286,7 @@
                         </a>
                         {% set_global featured_cat = "" %}
                         {% for c in featured.taxonomies.categories %}
-                            {% if c != "Tất cả" and c != "premium" and featured_cat == "" %}
+                            {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and featured_cat == "" %}
                                 {% set_global featured_cat = c %}
                             {% endif %}
                         {% endfor %}
@@ -380,8 +379,12 @@
                     <h3 class="home-discovery__rail-block-title recent-fresh__title">Bài mới cập nhật</h3>
                     <ul class="recent-fresh__list" role="list">
                         {% for page in all_pages | slice(end=5) %}
-                            {% set cats = page.taxonomies.categories | default(value=[]) %}
-                            {% set primary_cat = cats[1] | default(value="") %}
+                            {% set_global primary_cat = "" %}
+                            {% for c in page.taxonomies.categories | default(value=[]) %}
+                                {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and primary_cat == "" %}
+                                    {% set_global primary_cat = c %}
+                                {% endif %}
+                            {% endfor %}
                             <li class="recent-fresh__item">
                                 <a class="recent-fresh__link" href="{{ page.permalink }}">
                                     <span class="recent-fresh__thumb">

@@ -3,9 +3,11 @@ title = "Thẻ VPBank Circle: 'siêu thẻ' free trọn đời cho Gen Z"
 description = "VPBank bắt tay Circle ra mắt thẻ VPBank Circle PayLater: miễn phí thường niên trọn đời, mở thẻ chỉ cần CCCD, quản lý mọi thứ trong app. Góc nhìn của mình."
 date = 2026-06-18
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Ngân hàng"]
+categories = ["Tất cả", "Ngân hàng"]
 tags = ["vpbank", "circle", "thẻ tín dụng", "ngân hàng số", "gen z"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "thẻ VPBank Circle"
 thumbnail = "https://seomoney.org/img/covers/vpbank-circle-sieu-the-free-tron-doi-gen-z.svg"
 featured = false

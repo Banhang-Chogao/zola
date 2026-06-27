@@ -3,9 +3,11 @@ title = "Mùa quả chín xứ Đông: du lịch nông nghiệp Hải Phòng"
 description = "Mùa quả chín xứ Đông là tour du lịch nông nghiệp mới của Hải Phòng: hái vải thiều Thanh Hà, thăm vườn nho VietGAP, ẩm thực và di tích xứ Đông."
 date = 2026-06-18
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Du lịch"]
+categories = ["Tất cả", "Du lịch"]
 tags = ["du lịch", "hải phòng", "vải thiều thanh hà", "du lịch nông nghiệp", "xứ đông"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "Mùa quả chín xứ Đông"
 thumbnail = "https://seomoney.org/img/covers/mua-qua-chin-xu-dong-hai-phong.svg"
 featured = false

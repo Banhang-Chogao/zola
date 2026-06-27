@@ -3,9 +3,11 @@ title = "Liobank bảo mật thế nào? Yên tâm giao dịch mỗi ngày"
 description = "Liobank bảo mật ra sao: eKYC, xác thực sinh trắc học, cảnh báo giao dịch và cách tự bảo vệ trước lừa đảo mạo danh — Phần 4 series trải nghiệm Liobank."
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Ngân hàng"]
+categories = ["Tất cả", "Ngân hàng"]
 tags = ["ngân hàng", "liobank", "bảo mật", "an toàn giao dịch", "series liobank"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "Liobank bảo mật"
 featured = false

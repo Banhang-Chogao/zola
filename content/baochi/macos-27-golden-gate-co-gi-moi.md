@@ -3,9 +3,11 @@ title = "macOS 27 Golden Gate có gì mới và máy Mac nào hỗ trợ?"
 description = "macOS 27 Golden Gate có gì mới? Tổng hợp Siri AI, Safari AI, Image Playgrounds, khai tử chip Intel và danh sách máy Mac được cập nhật từ WWDC26."
 date = 2026-06-18
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Công nghệ"]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["công nghệ", "apple", "macos", "macos 27", "wwdc 2026", "apple intelligence"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 thumbnail = "https://seomoney.org/img/og-default.webp"
 seo_keyword = "macOS 27 Golden Gate"
 featured = false

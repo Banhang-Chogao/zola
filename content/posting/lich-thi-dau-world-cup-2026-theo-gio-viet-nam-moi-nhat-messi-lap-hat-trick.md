@@ -5,7 +5,7 @@ date = 2026-06-17
 aliases = ["/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick/"]
 
 [taxonomies]
-categories = ["Tất cả", "Báo chí"]
+categories = ["Tất cả", "Thể thao"]
 tags = ["argentina", "bóng đá", "lịch thi đấu world cup 2026", "messi", "world cup 2026"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"

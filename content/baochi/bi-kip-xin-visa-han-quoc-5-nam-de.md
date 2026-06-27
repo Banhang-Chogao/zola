@@ -4,10 +4,12 @@ description = "Bí kíp xin visa Hàn Quốc 5 năm (C-3-9): hồ sơ cần có,
 date = 2026-06-20
 draft = false
 [taxonomies]
-categories = ["Tất cả", "Du lịch", "Báo chí"]
+categories = ["Tất cả", "Du lịch"]
 tags = ["visa hàn quốc", "du lịch hàn quốc", "c-3-9", "xin visa", "kinh nghiệm", "seoul"]
 
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "xin visa Hàn Quốc 5 năm"
 image_source = "seomoney-generated"
 image_license = "owned"

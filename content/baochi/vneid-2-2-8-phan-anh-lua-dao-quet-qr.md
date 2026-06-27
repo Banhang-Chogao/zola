@@ -3,9 +3,11 @@ title = "VNeID 2.2.8: phản ánh lừa đảo, quét QR căn cước"
 description = "VNeID 2.2.8 có gì mới? Cập nhật lớn: phản ánh lừa đảo trực tuyến ngay trên app, quét QR thẻ căn cước, thêm thông tin tạm trú và theo dõi giao thẻ căn cước."
 date = 2026-06-18
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Công nghệ"]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["vneid", "định danh điện tử", "công nghệ", "an ninh mạng", "căn cước công dân"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "VNeID 2.2.8"
 thumbnail = "https://seomoney.org/img/covers/vneid-2-2-8-phan-anh-lua-dao-quet-qr.svg"
 featured = false

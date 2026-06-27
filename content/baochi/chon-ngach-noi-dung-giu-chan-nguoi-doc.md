@@ -3,9 +3,11 @@ title = "Chọn ngách nội dung để blog giữ chân người đọc"
 description = "Cách chọn ngách nội dung giúp blog giữ chân người đọc: tăng time on page, giảm bounce rate bằng hướng dẫn kỹ thuật và internal linking đúng ngữ cảnh."
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Công nghệ", "Báo chí"]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["blog", "content-strategy", "seo", "engagement", "mobile-ux"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "ngách nội dung"
 thumbnail = "https://seomoney.org/img/covers/chon-ngach-noi-dung-giu-chan-nguoi-doc.svg"
 featured = false

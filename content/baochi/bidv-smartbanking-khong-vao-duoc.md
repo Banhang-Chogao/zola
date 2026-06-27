@@ -4,9 +4,11 @@ description = "BIDV SmartBanking không vào được do mất mạng, sai mật
 date = 2026-06-21
 draft = false
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Ngân hàng"]
+categories = ["Tất cả", "Ngân hàng"]
 tags = ["ngân hàng", "bidv", "bidv smartbanking", "ngân hàng số", "lỗi đăng nhập"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "BIDV SmartBanking không vào được"
 featured = false

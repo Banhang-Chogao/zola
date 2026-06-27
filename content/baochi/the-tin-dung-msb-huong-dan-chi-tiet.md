@@ -3,9 +3,11 @@ title = "Thẻ tín dụng MSB: ưu đãi và cách dùng hiệu quả"
 description = "Thẻ tín dụng MSB: ưu đãi miễn phí, tích điểm x10, trả góp 0% và cách dùng thẻ thông minh cho người mới."
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Ngân hàng", "Báo chí"]
+categories = ["Tất cả", "Ngân hàng"]
 tags = ["thẻ-tín-dụng", "msb", "ưu-đãi-ngân-hàng", "tài-chính-cá-nhân", "hướng-dẫn"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 seo_keyword = "thẻ tín dụng MSB"
 featured = false

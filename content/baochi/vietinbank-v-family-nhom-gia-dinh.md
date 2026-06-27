@@ -3,9 +3,11 @@ title = "VietinBank V-Family: gói tài chính nhóm gia đình có gì?"
 description = "VietinBank V-Family là gì? Gói tài chính nhóm gia đình trên iPay Mobile: cách tạo nhóm, 6 hạng xếp loại và loạt ưu đãi lãi suất, thẻ, phòng chờ sân bay."
 date = 2026-06-18
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Ngân hàng"]
+categories = ["Tất cả", "Ngân hàng"]
 tags = ["vietinbank", "v-family", "ngân hàng", "tài chính gia đình", "ipay mobile"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "VietinBank V-Family"
 thumbnail = "https://seomoney.org/img/covers/vietinbank-v-family-nhom-gia-dinh.svg"
 featured = false

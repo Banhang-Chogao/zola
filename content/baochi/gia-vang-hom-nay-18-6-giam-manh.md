@@ -3,9 +3,11 @@ title = "Giá vàng hôm nay 18/6 giảm mạnh: vì sao, có nên mua?"
 description = "Giá vàng hôm nay 18/6 giảm mạnh: SJC và nhẫn lùi về 148,8–151,3 triệu/lượng, người mua thưa. Mình điểm lại giá, lý do từ Fed và góc nhìn nên mua hay chờ."
 date = 2026-06-18
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Ngân hàng"]
+categories = ["Tất cả", "Ngân hàng"]
 tags = ["giá vàng", "vàng SJC", "vàng nhẫn", "Fed", "đầu tư vàng", "tài chính cá nhân"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "giá vàng hôm nay"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 featured = false

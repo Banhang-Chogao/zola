@@ -3,9 +3,11 @@ title = "Thẻ Techcombank Eco Digital: mở online miễn phí thật"
 description = "Mình đang xài thẻ Techcombank Eco Digital: mở online qua app vài phút, không tốn phí phát hành, có cả thẻ digital lẫn vật lý. Review thật + cách mở từ A–Z."
 date = 2026-06-18
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Ngân hàng"]
+categories = ["Tất cả", "Ngân hàng"]
 tags = ["techcombank", "thẻ ngân hàng", "ngân hàng số", "thẻ digital", "mở thẻ online"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "thẻ Techcombank Eco Digital"
 thumbnail = "https://seomoney.org/img/covers/mo-the-techcombank-eco-digital-mien-phi.webp"
 featured = false

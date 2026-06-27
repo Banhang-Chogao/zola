@@ -3,9 +3,11 @@ title = "Uranium Iran: từ lập trường cứng sang ngoại giao"
 description = "Thỏa thuận tiêu hủy kho uranium làm giàu của Iran: vì sao bước ngoại giao Mỹ - Iran này đánh dấu chuyển từ lập trường cứng sang chính trị thực dụng."
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Khoa học", "Thế giới", "Báo chí"]
+categories = ["Tất cả", "Khoa học", "Thế giới"]
 tags = ["địa-chính-trị", "năng-lượng-hạt-nhân", "iran", "mỹ", "thỏa-thuận-quốc-tế", "science uranium series"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 seo_keyword = "uranium Iran"
 thumbnail = "https://seomoney.org/img/covers/iran-uranium-destruction-what-it-means.svg"
 featured = false

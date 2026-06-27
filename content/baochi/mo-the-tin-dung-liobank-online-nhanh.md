@@ -3,9 +3,11 @@ title = "Mở thẻ tín dụng Liobank online: nhanh, khỏi ra quầy"
 description = "Hướng dẫn mở thẻ tín dụng Liobank online từ A–Z: chuẩn bị CCCD, định danh eKYC, kích hoạt thẻ vật lý và phi vật lý ngay trên app — Phần 2 series Liobank."
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Ngân hàng"]
+categories = ["Tất cả", "Ngân hàng"]
 tags = ["ngân hàng", "liobank", "mở thẻ tín dụng", "ekyc", "series liobank"]
 [extra]
+source = "bb"
+content_origin = "baochi"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "mở thẻ tín dụng Liobank"
 featured = false
