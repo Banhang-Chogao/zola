@@ -126,7 +126,7 @@
 
   const backBtn = $("[data-action='back']");
   if (backBtn) backBtn.addEventListener("click", function () {
-    location.href = "/zola/";
+    location.href = "/";
   });
 
   // ============= FORM HANDLING =============
