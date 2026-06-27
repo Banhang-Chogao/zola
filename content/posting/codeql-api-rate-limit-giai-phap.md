@@ -152,83 +152,265 @@ Cập nhật workflow như sau:
         echo "Telemetry sent successfully"
         exit 0
       fi
+      
       if [ $attempt -lt 3 ]; then
-        sleep $((10 * 2 ** ($attempt - 1)))
+        wait_time=$((10 * (2 ** ($attempt - 1))))
+        echo "Rate limited. Waiting ${wait_time}s before retry..."
+        sleep $wait_time
       fi
     done
-    echo "⚠️ Telemetry failed after 3 attempts (API rate limit)"
+    
+    echo "Telemetry failed after all retries. Workflow continues."
     exit 0
 ```
 
-**Lợi ích:**
-- Tự động retry nếu API quota hết tạm thời
-- Đợi lâu hơn khi retry (10s → 20s → 40s)
-- Workflow không fail, chỉ log cảnh báo
+Hoặc dùng Python script với retry logic:
 
-## Giải Pháp 2: Sử Dụng Concurrency Group
+```python
+# scripts/retry_codeql_telemetry.py
+import time
+import subprocess
+import os
+import sys
 
-Concurrency group giúp giới hạn số workflow instance chạy đồng thời. Khi workflow mới được trigger trong khi workflow cũ đang chạy, GitHub sẽ tự động cancel workflow cũ.
+MAX_RETRIES = 3
+BACKOFF_MULTIPLIER = 2  # 10s, 20s, 40s
 
-```yaml
-concurrency:
-  group: codeql-${{ github.ref }}
-  cancel-in-progress: true
+GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
+REPO = os.getenv('GITHUB_REPOSITORY')
+
+for attempt in range(MAX_RETRIES):
+    try:
+        result = subprocess.run([
+            'curl', '-s', '-X', 'POST',
+            f'https://api.github.com/repos/{REPO}/telemetry',
+            '-H', f'Authorization: token {GITHUB_TOKEN}'
+        ], check=True, capture_output=True, timeout=10)
+        
+        print(f"✓ Telemetry sent successfully on attempt {attempt + 1}")
+        sys.exit(0)
+    except subprocess.CalledProcessError as e:
+        if attempt < MAX_RETRIES - 1:
+            wait_time = 10 * (BACKOFF_MULTIPLIER ** attempt)
+            print(f"⚠️  Rate limited. Retrying in {wait_time}s...")
+            time.sleep(wait_time)
+        else:
+            print("❌ Telemetry failed after all retries. Skipping.")
+            sys.exit(0)  # Don't fail workflow
+    except Exception as e:
+        print(f"Error: {e}")
+        if attempt == MAX_RETRIES - 1:
+            sys.exit(0)
 ```
 
-**Hiệu quả:**
-- Giảm số workflow chạy cùng lúc
-- Tiết kiệm API quota
-- Tăng tốc độ feedback (chỉ chạy workflow mới nhất)
+## Giải Pháp 2: Schedule CodeQL Vào Thời Gian Ít Traffic
 
-## Giải Pháp 3: Schedule CodeQL Vào Thời Gian Có Ít Workflow Khác
-
-Thay vì chạy CodeQL ngay khi push, hãy schedule nó vào thời gian có ít workflow khác:
+Thay vì chạy CodeQL liên tục, hãy schedule vào thời gian "yên tĩnh":
 
 ```yaml
+# .github/workflows/codeql.yml
 on:
   schedule:
-    - cron: '30 3 * * *'  # 3:30 AM UTC = 10:30 AM GMT+7
+    # Chạy 02:00 GMT+7 (khác với peak hours khi merge PR)
+    - cron: '0 19 * * *'  # 19:00 UTC = 02:00 GMT+7
+  
+  pull_request:
+    branches: [ main, develop ]
+  
+  push:
+    branches: [ main ]
 ```
 
-**Lợi ích:**
-- Tránh tắc API từ workflows khác
-- Nền tảng GitHub có lưu lượng thấp hơn vào sáng sớm
+Chọn thời gian khi ít workflow khác chạy. Ví dụ:
+- ❌ Tránh 03:00-09:00 GMT+7 (peak merge time)
+- ❌ Tránh 06:00 GMT+7 (khi vaccine autofixer chạy)
+- ✅ Chọn 14:00-16:00 GMT+7 (7:00-9:00 UTC) khi ít deploy
 
-## Giải Pháp 4: Giảm Tần Suất Telemetry
+## Giải Pháp 3: Dùng Concurrency Group
 
-Nếu CodeQL telemetry không quan trọng với bạn, có thể disable nó qua environment variable:
+Giảm số workflow instance chạy đồng thời bằng concurrency group:
 
 ```yaml
-env:
-  CODEQL_TELEMETRY: false
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    
+    # Chỉ cho 1 CodeQL chạy tại một lúc
+    concurrency:
+      group: codeql-analysis
+      cancel-in-progress: true  # Huỷ run cũ khi run mới push
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'python', 'javascript', 'actions' ]
+    
+    steps:
+      # ... workflow steps
 ```
 
-Tuy nhiên, telemetry giúp GitHub cải thiện công cụ, nên chỉ dùng cách này khi thực sự cần thiết.
+Cách này giúp:
+- Chỉ 1 CodeQL instance chạy tại một thời điểm
+- Khi push mới, run cũ bị huỷ (nếu chưa xong)
+- Giảm tổng số API calls
 
-## Giải Pháp 5: Sử Dụng GitHub Token Cấp Cao Hơn
+## Giải Pháp 4: Monitor API Rate Limit
 
-Nếu repository của bạn là public hoặc GitHub Organization, hãy yêu cầu Administrators cấp Personal Access Token (PAT) với scope `repo:status` hoặc `api`. PAT có API quota cao hơn GITHUB_TOKEN.
+Proactively check quota trước khi gặp vấn đề:
+
+```python
+# scripts/check_rate_limit.py
+import requests
+import os
+import sys
+
+GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
+headers = {'Authorization': f'token {GITHUB_TOKEN}'}
+
+try:
+    response = requests.get(
+        'https://api.github.com/rate_limit', 
+        headers=headers,
+        timeout=5
+    )
+    data = response.json()
+    
+    remaining = data['rate_limit']['remaining']
+    limit = data['rate_limit']['limit']
+    reset_time = data['rate_limit']['reset']
+    
+    percentage = (remaining / limit) * 100
+    
+    print(f"📊 API Rate Limit: {remaining}/{limit} ({percentage:.1f}%)")
+    
+    if remaining < limit * 0.1:  # Dưới 10%
+        print("❌ CRITICAL: API rate limit < 10%")
+        sys.exit(2)
+    elif remaining < limit * 0.3:  # Dưới 30%
+        print("⚠️  WARNING: API rate limit < 30%")
+        sys.exit(1)
+    else:
+        print("✓ API quota healthy")
+        sys.exit(0)
+        
+except Exception as e:
+    print(f"Error checking rate limit: {e}")
+    sys.exit(0)
+```
+
+Thêm vào workflow:
 
 ```yaml
-- name: Analyze with CodeQL
+- name: Check API Rate Limit
+  run: python3 scripts/check_rate_limit.py
+  continue-on-error: true
+```
+
+## Giải Pháp 5: Optimize CodeQL Configuration
+
+Giảm overhead của CodeQL bằng cách tối ưu hóa configuration:
+
+```yaml
+- name: Initialize CodeQL
+  uses: github/codeql-action/init@v4
+  with:
+    languages: 'python,javascript'  # Chỉ scan ngôn ngữ cần thiết
+    token: ${{ secrets.GITHUB_TOKEN }}
+    # Tùy chọn: disable queries không cần
+    # queries: security-extended
+
+- name: Autobuild
+  uses: github/codeql-action/autobuild@v4
+
+- name: Perform CodeQL Analysis
   uses: github/codeql-action/analyze@v4
   with:
-    token: ${{ secrets.CODEQL_PAT }}  # Personal Access Token
+    token: ${{ secrets.GITHUB_TOKEN }}
     upload: always
+    wait-for-processing: false  # Không chờ GitHub process results
+    continue-on-error: true
 ```
 
-**Nhược điểm:**
-- PAT là credential nhạy cảm
-- Cần quản lý rotation carefully
+Điểm chính:
+- `wait-for-processing: false` — Không chờ GitHub xử lý, giảm connection timeout
+- Chỉ scan ngôn ngữ thực sự sử dụng
+- Disable queries không cần thiết
 
-## Tóm Tắt & Best Practices
+## Best Practice: Combined Solution
 
-CodeQL API rate limit là vấn đề phổ biến, nhưng có thể giải quyết bằng:
+Giải pháp tốt nhất là **kết hợp nhiều cách**:
 
-1. **Exponential backoff retry** — tự động retry nếu quota hết
-2. **Concurrency group** — giới hạn workflow chạy cùng lúc
-3. **Schedule thông minh** — chạy CodeQL vào thời gian ít tắc
-4. **Disable telemetry** (nếu cần) — bỏ qua telemetry gathering
-5. **Higher-tier token** — dùng PAT nếu có quota không đủ
+```yaml
+name: CodeQL Analysis
 
-Bằng cách kết hợp các giải pháp này, bạn có thể tránh lỗi CodeQL API rate limit và duy trì CI/CD pipeline ổn định.
+on:
+  schedule:
+    # Chạy vào giờ ít traffic
+    - cron: '0 7 * * 1-5'  # Thứ Hai-Thứ Sáu, 07:00 UTC
+  
+  pull_request:
+    branches: [ main ]
+  
+  push:
+    branches: [ main ]
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    
+    # Concurrency: chỉ 1 CodeQL chạy tại một lúc
+    concurrency:
+      group: codeql-${{ matrix.language }}
+      cancel-in-progress: true
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'python', 'javascript' ]
+    
+    steps:
+      - name: Check API rate limit
+        run: python3 scripts/check_rate_limit.py
+        continue-on-error: true
+      
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v4
+      
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          upload: always
+          wait-for-processing: false
+        continue-on-error: true
+```
+
+## Tóm Tắt Các Bước Hành Động
+
+**Khi gặp lỗi CodeQL API rate limit:**
+
+✅ **Bước 1:** Xác nhận CodeQL analysis vẫn hoàn thành (chỉ telemetry fail)  
+✅ **Bước 2:** Check repo's API rate limit hiện tại bằng `gh api rate_limit`  
+✅ **Bước 3:** Implement exponential backoff retry trong workflow  
+✅ **Bước 4:** Schedule CodeQL vào thời gian ít traffic  
+✅ **Bước 5:** Thêm concurrency group để limit số run đồng thời  
+✅ **Bước 6:** Monitor API quota regulary  
+
+**Prevention:**
+- Schedule workflows ở những thời gian khác nhau (stagger)
+- Dùng `concurrency.cancel-in-progress: true` để huỷ run cũ khi run mới push
+- Reduce batch merge — merge PR one by one thay vì gộp 10 cái
+- Dùng GitHub App token (có quota cao hơn) thay vì default GITHUB_TOKEN nếu cần
+
+Với các giải pháp trên, bạn sẽ minimize API rate limit issues trên CodeQL analysis và có workflow CI/CD ổn định hơn. Tham khảo thêm [Best Practices cho CodeQL](https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning-with-codeql) từ GitHub.
