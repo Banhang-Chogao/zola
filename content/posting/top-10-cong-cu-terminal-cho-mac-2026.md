@@ -7,8 +7,7 @@ aliases = ["/top-10-cong-cu-terminal-cho-mac-2026/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["terminal", "macos", "công cụ dev", "lập trình", "command line"]
-
+tags = ["command line", "công cụ dev", "lập trình", "macos", "terminal"]
 [extra]
 seo_keyword = "công cụ terminal cho Mac"
 thumbnail = "/img/placeholder/placeholder.svg"
