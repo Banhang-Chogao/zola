@@ -92,16 +92,176 @@
     {% set total_commits = 0 %}
     {% if commits %}{% set total_commits = commits | length %}{% endif %}
 
+    {# Load GitHub Pulse weekly data #}
+    {% set pulse_data = load_data(path="data/github-pulse-weekly.json", required=false) %}
+    {% if pulse_data and pulse_data.metrics %}
+        {% set pulse_metrics = pulse_data.metrics %}
+        {% set pulse_committers = pulse_data.top_committers | default(value=[]) %}
+        {% set pulse_period_start = pulse_data.period_start %}
+        {% set pulse_period_end = pulse_data.period_end %}
+        {% set pulse_fetch_error = pulse_data.fetch_error | default(value="") %}
+    {% else %}
+        {% set pulse_metrics = false %}
+        {% set pulse_committers = [] %}
+        {% set pulse_period_start = "" %}
+        {% set pulse_period_end = "" %}
+        {% set pulse_fetch_error = "" %}
+    {% endif %}
+
     <section class="insights">
         <h1 class="visually-hidden">GitHub Insights — Hoạt động phát triển blog</h1>
 
         <header class="insights__period">
-            <h2 class="insights__period-range">
-                {{ week_ago_ts | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
-                – {{ now_ts | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
-            </h2>
+            {% if pulse_period_start and pulse_period_end %}
+                {# Format dates from pulse data (YYYY-MM-DD → DD Month, YYYY) #}
+                {% set start_parts = pulse_period_start | split(pat="-") %}
+                {% set end_parts = pulse_period_end | split(pat="-") %}
+                {% set months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] %}
+                {% set start_month_idx = start_parts.1 | int - 1 %}
+                {% set end_month_idx = end_parts.1 | int - 1 %}
+                <h2 class="insights__period-range">
+                    {{ start_parts.2 }} {{ months[start_month_idx] }}, {{ start_parts.0 }} –
+                    {{ end_parts.2 }} {{ months[end_month_idx] }}, {{ end_parts.0 }}
+                </h2>
+            {% else %}
+                <h2 class="insights__period-range">
+                    {{ week_ago_ts | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
+                    – {{ now_ts | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
+                </h2>
+            {% endif %}
             <span class="insights__period-badge">Period: 1 week ▾</span>
         </header>
+
+        {# ===== GITHUB PULSE SECTION ===== #}
+        {% if pulse_fetch_error %}
+        <div class="insights__pulse-error" role="status">
+            ⚠ GitHub Pulse data unavailable: {{ pulse_fetch_error }}
+        </div>
+        {% endif %}
+
+        {% if pulse_metrics %}
+        <section class="insights__pulse">
+            <header class="insights__pulse-header">
+                <h3 class="insights__pulse-title">Overview</h3>
+                <a class="insights__source"
+                   href="https://github.com/Banhang-Chogao/zola/pulse?period=weekly"
+                   target="_blank" rel="noopener"
+                   title="View on GitHub Pulse">
+                    Source: GitHub Pulse <span aria-hidden="true">↗</span>
+                </a>
+            </header>
+
+            {# Active bars #}
+            <div class="insights__pulse-active">
+                <div class="insights__pulse-active-bars">
+                    <div class="insights__pulse-bar insights__pulse-bar--prs"
+                         style="width: 100%; flex: 1;"></div>
+                    <div class="insights__pulse-bar insights__pulse-bar--issues"
+                         style="width: 100%; flex: 1;"></div>
+                </div>
+                <div class="insights__pulse-active-labels">
+                    <span class="insights__pulse-active-label">
+                        <strong>{{ pulse_metrics.active_pull_requests | default(value=0) }}</strong> Active pull requests
+                    </span>
+                    <span class="insights__pulse-active-label">
+                        <strong>{{ pulse_metrics.active_issues | default(value=0) }}</strong> Active issues
+                    </span>
+                </div>
+            </div>
+
+            {# 4 stat cards #}
+            <div class="insights__pulse-stats">
+                <div class="insights__pulse-stat">
+                    <div class="insights__pulse-stat-icon" aria-hidden="true">
+                        <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
+                            <path d="M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.5H9.25A5.734 5.734 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218ZM4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                        </svg>
+                    </div>
+                    <div class="insights__pulse-stat-num">{{ pulse_metrics.merged_pull_requests | default(value=0) }}</div>
+                    <div class="insights__pulse-stat-label">Merged pull requests</div>
+                </div>
+                <div class="insights__pulse-stat">
+                    <div class="insights__pulse-stat-icon" aria-hidden="true">
+                        <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
+                            <path d="M1.643 3.143 1.5 4.357v7.286A2.857 2.857 0 0 0 4.357 14.5h7.286A2.857 2.857 0 0 0 14.5 11.643V4.357A2.857 2.857 0 0 0 11.643 1.5H4.357A2.857 2.857 0 0 0 1.5 4.357l.143-1.214Z"/>
+                        </svg>
+                    </div>
+                    <div class="insights__pulse-stat-num">{{ pulse_metrics.open_pull_requests | default(value=0) }}</div>
+                    <div class="insights__pulse-stat-label">Open pull requests</div>
+                </div>
+                <div class="insights__pulse-stat">
+                    <div class="insights__pulse-stat-icon" aria-hidden="true">
+                        <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
+                            <path d="M11.28 6.78a.75.75 0 0 0-1.06-1.06L7.25 8.69 5.78 7.22a.75.75 0 0 0-1.06 1.06l2 2a.75.75 0 0 0 1.06 0l3.5-3.5Z"/>
+                            <path d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7-5.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"/>
+                        </svg>
+                    </div>
+                    <div class="insights__pulse-stat-num">{{ pulse_metrics.closed_issues | default(value=0) }}</div>
+                    <div class="insights__pulse-stat-label">Closed issues</div>
+                </div>
+                <div class="insights__pulse-stat">
+                    <div class="insights__pulse-stat-icon" aria-hidden="true">
+                        <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
+                            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/>
+                            <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"/>
+                        </svg>
+                    </div>
+                    <div class="insights__pulse-stat-num">{{ pulse_metrics.new_issues | default(value=0) }}</div>
+                    <div class="insights__pulse-stat-label">New issues</div>
+                </div>
+            </div>
+
+            {# Summary and Top Committers in 2 columns #}
+            <div class="insights__pulse-summary-grid">
+                <div class="insights__pulse-card">
+                    <h4 class="insights__pulse-card-title">Summary</h4>
+                    <p class="insights__pulse-summary-text">
+                        Excluding merges, <strong>{{ pulse_metrics.unique_authors | default(value=1) }} author</strong>
+                        {%- if pulse_metrics.unique_authors > 1 %}s{% endif %} have pushed
+                        <strong>{{ pulse_metrics.commits_on_main | default(value=0) }} commits</strong>
+                        to main and commits to all branches.
+                    </p>
+                    <p class="insights__pulse-summary-text">
+                        On main, <strong>{{ pulse_metrics.changed_files_on_main | default(value=0) }} files</strong>
+                        have changed and there have been
+                        <strong>{{ pulse_metrics.additions_on_main | default(value=0) }} additions</strong>
+                        and
+                        <strong>{{ pulse_metrics.deletions_on_main | default(value=0) }} deletions</strong>.
+                    </p>
+                </div>
+
+                <div class="insights__pulse-card">
+                    <h4 class="insights__pulse-card-title">Top Committers</h4>
+                    {% if pulse_committers | length > 0 %}
+                    <ol class="insights__pulse-committers">
+                        {% for committer in pulse_committers %}
+                        <li class="insights__pulse-committer">
+                            {% if committer.avatar_url %}
+                            <img class="insights__pulse-committer-avatar"
+                                 src="{{ committer.avatar_url }}&s=32"
+                                 alt="{{ committer.login }}"
+                                 width="32" height="32" />
+                            {% else %}
+                            <span class="insights__pulse-committer-avatar-fallback">
+                                {{ committer.login | first | upper }}
+                            </span>
+                            {% endif %}
+                            <div class="insights__pulse-committer-info">
+                                <div class="insights__pulse-committer-name">{{ committer.login }}</div>
+                                <div class="insights__pulse-committer-bar">
+                                    <div class="insights__pulse-committer-fill"
+                                         style="width: {% if loop.index == 1 %}100{% else %}{{ (committer.commits / pulse_committers.0.commits * 100) | round }}{% endif %}%;"></div>
+                                </div>
+                            </div>
+                            <span class="insights__pulse-committer-count">{{ committer.commits }}</span>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
 
         <div class="insights__grid">
 

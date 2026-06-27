@@ -132,6 +132,10 @@
                             {% set_global sticky_cats = sticky_cats | concat(with=[c]) %}
                         {% endif %}
                     {% endfor %}
+                    {# Ensure at least "Tất cả" is in the list for filtering #}
+                    {% if sticky_cats | length == 0 %}
+                        {% set_global sticky_cats = sticky_cats | concat(with=["Tất cả"]) %}
+                    {% endif %}
                     <div class="home-discovery__spotlight">
                         <p class="home-discovery__spotlight-label">Bài nổi bật hôm nay</p>
                         <article class="home-discovery__card home-discovery__card--spotlight"
@@ -183,6 +187,10 @@
                                 {% set_global card_cats = card_cats | concat(with=[c]) %}
                             {% endif %}
                         {% endfor %}
+                        {# Ensure at least "Tất cả" is in the list for filtering #}
+                        {% if card_cats | length == 0 %}
+                            {% set_global card_cats = card_cats | concat(with=["Tất cả"]) %}
+                        {% endif %}
                         <article class="home-discovery__card{% if page.extra.premium %} home-discovery__card--premium{% endif %}"
                                  data-category="{{ card_cat }}"
                                  data-categories="{{ card_cats | join(sep=',') }}"

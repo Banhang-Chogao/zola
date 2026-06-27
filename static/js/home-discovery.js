@@ -38,7 +38,11 @@
   root.querySelectorAll("[data-filter-category]").forEach(function (btn) {
     btn.addEventListener("click", function () {
       root.querySelectorAll("[data-filter-category]").forEach(function (el) { el.classList.toggle("is-active", el === btn); });
-      activeCategory = btn.getAttribute("data-filter-category") || ""; applyFilters();
+      activeCategory = btn.getAttribute("data-filter-category") || "";
+      // Reset quick filter when clicking category (primary filter)
+      activeQuick = "latest";
+      root.querySelectorAll("[data-filter-quick]").forEach(function (el) { el.classList.toggle("is-active", el.getAttribute("data-filter-quick") === "latest"); });
+      applyFilters();
     });
   });
   root.querySelectorAll("[data-filter-quick]").forEach(function (btn) {
