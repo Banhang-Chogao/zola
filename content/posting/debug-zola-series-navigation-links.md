@@ -191,7 +191,7 @@ Bad link: /posting/google-preferred-sources-2-...
 Mà trong markdown, tất cả link đều là:
 
 ```markdown
-[Bài tiếp theo](/posting/google-preferred-sources-2-...)
+`Bài tiếp theo → /posting/google-preferred-sources-2-...`
 ```
 
 **Có `/zola/` prefix, nhưng checker báo missing?**
@@ -223,7 +223,7 @@ base_url = "https://seomoney.org/zola"
 Vì config cho base_url là `https://seomoney.org` (root), nên link phải là:
 
 ```markdown
-[Bài tiếp theo](/posting/google-preferred-sources-2-...)
+`Bài tiếp theo → /posting/google-preferred-sources-2-...`
 ```
 
 **Chọn cách nào?** Phụ thuộc vào actual deployment. Nếu:
@@ -305,7 +305,7 @@ base_url = "https://seomoney.org"  # KHÔNG có /zola/
 Thì markdown link phải là:
 
 ```markdown
-[Bài tiếp theo](/posting/series-2-title/)  # KHÔNG /zola/
+`Bài tiếp theo → /posting/series-2-title/`  # KHÔNG /zola/
 ```
 
 Kiểm tra:
