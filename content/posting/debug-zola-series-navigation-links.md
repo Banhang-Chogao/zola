@@ -534,9 +534,9 @@ Với quy trình này, "11 broken links" → "0 broken links" chỉ trong vài p
 
 ## Bài viết liên quan
 
-- [Cách setup Zola series navigation cho multiple-part articles](/zola/posting/zola-series-nav-setup/) — guide chi tiết cấu trúc series
-- [SEO best practices cho series content](/zola/posting/seo-series-articles/) — tối ưu hóa rank cho toàn series
-- [Debugging Zola build issues — phần 1: template errors](/zola/posting/zola-build-debug-templates/) — common template bugs
+- [Tạo blog với Zola từ A–Z](/zola/posting/tao-blog-voi-zola/) — guide chi tiết cấu trúc và cấu hình Zola
+- [Tự động deploy Zola với GitHub Actions](/zola/posting/tu-dong-deploy-zola-github-actions/) — CI/CD cho static site
+- [Zola vs Hugo: so sánh chi tiết](/zola/posting/zola-vs-hugo/) — chọn static site generator phù hợp
 
 ---
 
