@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-27T03:29:45Z",
+  "updated_at": "2026-06-27T03:41:32Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 15,
+    "today": 16,
     "this_week": 190,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "unknown": 46,
-      "feature": 44,
+      "feature": 45,
+      "unknown": 45,
       "fix": 101,
       "chore": 1,
       "content": 5,
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 1047,
+      "pr_title": "feat: 30/70 left-sidebar blog layout with AdSense-safe fixed ad spots",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1047",
+      "merged_at": "2026-06-27T03:36:40Z",
+      "merge_commit_sha": "79f818c0ae1729f57deca6799dcdeb037c4b2bac",
+      "merge_commit_short": "79f818c",
+      "head_branch": "claude/blog-layout-adsense-replace-gl5gln",
+      "summary_vi": "Introduces a new **30/70 responsive left-sidebar blog layout** optimized for AdSense monetization with **3 fixed-height ad spots** (728×90, 300×250, 728×90) designed to prevent layout shift and maximize ad revenue while ",
+      "change_type": "feature",
+      "files_changed": 1,
+      "additions": 81,
+      "deletions": 26,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1252,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28277445438",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 1046,
       "pr_title": "Claude/momo url admin page mhvtgx",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1251,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28277179433",
-      "build_conclusion": "pending"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 1045,
@@ -471,8 +490,8 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1222,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28270134729",
+      "build_run_number": 1229,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28270977378",
       "build_conclusion": "cancelled"
     },
     {
@@ -509,9 +528,9 @@
       "deletions": 60,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1222,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28270134729",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 1024,
@@ -3223,25 +3242,6 @@
       "change_type": "feature",
       "files_changed": 3,
       "additions": 610,
-      "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 849,
-      "pr_title": "docs: add PR846 conflict resolution case note",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/849",
-      "merged_at": "2026-06-24T14:53:01Z",
-      "merge_commit_sha": "2d0b206f99d984b1644c34e139f49c6e0fbc9dbd",
-      "merge_commit_short": "2d0b206",
-      "head_branch": "docs/conflict-resolution-case-pr846",
-      "summary_vi": "Adds a compact CLAUDE.md case note documenting how to resolve generated/report file conflicts such as changelog.json and clarifies that mergeable does not mean ready to merge until QA passes.",
-      "change_type": "unknown",
-      "files_changed": 1,
-      "additions": 28,
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
