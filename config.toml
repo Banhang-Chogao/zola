@@ -146,6 +146,21 @@ momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
 # ở trên. DonatePremiumCard (shortcode donate_card) chỉ đọc key này. Trống = ẩn nút.
 donate_momo_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
 
+# ============= RUM — REAL USER MONITORING (web-vitals) =============
+# Đo Core Web Vitals (LCP/INP/CLS/FCP/TTFB) trên trình duyệt THẬT của người đọc và
+# gửi về backend VIPZone (POST {rum_endpoint}/rum/web-vitals). Privacy-first: tôn
+# trọng Do Not Track / Global Privacy Control, KHÔNG thu PII, KHÔNG gửi query string.
+# Chỉ nhúng trên trang public (homepage, listing/category/tag, bài viết, tools) —
+# KHÔNG nhúng ở /editor/ và các trang admin (base.html tự loại).
+#   rum_enabled      bật/tắt RUM client (false → không nhúng script nào)
+#   rum_sample_rate  tỉ lệ lấy mẫu production 0..1 (mặc định 0.1 = 10%);
+#                    thêm ?rum_debug=1 vào URL → 100% + log console để test thủ công
+#   rum_endpoint     URL ingest đầy đủ; ĐỂ TRỐNG → tự suy ra {cms_auth_url}/rum/web-vitals
+#                    (production trỏ Render blog-vipzone-api). KHÔNG hardcode secret.
+rum_enabled = true
+rum_sample_rate = 0.1
+rum_endpoint = ""
+
 # ============= GISCUS COMMENTS (GitHub Discussions) =============
 # Setup:
 #   1. Settings → Features → bật Discussions cho repo

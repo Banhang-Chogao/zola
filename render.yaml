@@ -99,6 +99,20 @@ services:
       - key: COMMENTS_ALLOWED_DOMAINS
         sync: false
 
+      # ----- RUM (Real User Monitoring — Core Web Vitals ingest) -----
+      # POST /rum/web-vitals nhận LCP/INP/CLS/FCP/TTFB từ trình duyệt thật.
+      # Public ingest, strict validation, không thu PII (ip chỉ hash). CORS dùng
+      # chung VIPZONE_CORS_ORIGIN ở trên (seomoney.org + www + localhost). Mọi key
+      # đều có default an toàn — không bắt buộc set.
+      - key: RUM_ENABLED
+        value: "true"
+      - key: RUM_RATE_MAX
+        value: "120"
+      - key: RUM_RATE_WINDOW
+        value: "60"
+      - key: RUM_MAX_BODY
+        value: "8192"
+
       # ----- Google Search Console (SEO Reality Check, /gsc/* routes) -----
       - key: GSC_CLIENT_ID
         sync: false

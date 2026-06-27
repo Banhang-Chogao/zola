@@ -169,6 +169,33 @@ class VipzoneDB:
                 );
                 CREATE INDEX IF NOT EXISTS idx_changelog_date ON changelog(date DESC);
                 CREATE INDEX IF NOT EXISTS idx_changelog_created_at ON changelog(created_at DESC);
+
+                -- RUM web-vitals — Core Web Vitals (LCP/INP/CLS/FCP/TTFB) đo trên
+                -- trình duyệt thật của người đọc, gửi qua POST /rum/web-vitals.
+                -- KHÔNG chứa PII: chỉ pathname + page_type + metric + UA rút gọn;
+                -- IP chỉ lưu dưới dạng sha256 hash (rate-limit), không bao giờ raw.
+                CREATE TABLE IF NOT EXISTS web_vitals (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    created_at TEXT NOT NULL,
+                    page_path TEXT NOT NULL DEFAULT '',
+                    page_type TEXT NOT NULL DEFAULT '',
+                    metric TEXT NOT NULL,
+                    value REAL NOT NULL,
+                    rating TEXT NOT NULL DEFAULT '',
+                    delta REAL NOT NULL DEFAULT 0,
+                    metric_id TEXT NOT NULL DEFAULT '',
+                    nav_type TEXT NOT NULL DEFAULT '',
+                    viewport_w INTEGER NOT NULL DEFAULT 0,
+                    viewport_h INTEGER NOT NULL DEFAULT 0,
+                    connection TEXT NOT NULL DEFAULT '',
+                    save_data INTEGER NOT NULL DEFAULT 0,
+                    ua TEXT NOT NULL DEFAULT '',
+                    attribution TEXT NOT NULL DEFAULT '',
+                    ip_hash TEXT NOT NULL DEFAULT ''
+                );
+                CREATE INDEX IF NOT EXISTS idx_web_vitals_created ON web_vitals(created_at DESC);
+                CREATE INDEX IF NOT EXISTS idx_web_vitals_metric ON web_vitals(metric, created_at);
+                CREATE INDEX IF NOT EXISTS idx_web_vitals_ip ON web_vitals(ip_hash, created_at);
                 """
             )
 
@@ -754,6 +781,117 @@ class VipzoneDB:
                 "SELECT status, COUNT(*) AS c FROM comments GROUP BY status"
             ).fetchall()
         return {r["status"]: int(r["c"]) for r in rows}
+
+    # ===== RUM web-vitals (Core Web Vitals từ trình duyệt thật) =====
+    def insert_web_vital(self, data: dict[str, Any]) -> int:
+        """Lưu 1 sample web-vitals. Trả về row id. Không chứa PII (ip chỉ hash)."""
+        now = _now()
+        with self._conn() as conn:
+            cur = conn.execute(
+                """
+                INSERT INTO web_vitals
+                    (created_at, page_path, page_type, metric, value, rating, delta,
+                     metric_id, nav_type, viewport_w, viewport_h, connection,
+                     save_data, ua, attribution, ip_hash)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    now,
+                    data.get("page_path", ""),
+                    data.get("page_type", ""),
+                    data.get("metric", ""),
+                    float(data.get("value", 0.0)),
+                    data.get("rating", ""),
+                    float(data.get("delta", 0.0)),
+                    data.get("metric_id", ""),
+                    data.get("nav_type", ""),
+                    int(data.get("viewport_w", 0)),
+                    int(data.get("viewport_h", 0)),
+                    data.get("connection", ""),
+                    1 if data.get("save_data") else 0,
+                    data.get("ua", ""),
+                    data.get("attribution", ""),
+                    data.get("ip_hash", ""),
+                ),
+            )
+            return int(cur.lastrowid)
+
+    def count_recent_web_vitals_by_ip(self, ip_hash: str, since_iso: str) -> int:
+        """Rate-limit helper: số sample từ cùng ip_hash kể từ since_iso."""
+        if not ip_hash:
+            return 0
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT COUNT(*) AS c FROM web_vitals WHERE ip_hash = ? AND created_at >= ?",
+                (ip_hash, since_iso),
+            ).fetchone()
+        return int(row["c"]) if row else 0
+
+    @staticmethod
+    def _p75(values: list[float]) -> float:
+        """Percentile 75 (nearest-rank) — chuẩn báo cáo Core Web Vitals của Google."""
+        if not values:
+            return 0.0
+        ordered = sorted(values)
+        # nearest-rank: ceil(0.75 * n) → index (1-based) → 0-based clamp.
+        import math
+
+        rank = max(1, math.ceil(0.75 * len(ordered)))
+        return round(ordered[min(rank, len(ordered)) - 1], 4)
+
+    def web_vitals_summary(self, since_iso: str) -> dict[str, Any]:
+        """Tổng hợp p75 + count theo metric và theo page_type kể từ since_iso.
+
+        Trả về:
+          { window_start, total, metrics: {LCP: {count, p75, good, ni, poor}, ...},
+            by_page_type: {home: {LCP: {count, p75}, ...}, ...} }
+        """
+        with self._conn() as conn:
+            rows = conn.execute(
+                """
+                SELECT metric, value, rating, page_type
+                FROM web_vitals
+                WHERE created_at >= ?
+                """,
+                (since_iso,),
+            ).fetchall()
+
+        metric_values: dict[str, list[float]] = {}
+        metric_ratings: dict[str, dict[str, int]] = {}
+        pt_values: dict[str, dict[str, list[float]]] = {}
+        for r in rows:
+            m = r["metric"]
+            metric_values.setdefault(m, []).append(r["value"])
+            rb = metric_ratings.setdefault(m, {"good": 0, "needs-improvement": 0, "poor": 0})
+            if r["rating"] in rb:
+                rb[r["rating"]] += 1
+            pt = r["page_type"] or "other"
+            pt_values.setdefault(pt, {}).setdefault(m, []).append(r["value"])
+
+        metrics: dict[str, Any] = {}
+        for m, vals in metric_values.items():
+            rb = metric_ratings.get(m, {})
+            metrics[m] = {
+                "count": len(vals),
+                "p75": self._p75(vals),
+                "good": rb.get("good", 0),
+                "needs_improvement": rb.get("needs-improvement", 0),
+                "poor": rb.get("poor", 0),
+            }
+
+        by_page_type: dict[str, Any] = {}
+        for pt, mvals in pt_values.items():
+            by_page_type[pt] = {
+                m: {"count": len(vals), "p75": self._p75(vals)}
+                for m, vals in mvals.items()
+            }
+
+        return {
+            "window_start": since_iso,
+            "total": len(rows),
+            "metrics": metrics,
+            "by_page_type": by_page_type,
+        }
 
     # ===== Reports (admin báo cáo tổng kết) =====
     def insert_report(self, data: dict[str, Any]) -> str:

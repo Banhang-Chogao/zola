@@ -254,6 +254,21 @@ except Exception as exc:  # pragma: no cover - defensive: keep the rest of the A
     print(f"[vipzone] comments router not mounted: {exc!r}")
 
 
+# ============= RUM (Real User Monitoring — Core Web Vitals) =============
+# Public ingest of LCP/INP/CLS/FCP/TTFB measured on real visitor browsers, plus an
+# admin-gated p75 summary. Mounted like comments so get_db is injected without a
+# circular import. config.toml derives the frontend endpoint from cms_auth_url.
+try:
+    import rum as rum_mod
+
+    rum_mod.configure(get_db=get_db)
+    app.include_router(rum_mod.router)
+    RUM_MOUNTED = True
+except Exception as exc:  # pragma: no cover - defensive: keep the rest of the API up
+    RUM_MOUNTED = False
+    print(f"[vipzone] rum router not mounted: {exc!r}")
+
+
 # ============= Admin Reports (báo cáo tổng kết) =============
 # Reports are markdown files created by admin via ?? shortcut in Claude Code.
 # Stored in SQLite (same as the rest of VIPZone), served via /reports/* (admin-gated).

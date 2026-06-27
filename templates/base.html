@@ -112,6 +112,33 @@
     {% if cms_auth %}
     <meta name="zola-cms-auth-api" content="{{ cms_auth | safe }}">
     {% endif %}
+
+    {# ===== RUM (web-vitals) — bake config.extra.rum_* để rum-web-vitals.js đọc =====
+       Chỉ nhúng script ở TRANG PUBLIC; loại /editor/ + admin/private routes. Endpoint
+       trống → tự suy ra {cms_auth_url}/rum/web-vitals. page_type = nhãn thô cho summary. #}
+    {% set_global rum_enabled = config.extra.rum_enabled | default(value=false) %}
+    {% set_global rum_endpoint = config.extra.rum_endpoint | default(value="") %}
+    {% if rum_endpoint == "" and cms_auth %}
+    {% set_global rum_endpoint = cms_auth ~ "/rum/web-vitals" %}
+    {% endif %}
+    {% set_global rum_env = "production" %}
+    {% if config.base_url is containing("localhost") or config.base_url is containing("127.0.0.1") %}
+    {% set_global rum_env = "dev" %}
+    {% endif %}
+    {% set rum_path = current_path | default(value="/") %}
+    {% set_global rum_private = false %}
+    {% if rum_path is starting_with("/editor") or rum_path is starting_with("/admin-author") or rum_path is starting_with("/admin-countdown") or rum_path is starting_with("/admin/") or rum_path is starting_with("/worldcup-content-manager") or rum_path is starting_with("/bao-cao-tong-ket") %}
+    {% set_global rum_private = true %}
+    {% endif %}
+    {% if rum_path == "/" %}{% set_global rum_page_type = "home" %}
+    {% elif rum_path is starting_with("/categories/") %}{% set_global rum_page_type = "category" %}
+    {% elif rum_path is starting_with("/tags/") %}{% set_global rum_page_type = "tag" %}
+    {% elif rum_path is starting_with("/tools/") %}{% set_global rum_page_type = "tool" %}
+    {% elif page is defined %}{% set_global rum_page_type = "article" %}
+    {% elif term is defined %}{% set_global rum_page_type = "taxonomy" %}
+    {% elif section is defined %}{% set_global rum_page_type = "listing" %}
+    {% else %}{% set_global rum_page_type = "other" %}
+    {% endif %}
     <meta name="zola-base-url" content="{{ config.base_url | safe }}">
 
     {% set_global paywall_api = config.extra.paywall_api_url | default(value="") %}
@@ -834,6 +861,18 @@
     <script src="{{ get_url(path='js/theme-dropdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/media-guard.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/print-watermark.js') }}?v={{ asset_version }}" defer></script>
+    {# RUM — đo Core Web Vitals (LCP/INP/CLS/FCP/TTFB) trên trình duyệt thật, gửi về
+       backend VIPZone. Chỉ trang public (rum_private=false). Privacy/sampling/fail-soft
+       nằm trong script. web-vitals global đã nạp ở <head>. #}
+    {% if rum_enabled and rum_endpoint and not rum_private %}
+    <script src="{{ get_url(path='js/rum-web-vitals.js') }}?v={{ asset_version }}"
+            data-rum-web-vitals
+            data-endpoint="{{ rum_endpoint | safe }}"
+            data-page-type="{{ rum_page_type }}"
+            data-sample="{{ config.extra.rum_sample_rate | default(value=0.1) }}"
+            data-env="{{ rum_env }}"
+            defer></script>
+    {% endif %}
     {# Hook up theme toggle button to ThemeSwitcher API #}
     <script defer>
     (function() {
