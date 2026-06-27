@@ -79,12 +79,27 @@ menu = [
     # base.html render groups → mega menu (desktop) / accordion (mobile). KHÔNG xoá/
     # đổi URL tool nào — chỉ nhóm lại cho gọn. Mỗi group là 1 inline-table 1 dòng
     # (ràng buộc TOML: inline table không xuống dòng được).
+    # Refactor 27/06/2026: tách 'Dashboard' và 'Công cụ phụ' (→ 'Tiện ích') thành
+    # top-level riêng để 'Công cụ' gọn hơn — chỉ còn 3 nhóm viết/SEO/guideline.
     { name = "Công cụ", url = "$BASE_URL/editor", groups = [
         { name = "Viết & biên tập", children = [ { url = "$BASE_URL/editor", name = "Viết bài" }, { url = "$BASE_URL/tools/content-creator", name = "Content Creator" }, { url = "$BASE_URL/prompt-support", name = "Prompt Support" } ] },
         { name = "SEO & phân tích", children = [ { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" }, { url = "$BASE_URL/insights", name = "Insights" }, { url = "$BASE_URL/scoring", name = "Scoring" }, { url = "$BASE_URL/tools/theme-log", name = "Theme log" } ] },
-        { name = "Dashboard", children = [ { url = "$BASE_URL/tools/f-dashboard", name = "F-Dashboard" }, { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" }, { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" }, { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" } ] },
         { name = "Hệ thống & guideline", children = [ { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" }, { url = "$BASE_URL/tools/s-dna", name = "S-DNA" }, { url = "$BASE_URL/font", name = "Font Guideline" } ] },
-        { name = "Công cụ phụ", children = [ { url = "$BASE_URL/converter", name = "Korean Converter" }, { url = "$BASE_URL/changelog", name = "Changelog" }, { url = "$BASE_URL/tools/momo-url", name = "MoMo URL" } ] },
+    ] },
+    # "Dashboard" — top-level riêng (tách khỏi Công cụ). Dropdown đơn (children) gom
+    # 4 dashboard tài chính F/L/O/H. KHÔNG đổi URL dashboard.
+    { name = "Dashboard", url = "$BASE_URL/tools/f-dashboard", children = [
+        { url = "$BASE_URL/tools/f-dashboard", name = "F-Dashboard" },
+        { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" },
+        { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
+        { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" },
+    ] },
+    # "Tiện ích" — top-level riêng (đổi tên từ nhóm cũ 'Công cụ phụ' cho gọn navbar +
+    # mobile). Dropdown đơn (children). KHÔNG đổi URL tool.
+    { name = "Tiện ích", url = "$BASE_URL/converter", children = [
+        { url = "$BASE_URL/converter", name = "Korean Converter" },
+        { url = "$BASE_URL/changelog", name = "Changelog" },
+        { url = "$BASE_URL/tools/momo-url", name = "MoMo URL" },
     ] },
 ]
 

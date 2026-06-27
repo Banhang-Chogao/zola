@@ -1,97 +1,112 @@
 /**
- * Mobile navbar — Momo-style horizontal scroll tabs.
+ * Mobile navbar drawer (< 1024px).
  *
- * Mobile (≤720px):
- *   - KHÔNG dùng burger drawer nữa
- *   - Menu hiển thị ngang dạng tabs scroll horizontal
- *   - Strip emoji prefix khỏi menu items (text-only như momo)
- *   - Active tab có underline đỏ
- *   - Scroll active tab vào view khi load
+ * Thay pattern horizontal-scroll-tabs + dropdown floating cũ bằng drawer trượt
+ * từ trái + accordion (đúng UX mobile, không che/kẹt nội dung).
  *
- * Desktop (>720px):
- *   - Menu inline bình thường, không can thiệp
- *   - Emoji giữ nguyên
+ *   - Burger (data-burger) mở/đóng drawer.
+ *   - Backdrop (data-backdrop) + nút đóng (data-drawer-close) + phím Escape đóng.
+ *   - Bấm 1 link trong menu → đóng drawer.
+ *   - Body scroll-lock khi drawer mở (class .navbar-open — CSS khoá overflow).
+ *   - Accordion top-level do navbar-dropdown.js lo (toggle .is-open trên
+ *     [data-nav-dropdown]); file này chỉ quản lý drawer + active state link đơn.
+ *   - Resize sang desktop (≥ 1024px) → tự reset state để không kẹt.
+ *
+ * Desktop (≥ 1024px): drawer ẩn hoàn toàn (CSS), JS không can thiệp menu inline.
  */
 (function () {
   "use strict";
 
-  const navbar = document.getElementById("navbar");
+  var navbar = document.getElementById("navbar");
   if (!navbar) return;
 
-  const menu = document.getElementById("navbar-menu");
-  if (!menu) return;
+  var menu = document.getElementById("navbar-menu");
+  var burger = navbar.querySelector("[data-burger]");
+  var backdrop = navbar.querySelector("[data-backdrop]");
+  var closeBtn = navbar.querySelector("[data-drawer-close]");
+  if (!menu || !burger) return;
 
-  const links = Array.from(menu.querySelectorAll("a"));
+  var mqDesktop = window.matchMedia("(min-width: 1024px)");
 
-  // Cache original text (có emoji) để restore khi rotate sang desktop
-  links.forEach((a) => {
-    if (!a.dataset.originalText) {
-      a.dataset.originalText = a.textContent.trim();
+  function isOpen() {
+    return navbar.classList.contains("is-drawer-open");
+  }
+
+  function openDrawer() {
+    navbar.classList.add("is-drawer-open");
+    document.body.classList.add("navbar-open");
+    burger.setAttribute("aria-expanded", "true");
+    if (backdrop) backdrop.setAttribute("aria-hidden", "false");
+  }
+
+  function closeDrawer() {
+    navbar.classList.remove("is-drawer-open");
+    document.body.classList.remove("navbar-open");
+    burger.setAttribute("aria-expanded", "false");
+    if (backdrop) backdrop.setAttribute("aria-hidden", "true");
+  }
+
+  function toggleDrawer() {
+    if (isOpen()) closeDrawer();
+    else openDrawer();
+  }
+
+  burger.addEventListener("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleDrawer();
+  });
+
+  if (backdrop) {
+    backdrop.addEventListener("click", closeDrawer);
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      closeDrawer();
+    });
+  }
+
+  /* Bấm 1 link điều hướng trong drawer → đóng (chỉ <a> có href thật, không
+     phải <button> trigger accordion). */
+  menu.addEventListener("click", function (e) {
+    var link = e.target.closest("a[href]");
+    if (link && menu.contains(link)) {
+      closeDrawer();
     }
   });
 
-  /**
-   * Strip leading non-letter characters (emoji, ✎, ✈️, 📊, ✓, etc.)
-   * Regex \p{L} = unicode letter, \p{N} = unicode number, /u flag bắt buộc.
-   * Trim whitespace + space sau emoji.
-   */
-  function stripEmoji(text) {
-    return text.replace(/^[^\p{L}\p{N}]+/u, "").trim();
+  /* Escape đóng drawer (desktop/tablet có bàn phím). */
+  document.addEventListener("keydown", function (e) {
+    if ((e.key === "Escape" || e.key === "Esc") && isOpen()) {
+      closeDrawer();
+      burger.focus();
+    }
+  });
+
+  /* Resize sang desktop → reset để không kẹt class drawer/lock. */
+  function onDesktopChange(e) {
+    if (e.matches) closeDrawer();
+  }
+  if (mqDesktop.addEventListener) {
+    mqDesktop.addEventListener("change", onDesktopChange);
+  } else if (mqDesktop.addListener) {
+    mqDesktop.addListener(onDesktopChange);
   }
 
-  function applyMobileText() {
-    const isMobile = window.matchMedia("(max-width: 720px)").matches;
-    links.forEach((a) => {
-      a.textContent = isMobile ? stripEmoji(a.dataset.originalText) : a.dataset.originalText;
-    });
-  }
-
-  /**
-   * Đánh dấu active tab dựa trên current URL path.
-   * Logic: link href trùng với pathname hiện tại → add is-active.
-   */
-  function markActive() {
-    const path = window.location.pathname.replace(/\/$/, "") || "/";
-    links.forEach((a) => {
+  /* Active state cho link top-level đơn (vd Trang chủ). Dropdown cha do
+     navbar-dropdown.js đánh dấu. */
+  (function markActiveTopLinks() {
+    var path = window.location.pathname.replace(/\/$/, "") || "/";
+    var links = menu.querySelectorAll(":scope > .navbar__item > a");
+    Array.prototype.forEach.call(links, function (a) {
       try {
-        const url = new URL(a.href);
-        const linkPath = url.pathname.replace(/\/$/, "") || "/";
-        a.classList.toggle("is-active", linkPath === path);
-      } catch (e) {
-        // ignore malformed href
+        var linkPath = new URL(a.href).pathname.replace(/\/$/, "") || "/";
+        if (linkPath === path) a.classList.add("is-active");
+      } catch (err) {
+        /* href lỗi → bỏ qua */
       }
     });
-  }
-
-  /**
-   * Scroll active tab vào giữa viewport mobile (UX tốt nhất).
-   * Chỉ chạy lần đầu load + khi resize sang mobile.
-   */
-  function scrollActiveIntoView() {
-    const isMobile = window.matchMedia("(max-width: 720px)").matches;
-    if (!isMobile) return;
-    // CHỈ xét link top-level (con trực tiếp). Tránh scroll nhầm tới 1 link
-    // đang ẩn trong submenu dropdown (gây nhảy trang lúc load).
-    const active = menu.querySelector(":scope > li > a.is-active");
-    if (!active) return;
-    // setTimeout đợi layout ổn định trước khi scroll
-    setTimeout(() => {
-      active.scrollIntoView({ inline: "center", block: "nearest", behavior: "auto" });
-    }, 50);
-  }
-
-  // Init
-  applyMobileText();
-  markActive();
-  scrollActiveIntoView();
-
-  // Resize handler
-  let resizeT;
-  window.addEventListener("resize", function () {
-    clearTimeout(resizeT);
-    resizeT = setTimeout(function () {
-      applyMobileText();
-      scrollActiveIntoView();
-    }, 150);
-  });
+  })();
 })();
