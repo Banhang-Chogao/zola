@@ -4,6 +4,7 @@
 {% import "macros/premium.html" as premium %}
 {% import "macros/pagination.html" as pager %}
 {% import "macros/placement.html" as placement %}
+{% import "partials/ad-placeholder.html" as ad %}
 
 {% block title %}{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân{% endblock %}
 
@@ -87,6 +88,9 @@
         </header>
 
         {{ placement::render(id="home_hero_after") }}
+
+        {# Ad placeholder: top of homepage, before filters #}
+        {{ ad::placeholder(id="home-ad-top", type="home-top", label="Quảng cáo") }}
 
         <div class="home-discovery__layout">
             <aside class="home-discovery__rail" aria-label="Lọc chủ đề">
@@ -228,6 +232,16 @@
                                 <a class="home-discovery__card-cta" href="{{ page.permalink }}">Đọc bài viết →</a>
                             </div>
                         </article>
+
+                        {# Ad placeholder: after post #3 #}
+                        {% if loop.index == 3 %}
+                            {{ ad::placeholder(id="home-ad-feed-1", type="home-feed", label="Quảng cáo") }}
+                        {% endif %}
+
+                        {# Ad placeholder: after post #8 (desktop only) #}
+                        {% if loop.index == 8 %}
+                            {{ ad::placeholder(id="home-ad-feed-2", type="home-feed", label="Quảng cáo", desktop_only=true) }}
+                        {% endif %}
                     {% endfor %}
                 </div>
 
@@ -320,6 +334,9 @@
                         {% endif %}
                     </ul>
                 </section>
+
+                {# Ad placeholder: sidebar after Series section #}
+                {{ ad::placeholder(id="home-ad-sidebar", type="home-sidebar", label="Quảng cáo", min_height="320px") }}
 
                 {% if trends_data and trends_data.items %}
                     <section class="home-discovery__rail-block">

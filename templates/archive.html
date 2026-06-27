@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "macros/verified.html" as v %}
+{% import "partials/ad-placeholder.html" as ad %}
 
 {% block title %}{{ section.title }} | {{ config.title }}{% endblock %}
 {% block description %}{{ section.description }}{% endblock %}
@@ -48,7 +49,9 @@
     {# ===== Danh sách bài, nhóm theo năm ===== #}
     <div class="archive-list">
         {% set_global current_year = 0 %}
+        {% set_global global_index = 0 %}
         {% for page in all_pages %}
+            {% set_global global_index = global_index + 1 %}
             {% set year = page.date | date(format="%Y") | int %}
             {% if year != current_year %}
                 {% if current_year != 0 %}</ul>{% endif %}
@@ -74,6 +77,20 @@
                     {% endif %}
                 </a>
             </li>
+
+            {# Ad placeholder: after item #4 #}
+            {% if global_index == 4 %}
+                </ul>
+                {{ ad::placeholder(id="archive-ad-feed-1", type="archive-feed", label="Quảng cáo") }}
+                <ul class="archive-year__items">
+            {% endif %}
+
+            {# Ad placeholder: after item #10 (desktop only) #}
+            {% if global_index == 10 and total > 10 %}
+                </ul>
+                {{ ad::placeholder(id="archive-ad-feed-2", type="archive-feed", label="Quảng cáo", desktop_only=true) }}
+                <ul class="archive-year__items">
+            {% endif %}
         {% endfor %}
         {% if total > 0 %}</ul>{% endif %}
     </div>
