@@ -57,12 +57,12 @@
       "slug": "git-branch-lam-viec-voi-nhanh"
     },
     {
-      "score": 0.8182,
-      "slug": "git-la-gi-version-control-cho-nguoi-moi"
+      "score": 0.8295,
+      "slug": "github-actions-secrets-setup-guide"
     },
     {
-      "score": 0.8055,
-      "slug": "git-workflow-chuyen-nghiep-gitflow-github-flow"
+      "score": 0.8182,
+      "slug": "git-la-gi-version-control-cho-nguoi-moi"
     }
   ],
   "bao-mat-ngan-hang-so-vietinbank": [
@@ -369,10 +369,40 @@
       "slug": "vietinbank-ipay-internet-banking-qua-cac-thoi-ky"
     }
   ],
+  "codeql-api-rate-limit-giai-phap": [
+    {
+      "score": 0.7054,
+      "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
+    },
+    {
+      "score": 0.4688,
+      "slug": "github-actions-secrets-setup-guide"
+    },
+    {
+      "score": 0.4573,
+      "slug": "git-la-gi-version-control-cho-nguoi-moi"
+    },
+    {
+      "score": 0.4557,
+      "slug": "bao-mat-best-practices-git-github"
+    },
+    {
+      "score": 0.4467,
+      "slug": "lenh-git-co-ban-init-add-commit-status"
+    }
+  ],
   "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien": [
+    {
+      "score": 0.7054,
+      "slug": "codeql-api-rate-limit-giai-phap"
+    },
     {
       "score": 0.4158,
       "slug": "sentence-transformers-sbert-deep-dive"
+    },
+    {
+      "score": 0.4128,
+      "slug": "github-actions-secrets-setup-guide"
     },
     {
       "score": 0.3909,
@@ -381,14 +411,6 @@
     {
       "score": 0.38,
       "slug": "qa-gatekeeper-tu-fix-loi-blog"
-    },
-    {
-      "score": 0.3682,
-      "slug": "lenh-git-co-ban-init-add-commit-status"
-    },
-    {
-      "score": 0.3669,
-      "slug": "mcc-future-dynamic-ai-codes"
     }
   ],
   "cong-nghe-blog-duy-nguyen": [
@@ -497,8 +519,8 @@
       "slug": "bao-lau-de-thay-ket-qua-seo"
     },
     {
-      "score": 0.4348,
-      "slug": "giup-google-tim-noi-dung-site"
+      "score": 0.4361,
+      "slug": "github-actions-ci-cd-build-failure-vipzone-token"
     }
   ],
   "di-han-het-bao-nhieu-tien": [
@@ -771,6 +793,10 @@
       "slug": "debug-zola-series-navigation-links"
     },
     {
+      "score": 0.5173,
+      "slug": "github-actions-ci-cd-build-failure-vipzone-token"
+    },
+    {
       "score": 0.4968,
       "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
     },
@@ -781,10 +807,6 @@
     {
       "score": 0.4721,
       "slug": "loi-nhieu-the-h1-sua-seo-toan-site"
-    },
-    {
-      "score": 0.4641,
-      "slug": "qa-gatekeeper-tu-fix-loi-blog"
     }
   ],
   "gia-vang-hom-nay-18-6-giam-manh": [
@@ -1029,6 +1051,28 @@
       "slug": "git-la-gi-version-control-cho-nguoi-moi"
     }
   ],
+  "github-actions-ci-cd-build-failure-vipzone-token": [
+    {
+      "score": 0.6656,
+      "slug": "github-actions-secrets-setup-guide"
+    },
+    {
+      "score": 0.6444,
+      "slug": "github-actions-ci-cd-cho-nguoi-moi"
+    },
+    {
+      "score": 0.6121,
+      "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
+    },
+    {
+      "score": 0.5742,
+      "slug": "git-workflow-chuyen-nghiep-gitflow-github-flow"
+    },
+    {
+      "score": 0.5431,
+      "slug": "bao-mat-best-practices-git-github"
+    }
+  ],
   "github-actions-ci-cd-cho-nguoi-moi": [
     {
       "score": 0.7539,
@@ -1049,6 +1093,28 @@
     {
       "score": 0.7058,
       "slug": "git-la-gi-version-control-cho-nguoi-moi"
+    }
+  ],
+  "github-actions-secrets-setup-guide": [
+    {
+      "score": 0.8295,
+      "slug": "bao-mat-best-practices-git-github"
+    },
+    {
+      "score": 0.7044,
+      "slug": "github-actions-ci-cd-cho-nguoi-moi"
+    },
+    {
+      "score": 0.683,
+      "slug": "lenh-git-co-ban-init-add-commit-status"
+    },
+    {
+      "score": 0.6827,
+      "slug": "git-la-gi-version-control-cho-nguoi-moi"
+    },
+    {
+      "score": 0.6732,
+      "slug": "cai-dat-git-cau-hinh-lan-dau"
     }
   ],
   "github-la-gi-tao-repository-dau-tien": [
@@ -1383,6 +1449,10 @@
   ],
   "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude": [
     {
+      "score": 0.4123,
+      "slug": "codeql-api-rate-limit-giai-phap"
+    },
+    {
       "score": 0.364,
       "slug": "mcc-future-dynamic-ai-codes"
     },
@@ -1397,10 +1467,6 @@
     {
       "score": 0.3258,
       "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
-    },
-    {
-      "score": 0.325,
-      "slug": "google-publisher-restrictions-noi-dung-han-che"
     }
   ],
   "hoc-tieng-han-bang-chu-hangul-nguyen-am": [
@@ -1923,12 +1989,12 @@
       "slug": "macos-27-golden-gate-co-gi-moi"
     },
     {
-      "score": 0.3732,
-      "slug": "vneid-2-2-8-phan-anh-lua-dao-quet-qr"
+      "score": 0.3827,
+      "slug": "codeql-api-rate-limit-giai-phap"
     },
     {
-      "score": 0.3669,
-      "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
+      "score": 0.3732,
+      "slug": "vneid-2-2-8-phan-anh-lua-dao-quet-qr"
     }
   ],
   "mcc-masterclass-personal-strategy": [
@@ -1967,12 +2033,12 @@
       "slug": "premium-fintech-paywall-demo"
     },
     {
-      "score": 0.2498,
-      "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
+      "score": 0.2657,
+      "slug": "codeql-api-rate-limit-giai-phap"
     },
     {
-      "score": 0.247,
-      "slug": "facebook-shopee-affiliate-la-gi"
+      "score": 0.2498,
+      "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
     }
   ],
   "mcc-rewards-cashback-international": [
@@ -2755,12 +2821,12 @@
       "slug": "tao-blog-voi-zola"
     },
     {
-      "score": 0.5122,
-      "slug": "phan-trang-trang-chu-zola-archive"
+      "score": 0.5284,
+      "slug": "github-actions-secrets-setup-guide"
     },
     {
-      "score": 0.5094,
-      "slug": "bao-mat-best-practices-git-github"
+      "score": 0.5122,
+      "slug": "phan-trang-trang-chu-zola-archive"
     }
   ],
   "quan-ly-chi-tieu-voi-app-liobank": [
