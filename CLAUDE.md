@@ -584,6 +584,73 @@ fenced blocks.
 - **Setup for permanent fix:** To restore full functionality, add `VIPZONE_ADMIN_TOKEN` to GitHub repository → Settings → Secrets and variables → Actions → New repository secret. Value = admin token from VIPZone backend (`blog-vipzone-api.onrender.com`).
 - **Prevention:** Document this required secret in a setup guide or `.github/SETUP.md` for future environment configuration.
 
+#### V18 — Auto-Healing Merge Conflicts: phân loại file → resolve theo chiến lược cố định (27/06/2026)
+
+> Process vaccine. Khi nhiều PR mở song song bị conflict với `main`, **đừng resolve mù quáng**.
+> Phân loại file theo nguồn gốc → áp đúng chiến lược. Match dấu hiệu → làm NGAY, không chẩn lại.
+
+- **Dấu hiệu:** Một hoặc nhiều PR báo `This branch has conflicts that must be resolved`. Conflict
+  tập trung ở `data/*.json` tự sinh (`seo-qa-scores.json`, `references.json`, `related.json`),
+  đôi khi kèm `content/posting/*.md` (add/add) hoặc `templates/*.html`. Có thể kèm `qa-check`
+  đỏ vì build vỡ.
+- **Nguyên nhân:** Nhánh feature cắt từ `main` cũ; trong lúc chờ merge, `main` chạy lại hook/cron
+  sinh data mới → đụng timestamp. **Không phải xung đột logic.** Nội dung `.md` thật thường KHÔNG conflict.
+- **FIXER — phân loại 3 nhóm, mỗi nhóm 1 chiến lược:**
+
+  | Nhóm file | Chiến lược | Lệnh |
+  |-----------|-----------|------|
+  | `data/*.json` tự sinh (scores, references, related, dashboards, reports) | **Luôn lấy main** (V6) | `git checkout --theirs data/<file>.json` |
+  | `content/posting/*.md` | **Giữ bản PR** — TRỪ 2 ngoại lệ dưới | `git checkout --ours <file>.md` |
+  | `templates/*.html`, mã nguồn | **Resolve TỪNG VÙNG**, không lấy mù | sửa tay vùng `<<<<<<<`…`>>>>>>>` |
+
+- **2 BẪY bắt buộc kiểm tra (lọt qua conflict marker nhưng vẫn vỡ build):**
+  1. **Bài trùng / link nội bộ hỏng (lấy main thay vì PR):** nếu bài đã merge sẵn trên `main`
+     (add/add), hoặc bản PR thêm internal link trỏ tới bài **chưa tồn tại** → `git checkout --theirs`
+     (lấy main) cho file `.md`. Verify mọi link đích tồn tại: `for p in <slug>; do [ -f content/posting/$p.md ]; done`.
+  2. **Ternary kiểu Python trong template Tera:** `{% set x = a if cond else b %}` → Tera KHÔNG hỗ trợ,
+     `zola build` vỡ `expected or, and, not...`. Resolve giữ khối `if-elif-else` của main. Quét:
+     `grep -nE "\{%\s*set .* if .* else " templates/`.
+  3. **(Phụ) Category sai cấp:** `categories`/`tags` ở top-level frontmatter thay vì dưới `[taxonomies]`
+     → Zola bỏ qua taxonomy. `qa_check.py` cảnh báo "không có category". Sửa: chuyển vào `[taxonomies]`.
+- **VERIFY bắt buộc trước push** (PR không marker vẫn vỡ): (1) `python3 qa_check.py`; (2) `zola build`;
+  (3) `python3 scripts/check_internal_links.py`; (4) `grep -rln "^<<<<<<<\|^>>>>>>>"` = rỗng.
+- **Evidence (27/06/2026, 4 PR cùng phiên):**
+  - PR #1053 — content+2 data → content giữ PR, data lấy main (sạch).
+  - PR #1054 — seo-scores → data lấy main + sửa `[taxonomies]` (category để sai cấp).
+  - PR #1057 — content+2 data → **content lấy main** (bản PR thêm 3 link hỏng tới bài chưa tồn tại;
+    bài đã merge qua #1052).
+  - PR #1061 — template+seo-scores → **template resolve từng vùng** (bản PR có ternary Python vỡ build),
+    giữ if-elif-else của main + bảo toàn layout sidebar của nhánh.
+- **Tự động hóa:** logic này khớp `scripts/autofix_conflicts.py` (classify `data/*.json` regen → strategy
+  `main`); mở rộng cho 2 bẫy trên khi cần.
+
+#### V19 — FAQ field naming: `question=`/`answer=` thay vì `q=`/`a=` → vỡ `zola build` toàn repo (27/06/2026)
+
+> Content vaccine — recurring. Match dấu hiệu → fix NGAY bằng FIXER, không chẩn lại. Bug này
+> **lọt qua qa-check của PR gốc** rồi lên `main` → chặn build của **MỌI** PR khác (V9: CI build cả repo).
+
+- **Dấu hiệu:** `zola build` vỡ với `ERROR Reason: Variable `item.q` not found in context while
+  rendering 'page.html'` (đôi khi `item.a`). Trỏ tới một file `content/posting/*.md` cụ thể.
+  qa-check đỏ ở step `zola build` dù file `.md` không có conflict.
+- **Nguyên nhân:** Block FAQ trong frontmatter dùng key **`question = "..."` / `answer = "..."`**
+  (kiểu người quen schema khác). Nhưng template `page.html` của Zola lặp `[[extra.faq]]` và đọc
+  field **`q`** và **`a`** (ngắn). Sai tên field → Tera không thấy `item.q` → vỡ render.
+- **FIXER:** đổi MỌI key FAQ về `q=`/`a=` (chỉ ở **đầu dòng** frontmatter, KHÔNG đụng prose):
+  ```bash
+  # Quét toàn repo tìm file dính bug:
+  for f in content/posting/*.md content/baochi/*.md content/pages/*.md; do
+    grep -q '^\[\[extra\.faq\]\]' "$f" && grep -qE '^question\s*=|^answer\s*=' "$f" && echo "$f"
+  done
+  # Fix line-anchored: question = → q = ; answer = → a =  (giữ nguyên value)
+  ```
+  Sau đó `python3 qa_check.py` + (nếu có) `zola build`. Commit + push.
+- **Prevention:** khi viết/sửa bài có FAQ, LUÔN dùng `q = "..."` / `a = "..."`. Khi resolve conflict
+  hay nhận PR mới, grep nhanh pattern trên trước khi tin qa-check. **Conflict-free / PR-merged ≠
+  build-safe** — một file FAQ sai field đã lên `main` sẽ chặn build mọi PR cho tới khi sửa.
+- **Evidence:** PR #1064 (27/06/2026) — `github-actions-secrets-setup-guide.md` (đã trên `main`) dùng
+  `question=`/`answer=` → vỡ build → đỏ qa-check trên #1064 + #1054/#1057/#1061. Fix 7 cặp FAQ trên
+  cả 4 branch → build xanh trở lại. Cùng họ bug với fix FAQ ở #1055 (CodeQL/GitHub Actions posts).
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
