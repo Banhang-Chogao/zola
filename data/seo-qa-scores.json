@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-27T11:26:22.639539+07:00",
+  "updated_at": "2026-06-27T11:16:57.992727+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -18347,15 +18347,153 @@
         }
       ]
     },
-    "content/posting/github-actions-ci-cd-build-failure-vipzone-token.md": {
-      "title": "Troubleshooting GitHub Actions Workflow Build Failure",
-      "slug": "github-actions-ci-cd-build-failure-vipzone-token",
-      "keyword": "github actions workflow build failure troubleshooting",
+    "content/posting/git-stale-branch-root-cause-analysis-2026.md": {
+      "title": "Git Stale Branch & Merge-Base CI Fail: Phòng Ngừa",
+      "slug": "git-stale-branch-root-cause-analysis-va-giai-phap",
+      "keyword": "git stale branch merge-base CI fail phòng ngừa automation",
+      "score": 82.8,
+      "grade": "B",
+      "word_count": 999,
+      "published": true,
+      "scored_at": "2026-06-27T10:12:37.071969+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 0.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 0.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 4.8,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "từ khoá 'git stale branch merge-base CI fail phòng ngừa automation' chưa có trong title",
+        "từ khoá 'git stale branch merge-base CI fail phòng ngừa automation' chưa xuất hiện trong heading H2 nào",
+        "không nên dùng H1 (#) trong body — title đã là H1"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-27T10:10:33.605871+07:00",
+          "score": 63.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-27T10:11:19.836403+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-27T10:11:31.535051+07:00",
+          "score": 72.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-27T10:11:43.290575+07:00",
+          "score": 72.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-27T10:11:49.454592+07:00",
+          "score": 72.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-27T10:11:58.534274+07:00",
+          "score": 78.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-27T10:12:06.315658+07:00",
+          "score": 82.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-27T10:12:15.196194+07:00",
+          "score": 82.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-27T10:12:20.917102+07:00",
+          "score": 82.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-27T10:12:28.351701+07:00",
+          "score": 82.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-27T10:12:37.071969+07:00",
+          "score": 82.8,
+          "grade": "B"
+        }
+      ]
+    },
+    "content/posting/loi-nhieu-the-h1-sua-seo-toan-site.md": {
+      "title": "Lỗi nhiều thẻ H1: chẩn đoán và sửa SEO toàn site",
+      "slug": "loi-nhieu-the-h1-sua-seo-toan-site",
+      "keyword": "lỗi nhiều thẻ H1",
       "score": 96.8,
       "grade": "A+",
-      "word_count": 701,
+      "word_count": 1243,
       "published": true,
-      "scored_at": "2026-06-27T10:57:25.024964+07:00",
+      "scored_at": "2026-06-27T11:08:10.599875+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -18427,46 +18565,21 @@
       ],
       "history": [
         {
-          "scored_at": "2026-06-27T10:56:57.271645+07:00",
-          "score": 76.8,
-          "grade": "C"
-        },
-        {
-          "scored_at": "2026-06-27T10:57:04.905621+07:00",
-          "score": 77.8,
-          "grade": "C"
-        },
-        {
-          "scored_at": "2026-06-27T10:57:09.552836+07:00",
-          "score": 84.8,
-          "grade": "B"
-        },
-        {
-          "scored_at": "2026-06-27T10:57:16.422763+07:00",
-          "score": 90.8,
-          "grade": "A"
-        },
-        {
-          "scored_at": "2026-06-27T10:57:21.079546+07:00",
-          "score": 90.8,
-          "grade": "A"
-        },
-        {
-          "scored_at": "2026-06-27T10:57:25.024964+07:00",
+          "scored_at": "2026-06-27T11:08:10.599875+07:00",
           "score": 96.8,
           "grade": "A+"
         }
       ]
     },
-    "content/posting/github-actions-secrets-setup-guide.md": {
-      "title": "GitHub Actions Secrets Setup & Management Guide",
-      "slug": "github-actions-secrets-setup-guide",
-      "keyword": "github actions secrets setup management",
+    "content/posting/phan-trang-trang-chu-zola-archive.md": {
+      "title": "Phân trang trang chủ Zola: khi blog tưởng như mất bài",
+      "slug": "phan-trang-trang-chu-zola-archive",
+      "keyword": "phân trang trang chủ Zola",
       "score": 96.8,
       "grade": "A+",
-      "word_count": 821,
+      "word_count": 1720,
       "published": true,
-      "scored_at": "2026-06-27T11:26:22.639539+07:00",
+      "scored_at": "2026-06-27T11:16:57.992727+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -18538,37 +18651,7 @@
       ],
       "history": [
         {
-          "scored_at": "2026-06-27T11:25:54.907743+07:00",
-          "score": 76.8,
-          "grade": "C"
-        },
-        {
-          "scored_at": "2026-06-27T11:26:00.391201+07:00",
-          "score": 84.8,
-          "grade": "B"
-        },
-        {
-          "scored_at": "2026-06-27T11:26:07.748216+07:00",
-          "score": 90.8,
-          "grade": "A"
-        },
-        {
-          "scored_at": "2026-06-27T11:26:11.110442+07:00",
-          "score": 90.8,
-          "grade": "A"
-        },
-        {
-          "scored_at": "2026-06-27T11:26:14.499929+07:00",
-          "score": 90.8,
-          "grade": "A"
-        },
-        {
-          "scored_at": "2026-06-27T11:26:17.583317+07:00",
-          "score": 90.8,
-          "grade": "A"
-        },
-        {
-          "scored_at": "2026-06-27T11:26:22.639539+07:00",
+          "scored_at": "2026-06-27T11:16:57.992727+07:00",
           "score": 96.8,
           "grade": "A+"
         }

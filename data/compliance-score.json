@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-06-27T02:56:26Z",
-  "score": 100.0,
+  "updated_at": "2026-06-27T04:23:53Z",
+  "score": 97.8,
   "grade": "A+",
   "mood": "good",
   "stats": {
-    "pass": 23,
-    "warn": 0,
+    "pass": 22,
+    "warn": 1,
     "fail": 0,
     "total": 23
   },
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "712/739 in range"
+          "detail": "723/751 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "739/739 complete"
+          "detail": "751/751 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "739/739 set"
+          "detail": "751/751 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "738/739 single H1"
+          "detail": "750/751 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "739/739 with lang"
+          "detail": "751/751 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "739/739 ready"
+          "detail": "751/751 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "739/739 pages"
+          "detail": "751/751 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "739/739 pages covered"
+          "detail": "751/751 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "176/176 articles"
+          "detail": "179/179 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "176/176 tagged"
+          "detail": "179/179 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "176/176 substantive"
+          "detail": "179/179 substantive"
         },
         {
           "label": "Unique titles",
@@ -158,15 +158,44 @@
     {
       "id": "links",
       "label": "Links",
-      "score": 100.0,
-      "pass": 2,
-      "warn": 0,
+      "score": 75.0,
+      "pass": 1,
+      "warn": 1,
       "fail": 0,
       "items": [
         {
           "label": "Internal links",
-          "status": "pass",
-          "detail": "all valid"
+          "status": "warn",
+          "detail": "3 broken / 133 unique",
+          "broken": [
+            {
+              "source_page": "/posting/debug-zola-series-navigation-links/",
+              "source_file": "public/posting/debug-zola-series-navigation-links/index.html",
+              "href": "/zola/posting/zola-series-nav-setup/",
+              "target": "/posting/zola-series-nav-setup/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/debug-zola-series-navigation-links/",
+              "source_file": "public/posting/debug-zola-series-navigation-links/index.html",
+              "href": "/zola/posting/seo-series-articles/",
+              "target": "/posting/seo-series-articles/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/debug-zola-series-navigation-links/",
+              "source_file": "public/posting/debug-zola-series-navigation-links/index.html",
+              "href": "/zola/posting/zola-build-debug-templates/",
+              "target": "/posting/zola-build-debug-templates/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            }
+          ]
         },
         {
           "label": "GitHub Pages base path",
@@ -186,7 +215,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "735/739 pages"
+          "detail": "747/751 pages"
         },
         {
           "label": "Skip navigation",
@@ -197,6 +226,10 @@
     }
   ],
   "highlights": [
+    {
+      "type": "warn",
+      "text": "Links: Internal links"
+    },
     {
       "type": "pass",
       "text": "Metadata: Page titles"
@@ -216,28 +249,24 @@
     {
       "type": "pass",
       "text": "Structure: Document language"
-    },
-    {
-      "type": "pass",
-      "text": "Structure: Mobile viewport"
     }
   ],
-  "pages_scanned": 739,
-  "articles_scanned": 182,
+  "pages_scanned": 751,
+  "articles_scanned": 185,
   "fix_log": [
     {
-      "category": "—",
-      "label": "Tất cả mục",
-      "check_status": "pass",
-      "outcome": "skipped",
-      "message": "Không có mục warn/fail — bỏ qua auto-fix",
-      "at": "2026-06-27T02:56:26Z"
+      "category": "Links",
+      "label": "Internal links",
+      "check_status": "warn",
+      "outcome": "failed",
+      "message": "Còn 3 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/debug-zola-series-navigation-links/index.html → /posting/zola-series-nav-setup/ (Target not found in public/ after zola build); public/posting/debug-zola-series-navigation-links/index.html → /posting/seo-series-articles/ (Target not found in public/ after zola build); public/posting/debug-zola-series-navigation-links/index.html → /posting/zola-build-debug-templates/ (Target not found in public/ after zola build)",
+      "at": "2026-06-27T04:23:53Z"
     }
   ],
   "fix_summary": {
     "attempted": 1,
     "fixed": 0,
-    "failed": 0,
-    "skipped": 1
+    "failed": 1,
+    "skipped": 0
   }
 }

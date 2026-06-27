@@ -1,0 +1,85 @@
+name: Auto-rebase stale branches
+
+# Detect and auto-rebase branches that lost their common ancestor with main
+# (typically due to main being force-pushed). Create PRs with rebased versions.
+
+on:
+  schedule:
+    # Run every 6 hours to catch stale branches early
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number to rebase (leave empty for all)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: write
+  actions: write
+
+concurrency:
+  group: autofix-stale-branches
+  cancel-in-progress: false
+
+jobs:
+  detect-and-rebase:
+    name: Detect stale branches and rebase
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Set up git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Detect and rebase stale branches
+        id: rebase
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ inputs.pr_number }}
+        run: |
+          if [ -z "$PR_NUMBER" ]; then
+            python3 scripts/autofix_stale_branches.py 2>&1 | tee rebase.log
+          else
+            python3 scripts/autofix_stale_branches.py --pr "$PR_NUMBER" 2>&1 | tee rebase.log
+          fi
+
+          EXIT_CODE=$?
+          echo "exit_code=$EXIT_CODE" >> "$GITHUB_OUTPUT"
+
+          if grep -q "Fixed" rebase.log; then
+            echo "status=fixed" >> "$GITHUB_OUTPUT"
+          elif grep -q "Dry-run" rebase.log; then
+            echo "status=dry_run" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=none" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Comment on PR if rebased
+        if: steps.rebase.outputs.status == 'fixed'
+        run: |
+          echo "✓ Stale branches rebased successfully"
+          echo "Check PR comments for details"
+
+      - name: Report if nothing to fix
+        if: steps.rebase.outputs.status == 'none'
+        run: echo "ℹ️  No stale branches found"
+
+      - name: Fail if rebase failed
+        if: steps.rebase.outputs.exit_code != '0' && steps.rebase.outputs.exit_code != '2'
+        run: |
+          echo "❌ Auto-rebase failed (exit ${{ steps.rebase.outputs.exit_code }})"
+          exit 1
