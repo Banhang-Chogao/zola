@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-27",
+      "title": "enable tools section pages (momo-url 404 fix)",
+      "tag": "fix",
+      "lines_added": 10,
+      "lines_removed": 0,
+      "highlights": [
+        "/zola/tools/momo-url/ was returning 404 — KHÔNG TÌM THẤY TRANG",
+        "Other tool pages (f-dashboard, l-dashboard, etc.) were also inaccessible",
+        "The issue occurred even after successful deployment",
+        "Sets section title and metadata",
+        "Configures skip_feed = true (tools are not article content, should not appear in feeds)"
+      ],
+      "pr": 1036
+    },
+    {
+      "date": "2026-06-27",
       "title": "feat(home): nút chuyển bản desktop ↔ điện thoại trên trang chủ",
       "tag": "refactor",
       "lines_added": 164,
