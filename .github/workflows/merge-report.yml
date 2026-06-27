@@ -1,12 +1,19 @@
 name: Fetch Merge Report
 
 # Thu thập lịch sử merge auto → data/merge-report.json
+#
+# ⛔ DISABLED (theo yêu cầu user — 27/06/2026): workflow này TẮT permanently
+# tới khi user mở lại. Mọi trigger tự động (push / schedule) đã comment;
+# job có guard `if: ${{ false }}` nên cả workflow_dispatch cũng no-op.
+# ĐỂ MỞ LẠI: bỏ comment block `on:` gốc bên dưới + xoá dòng `if: ${{ false }}`
+# ở job `fetch`.
 
 on:
-  push:
-    branches: [main]
-  schedule:
-    - cron: '20 * * * *'
+  # --- TRIGGER GỐC (disabled — uncomment để mở lại) ---
+  # push:
+  #   branches: [main]
+  # schedule:
+  #   - cron: '20 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -22,6 +29,8 @@ concurrency:
 
 jobs:
   fetch:
+    # ⛔ DISABLED — workflow tắt tới khi user mở lại. Xoá dòng `if` này để bật.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
