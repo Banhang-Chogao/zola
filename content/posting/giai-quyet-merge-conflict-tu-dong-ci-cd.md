@@ -141,13 +141,13 @@ May mắn là `main` đã có sẵn bản vá đúng. Mình chỉ cần resolve 
 3. **Kiểm tra internal link** — đảm bảo mọi link nội bộ trỏ tới trang có thật.
 4. **Quét lại marker** — chắc chắn không còn `<<<<<<<` hay `>>>>>>>` sót lại.
 
-Chỉ khi cả bốn bước xanh, mình mới commit và push. Cách này tốn vài phút nhưng tiết kiệm hàng giờ debug CI đỏ về sau. Bạn có thể tham khảo thêm cách xử lý lỗi pipeline trong bài [troubleshooting GitHub Actions build failure](/zola/posting/github-actions-ci-cd-build-failure-vipzone-token/) và cách chống rate limit khi quét bảo mật trong [CodeQL API rate limit](/zola/posting/codeql-api-rate-limit-giai-phap/).
+Chỉ khi cả bốn bước xanh, mình mới commit và push. Cách này tốn vài phút nhưng tiết kiệm hàng giờ debug CI đỏ về sau. Bạn có thể tham khảo thêm cách xử lý lỗi pipeline trong bài [troubleshooting GitHub Actions build failure](/posting/github-actions-ci-cd-build-failure-vipzone-token/) và cách chống rate limit khi quét bảo mật trong [CodeQL API rate limit](/posting/codeql-api-rate-limit-giai-phap/).
 
 ## Kết luận
 
 Giải quyết merge conflict không phải là việc đoán mò. Khi bạn phân loại file theo nguồn gốc — data tự sinh, nội dung, hay code — và áp một chiến lược cố định cho từng nhóm, việc resolve trở nên deterministic và có thể tự động hóa. Quan trọng nhất là luôn cảnh giác với hai cái bẫy: link nội bộ hỏng và cú pháp template sai, vì cả hai đều lọt qua kiểm tra conflict marker nhưng vẫn làm vỡ build.
 
-**Bước tiếp theo:** nếu bạn muốn hiểu sâu hơn về phân tích code tự động và bảo mật, hãy đọc bài [CodeQL — công cụ phân tích code tự động](/zola/posting/codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien/). Hoặc xem thêm các bài cùng chủ đề tại chuyên mục [Công nghệ](/zola/categories/cong-nghe/) và [tất cả bài viết](/zola/categories/tat-ca/) của blog.
+**Bước tiếp theo:** nếu bạn muốn hiểu sâu hơn về phân tích code tự động và bảo mật, hãy đọc bài [CodeQL — công cụ phân tích code tự động](/posting/codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien/). Hoặc xem thêm các bài cùng chủ đề tại chuyên mục [Công nghệ](/categories/cong-nghe/) và [tất cả bài viết](/categories/tat-ca/) của blog.
 
 ## Tham khảo
 
