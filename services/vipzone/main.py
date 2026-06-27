@@ -238,6 +238,18 @@ except Exception as exc:  # pragma: no cover - defensive: keep the rest of the A
     print(f"[vipzone] reports router not mounted: {exc!r}")
 
 
+# ============= Changelog (PR/commit history — admin-gated) =============
+try:
+    import changelog as changelog_mod
+
+    changelog_mod.configure(get_db=get_db)
+    app.include_router(changelog_mod.router)
+    CHANGELOG_MOUNTED = True
+except Exception as exc:  # pragma: no cover - defensive: keep the rest of the API up
+    CHANGELOG_MOUNTED = False
+    print(f"[vipzone] changelog router not mounted: {exc!r}")
+
+
 # ============= MoMo Links Admin (manage payment links) =============
 try:
     import momo_links
