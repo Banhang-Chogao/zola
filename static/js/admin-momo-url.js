@@ -52,7 +52,7 @@
 
   function consumeUrlHashSid() {
     if (!location.hash) return;
-    const m = location.hash.match(/(?:^|[#&])sid=([A-Za-z0-9_-]+)/);
+    const m = location.hash.match(/#(?:.*[&?])?sid=([A-Za-z0-9_-]+)/);
     if (!m) return;
     setSid(m[1]);
     history.replaceState(null, "", location.pathname + location.search);
@@ -74,7 +74,10 @@
       const res = await fetch(AUTH_API + "/auth/me", opts);
       if (res.ok) {
         const user = await res.json();
+        console.log("Auth successful, user:", user);
         return user;
+      } else {
+        console.warn("fetchMe failed with status:", res.status);
       }
     } catch (e) {
       console.warn("fetchMe error:", e);
