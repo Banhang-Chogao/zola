@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-27T11:06:06.521681+07:00",
+  "updated_at": "2026-06-27T11:10:10.123391+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -18489,11 +18489,11 @@
       "title": "CodeQL API Rate Limit: Giải Pháp Chi Tiết Cho GitHub Actions",
       "slug": "codeql-api-rate-limit-giai-phap",
       "keyword": "CodeQL API rate limit",
-      "score": 92.8,
-      "grade": "A",
-      "word_count": 1089,
+      "score": 86.8,
+      "grade": "B",
+      "word_count": 1095,
       "published": true,
-      "scored_at": "2026-06-27T11:06:06.521681+07:00",
+      "scored_at": "2026-06-27T11:10:10.123391+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -18540,7 +18540,7 @@
           "max": 6
         },
         "internal_link": {
-          "got": 6.0,
+          "got": 0.0,
           "max": 6
         },
         "external_link": {
@@ -18562,6 +18562,7 @@
       },
       "issues": [
         "không nên dùng H1 (#) trong body — title đã là H1",
+        "thiếu internal link (liên kết tới bài/section khác trong blog)",
         "chưa gắn tag nào"
       ],
       "history": [
@@ -18599,6 +18600,26 @@
           "scored_at": "2026-06-27T11:06:06.521681+07:00",
           "score": 92.8,
           "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-27T11:09:54.851513+07:00",
+          "score": 92.8,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-27T11:09:59.190489+07:00",
+          "score": 92.8,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-27T11:10:03.295837+07:00",
+          "score": 86.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-27T11:10:10.123391+07:00",
+          "score": 86.8,
+          "grade": "B"
         }
       ]
     }
