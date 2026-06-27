@@ -11,6 +11,12 @@
   border-radius: 18px;
   background: var(--c-bg-surface);
 
+  /* The `hidden` attribute MUST always win over the `display:flex/block` rules
+     on the state containers below. Without this, .comments__state--loading keeps
+     `display:flex` and the spinner spins forever even after the auth check
+     resolves — the JS sets `hidden=true` but CSS ignores it (auth-vaccine A1). */
+  [hidden] { display: none !important; }
+
   &__head {
     margin-bottom: 1.25rem;
   }
@@ -137,8 +143,21 @@
 
   &__state--loading {
     display: flex;
+    align-items: center;
     justify-content: center;
+    gap: 0.6rem;
     padding: 0.5rem;
+  }
+
+  &__loading-text {
+    color: var(--c-text-muted);
+    font-size: 0.88rem;
+  }
+
+  /* ---------- auth error / retry ---------- */
+  &__state--error {
+    text-align: center;
+    padding: 0.5rem 0;
   }
 
   &__spinner {

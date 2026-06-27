@@ -1,25 +1,54 @@
 /**
  * Admin MoMo URL Manager
  *
- * Authentication: Google OAuth via VIPZone backend
- * UI: View all MoMo links, replace old with new
+ * Authentication: Google OAuth via the VIPZone backend (admin allowlist only).
+ * UI: View all MoMo links, replace old with new.
+ *
+ * Auth state machine (auth-vaccine A1 — "OAuth callback success but UI stays
+ * locked"): checking → authenticated | guest | unauthorized | error.
+ *   - The session id is handed back in the URL fragment (#sid=...) and/or a
+ *     cross-site cookie; ?auth=success is only a hint, never trusted on its own.
+ *     We always verify with GET /auth/me (Bearer + credentials:"include").
+ *   - The gate overlay is hidden via the `hidden` attribute; CSS forces
+ *     `.auth-gate[hidden]{display:none!important}` so an authenticated admin is
+ *     never trapped behind the modal.
+ *   - /auth/me is single-flight + has a timeout so a cold backend can never spin
+ *     forever; the URL is cleaned with history.replaceState so init never loops.
  */
 
 (function () {
+  // Single init guard — a duplicate <script> include must not double-wire the page.
+  if (window.__momoAuthInitDone) return;
+  window.__momoAuthInitDone = true;
+
   const AUTH_API = (() => {
     const m = document.querySelector('meta[name="zola-cms-auth-api"]');
-    if (m && m.getAttribute("content")) return m.getAttribute("content");
+    if (m && m.getAttribute("content")) return m.getAttribute("content").replace(/\/$/, "");
     return "https://blog-vipzone-api.onrender.com";
   })();
 
   const SESSION_KEY = "zola-cms-session-id";
+  const AUTH_TIMEOUT_MS = 8000; // cold Render dynos: never hang the gate forever.
+
+  const STATE = {
+    CHECKING: "checking",
+    AUTHENTICATED: "authenticated",
+    GUEST: "guest",
+    UNAUTHORIZED: "unauthorized",
+    ERROR: "error",
+  };
+
   let currentUser = null;
   let auditData = null;
+  let authState = null;
+  let mePromise = null;
 
   // ============= DOM Elements =============
   const authGate = document.getElementById("auth-gate");
   const adminContent = document.getElementById("admin-content");
   const googleLoginBtn = document.getElementById("google-login-btn");
+  const switchAccountBtn = document.getElementById("switch-account-btn");
+  const authRetryBtn = document.getElementById("auth-retry-btn");
   const logoutBtn = document.getElementById("logout-btn");
   const loadingState = document.getElementById("loading-state");
   const contentState = document.getElementById("content-state");
@@ -50,40 +79,68 @@
     } catch (e) {}
   }
 
-  function consumeUrlHashSid() {
-    if (!location.hash) return;
-    const m = location.hash.match(/#(?:.*[&?])?sid=([A-Za-z0-9_-]+)/);
-    if (!m) return;
-    setSid(m[1]);
-    history.replaceState(null, "", location.pathname + location.search);
+  /**
+   * Process the OAuth callback once: capture #sid=... from the fragment, then
+   * strip auth=success / auth_error / the sid fragment from the URL so a refresh
+   * or re-init never re-processes it (prevents loops + cleans the address bar).
+   * Returns { authSuccess, authError } parsed from the query before cleanup.
+   */
+  function consumeAuthCallback() {
+    let sidFromHash = "";
+    if (location.hash) {
+      const m = location.hash.match(/(?:^|[#&])sid=([A-Za-z0-9_-]+)/);
+      if (m) sidFromHash = m[1];
+    }
+    if (sidFromHash) setSid(sidFromHash);
+
+    const params = new URLSearchParams(location.search);
+    const authError = params.get("auth_error") || "";
+    const authSuccess = params.get("auth") === "success";
+
+    if (sidFromHash || authSuccess || authError) {
+      params.delete("auth");
+      params.delete("auth_error");
+      const qs = params.toString();
+      try {
+        history.replaceState(null, "", location.pathname + (qs ? "?" + qs : ""));
+      } catch (e) {}
+    }
+    return { authSuccess, authError };
   }
 
-  async function fetchMe() {
-    const opts = {
-      credentials: "include",
-      cache: "no-store",
-      headers: {},
-    };
+  /**
+   * Verify the current session. Single-flight (concurrent callers share one
+   * request) + AbortController timeout. Resolves to { status, user, error }.
+   */
+  function fetchMe() {
+    if (mePromise) return mePromise;
+    mePromise = (async () => {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), AUTH_TIMEOUT_MS);
+      try {
+        const opts = {
+          credentials: "include",
+          cache: "no-store",
+          headers: {},
+          signal: controller.signal,
+        };
+        const sid = getSid();
+        if (sid) opts.headers["Authorization"] = "Bearer " + sid;
 
-    const sid = getSid();
-    if (sid) {
-      opts.headers["Authorization"] = "Bearer " + sid;
-    }
-
-    try {
-      const res = await fetch(AUTH_API + "/auth/me", opts);
-      if (res.ok) {
+        const res = await fetch(AUTH_API + "/auth/me", opts);
+        if (res.status === 401) return { status: 401, user: null };
+        if (res.status === 403) return { status: 403, user: null };
+        if (!res.ok) return { status: res.status, user: null, error: true };
         const user = await res.json();
-        console.log("Auth successful, user:", user);
-        return user;
-      } else {
-        console.warn("fetchMe failed with status:", res.status);
+        return { status: 200, user };
+      } catch (e) {
+        return { status: 0, user: null, error: true };
+      } finally {
+        clearTimeout(timer);
+        mePromise = null; // allow an explicit retry from the error view
       }
-    } catch (e) {
-      console.warn("fetchMe error:", e);
-    }
-
-    return null;
+    })();
+    return mePromise;
   }
 
   async function logoutRemote() {
@@ -92,7 +149,6 @@
       clearSid();
       return;
     }
-
     try {
       await fetch(AUTH_API + "/auth/logout", {
         method: "POST",
@@ -104,17 +160,94 @@
     clearSid();
   }
 
-  // ============= UI State =============
-  function showAuthGate() {
-    authGate.hidden = false;
+  // ============= Auth state machine =============
+  function showGateView(view) {
+    document.querySelectorAll("[data-auth-view]").forEach((el) => {
+      el.hidden = el.getAttribute("data-auth-view") !== view;
+    });
+  }
+
+  function setAuthState(state, detail) {
+    authState = state;
+    if (state === STATE.AUTHENTICATED) {
+      authGate.hidden = true;
+      adminContent.hidden = false;
+      return;
+    }
+    // Every non-authenticated state shows the gate with the matching view.
     adminContent.hidden = true;
+    authGate.hidden = false;
+    showGateView(state);
+    if (detail && detail.message) {
+      const id =
+        state === STATE.UNAUTHORIZED ? "unauth-message" : "auth-error-message";
+      const el = document.getElementById(id);
+      if (el) el.textContent = detail.message;
+    }
   }
 
-  function showAdminContent() {
-    authGate.hidden = true;
-    adminContent.hidden = false;
+  function startLogin() {
+    const returnPath = location.pathname; // already cleaned of auth params
+    // Google only — this admin tool never uses GitHub OAuth.
+    window.location.href =
+      AUTH_API + "/auth/google/start?return_to=" + encodeURIComponent(returnPath);
   }
 
+  async function runAuthCheck(callbackError) {
+    setAuthState(STATE.CHECKING);
+    const { user, status, error } = await fetchMe();
+
+    if (user && (user.is_admin === true || user.is_super === true)) {
+      currentUser = user;
+      setAuthState(STATE.AUTHENTICATED);
+      loadMoMoLinks();
+      return;
+    }
+    if (user) {
+      // Authenticated but not on the admin allowlist.
+      setAuthState(STATE.UNAUTHORIZED, {
+        message:
+          (user.email ? "Tài khoản " + user.email + " " : "Tài khoản này ") +
+          "không nằm trong danh sách quản trị. Vui lòng đăng nhập bằng tài khoản admin.",
+      });
+      return;
+    }
+    // A Google login by a non-whitelisted account creates NO session — the
+    // backend signals it only via ?auth_error=access_denied. Surface that as the
+    // unauthorized state (not the guest modal) so the user isn't stuck retrying.
+    if (callbackError === "access_denied") {
+      setAuthState(STATE.UNAUTHORIZED, {
+        message:
+          "Tài khoản Google của bạn không có quyền quản trị. Vui lòng đăng nhập bằng tài khoản admin được cấp phép.",
+      });
+      return;
+    }
+    if (status === 403) {
+      setAuthState(STATE.UNAUTHORIZED);
+      return;
+    }
+    if (status === 401) {
+      setAuthState(STATE.GUEST);
+      return;
+    }
+    if (error) {
+      setAuthState(STATE.ERROR, {
+        message:
+          "Không kết nối được máy chủ xác thực (có thể đang khởi động). Vui lòng thử lại.",
+      });
+      return;
+    }
+    if (callbackError) {
+      // Any other OAuth-callback error (token exchange, unreachable, etc.).
+      setAuthState(STATE.ERROR, {
+        message: "Đăng nhập không thành công (" + callbackError + "). Vui lòng thử lại.",
+      });
+      return;
+    }
+    setAuthState(STATE.GUEST);
+  }
+
+  // ============= UI State (admin content) =============
   function showLoading() {
     loadingState.hidden = false;
     contentState.hidden = true;
@@ -152,8 +285,14 @@
 
       const res = await fetch(AUTH_API + "/admin/momo-links", opts);
 
+      // Session expired or revoked between the gate check and this call → fall
+      // back to the gate instead of showing a confusing data error.
+      if (res.status === 401) {
+        setAuthState(STATE.GUEST);
+        return;
+      }
       if (res.status === 403) {
-        showAuthGate();
+        setAuthState(STATE.UNAUTHORIZED);
         return;
       }
 
@@ -422,19 +561,36 @@
   }
 
   // ============= Event Listeners =============
-  googleLoginBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    const returnTo = location.pathname;
-    const loginUrl = `${AUTH_API}/auth/login?return_to=${encodeURIComponent(returnTo)}`;
-    location.href = loginUrl;
-  });
+  if (googleLoginBtn) {
+    googleLoginBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      startLogin();
+    });
+  }
 
-  logoutBtn.addEventListener("click", async () => {
-    if (confirm("Bạn chắc chắn muốn đăng xuất?")) {
-      await logoutRemote();
-      location.reload();
-    }
-  });
+  if (switchAccountBtn) {
+    switchAccountBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      clearSid();
+      startLogin();
+    });
+  }
+
+  if (authRetryBtn) {
+    authRetryBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      runAuthCheck();
+    });
+  }
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async () => {
+      if (confirm("Bạn chắc chắn muốn đăng xuất?")) {
+        await logoutRemote();
+        setAuthState(STATE.GUEST);
+      }
+    });
+  }
 
   document.getElementById("close-replace-modal").addEventListener("click", () => {
     replaceModal.close();
@@ -457,25 +613,13 @@
   });
 
   // ============= Init =============
-  async function init() {
-    console.log("Init starting, URL hash:", location.hash, "localStorage sid:", getSid());
-    consumeUrlHashSid();
-    console.log("After consumeUrlHashSid, localStorage sid:", getSid());
-    const user = await fetchMe();
-
-    if (!user) {
-      console.warn("Init: no user, showing auth gate");
-      showAuthGate();
-      return;
-    }
-
-    console.log("Init: authenticated, showing admin content");
-    currentUser = user;
-    showAdminContent();
-    loadMoMoLinks();
+  function init() {
+    // Process (and clean) any OAuth callback params before verifying — never
+    // trust ?auth=success on its own, always confirm with /auth/me.
+    const { authError } = consumeAuthCallback();
+    runAuthCheck(authError);
   }
 
-  // Call init immediately and also on DOMContentLoaded for safety
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {

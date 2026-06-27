@@ -4,21 +4,53 @@
 
 {% block main %}
 <div class="admin-momo-url">
-  <!-- Auth gate: Google login required -->
+  <!-- Auth gate: Google login required. Views toggled by the auth state machine
+       (checking · guest · unauthorized · error). The `hidden` attribute hides the
+       whole gate once authenticated — _admin-momo-url.scss forces `[hidden]` to win
+       over the `.auth-gate { display:flex }` overlay rule (auth-vaccine A1). -->
   <div class="auth-gate" id="auth-gate" hidden>
     <div class="auth-gate__overlay"></div>
     <div class="auth-gate__dialog">
-      <h2 class="auth-gate__title">Đăng nhập để tiếp tục</h2>
-      <p class="auth-gate__message">Trang này chỉ admin được truy cập.</p>
-      <div class="auth-gate__buttons">
-        <a href="" class="auth-gate__btn auth-gate__btn--google" id="google-login-btn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-          </svg>
-          Đăng nhập bằng Google
-        </a>
+      <!-- checking: only while actually verifying the session -->
+      <div class="auth-gate__view auth-gate__checking" id="auth-view-checking" data-auth-view="checking">
+        <div class="spinner"></div>
+        <p>Đang kiểm tra đăng nhập…</p>
       </div>
-      <p class="auth-gate__error" id="auth-error" hidden></p>
+
+      <!-- guest: not logged in -->
+      <div class="auth-gate__view" id="auth-view-guest" data-auth-view="guest" hidden>
+        <h2 class="auth-gate__title">Đăng nhập để tiếp tục</h2>
+        <p class="auth-gate__message">Trang này chỉ admin được truy cập. Đăng nhập bằng tài khoản Google trong danh sách quản trị.</p>
+        <div class="auth-gate__buttons">
+          <a href="#" class="auth-gate__btn auth-gate__btn--google" id="google-login-btn">
+            <svg width="18" height="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+              <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.71-1.57 2.68-3.89 2.68-6.62z"/>
+              <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.81.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 0 0 9 18z"/>
+              <path fill="#FBBC05" d="M3.97 10.72a5.4 5.4 0 0 1 0-3.44V4.95H.96a9 9 0 0 0 0 8.1l3.01-2.33z"/>
+              <path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58A9 9 0 0 0 .96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"/>
+            </svg>
+            Đăng nhập bằng Google
+          </a>
+        </div>
+      </div>
+
+      <!-- unauthorized: logged in but not an admin -->
+      <div class="auth-gate__view" id="auth-view-unauthorized" data-auth-view="unauthorized" hidden>
+        <h2 class="auth-gate__title">Không có quyền truy cập</h2>
+        <p class="auth-gate__message" id="unauth-message">Tài khoản Google của bạn không nằm trong danh sách quản trị. Vui lòng đăng nhập bằng tài khoản admin.</p>
+        <div class="auth-gate__buttons">
+          <button class="auth-gate__btn auth-gate__btn--google" id="switch-account-btn">Đăng nhập tài khoản khác</button>
+        </div>
+      </div>
+
+      <!-- error: backend unreachable / verification failed -->
+      <div class="auth-gate__view" id="auth-view-error" data-auth-view="error" hidden>
+        <h2 class="auth-gate__title">Lỗi kết nối</h2>
+        <p class="auth-gate__message" id="auth-error-message">Không kết nối được máy chủ xác thực. Vui lòng thử lại.</p>
+        <div class="auth-gate__buttons">
+          <button class="auth-gate__btn auth-gate__btn--google" id="auth-retry-btn">Thử lại</button>
+        </div>
+      </div>
     </div>
   </div>
 
