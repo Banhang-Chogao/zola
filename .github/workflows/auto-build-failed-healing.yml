@@ -1,0 +1,111 @@
+name: Auto Build Failed Healing
+
+# SEOMONEY auto maintainer bot.
+# Detect → Classify → Heal → Build → Learn → PR.
+#
+# Scans build/deploy/qa runs that FAILED in the last 48h, classifies the failure
+# against the PUBLIC-SAFE healing registry (data/healing-patterns.json + CLAUDE.md
+# + CULTURE_OF_DEPLOYMENT.md), applies a safe deterministic fix when matched, runs
+# a targeted build, and opens a hotfix PR. NEVER pushes main directly.
+#
+# Private memory note: CLAUDE_PRIVATE.md is gitignored local-only memory. This
+# workflow MUST NOT require it and NEVER reads/prints it. A clean checkout passes.
+
+on:
+  workflow_run:
+    workflows:
+      - deploy
+      - qa
+      - Build
+      - Zola Deploy
+      - GitHub Pages
+      - "Build and deploy Zola site to GitHub Pages"
+      - "QA Gatekeeper"
+      - "Build Semantic Related Posts"
+    types:
+      - completed
+
+  schedule:
+    - cron: "0 * * * *"   # hourly — scan failed runs from the last 48h
+
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry-run (scan + classify only, no fix, no PR)"
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+  issues: write
+
+concurrency:
+  group: auto-build-failed-healing
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    # On workflow_run, only act when the upstream run actually failed.
+    if: >-
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'failure'
+    steps:
+      - name: Checkout main (full history)
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Zola (for targeted build validation)
+        continue-on-error: true
+        run: |
+          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          sudo mv zola /usr/local/bin/ || true
+
+      - name: Determine mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
+            echo "args=--dry-run --hours 48" >> "$GITHUB_OUTPUT"
+          else
+            echo "args=--apply --hours 48" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run auto-build-failed-healing
+        # 💉 Remediation/observer bot must never turn itself red (CLAUDE.md V3/V7).
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FAILED_RUN_ID: ${{ github.event.workflow_run.id }}
+          FAILED_WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
+          FAILED_WORKFLOW_URL: ${{ github.event.workflow_run.html_url }}
+          FAILED_HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          python3 scripts/auto_build_failed_healing.py ${{ steps.mode.outputs.args }}
+
+      - name: Upload healing report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: auto-healing-report-${{ github.run_id }}
+          path: |
+            data/auto-healing-report.json
+            data/auto-healing.log
+          if-no-files-found: ignore
+          retention-days: 14

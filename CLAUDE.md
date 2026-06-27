@@ -1881,6 +1881,44 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 | Tests | `scripts/test_f_dashboard.py` |
 | Deps | `scripts/requirements-f-dashboard.txt` (`openpyxl`) |
 
+## Auto Build Failed Healing (bot maintainer tự động)
+
+> SEOMONEY auto maintainer: `Bug found → Fix it → Learn from it → Auto-healing`.
+> Pipeline `Detect → Classify → Heal → Build → Learn → PR`. Dò build/deploy/qa
+> **failed trong 48h gần nhất**, phân loại P0/P1/P2/P3 theo registry public-safe,
+> apply safe fix, mở hotfix PR. **KHÔNG** push thẳng `main`.
+
+- **Trigger:** `workflow_run` (deploy/qa/build/pages — chỉ act khi `conclusion=failure`)
+  + cron hourly (quét failed 48h) + `workflow_dispatch` (optional `dry_run`).
+- **48h rule (cứng):** lỗi >48h → `stale_ignored`, KHÔNG revive branch cũ, KHÔNG tạo PR.
+- **Severity:** P0 (build vỡ/Tera/SCSS/frontmatter/conflict/secret/route) heal nếu có
+  fixer an toàn, không thì PR manual-review; P1 auto-heal → build → hotfix PR; **P2/P3
+  advisory — KHÔNG block, KHÔNG PR**.
+- **Healing sources (public-safe, đã commit):** `CLAUDE.md`, `CULTURE_OF_DEPLOYMENT.md`,
+  `data/healing-patterns.json`, `docs/HEALING_PATTERNS.md`. **KHÔNG** require/đọc/commit
+  `CLAUDE_PRIVATE.md`; CI checkout sạch vẫn pass; KHÔNG in private content vào log.
+- **Safe fixers (deterministic, reuse script sẵn có):** `regenerate-references`
+  (`build_references.py`), `clean-public` (xoá `public/`), `internal-link-fix`
+  (`qa-404-checker.py --fix`), `faq-field-rename` (V19 `question=/answer=` → `q=/a=`).
+  Risky (auth/payment/backend/deploy creds/template lớn) → chỉ report/PR manual; secret/token → **không bao giờ** auto-fix.
+- **PR:** branch `auto-build-failed-healing/<pattern-id>-<run-id>`, title
+  `fix(auto-healing): <pattern-id>`, label `auto-healing` + `build-fix`; dedup theo
+  run-id/pattern (state `data/auto-healing-state.json`).
+
+| Thành phần | Path |
+|------------|------|
+| Workflow | `.github/workflows/auto-build-failed-healing.yml` |
+| Engine | `scripts/auto_build_failed_healing.py` |
+| Tests | `scripts/test_auto_build_failed_healing.py` |
+| Registry | `data/healing-patterns.json` · State `data/auto-healing-state.json` · Report `data/auto-healing-report.json` |
+| Docs | `docs/HEALING_PATTERNS.md` |
+
+```bash
+python3 scripts/auto_build_failed_healing.py --dry-run --hours 48   # scan + classify, no mutation
+python3 scripts/auto_build_failed_healing.py --hours 48 --apply     # safe fix + hotfix PR (never main)
+python3 -m unittest scripts.test_auto_build_failed_healing -v
+```
+
 ## QA Auto Rule Checker
 
 Bot phát hiện rule/policy/workflow/automation xung đột — schedule mỗi **48 giờ** (`qa-rule-checker.yml`, cron `0 3 */2 * *` UTC).
