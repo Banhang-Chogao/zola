@@ -3,6 +3,7 @@
 {% import "macros/img.html" as img %}
 {% import "macros/premium.html" as premium %}
 {% import "macros/pagination.html" as pager %}
+{% import "macros/placement.html" as placement %}
 
 {# Homepage title giàu từ khoá hơn cho SERP (thay vì chỉ hiện tên brand) #}
 {% block title %}{{ config.title }} — Blog công nghệ, du lịch & ẩm thực{% endblock %}
@@ -98,6 +99,9 @@
         </section>
     {% endif %}
 
+    {# Content placement hook: home_hero_after. #}
+    {{ placement::render(id="home_hero_after") }}
+
     {% if page_feed | length > 0 %}
         <section class="home-latest">
             <h2 class="home-latest__heading">
@@ -166,6 +170,9 @@
             </a>
         </section>
     {% endif %}
+
+    {# Content placement hook: home_top_banner_below. #}
+    {{ placement::render(id="home_top_banner_below") }}
 
     {% if feed_pages > 1 %}
         <nav class="pagination" aria-label="Phân trang trang chủ">
