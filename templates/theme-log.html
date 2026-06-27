@@ -1,22 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}Theme log | {{ config.title }}{% endblock %}
-{% block description %}Theme log — sổ ghi mốc rollback theme/blog UI của SEOMONEY, dựng từ dữ liệu git thật.{% endblock %}
+{% block title %}Rollback Milestones | {{ config.title }}{% endblock %}
+{% block description %}Bản đồ rollback/restore cho theme, công cụ, tính năng và nội dung của SEOMONEY — mốc khôi phục từ 14-06-2026.{% endblock %}
 
 {% block main %}
-    {# Dữ liệu sinh bởi scripts/theme_audit.py (git history thật → verify từng
-       commit). KHÔNG hardcode hàng ví dụ. required=false → trang vẫn render
-       empty-state nếu file chưa tồn tại. #}
     {% set data = load_data(path="data/theme-log.json", required=false) %}
 
     <section class="theme-log">
         <header class="theme-log__header">
-            <h1 class="theme-log__title">Theme log</h1>
-            <p class="theme-log__note">Rollback history since 14-06-2026 — use this table as rollback milestones.</p>
+            <h1 class="theme-log__title">Rollback Milestone Registry</h1>
+            <p class="theme-log__note">Mốc khôi phục từ 14-06-2026 — bản đồ rollback/restore cho theme, công cụ, tính năng và nội dung.</p>
         </header>
 
         {% if data %}
-        {# ===== Tóm tắt theme production hiện tại ===== #}
+        {# ===== Summary ===== #}
         <div class="theme-log__summary">
             <div class="theme-log__summary-row">
                 <span class="theme-log__summary-key">Production</span>
@@ -35,19 +32,17 @@
                 <span class="theme-log__summary-key">Theme</span>
                 <span class="theme-log__summary-val">{{ data.current_theme.theme_name | default(value="unknown") }}</span>
             </div>
-            <div class="theme-log__summary-row">
-                <span class="theme-log__summary-key">Color</span>
-                <span class="theme-log__summary-val">{{ data.current_theme.color_system | default(value="unknown") }}</span>
-            </div>
-            <div class="theme-log__summary-row">
-                <span class="theme-log__summary-key">Font</span>
-                <span class="theme-log__summary-val">{{ data.current_theme.font_system | default(value="unknown") }}</span>
-            </div>
             {% endif %}
             {% if data.baseline %}
             <div class="theme-log__summary-row">
                 <span class="theme-log__summary-key">Baseline (since)</span>
                 <span class="theme-log__summary-val"><time datetime="{{ data.baseline.start_date }}">{{ data.baseline.start_date | truncate(length=16, end="") }}</time></span>
+            </div>
+            {% endif %}
+            {% if data.milestones %}
+            <div class="theme-log__summary-row">
+                <span class="theme-log__summary-key">Milestones</span>
+                <span class="theme-log__summary-val">{{ data.milestones | length }} mốc đã ghi</span>
             </div>
             {% endif %}
             {% if data.generated_at %}
@@ -58,57 +53,213 @@
             {% endif %}
         </div>
 
-        {# ===== Chú thích status badge ===== #}
+        {# ===== MILESTONE REGISTRY ===== #}
+        {% if data.milestones and data.milestones | length > 0 %}
+        <section class="milestone-registry" id="milestone-registry">
+            <h2 class="milestone-registry__heading">Milestone Registry</h2>
+
+            {# Filter bar #}
+            <div class="milestone-registry__filters" id="milestone-filters">
+                <select class="milestone-registry__select" id="filter-type" aria-label="Lọc theo loại">
+                    <option value="">Tất cả loại</option>
+                    <option value="theme">theme</option>
+                    <option value="feature">feature</option>
+                    <option value="tool">tool</option>
+                    <option value="content">content</option>
+                    <option value="data">data</option>
+                    <option value="hotfix">hotfix</option>
+                    <option value="deploy">deploy</option>
+                </select>
+                <select class="milestone-registry__select" id="filter-status" aria-label="Lọc theo status">
+                    <option value="">Tất cả status</option>
+                    <option value="live">live</option>
+                    <option value="merged">merged</option>
+                    <option value="pending">pending</option>
+                    <option value="rollback-target">rollback target</option>
+                    <option value="reference">reference</option>
+                    <option value="archived">archived</option>
+                    <option value="failed">failed</option>
+                </select>
+                <select class="milestone-registry__select" id="filter-risk" aria-label="Lọc theo risk">
+                    <option value="">Tất cả risk</option>
+                    <option value="low">low</option>
+                    <option value="medium">medium</option>
+                    <option value="high">high</option>
+                </select>
+                <input class="milestone-registry__search" id="filter-search" type="search"
+                       placeholder="Tìm milestone, route, commit, PR…" aria-label="Tìm kiếm milestone">
+            </div>
+
+            {# Page size selector #}
+            <div class="milestone-registry__toolbar">
+                <span class="milestone-registry__count" id="milestone-count">Đang tải…</span>
+                <label class="milestone-registry__page-size-label" for="page-size">Hiện:
+                    <select class="milestone-registry__select milestone-registry__select--sm" id="page-size">
+                        <option value="10">10</option>
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                        <option value="0">Tất cả</option>
+                    </select>
+                </label>
+            </div>
+
+            {# Desktop table #}
+            <div class="milestone-registry__table-wrap" role="region" aria-label="Rollback milestones" tabindex="0">
+                <table class="milestone-registry__table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID / Loại</th>
+                            <th scope="col">Tiêu đề</th>
+                            <th scope="col">Ngày</th>
+                            <th scope="col">Commit / PR</th>
+                            <th scope="col">Routes</th>
+                            <th scope="col">Restore mode</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Risk</th>
+                        </tr>
+                    </thead>
+                    <tbody id="milestone-tbody">
+                        {% for m in data.milestones %}
+                        {% set type_c = m.type | default(value="feature") %}
+                        {% set status_c = m.status | default(value="pending") | replace(from=" ", to="-") %}
+                        {% set risk_c = m.risk | default(value="low") %}
+                        {% set restore_c = m.restore_mode | default(value="manual-recreate") | replace(from=" ", to="-") %}
+                        <tr class="milestone-row"
+                            data-type="{{ type_c }}"
+                            data-status="{{ status_c }}"
+                            data-risk="{{ risk_c }}"
+                            data-search="{{ m.id | default(value='') }} {{ m.title | default(value='') }} {{ m.scope | default(value='') }} {{ m.commit | default(value='') }} {{ m.pr | default(value='') }} {{ m.routes | join(sep=' ') | default(value='') }}"
+                            >
+                            <td>
+                                <div class="milestone-row__id"><code>{{ m.id | truncate(length=32, end="…") }}</code></div>
+                                <span class="milestone-registry__type-badge milestone-registry__type-badge--{{ type_c }}">{{ type_c }}</span>
+                            </td>
+                            <td>
+                                <div class="milestone-row__title">{{ m.title | default(value="—") }}</div>
+                                {% if m.summary %}<div class="milestone-row__summary">{{ m.summary | truncate(length=100) }}</div>{% endif %}
+                            </td>
+                            <td><time datetime="{{ m.date | default(value='') }}">{{ m.date | default(value="—") | truncate(length=10, end="") }}</time></td>
+                            <td>
+                                {% if m.commit and m.commit != "" %}
+                                <a href="https://github.com/{{ data.repo }}/commit/{{ m.commit }}" target="_blank" rel="noopener"><code>{{ m.commit | truncate(length=7, end="") }}</code></a>
+                                {% endif %}
+                                {% if m.pr and m.pr != "" %}
+                                <span class="milestone-row__pr">
+                                    <a href="https://github.com/{{ data.repo }}/pull/{{ m.pr | replace(from='#', to='') }}" target="_blank" rel="noopener">{{ m.pr }}</a>
+                                </span>
+                                {% endif %}
+                                {% if not m.commit and not m.pr %}—{% endif %}
+                            </td>
+                            <td>
+                                {% if m.routes and m.routes | length > 0 %}
+                                {% for r in m.routes %}<div><code>{{ r }}</code></div>{% endfor %}
+                                {% else %}—{% endif %}
+                            </td>
+                            <td><span class="milestone-registry__restore-badge milestone-registry__restore-badge--{{ restore_c }}">{{ m.restore_mode | default(value="manual") | replace(from="-", to=" ") }}</span></td>
+                            <td><span class="theme-log__badge theme-log__badge--{{ status_c }}">{{ m.status | default(value="pending") }}</span></td>
+                            <td><span class="milestone-registry__risk-badge milestone-registry__risk-badge--{{ risk_c }}">{{ risk_c }}</span></td>
+                        </tr>
+                        {# Expandable detail row #}
+                        <tr class="milestone-detail-row" aria-hidden="true" hidden>
+                            <td colspan="8">
+                                <div class="milestone-detail">
+                                    {% if m.files and m.files | length > 0 %}
+                                    <div class="milestone-detail__section">
+                                        <span class="milestone-detail__label">Files:</span>
+                                        <code>{{ m.files | join(sep=", ") }}</code>
+                                    </div>
+                                    {% endif %}
+                                    {% if m.restore_hint and m.restore_hint != "" %}
+                                    <div class="milestone-detail__section">
+                                        <span class="milestone-detail__label">Restore hint:</span>
+                                        {{ m.restore_hint }}
+                                    </div>
+                                    {% endif %}
+                                    {% if m.notes and m.notes != "" %}
+                                    <div class="milestone-detail__section">
+                                        <span class="milestone-detail__label">Notes:</span>
+                                        {{ m.notes }}
+                                    </div>
+                                    {% endif %}
+                                    {% if m.qa %}
+                                    <div class="milestone-detail__section">
+                                        <span class="milestone-detail__label">QA:</span>
+                                        zola_build={{ m.qa.zola_build | default(value="unknown") }}
+                                        qa_check={{ m.qa.qa_check | default(value="unknown") }}
+                                        qa_404={{ m.qa.qa_404 | default(value="unknown") }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {# Pagination #}
+            <nav class="milestone-registry__pagination" id="milestone-pagination" aria-label="Pagination"></nav>
+
+        </section>
+        {% endif %}
+
+        {# ===== STATUS LEGEND ===== #}
         <div class="theme-log__legend">
+            <strong style="font-size:0.78rem;color:var(--c-text-muted);margin-right:0.25rem;">Status:</strong>
             <span class="theme-log__badge theme-log__badge--live">live</span>
-            <span class="theme-log__badge theme-log__badge--rollback">rollback target</span>
+            <span class="theme-log__badge theme-log__badge--merged">merged</span>
+            <span class="theme-log__badge theme-log__badge--rollback-target">rollback target</span>
             <span class="theme-log__badge theme-log__badge--reference">reference</span>
             <span class="theme-log__badge theme-log__badge--archived">archived</span>
             <span class="theme-log__badge theme-log__badge--pending">pending</span>
+            <span class="theme-log__badge theme-log__badge--failed">failed</span>
         </div>
 
+        {# ===== THEME HISTORY (preserved) ===== #}
         {% if data.themes and data.themes | length > 0 %}
-        {# ===== Bảng 9 cột — rollback milestone ledger ===== #}
-        <div class="theme-log__table-wrap" role="region" aria-label="Theme rollback milestones" tabindex="0">
-            <table class="theme-log__table">
-                <thead>
-                    <tr>
-                        <th scope="col">Theme ID</th>
-                        <th scope="col">Commit hash</th>
-                        <th scope="col">Date/time</th>
-                        <th scope="col">Theme name</th>
-                        <th scope="col">Layout/style</th>
-                        <th scope="col">Color system</th>
-                        <th scope="col">Font system</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for t in data.themes %}
-                    {% set st = t.status | default(value="pending") %}
-                    {% set st_class = st | replace(from=" ", to="-") %}
-                    <tr>
-                        <td><code>{{ t.theme_id | default(value="unknown") }}</code></td>
-                        <td>
-                            {% if t.commit_hash and t.commit_hash != "unknown" %}
-                            <a href="https://github.com/{{ data.repo }}/commit/{{ t.commit_hash }}" target="_blank" rel="noopener"><code>{{ t.commit_hash }}</code></a>
-                            {% else %}<code>unknown</code>{% endif %}
-                        </td>
-                        <td><time datetime="{{ t.datetime }}">{{ t.datetime | truncate(length=16, end="") }}</time></td>
-                        <td>{{ t.theme_name | default(value="unknown") }}</td>
-                        <td>{{ t.layout_style | default(value="unknown") }}</td>
-                        <td>{{ t.color_system | default(value="unknown") }}</td>
-                        <td>{{ t.font_system | default(value="unknown") }}</td>
-                        <td><span class="theme-log__badge theme-log__badge--{{ st_class }}">{{ st }}</span></td>
-                        <td class="theme-log__notes">{{ t.notes | default(value="") }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% else %}
-        <p class="theme-log__empty">Chưa có mốc theme nào. Chạy <code>python3 scripts/theme_audit.py</code> để sinh dữ liệu.</p>
+        <section class="theme-log__themes">
+            <h2 class="theme-log__themes-heading">Theme History <span class="theme-log__themes-count">({{ data.themes | length }} mốc)</span></h2>
+            <p class="theme-log__note" style="margin-bottom:0.75rem;">Lịch sử chi tiết các thay đổi theme/layout — sinh từ git history thật qua <code>scripts/theme_audit.py</code>.</p>
+
+            <div class="theme-log__table-wrap" role="region" aria-label="Theme rollback milestones" tabindex="0">
+                <table class="theme-log__table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Theme ID</th>
+                            <th scope="col">Commit hash</th>
+                            <th scope="col">Date/time</th>
+                            <th scope="col">Theme name</th>
+                            <th scope="col">Layout/style</th>
+                            <th scope="col">Color system</th>
+                            <th scope="col">Font system</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for t in data.themes %}
+                        {% set st = t.status | default(value="pending") %}
+                        {% set st_class = st | replace(from=" ", to="-") %}
+                        <tr>
+                            <td><code>{{ t.theme_id | default(value="unknown") }}</code></td>
+                            <td>
+                                {% if t.commit_hash and t.commit_hash != "unknown" %}
+                                <a href="https://github.com/{{ data.repo }}/commit/{{ t.commit_hash }}" target="_blank" rel="noopener"><code>{{ t.commit_hash }}</code></a>
+                                {% else %}<code>unknown</code>{% endif %}
+                            </td>
+                            <td><time datetime="{{ t.datetime }}">{{ t.datetime | truncate(length=16, end="") }}</time></td>
+                            <td>{{ t.theme_name | default(value="unknown") }}</td>
+                            <td>{{ t.layout_style | default(value="unknown") }}</td>
+                            <td>{{ t.color_system | default(value="unknown") }}</td>
+                            <td>{{ t.font_system | default(value="unknown") }}</td>
+                            <td><span class="theme-log__badge theme-log__badge--{{ st_class }}">{{ st }}</span></td>
+                            <td class="theme-log__notes">{{ t.notes | default(value="") }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
         {% endif %}
 
         {# ===== Excluded / unverified ===== #}
@@ -124,12 +275,132 @@
         {% endif %}
 
         <footer class="theme-log__footer">
-            <p>Dữ liệu sinh bởi <code>scripts/theme_audit.py</code> từ git history thật (mỗi commit verify bằng <code>git rev-parse --verify</code> trước khi vào bảng). Không hardcode ví dụ. {% if data.baseline %}Rollback history reliably available from <time datetime="{{ data.baseline.start_date }}">{{ data.baseline.start_date | truncate(length=16, end="") }}</time> onward.{% endif %}</p>
+            <p>Theme history sinh bởi <code>scripts/theme_audit.py</code> từ git history thật. Milestones thêm thủ công qua <code>scripts/add_milestone.py</code>. {% if data.baseline %}Lịch sử rollback từ <time datetime="{{ data.baseline.start_date }}">{{ data.baseline.start_date | truncate(length=16, end="") }}</time>.{% endif %}</p>
         </footer>
         {% else %}
-        <p class="theme-log__empty">Chưa có <code>data/theme-log.json</code>. Chạy <code>python3 scripts/theme_audit.py</code> trước khi <code>zola build</code>.</p>
+        <p class="theme-log__empty">Chưa có <code>data/theme-log.json</code>. Chạy <code>python3 scripts/theme_audit.py</code> trước <code>zola build</code>.</p>
         {% endif %}
     </section>
+
+    <script>
+    (function () {
+      'use strict';
+      var tbody = document.getElementById('milestone-tbody');
+      if (!tbody) return;
+
+      var allRows = [];
+      var rows = tbody.querySelectorAll('tr.milestone-row');
+      rows.forEach(function (row) {
+        var nextRow = row.nextElementSibling;
+        var detail = (nextRow && nextRow.classList.contains('milestone-detail-row')) ? nextRow : null;
+        allRows.push({ row: row, detail: detail });
+        row.style.cursor = 'pointer';
+        row.addEventListener('click', function () {
+          if (!detail) return;
+          var hidden = detail.hidden;
+          detail.hidden = !hidden;
+          detail.setAttribute('aria-hidden', hidden ? 'false' : 'true');
+          row.classList.toggle('milestone-row--expanded', hidden);
+        });
+      });
+
+      var filterType = document.getElementById('filter-type');
+      var filterStatus = document.getElementById('filter-status');
+      var filterRisk = document.getElementById('filter-risk');
+      var filterSearch = document.getElementById('filter-search');
+      var pageSize = document.getElementById('page-size');
+      var countEl = document.getElementById('milestone-count');
+      var pagination = document.getElementById('milestone-pagination');
+
+      var currentPage = 1;
+
+      function getFilteredRows() {
+        var type = filterType ? filterType.value : '';
+        var status = filterStatus ? filterStatus.value : '';
+        var risk = filterRisk ? filterRisk.value : '';
+        var search = filterSearch ? filterSearch.value.toLowerCase().trim() : '';
+        return allRows.filter(function (item) {
+          var r = item.row;
+          if (type && r.dataset.type !== type) return false;
+          if (status && r.dataset.status !== status) return false;
+          if (risk && r.dataset.risk !== risk) return false;
+          if (search && !(r.dataset.search || '').toLowerCase().includes(search)) return false;
+          return true;
+        });
+      }
+
+      function render() {
+        var filtered = getFilteredRows();
+        var ps = parseInt((pageSize ? pageSize.value : '20') || '20', 10);
+        var total = filtered.length;
+        var totalPages = ps === 0 ? 1 : Math.ceil(total / ps);
+        if (currentPage > totalPages) currentPage = 1;
+
+        var start = ps === 0 ? 0 : (currentPage - 1) * ps;
+        var end = ps === 0 ? total : Math.min(start + ps, total);
+
+        allRows.forEach(function (item) {
+          item.row.hidden = true;
+          if (item.detail) { item.detail.hidden = true; item.detail.setAttribute('aria-hidden', 'true'); }
+        });
+        filtered.slice(start, end).forEach(function (item) {
+          item.row.hidden = false;
+        });
+
+        if (countEl) {
+          if (total === 0) {
+            countEl.textContent = 'Không tìm thấy milestone nào.';
+          } else if (ps === 0) {
+            countEl.textContent = 'Hiện tất cả ' + total + ' milestones';
+          } else {
+            countEl.textContent = 'Hiện ' + (start + 1) + '–' + end + ' / ' + total + ' milestones';
+          }
+        }
+
+        if (pagination) {
+          pagination.innerHTML = '';
+          if (ps > 0 && totalPages > 1) {
+            var frag = document.createDocumentFragment();
+            function btn(label, page, disabled, active) {
+              var b = document.createElement('button');
+              b.className = 'milestone-registry__page-btn' + (active ? ' milestone-registry__page-btn--active' : '');
+              b.textContent = label;
+              b.disabled = disabled;
+              if (!disabled) b.addEventListener('click', function () { currentPage = page; render(); });
+              frag.appendChild(b);
+            }
+            btn('‹', currentPage - 1, currentPage === 1, false);
+            var range = [];
+            for (var i = 1; i <= totalPages; i++) {
+              if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) range.push(i);
+              else if (range[range.length - 1] !== '…') range.push('…');
+            }
+            range.forEach(function (p) {
+              if (p === '…') {
+                var s = document.createElement('span');
+                s.className = 'milestone-registry__page-ellipsis';
+                s.textContent = '…';
+                frag.appendChild(s);
+              } else {
+                btn(p, p, false, p === currentPage);
+              }
+            });
+            btn('›', currentPage + 1, currentPage === totalPages, false);
+            pagination.appendChild(frag);
+          }
+        }
+      }
+
+      function reset() { currentPage = 1; render(); }
+      if (filterType) filterType.addEventListener('change', reset);
+      if (filterStatus) filterStatus.addEventListener('change', reset);
+      if (filterRisk) filterRisk.addEventListener('change', reset);
+      if (filterSearch) filterSearch.addEventListener('input', reset);
+      if (pageSize) pageSize.addEventListener('change', reset);
+
+      render();
+    })();
+    </script>
 {% endblock main %}
 
 {% block sidebar %}{% endblock %}

@@ -16,6 +16,135 @@
     "early_window_count": 1,
     "oldest_row": "2026-06-14T00:09:46+07:00"
   },
+  "milestones": [
+    {
+      "id": "milestone-20260628-theme-checkpoint-a9e7a20",
+      "type": "theme",
+      "title": "Theme Checkpoint — Homepage + Editor-era Transition",
+      "summary": "Mốc rollback theme tại 28/06/2026 03:36, ghi nhận trạng thái trước/sau các thay đổi lớn về homepage public, editor CMS, backup/restore sections và layout thử nghiệm.",
+      "commit": "a9e7a20",
+      "merge_commit": "",
+      "pr": "",
+      "branch": "",
+      "date": "2026-06-28T03:36:00+07:00",
+      "status": "rollback-target",
+      "scope": "theme, layout, homepage, editor CMS",
+      "routes": [],
+      "files": [
+        "templates/",
+        "sass/",
+        "static/js/editor.js"
+      ],
+      "restore_mode": "rollback-full",
+      "restore_hint": "Chỉ dùng làm reference. Rollback toàn bộ repo về commit này mất các hệ thống mới hơn. Ưu tiên cherry-pick file cụ thể.",
+      "qa": {
+        "zola_build": "unknown",
+        "qa_check": "unknown",
+        "qa_404": "unknown"
+      },
+      "risk": "high",
+      "notes": "Reference/risky rollback — thiếu các hệ thống mới (content-direction, calendar, adsense-audit). Không dùng blindly."
+    },
+    {
+      "id": "milestone-20260628-theme-section-backup-pr1118",
+      "type": "tool",
+      "title": "Theme Section Backup/Restore Toolkit (PR #1118)",
+      "summary": "Toolkit backup và restore sections/templates của blog — cho phép lưu snapshot và khôi phục từng section riêng lẻ.",
+      "commit": "",
+      "merge_commit": "",
+      "pr": "#1118",
+      "branch": "",
+      "date": "2026-06-28T00:00:00+07:00",
+      "status": "merged",
+      "scope": "backup, restore, sections, templates",
+      "routes": [
+        "/tools/theme-log/"
+      ],
+      "files": [
+        "sections-backup/",
+        "scripts/backup_sections.py",
+        "scripts/restore_sections.py"
+      ],
+      "restore_mode": "restore-toolkit",
+      "restore_hint": "Chạy scripts/restore_sections.py để restore từ sections-backup/. Xem README trong sections-backup/.",
+      "qa": {
+        "zola_build": "ci-only",
+        "qa_check": "ci-only",
+        "qa_404": "ci-only"
+      },
+      "risk": "low",
+      "notes": "Restore bằng toolkit riêng, không cần rollback toàn bộ repo."
+    },
+    {
+      "id": "milestone-20260628-content-direction-calendar-pr1120",
+      "type": "tool",
+      "title": "Content Direction & Calendar Tool (PR #1120)",
+      "summary": "Công cụ lập kế hoạch nội dung (content-direction) và lịch đăng bài (calendar) — hỗ trợ editorial planning trực quan.",
+      "commit": "",
+      "merge_commit": "",
+      "pr": "#1120",
+      "branch": "",
+      "date": "2026-06-28T00:00:00+07:00",
+      "status": "merged",
+      "scope": "content planning, editorial calendar, tools",
+      "routes": [
+        "/tools/content-direction/",
+        "/tools/calendar/"
+      ],
+      "files": [
+        "content/tools/content-direction.md",
+        "templates/content-direction.html",
+        "content/tools/calendar.md",
+        "templates/calendar.html",
+        "sass/_content-direction.scss",
+        "sass/_calendar.scss"
+      ],
+      "restore_mode": "cherry-pick-files",
+      "restore_hint": "Copy các file đã liệt kê từ commit/PR, chạy qa_check.py + zola build để verify.",
+      "qa": {
+        "zola_build": "ci-only",
+        "qa_check": "ci-only",
+        "qa_404": "ci-only"
+      },
+      "risk": "low",
+      "notes": "Additive feature — restore an toàn bằng cherry-pick file."
+    },
+    {
+      "id": "milestone-20260628-adsense-audit-v2-pr1122",
+      "type": "feature",
+      "title": "AdSense Audit Report V1/V2 (PR #1122)",
+      "summary": "Dashboard kiểm tra AdSense compliance: quét toàn bộ nội dung, sinh báo cáo V1 (tổng quan) và V2 (chi tiết theo bài). Tích hợp content health scanner.",
+      "commit": "",
+      "merge_commit": "",
+      "pr": "#1122",
+      "branch": "claude/restore-adsense-audit-v1-v2",
+      "date": "2026-06-28T00:00:00+07:00",
+      "status": "merged",
+      "scope": "adsense audit, content health, report data, compliance",
+      "routes": [
+        "/ad-report-v2/",
+        "/ad-report/"
+      ],
+      "files": [
+        "content/ad-report-v2.md",
+        "templates/ad-report-v2.html",
+        "scripts/build_ad_report_v2.py",
+        "data/ad-report-v2.json",
+        "content/ad-report.md",
+        "templates/ad-report.html",
+        "data/ad-report.json"
+      ],
+      "restore_mode": "cherry-pick-files",
+      "restore_hint": "Copy listed files từ PR branch, chạy python3 scripts/build_ad_report_v2.py để regenerate data, verify với qa_check.py + zola build.",
+      "qa": {
+        "zola_build": "ci-only",
+        "qa_check": "ci-only",
+        "qa_404": "ci-only"
+      },
+      "risk": "low",
+      "notes": "Additive feature — không rollback toàn repo; chỉ cherry-pick các file liệt kê."
+    }
+  ],
   "themes": [
     {
       "theme_id": "theme-20260628-a9e7a20",

@@ -1,7 +1,7 @@
 +++
-title = "Theme log"
+title = "Rollback Milestones"
 date = 2026-06-13
-description = "Sổ ghi mốc rollback theme/blog UI của SEOMONEY — dựng từ dữ liệu git thật, mỗi commit được verify trước khi đưa vào bảng."
+description = "Bản đồ rollback/restore cho theme, công cụ, tính năng và nội dung của SEOMONEY — mốc khôi phục từ 14-06-2026."
 template = "theme-log.html"
 aliases = ["/theme-log/"]
 
