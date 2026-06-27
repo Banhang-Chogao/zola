@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block title %}Tin tức WorldCup 2026 — Lịch thi đấu, BXH & Góc nhìn vui nhộn | {{ config.title }}{% endblock %}
+{% block description %}World Cup 2026 News Hub vui tươi nhiều màu sắc: tin nóng, nhận định, lịch thi đấu, bảng xếp hạng, vua phá lưới và video nổi bật.{% endblock %}
+
+{% block extra_head %}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+{% endblock %}
+
+{% block main %}
+{% set data = load_data(path="data/worldcup_2026.json", format="json") %}
+<div class="wc" id="wc-root">
+
+    {# ============= INTERNAL HEADER ============= #}
+    <header class="wc__topbar">
+        <a href="#wc-root" class="wc__logo">
+            <span class="wc__ball">⚽</span>
+            <span class="wc__logo-text">World <b>Cup</b> 2026<small>FIFA • USA · CANADA · MEXICO</small></span>
+        </a>
+        <nav class="wc__menu" aria-label="Chuyên mục World Cup">
+            <a href="#wc-tin-tuc" class="wc__menu-link wc__menu-link--active" data-filter="all">📰 Tin Tức</a>
+            <a href="#wc-tin-tuc" class="wc__menu-link" data-filter="nhan-dinh">🧠 Nhận Định</a>
+            <a href="#wc-lich" class="wc__menu-link">📅 Lịch thi đấu</a>
+            <a href="#wc-tin-tuc" class="wc__menu-link" data-filter="vui">🎉 Vui cùng World Cup 2026</a>
+            <a href="#wc-video" class="wc__menu-link">🎬 Video</a>
+        </nav>
+        <div class="wc__actions">
+            <button class="wc__icon-btn" id="wc-search-btn" type="button" aria-label="Tìm kiếm">🔍</button>
+            <button class="wc__icon-btn" id="wc-theme-btn" type="button" aria-label="Chế độ tối">🌙</button>
+            <button class="wc__icon-btn" id="wc-bell-btn" type="button" aria-label="Thông báo">🔔<span class="wc__badge">3</span></button>
+        </div>
+        <div class="wc__searchwrap" id="wc-searchwrap">
+            <input type="text" id="wc-search-input" class="wc__search-input" placeholder="🔍 Tìm bài viết... (vd: Messi, Iran, Neymar, dự đoán)" />
+        </div>
+    </header>
+
+    {# ============= NEWS TICKER ============= #}
+    {% if data.ticker %}
+    <div class="wc__ticker wc-reveal">
+        <b>🔥 NÓNG</b>
+        <div class="wc__ticker-track"><span>{% for t in data.ticker %}{{ t }}{% if not loop.last %} ⚡ {% endif %}{% endfor %}</span></div>
+    </div>
+    {% endif %}
+
+    {# ============= LAYOUT GRID: SIDEBAR (30%) + MAIN (70%) ============= #}
+    <div class="wc__grid">
+
+        {# ---------- SIDEBAR ---------- #}
+        <aside class="wc__sidebar">
+
+            {# Lịch thi đấu & Kết quả #}
+            <section class="wc__card wc-reveal" id="wc-lich">
+                <h2 class="wc__card-title"><span class="wc__dot"></span><span>⚽</span> Lịch thi đấu &amp; Kết quả</h2>
+                <div class="wc__matches">
+                    {% for m in data.matches %}
+                    <div class="wc__match" tabindex="0" data-match="{{ m.home }} vs {{ m.away }}">
+                        <div class="wc__match-team"><span class="wc__flag">{{ m.home_flag }}</span><span>{{ m.home }}</span></div>
+                        <div class="wc__match-score">{% if m.score %}{{ m.score }}{% else %}VS{% endif %}</div>
+                        <div class="wc__match-team wc__match-team--away"><span>{{ m.away }}</span><span class="wc__flag">{{ m.away_flag }}</span></div>
+                        {% if m.status == "live" %}<span class="wc__chip wc__chip--live">● LIVE</span>
+                        {% elif m.status == "done" %}<span class="wc__chip wc__chip--done">FT</span>
+                        {% else %}<span class="wc__chip wc__chip--soon">SẮP</span>{% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            {# Bảng xếp hạng #}
+            <section class="wc__card wc-reveal">
+                <h2 class="wc__card-title"><span class="wc__dot"></span><span>📊</span> Bảng xếp hạng</h2>
+                <div class="wc__tabs" id="wc-stand-tabs">
+                    <button class="wc__tab wc__tab--active" data-group="H" type="button">Bảng H</button>
+                    <button class="wc__tab" data-group="G" type="button">Bảng G</button>
+                </div>
+                {% for group, rows in data.standings %}
+                <table class="wc__table" data-group-table="{{ group }}"{% if group != "H" %} hidden{% endif %}>
+                    <thead><tr><th>Đội</th><th>T</th><th>Th</th><th>H</th><th>B</th><th>HS</th><th>Đ</th></tr></thead>
+                    <tbody>
+                        {% for r in rows %}
+                        <tr>
+                            <td><div class="wc__rank"><span class="wc__rank-no{% if loop.index <= 2 %} wc__rank-no--top{% endif %}">{{ loop.index }}</span>{{ r.flag }} {{ r.team }}</div></td>
+                            <td>{{ r.p }}</td><td>{{ r.w }}</td><td>{{ r.d }}</td><td>{{ r.l }}</td><td>{{ r.gd }}</td><td class="wc__pts">{{ r.pts }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endfor %}
+            </section>
+
+            {# Thống kê nhanh #}
+            {% if data.stats %}
+            <section class="wc__card wc-reveal">
+                <h2 class="wc__card-title"><span class="wc__dot"></span><span>📈</span> Thống kê nhanh</h2>
+                <div class="wc__qstats">
+                    {% for s in data.stats %}
+                    <div class="wc__qstat{% if s.text %} wc__qstat--wide{% endif %}">
+                        {% if s.text %}
+                            <div class="wc__qstat-big wc__qstat-big--text">{{ s.icon }} {{ s.text }}</div>
+                        {% else %}
+                            <div class="wc__qstat-big" data-count="{{ s.value }}">0</div>
+                        {% endif %}
+                        <div class="wc__qstat-lbl">{{ s.icon }} {{ s.label }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            {# Video nổi bật #}
+            {% if data.videos %}
+            <section class="wc__card wc-reveal" id="wc-video">
+                <h2 class="wc__card-title"><span class="wc__dot"></span><span>🎬</span> Video nổi bật</h2>
+                {% for v in data.videos %}
+                <a class="wc__video" href="https://www.youtube.com/watch?v={{ v.yt }}" target="_blank" rel="noopener" data-video="{{ v.title }}">
+                    <img src="https://picsum.photos/seed/{{ v.seed }}/400/225" alt="{{ v.title }}" loading="lazy" decoding="async" />
+                    <span class="wc__video-play">▶</span>
+                    <span class="wc__video-cap">{{ v.title }}</span>
+                </a>
+                {% endfor %}
+            </section>
+            {% endif %}
+
+            {# Theo dõi #}
+            <section class="wc__card wc-reveal">
+                <h2 class="wc__card-title"><span class="wc__dot"></span><span>💌</span> Theo dõi chúng tôi</h2>
+                <div class="wc__social">
+                    <a class="wc__social-btn wc__social-btn--fb" href="#" data-toast="Mở Facebook 💙">Facebook</a>
+                    <a class="wc__social-btn wc__social-btn--yt" href="#" data-toast="Mở Youtube ❤️">Youtube</a>
+                    <a class="wc__social-btn wc__social-btn--th" href="#" data-toast="Mở Threads 🖤">Threads</a>
+                </div>
+            </section>
+
+        </aside>
+
+        {# ---------- MAIN CONTENT ---------- #}
+        <main class="wc__main" id="wc-tin-tuc">
+
+            {# Featured #}
+            {% for item in data.news %}{% if item.is_featured %}
+            <article class="wc__featured wc-reveal" data-confetti="true" data-toast="Đang mở bài viết nổi bật 🎉">
+                <img src="https://picsum.photos/seed/{{ item.image }}/900/500" alt="{{ item.title }}" loading="lazy" decoding="async" />
+                <div class="wc__featured-body">
+                    <span class="wc__featured-tag">⭐ Nổi bật</span>
+                    <h3 class="wc__featured-title">{{ item.title }}</h3>
+                    <p class="wc__featured-desc">{{ item.summary }}</p>
+                    <div class="wc__featured-meta">
+                        <span>📁 Tin Tức</span>
+                        <span>🕒 {{ item.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                        <span>👁️ {{ item.views }} lượt xem</span>
+                        <span>💬 {{ item.comments }}</span>
+                    </div>
+                    <button class="wc__btn" type="button">📖 Đọc tiếp</button>
+                </div>
+            </article>
+            {% endif %}{% endfor %}
+
+            {# Danh sách bài viết #}
+            <div class="wc__section-head wc-reveal">
+                <h2 class="wc__section-title"><span class="wc__bar"></span>📰 Tin mới nhất</h2>
+                <a href="#" class="wc__see-all" data-toast="Xem tất cả bài viết 📰">Xem tất cả →</a>
+            </div>
+            <div class="wc__articles" id="wc-articles">
+                {% for item in data.news %}{% if not item.is_featured %}
+                <article class="wc__article wc-reveal" data-category="{{ item.category }}" data-search="{{ item.title }} {{ item.summary }} {{ item.category }}">
+                    <div class="wc__article-thumb">
+                        <span class="wc__article-cat">
+                            {% if item.category == "tin-nong" %}Tin Tức
+                            {% elif item.category == "nhan-dinh" %}Nhận Định
+                            {% elif item.category == "vui" %}Vui cùng WC
+                            {% elif item.category == "lich-thi-dau" %}Lịch thi đấu
+                            {% else %}{{ item.category }}{% endif %}
+                        </span>
+                        <img src="https://picsum.photos/seed/{{ item.image }}/500/320" alt="{{ item.title }}" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="wc__article-body">
+                        <h4 class="wc__article-title">{{ item.title }}</h4>
+                        <p class="wc__article-excerpt">{{ item.summary }}</p>
+                        <div class="wc__article-foot">
+                            <div class="wc__article-stats">
+                                <span>🕒 {{ item.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                                <span>👁️ {{ item.views }}</span>
+                                <span>💬 {{ item.comments }}</span>
+                            </div>
+                            <div class="wc__mini-acts">
+                                <button type="button" class="wc__mini" data-act="like" aria-label="Thích">♡</button>
+                                <button type="button" class="wc__mini" data-act="save" aria-label="Lưu">🔖</button>
+                                <button type="button" class="wc__mini" data-act="share" aria-label="Chia sẻ">🔗</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                {% endif %}{% endfor %}
+                <div class="wc__empty" id="wc-empty" hidden>😢 Không tìm thấy bài viết phù hợp. Thử từ khoá khác nhé!</div>
+            </div>
+
+            {# Nhận định #}
+            <div class="wc__section-head wc-reveal" id="wc-nhan-dinh">
+                <h2 class="wc__section-title"><span class="wc__bar"></span>🧠 Nhận định &amp; Dự đoán</h2>
+            </div>
+            <div class="wc__predict wc-reveal">
+                <div class="wc__predict-emoji">🔮</div>
+                <div class="wc__predict-body">
+                    <h3>Dự đoán tỉ số: Uzbekistan đập tắt giấc mơ của CHDC Congo</h3>
+                    <p>Chuyên gia nhận định Uzbekistan đủ sức tạo bất ngờ với lối chơi pressing tầm cao. Dự đoán: <b>Uzbekistan 2 - 1 CHDC Congo</b>.</p>
+                </div>
+                <button class="wc__btn wc__btn--grad" type="button" data-toast="Mở bài nhận định 🧠">📈 Chi tiết</button>
+            </div>
+
+            {# Vua phá lưới #}
+            {% if data.scorers %}
+            <div class="wc__section-head wc-reveal" id="wc-vui">
+                <h2 class="wc__section-title"><span class="wc__bar"></span>👑 Vua phá lưới</h2>
+                <a href="#" class="wc__see-all" data-toast="Xem BXH đầy đủ 👑">Đầy đủ →</a>
+            </div>
+            <div class="wc__card wc-reveal">
+                <div class="wc__scorers">
+                    {% set top_goals = data.scorers.0.goals %}
+                    {% for s in data.scorers %}
+                    <div class="wc__scorer">
+                        <div class="wc__scorer-pos{% if loop.index == 1 %} wc__scorer-pos--gold{% elif loop.index == 2 %} wc__scorer-pos--silver{% elif loop.index == 3 %} wc__scorer-pos--bronze{% endif %}">{{ loop.index }}</div>
+                        <div class="wc__scorer-ava">{{ s.emoji }}</div>
+                        <div class="wc__scorer-info">
+                            <b>{{ s.name }}</b><small>{{ s.country }}</small>
+                            <div class="wc__goalbar"><span style="width: {{ s.goals / top_goals * 100 }}%"></span></div>
+                        </div>
+                        <div class="wc__scorer-goals">{{ s.goals }}<small>bàn</small></div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {# Bên lề & đời sống (editorials) #}
+            {% if data.editorials %}
+            <div class="wc__section-head wc-reveal">
+                <h2 class="wc__section-title"><span class="wc__bar"></span>💭 Bên lề &amp; đời sống</h2>
+            </div>
+            <div class="wc__editorials">
+                {% for ed in data.editorials %}
+                <article class="wc__editorial wc-reveal" data-toast="Mở bài: {{ ed.title }}">
+                    <h3>{{ ed.title }}</h3>
+                    <p>{{ ed.excerpt }}</p>
+                    <span class="wc__editorial-link">Đọc thêm →</span>
+                </article>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+        </main>
+    </div>
+
+    {# back to top + toast #}
+    <button id="wc-to-top" class="wc__to-top" type="button" aria-label="Lên đầu trang">↑</button>
+    <div id="wc-toast" class="wc__toast" role="status" aria-live="polite"></div>
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/worldcup-2026.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Thống kê | {{ config.title }}{% endblock %}
+
+{% block main %}
+    <header class="stats-hero">
+        <p class="stats-hero__eyebrow">Speed Insights</p>
+        <h1 class="stats-hero__title">Thống kê hiệu năng</h1>
+        <p class="stats-hero__sub">
+            Core Web Vitals đo thực tế (Real-User-Monitoring) từ mọi khách truy cập, tổng hợp P75 / median / trung bình theo 24h · 7 ngày · 30 ngày.
+        </p>
+    </header>
+
+    <div class="stats-app" id="stats-app"
+         data-rum-api="{{ config.extra.cms_auth_url | default(value='') | safe }}">
+        <p class="stats-loading">Đang tải dữ liệu Speed Insights…</p>
+    </div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/stats-page.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
+{% endblock %}

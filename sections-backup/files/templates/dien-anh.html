@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% import "macros/verified.html" as v %}
+
+{% block title %}Điện ảnh — Tin từ IMDB | {{ config.title }}{% endblock %}
+{% block description %}Tin tức điện ảnh từ IMDB scraper proxy — cache 24h, refresh tự động.{% endblock %}
+
+{% block main %}
+    {# Tận dụng nguyên SCSS .du-lich (grid 4 cột + card vertical + thumbnail
+       16:10 + rank overlay) cho /dien-anh/ — kiến trúc giống hệt, chỉ khác
+       nội dung + endpoint backend (/api/movies → IMDB scraper proxy). #}
+    <section class="du-lich">
+        <header class="du-lich__header">
+            <h1 class="du-lich__title">
+                <span class="du-lich__icon" aria-hidden="true">🎬</span>
+                Tin tức Điện ảnh từ <span class="du-lich__source">IMDB{{ v::badge() }}</span>
+            </h1>
+            <p class="du-lich__sub">
+                Tin tức + danh sách phim từ IMDB scraper proxy. Cache 24h,
+                refresh tự động. Có thể đổi nguồn (search, top, popular...)
+                qua env var <code>IMDB_API_URL</code>.
+            </p>
+        </header>
+
+        <div class="du-lich__status" data-status>
+            <div class="du-lich__skeleton" aria-hidden="true">
+                {% for i in [1,2,3,4,5,6,7,8] %}
+                <div class="du-lich-card du-lich-card--skeleton">
+                    <div class="du-lich-card__skeleton-bar du-lich-card__skeleton-bar--title"></div>
+                    <div class="du-lich-card__skeleton-bar du-lich-card__skeleton-bar--meta"></div>
+                    <div class="du-lich-card__skeleton-bar du-lich-card__skeleton-bar--summary"></div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="du-lich__list" data-list hidden></div>
+
+        <div class="du-lich__error" data-error hidden role="alert">
+            <span class="du-lich__error-icon" aria-hidden="true">🎞</span>
+            <div>
+                <strong data-error-title>Tạm thời không lấy được tin từ IMDB</strong>
+                <p data-error-detail>
+                    Backend có thể đang khởi động (free tier sleep ~30s), hoặc
+                    IMDB_API_URL trả schema không match. Thử tải lại sau vài phút.
+                </p>
+            </div>
+        </div>
+
+        <footer class="du-lich__footer" data-footer hidden>
+            <span class="du-lich__cache-info" data-cache-info></span>
+            <button type="button" class="editor-btn editor-btn--ghost editor-btn--small" data-reload>↻ Tải lại</button>
+        </footer>
+    </section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/dien-anh.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
+{% endblock %}

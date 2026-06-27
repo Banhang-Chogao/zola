@@ -1,0 +1,185 @@
+base_url = "https://seomoney.org"
+title = "SEOMONEY"
+description = "Blog cá nhân của Duy Nguyen về công nghệ, du lịch và ẩm thực — chuyện viết code, xây dựng sản phẩm phần mềm và những chuyến đi đáng nhớ."
+# Blog tiếng Việt → khai báo để feed (atom/rss) + sitemap mang đúng
+# xml:lang="vi" thay vì mặc định "en", khớp <html lang="vi">.
+default_language = "vi"
+
+compile_sass = true
+build_search_index = false
+
+# SEO: sinh feed RSS/Atom toàn site + cho từng taxonomy.
+# Zola 0.19+ đổi `generate_rss`→`generate_feeds`, taxonomy `rss`→`feed`.
+# Mặc định generate_feeds=false → trước đây blog KHÔNG có feed nào (chỉ có
+# sitemap.xml). Bật lên để feed reader + Google Discover bắt được nội dung.
+generate_feeds = true
+feed_filenames = ["atom.xml", "rss.xml"]
+
+taxonomies = [
+    {name = "categories", feed = true, paginate_by = 10},
+    {name = "tags", feed = true, paginate_by = 10},
+]
+
+[markdown]
+external_links_class = "external"
+
+[markdown.highlighting]
+enabled = true
+theme = "catppuccin-mocha"
+extra_syntaxes_and_themes = ["highlight_themes"]
+
+[extra]
+author = "duynguyenlog"
+tagline = "Duy Nguyen"
+
+# Cloudflare R2 CDN (DISCONNECTED — reversible). Static media served from GitHub Pages.
+# Re-enable ONLY when owner allows by uncommenting:
+# cdn = "https://cdn.seomoney.org"
+
+# Author box hiển thị cuối mỗi bài viết.
+# Bio, avatar — sửa ở đây ảnh hưởng mọi bài.
+# Avatar: upload file ảnh vào static/img/author-avatar.webp trong repo,
+# Zola sẽ serve tại path dưới sau khi build.
+author_avatar = "https://seomoney.org/img/author-avatar.webp"
+author_url    = "https://seomoney.org"
+author_bio    = """\
+Mình là Duy Nguyen — một developer Việt Nam mê khám phá điểm chung giữa \
+công nghệ và những chuyến đi. Tại blog này, mình ghi lại những trải nghiệm \
+cá nhân về việc xây dựng các sản phẩm phần mềm: từ những dòng code đầu \
+tiên, qua những đêm debug căng não, đến lúc deploy lên production và \
+chứng kiến nó chạy ổn định cho hàng nghìn người dùng. Song song với đó là \
+những câu chuyện trên đường — về các thành phố mình đặt chân tới, những \
+quán cà phê yên tĩnh nơi mình ngồi viết code, và những con người mình tình \
+cờ gặp gỡ. Mình tin rằng công nghệ và du lịch có nhiều điểm tương đồng: \
+cả hai đều mở ra cánh cửa mới, đòi hỏi sự tò mò không ngừng và đôi khi \
+phải chấp nhận thất bại để trưởng thành. Cảm ơn bạn đã ghé thăm — hy vọng \
+chúng ta có thể đồng hành cùng nhau qua từng bài viết.\
+"""
+
+# Menu navigation — CẤU TRÚC 2 TẦNG: Category → Sub-category (dropdown).
+# 3 nhóm chính (Bài viết · Công cụ · Giới thiệu); mỗi nhóm có 'children'
+# xổ xuống chứa các mục con → KHÔNG mục nào bị ẩn, tất cả truy cập được.
+# Item KHÔNG có 'children' = link đơn bình thường (tương thích ngược).
+# Thêm/bớt mục = sửa mảng 'children' tương ứng (giữ pattern url + name).
+menu = [
+    { name = "Trang chủ", url = "$BASE_URL/" },
+    # "Bài viết" dùng MEGA MENU: 'groups' = các nhóm chuyên mục (mỗi nhóm có
+    # heading + children). base.html render groups → mega menu nhiều cột (desktop)
+    # / accordion (mobile). KHÔNG đổi URL category nào — chỉ nhóm lại theo biên tập
+    # cho gọn (thay 1 list dọc dài). Mỗi group là 1 inline-table 1 dòng (TOML:
+    # inline table không xuống dòng được). Premium tách riêng nhóm "Đặc biệt".
+    { name = "Bài viết", url = "$BASE_URL/categories/tat-ca", groups = [
+        { name = "Tổng quan", children = [ { url = "$BASE_URL/categories/tat-ca", name = "Tất cả bài viết" } ] },
+        { name = "Chủ đề tri thức", children = [ { url = "$BASE_URL/categories/bao-chi", name = "Báo chí" }, { url = "$BASE_URL/categories/khoa-hoc", name = "Khoa học" }, { url = "$BASE_URL/categories/the-gioi", name = "Thế giới" }, { url = "$BASE_URL/categories/cong-nghe", name = "Công nghệ" } ] },
+        { name = "Đời sống", children = [ { url = "$BASE_URL/categories/du-lich", name = "Du lịch" }, { url = "$BASE_URL/categories/am-thuc", name = "Ẩm thực" } ] },
+        { name = "Tài chính cá nhân", children = [ { url = "$BASE_URL/categories/ngan-hang", name = "Ngân hàng" }, { url = "$BASE_URL/categories/bao-hiem", name = "Bảo hiểm" } ] },
+        { name = "Đặc biệt", children = [ { url = "$BASE_URL/categories/premium", name = "⭐ Premium" } ] },
+    ] },
+    # "Công cụ" dùng MEGA MENU: 'groups' = các nhóm (mỗi nhóm có heading + children).
+    # base.html render groups → mega menu (desktop) / accordion (mobile). KHÔNG xoá/
+    # đổi URL tool nào — chỉ nhóm lại cho gọn. Mỗi group là 1 inline-table 1 dòng
+    # (ràng buộc TOML: inline table không xuống dòng được).
+    # Refactor 27/06/2026: tách 'Dashboard' và 'Công cụ phụ' (→ 'Tiện ích') thành
+    # top-level riêng để 'Công cụ' gọn hơn — chỉ còn 3 nhóm viết/SEO/guideline.
+    { name = "Công cụ", url = "$BASE_URL/editor", groups = [
+        { name = "Viết & biên tập", children = [ { url = "$BASE_URL/editor", name = "Viết bài" }, { url = "$BASE_URL/tools/content-creator", name = "Content Creator" }, { url = "$BASE_URL/prompt-support", name = "Prompt Support" } ] },
+        { name = "SEO & phân tích", children = [ { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" }, { url = "$BASE_URL/insights", name = "Insights" }, { url = "$BASE_URL/scoring", name = "Scoring" }, { url = "$BASE_URL/tools/theme-log", name = "Theme log" } ] },
+        { name = "Hệ thống & guideline", children = [ { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" }, { url = "$BASE_URL/tools/s-dna", name = "S-DNA" }, { url = "$BASE_URL/font", name = "Font Guideline" } ] },
+    ] },
+    # "Dashboard" — top-level riêng (tách khỏi Công cụ). Dropdown đơn (children) gom
+    # 4 dashboard tài chính F/L/O/H. KHÔNG đổi URL dashboard.
+    { name = "Dashboard", url = "$BASE_URL/tools/f-dashboard", children = [
+        { url = "$BASE_URL/tools/f-dashboard", name = "F-Dashboard" },
+        { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" },
+        { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
+        { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" },
+    ] },
+    # "Tiện ích" — top-level riêng (đổi tên từ nhóm cũ 'Công cụ phụ' cho gọn navbar +
+    # mobile). Dropdown đơn (children). KHÔNG đổi URL tool.
+    { name = "Tiện ích", url = "$BASE_URL/converter", children = [
+        { url = "$BASE_URL/converter", name = "Korean Converter" },
+        { url = "$BASE_URL/changelog", name = "Changelog" },
+        { url = "$BASE_URL/tools/momo-url", name = "MoMo URL" },
+    ] },
+]
+
+# ============= GOOGLE ANALYTICS 4 =============
+# Lấy MEASUREMENT_ID tại https://analytics.google.com → Admin → Data Streams
+# → chọn Web stream → copy "Measurement ID" dạng "G-XXXXXXXXXX"
+# Để trống = GA tracking script không load (silent skip).
+# Property ID: 542421812 (tham chiếu Admin → Property Settings)
+ga_measurement_id = "G-SMTFZVC0XN"
+
+# ============= GOOGLE SEARCH CONSOLE =============
+# Xác minh sở hữu site → mở khoá submit sitemap + "Request Indexing"
+# (cách NHANH NHẤT để bài mới lên Google thay vì chờ crawl tự nhiên).
+# Cách lấy mã:
+#   1. Vào https://search.google.com/search-console → Add property
+#      → chọn "URL prefix" → nhập https://seomoney.org/
+#   2. Chọn phương thức xác minh "HTML tag"
+#   3. Copy phần content="..." trong thẻ <meta google-site-verification ...>
+#      rồi dán giá trị đó vào dưới (chỉ phần trong dấu nháy).
+# Để trống = không render meta (silent skip).
+google_site_verification = "P8D-DHMtUivdNJmeBe9y345PxmIfmIGooscim9x7IM4"
+
+# ============= GOOGLE PROGRAMMABLE SEARCH ENGINE =============
+# Search engine ID (cx) lấy tại https://programmablesearchengine.google.com/
+# → tạo engine giới hạn site https://seomoney.org/
+# → copy "Search engine ID" dán vào đây. Để trống = fallback mở Google với
+# truy vấn site:seomoney.org nên nút tìm kiếm vẫn hoạt động.
+google_cse_cx = "533c848cb0eb14de2"
+
+# CMS auth backend — FastAPI OAuth chạy trên VIPZone (service blog-vipzone-api).
+# PHẢI nằm dưới [extra], KHÔNG đặt trong [extra.giscus] (meta zola-cms-auth-api sẽ không render).
+cms_auth_url = "https://blog-vipzone-api.onrender.com"
+
+# Paywall DISABLED (hotfix SEOMONEY 2026-06-27): mọi bài public, không gate thanh toán.
+paywall_api_url = ""
+# Giá mặc định bài premium (VND) — chỉ metadata, không kích hoạt paywall UI.
+paywall_default_price = 100000
+# Premium lock OFF — category "premium" là nhãn bình thường, nội dung đọc miễn phí.
+enable_premium_lock = false
+premium_hidden = false
+momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
+# Link MoMo cho DONATE (ủng hộ tự nguyện) — key RIÊNG để donate có thể đổi độc
+# lập với paywall sau này. Hiện trỏ cùng tài khoản nhận tiền với momo_payment_link
+# ở trên. DonatePremiumCard (shortcode donate_card) chỉ đọc key này. Trống = ẩn nút.
+donate_momo_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
+
+# ============= GISCUS COMMENTS (GitHub Discussions) =============
+# Setup:
+#   1. Settings → Features → bật Discussions cho repo
+#   2. Install app https://github.com/apps/giscus
+#   3. Vào https://giscus.app → chọn repo Banhang-Chogao/zola
+#      → copy 2 ID dán vào dưới
+# Để trống repo_id hoặc category_id = macro silent skip, không render comment box.
+#
+# ⚠️ Giscus (đăng nhập GitHub) ĐÃ ĐƯỢC THAY bằng hệ thống bình luận native đăng nhập
+# Google (xem [extra.comments] bên dưới). Block Giscus chỉ render lại khi
+# legacy_enabled = true — giữ để xem comment GitHub cũ (read-only), KHÔNG xoá tự động.
+[extra.giscus]
+repo        = "Banhang-Chogao/zola"
+repo_id     = "R_kgDOS5xLPw"
+category    = "General"
+category_id = "DIC_kwDOS5xLP84C_Fx6"
+legacy_enabled = false
+
+# ============= NATIVE COMMENTS (đăng nhập Google, có kiểm duyệt) =============
+# Hệ thống bình luận tự xây, backend VIPZone (config.extra.cms_auth_url):
+#   GET  /comments?path=...   → bình luận đã duyệt (public)
+#   POST /comments            → gửi bình luận (cần đăng nhập Google)
+#   /auth/comment/start       → đăng nhập Google để bình luận (KHÔNG vào được CMS)
+# Cấu hình status mặc định + độ dài tối đa khớp env backend (render.yaml).
+[extra.comments]
+enabled = true
+auth_provider = "google"
+default_status = "pending"   # bình luận mới chờ duyệt (an toàn AdSense)
+max_length = 1500
+
+# ============= ADSENSE PLACEHOLDERS =============
+# Bật/tắt hệ thống placeholder quảng cáo (không phải quảng cáo thật).
+# enabled = false   → không render placeholder nào
+# placeholders = true → render placeholder UI để test vị trí, chờ gắn mã AdSense thật
+[extra.ads]
+enabled = false
+placeholders = true
