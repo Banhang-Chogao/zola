@@ -626,6 +626,18 @@
             </button>
 
             <ul class="navbar__menu" id="navbar-menu">
+                {# Drawer header — chỉ hiện trên mobile (CSS ẩn ở desktop). Tiêu đề +
+                   nút đóng rõ ràng. Là <li> để markup <ul> hợp lệ. #}
+                <li class="navbar__drawer-head">
+                    <span class="navbar__drawer-title">Menu</span>
+                    <button type="button" class="navbar__drawer-close" data-drawer-close aria-label="Đóng menu">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
+                             stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </li>
                 {% for item in config.extra.menu %}
                     {% if item.groups %}
                         {# Mega menu: 'groups' = nhiều nhóm có heading. Desktop → panel

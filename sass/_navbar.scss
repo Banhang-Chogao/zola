@@ -317,134 +317,16 @@
   }
 }
 
-/* ========== MOBILE HORIZONTAL TABS (Momo-style) ==========
-   Trigger: ≤ 720px. KHÔNG dùng burger drawer nữa, thay bằng tab nav
-   ngang scroll horizontal giống momo.vn. Tên menu text-only (JS strip
-   emoji). Active tab có underline đỏ. */
-@media (max-width: 720px) {
-  .navbar__inner {
-    padding: 0;
-    align-items: stretch;
-    min-height: 52px;
-  }
-
-  /* Hide burger + backdrop — không dùng drawer pattern nữa */
-  .navbar__burger,
-  .navbar__backdrop {
-    display: none !important;
-  }
-
-  /* Menu = horizontal scroll tabs giống momo. Reset hết style drawer cũ. */
-  .navbar__menu {
-    /* Reset từ desktop/burger styles */
-    position: static;
-    flex-direction: row;
-    background: transparent;
-    box-shadow: none;
-    transform: none;
-    transition: none;
-    visibility: visible;
-    padding: 0 12px;
-    margin: 0;
-    /* Horizontal scroll */
-    display: flex;
-    flex: 1;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-    scroll-snap-type: x proximity;
-    /* Hide scrollbar */
-    scrollbar-width: none;
-    &::-webkit-scrollbar { display: none; }
-
-    li {
-      display: flex;
-      flex-shrink: 0;
-      border-bottom: none;
-      scroll-snap-align: start;
-    }
-
-    a {
-      color: $brand-ink-500;
-      padding: 1rem 1rem 0.9rem;
-      font-family: $font-ui;
-      font-size: 0.9rem;
-      font-weight: 600;
-      letter-spacing: 0;
-      text-transform: none;
-      white-space: nowrap;
-      position: relative;
-      border-bottom: 3px solid transparent;
-      transition: color .15s ease, border-color .15s ease;
-      width: auto;
-      justify-content: center;
-      min-height: 48px;
-      display: flex;
-      align-items: center;
-
-      /* Underline đỏ active state momo style */
-      &.is-active {
-        color: $brand-signal-red;
-        font-weight: 700;
-        border-bottom-color: $brand-signal-red;
-      }
-
-      &:hover {
-        background: transparent;
-        color: $brand-signal-red;
-      }
-    }
-  }
-
-  /* Search button giữ bên phải, touch-friendly size */
-  .navbar__cache {
-    min-width: auto;
-    min-height: 44px;
-    padding: 0 0.75rem;
-    margin-right: 0.15rem;
-    font-size: 0.72rem;
-  }
-
-  .navbar__search {
-    padding: 0 1.2rem;
-    flex-shrink: 0;
-    align-self: stretch;
-    min-width: 52px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Gradient mask cuối phải — visual hint còn scroll được, giống momo */
-  .navbar__inner {
-    position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 40px;
-      background: linear-gradient(to left,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 0) 100%);
-      pointer-events: none;
-      z-index: 1;
-    }
-  }
-}
-
 @keyframes navbar-fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-/* Lock body scroll khi mobile menu open — không cho user scroll bg.
-   SCOPE mobile only (≤720px) để TUYỆT ĐỐI không khoá scroll desktop
-   khi class navbar-open dính nhầm vì lý do nào đó. */
-@media (max-width: 720px) {
+/* Lock body scroll khi mobile drawer open — không cho user scroll bg.
+   SCOPE mobile only (< 1024px) để TUYỆT ĐỐI không khoá scroll desktop
+   khi class navbar-open dính nhầm vì lý do nào đó. Drawer CSS đầy đủ nằm
+   ở block "NAVBAR MOBILE DRAWER" cuối file. */
+@media (max-width: 1023.98px) {
   body.navbar-open {
     overflow: hidden;
   }
@@ -769,9 +651,10 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(160px, 1fr));
   gap: 0.25rem 0.5rem;
-  width: clamp(420px, 46vw, 640px);
-  max-width: calc(100vw - 32px);
-  max-height: 70vh;
+  /* Bounded width — KHÔNG full-screen; gọn theo nội dung 3 cột. */
+  width: min(680px, calc(100vw - 48px));
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 140px);
   overflow-y: auto;
   padding: 12px;
 }
@@ -779,6 +662,15 @@
 @media (min-width: 1100px) {
   .navbar__submenu--mega {
     grid-template-columns: repeat(3, minmax(160px, 1fr));
+  }
+}
+
+/* Desktop: dropdown của item gần mép phải (Dashboard, Tiện ích) canh phải để
+   KHÔNG tràn viewport. Scope ≥1024 để không đụng drawer mobile. */
+@media (min-width: 1024px) {
+  .navbar__menu > .navbar__item--has-children:nth-last-child(-n + 2) .navbar__submenu:not(.navbar__submenu--mega) {
+    left: auto;
+    right: 0;
   }
 }
 
@@ -827,103 +719,9 @@
   li { display: block; }
 }
 
-/* ============================================================
-   ===== TOOLS MEGA MENU — MOBILE (≤ 720px) = accordion =====
-   ============================================================
-   Bỏ layout cột; mỗi nhóm thành 1 dòng accordion xổ/đóng độc lập. Heading
-   thành nút bấm 44px, chevron xoay. Body ẩn mặc định, .is-open mới hiện. */
-@media (max-width: 720px) {
-  .navbar__submenu--mega {
-    display: block;
-    width: auto;
-    min-width: 220px;
-    max-width: calc(100vw - 24px);
-    max-height: min(70vh, calc(100vh - 140px));
-    grid-template-columns: none;
-  }
-
-  .navbar__megagroup {
-    border-bottom: 1px solid var(--c-border);
-
-    &:last-child { border-bottom: none; }
-  }
-
-  .navbar__megagroup-toggle {
-    min-height: 44px;
-    padding: 0.65rem 0.6rem;
-    cursor: pointer;
-  }
-
-  .navbar__megagroup-chevron {
-    display: block;             /* mobile: hiện chevron accordion */
-  }
-
-  .navbar__megagroup.is-open .navbar__megagroup-chevron {
-    transform: rotate(180deg);
-  }
-
-  /* Body ẩn mặc định; chỉ mở khi nhóm .is-open. */
-  .navbar__megagroup-body {
-    display: none;
-    padding-bottom: 0.35rem;
-  }
-
-  .navbar__megagroup.is-open .navbar__megagroup-body {
-    display: block;
-  }
-
-  /* Link accordion — touch target ≥ 44px. */
-  .navbar__megagroup-body a {
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    white-space: normal;
-  }
-}
-
-/* ============================================================
-   ===== NAVBAR CATEGORY DROPDOWN — MOBILE (≤ 720px) =====
-   ============================================================
-   3 nhóm chính vừa khít màn hình → KHÔNG cần scroll ngang. Cho
-   .navbar__menu overflow: visible để panel submenu xổ xuống không bị
-   cắt. Submenu canh trái trigger, giới hạn trong viewport. Mở/đóng bằng
-   tap (class .is-open) vì hover đã bị tắt ở @media hover phía trên.
-   Toàn bộ scope trong media query mobile — desktop không bị ảnh hưởng. */
-@media (max-width: 720px) {
-  /* Bỏ scroll ngang + cho dropdown thoát khỏi khung overflow. */
-  .navbar__menu {
-    overflow: visible;
-  }
-
-  /* Ẩn gradient mask cuối phải (không còn scroll ngang nữa). */
-  .navbar__inner::after {
-    display: none;
-  }
-
-  /* Trigger touch-friendly. */
-  .navbar__dropdown-trigger {
-    padding: 1rem 0.85rem;
-    min-height: 48px;
-    font-size: 0.9rem;
-  }
-
-  /* Submenu = panel xổ xuống dưới trigger, không tràn viewport. */
-  .navbar__submenu {
-    top: calc(100% + 2px);
-    left: 6px;
-    min-width: 200px;
-    max-width: calc(100vw - 24px);
-  }
-
-  /* Link trong submenu — touch target ≥ 44px. */
-  .navbar__submenu a {
-    padding: 0.7rem 0.85rem;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    white-space: normal;
-  }
-}
+/* Mobile drawer accordion behaviour cho mega menu + category dropdown nằm trọn
+   trong block "NAVBAR MOBILE DRAWER" ở cuối file (thay cho pattern dropdown
+   floating cũ). */
 
 /* ============================================================================
    NAVBAR DECOR — nền gradient xanh (giống ảnh placeholder) + bảng chữ cái
@@ -1013,14 +811,6 @@
   }
 }
 
-/* Mobile: đổi gradient-mask phải từ trắng → xanh đậm cho khớp nền navbar mới */
-@media (max-width: 720px) {
-  .navbar .navbar__inner::after {
-    background: linear-gradient(to left,
-      rgba(0, 166, 157, 0.92) 0%,
-      rgba(0, 166, 157, 0) 100%);
-  }
-}
 
 /* ============================================================================
    SITE SEARCH — local/offline blog search modal
@@ -1297,5 +1087,263 @@ body.search-open {
     &__submit {
       width: 100%;
     }
+  }
+}
+
+/* Drawer header (close + title) — ẩn mặc định trên desktop; chỉ hiện trong
+   drawer mobile (block dưới). */
+.navbar__drawer-head { display: none; }
+
+/* ===== HARD GUARD: desktop (≥1024px) KHÔNG BAO GIỜ hiện element mobile-only =====
+   Bug root cause: `.navbar__menu li { display: flex }` (specificity 0,2,0) đè
+   `.navbar__drawer-head { display:none }` (0,1,0) → drawer header "Menu" + nút X
+   leak lên desktop. Guard !important chặn dứt điểm mọi mobile-only element. */
+@media (min-width: 1024px) {
+  .navbar__burger,
+  .navbar__drawer-head,
+  .navbar__drawer-close,
+  .navbar__backdrop {
+    display: none !important;
+  }
+}
+
+/* ============================================================================
+   NAVBAR MOBILE DRAWER (< 1024px) — slide-in panel + accordion
+   ============================================================================
+   Thay pattern dropdown floating cũ (mega/category). Burger mở drawer trượt từ
+   trái, có backdrop mờ, body scroll-lock, accordion cho mỗi nhóm có
+   children/groups. Touch target ≥ 44px. KHÔNG che/kẹt nội dung — drawer cuộn
+   nội bộ (overflow-y:auto, max-height 100dvh). Scope toàn bộ trong @media +
+   .navbar để thắng specificity của rule chữ-trắng-trên-nền-teal phía trên. */
+@media (max-width: 1023.98px) {
+  /* Burger hiện trên mobile (desktop ẩn). */
+  .navbar__burger { display: flex; }
+  .navbar .navbar__burger-line { background: #fff; }
+
+  /* Burger → X khi drawer mở. */
+  .navbar.is-drawer-open .navbar__burger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .navbar.is-drawer-open .navbar__burger-line:nth-child(2) { opacity: 0; }
+  .navbar.is-drawer-open .navbar__burger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .navbar__inner {
+    align-items: center;
+    min-height: 56px;
+    gap: 0.4rem;
+  }
+  .navbar__actions { margin-left: auto; }
+
+  /* .navbar__inner có z-index:1 (block teal) → tạo stacking context nhốt drawer
+     DƯỚI backdrop. Khi drawer mở, nâng inner trên backdrop để drawer hiện rõ. */
+  .navbar.is-drawer-open .navbar__inner {
+    position: relative;
+    z-index: 1200;
+  }
+
+  .navbar__search { min-width: 48px; min-height: 48px; }
+
+  /* ===== DRAWER PANEL = .navbar__menu (off-canvas trái) ===== */
+  .navbar .navbar__menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(86vw, 360px);
+    height: 100dvh;
+    max-height: 100dvh;
+    background: var(--c-bg-surface);
+    border-right: 1px solid var(--c-border);
+    box-shadow: 0 0 48px rgba(0, 0, 0, 0.22);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin: 0;
+    padding: 0 0 calc(24px + env(safe-area-inset-bottom));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s;
+    z-index: 1200;
+  }
+  .navbar.is-drawer-open .navbar__menu {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  /* Header drawer: tiêu đề + nút đóng, sticky top. */
+  .navbar__drawer-head {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: calc(14px + env(safe-area-inset-top)) 16px 14px;
+    border-bottom: 1px solid var(--c-border);
+    position: sticky;
+    top: 0;
+    background: var(--c-bg-surface);
+    z-index: 2;
+  }
+  .navbar__drawer-title {
+    font-family: $font-ui;
+    font-weight: 800;
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+  }
+  .navbar__drawer-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--c-border);
+    border-radius: 10px;
+    background: var(--c-bg-soft);
+    color: var(--c-text-heading);
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+    &:hover,
+    &:focus-visible { color: var(--c-accent); border-color: var(--c-accent); outline: none; }
+  }
+
+  /* Items stack dọc, full width. */
+  .navbar .navbar__menu > li { display: block; width: 100%; }
+  .navbar .navbar__item { display: block; width: 100%; }
+
+  /* Top-level link & trigger: dòng full, chữ tối trên nền drawer trắng. */
+  .navbar .navbar__menu > .navbar__item > a,
+  .navbar .navbar__dropdown-trigger {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    min-height: 50px;
+    padding: 0 18px;
+    margin: 0;
+    border: none;
+    border-bottom: 1px solid var(--c-border);
+    border-radius: 0;
+    color: var(--c-text-body);
+    font-family: $font-ui;
+    font-size: 0.98rem;
+    font-weight: 600;
+    text-transform: none;
+  }
+  .navbar .navbar__menu > .navbar__item > a.is-active,
+  .navbar .navbar__dropdown-trigger.is-active {
+    color: var(--c-accent);
+    background: var(--c-bg-soft);
+    border-bottom-color: var(--c-border);
+  }
+  .navbar .navbar__dropdown-trigger { justify-content: space-between; }
+  /* Label span có color trắng riêng (block teal) → ép inherit màu tối của
+     trigger trong drawer nền trắng, nếu không chữ trắng-trên-trắng vô hình. */
+  .navbar .navbar__dropdown-label { color: inherit; }
+  .navbar .navbar__chevron { opacity: 0.85; transition: transform 0.2s ease; }
+  .navbar .navbar__item--has-children.is-open > .navbar__dropdown-trigger .navbar__chevron {
+    transform: rotate(180deg);
+  }
+
+  /* ===== Accordion submenu: static, ẩn mặc định, .is-open mới hiện ===== */
+  .navbar .navbar__submenu,
+  .navbar .navbar__submenu--mega {
+    position: static;
+    inset: auto;
+    display: none;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    max-height: none;
+    grid-template-columns: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: var(--c-bg-soft);
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    overflow: visible;
+  }
+  .navbar .navbar__item--has-children.is-open > .navbar__submenu,
+  .navbar .navbar__item--has-children.is-open > .navbar__submenu--mega {
+    display: block;
+  }
+
+  /* Link submenu đơn (children) — touch target ≥ 44px. */
+  .navbar .navbar__submenu a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px 0 32px;
+    margin: 0;
+    border-radius: 0;
+    border-bottom: 1px solid var(--c-border);
+    font-size: 0.92rem;
+    font-weight: 600;
+    white-space: normal;
+    color: var(--c-text-body);
+  }
+  .navbar .navbar__submenu a:hover,
+  .navbar .navbar__submenu a.is-active {
+    background: var(--c-bg-surface);
+    color: var(--c-accent);
+  }
+
+  /* Mega groups: heading = nhãn (không bấm), link luôn hiện (flat, ít tap). */
+  .navbar .navbar__megagroup { border: none; }
+  .navbar .navbar__megagroup-toggle {
+    width: 100%;
+    padding: 0.7rem 18px 0.3rem 24px;
+    cursor: default;
+    color: var(--c-text-muted);
+    font-size: 0.66rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+  .navbar .navbar__megagroup-chevron { display: none; }
+  .navbar .navbar__megagroup-body { display: block; }
+  .navbar .navbar__megagroup-body a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px 0 32px;
+    border-bottom: 1px solid var(--c-border);
+    font-size: 0.92rem;
+    font-weight: 600;
+    white-space: normal;
+    color: var(--c-text-body);
+  }
+  .navbar .navbar__megagroup-body a:hover,
+  .navbar .navbar__megagroup-body a.is-active {
+    background: var(--c-bg-surface);
+    color: var(--c-accent);
+  }
+
+  /* ===== Backdrop ===== */
+  .navbar__backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1100;
+  }
+  .navbar.is-drawer-open .navbar__backdrop {
+    opacity: 1;
+    visibility: visible;
   }
 }
