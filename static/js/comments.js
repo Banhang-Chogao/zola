@@ -315,9 +315,14 @@
     if (state === AUTH_STATE.AUTHENTICATED && me) {
       show(els.form);
       els.meName.textContent = me.name || me.email || "Bạn";
+      // Always reset the identity avatar so a previous account's picture can
+      // never linger when switching to an account without one on the same page.
       if (me.avatar || me.avatar_url) {
         els.meAvatar.src = me.avatar || me.avatar_url;
         show(els.meAvatar);
+      } else {
+        els.meAvatar.removeAttribute("src");
+        hide(els.meAvatar);
       }
       // Comment login is comment-only by default; admin moderation only for
       // accounts the backend marks as admin (whitelist enforced server-side).
@@ -449,17 +454,23 @@
   }
 
   function logout() {
-    var sid = getSid();
-    clearSid();
+    // Comment logout must stay in the comment scope: clear ONLY the dedicated
+    // comment session and never the admin/CMS session key. If the commenter was
+    // riding the CMS session fallback (no dedicated comment sid), we drop local
+    // comment state but leave the CMS session intact (server + storage) so an
+    // admin editing on the same page is not logged out of the editor.
+    var commentSid = "";
     try {
-      sessionStorage.removeItem(CMS_SID_KEY);
+      commentSid = sessionStorage.getItem(COMMENT_SID_KEY) || "";
     } catch (e) {}
+    clearSid(); // removes COMMENT_SID_KEY only — CMS_SID_KEY is preserved
     me = null;
-    if (sid) {
+    if (commentSid) {
       fetch(API + "/auth/logout", {
         method: "POST",
-        headers: { Authorization: "Bearer " + sid },
+        headers: { Authorization: "Bearer " + commentSid },
         credentials: "omit",
+        keepalive: true,
       }).catch(function () {});
     }
     renderAuth();
