@@ -265,50 +265,7 @@
 
         <div class="insights__grid">
 
-            {# ===== LEFT: TIMELINE OF PRs ===== #}
-            <div class="insights__left">
-                <header class="insights__details-head">
-                    <span class="insights__details-icon" aria-hidden="true">⌥</span>
-                    <h3 class="insights__details-title">{{ total_prs }} pull requests merged by 1 person</h3>
-                </header>
-
-                <ol class="insights__timeline" data-insights-timeline aria-label="Pull requests timeline">
-                    {% for item in pr_items %}
-                    <li class="insights__pr" data-timeline-row>
-                        <span class="insights__pr-dot" aria-hidden="true"></span>
-                        <div class="insights__pr-body">
-                            <h4 class="insights__pr-title">
-                                {% if item.pr %}
-                                <a href="https://github.com/Banhang-Chogao/zola/pull/{{ item.pr }}"
-                                   target="_blank" rel="noopener">{{ item.title }}</a>
-                                {% else %}
-                                {{ item.title }}
-                                {% endif %}
-                            </h4>
-                            <p class="insights__pr-meta">
-                                {% if item.pr %}<span class="insights__pr-num">#{{ item.pr }}</span>{% endif %}
-                                merged
-                                <time datetime="{{ item.date }}">{{ dt::display_datetime(value=item.date) }}</time>
-                            </p>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ol>
-
-                <nav class="insights__timeline-pager" data-timeline-pager hidden aria-label="Timeline pagination">
-                    <button type="button" class="insights__timeline-pager-btn" data-timeline-prev disabled>
-                        ← Prev
-                    </button>
-                    <span class="insights__timeline-pager-info" data-timeline-page-info aria-live="polite">
-                        Trang 1 / 1
-                    </span>
-                    <button type="button" class="insights__timeline-pager-btn" data-timeline-next>
-                        Next →
-                    </button>
-                </nav>
-            </div>
-
-            {# ===== RIGHT: OVERVIEW STATS ===== #}
+            {# ===== CENTER STAGE: OVERVIEW STATS (đã gỡ timeline PR bên trái) ===== #}
             <div class="insights__right">
 
                 <header class="insights__right-header">
@@ -908,7 +865,6 @@
 
 {% block extra_scripts %}
 <script src="{{ get_url(path='js/github-activity.js') }}" defer></script>
-<script src="{{ get_url(path='js/insights-timeline.js') }}" defer></script>
 {% endblock %}
 
 {% block sidebar %}{% endblock %}
