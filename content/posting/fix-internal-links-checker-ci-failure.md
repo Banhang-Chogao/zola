@@ -75,9 +75,9 @@ Vấn đề nằm ở chính script kiểm tra, không phải content.
 Ba file được tham chiếu trong `debug-zola-series-navigation-links.md` không bao giờ tồn tại:
 
 ```markdown
-- [Cách setup Zola series navigation](/posting/zola-series-nav-setup/) — thiếu
-- [SEO best practices cho series](/posting/seo-series-articles/) — thiếu
-- [Debugging Zola build issues](/posting/zola-build-debug-templates/) — thiếu
+- `Cách setup Zola series navigation → /posting/zola-series-nav-setup/` — thiếu
+- `SEO best practices cho series → /posting/seo-series-articles/` — thiếu
+- `Debugging Zola build issues → /posting/zola-build-debug-templates/` — thiếu
 ```
 
 Đó là những bài viết mà tác giả lên kế hoạch viết nhưng chưa kịp. Để sửa, mình thay thế chúng bằng các bài Zola thực tế tồn tại:
@@ -95,11 +95,10 @@ Ba file được tham chiếu trong `debug-zola-series-navigation-links.md` khô
 Đây là phần thực sự quan trọng. Script `check_internal_links.py` ban đầu có logic như thế này:
 
 ```python
-# Cũ — kiểm tra /zola/ prefix
-_BAD_HREF_RE = re.compile(
-    r"""href=["'](/(?!zola/)[^"'#?]+)["']""",
-    re.IGNORECASE,
-)
+# Cũ — kiểm tra /zola/ prefix (SAI)
+# Pattern bắt thuộc tính liên kết và coi MỌI đường dẫn bắt đầu bằng "/"
+# mà thiếu tiền tố "zola/" là link hỏng — nên bắt nhầm cả link nội bộ hợp lệ.
+_BAD_HREF_RE = re.compile(r"...", re.IGNORECASE)  # rút gọn để minh hoạ
 
 def _is_bad_href(href: str) -> bool:
     href = href.strip()
