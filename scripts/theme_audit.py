@@ -110,6 +110,38 @@ LAYOUT_HINTS = [
 ]
 
 
+# ---------------------------------------------------------------------------
+# Curated rollback checkpoints — manual milestones chốt thủ công bởi người vận
+# hành (vd "rollback về đây"). Khác keyword-milestone: KHÔNG sinh ra từ subject
+# của 1 commit theme đơn lẻ → bộ lọc git không bắt được, phải khai báo ở đây để
+# nguồn (script) tái tạo đúng ledger thay vì chỉ sửa output tạm.
+#
+# Quy tắc:
+#   - APPEND-ONLY: không bao giờ xoá checkpoint cũ.
+#   - commit_hash = commit THẬT, verify được (ưu tiên HEAD của main lúc chốt mốc)
+#     — KHÔNG placeholder. Mỗi entry là rollback target cố định (không drift theo
+#     HEAD), nên hash được "đóng băng" tại thời điểm chốt.
+#   - datetime ISO8601 +07:00 (GMT+7) khớp wall-clock mốc.
+#   - Gộp vào ledger qua build() (dedupe theo theme_id), sort theo thời gian thật.
+CURATED_MILESTONES = [
+    {
+        "theme_id": "theme-20260628-a9e7a20",
+        "commit_hash": "a9e7a20",
+        "datetime": "2026-06-28T03:36:00+07:00",
+        "theme_name": "Theme checkpoint — Public/Homepage + Editor-era transition",
+        "layout_style": "Rollback checkpoint",
+        "color_system": "unknown",
+        "font_system": "unknown",
+        "status": "rollback target",
+        "notes": (
+            "Mốc dùng để rollback theme sau này. Ghi nhận trạng thái theme quanh "
+            "thời điểm 28 Jun 2026 03:36, trước/sau các thay đổi lớn về homepage "
+            "public, editor CMS, backup/restore sections, và các layout thử nghiệm."
+        ),
+    },
+]
+
+
 def run_git(args, default=""):
     """Chạy git an toàn — không bao giờ raise; lỗi → trả default."""
     try:
@@ -454,6 +486,20 @@ def build():
                 "commit_hash": short7(c["sha"]),
                 "reason": f"verified but beyond ledger limit ({DEFAULT_LIMIT})",
             }
+        )
+
+    # Gộp curated rollback checkpoint (mốc thủ công) vào ledger. Dedupe theo
+    # theme_id (curated thắng commit cùng id), sort lại theo THỜI GIAN THẬT để mốc
+    # mới nhất lên đầu. Append-only — KHÔNG xoá hàng cũ. Curated giữ nguyên status
+    # đã khai báo (vd 'rollback target') → không bị status_for() ghi đè.
+    if CURATED_MILESTONES:
+        by_id = {t["theme_id"]: t for t in themes}
+        for cm in CURATED_MILESTONES:
+            by_id[cm["theme_id"]] = dict(cm)
+        themes = sorted(
+            by_id.values(),
+            key=lambda t: parse_dt(t.get("datetime", "")) or _epoch,
+            reverse=True,
         )
 
     # Coverage: số hàng trong cửa sổ ĐẦU [14/06, 25/06) — bằng chứng đã backfill
