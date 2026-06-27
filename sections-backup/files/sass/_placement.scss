@@ -1,0 +1,134 @@
+/* ============================================================
+   Content Placement blocks — admin-managed CTA / notice / banner content
+   rendered by templates/macros/placement.html at stable placement IDs.
+   Calm enterprise DNA: soft cards, semantic tokens, whitespace-first.
+   ============================================================ */
+
+.placement {
+  margin: 1.25rem 0;
+
+  /* Reserve vertical space so an enabled block does not cause layout shift
+     (CLS) when it paints. Collapses to nothing when no block renders because
+     the wrapper itself is absent from the DOM in that case. */
+  &--global_header_below,
+  &--home_top_banner_below {
+    margin: 0 0 1rem;
+  }
+}
+
+.placement-block {
+  border: 1px solid var(--c-border);
+  border-radius: 14px;
+  background: var(--c-bg-surface);
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+
+  & + & {
+    margin-top: 0.75rem;
+  }
+
+  &__title {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--c-text-heading);
+    letter-spacing: -0.01em;
+  }
+
+  &__body {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--c-text-body);
+  }
+
+  &__body--html {
+    /* html_safe blocks may bring their own block elements. */
+    > :first-child { margin-top: 0; }
+    > :last-child { margin-bottom: 0; }
+  }
+
+  &__cta {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 44px;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.92rem;
+    text-decoration: none;
+    background: var(--c-accent);
+    color: #fff;
+    border: 1px solid transparent;
+    transition: background 0.18s ease, transform 0.18s ease;
+
+    &:hover {
+      background: var(--c-accent-hover);
+      transform: translateY(-1px);
+    }
+  }
+
+  /* ---- type skins (additive, reuse the same primitives) ---- */
+  &--momo_cta,
+  &--donate_box {
+    border-color: var(--c-accent-soft);
+    background: var(--c-bg-soft);
+
+    .placement-block__cta--momo_cta,
+    .placement-block__cta--donate_box {
+      /* MoMo brand magenta for the donate CTA. */
+      background: #a50064;
+      &:hover { background: #8a0053; }
+    }
+  }
+
+  &--premium_cta {
+    border-color: var(--c-border-strong);
+    background: var(--c-bg-soft);
+  }
+
+  &--notice {
+    background: var(--c-accent-soft);
+    border-color: var(--c-accent-soft);
+  }
+
+  &--banner {
+    /* Banners are wider/visual; reserve a minimum height to avoid CLS. */
+    min-height: 96px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  &--link_card {
+    .placement-block__cta {
+      background: transparent;
+      color: var(--c-accent);
+      border-color: var(--c-border-strong);
+      &:hover { background: var(--c-bg-soft); transform: none; }
+    }
+  }
+
+  /* ---- style modifiers ---- */
+  &--compact {
+    padding: 0.75rem 1rem;
+    gap: 0.45rem;
+
+    .placement-block__title { font-size: 0.95rem; }
+    .placement-block__body { font-size: 0.86rem; }
+    .placement-block__cta { min-height: 40px; padding: 0.45rem 1rem; }
+  }
+
+  @media (max-width: 720px) {
+    padding: 0.95rem 1rem;
+
+    &__cta {
+      align-self: stretch;
+      width: 100%;
+    }
+  }
+}

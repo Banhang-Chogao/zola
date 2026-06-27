@@ -1,0 +1,4625 @@
+{
+  "generated_at": "2026-06-28T03:16:47.645055+07:00",
+  "generated_at_display": "03:16 28/06/2026",
+  "source_ref": "claude/theme-migration-missing-sections-72sjx2",
+  "include_posts": true,
+  "counts": {
+    "sections": 15,
+    "feature_pages": 23,
+    "posts": 196,
+    "files_copied": 388
+  },
+  "taxonomies_raw": "taxonomies = [\n    {name = \"categories\", feed = true, paginate_by = 10},\n    {name = \"tags\", feed = true, paginate_by = 10},\n]",
+  "menu_raw": "menu = [\n    { name = \"Trang chủ\", url = \"$BASE_URL/\" },\n    # \"Bài viết\" dùng MEGA MENU: 'groups' = các nhóm chuyên mục (mỗi nhóm có\n    # heading + children). base.html render groups → mega menu nhiều cột (desktop)\n    # / accordion (mobile). KHÔNG đổi URL category nào — chỉ nhóm lại theo biên tập\n    # cho gọn (thay 1 list dọc dài). Mỗi group là 1 inline-table 1 dòng (TOML:\n    # inline table không xuống dòng được). Premium tách riêng nhóm \"Đặc biệt\".\n    { name = \"Bài viết\", url = \"$BASE_URL/categories/tat-ca\", groups = [\n        { name = \"Tổng quan\", children = [ { url = \"$BASE_URL/categories/tat-ca\", name = \"Tất cả bài viết\" } ] },\n        { name = \"Chủ đề tri thức\", children = [ { url = \"$BASE_URL/categories/bao-chi\", name = \"Báo chí\" }, { url = \"$BASE_URL/categories/khoa-hoc\", name = \"Khoa học\" }, { url = \"$BASE_URL/categories/the-gioi\", name = \"Thế giới\" }, { url = \"$BASE_URL/categories/cong-nghe\", name = \"Công nghệ\" } ] },\n        { name = \"Đời sống\", children = [ { url = \"$BASE_URL/categories/du-lich\", name = \"Du lịch\" }, { url = \"$BASE_URL/categories/am-thuc\", name = \"Ẩm thực\" } ] },\n        { name = \"Tài chính cá nhân\", children = [ { url = \"$BASE_URL/categories/ngan-hang\", name = \"Ngân hàng\" }, { url = \"$BASE_URL/categories/bao-hiem\", name = \"Bảo hiểm\" } ] },\n        { name = \"Đặc biệt\", children = [ { url = \"$BASE_URL/categories/premium\", name = \"⭐ Premium\" } ] },\n    ] },\n    # \"Công cụ\" dùng MEGA MENU: 'groups' = các nhóm (mỗi nhóm có heading + children).\n    # base.html render groups → mega menu (desktop) / accordion (mobile). KHÔNG xoá/\n    # đổi URL tool nào — chỉ nhóm lại cho gọn. Mỗi group là 1 inline-table 1 dòng\n    # (ràng buộc TOML: inline table không xuống dòng được).\n    # Refactor 27/06/2026: tách 'Dashboard' và 'Công cụ phụ' (→ 'Tiện ích') thành\n    # top-level riêng để 'Công cụ' gọn hơn — chỉ còn 3 nhóm viết/SEO/guideline.\n    { name = \"Công cụ\", url = \"$BASE_URL/editor\", groups = [\n        { name = \"Viết & biên tập\", children = [ { url = \"$BASE_URL/editor\", name = \"Viết bài\" }, { url = \"$BASE_URL/tools/content-creator\", name = \"Content Creator\" }, { url = \"$BASE_URL/prompt-support\", name = \"Prompt Support\" } ] },\n        { name = \"SEO & phân tích\", children = [ { url = \"$BASE_URL/seo-bang-vang\", name = \"Bảng Vàng SEO\" }, { url = \"$BASE_URL/insights\", name = \"Insights\" }, { url = \"$BASE_URL/scoring\", name = \"Scoring\" }, { url = \"$BASE_URL/tools/theme-log\", name = \"Theme log\" } ] },\n        { name = \"Hệ thống & guideline\", children = [ { url = \"$BASE_URL/branding-guideline\", name = \"Branding Guideline\" }, { url = \"$BASE_URL/tools/s-dna\", name = \"S-DNA\" }, { url = \"$BASE_URL/font\", name = \"Font Guideline\" } ] },\n    ] },\n    # \"Dashboard\" — top-level riêng (tách khỏi Công cụ). Dropdown đơn (children) gom\n    # 4 dashboard tài chính F/L/O/H. KHÔNG đổi URL dashboard.\n    { name = \"Dashboard\", url = \"$BASE_URL/tools/f-dashboard\", children = [\n        { url = \"$BASE_URL/tools/f-dashboard\", name = \"F-Dashboard\" },\n        { url = \"$BASE_URL/tools/l-dashboard\", name = \"L-Dashboard\" },\n        { url = \"$BASE_URL/tools/o-dashboard\", name = \"O-Dashboard\" },\n        { url = \"$BASE_URL/tools/h-dashboard\", name = \"H-Dashboard\" },\n    ] },\n    # \"Tiện ích\" — top-level riêng (đổi tên từ nhóm cũ 'Công cụ phụ' cho gọn navbar +\n    # mobile). Dropdown đơn (children). KHÔNG đổi URL tool.\n    { name = \"Tiện ích\", url = \"$BASE_URL/converter\", children = [\n        { url = \"$BASE_URL/converter\", name = \"Korean Converter\" },\n        { url = \"$BASE_URL/changelog\", name = \"Changelog\" },\n        { url = \"$BASE_URL/tools/momo-url\", name = \"MoMo URL\" },\n    ] },\n]",
+  "scss_imports": [
+    "brand-vars",
+    "themes",
+    "fonts",
+    "reset",
+    "layout",
+    "navbar",
+    "post",
+    "breadcrumb",
+    "toc",
+    "home-momo",
+    "home-discovery",
+    "sidebar",
+    "google-rank",
+    "single",
+    "faq",
+    "references",
+    "banner",
+    "placement",
+    "footer",
+    "footer-countdown",
+    "editor",
+    "editor-cms",
+    "home-discovery",
+    "stats",
+    "changelog",
+    "changelog-snapshot",
+    "insights",
+    "insights-pulse",
+    "github-activity",
+    "media-guard",
+    "baochi",
+    "du-lich",
+    "worldcup-2026",
+    "worldcup-content-manager",
+    "scoring",
+    "theme-log",
+    "f-dashboard",
+    "l-dashboard",
+    "o-dashboard",
+    "h-dashboard",
+    "prompt-support",
+    "content-creator",
+    "locked-overlay",
+    "print-watermark",
+    "seo-board",
+    "bao-cao",
+    "hilda-tokens",
+    "hilda-fonts",
+    "theme-overrides",
+    "stats-sembcorp",
+    "theme-switcher-styles",
+    "font-guideline",
+    "branding",
+    "paywall",
+    "donate-card",
+    "admin-momo-url",
+    "post-nav",
+    "vaccine-autofixer",
+    "editor-rail",
+    "editor-sdna",
+    "comments",
+    "archive",
+    "ad-placeholder",
+    "view-switcher"
+  ],
+  "sections": [
+    {
+      "content_file": "content/_index.md",
+      "template": "index.html",
+      "title": "Trang chủ"
+    },
+    {
+      "content_file": "content/admin/paywall/_index.md",
+      "template": "paywall-admin.html",
+      "title": "Paywall Admin"
+    },
+    {
+      "content_file": "content/admin-author/_index.md",
+      "template": "admin-author.html",
+      "title": "Author Management"
+    },
+    {
+      "content_file": "content/admin-countdown/_index.md",
+      "template": "admin-countdown.html",
+      "title": "Footer Countdown"
+    },
+    {
+      "content_file": "content/archive/_index.md",
+      "template": "archive.html",
+      "title": "Tất cả bài viết"
+    },
+    {
+      "content_file": "content/baochi/_index.md",
+      "template": "baochi.html",
+      "title": "Báo chí — RSS Checker"
+    },
+    {
+      "content_file": "content/changelog/_index.md",
+      "template": "changelog.html",
+      "title": "Changelog"
+    },
+    {
+      "content_file": "content/dien-anh/_index.md",
+      "template": "dien-anh.html",
+      "title": "Điện ảnh — Phim phổ biến từ TMDB"
+    },
+    {
+      "content_file": "content/du-lich/_index.md",
+      "template": "du-lich.html",
+      "title": "Du lịch — Tin từ Znews"
+    },
+    {
+      "content_file": "content/editor/_index.md",
+      "template": "editor.html",
+      "title": "Trình soạn bài"
+    },
+    {
+      "content_file": "content/insights/_index.md",
+      "template": "insights.html",
+      "title": "GitHub Insights"
+    },
+    {
+      "content_file": "content/pages/_index.md",
+      "template": "",
+      "title": "Trang"
+    },
+    {
+      "content_file": "content/posting/_index.md",
+      "template": "section.html",
+      "title": "Bài viết"
+    },
+    {
+      "content_file": "content/stats/_index.md",
+      "template": "stats.html",
+      "title": "Thống kê"
+    },
+    {
+      "content_file": "content/tools/_index.md",
+      "template": "",
+      "title": "Công cụ"
+    }
+  ],
+  "feature_pages": [
+    {
+      "content_file": "content/bao-cao-tong-ket.md",
+      "title": "Báo cáo tổng kết",
+      "template": "bao-cao-tong-ket.html",
+      "aliases": [],
+      "path": "",
+      "menu": null,
+      "scss_partials": [
+        "sass/_bao-cao.scss"
+      ],
+      "js_assets": [
+        "static/js/datetime-format.js",
+        "static/js/bao-cao.js"
+      ],
+      "data_files": [],
+      "macros": [],
+      "templates": [
+        "templates/bao-cao-tong-ket.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/branding-guideline.md",
+      "title": "Branding Guideline",
+      "template": "branding.html",
+      "aliases": [
+        "/branding/",
+        "/branding/hilda-guideline/"
+      ],
+      "path": "",
+      "menu": {
+        "url": "$BASE_URL/branding-guideline",
+        "name": "Branding Guideline"
+      },
+      "scss_partials": [
+        "sass/_branding.scss"
+      ],
+      "js_assets": [],
+      "data_files": [],
+      "macros": [],
+      "templates": [
+        "templates/branding.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/font.md",
+      "title": "Font Guideline — Ericsson Hilda",
+      "template": "font.html",
+      "aliases": [],
+      "path": "",
+      "menu": {
+        "url": "$BASE_URL/font",
+        "name": "Font Guideline"
+      },
+      "scss_partials": [],
+      "js_assets": [],
+      "data_files": [],
+      "macros": [],
+      "templates": [
+        "templates/font.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/pages/about.md",
+      "title": "Giới thiệu",
+      "template": "about.html",
+      "aliases": [],
+      "path": "about",
+      "menu": null,
+      "scss_partials": [
+        "sass/_references.scss"
+      ],
+      "js_assets": [],
+      "data_files": [
+        "data/references.json"
+      ],
+      "macros": [
+        "templates/macros/references.html"
+      ],
+      "templates": [
+        "templates/about.html",
+        "templates/macros/references.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/pages/contact.md",
+      "title": "Liên hệ",
+      "template": "about.html",
+      "aliases": [],
+      "path": "contact",
+      "menu": null,
+      "scss_partials": [
+        "sass/_references.scss"
+      ],
+      "js_assets": [],
+      "data_files": [
+        "data/references.json"
+      ],
+      "macros": [
+        "templates/macros/references.html"
+      ],
+      "templates": [
+        "templates/about.html",
+        "templates/macros/references.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/pages/copyright.md",
+      "title": "Tuyên bố bản quyền",
+      "template": "about.html",
+      "aliases": [],
+      "path": "copyright",
+      "menu": null,
+      "scss_partials": [
+        "sass/_references.scss"
+      ],
+      "js_assets": [],
+      "data_files": [
+        "data/references.json"
+      ],
+      "macros": [
+        "templates/macros/references.html"
+      ],
+      "templates": [
+        "templates/about.html",
+        "templates/macros/references.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/pages/demo-left-sidebar-layout.md",
+      "title": "Demo: Left Sidebar Layout",
+      "template": "posting-left-sidebar.html",
+      "aliases": [],
+      "path": "demo-left-sidebar-layout",
+      "menu": null,
+      "scss_partials": [
+        "sass/_placement.scss"
+      ],
+      "js_assets": [],
+      "data_files": [
+        "data/content-placements.json",
+        "data/owned-covers.json",
+        "data/seo-foundation-series.json",
+        "data/adsense-foundation-series.json",
+        "data/science-uranium-series.json",
+        "data/ngan-hang-so-series.json",
+        "data/git-github-series.json",
+        "data/korean-30day-series.json",
+        "data/google-analytics-series.json",
+        "data/google-preferred-sources-series.json",
+        "data/vietinbank-series.json",
+        "data/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb-series.json"
+      ],
+      "macros": [
+        "templates/macros/placement.html",
+        "templates/macros/verified.html",
+        "templates/macros/img.html",
+        "templates/macros/premium.html",
+        "templates/macros/pagination.html",
+        "templates/macros/series-nav.html"
+      ],
+      "templates": [
+        "templates/posting-left-sidebar.html",
+        "templates/macros/placement.html",
+        "templates/macros/verified.html",
+        "templates/macros/img.html",
+        "templates/macros/premium.html",
+        "templates/macros/pagination.html",
+        "templates/macros/series-nav.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/pages/privacy.md",
+      "title": "Chính sách bảo mật",
+      "template": "about.html",
+      "aliases": [],
+      "path": "privacy",
+      "menu": null,
+      "scss_partials": [
+        "sass/_references.scss"
+      ],
+      "js_assets": [],
+      "data_files": [
+        "data/references.json"
+      ],
+      "macros": [
+        "templates/macros/references.html"
+      ],
+      "templates": [
+        "templates/about.html",
+        "templates/macros/references.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/pages/terms.md",
+      "title": "Điều khoản & Miễn trừ trách nhiệm",
+      "template": "about.html",
+      "aliases": [],
+      "path": "terms",
+      "menu": null,
+      "scss_partials": [
+        "sass/_references.scss"
+      ],
+      "js_assets": [],
+      "data_files": [
+        "data/references.json"
+      ],
+      "macros": [
+        "templates/macros/references.html"
+      ],
+      "templates": [
+        "templates/about.html",
+        "templates/macros/references.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/prompt-support.md",
+      "title": "Prompt Support",
+      "template": "prompt-support.html",
+      "aliases": [],
+      "path": "",
+      "menu": {
+        "url": "$BASE_URL/prompt-support",
+        "name": "Prompt Support"
+      },
+      "scss_partials": [
+        "sass/_prompt-support.scss"
+      ],
+      "js_assets": [
+        "static/js/prompt-support.js"
+      ],
+      "data_files": [],
+      "macros": [],
+      "templates": [
+        "templates/prompt-support.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/scoring.md",
+      "title": "Scoring Card",
+      "template": "scoring.html",
+      "aliases": [],
+      "path": "",
+      "menu": {
+        "url": "$BASE_URL/scoring",
+        "name": "Scoring"
+      },
+      "scss_partials": [
+        "sass/_scoring.scss"
+      ],
+      "js_assets": [
+        "static/js/scoring.js"
+      ],
+      "data_files": [
+        "data/scores.json"
+      ],
+      "macros": [],
+      "templates": [
+        "templates/scoring.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/seo-bang-vang.md",
+      "title": "Bảng Vàng SEO",
+      "template": "seo_board.html",
+      "aliases": [],
+      "path": "",
+      "menu": {
+        "url": "$BASE_URL/seo-bang-vang",
+        "name": "Bảng Vàng SEO"
+      },
+      "scss_partials": [
+        "sass/_seo-board.scss"
+      ],
+      "js_assets": [
+        "static/js/seo-board.js"
+      ],
+      "data_files": [
+        "data/seo-qa-scores.json"
+      ],
+      "macros": [],
+      "templates": [
+        "templates/seo_board.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/timer.md",
+      "title": "Đồng hồ đếm ngược",
+      "template": "timer.html",
+      "aliases": [],
+      "path": "",
+      "menu": null,
+      "scss_partials": [],
+      "js_assets": [],
+      "data_files": [],
+      "macros": [],
+      "templates": [
+        "templates/timer.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/tools/content-creator.md",
+      "title": "Content Creator",
+      "template": "content-creator.html",
+      "aliases": [],
+      "path": "",
+      "menu": {
+        "url": "$BASE_URL/tools/content-creator",
+        "name": "Content Creator"
+      },
+      "scss_partials": [
+        "sass/_content-creator.scss"
+      ],
+      "js_assets": [
+        "static/js/content-creator/app.js"
+      ],
+      "data_files": [],
+      "macros": [],
+      "templates": [
+        "templates/content-creator.html"
+      ],
+      "generator": [
+        "scripts/content_creator.py"
+      ]
+    },
+    {
+      "content_file": "content/tools/f-dashboard.md",
+      "title": "F-Dashboard",
+      "template": "f-dashboard.html",
+      "aliases": [],
+      "path": "",
+      "menu": {
+        "url": "$BASE_URL/tools/f-dashboard",
+        "name": "F-Dashboard"
+      },
+      "scss_partials": [
+        "sass/_f-dashboard.scss",
+        "sass/_insights.scss"
+      ],
+      "js_assets": [
+        "static/js/datetime-format.js",
+        "static/js/f-dashboard/auth-gate.js",
+        "static/js/f-dashboard/parser.js",
+        "static/js/f-dashboard/storage.js",
+        "static/js/f-dashboard/insights.js",
+        "static/js/f-dashboard/charts.js",
+        "static/js/f-dashboard/export.js",
+        "static/js/f-dashboard/geo.js",
+        "static/js/f-dashboard/app.js"
+      ],
+      "data_files": [],
+      "macros": [],
+      "templates": [
+        "templates/f-dashboard.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/tools/h-dashboard.md",
+      "title": "H-Dashboard",
+      "template": "h-dashboard.html",
+      "aliases": [],
+      "path": "",
+      "menu": {
+        "url": "$BASE_URL/tools/h-dashboard",
+        "name": "H-Dashboard"
+      },
+      "scss_partials": [
+        "sass/_h-dashboard.scss",
+        "sass/_insights.scss"
+      ],
+      "js_assets": [
+        "static/js/datetime-format.js",
+        "static/js/h-dashboard/pdf-loader.js",
+        "static/js/h-dashboard/auth-gate.js",
+        "static/js/h-dashboard/ocr-loader.js",
+        "static/js/h-dashboard/invoice-parser.js",
+        "static/js/h-dashboard/storage.js",
+        "static/js/h-dashboard/insights.js",
+        "static/js/h-dashboard/charts.js",
+        "static/js/h-dashboard/export.js",
+        "static/js/h-dashboard/geo.js",
+        "static/js/h-dashboard/app.js"
+      ],
+      "data_files": [],
+      "macros": [],
+      "templates": [
+        "templates/h-dashboard.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/tools/l-dashboard.md",
+      "title": "L-Dashboard",
+      "template": "l-dashboard.html",
+      "aliases": [],
+      "path": "",
+      "menu": {
+        "url": "$BASE_URL/tools/l-dashboard",
+        "name": "L-Dashboard"
+      },
+      "scss_partials": [
+        "sass/_l-dashboard.scss",
+        "sass/_insights.scss"
+      ],
+      "js_assets": [
+        "static/js/datetime-format.js",
+        "static/js/l-dashboard/pdf-loader.js",
+        "static/js/l-dashboard/auth-gate.js",
+        "static/js/l-dashboard/lpbank-parser.js",
+        "static/js/l-dashboard/storage.js",
+        "static/js/l-dashboard/insights.js",
+        "static/js/l-dashboard/charts.js",
+        "static/js/l-dashboard/export.js",
+        "static/js/l-dashboard/geo.js",
+        "static/js/l-dashboard/app.js"
+      ],
+      "data_files": [],
+      "macros": [],
+      "templates": [
+        "templates/l-dashboard.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/tools/momo-url.md",
+      "title": "Quản lý MoMo URL",
+      "template": "admin-momo-url.html",
+      "aliases": [],
+      "path": "",
+      "menu": {
+        "url": "$BASE_URL/tools/momo-url",
+        "name": "MoMo URL"
+      },
+      "scss_partials": [
+        "sass/_placement.scss",
+        "sass/_admin-momo-url.scss"
+      ],
+      "js_assets": [
+        "static/js/admin-momo-url.js"
+      ],
+      "data_files": [
+        "data/content-placements.json"
+      ],
+      "macros": [
+        "templates/macros/placement.html"
+      ],
+      "templates": [
+        "templates/admin-momo-url.html",
+        "templates/macros/placement.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/tools/o-dashboard.md",
+      "title": "O-Dashboard",
+      "template": "o-dashboard.html",
+      "aliases": [],
+      "path": "",
+      "menu": {
+        "url": "$BASE_URL/tools/o-dashboard",
+        "name": "O-Dashboard"
+      },
+      "scss_partials": [
+        "sass/_insights.scss",
+        "sass/_o-dashboard.scss"
+      ],
+      "js_assets": [
+        "static/js/datetime-format.js",
+        "static/js/o-dashboard/pdf-loader.js",
+        "static/js/o-dashboard/auth-gate.js",
+        "static/js/o-dashboard/liobank-parser.js",
+        "static/js/o-dashboard/storage.js",
+        "static/js/o-dashboard/insights.js",
+        "static/js/o-dashboard/charts.js",
+        "static/js/o-dashboard/export.js",
+        "static/js/o-dashboard/geo.js",
+        "static/js/o-dashboard/app.js"
+      ],
+      "data_files": [],
+      "macros": [],
+      "templates": [
+        "templates/o-dashboard.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/tools/s-dna.md",
+      "title": "S-DNA",
+      "template": "s-dna.html",
+      "aliases": [
+        "/s-dna/",
+        "/tools/s-dna"
+      ],
+      "path": "",
+      "menu": {
+        "url": "$BASE_URL/tools/s-dna",
+        "name": "S-DNA"
+      },
+      "scss_partials": [],
+      "js_assets": [],
+      "data_files": [],
+      "macros": [],
+      "templates": [
+        "templates/s-dna.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/tools/theme-log.md",
+      "title": "Theme log",
+      "template": "theme-log.html",
+      "aliases": [
+        "/theme-log/"
+      ],
+      "path": "",
+      "menu": {
+        "url": "$BASE_URL/tools/theme-log",
+        "name": "Theme log"
+      },
+      "scss_partials": [
+        "sass/_theme-log.scss"
+      ],
+      "js_assets": [],
+      "data_files": [
+        "data/theme-log.json"
+      ],
+      "macros": [],
+      "templates": [
+        "templates/theme-log.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/worldcup-2026.md",
+      "title": "Tin tức WorldCup 2026",
+      "template": "worldcup-2026.html",
+      "aliases": [],
+      "path": "",
+      "menu": null,
+      "scss_partials": [
+        "sass/_worldcup-2026.scss"
+      ],
+      "js_assets": [
+        "static/js/worldcup-2026.js"
+      ],
+      "data_files": [
+        "data/worldcup_2026.json"
+      ],
+      "macros": [],
+      "templates": [
+        "templates/worldcup-2026.html"
+      ],
+      "generator": []
+    },
+    {
+      "content_file": "content/worldcup-content-manager.md",
+      "title": "World Cup 2026 — Content Manager",
+      "template": "worldcup-content-manager.html",
+      "aliases": [],
+      "path": "",
+      "menu": null,
+      "scss_partials": [
+        "sass/_worldcup-content-manager.scss"
+      ],
+      "js_assets": [
+        "static/js/worldcup-content-manager.js"
+      ],
+      "data_files": [
+        "data/worldcup_2026.json"
+      ],
+      "macros": [],
+      "templates": [
+        "templates/worldcup-content-manager.html"
+      ],
+      "generator": []
+    }
+  ],
+  "posts": [
+    {
+      "content_file": "content/baochi/bi-kip-xin-visa-han-quoc-5-nam-de.md",
+      "title": "Bí kíp xin visa Hàn Quốc 5 năm dễ hơn bạn nghĩ",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Du lịch",
+          "Báo chí"
+        ],
+        "tags": [
+          "visa hàn quốc",
+          "du lịch hàn quốc",
+          "c-3-9",
+          "xin visa",
+          "kinh nghiệm",
+          "seoul"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/bidv-flagship-private-banking-tphcm.md",
+      "title": "Private Banking là gì? Nhìn từ BIDV Sài Gòn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng",
+          "Báo chí"
+        ],
+        "tags": [
+          "ngân hàng",
+          "tài chính",
+          "private-banking",
+          "bidv",
+          "đầu tư"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/bidv-smartbanking-khong-vao-duoc.md",
+      "title": "BIDV SmartBanking không vào được? Cách xử lý nhanh",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ngân hàng",
+          "bidv",
+          "bidv smartbanking",
+          "ngân hàng số",
+          "lỗi đăng nhập"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi.md",
+      "title": "Bồ Đào Nha vs Congo: Messi gọi, Ronaldo trả lời?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Thể thao",
+          "Báo chí"
+        ],
+        "tags": [
+          "world-cup-2026",
+          "ronaldo",
+          "messi",
+          "bo-dao-nha",
+          "bong-da",
+          "chdc-congo"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/cac-truong-hop-khong-duoc-hoan-thue-gtgt.md",
+      "title": "Các trường hợp không được hoàn thuế GTGT [cập nhật 2026]",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng",
+          "Báo chí"
+        ],
+        "tags": [
+          "thuế",
+          "hoàn thuế gtgt",
+          "thuế gtgt",
+          "kế toán",
+          "tài chính doanh nghiệp"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/cay-vai-co-thu-150-nam-hai-phong.md",
+      "title": "Cây vải cổ thụ 150 năm ở Hải Phòng, mỗi mùa thu 5 tạ quả",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Du lịch"
+        ],
+        "tags": [
+          "cây vải cổ thụ",
+          "hải phòng",
+          "vải thiều",
+          "đặc sản",
+          "du lịch nông nghiệp"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/chon-ngach-noi-dung-giu-chan-nguoi-doc.md",
+      "title": "Chọn ngách nội dung để blog giữ chân người đọc",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ",
+          "Báo chí"
+        ],
+        "tags": [
+          "blog",
+          "content-strategy",
+          "seo",
+          "engagement",
+          "mobile-ux"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/f18-crash-when-technology-fails.md",
+      "title": "Vụ rơi tiêm kích F/A-18 và bài học 57 triệu USD",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Thế giới",
+          "Báo chí"
+        ],
+        "tags": [
+          "công-nghệ-quân-sự",
+          "an-toàn-hàng-không",
+          "kỹ-thuật",
+          "sự-cố",
+          "điều-tra-kỹ-thuật"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/gia-vang-hom-nay-18-6-giam-manh.md",
+      "title": "Giá vàng hôm nay 18/6 giảm mạnh: vì sao, có nên mua?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "giá vàng",
+          "vàng SJC",
+          "vàng nhẫn",
+          "Fed",
+          "đầu tư vàng",
+          "tài chính cá nhân"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/huong-dan-xac-thuc-cccd-msb-digital-bank.md",
+      "title": "Hướng dẫn xác thực CCCD trên MSB Digital Bank từ A–Z",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ngân hàng",
+          "msb",
+          "msb-digital-bank",
+          "xác thực cccd",
+          "ngân hàng số"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/incheon-airport-remote-baggage-2026.md",
+      "title": "Remote baggage screening: Hành lý Incheon không cần lấy lại",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Du lịch",
+          "Báo chí"
+        ],
+        "tags": [
+          "incheon-airport",
+          "du-lich-hang-khong",
+          "cong-nghe-san-bay",
+          "los-angeles",
+          "seattle",
+          "han-quoc"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/iran-uranium-destruction-what-it-means.md",
+      "title": "Uranium Iran: từ lập trường cứng sang ngoại giao",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Khoa học",
+          "Thế giới",
+          "Báo chí"
+        ],
+        "tags": [
+          "địa-chính-trị",
+          "năng-lượng-hạt-nhân",
+          "iran",
+          "mỹ",
+          "thỏa-thuận-quốc-tế",
+          "science uranium series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/liobank-bao-mat-an-toan-the-nao.md",
+      "title": "Liobank bảo mật thế nào? Yên tâm giao dịch mỗi ngày",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ngân hàng",
+          "liobank",
+          "bảo mật",
+          "an toàn giao dịch",
+          "series liobank"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/liobank-gioi-thieu-ban-be-nhan-thuong.md",
+      "title": "Giới thiệu bạn mở thẻ Liobank: thưởng đến 500k",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ngân hàng",
+          "liobank",
+          "thẻ tín dụng",
+          "giới thiệu nhận thưởng",
+          "referral"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/liobank-la-gi-ngan-hang-so-noi-bat.md",
+      "title": "Liobank là gì? 5 ưu điểm ngân hàng số đáng thử",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ngân hàng",
+          "liobank",
+          "ngân hàng số",
+          "thẻ tín dụng",
+          "series liobank"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/macos-27-golden-gate-co-gi-moi.md",
+      "title": "macOS 27 Golden Gate có gì mới và máy Mac nào hỗ trợ?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Công nghệ"
+        ],
+        "tags": [
+          "công nghệ",
+          "apple",
+          "macos",
+          "macos 27",
+          "wwdc 2026",
+          "apple intelligence"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/mo-the-techcombank-eco-digital-mien-phi.md",
+      "title": "Thẻ Techcombank Eco Digital: mở online miễn phí thật",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "techcombank",
+          "thẻ ngân hàng",
+          "ngân hàng số",
+          "thẻ digital",
+          "mở thẻ online"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/mo-the-tin-dung-liobank-online-nhanh.md",
+      "title": "Mở thẻ tín dụng Liobank online: nhanh, khỏi ra quầy",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ngân hàng",
+          "liobank",
+          "mở thẻ tín dụng",
+          "ekyc",
+          "series liobank"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/msb-digital-bank-cong-nghe-bao-mat.md",
+      "title": "Bên trong MSB Digital Bank: công nghệ và bảo mật",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng",
+          "Báo chí"
+        ],
+        "tags": [
+          "msb",
+          "msb-digital-bank",
+          "ngân hàng số",
+          "công nghệ",
+          "bảo mật"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md",
+      "title": "MSB Digital Bank thay mBank: cần làm gì?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ngân hàng",
+          "tài chính",
+          "msb",
+          "msb-digital-bank",
+          "ngân hàng số"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/mua-qua-chin-xu-dong-hai-phong.md",
+      "title": "Mùa quả chín xứ Đông: du lịch nông nghiệp Hải Phòng",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Du lịch"
+        ],
+        "tags": [
+          "du lịch",
+          "hải phòng",
+          "vải thiều thanh hà",
+          "du lịch nông nghiệp",
+          "xứ đông"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/muc-dong-bhyt-ho-gia-dinh-2026.md",
+      "title": "BHYT hộ gia đình 2026: đóng bao nhiêu, giảm trừ?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Bảo hiểm",
+          "Báo chí"
+        ],
+        "tags": [
+          "bhyt",
+          "bảo hiểm y tế",
+          "hộ gia đình",
+          "lương cơ sở",
+          "chính sách",
+          "tài chính cá nhân"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/my-iran-hoa-binh-trung-dong.md",
+      "title": "Hòa bình Mỹ-Iran: bước ngoặt hay ảo vọng?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Thế giới",
+          "Báo chí"
+        ],
+        "tags": [
+          "quốc tế",
+          "an-ninh",
+          "mỹ-iran",
+          "trung-đông"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/my-iran-peace-deal-global-energy.md",
+      "title": "Hòa bình Mỹ-Iran tác động túi tiền bạn thế nào?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Thế giới",
+          "Báo chí"
+        ],
+        "tags": [
+          "kinh-tế",
+          "địa-chính-trị",
+          "năng-lượng",
+          "dầu-mỏ",
+          "thị-trường-tài-chính"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/quan-ly-chi-tieu-voi-app-liobank.md",
+      "title": "Quản lý chi tiêu với app Liobank: gọn trong tầm tay",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ngân hàng",
+          "liobank",
+          "quản lý chi tiêu",
+          "tài chính cá nhân",
+          "series liobank"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/starbucks-cua-hang-cao-nhat-chau-a-fansipan.md",
+      "title": "Starbucks Fansipan: cửa hàng cà phê cao nhất châu Á",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Du lịch"
+        ],
+        "tags": [
+          "Starbucks",
+          "Fansipan",
+          "Sa Pa",
+          "du lịch",
+          "cà phê",
+          "F&B"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/ten-mien-ai-hon-dao-anguilla-hot-bac.md",
+      "title": "Tên miền .ai và hòn đảo 16.000 dân hốt bạc nhờ AI",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Công nghệ"
+        ],
+        "tags": [
+          "tên miền",
+          "trí tuệ nhân tạo",
+          "anguilla",
+          "kinh tế số",
+          "công nghệ"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/the-tin-dung-msb-huong-dan-chi-tiet.md",
+      "title": "Thẻ tín dụng MSB: ưu đãi và cách dùng hiệu quả",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng",
+          "Báo chí"
+        ],
+        "tags": [
+          "thẻ-tín-dụng",
+          "msb",
+          "ưu-đãi-ngân-hàng",
+          "tài-chính-cá-nhân",
+          "hướng-dẫn"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/trai-cay-mua-he-bu-nuoc-an-toan.md",
+      "title": "Trái cây mùa hè bù nước an toàn: cách chọn và ăn đúng",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Đời sống",
+          "Báo chí"
+        ],
+        "tags": [
+          "mùa hè",
+          "sức khỏe",
+          "bù nước",
+          "trái cây",
+          "hạ nhiệt",
+          "ẩm thực",
+          "điều dưỡng"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/uu-dai-hoan-tien-the-liobank.md",
+      "title": "Ưu đãi hoàn tiền thẻ Liobank: tiêu đúng, lợi hơn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ngân hàng",
+          "liobank",
+          "hoàn tiền",
+          "cashback",
+          "series liobank"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/vietinbank-v-family-nhom-gia-dinh.md",
+      "title": "VietinBank V-Family: gói tài chính nhóm gia đình có gì?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "vietinbank",
+          "v-family",
+          "ngân hàng",
+          "tài chính gia đình",
+          "ipay mobile"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/vneid-2-2-8-phan-anh-lua-dao-quet-qr.md",
+      "title": "VNeID 2.2.8: phản ánh lừa đảo, quét QR căn cước",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Công nghệ"
+        ],
+        "tags": [
+          "vneid",
+          "định danh điện tử",
+          "công nghệ",
+          "an ninh mạng",
+          "căn cước công dân"
+        ]
+      }
+    },
+    {
+      "content_file": "content/baochi/vpbank-circle-sieu-the-free-tron-doi-gen-z.md",
+      "title": "Thẻ VPBank Circle: 'siêu thẻ' free trọn đời cho Gen Z",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "vpbank",
+          "circle",
+          "thẻ tín dụng",
+          "ngân hàng số",
+          "gen z"
+        ]
+      }
+    },
+    {
+      "content_file": "content/categories-premium.md",
+      "title": "Premium",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {}
+    },
+    {
+      "content_file": "content/pages/content-placement-system.md",
+      "title": "Content Placement System — hướng dẫn admin",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "content-placement",
+          "cms",
+          "zola",
+          "momo",
+          "admin"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/an-khuya-sai-gon.md",
+      "title": "Ăn khuya Sài Gòn: 10 món mở sau 11h",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ẩm thực"
+        ],
+        "tags": [
+          "món ngon",
+          "sài gòn",
+          "tphcm",
+          "ăn khuya",
+          "ăn đêm",
+          "ẩm thực"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/bao-lau-de-thay-ket-qua-seo.md",
+      "title": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "blog",
+          "google search",
+          "search console",
+          "seo",
+          "seo foundation series",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/bao-mat-best-practices-git-github.md",
+      "title": "Bảo mật và best practices với Git/GitHub",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "bảo mật git",
+          "git",
+          "git github series",
+          "github",
+          "lập trình"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/bao-mat-ngan-hang-so-vietinbank.md",
+      "title": "Bảo mật VietinBank: ngân hàng số an toàn ra sao?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "an toàn giao dịch",
+          "bảo mật ngân hàng",
+          "vietinbank",
+          "vietinbank series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/cach-mo-tai-khoan-ngan-hang-so-online.md",
+      "title": "Cách mở tài khoản ngân hàng số online từ A đến Z",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ekyc",
+          "liobank",
+          "mở tài khoản online",
+          "ngân hàng số",
+          "ngân hàng số series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/cai-dat-git-cau-hinh-lan-dau.md",
+      "title": "Cài đặt Git và cấu hình lần đầu (Windows, macOS, Linux)",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "cài đặt git",
+          "git",
+          "git github series",
+          "github",
+          "lập trình"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/cau-dieu-kien-gia-dinh-tieng-han.md",
+      "title": "Ngày 27 — Câu điều kiện & nghĩa vụ tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "premium"
+        ],
+        "tags": [
+          "câu điều kiện tiếng hàn",
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/cau-menh-lenh-ru-re-tieng-han.md",
+      "title": "Ngày 19 — Mệnh lệnh & rủ rê 으세요, ㅂ시다, 을까요 tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "câu mệnh lệnh tiếng hàn",
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/cau-truc-ipnida-gioi-thieu-ban-than-tieng-han.md",
+      "title": "Ngày 8: 이다/입니다 & giới thiệu bản thân tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "giới thiệu bản thân",
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/chan-trang-khoi-google-search.md",
+      "title": "Chặn trang khỏi Google Search khi cần (noindex, robots)",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "blog",
+          "google search",
+          "noindex",
+          "robots.txt",
+          "search console",
+          "seo",
+          "seo foundation series",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua.md",
+      "title": "Chuyển đổi số VietinBank: chiến lược và kết quả",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "chuyển đổi số",
+          "ngân hàng số",
+          "vietinbank",
+          "vietinbank series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/codeql-api-rate-limit-giai-phap.md",
+      "title": "CodeQL API Rate Limit: Giải Pháp Chi Tiết Cho GitHub Actions",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả"
+        ],
+        "tags": [
+          "ci-cd",
+          "codeql",
+          "devops",
+          "github"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien.md",
+      "title": "CodeQL: Công cụ phân tích code tự động tìm lỗ hổng bảo mật",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "bảo mật",
+          "codeql",
+          "devops",
+          "lập trình",
+          "static-analysis"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/cong-nghe-blog-duy-nguyen.md",
+      "title": "Tự xây blog cá nhân $0/tháng với Zola + GitHub Pages",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "cms",
+          "github actions",
+          "tech stack",
+          "vanilla js",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/cot-moc-lich-su-phat-trien-vietinbank.md",
+      "title": "Lịch sử VietinBank: những cột mốc phát triển đáng nhớ",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "lịch sử vietinbank",
+          "ngân hàng việt nam",
+          "vietinbank",
+          "vietinbank series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/dai-tu-chi-dinh-tieng-han.md",
+      "title": "Ngày 9: Đại từ & chỉ định 이/그/저 trong tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik",
+          "đại từ tiếng hàn"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/dang-ky-v-plus-v-advance-tren-ipay.md",
+      "title": "Đăng ký V-Plus & V-Advance trên iPay: hướng dẫn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ipay",
+          "ngân hàng",
+          "v-advance",
+          "v-plus",
+          "vietinbank",
+          "vietinbank v-plus v-advance series",
+          "đăng ký v-advance",
+          "đăng ký v-plus"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/debug-zola-series-navigation-links.md",
+      "title": "Debug Lỗi Zola Series Navigation: Từ 11 Broken Links Đến Fix",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "debug",
+          "internal links",
+          "seo",
+          "series navigation",
+          "static site generator",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/di-han-het-bao-nhieu-tien.md",
+      "title": "Đi Hàn hết bao nhiêu tiền? Seoul–Busan 6 ngày",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Du lịch"
+        ],
+        "tags": [
+          "busan",
+          "chi phí",
+          "du lịch hàn quốc",
+          "ngân sách",
+          "seoul",
+          "tự túc"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/di-han-mua-nao-re-nhat.md",
+      "title": "Đi Hàn mùa nào rẻ nhất? 12 tháng theo giá",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Du lịch"
+        ],
+        "tags": [
+          "chi phí",
+          "du lịch hàn quốc",
+          "hàn quốc",
+          "mùa du lịch",
+          "ngân sách",
+          "tiết kiệm"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/dien-hat-nhan-khac-vu-khi-hat-nhan.md",
+      "title": "Điện hạt nhân khác vũ khí hạt nhân ở điểm nào?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Khoa học"
+        ],
+        "tags": [
+          "hạt nhân",
+          "khoa học",
+          "năng lượng",
+          "science uranium series",
+          "uranium",
+          "điện hạt nhân"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/dieu-kien-du-tu-cach-adsense.md",
+      "title": "Điều kiện đủ tư cách tham gia AdSense",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "adsense",
+          "adsense foundation series",
+          "google adsense",
+          "monetization",
+          "publisher",
+          "điều kiện adsense"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/dinh-ngu-quan-hinh-tu-tieng-han.md",
+      "title": "Ngày 22 — Định ngữ tiếng Hàn (관형사형): -는, -은, -을",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik",
+          "định ngữ tiếng hàn"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/doc-bao-cao-google-analytics-15-phut-moi-ngay.md",
+      "title": "Đọc báo cáo Google Analytics 15 phút mỗi ngày",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "ga4",
+          "google analytics",
+          "google analytics series",
+          "kpi blog",
+          "đọc báo cáo"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/dong-tu-bat-quy-tac-tieng-han.md",
+      "title": "Ngày 25 — Động từ bất quy tắc tiếng Hàn (불규칙)",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik",
+          "động từ bất quy tắc tiếng hàn"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/dong-tu-tinh-tu-duoi-ayo-eoyo-tieng-han.md",
+      "title": "Ngày 15 — Động từ + đuôi 아요/어요 (hiện tại) tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "chia động từ tiếng hàn",
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/engagement-rate-bounce-rate-google-analytics.md",
+      "title": "Engagement Rate và Bounce Rate trong Google Analytics",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "bounce rate",
+          "engagement rate",
+          "ga4",
+          "google analytics",
+          "google analytics series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/facebook-shopee-affiliate-la-gi.md",
+      "title": "Facebook Shopee Affiliate là gì? Hướng dẫn người mới",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "affiliate marketing",
+          "facebook shopee affiliate",
+          "kiếm tiền online",
+          "shopee affiliate"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/faq-toan-tap-ngan-hang-so.md",
+      "title": "FAQ toàn tập về ngân hàng số: giải đáp mọi thắc mắc",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "faq ngân hàng số",
+          "hỏi đáp ngân hàng số",
+          "liobank",
+          "ngân hàng số",
+          "ngân hàng số series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/fix-internal-links-checker-ci-failure.md",
+      "title": "Sửa Lỗi Internal Links Checker CI Fail — Pattern vs File",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "automation",
+          "ci-cd",
+          "debugging",
+          "github-actions",
+          "internal links",
+          "python",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola.md",
+      "title": "Fix QA Gatekeeper GitHub Actions: bài học từ nút Countdown bị mất",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả"
+        ],
+        "tags": [
+          "ci cd",
+          "debug",
+          "github actions",
+          "merge conflict",
+          "qa gatekeeper",
+          "regression test",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/gh-run-list-monitor-deploy.md",
+      "title": "Một câu lệnh nhỏ giúp theo dõi deploy GitHub Pages rõ ràng hơn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "deploy",
+          "devops",
+          "github-actions",
+          "github-pages",
+          "monitoring",
+          "webops",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/giai-quyet-merge-conflict-tu-dong-ci-cd.md",
+      "title": "Giải Quyết Merge Conflict Tự Động: Case Study CI/CD Thực Tế",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "automation",
+          "ci-cd",
+          "devops",
+          "git",
+          "merge-conflict"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/git-branch-lam-viec-voi-nhanh.md",
+      "title": "Git branch: làm việc với nhánh trong Git",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "git",
+          "git branch",
+          "git github series",
+          "github",
+          "lập trình"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/git-la-gi-version-control-cho-nguoi-moi.md",
+      "title": "Git là gì? Version control cho người mới bắt đầu",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "git",
+          "git github series",
+          "github",
+          "lập trình",
+          "version control"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/git-merge-va-xu-ly-conflict.md",
+      "title": "Git merge và cách xử lý conflict khi gộp nhánh",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "git",
+          "git github series",
+          "git merge",
+          "github",
+          "lập trình"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/git-ra-doi-tu-bitkeeper.md",
+      "title": "Git ra đời từ BitKeeper: ngọn lửa sinh ra 'kẻ vô danh'",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "bitkeeper",
+          "git",
+          "linus torvalds",
+          "lịch sử git",
+          "version control"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/git-rebase-lam-sach-lich-su-commit.md",
+      "title": "Git rebase: làm sạch lịch sử commit (nâng cao)",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "git",
+          "git github series",
+          "git rebase",
+          "github",
+          "lập trình"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/git-remote-lam-viec-voi-repository-tu-xa.md",
+      "title": "Git remote: làm việc với repository từ xa",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "git",
+          "git github series",
+          "git remote",
+          "github",
+          "lập trình"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/git-reset-revert-khoi-phuc-su-co.md",
+      "title": "Git reset, revert và khôi phục sự cố (nâng cao)",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "git",
+          "git github series",
+          "git reset",
+          "github",
+          "lập trình"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/git-stale-branch-root-cause-analysis-2026.md",
+      "title": "Git Stale Branch & Merge-Base CI Fail: Phòng Ngừa",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "automation",
+          "ci-cd",
+          "devops",
+          "git",
+          "github-actions",
+          "phòng-ngừa",
+          "root-cause-analysis"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/git-stash-cherry-pick-reflog-nang-cao.md",
+      "title": "Git stash, cherry-pick và reflog (nâng cao)",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "git",
+          "git github series",
+          "git stash",
+          "github",
+          "lập trình"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/git-workflow-chuyen-nghiep-gitflow-github-flow.md",
+      "title": "Git workflow chuyên nghiệp: Git Flow và GitHub Flow",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "git",
+          "git github series",
+          "git workflow",
+          "github",
+          "lập trình"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/github-actions-ci-cd-build-failure-vipzone-token.md",
+      "title": "Troubleshooting GitHub Actions Workflow Build Failure",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "ci-cd",
+          "devops",
+          "github-actions",
+          "troubleshooting",
+          "workflow"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/github-actions-ci-cd-cho-nguoi-moi.md",
+      "title": "GitHub Actions: CI/CD tự động hóa cho người mới",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "ci cd",
+          "git",
+          "git github series",
+          "github",
+          "github actions"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/github-actions-secrets-setup-guide.md",
+      "title": "GitHub Actions Secrets Setup & Management Guide",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "ci-cd",
+          "devops",
+          "github-actions",
+          "secrets-management",
+          "security"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/github-la-gi-tao-repository-dau-tien.md",
+      "title": "GitHub là gì? Tạo tài khoản và repository đầu tiên",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "git",
+          "git github series",
+          "github",
+          "github là gì",
+          "lập trình"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/giup-google-tim-noi-dung-site.md",
+      "title": "Giúp Google tìm nội dung: site: operator, liên kết và sitemap",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "blog",
+          "google search",
+          "search console",
+          "seo",
+          "seo foundation series",
+          "sitemap",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/google-adsense-la-gi-chinh-sach-chuong-trinh.md",
+      "title": "Google AdSense là gì? Chính sách Program policies",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "adsense",
+          "adsense foundation series",
+          "google adsense",
+          "monetization",
+          "publisher"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/google-analytics-la-gi-lo-trinh-10-ngay.md",
+      "title": "Google Analytics là gì? Lộ trình 10 ngày đọc hiểu dữ liệu",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "ga4",
+          "google analytics",
+          "google analytics series",
+          "phân tích dữ liệu",
+          "seo"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/google-nhin-trang-giong-nguoi-dung.md",
+      "title": "Google có nhìn thấy trang giống người dùng không?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "blog",
+          "google search",
+          "rendering",
+          "search console",
+          "seo",
+          "seo foundation series",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/google-preferred-sources-1-tu-thuat-toi-giao-dien-tim-kiem.md",
+      "title": "Google Preferred Sources: Từ thuật toán sang tùy chọn của người dùng",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "SEO"
+        ],
+        "tags": [
+          "brand",
+          "e-e-a-t",
+          "google search",
+          "preferred sources",
+          "seo"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong.md",
+      "title": "Preferred Sources: Điều kiện sử dụng & Cách hoạt động",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "SEO"
+        ],
+        "tags": [
+          "badge",
+          "eligibility",
+          "google search",
+          "preferred sources",
+          "seo"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/google-preferred-sources-3-huong-dan-thiet-lap-ky-thuat.md",
+      "title": "Setup Guide: Hướng dẫn kỹ thuật Preferred Sources",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "SEO",
+          "Công nghệ"
+        ],
+        "tags": [
+          "google search",
+          "html",
+          "implementation",
+          "javascript",
+          "preferred sources"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/google-preferred-sources-4-chien-luoc-noi-dung.md",
+      "title": "Chiến lược nội dung để tăng Preferred Sources",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "SEO"
+        ],
+        "tags": [
+          "content strategy",
+          "conversion",
+          "cta",
+          "preferred sources",
+          "trust"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/google-preferred-sources-5-analytics-va-toi-uu-hoa.md",
+      "title": "Analytics & Tối ưu hóa Preferred Sources",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "SEO"
+        ],
+        "tags": [
+          "analytics",
+          "google analytics",
+          "metrics",
+          "optimization",
+          "preferred sources"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/google-preferred-sources-6-tuong-lai-seo.md",
+      "title": "Tương lai Preferred Sources & SEO Evolution",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "SEO"
+        ],
+        "tags": [
+          "e-e-a-t",
+          "preferred sources",
+          "seo future",
+          "trends",
+          "user choice"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/google-publisher-policies-noi-dung-bi-cam.md",
+      "title": "Google Publisher Policies — nội dung bị cấm hiển thị quảng cáo",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "adsense",
+          "adsense foundation series",
+          "google adsense",
+          "monetization",
+          "nội dung bị cấm",
+          "publisher policies"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/google-publisher-restrictions-noi-dung-han-che.md",
+      "title": "Google Publisher Restrictions — nội dung có giới hạn quảng cáo",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "adsense",
+          "adsense foundation series",
+          "google adsense",
+          "monetization",
+          "nội dung hạn chế",
+          "publisher restrictions"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/google-search-hoat-dong-the-nao.md",
+      "title": "Google Search hoạt động thế nào? Crawl, index và xếp hạng",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "blog",
+          "crawl",
+          "google search",
+          "index",
+          "seo",
+          "seo foundation series",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/he-sinh-thai-san-pham-vietinbank.md",
+      "title": "Sản phẩm VietinBank: bức tranh hệ sinh thái hiện nay",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "dịch vụ ngân hàng",
+          "sản phẩm ngân hàng",
+          "vietinbank",
+          "vietinbank series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude.md",
+      "title": "Giới hạn sử dụng và độ dài trên Claude AI",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "ai",
+          "claude",
+          "giới hạn sử dụng",
+          "prompt",
+          "using limit"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/hoc-tieng-han-bang-chu-hangul-nguyen-am.md",
+      "title": "Học tiếng Hàn ngày 1: Bảng chữ Hangul & nguyên âm",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hangul",
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/itda-eopda-vi-tri-tieng-han.md",
+      "title": "Ngày 10: 있다/없다 & diễn đạt vị trí tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik",
+          "động từ tiếng hàn"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/kha-nang-kinh-nghiem-tieng-han.md",
+      "title": "Ngày 23 — Khả năng & kinh nghiệm tiếng Hàn: 수 있다, 적이 있다",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp khả năng tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/kinh-ngu-nopimmal-tieng-han.md",
+      "title": "Ngày 26 — Kính ngữ (높임말) trong tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "kính ngữ tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "topik",
+          "높임말"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/lam-theme-log-sua-menu-cong-cu.md",
+      "title": "Theme log rollback: an toàn cho blog tĩnh",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "blog",
+          "github pages",
+          "rollback",
+          "static site",
+          "theme log",
+          "ux",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/lenh-git-co-ban-init-add-commit-status.md",
+      "title": "Lệnh Git cơ bản: init, add, commit, status, log",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "git",
+          "git github series",
+          "github",
+          "lập trình",
+          "lệnh git"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick.md",
+      "title": "Lịch thi đấu World Cup 2026 giờ VN: Messi hat-trick",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Báo chí"
+        ],
+        "tags": [
+          "argentina",
+          "bóng đá",
+          "lịch thi đấu world cup 2026",
+          "messi",
+          "world cup 2026"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/lich-trinh-busan-tu-tuc-3-ngay-2-dem.md",
+      "title": "Busan tự túc 3 ngày 2 đêm: điểm đến & chi phí 2026",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Du lịch"
+        ],
+        "tags": [
+          "busan",
+          "du lịch",
+          "du lịch hàn quốc",
+          "hàn quốc",
+          "lịch trình",
+          "tự túc"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/lien-tu-cau-tieng-han.md",
+      "title": "Ngày 20 — Liên từ nối câu: 그래서, 하지만, -아서, -고",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "liên từ tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/loi-nhieu-the-h1-sua-seo-toan-site.md",
+      "title": "Lỗi nhiều thẻ H1: chẩn đoán và sửa SEO toàn site",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "audit seo",
+          "ci/cd",
+          "html",
+          "kỹ thuật blog",
+          "lighthouse",
+          "seo",
+          "thẻ h1",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/loi-yaml-github-actions-workflow-invalid-case-study.md",
+      "title": "2 lỗi YAML ẩn khiến GitHub Actions workflow invalid",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "automation",
+          "ci-cd",
+          "devops",
+          "github-actions",
+          "qa",
+          "workflow",
+          "yaml"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam.md",
+      "title": "LPBank Plus ra mắt: Chạm Lộc Phát, Trọn An tâm",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "app ngân hàng",
+          "digital banking",
+          "lpbank plus",
+          "ngân hàng lộc phát",
+          "ngân hàng số"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/mcc-001-decoded-4-digit-code.md",
+      "title": "MCC Decoded: What International Travelers Need to Know",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Tài chính",
+          "Du lịch"
+        ],
+        "tags": [
+          "credit-cards",
+          "cross-border-fees",
+          "international-payments",
+          "mcc"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/mcc-002-fee-trap-interchange.md",
+      "title": "MCC and Cross-Border Fees: Why Hotels Cost More Than Casinos",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Tài chính"
+        ],
+        "tags": [
+          "cross-border",
+          "interchange-fees",
+          "mcc",
+          "merchant-costs"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/mcc-003-rewards-roulette-cashback.md",
+      "title": "Credit Card Rewards and MCC: Maximize Your International Cashback",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Tài chính"
+        ],
+        "tags": [
+          "cashback",
+          "credit-cards",
+          "mcc",
+          "rewards"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/mcc-004-fraud-freezes-high-risk.md",
+      "title": "MCC Fraud Flags: Why Your Card Gets Blocked Abroad",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Tài chính"
+        ],
+        "tags": [
+          "card-blocks",
+          "fraud",
+          "international",
+          "mcc"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/mcc-005-corporate-compliance.md",
+      "title": "MCC for Finance Teams: Corporate Expense Automation and Tax Rules",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Tài chính",
+          "Công nghệ"
+        ],
+        "tags": [
+          "corporate-cards",
+          "expense-reporting",
+          "mcc",
+          "tax"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/mcc-006-travelers-cheat-sheet.md",
+      "title": "MCC Cheat Sheet: 50+ Codes Every Traveler Should Know",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Du lịch"
+        ],
+        "tags": [
+          "international",
+          "mcc",
+          "reference",
+          "travel"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/mcc-007-merchant-dilemma.md",
+      "title": "MCC for Merchants: Choosing the Right Code for International Sales",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Tài chính",
+          "Công nghệ"
+        ],
+        "tags": [
+          "fees",
+          "mcc",
+          "merchants",
+          "payment-processing"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/mcc-008-disputing-wrong-mcc.md",
+      "title": "Disputing a Wrong MCC: Your Rights as an International Cardholder",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Tài chính"
+        ],
+        "tags": [
+          "consumer-rights",
+          "credit-cards",
+          "disputes",
+          "mcc"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/mcc-009-future-dynamic-codes.md",
+      "title": "The Future of MCCs: Dynamic Codes and AI-Powered Categorization",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Tài chính",
+          "Công nghệ"
+        ],
+        "tags": [
+          "ai",
+          "fintech",
+          "innovation",
+          "mcc"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/mcc-010-masterclass-strategy.md",
+      "title": "MCC Masterclass: Build Your Personal International Spending Strategy",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Du lịch",
+          "Tài chính"
+        ],
+        "tags": [
+          "credit-cards",
+          "mcc",
+          "optimization",
+          "strategy"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/mong-muon-y-dinh-tieng-han.md",
+      "title": "Ngày 24 — Mong muốn & ý định tiếng Hàn: 고 싶다, 려고 하다",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "mong muốn tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/mua-nao-di-han-la-dep-nhat.md",
+      "title": "Đi Hàn mùa nào đẹp nhất? So sánh 4 mùa (2026)",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Du lịch"
+        ],
+        "tags": [
+          "anh đào",
+          "busan",
+          "du lịch",
+          "hàn quốc",
+          "jeju",
+          "korea",
+          "lá vàng",
+          "mùa",
+          "seoul",
+          "tuyết"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/ngan-hang-so-cho-freelancer.md",
+      "title": "Ngân hàng số cho freelancer: quản lý thu nhập tự do",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "freelancer",
+          "liobank",
+          "ngân hàng số",
+          "ngân hàng số cho freelancer",
+          "ngân hàng số series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/ngan-hang-so-cho-kinh-doanh-online.md",
+      "title": "Ngân hàng số cho người kinh doanh online tốt nhất",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "bán hàng online",
+          "liobank",
+          "ngân hàng số",
+          "ngân hàng số cho kinh doanh online",
+          "ngân hàng số series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/ngan-hang-so-cho-sinh-vien.md",
+      "title": "Ngân hàng số cho sinh viên: chọn app nào tốt nhất?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "liobank",
+          "ngân hàng số",
+          "ngân hàng số cho sinh viên",
+          "ngân hàng số series",
+          "sinh viên"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/ngan-hang-so-hoan-tien-nhieu-nhat.md",
+      "title": "Ngân hàng số nào có nhiều ưu đãi hoàn tiền nhất?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "cashback",
+          "hoàn tiền",
+          "liobank",
+          "ngân hàng số hoàn tiền",
+          "ngân hàng số series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat.md",
+      "title": "Ngân hàng số nào miễn phí chuyển khoản tốt nhất?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "miễn phí chuyển khoản",
+          "ngân hàng số",
+          "ngân hàng số series",
+          "phí chuyển khoản",
+          "tnex"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/ngu-phap-nang-cao-topik-tieng-han.md",
+      "title": "Ngày 29 — Ngữ pháp nâng cao tiếng Hàn cho TOPIK",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp nâng cao tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "tiếng hàn trung cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/nguon-traffic-organic-direct-referral-social-paid.md",
+      "title": "Nguồn traffic GA4: Organic, Direct, Referral, Social, Paid",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "ga4",
+          "google analytics",
+          "google analytics series",
+          "nguồn traffic",
+          "seo"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/nguyen-am-doi-tieng-han.md",
+      "title": "Học tiếng Hàn ngày 4: Nguyên âm đôi & nguyên âm ghép",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "nguyên âm ghép",
+          "nguyên âm đôi",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao.md",
+      "title": "Nhà máy làm giàu uranium hoạt động như thế nào?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Khoa học"
+        ],
+        "tags": [
+          "hạt nhân",
+          "khoa học",
+          "làm giàu",
+          "năng lượng",
+          "science uranium series",
+          "uranium"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat.md",
+      "title": "Những Quy Định Cấm Từ Shopee Affiliate 2026 Mới Nhất",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả"
+        ],
+        "tags": [
+          "affiliate marketing",
+          "kiếm tiền từ facebook reels",
+          "làm affiliate",
+          "quy định cấm từ",
+          "shopee affiliate"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/on-tap-tuan-1-chao-hoi-tieng-han.md",
+      "title": "Học tiếng Hàn ngày 7: Ôn tập tuần 1 & chào hỏi cơ bản",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "chào hỏi tiếng hàn",
+          "giao tiếp tiếng hàn",
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "topik",
+          "ôn tập hangul"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/on-tap-tuan-2-hoi-thoai-mua-sam-tieng-han.md",
+      "title": "Ngày 14 — Ôn tập tuần 2 & hội thoại mua sắm tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "hội thoại tiếng hàn",
+          "mua sắm tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/on-tap-tuan-3-ke-chuyen-mot-ngay-tieng-han.md",
+      "title": "Ngày 21 — Ôn tập tuần 3 & kể chuyện một ngày tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik",
+          "ôn tập tiếng hàn"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/patchim-phu-am-cuoi-tieng-han.md",
+      "title": "Học tiếng Hàn ngày 5: Patchim (받침) & 7 âm đại diện",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "patchim",
+          "phụ âm cuối",
+          "topik",
+          "받침"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra.md",
+      "title": "Phá hủy cơ sở hạt nhân và tiêu hủy uranium: điều gì xảy ra?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Khoa học"
+        ],
+        "tags": [
+          "hạt nhân",
+          "iaea",
+          "khoa học",
+          "năng lượng",
+          "science uranium series",
+          "tiêu hủy",
+          "uranium"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/phan-biet-policies-va-restrictions-adsense.md",
+      "title": "Phân biệt Policies và Restrictions trong AdSense",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "adsense",
+          "adsense foundation series",
+          "google adsense",
+          "monetization",
+          "policy center",
+          "publisher policies",
+          "publisher restrictions"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/phan-trang-trang-chu-zola-archive.md",
+      "title": "Phân trang trang chủ Zola: khi blog tưởng như mất bài",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "github pages",
+          "phân trang",
+          "seo",
+          "static site generator",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/phu-am-cang-bat-hoi-tieng-han.md",
+      "title": "Học tiếng Hàn ngày 3: Phụ âm căng & phụ âm bật hơi",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "phụ âm bật hơi",
+          "phụ âm căng",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/phu-am-co-ban-hangul-ghep-am-tiet.md",
+      "title": "Học tiếng Hàn ngày 2: Phụ âm cơ bản & ghép âm tiết",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "ghép âm tiết",
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "phụ âm hangul",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/phu-dinh-an-mot-tieng-han.md",
+      "title": "Ngày 18 — Phủ định 안 / 못 & -지 않다 trong tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "phủ định tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/premium-fintech-paywall-demo.md",
+      "title": "Fintech 2026: Paywall premium trên blog cá nhân",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "blog",
+          "fintech",
+          "monetization",
+          "paywall",
+          "premium"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/pull-request-quy-trinh-cong-tac-github.md",
+      "title": "Pull Request và quy trình cộng tác trên GitHub",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "git",
+          "git github series",
+          "github",
+          "lập trình",
+          "pull request"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/push-pull-fetch-dong-bo-voi-github.md",
+      "title": "Push, pull, fetch: đồng bộ code với GitHub",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "git",
+          "git github series",
+          "git push",
+          "github",
+          "lập trình"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/qa-gatekeeper-tu-fix-loi-blog.md",
+      "title": "QA Gatekeeper: blog tự fix lỗi 24/7 GitHub Actions",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "automation",
+          "blog",
+          "ci/cd",
+          "devops",
+          "github actions",
+          "qa",
+          "self-healing",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/quy-tac-phat-am-tieng-han.md",
+      "title": "Học tiếng Hàn ngày 6: Quy tắc phát âm nối âm & đồng hóa",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "nối âm tiếng hàn",
+          "quy tắc phát âm",
+          "topik",
+          "đồng hóa âm"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/review-cake-by-vpbank.md",
+      "title": "Review Cake by VPBank chi tiết: ưu nhược điểm, phí, tính năng",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "cake by vpbank",
+          "ngân hàng số",
+          "ngân hàng số series",
+          "review cake",
+          "vpbank"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/review-liobank-by-ocb.md",
+      "title": "Review Liobank by OCB chi tiết: ưu nhược điểm, phí, hoàn tiền",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "liobank",
+          "ngân hàng số",
+          "ngân hàng số series",
+          "ocb",
+          "review liobank"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/review-tnex-chi-tiet.md",
+      "title": "Review TNEX chi tiết: ngân hàng số miễn phí của MSB",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "msb",
+          "ngân hàng số",
+          "ngân hàng số series",
+          "review tnex",
+          "tnex"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/rui-ro-khi-su-dung-ngan-hang-so.md",
+      "title": "Các rủi ro khi sử dụng ngân hàng số và cách phòng tránh",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "bảo mật ngân hàng số",
+          "lừa đảo otp",
+          "ngân hàng số",
+          "ngân hàng số series",
+          "rủi ro ngân hàng số"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/sentence-transformers-sbert-deep-dive.md",
+      "title": "Sentence Transformers (SBERT) là gì? Kiến trúc",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "ai",
+          "bert",
+          "deep learning",
+          "embeddings",
+          "machine learning",
+          "nlp",
+          "python",
+          "pytorch",
+          "sbert",
+          "sentence-transformers"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/seo-la-gi-huong-dan-co-ban-google-search.md",
+      "title": "SEO là gì? Hướng dẫn cơ bản từ Google Search Central",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "blog",
+          "google search",
+          "seo",
+          "seo foundation series",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/so-dem-tieng-han-han-han-thuan-han.md",
+      "title": "Ngày 13: Số đếm tiếng Hàn Hán-Hàn & thuần Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "số đếm tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/so-sanh-cake-vs-liobank.md",
+      "title": "So sánh Cake vs Liobank: nên chọn ngân hàng số nào?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "cake by vpbank",
+          "cake vs liobank",
+          "liobank",
+          "ngân hàng số series",
+          "so sánh ngân hàng số"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/so-sanh-timo-vs-tnex.md",
+      "title": "So sánh Timo vs TNEX: chọn ngân hàng số nào?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ngân hàng số series",
+          "so sánh ngân hàng số",
+          "timo",
+          "timo vs tnex",
+          "tnex"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/so-sanh-v-plus-va-v-advance-chon-goi-nao.md",
+      "title": "V-Plus hay V-Advance: chọn gói VietinBank nào?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "so sánh ngân hàng",
+          "v-advance",
+          "v-plus",
+          "v-plus v-advance series",
+          "vietinbank"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/summer-korea-4-diem-dung-mua-he.md",
+      "title": "Du lịch Hàn Quốc mùa hè: Seoul, Busan, Jeju",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Du lịch"
+        ],
+        "tags": [
+          "budget travel",
+          "busan",
+          "du lịch",
+          "hiking",
+          "hàn quốc",
+          "hàn river",
+          "jeju",
+          "korea",
+          "mùa hè",
+          "seoraksan",
+          "seoul",
+          "ẩm thực"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/tao-blog-voi-zola.md",
+      "title": "Tạo blog với Zola từ A–Z: deploy GitHub Pages",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "blog",
+          "github actions",
+          "github pages",
+          "markdown",
+          "rust",
+          "static site generator",
+          "tutorial",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/tera-template-syntax-error-conditional.md",
+      "title": "Lỗi Tera Template Syntax Error: Cách khắc phục",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "debug",
+          "static-site",
+          "syntax-error",
+          "template",
+          "tera",
+          "web-development",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/tet-doan-ngo-han-viet-trung.md",
+      "title": "Tết Đoan Ngọ ở Hàn, Việt, Trung khác gì nhau?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Du lịch"
+        ],
+        "tags": [
+          "hàn quốc",
+          "lễ hội",
+          "phong tục",
+          "trung quốc",
+          "tết",
+          "việt nam",
+          "văn hóa",
+          "đoan ngọ"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/thang-6-di-han-an-gi-lam-gi.md",
+      "title": "Du lịch Hàn Quốc tháng 6: ăn gì, làm gì?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Du lịch"
+        ],
+        "tags": [
+          "du lịch",
+          "festival",
+          "hàn quốc",
+          "jeju",
+          "korea",
+          "mùa hè",
+          "seoul",
+          "tháng 6",
+          "ẩm thực"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/the-vietinbank-lich-su-va-cac-dong-the.md",
+      "title": "Thẻ VietinBank: lịch sử và các dòng thẻ nổi bật",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "thẻ ngân hàng",
+          "thẻ tín dụng",
+          "vietinbank",
+          "vietinbank series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/thi-qua-khu-asseoyo-tieng-han.md",
+      "title": "Ngày 16 — Thì quá khứ 았/었어요 trong tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "thì quá khứ tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/thi-tuong-lai-y-dinh-tieng-han.md",
+      "title": "Ngày 17 — Thì tương lai & ý định ㄹ 거예요, 겠 tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "thì tương lai tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/tien-ich-so-vietinbank-chua-tan-dung-het.md",
+      "title": "Tiện ích số VietinBank nhiều người chưa dùng hết",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "tiện ích số",
+          "vietinbank",
+          "vietinbank ipay",
+          "vietinbank series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/timo-la-gi-co-nen-dung.md",
+      "title": "Timo là gì? Có nên dùng ngân hàng số Timo không?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ngân hàng số",
+          "ngân hàng số series",
+          "review timo",
+          "timo",
+          "timo là gì"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/toan-canh-chuyen-doi-so-vietinbank.md",
+      "title": "Toàn cảnh chuyển đổi số VietinBank từ 1988 đến nay",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "chuyển đổi số",
+          "ngân hàng số",
+          "vietinbank",
+          "vietinbank series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/toi-nay-sai-gon-an-gi.md",
+      "title": "Tối nay Sài Gòn ăn gì? 12 quán ăn tối & khuya",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả"
+        ],
+        "tags": [
+          "du lịch",
+          "review",
+          "street food",
+          "sài gòn",
+          "tp hcm",
+          "ăn tối",
+          "ẩm thực"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/tong-on-chien-luoc-thi-topik-tieng-han.md",
+      "title": "Ngày 30 — Tổng ôn & chiến lược thi TOPIK I tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "chiến lược thi topik",
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "thi topik",
+          "tiếng hàn sơ cấp",
+          "topik"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/top-10-cong-cu-terminal-cho-mac-2026.md",
+      "title": "Top 10 công cụ terminal cho Mac 2026: dev toolkit",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "command line",
+          "công cụ dev",
+          "lập trình",
+          "macos",
+          "terminal"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026.md",
+      "title": "Top ngân hàng số tốt nhất Việt Nam năm 2026",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "cake by vpbank",
+          "liobank",
+          "ngân hàng số",
+          "ngân hàng số series",
+          "ngân hàng số tốt nhất"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/trich-dan-gian-tiep-tieng-han.md",
+      "title": "Ngày 28 — Trích dẫn gián tiếp (간접화법) tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "topik",
+          "trích dẫn gián tiếp tiếng hàn",
+          "간접화법"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/tro-tu-eul-reul-e-eseo-tieng-han.md",
+      "title": "Ngày 12: Trợ từ 을/를, 에, 에서 trong tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik",
+          "trợ từ tiếng hàn"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/tro-tu-eun-neun-i-ga-tieng-han.md",
+      "title": "Ngày 11: Trợ từ 은/는 và 이/가 trong tiếng Hàn",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "premium",
+          "Học tiếng Hàn"
+        ],
+        "tags": [
+          "hoc tieng han series",
+          "học tiếng hàn",
+          "ngữ pháp tiếng hàn",
+          "tiếng hàn sơ cấp",
+          "topik",
+          "trợ từ tiếng hàn"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/troi-mua-sai-gon-an-gi.md",
+      "title": "Trời mưa Sài Gòn ăn gì? 8 món ấm bụng",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ẩm thực"
+        ],
+        "tags": [
+          "món ngon",
+          "sài gòn",
+          "tphcm",
+          "trời mưa",
+          "ăn gì",
+          "ẩm thực"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/tu-dong-deploy-zola-github-actions.md",
+      "title": "Deploy blog Zola lên GitHub Pages tự động",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "ci/cd",
+          "deploy",
+          "devops",
+          "github actions",
+          "github pages",
+          "tutorial",
+          "tự động hoá",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/tuong-lai-ngan-hang-so-va-vi-the-vietinbank.md",
+      "title": "Tương lai VietinBank trong làn sóng ngân hàng số",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ngân hàng số",
+          "tương lai ngân hàng",
+          "vietinbank",
+          "vietinbank series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/tuong-lai-ngan-hang-so-viet-nam.md",
+      "title": "Tương lai ngân hàng số tại Việt Nam: xu hướng 2026+",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ngân hàng số",
+          "ngân hàng số series",
+          "open banking",
+          "tương lai ngân hàng số",
+          "xu hướng fintech"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/ung-ho-du-an-ai-ten-mien-ai.md",
+      "title": "Ủng Hộ Dự Án AI: Vì Sao Website Cần Tên Miền .AI?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "premium"
+        ],
+        "tags": [
+          "donate website",
+          "gây quỹ cộng đồng",
+          "hỗ trợ mua tên miền ai",
+          "phi lợi nhuận",
+          "đóng góp duy trì website",
+          "ủng hộ dự án ai"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/uranium-la-gi-tai-sao-quan-trong.md",
+      "title": "Uranium là gì? Vì sao nguyên tố này quan trọng",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Khoa học"
+        ],
+        "tags": [
+          "hạt nhân",
+          "khoa học",
+          "năng lượng",
+          "science uranium series",
+          "uranium"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/uranium-lam-giau-la-gi.md",
+      "title": "Uranium làm giàu là gì? Các mức độ 0,7% đến 90%",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Khoa học"
+        ],
+        "tags": [
+          "hạt nhân",
+          "khoa học",
+          "làm giàu",
+          "năng lượng",
+          "science uranium series",
+          "uranium"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/users-new-users-sessions-google-analytics.md",
+      "title": "Users, New Users và Sessions trong Google Analytics",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "ga4",
+          "google analytics",
+          "google analytics series",
+          "sessions",
+          "users"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam.md",
+      "title": "Vai trò VietinBank trong hệ thống ngân hàng Việt Nam",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "big 4 ngân hàng",
+          "vai trò vietinbank",
+          "vietinbank",
+          "vietinbank series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang.md",
+      "title": "Công nghệ VietinBank thay đổi trải nghiệm khách hàng",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "công nghệ ngân hàng",
+          "trải nghiệm khách hàng",
+          "vietinbank",
+          "vietinbank series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/vietinbank-cuoc-dua-ngan-hang-so-big4.md",
+      "title": "Ngân hàng số VietinBank trong cuộc đua Big 4",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "big 4",
+          "ngân hàng số",
+          "vietinbank",
+          "vietinbank series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/vietinbank-hien-dai-hoa-core-banking.md",
+      "title": "Core banking VietinBank: hành trình hiện đại hóa lõi",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "core banking",
+          "ngân hàng lõi",
+          "vietinbank",
+          "vietinbank series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/vietinbank-ipay-internet-banking-qua-cac-thoi-ky.md",
+      "title": "VietinBank iPay: Internet Banking qua các thời kỳ",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "internet banking",
+          "vietinbank",
+          "vietinbank ipay",
+          "vietinbank series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/vietinbank-la-ai-hanh-trinh-hinh-thanh.md",
+      "title": "VietinBank là ai? Hành trình hình thành từ ngày đầu",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "lịch sử ngân hàng",
+          "ngân hàng việt nam",
+          "vietinbank",
+          "vietinbank series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/vietinbank-tu-giao-dich-quay-den-ngan-hang-so.md",
+      "title": "Ngân hàng số VietinBank: từ giao dịch quầy đến app",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "chuyển đổi số",
+          "ngân hàng số",
+          "vietinbank",
+          "vietinbank series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/vietinbank-v-advance-nang-tam-trai-nghiem.md",
+      "title": "V-Advance VietinBank: đặc quyền Tài chính–Lifestyle",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ipay mobile",
+          "ngân hàng",
+          "v-advance",
+          "v-plus v-advance series",
+          "vietinbank"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/vietinbank-v-plus-chi-tiet-quyen-loi.md",
+      "title": "V-Plus VietinBank: quyền lợi chi tiết chỉ 20.000đ/tháng",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "hoàn tiền",
+          "ipay mobile",
+          "v-advance",
+          "v-plus",
+          "vietinbank",
+          "vietinbank v-plus v-advance series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/vietinbank-v-plus-v-advance-la-gi.md",
+      "title": "V-Plus & V-Advance VietinBank: gói tiện ích mới là gì?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Ngân hàng"
+        ],
+        "tags": [
+          "ipay mobile",
+          "ngân hàng số",
+          "v-advance",
+          "v-plus",
+          "vietinbank",
+          "vietinbank v-plus v-advance series"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/website-san-sang-cho-adsense.md",
+      "title": "Website sẵn sàng cho AdSense: nội dung, navigation, UX",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "adsense",
+          "adsense foundation series",
+          "google adsense",
+          "monetization",
+          "publisher",
+          "site readiness"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/zola-faq-schema-template-variable-error.md",
+      "title": "Fix 'Variable not found' lỗi FAQ schema trong Zola",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "bug-fix",
+          "debug",
+          "faq-schema",
+          "frontmatter",
+          "static-site",
+          "template",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/zola-responsive-layout-context-detection.md",
+      "title": "Zola responsive layout context detection Tera template",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "adsense",
+          "responsive-design",
+          "static-site-generator",
+          "template-engine",
+          "tera",
+          "zola"
+        ]
+      }
+    },
+    {
+      "content_file": "content/posting/zola-vs-hugo.md",
+      "title": "Zola vs Hugo: chọn SSG nào cho blog cá nhân?",
+      "template": "page.html",
+      "draft": false,
+      "taxonomies": {
+        "categories": [
+          "Tất cả",
+          "Công nghệ"
+        ],
+        "tags": [
+          "blog",
+          "hugo",
+          "so sánh",
+          "ssg",
+          "static site generator",
+          "zola"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,406 @@
+{% extends "base.html" %}
+{% import "macros/placement.html" as placement %}
+
+{% block title %}Quản lý MoMo URL | {{ config.title }}{% endblock %}
+
+{% block main %}
+<div class="admin-momo-url">
+  <!-- Auth gate: Google login required. Views toggled by the auth state machine
+       (checking · guest · unauthorized · error). The `hidden` attribute hides the
+       whole gate once authenticated — _admin-momo-url.scss forces `[hidden]` to win
+       over the `.auth-gate { display:flex }` overlay rule (auth-vaccine A1). -->
+  <div class="auth-gate" id="auth-gate" hidden>
+    <div class="auth-gate__overlay"></div>
+    <div class="auth-gate__dialog">
+      <div class="auth-gate__brand">
+        <div class="auth-gate__brand-logo" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="12" fill="url(#momo-grad-auth)"/>
+            <text x="20" y="28" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="900" fill="white">M</text>
+            <defs>
+              <linearGradient id="momo-grad-auth" x1="0" y1="0" x2="40" y2="40">
+                <stop stop-color="#ae2070"/>
+                <stop offset="1" stop-color="#50275d"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="auth-gate__brand-name">MoMo Admin</span>
+      </div>
+
+      <!-- checking: only while actually verifying the session -->
+      <div class="auth-gate__view auth-gate__checking" id="auth-view-checking" data-auth-view="checking">
+        <div class="spinner"></div>
+        <p>Đang kiểm tra đăng nhập…</p>
+      </div>
+
+      <!-- guest: not logged in -->
+      <div class="auth-gate__view" id="auth-view-guest" data-auth-view="guest" hidden>
+        <h2 class="auth-gate__title">Đăng nhập để tiếp tục</h2>
+        <p class="auth-gate__message">Trang này chỉ admin được truy cập. Đăng nhập bằng tài khoản Google trong danh sách quản trị.</p>
+        <div class="auth-gate__buttons">
+          <a href="#" class="auth-gate__btn auth-gate__btn--google" id="google-login-btn">
+            <svg width="18" height="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+              <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.71-1.57 2.68-3.89 2.68-6.62z"/>
+              <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.81.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 0 0 9 18z"/>
+              <path fill="#FBBC05" d="M3.97 10.72a5.4 5.4 0 0 1 0-3.44V4.95H.96a9 9 0 0 0 0 8.1l3.01-2.33z"/>
+              <path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58A9 9 0 0 0 .96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"/>
+            </svg>
+            Đăng nhập bằng Google
+          </a>
+        </div>
+      </div>
+
+      <!-- unauthorized: logged in but not an admin -->
+      <div class="auth-gate__view" id="auth-view-unauthorized" data-auth-view="unauthorized" hidden>
+        <h2 class="auth-gate__title">Không có quyền truy cập</h2>
+        <p class="auth-gate__message" id="unauth-message">Tài khoản Google của bạn không nằm trong danh sách quản trị. Vui lòng đăng nhập bằng tài khoản admin.</p>
+        <div class="auth-gate__buttons">
+          <button class="auth-gate__btn auth-gate__btn--google" id="switch-account-btn">Đăng nhập tài khoản khác</button>
+        </div>
+      </div>
+
+      <!-- error: backend unreachable / verification failed -->
+      <div class="auth-gate__view" id="auth-view-error" data-auth-view="error" hidden>
+        <h2 class="auth-gate__title">Lỗi kết nối</h2>
+        <p class="auth-gate__message" id="auth-error-message">Không kết nối được máy chủ xác thực. Vui lòng thử lại.</p>
+        <div class="auth-gate__buttons">
+          <button class="auth-gate__btn auth-gate__btn--google" id="auth-retry-btn">Thử lại</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content (hidden until auth) -->
+  <div class="admin-momo-url__inner" id="admin-content" hidden>
+    <header class="admin-momo-url__header">
+      <div class="admin-momo-url__header-brand">
+        <div class="momo-logo-mark" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect width="48" height="48" rx="14" fill="url(#momo-grad-hdr)"/>
+            <text x="24" y="34" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="26" font-weight="900" fill="white">M</text>
+            <defs>
+              <linearGradient id="momo-grad-hdr" x1="0" y1="0" x2="48" y2="48">
+                <stop stop-color="#ae2070"/>
+                <stop offset="1" stop-color="#50275d"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <div class="admin-momo-url__brand-tag">MoMo Payment</div>
+          <h1 class="admin-momo-url__title">Quản lý MoMo URL &amp; Content Placement</h1>
+        </div>
+      </div>
+      <p class="admin-momo-url__subtitle">Quản lý payment link, nội dung hiển thị (CTA/banner/notice) và vị trí render theo placement ID</p>
+    </header>
+
+    {{ placement::render(id="tools_momo_admin_notice") }}
+
+    <!-- Tab nav -->
+    <nav class="cp-tabs" role="tablist" aria-label="Khu vực quản lý">
+      <button class="cp-tab cp-tab--active" data-tab="momo" role="tab" aria-selected="true">MoMo URL</button>
+      <button class="cp-tab" data-tab="placements" role="tab" aria-selected="false">Vị trí hiển thị</button>
+      <button class="cp-tab" data-tab="blocks" role="tab" aria-selected="false">Content blocks</button>
+    </nav>
+
+    <!-- ===================== TAB: MoMo URL ===================== -->
+    <section class="cp-panel" data-tab-panel="momo">
+      <!-- Loading state -->
+      <div class="admin-momo-url__loading" id="loading-state">
+        <div class="spinner"></div>
+        <p>Đang tải dữ liệu...</p>
+      </div>
+
+      <!-- Data loaded state -->
+      <div class="admin-momo-url__content" id="content-state" hidden>
+        <!-- Summary -->
+        <div class="admin-momo-url__summary">
+          <div class="summary-card">
+            <div class="summary-card__label">Tổng URL</div>
+            <div class="summary-card__value" id="summary-total">0</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card__label">Premium</div>
+            <div class="summary-card__value" id="summary-premium">0</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card__label">Donate</div>
+            <div class="summary-card__value" id="summary-donate">0</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card__label">Custom Post</div>
+            <div class="summary-card__value" id="summary-custom">0</div>
+          </div>
+        </div>
+
+        <!-- Links table -->
+        <div class="admin-momo-url__table-wrapper">
+          <table class="admin-momo-url__table">
+            <thead>
+              <tr>
+                <th class="col-url">Link MoMo</th>
+                <th class="col-category">Loại</th>
+                <th class="col-locations">Vị trí dùng</th>
+                <th class="col-count">Số nơi</th>
+                <th class="col-blocks">Content blocks</th>
+                <th class="col-actions">Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Error state -->
+      <div class="admin-momo-url__error" id="error-state" hidden>
+        <p id="error-message"></p>
+        <button class="btn btn--primary" id="retry-btn">Thử lại</button>
+      </div>
+    </section>
+
+    <!-- ===================== TAB: Placement registry ===================== -->
+    <section class="cp-panel" data-tab-panel="placements" hidden>
+      <p class="cp-panel__hint">Mỗi vị trí hiển thị có một <strong>placement ID</strong> cố định. Khi tạo content block, admin chỉ chọn placement ID — không nhập mô tả vị trí bằng tay.</p>
+      <div class="admin-momo-url__table-wrapper">
+        <table class="admin-momo-url__table cp-registry">
+          <thead>
+            <tr>
+              <th>Placement ID</th>
+              <th>Tên dễ hiểu</th>
+              <th>Scope</th>
+              <th>Template</th>
+              <th>Đang có block</th>
+              <th>Hook</th>
+              <th>Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody id="cp-registry-body"><!-- JS --></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== TAB: Content blocks ===================== -->
+    <section class="cp-panel" data-tab-panel="blocks" hidden>
+      <div class="cp-blocks__toolbar">
+        <p class="cp-panel__hint">Tạo/sửa khối nội dung (CTA, banner, notice…) và gắn vào một placement ID.</p>
+        <button class="btn btn--primary" id="cp-create-btn">+ Tạo content block</button>
+      </div>
+      <div class="cp-commit-status" id="cp-commit-status" hidden></div>
+      <div class="admin-momo-url__table-wrapper">
+        <table class="admin-momo-url__table cp-blocks-table">
+          <thead>
+            <tr>
+              <th>Block ID</th>
+              <th>Placement</th>
+              <th>Type</th>
+              <th>Tiêu đề</th>
+              <th>Trạng thái</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="cp-blocks-body"><!-- JS --></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Logout button -->
+    <div class="admin-momo-url__footer">
+      <button class="btn btn--secondary" id="logout-btn">Đăng xuất</button>
+    </div>
+  </div>
+</div>
+
+<!-- Drawer: Content block detail -->
+<aside class="cp-drawer" id="cp-drawer" hidden aria-label="Chi tiết content block">
+  <div class="cp-drawer__overlay" data-cp-drawer-close></div>
+  <div class="cp-drawer__panel" role="dialog" aria-modal="true">
+    <div class="cp-drawer__head">
+      <h2 class="cp-drawer__title">Chi tiết block</h2>
+      <button class="modal__close" data-cp-drawer-close aria-label="Đóng">&times;</button>
+    </div>
+    <div class="cp-drawer__body" id="cp-drawer-body"><!-- JS --></div>
+    <div class="cp-drawer__actions">
+      <button class="btn btn--primary" id="cp-drawer-edit">Sửa</button>
+      <button class="btn btn--secondary" id="cp-drawer-toggle">Bật/Tắt</button>
+      <button class="btn btn--danger" id="cp-drawer-delete">Xoá</button>
+    </div>
+  </div>
+</aside>
+
+<!-- Modal: Create / edit content block -->
+<dialog class="modal modal--wide" id="block-modal">
+  <div class="modal__content">
+    <div class="modal__header">
+      <h2 class="modal__title">Tạo/sửa content block</h2>
+      <button class="modal__close" id="close-block-modal" aria-label="Đóng">&times;</button>
+    </div>
+    <div class="modal__body cp-editor">
+      <form class="cp-editor__form" id="block-form">
+        <div class="form-group">
+          <label for="block-placement">Placement ID</label>
+          <select class="form-control" id="block-placement"><!-- JS --></select>
+        </div>
+        <div class="form-group">
+          <label for="block-id">Block ID</label>
+          <input type="text" class="form-control" id="block-id" placeholder="vd: momo_donate_header_cta">
+          <small class="form-text">chữ thường, số, gạch ngang/underscore. Không sửa được sau khi tạo.</small>
+        </div>
+        <div class="form-group">
+          <label for="block-type">Type</label>
+          <select class="form-control" id="block-type">
+            <option value="momo_cta">momo_cta</option>
+            <option value="donate_box">donate_box</option>
+            <option value="premium_cta">premium_cta</option>
+            <option value="notice">notice</option>
+            <option value="banner">banner</option>
+            <option value="link_card">link_card</option>
+            <option value="html_safe">html_safe</option>
+          </select>
+          <small class="form-text cp-warn" id="html-safe-warning" hidden>⚠️ html_safe render HTML thô. Chỉ dùng nội dung tin cậy — không chèn &lt;script&gt;.</small>
+        </div>
+        <div class="form-group">
+          <label for="block-title">Tiêu đề</label>
+          <input type="text" class="form-control" id="block-title" maxlength="200">
+        </div>
+        <div class="form-group">
+          <label for="block-body">Nội dung</label>
+          <textarea class="form-control" id="block-body" rows="3" maxlength="4000"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="block-button">Nút CTA (button text)</label>
+          <input type="text" class="form-control" id="block-button" maxlength="60">
+        </div>
+        <div class="form-group">
+          <label for="block-url">URL</label>
+          <input type="url" class="form-control" id="block-url" placeholder="https://me.momo.vn/...">
+          <small class="form-text">momo_cta/donate_box phải dùng https://me.momo.vn/…</small>
+        </div>
+        <div class="cp-editor__row">
+          <div class="form-group">
+            <label for="block-style">Style</label>
+            <select class="form-control" id="block-style">
+              <option value="default">default</option>
+              <option value="compact">compact</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="block-priority">Priority</label>
+            <input type="number" class="form-control" id="block-priority" value="100">
+          </div>
+          <div class="form-group form-group--check">
+            <label class="radio-label"><input type="checkbox" id="block-enabled"> Bật (enabled)</label>
+          </div>
+        </div>
+        <div class="cp-editor__row">
+          <div class="form-group">
+            <label for="block-pages">Pages (phân tách bằng dấu phẩy)</label>
+            <input type="text" class="form-control" id="block-pages" placeholder="*">
+          </div>
+          <div class="form-group">
+            <label for="block-exclude">Exclude pages</label>
+            <input type="text" class="form-control" id="block-exclude" placeholder="/editor/, /admin-author/">
+          </div>
+        </div>
+        <div class="cp-editor__row">
+          <div class="form-group">
+            <label for="block-start">Ngày bắt đầu</label>
+            <input type="date" class="form-control" id="block-start">
+          </div>
+          <div class="form-group">
+            <label for="block-end">Ngày kết thúc</label>
+            <input type="date" class="form-control" id="block-end">
+          </div>
+        </div>
+      </form>
+      <div class="cp-editor__preview">
+        <div class="cp-preview__label">Preview tại placement: <code id="cp-preview-placement">—</code></div>
+        <div class="cp-preview__stage" id="cp-preview-stage"><!-- JS live preview --></div>
+      </div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--secondary" id="cancel-block-btn">Huỷ</button>
+      <button class="btn btn--primary" id="submit-block-btn">Lưu</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- Modal: Replace link -->
+<dialog class="modal" id="replace-modal">
+  <div class="modal__content">
+    <div class="modal__header">
+      <h2 class="modal__title">Thay đổi MoMo URL</h2>
+      <button class="modal__close" id="close-replace-modal" aria-label="Đóng">&times;</button>
+    </div>
+    <div class="modal__body">
+      <div class="form-group">
+        <label>URL cũ (hiện tại)</label>
+        <input type="text" class="form-control" id="old-url-display" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="new-url-input">URL mới</label>
+        <input type="url" class="form-control" id="new-url-input"
+               placeholder="https://me.momo.vn/..." required>
+        <small class="form-text">Chỉ chấp nhận URL dạng https://me.momo.vn/...</small>
+      </div>
+
+      <div class="form-group">
+        <label>Phạm vi thay thế</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="replace-scope" value="single" checked>
+            Chỉ thay tại vị trí này
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="replace-scope" value="all_same_url">
+            Thay tất cả nơi dùng URL này
+          </label>
+        </div>
+      </div>
+
+      <div id="replace-location" hidden>
+        <div class="form-group">
+          <label for="location-select">Vị trí</label>
+          <select class="form-control" id="location-select">
+            <!-- Populated by JS -->
+          </select>
+        </div>
+      </div>
+
+      <div class="alert alert--warning" id="replace-warning" hidden>
+        <strong>⚠️ Chú ý:</strong> Thay toàn bộ sẽ ảnh hưởng <strong id="replace-count">0</strong> vị trí.
+      </div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--secondary" id="cancel-replace-btn">Huỷ</button>
+      <button class="btn btn--primary" id="confirm-replace-btn">Lưu thay đổi</button>
+    </div>
+    <div class="modal__status" id="replace-status" hidden role="status">
+      <div class="spinner spinner--small"></div>
+      <span id="replace-status-text">Đang xử lý...</span>
+    </div>
+  </div>
+</dialog>
+
+<!-- Modal: Location details -->
+<dialog class="modal" id="details-modal">
+  <div class="modal__content modal__content--small">
+    <div class="modal__header">
+      <h2 class="modal__title">Vị trí sử dụng</h2>
+      <button class="modal__close" id="close-details-modal" aria-label="Đóng">&times;</button>
+    </div>
+    <div class="modal__body">
+      <div id="details-content">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script type="module" src="{{ get_url(path='/js/admin-momo-url.js') }}"></script>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

@@ -1,0 +1,53 @@
+{# Homepage placement + publish controls — right rail on /editor/ edit view #}
+<aside class="editor-rail-stack" data-edit-rail aria-label="Điều khiển xuất bản">
+    <section class="editor-rail-card editor-rail-card--publish">
+        <h3 class="editor-rail-card__title">
+            <span class="editor-rail-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/></svg>
+            </span>
+            Xuất bản
+        </h3>
+        <div class="editor-rail-publish">
+            <p class="editor-rail-publish__meta" data-rail-status>Chưa lưu thay đổi.</p>
+            <button type="button" class="editor-btn editor-btn--success editor-btn--publish editor-btn--block" data-action="publish" title="Đăng bài lên GitHub → auto deploy">
+                Đăng lên blog
+            </button>
+            <button type="submit" class="editor-btn editor-btn--ghost editor-btn--block" form="editor-post-form" title="Tải file .md về máy">
+                Tải file .md
+            </button>
+        </div>
+    </section>
+
+    <section class="editor-rail-card" data-placement-panel>
+        <h3 class="editor-rail-card__title">
+            <span class="editor-rail-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+            </span>
+            Homepage Placement
+        </h3>
+
+        <div class="editor-placement" data-placement-row="sticky">
+            <div class="editor-placement__head">
+                <span class="editor-placement__label">Sticky</span>
+                <span class="editor-placement__badge editor-placement__badge--sticky" data-placement-badge="sticky">Not sticky</span>
+            </div>
+            <p class="editor-placement__hint">Hero ngang trên trang chủ — chỉ 1 bài tại một thời điểm.</p>
+            <div class="editor-placement__actions">
+                <button type="button" class="editor-btn editor-btn--primary editor-btn--small" data-action="placement-sticky-on">Set as Sticky</button>
+                <button type="button" class="editor-btn editor-btn--ghost editor-btn--small" data-action="placement-sticky-off" hidden>Remove Sticky</button>
+            </div>
+        </div>
+
+        <div class="editor-placement" data-placement-row="featured">
+            <div class="editor-placement__head">
+                <span class="editor-placement__label">Featured</span>
+                <span class="editor-placement__badge editor-placement__badge--featured" data-placement-badge="featured">Not featured</span>
+            </div>
+            <p class="editor-placement__hint">Thẻ Featured Post ở sidebar phải — chỉ 1 bài tại một thời điểm.</p>
+            <div class="editor-placement__actions">
+                <button type="button" class="editor-btn editor-btn--primary editor-btn--small" data-action="placement-featured-on">Set as Featured</button>
+                <button type="button" class="editor-btn editor-btn--ghost editor-btn--small" data-action="placement-featured-off" hidden>Remove Featured</button>
+            </div>
+        </div>
+    </section>
+</aside>
