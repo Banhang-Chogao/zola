@@ -193,9 +193,11 @@ Với GitHub Code Scanning, bạn có thể thiết lập quét tất cả repos
 - **CodeQL:** phân tích sâu toàn bộ codebase, tìm lỗ hổng bảo mật phức tạp
 - **ESLint/Pylint:** linter cơ bản, kiểm tra style và bug đơn giản, chạy nhanh hơn
 
-Mình khuyến cáo sử dụng CodeQL cùng ESLint hoặc Pylint - chúng bổ sung nhau, không thay thế.
+Mình khuyến cáo sử dụng CodeQL cùng ESLint hoặc Pylint - chúng bổ sung nhau, không thay thế. Ngoài việc quét bảo mật, cũng hãy quan tâm tới tối ưu hiệu suất code để đảm bảo chất lượng tổng thể dự án.
 
 ## Tips khi sử dụng CodeQL
+
+Để tận dụng CodeQL hiệu quả, hãy tham khảo các [bài viết khác trên blog](/zola/categories/tat-ca/) để hiểu sâu hơn về các lỗ hổng bảo mật thường gặp.
 
 **1. Bắt đầu với query có sẵn**
 Đừng cố viết query phức tạp ngay. GitHub cung cấp thư viện query khổng lồ cho các lỗ hổng phổ biến. Sử dụng những query đó trước.
@@ -219,9 +221,7 @@ Sau khi quen CodeQL, bạn có thể viết query tìm pattern riêng của dự
 
 CodeQL là công cụ phân tích code mạnh mẽ mà mỗi lập trình viên, đặc biệt là backend developer, nên biết. Nó miễn phí cho open source, cộng tác tốt với GitHub, và thực sự hiệu quả trong việc tìm lỗ hổng bảo mật.
 
-Bắt đầu từ GitHub Code Scanning - rất dễ setup, chỉ cần thêm workflow. Sau đó, khi quen rồi, hãy thử chạy local hoặc viết custom query cho logic dự án của bạn.
-
-**Bước tiếp theo:** nếu bạn muốn hiểu sâu hơn về bảo mật code, hãy xem thêm bài viết về [SQL injection](/zola/posting/sql-injection-la-gi/) hay [command injection](/zola/posting/command-injection-phat-hien-fix/). Hoặc nếu bạn làm việc với Python, hãy tìm hiểu [static analysis cho Python](/zola/posting/python-static-analysis/).
+Bắt đầu từ GitHub Code Scanning - rất dễ setup, chỉ cần thêm workflow. Sau đó, khi quen rồi, hãy thử chạy local hoặc viết custom query cho logic dự án của bạn. Đây là bước quan trọng để nâng cao chất lượng bảo mật codebase của bạn.
 
 ---
 
