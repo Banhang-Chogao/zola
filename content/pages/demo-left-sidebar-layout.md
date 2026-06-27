@@ -2,14 +2,13 @@
 title = "Demo: Left Sidebar Layout"
 description = "Documentation for the new 30/70 responsive left-sidebar blog layout with fixed ad spots"
 date = 2026-06-27
-slug = "demo-left-sidebar-layout"
+path = "demo-left-sidebar-layout"
+template = "posting-left-sidebar.html"
 
 [taxonomies]
 categories = ["Tất cả"]
 tags = ["layout", "demo", "design"]
 +++
-
-# New Left Sidebar Layout Demo
 
 This page demonstrates the new **30/70 responsive layout** with:
 

@@ -791,6 +791,26 @@ Do not report "done/live" until both checks pass.
 - **KHÔNG:** report "live" chỉ dựa vào PR merged; nhầm "PR merged" với "GitHub Pages deployed"; bỏ qua
   check `public/<route>/index.html`; bỏ qua verify production HTTP 200.
 
+#### V22 — Route 404 dù page đã có trong content (thiếu `path` khi section `render = false`) — root cause của V21
+
+- **Dấu hiệu:** URL mong đợi (vd `/<slug>/`) trả **404** trên production dù homepage + deploy bình
+  thường; file `content/.../<slug>.md` đã tồn tại và đã merge vào `main`.
+- **Nguyên nhân thường gặp:** page nằm trong section có `render = false` (vd `content/pages/`). Các
+  page khác trong section này route ra **root** nhờ khai báo `path = "..."` trong frontmatter; page mới
+  chỉ có `slug` (thiếu `path`) → KHÔNG route ra `/<slug>/` như mong đợi (nếu có route thì là
+  `/<section>/<slug>/`). **KHÔNG** phải lỗi build/draft.
+- **FIXER:** thêm `path = "<slug>"` vào frontmatter (khớp pattern các page đang chạy cùng section); set
+  `template` đúng nếu page cần layout riêng. `zola build` → xác nhận `public/<route>/index.html` tồn tại
+  + `rel="canonical"` trỏ đúng root URL.
+- **Auto-healing checklist (route 404 sau deploy):** (1) file content tồn tại? (2) `slug`/`path`/`draft`/
+  `render`/`template` đúng? (3) `public/<route>/index.html` sinh ra sau build? (4) PR đã merge vào
+  `main`? (5) Pages deploy commit gần nhất đã gồm commit đó? (6) `base_url`/CNAME không gây sai path
+  (vd prefix `/zola` sót lại).
+- **Liên quan (template dùng chung page+section):** set biến context (is_page/is_section/…) ở **đầu**
+  `{% block main %}` (không nest trong if; top-level `set`/`set_global` NGOÀI block KHÔNG chạy ở template
+  `extends`). Hardcode link trong template phải dùng `get_url(path=...)` (slash an toàn) và trỏ tới
+  taxonomy/section **thật sự tồn tại** — xem V8/V18 cho Tera scoping.
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
