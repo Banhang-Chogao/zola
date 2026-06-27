@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-27T02:05:54Z",
+  "updated_at": "2026-06-27T02:16:10Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 3,
+    "today": 4,
     "this_week": 190,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 102,
+      "unknown": 44,
+      "fix": 101,
       "feature": 43,
       "chore": 4,
-      "unknown": 43,
       "content": 5,
       "ci": 3
     }
   },
   "merges": [
+    {
+      "pr_number": 1037,
+      "pr_title": "Claude/blog layout adsense replace gl5gln",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1037",
+      "merged_at": "2026-06-27T02:13:42Z",
+      "merge_commit_sha": "b21ca2e8884dc2a3edc9b3ecd398d7adb34323a0",
+      "merge_commit_short": "b21ca2e",
+      "head_branch": "claude/blog-layout-adsense-replace-gl5gln",
+      "summary_vi": "Claude/blog layout adsense replace gl5gln",
+      "change_type": "unknown",
+      "files_changed": 12,
+      "additions": 2389,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1237,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28275547490",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 1036,
       "pr_title": "fix: enable tools section pages (momo-url 404 fix)",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1236,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28275240513",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 1035,
@@ -509,9 +528,9 @@
       "deletions": 3028,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1207,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28254467829",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 1010,
@@ -3243,25 +3262,6 @@
       "files_changed": 3,
       "additions": 183,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 831,
-      "pr_title": "fix(ci): harden blog heartbeat push race [fix/blog-heartbeat-push-race]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/831",
-      "merged_at": "2026-06-24T06:42:45Z",
-      "merge_commit_sha": "c63f2dce54c0cbba7028290a60f33c81777c692d",
-      "merge_commit_short": "c63f2dc",
-      "head_branch": "fix/blog-heartbeat-push-race",
-      "summary_vi": "fix(ci): harden blog heartbeat push race",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 13,
-      "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
