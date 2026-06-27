@@ -1195,6 +1195,9 @@
             <div class="site-footer__center">
                 <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola</p>
 
+                {# Content placement hook: footer_before_links. #}
+                {{ placement::render(id="footer_before_links", page=page | default(value=false), section=section | default(value=false)) }}
+
                 {# Về SEOMONEY — nhóm link pháp lý & giới thiệu #}
                 <div class="footer-about">
                     <h4 class="footer-about__title">Về SEOMONEY</h4>

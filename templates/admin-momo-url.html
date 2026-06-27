@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros/placement.html" as placement %}
 
 {% block title %}Quản lý MoMo URL | {{ config.title }}{% endblock %}
 
@@ -60,6 +61,8 @@
       <h1 class="admin-momo-url__title">Quản lý MoMo URL &amp; Content Placement</h1>
       <p class="admin-momo-url__subtitle">Quản lý payment link, nội dung hiển thị (CTA/banner/notice) và vị trí render theo placement ID</p>
     </header>
+
+    {{ placement::render(id="tools_momo_admin_notice") }}
 
     <!-- Tab nav -->
     <nav class="cp-tabs" role="tablist" aria-label="Khu vực quản lý">

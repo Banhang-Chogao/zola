@@ -315,9 +315,22 @@
     }
   }
 
+  function renderContentBlocksCell(link) {
+    const blocks = link.content_blocks || [];
+    if (!blocks.length) {
+      return "<span class='text-muted'>—</span>";
+    }
+    return blocks
+      .map((b) => {
+        const state = b.enabled ? "" : " (tắt)";
+        return `<code>${escapeHtml(b.id)}</code> · ${escapeHtml(b.placement_id || "—")}${state}`;
+      })
+      .join("<br>");
+  }
+
   function renderTable() {
     if (!auditData || !auditData.links_by_url) {
-      tableBody.innerHTML = "<tr><td colspan='5' class='text-center'>Không có dữ liệu</td></tr>";
+      tableBody.innerHTML = "<tr><td colspan='6' class='text-center'>Không có dữ liệu</td></tr>";
       return;
     }
 
@@ -328,10 +341,12 @@
       row.className = `category-${link.category.replace(/\s+/g, "-").toLowerCase()}`;
 
       const categoryBadge = getCategoryBadge(link.category);
+      const blocksCell = renderContentBlocksCell(link);
 
       row.innerHTML = `
         <td class="col-url">
           <code class="url-code">${escapeHtml(url)}</code>
+          ${link.display_text ? `<div class="url-display">${escapeHtml(link.display_text)}</div>` : ""}
           <div class="url-actions">
             <button class="btn-icon" title="Copy" onclick="copyToClipboard('${escapeAttr(url)}')">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -355,6 +370,7 @@
           </button>
         </td>
         <td class="col-count">${link.count}</td>
+        <td class="col-blocks">${blocksCell}</td>
         <td class="col-actions">
           <button class="btn btn--small btn--secondary" onclick="openReplaceModal('${escapeAttr(url)}', '${escapeAttr(link.category)}', ${link.count})">
             Thay link
@@ -799,12 +815,13 @@
       }
 
       const result = await res.json();
+      const wasEdit = Boolean(cpEditingId);
       await loadPlacements();
       showCommitStatus(result);
 
       document.getElementById("block-modal").close();
       cpEditingId = null;
-      alert("✓ Block " + (cpEditingId ? "cập nhật" : "tạo") + " thành công");
+      alert("✓ Block " + (wasEdit ? "cập nhật" : "tạo") + " thành công");
     } catch (e) {
       alert(`❌ Lưu block thất bại: ${e.message}`);
     }

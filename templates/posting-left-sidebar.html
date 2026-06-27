@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros/placement.html" as placement %}
 {% import "macros/verified.html" as v %}
 {% import "macros/img.html" as img %}
 {% import "macros/premium.html" as premium %}
@@ -31,6 +32,8 @@
         <!-- LEFT SIDEBAR (30%) -->
         <!-- ========================================== -->
         <aside class="left-sidebar-layout__sidebar">
+
+            {{ placement::render(id="sidebar_top", page=page | default(value=false), section=section | default(value=false)) }}
 
             <!-- WIDGET: Sticky Post Widget (section context only) -->
             {% if is_section and current_page_index == 1 %}
@@ -86,6 +89,8 @@
                     </ul>
                 </div>
             </div>
+
+            {{ placement::render(id="sidebar_after_categories", page=page | default(value=false), section=section | default(value=false)) }}
 
             <!-- WIDGET: Date Widget -->
             <div class="left-sidebar-widget">
