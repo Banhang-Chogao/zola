@@ -624,6 +624,33 @@ fenced blocks.
 - **Tự động hóa:** logic này khớp `scripts/autofix_conflicts.py` (classify `data/*.json` regen → strategy
   `main`); mở rộng cho 2 bẫy trên khi cần.
 
+#### V19 — FAQ field naming: `question=`/`answer=` thay vì `q=`/`a=` → vỡ `zola build` toàn repo (27/06/2026)
+
+> Content vaccine — recurring. Match dấu hiệu → fix NGAY bằng FIXER, không chẩn lại. Bug này
+> **lọt qua qa-check của PR gốc** rồi lên `main` → chặn build của **MỌI** PR khác (V9: CI build cả repo).
+
+- **Dấu hiệu:** `zola build` vỡ với `ERROR Reason: Variable `item.q` not found in context while
+  rendering 'page.html'` (đôi khi `item.a`). Trỏ tới một file `content/posting/*.md` cụ thể.
+  qa-check đỏ ở step `zola build` dù file `.md` không có conflict.
+- **Nguyên nhân:** Block FAQ trong frontmatter dùng key **`question = "..."` / `answer = "..."`**
+  (kiểu người quen schema khác). Nhưng template `page.html` của Zola lặp `[[extra.faq]]` và đọc
+  field **`q`** và **`a`** (ngắn). Sai tên field → Tera không thấy `item.q` → vỡ render.
+- **FIXER:** đổi MỌI key FAQ về `q=`/`a=` (chỉ ở **đầu dòng** frontmatter, KHÔNG đụng prose):
+  ```bash
+  # Quét toàn repo tìm file dính bug:
+  for f in content/posting/*.md content/baochi/*.md content/pages/*.md; do
+    grep -q '^\[\[extra\.faq\]\]' "$f" && grep -qE '^question\s*=|^answer\s*=' "$f" && echo "$f"
+  done
+  # Fix line-anchored: question = → q = ; answer = → a =  (giữ nguyên value)
+  ```
+  Sau đó `python3 qa_check.py` + (nếu có) `zola build`. Commit + push.
+- **Prevention:** khi viết/sửa bài có FAQ, LUÔN dùng `q = "..."` / `a = "..."`. Khi resolve conflict
+  hay nhận PR mới, grep nhanh pattern trên trước khi tin qa-check. **Conflict-free / PR-merged ≠
+  build-safe** — một file FAQ sai field đã lên `main` sẽ chặn build mọi PR cho tới khi sửa.
+- **Evidence:** PR #1064 (27/06/2026) — `github-actions-secrets-setup-guide.md` (đã trên `main`) dùng
+  `question=`/`answer=` → vỡ build → đỏ qa-check trên #1064 + #1054/#1057/#1061. Fix 7 cặp FAQ trên
+  cả 4 branch → build xanh trở lại. Cùng họ bug với fix FAQ ở #1055 (CodeQL/GitHub Actions posts).
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
