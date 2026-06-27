@@ -19,7 +19,12 @@ Output format (mở rộng — gồm 6 chỉ số cơ bản + 5 chỉ số nâng
   "month_avg_session_duration_str": "1m 23s",
   "month_engagement_rate_pct": 67,
   "top_country": "Vietnam",
-  "top_device": "mobile"
+  "top_device": "mobile",
+  "channels": [
+    {"channel": "Organic Search", "sessions": 820, "users": 610, "percent": 53},
+    {"channel": "Direct", "sessions": 410, "users": 320, "percent": 27}
+  ],
+  "organic": {"sessions": 820, "users": 610, "percent": 53}
 }
 
 Chạy local (debug):
@@ -135,6 +140,54 @@ def fetch_top_dimension(client, dim: str, start: str = "7daysAgo") -> str:
     return val or "—"
 
 
+def fetch_channels(client, start: str = "30daysAgo", top_n: int = 6) -> dict:
+    """Phân tích nguồn truy cập theo kênh (Organic Search, Direct, Referral…) 30 ngày.
+
+    Trả về:
+      {
+        "channels": [ {channel, sessions, users, percent}, ... ] (top_n, sort desc),
+        "organic":  {sessions, users, percent}  # riêng Organic Search
+      }
+    Dùng dimension `sessionDefaultChannelGroup` (GA4 default channel grouping).
+    """
+    req = RunReportRequest(
+        property=f"properties/{PROPERTY_ID}",
+        date_ranges=[DateRange(start_date=start, end_date="today")],
+        dimensions=[Dimension(name="sessionDefaultChannelGroup")],
+        metrics=[Metric(name="sessions"), Metric(name="activeUsers")],
+        order_bys=[OrderBy(metric=OrderBy.MetricOrderBy(metric_name="sessions"), desc=True)],
+        limit=25,
+    )
+    res = client.run_report(req)
+    rows = []
+    total_sessions = 0
+    for row in res.rows:
+        name = row.dimension_values[0].value or "(other)"
+        sessions = int(row.metric_values[0].value)
+        users = int(row.metric_values[1].value)
+        total_sessions += sessions
+        rows.append({"channel": name, "sessions": sessions, "users": users})
+
+    # Tính phần trăm theo tổng phiên
+    for r in rows:
+        r["percent"] = round(r["sessions"] / total_sessions * 100) if total_sessions else 0
+
+    organic = next(
+        (r for r in rows if r["channel"].lower().startswith("organic search")),
+        None,
+    )
+    organic_out = (
+        {
+            "sessions": organic["sessions"],
+            "users": organic["users"],
+            "percent": organic["percent"],
+        }
+        if organic
+        else {"sessions": 0, "users": 0, "percent": 0}
+    )
+    return {"channels": rows[:top_n], "organic": organic_out}
+
+
 def format_duration(seconds: float) -> str:
     """Format giây thành 'Xm Ys' (hoặc 'Ys' nếu <60s)."""
     total = int(round(seconds))
@@ -161,6 +214,8 @@ def get_fallback_stats():
         "month_engagement_rate_pct": 0,
         "top_country": "—",
         "top_device": "—",
+        "channels": [],
+        "organic": {"sessions": 0, "users": 0, "percent": 0},
     }
 
 
@@ -227,6 +282,11 @@ def main():
     except Exception as e:
         print(f"WARN: device fetch fail: {e}", file=sys.stderr)
         top_device = "—"
+    try:
+        channel_data = fetch_channels(client)
+    except Exception as e:
+        print(f"WARN: channels fetch fail: {e}", file=sys.stderr)
+        channel_data = {"channels": [], "organic": {"sessions": 0, "users": 0, "percent": 0}}
 
     result = {
         "updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -243,6 +303,8 @@ def main():
         "month_engagement_rate_pct":       ext["engagement_rate_pct"],
         "top_country":                     top_country,
         "top_device":                      top_device,
+        "channels":                        channel_data["channels"],
+        "organic":                         channel_data["organic"],
     }
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(
