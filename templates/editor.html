@@ -4,6 +4,13 @@
 {% block title %}Trình soạn bài | {{ config.title }}{% endblock %}
 
 {% block extra_head %}
+    {# Editor CMS dashboard — Inter UI stack + Google CSE cx cho search panel. #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {% if config.extra.google_cse_cx %}
+    <meta name="editor-google-cse-cx" content="{{ config.extra.google_cse_cx }}">
+    {% endif %}
     {# Marked CDN unversioned (latest stable). Bỏ SRI vì hash thay đổi theo
        version mới — defer giữ load order: marked load xong rồi mới tới
        editor.js (cả 2 đều defer → execute theo DOM order, browser spec). #}
@@ -13,16 +20,6 @@
 {% block main %}
     <h1 class="visually-hidden">Trình soạn thảo bài viết</h1>
     <div class="editor-app" id="editor-app">
-        {# Brand badge — danh xưng hệ thống, style "ngầu + nghịch ngợm" nhiều màu #}
-        <div class="cms-brand">
-            <a class="cms-brand__btn" href="{{ config.base_url }}/editor/" title="Content Management System">
-                <span class="cms-brand__mark" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
-                </span>
-                Content Management System
-                <span class="cms-brand__tag">CMS</span>
-            </a>
-        </div>
         {# ===== GITHUB LOGIN VIEW =====
            GitHub OAuth là cổng vào duy nhất. Editor.js đọc <meta name=
            "zola-cms-auth-api"> để gọi backend. Auth flow:
@@ -72,94 +69,217 @@
             </div>
         </section>
 
-        {# ===== LIST VIEW ===== #}
-        <section class="editor-view" data-view="list" hidden>
-            {# User info bar — populated by editor.js sau /auth/me success.
-               Verified badge cạnh tên xác nhận chính chủ admin (giống các nơi
-               khác: header, post-meta, sidebar). #}
-            <div class="editor-user-bar" data-user-bar hidden>
-                <img class="editor-user-bar__avatar" data-user-avatar src="" alt="Ảnh đại diện" loading="lazy" decoding="async">
-                <span class="editor-user-bar__info">
-                    <strong><span data-user-name></span>{{ v::badge() }}</strong>
-                    <span class="editor-user-bar__email" data-user-email></span>
-                </span>
-                <span class="editor-user-bar__role" title="Quyền truy cập">ADMIN</span>
+        {# ===== LIST VIEW — Editor CMS Dashboard ===== #}
+        <section class="editor-view editor-shell" data-view="list" hidden>
+            <header class="ecms-topbar">
+                <div class="ecms-topbar__left">
+                    <button type="button" class="ecms-topbar__burger" data-action="toggle-filters" aria-label="Mở bộ lọc">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    </button>
+                    <a class="ecms-topbar__brand" href="{{ config.base_url }}/editor/">
+                        <span class="ecms-topbar__mark" aria-hidden="true">SM</span>
+                        <span class="ecms-topbar__name"><strong>SEOMONEY</strong> <span>Editor CMS</span></span>
+                        <span class="ecms-topbar__ver">CMS</span>
+                    </a>
+                </div>
+                <div class="ecms-topbar__spacer"></div>
+                <div class="ecms-topbar__right">
+                    <button type="button" class="ecms-topbar__icon" data-action="focus-search" aria-label="Tìm kiếm">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.25" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </button>
+                    <button type="button" class="ecms-topbar__icon" data-action="reload" aria-label="Tải lại danh sách">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.25" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+                    </button>
+                    <button type="button" class="ecms-topbar__icon" title="Trợ giúp" aria-label="Trợ giúp" data-action="help">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.25" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.5 9.5a2.5 2.5 0 1 1 4.8 1c0 2-3 2-3 4"/><circle cx="12" cy="17" r=".5" fill="currentColor"/></svg>
+                    </button>
+                    <div class="ecms-topbar__user" data-user-bar>
+                        <img class="ecms-topbar__avatar" data-user-avatar src="" alt="" width="32" height="32" loading="lazy" decoding="async">
+                        <span class="ecms-topbar__name"><span data-user-name></span>{{ v::badge() }}</span>
+                        <span class="ecms-topbar__pill">ADMIN</span>
+                        <button type="button" class="ecms-topbar__caret" data-action="user-menu" aria-label="Menu tài khoản" aria-haspopup="true">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                        <div class="ecms-topbar__dropdown" data-user-dropdown hidden>
+                            <span class="ecms-topbar__email" data-user-email></span>
+                            <button type="button" class="ecms-topbar__dropitem" data-action="logout">Đăng xuất</button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="ecms-page-header">
+                <div class="ecms-page-header__text">
+                    <h2 class="ecms-page-header__title">Quản lý bài viết</h2>
+                    <p class="ecms-page-header__desc">Tạo, chỉnh sửa và quản lý nội dung trên blog SEOMONEY.</p>
+                </div>
+                <div class="ecms-page-header__actions">
+                    <input type="file" accept=".md,text/markdown" data-import-file hidden>
+                    <button type="button" class="ecms-btn ecms-btn--ghost" data-action="import">Nhập bài viết</button>
+                    <button type="button" class="ecms-btn ecms-btn--primary" data-action="new">+ Viết bài mới</button>
+                </div>
             </div>
 
-            <div class="editor-header-widget" data-header-widget hidden>
-                <div class="editor-header-widget__stat">
-                    <span class="editor-header-widget__icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24"><path d="M4 19.5V4a2 2 0 0 1 2-2h11"/><path d="M6 22h12a2 2 0 0 0 2-2V6H8a2 2 0 0 0-2 2v14"/><path d="M10 10h6"/><path d="M10 14h6"/></svg>
+            <div class="ecms-kpis" data-kpi-row>
+                <article class="ecms-kpi">
+                    <span class="ecms-kpi__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M4 19.5V4a2 2 0 0 1 2-2h11"/><path d="M6 22h12a2 2 0 0 0 2-2V6H8a2 2 0 0 0-2 2v14"/></svg>
                     </span>
-                    <span class="editor-header-widget__label">Tổng số bài viết</span>
-                    <strong data-header-total>0</strong>
-                </div>
-                <div class="editor-header-widget__latest">
-                    <span class="editor-header-widget__icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="M5 10h14"/><path d="M5 15h14"/></svg>
+                    <div class="ecms-kpi__body">
+                        <span class="ecms-kpi__label">Tổng bài viết</span>
+                        <strong class="ecms-kpi__value" data-kpi-total>0</strong>
+                        <span class="ecms-kpi__hint">Toàn bộ bài trong repo</span>
+                    </div>
+                </article>
+                <article class="ecms-kpi">
+                    <span class="ecms-kpi__icon ecms-kpi__icon--draft" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
                     </span>
-                    <span class="editor-header-widget__label">Bài mới nhất</span>
-                    <a href="#" data-header-latest target="_blank" rel="noopener">-</a>
+                    <div class="ecms-kpi__body">
+                        <span class="ecms-kpi__label">Bản nháp</span>
+                        <strong class="ecms-kpi__value" data-kpi-drafts>0</strong>
+                        <span class="ecms-kpi__hint">draft = true</span>
+                    </div>
+                </article>
+                <article class="ecms-kpi">
+                    <span class="ecms-kpi__icon ecms-kpi__icon--sticky" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M5 7h14l-1 7H6z"/><path d="M9 3h6v4H9z"/></svg>
+                    </span>
+                    <div class="ecms-kpi__body">
+                        <span class="ecms-kpi__label">Sticky hiện tại</span>
+                        <strong class="ecms-kpi__value" data-kpi-sticky>0</strong>
+                        <span class="ecms-kpi__hint">Ghim hero trang chủ</span>
+                    </div>
+                </article>
+                <article class="ecms-kpi">
+                    <span class="ecms-kpi__icon ecms-kpi__icon--featured" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </span>
+                    <div class="ecms-kpi__body">
+                        <span class="ecms-kpi__label">Featured hiện tại</span>
+                        <strong class="ecms-kpi__value" data-kpi-featured>0</strong>
+                        <span class="ecms-kpi__hint">Nổi bật sidebar</span>
+                    </div>
+                </article>
+            </div>
+
+            <div class="ecms-search-panel">
+                <form class="ecms-search-form" data-google-search-form role="search">
+                    <label class="ecms-search-form__label" for="ecms-search-input">Tìm bài viết trong blog</label>
+                    <div class="ecms-search-form__row">
+                        <input type="search" id="ecms-search-input" class="ecms-search-form__input" name="q"
+                               placeholder="Nhập tiêu đề, slug, từ khóa…" data-search autocomplete="off">
+                        <button type="submit" class="ecms-btn ecms-btn--primary ecms-search-form__submit">Tìm</button>
+                    </div>
+                    <p class="ecms-search-form__helper">Tìm nội bộ bằng Google · <span data-search-mode>client-side</span></p>
+                </form>
+                <div class="ecms-search-form__meta">
+                    <select class="ecms-select" data-sort aria-label="Sắp xếp">
+                        <option value="date-desc">Mới nhất</option>
+                        <option value="date-asc">Cũ nhất</option>
+                        <option value="title-asc">A → Z</option>
+                    </select>
                 </div>
             </div>
 
-            <header class="section-header"><h2 class="section-header__title">DANH SÁCH BÀI VIẾT</h2></header>
+            <div class="editor-status ecms-status" data-status></div>
 
-            <div class="editor-toolbar">
-                <button class="editor-btn editor-btn--primary" data-action="new">+ Viết bài mới</button>
-                <button class="editor-btn editor-btn--ghost" data-action="reload">↻ Tải lại</button>
-                <button class="editor-btn editor-btn--ghost" data-action="logout">⏻ Đăng xuất</button>
+            <div class="ecms-workspace">
+                <aside class="ecms-filters" data-filter-sidebar>
+                    <div class="ecms-filters__head">
+                        <h3 class="ecms-filters__title">BỘ LỌC</h3>
+                        <button type="button" class="ecms-filters__clear" data-action="clear-filters">Xóa bộ lọc</button>
+                    </div>
+
+                    <details class="ecms-filter-group" open>
+                        <summary>Trạng thái</summary>
+                        <ul class="ecms-filter-list" data-filter-status>
+                            <li><label><input type="radio" name="ecms-status" value="all" checked> Tất cả <span data-count-status-all></span></label></li>
+                            <li><label><input type="radio" name="ecms-status" value="published"> Đã xuất bản <span data-count-status-published></span></label></li>
+                            <li><label><input type="radio" name="ecms-status" value="draft"> Bản nháp <span data-count-status-draft></span></label></li>
+                            <li><label><input type="radio" name="ecms-status" value="scheduled"> Lịch đăng <span data-count-status-scheduled></span></label></li>
+                        </ul>
+                    </details>
+
+                    <details class="ecms-filter-group" open>
+                        <summary>Chuyên mục</summary>
+                        <input type="search" class="ecms-filter-search" placeholder="Tìm category…" data-filter-category-search aria-label="Tìm chuyên mục">
+                        <ul class="ecms-filter-list ecms-filter-list--cats" data-filter-categories></ul>
+                    </details>
+
+                    <details class="ecms-filter-group">
+                        <summary>Tuỳ chọn</summary>
+                        <ul class="ecms-filter-list">
+                            <li><label><input type="checkbox" data-filter-flag="sticky"> Sticky</label></li>
+                            <li><label><input type="checkbox" data-filter-flag="featured"> Featured</label></li>
+                            <li><label><input type="checkbox" data-filter-flag="hasThumb"> Có ảnh đại diện</label></li>
+                            <li><label><input type="checkbox" data-filter-flag="premium"> Premium</label></li>
+                        </ul>
+                    </details>
+
+                    <details class="ecms-filter-group">
+                        <summary>Bộ lọc đã lưu</summary>
+                        <ul class="ecms-filter-list">
+                            <li><button type="button" class="ecms-filter-preset" data-filter-preset="published-7d">Bài đã xuất bản (7 ngày)</button></li>
+                            <li><button type="button" class="ecms-filter-preset" data-filter-preset="needs-featured">Bài cần Featured</button></li>
+                            <li><button type="button" class="ecms-filter-preset" data-filter-preset="seo-high">SEO High Priority</button></li>
+                        </ul>
+                    </details>
+                </aside>
+
+                <div class="ecms-filters-backdrop" data-filter-backdrop hidden></div>
+
+                <main class="ecms-main">
+                    <div class="ecms-tabs" data-placement-filters role="tablist" aria-label="Lọc nhanh">
+                        <button type="button" class="ecms-tab is-active" role="tab" data-filter-placement="" aria-selected="true">Tất cả</button>
+                        <button type="button" class="ecms-tab" role="tab" data-filter-placement="sticky">Sticky</button>
+                        <button type="button" class="ecms-tab" role="tab" data-filter-placement="featured">Featured</button>
+                    </div>
+
+                    <div class="ecms-bulk" data-bulk-bar hidden>
+                        <span class="ecms-bulk__info">Đã chọn <strong data-bulk-count>0</strong> bài viết</span>
+                        <div class="ecms-bulk__actions">
+                            <button type="button" class="ecms-btn ecms-btn--ghost ecms-btn--small" data-action="bulk-sticky" disabled>Đặt Sticky</button>
+                            <button type="button" class="ecms-btn ecms-btn--ghost ecms-btn--small" data-action="bulk-featured" disabled>Đặt Featured</button>
+                            <button type="button" class="ecms-btn ecms-btn--danger ecms-btn--small" data-action="bulk-delete" disabled>Xóa</button>
+                            <button type="button" class="ecms-btn ecms-btn--ghost ecms-btn--small" data-action="bulk-clear">Bỏ chọn</button>
+                        </div>
+                    </div>
+
+                    <div class="ecms-list" data-target="post-list" aria-live="polite">
+                        <div class="ecms-list__empty">Đang tải…</div>
+                    </div>
+
+                    <div class="ecms-pagination" data-pagination hidden>
+                        <p class="ecms-pagination__info" data-pagination-info>Hiển thị 0–0 trong 0 bài viết</p>
+                        <nav class="ecms-pagination__nav" data-pagination-nav aria-label="Phân trang"></nav>
+                        <label class="ecms-pagination__size">
+                            Hiển thị:
+                            <select class="ecms-select" data-page-size>
+                                <option value="6" selected>6 mỗi trang</option>
+                                <option value="12">12 mỗi trang</option>
+                                <option value="24">24 mỗi trang</option>
+                                <option value="48">48 mỗi trang</option>
+                            </select>
+                        </label>
+                    </div>
+                </main>
+
+                <aside class="ecms-drawer ecms-drawer--detail" data-detail-drawer hidden>
+                    <div class="ecms-drawer__backdrop" data-drawer-close></div>
+                    <div class="ecms-drawer__panel" role="dialog" aria-labelledby="ecms-drawer-title">
+                        <header class="ecms-drawer__head">
+                            <h3 id="ecms-drawer-title">Chi tiết bài viết</h3>
+                            <button type="button" class="ecms-drawer__close" data-drawer-close aria-label="Đóng">×</button>
+                        </header>
+                        <div class="ecms-drawer__body" data-drawer-body>
+                            <p class="ecms-drawer__placeholder">Chọn một bài để xem chi tiết nhanh.</p>
+                        </div>
+                    </div>
+                </aside>
             </div>
 
-            <div class="editor-status" data-status></div>
-
-            <div class="editor-filter-row">
-                <div class="editor-search-wrap">
-                    <span class="editor-search-icon" aria-hidden="true">🔍</span>
-                    <input type="search" class="editor-input editor-search-input"
-                           placeholder="Tìm bài (tiêu đề, slug, category)…"
-                           data-search aria-label="Tìm bài viết">
-                </div>
-                <select class="editor-input editor-sort-select" data-sort aria-label="Sắp xếp">
-                    <option value="date-desc">Mới nhất</option>
-                    <option value="date-asc">Cũ nhất</option>
-                    <option value="title-asc">A → Z</option>
-                </select>
-                <span class="editor-count" data-target="post-count" aria-live="polite">0/0</span>
-            </div>
-
-            <div class="editor-filter-chips" data-placement-filters role="group" aria-label="Lọc placement">
-                <button type="button" class="editor-filter-chip is-active" data-filter-placement="">Tất cả</button>
-                <button type="button" class="editor-filter-chip" data-filter-placement="sticky">Sticky</button>
-                <button type="button" class="editor-filter-chip" data-filter-placement="featured">Featured</button>
-            </div>
-
-            {# Bulk action bar — chỉ hiện khi có ít nhất 1 bài tick #}
-            <div class="editor-bulk-bar" data-bulk-bar hidden>
-                <span class="editor-bulk-bar__info">
-                    <strong data-bulk-count>0</strong> bài được chọn
-                </span>
-                <button type="button" class="editor-btn editor-btn--danger editor-btn--small" data-action="bulk-delete">
-                    🗑 Xoá mục đã chọn
-                </button>
-                <button type="button" class="editor-btn editor-btn--ghost editor-btn--small" data-action="bulk-clear">
-                    Bỏ chọn
-                </button>
-            </div>
-
-            <table class="editor-table" data-target="post-table">
-                <thead>
-                    <tr>
-                        <th class="editor-table__check">
-                            <input type="checkbox" data-select-all aria-label="Chọn tất cả bài">
-                        </th>
-                        <th>Tiêu đề</th><th>Ngày</th><th>Category</th><th></th>
-                    </tr>
-                </thead>
-                <tbody data-target="post-rows">
-                    <tr><td colspan="5" class="editor-empty">Đang tải…</td></tr>
-                </tbody>
-            </table>
+            <div class="ecms-toast-host" data-toast-host aria-live="polite" aria-atomic="true"></div>
         </section>
 
         {# ===== BULK DELETE CONFIRMATION MODAL ===== #}
@@ -350,20 +470,37 @@
         {%- endfor %}]
     </script>
 
-    {# Bake metadata bài viết (slug + title + date + category + featured) →
-       editor.js render list view tức thì 0ms, không cần fetch GitHub API. Background
+    {# Bake metadata bài viết → editor.js render list view tức thì 0ms. Background
        refresh sẽ diff với API thật để mark bài mới publish (chưa kịp build). #}
     {% set posting_section = get_section(path="posting/_index.md") %}
+    {% set seo_data = load_data(path="data/seo-qa-scores.json", required=false) %}
     <script type="application/json" id="posts-metadata">
         [{% for page in posting_section.pages -%}
+            {% set content_path = "content/posting/" ~ page.slug ~ ".md" %}
+            {% set_global seo_post = false %}
+            {% if seo_data and seo_data.posts and seo_data.posts[content_path] %}
+                {% set_global seo_post = seo_data.posts[content_path] %}
+            {% endif %}
+            {% set page_cat = page.taxonomies.categories.0 | default(value="") | lower %}
             {
                 "slug": {{ page.slug | json_encode | safe }},
                 "title": {{ page.title | json_encode | safe }},
                 "permalink": {{ page.permalink | json_encode | safe }},
                 "date": {{ page.date | json_encode | safe }},
+                "description": {{ page.description | default(value="") | json_encode | safe }},
                 "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
+                "categories": [{% if page.taxonomies.categories %}{% for cat in page.taxonomies.categories %}{{ cat | json_encode | safe }}{% if not loop.last %},{% endif %}{% endfor %}{% endif %}],
+                "tags": [{% if page.taxonomies.tags %}{% for tag in page.taxonomies.tags %}{{ tag | json_encode | safe }}{% if not loop.last %},{% endif %}{% endfor %}{% endif %}],
+                "thumbnail": {{ page.extra.thumbnail | default(value="") | json_encode | safe }},
+                "image": {{ page.extra.image | default(value="") | json_encode | safe }},
+                "draft": {% if page.draft %}true{% else %}false{% endif %},
+                "premium": {% if page.extra.premium or page_cat == "premium" %}true{% else %}false{% endif %},
+                "publish_at": {{ page.extra.publish_at | default(value="") | json_encode | safe }},
+                "reading_time": {% if page.extra.reading_time %}{{ page.extra.reading_time }}{% elif page.reading_time %}{{ page.reading_time }}{% else %}null{% endif %},
                 "featured": {% if page.extra.featured %}true{% else %}false{% endif %},
-                "sticky": {% if page.extra.sticky %}true{% else %}false{% endif %}
+                "sticky": {% if page.extra.sticky %}true{% else %}false{% endif %},
+                "seo_score": {% if seo_post %}{{ seo_post.score | round(precision=0) }}{% else %}null{% endif %},
+                "seo_grade": {% if seo_post %}{{ seo_post.grade | json_encode | safe }}{% else %}null{% endif %}
             }{% if not loop.last %},{% endif %}
         {%- endfor %}]
     </script>
