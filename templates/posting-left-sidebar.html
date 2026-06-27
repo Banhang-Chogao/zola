@@ -8,8 +8,16 @@
 {# CONTEXT DETECTION: Handle both page and section contexts #}
 {% set is_section = section is defined and section.title is defined %}
 {% set is_page = page is defined and page.title is defined %}
-{% set display_title = section.title if is_section else (page.title if is_page else "Not Found") %}
-{% set current_page_index = paginator.current_index | default(value=1) if is_section else 1 %}
+{% if is_section %}
+  {% set display_title = section.title %}
+  {% set current_page_index = paginator.current_index | default(value=1) %}
+{% elif is_page %}
+  {% set display_title = page.title %}
+  {% set current_page_index = 1 %}
+{% else %}
+  {% set display_title = "Not Found" %}
+  {% set current_page_index = 1 %}
+{% endif %}
 
 {% block title %}{{ display_title }} — {{ config.title }}{% endblock %}
 
