@@ -240,7 +240,7 @@
                             <img class="insights__pulse-committer-avatar"
                                  src="{{ committer.avatar_url }}&s=32"
                                  alt="{{ committer.login }}"
-                                 width="32" height="32" />
+                                 width="32" height="32" / loading="lazy" decoding="async">
                             {% else %}
                             <span class="insights__pulse-committer-avatar-fallback">
                                 {{ committer.login | first | upper }}
