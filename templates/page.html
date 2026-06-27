@@ -8,6 +8,7 @@
 {% import "macros/series-hub.html" as series_hub %}
 {% import "macros/premium.html" as premium %}
 {% import "macros/placement.html" as placement %}
+{% import "partials/ad-placeholder.html" as ad %}
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
 {% block main %}
@@ -158,6 +159,10 @@
             {% endif %}
             {# Content placement hook: post_after_intro (before main body). #}
             {{ placement::render(id="post_after_intro", page=page) }}
+
+            {# Ad placeholder: inline ad after TOC #}
+            {{ ad::placeholder(id="article-ad-inline-1", type="article-inline", label="Quảng cáo") }}
+
             {{ page.content | safe }}
         </div>
 
@@ -261,6 +266,9 @@
                 {% endif %}
             </div>
         </aside>
+
+        {# Ad placeholder: end of article, before related #}
+        {{ ad::placeholder(id="article-ad-end", type="article-end", label="Quảng cáo") }}
 
         {# Content placement hook: post_before_related. #}
         {{ placement::render(id="post_before_related", page=page) }}

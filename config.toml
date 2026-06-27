@@ -175,3 +175,11 @@ enabled = true
 auth_provider = "google"
 default_status = "pending"   # bình luận mới chờ duyệt (an toàn AdSense)
 max_length = 1500
+
+# ============= ADSENSE PLACEHOLDERS =============
+# Bật/tắt hệ thống placeholder quảng cáo (không phải quảng cáo thật).
+# enabled = false   → không render placeholder nào
+# placeholders = true → render placeholder UI để test vị trí, chờ gắn mã AdSense thật
+[extra.ads]
+enabled = false
+placeholders = true

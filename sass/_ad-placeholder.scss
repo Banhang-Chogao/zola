@@ -1,0 +1,118 @@
+// ============================================================
+// Ad Placeholder Styling
+// ============================================================
+// Calm enterprise design language — muted, non-intrusive,
+// consistent with site card aesthetic. No animation, no sticky,
+// no misleading visual hierarchy.
+
+.ad-placeholder {
+  --ad-min-height: 250px;
+  --ad-border-color: var(--c-border);
+  --ad-bg-color: var(--c-bg-soft);
+  --ad-text-color: var(--c-text-muted);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--ad-min-height);
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border: 1px solid var(--ad-border-color);
+  border-radius: 14px;
+  background-color: var(--ad-bg-color);
+  text-align: center;
+
+  // Prevent CLS (Cumulative Layout Shift) — ensure space is reserved
+  // even if content fails to load or ads take time to render.
+  contain: layout style paint;
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  &__label {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+    color: var(--c-text-body);
+    line-height: 1.2;
+  }
+
+  &__text {
+    display: inline-block;
+  }
+
+  &__note {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--ad-text-color);
+    font-style: italic;
+  }
+
+  // Desktop only: hide on mobile and smaller devices
+  &--desktop-only {
+    @media (max-width: 720px) {
+      display: none;
+    }
+  }
+
+  // Mobile only: hide on desktop
+  &--mobile-only {
+    @media (min-width: 721px) {
+      display: none;
+    }
+  }
+}
+
+// Compact variant for sidebar placeholders (smaller height, padding)
+.ad-placeholder--sidebar {
+  min-height: 280px;
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+// Article inline placeholder (narrow, reserves vertical space)
+.ad-placeholder--article-inline {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+
+  @media (max-width: 720px) {
+    min-height: 200px;
+    padding: 0.875rem 1.25rem;
+  }
+}
+
+// Ensure no layout shift when ads load after placeholder
+// (real ads will replace the placeholder with same or similar height)
+.ad-placeholder[data-ad-placeholder] {
+  // Negative margin to prevent double spacing when combined with
+  // surrounding content margin (common pattern in CSS frameworks)
+  // But SEOMONEY uses explicit margin, so we don't need negative margin here.
+  // Keep it simple: border-box, predictable height, no shift.
+  box-sizing: border-box;
+}
+
+// Accessibility: ensure text is readable and screen-reader friendly
+.ad-placeholder__label {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ad-placeholder__note {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+// Print media: hide placeholders when printing
+@media print {
+  .ad-placeholder {
+    display: none !important;
+  }
+}
