@@ -541,8 +541,8 @@
       "slug": "fix-internal-links-checker-ci-failure"
     },
     {
-      "score": 0.504,
-      "slug": "tera-template-syntax-error-conditional"
+      "score": 0.5245,
+      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
     }
   ],
   "di-han-het-bao-nhieu-tien": [
@@ -833,24 +833,24 @@
   ],
   "fix-qa-gatekeeper-github-actions-merge-conflict-zola": [
     {
-      "score": 0.6886,
+      "score": 0.6587,
       "slug": "qa-gatekeeper-tu-fix-loi-blog"
     },
     {
-      "score": 0.6379,
-      "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
+      "score": 0.65,
+      "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
     },
     {
-      "score": 0.6234,
+      "score": 0.6341,
       "slug": "git-merge-va-xu-ly-conflict"
     },
     {
-      "score": 0.6207,
-      "slug": "github-actions-ci-cd-build-failure-vipzone-token"
+      "score": 0.5954,
+      "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
     },
     {
-      "score": 0.5777,
-      "slug": "bao-mat-best-practices-git-github"
+      "score": 0.5858,
+      "slug": "github-actions-ci-cd-build-failure-vipzone-token"
     }
   ],
   "gia-vang-hom-nay-18-6-giam-manh": [
@@ -877,6 +877,10 @@
   ],
   "giai-quyet-merge-conflict-tu-dong-ci-cd": [
     {
+      "score": 0.65,
+      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
+    },
+    {
       "score": 0.6215,
       "slug": "github-actions-ci-cd-build-failure-vipzone-token"
     },
@@ -891,10 +895,6 @@
     {
       "score": 0.5711,
       "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
-    },
-    {
-      "score": 0.5695,
-      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
     }
   ],
   "git-branch-lam-viec-voi-nhanh": [
@@ -1135,8 +1135,8 @@
       "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
     },
     {
-      "score": 0.6207,
-      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
+      "score": 0.6093,
+      "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
     }
   ],
   "github-actions-ci-cd-cho-nguoi-moi": [
@@ -1905,8 +1905,8 @@
       "slug": "git-workflow-chuyen-nghiep-gitflow-github-flow"
     },
     {
-      "score": 0.5047,
-      "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
+      "score": 0.5109,
+      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
     }
   ],
   "lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam": [
@@ -2897,7 +2897,7 @@
   ],
   "qa-gatekeeper-tu-fix-loi-blog": [
     {
-      "score": 0.6886,
+      "score": 0.6587,
       "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
     },
     {
@@ -3547,12 +3547,12 @@
       "slug": "mcc-corporate-compliance-expenses"
     },
     {
-      "score": 0.2915,
-      "slug": "cai-dat-git-cau-hinh-lan-dau"
+      "score": 0.2937,
+      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
     },
     {
-      "score": 0.279,
-      "slug": "github-actions-secrets-setup-guide"
+      "score": 0.2915,
+      "slug": "cai-dat-git-cau-hinh-lan-dau"
     }
   ],
   "top-ngan-hang-so-tot-nhat-viet-nam-2026": [
@@ -4119,12 +4119,12 @@
       "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
     },
     {
-      "score": 0.3319,
-      "slug": "git-ra-doi-tu-bitkeeper"
+      "score": 0.3383,
+      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
     },
     {
-      "score": 0.3307,
-      "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
+      "score": 0.3319,
+      "slug": "git-ra-doi-tu-bitkeeper"
     }
   ],
   "vpbank-circle-sieu-the-free-tron-doi-gen-z": [
