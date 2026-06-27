@@ -69,18 +69,11 @@
                 <div class="left-sidebar-widget__box">
                     <h3 class="left-sidebar-widget__title">📂 Categories</h3>
                     <ul class="left-sidebar-widget__categories">
-                        {% set category_tax = get_taxonomy(kind="categories", lang=config.default_language) %}
-                        {% if category_tax.items %}
-                            {% for category in category_tax.items %}
-                            <li>
-                                <a href="{{ category.permalink }}">
-                                    {{ category.name }} ({{ category.pages | length }})
-                                </a>
-                            </li>
-                            {% endfor %}
-                        {% else %}
-                            <li><a href="/categories/tat-ca/">Tất cả bài viết</a></li>
-                        {% endif %}
+                        <li><a href="{{ config.base_url | safe }}categories/tat-ca/">💻 Tất cả</a></li>
+                        <li><a href="{{ config.base_url | safe }}categories/cong-nghe/">🔧 Công nghệ</a></li>
+                        <li><a href="{{ config.base_url | safe }}categories/du-lich/">✈️ Du lịch</a></li>
+                        <li><a href="{{ config.base_url | safe }}categories/ngan-hang/">🏦 Ngân hàng</a></li>
+                        <li><a href="{{ config.base_url | safe }}categories/dien-anh/">🎬 Điện ảnh</a></li>
                     </ul>
                 </div>
             </div>
