@@ -112,7 +112,7 @@ Nói cách khác: template "biết" có 174 bài, nhưng cơ chế phân trang c
 
 Đây không phải bug của Zola — nó hoạt động đúng thiết kế. Zola không tự sinh ra `/page/2/`, `/page/3/`... cho một feed mà bạn ghép lại trong template. Muốn có những trang đó, bạn cần một **section thật** đủ bài để phân trang. Trang `/categories/tat-ca/` chạy tốt chính vì taxonomy "Tất cả" là một tập hợp thật, được Zola phân trang đàng hoàng thành 18 trang.
 
-Nếu bạn mới làm quen công cụ này, mình có viết riêng bài [tạo blog với Zola từ con số 0](/zola/posting/tao-blog-voi-zola/) và bài so sánh [Zola với Hugo](/zola/posting/zola-vs-hugo/) để bạn nắm mô hình section/taxonomy trước khi đụng vào những ca như thế này. Tài liệu gốc về cơ chế này nằm ở [trang pagination của Zola](https://www.getzola.org/documentation/templates/pagination/), rất đáng đọc.
+Nếu bạn mới làm quen công cụ này, mình có viết riêng bài [tạo blog với Zola từ con số 0](/posting/tao-blog-voi-zola/) và bài so sánh [Zola với Hugo](/posting/zola-vs-hugo/) để bạn nắm mô hình section/taxonomy trước khi đụng vào những ca như thế này. Tài liệu gốc về cơ chế này nằm ở [trang pagination của Zola](https://www.getzola.org/documentation/templates/pagination/), rất đáng đọc.
 
 ## Cách mình xử lý: dựng trang lưu trữ cho toàn bộ bài
 
@@ -151,7 +151,7 @@ Sau khi có trang lưu trữ, mình gắn lối vào cho nó ở hai chỗ tự 
 
 Kết quả: mọi bài hợp lệ giờ truy cập được từ một nơi, crawl được từ một nơi, mà **không đổi một URL bài viết nào** và không đụng vào cơ chế phân trang vốn mong manh của trang chủ.
 
-Về mặt SEO, trang lưu trữ này là điểm cộng chứ không phải điểm trừ: nó chỉ chứa tiêu đề và link, không sao chép nội dung nên không gây trùng lặp; đồng thời tăng liên kết nội bộ và độ sâu thu thập. Nếu bạn quan tâm cách mình kiểm soát link nội bộ khỏi gãy, mình có guard riêng — kể trong bài [QA Gatekeeper tự fix lỗi blog](/zola/posting/qa-gatekeeper-tu-fix-loi-blog/).
+Về mặt SEO, trang lưu trữ này là điểm cộng chứ không phải điểm trừ: nó chỉ chứa tiêu đề và link, không sao chép nội dung nên không gây trùng lặp; đồng thời tăng liên kết nội bộ và độ sâu thu thập. Nếu bạn quan tâm cách mình kiểm soát link nội bộ khỏi gãy, mình có guard riêng — kể trong bài [QA Gatekeeper tự fix lỗi blog](/posting/qa-gatekeeper-tu-fix-loi-blog/).
 
 ## Vài bài học khi vận hành blog Zola
 
@@ -165,12 +165,12 @@ Ca này để lại cho mình mấy điều đáng ghi nhớ, áp dụng đượ
 
 **4. Giữ URL là giữ SEO.** Mỗi lần đổi đường dẫn là một lần đánh đổi thứ hạng và link cũ. Nếu buộc phải đổi, hãy dùng `aliases` để chuyển hướng.
 
-**5. Tách bạch lỗi nội dung và lỗi hạ tầng.** Trong lúc xử lý, mình còn vướng một lần deploy đỏ vì giới hạn API của GitHub Pages — hoàn toàn không liên quan nội dung. Mình có ghi lại cách phân biệt các lỗi deploy kiểu này trong bài [tự động deploy Zola bằng GitHub Actions](/zola/posting/tu-dong-deploy-zola-github-actions/). Đừng để một lỗi hạ tầng làm bạn nghi oan cho bài viết của mình.
+**5. Tách bạch lỗi nội dung và lỗi hạ tầng.** Trong lúc xử lý, mình còn vướng một lần deploy đỏ vì giới hạn API của GitHub Pages — hoàn toàn không liên quan nội dung. Mình có ghi lại cách phân biệt các lỗi deploy kiểu này trong bài [tự động deploy Zola bằng GitHub Actions](/posting/tu-dong-deploy-zola-github-actions/). Đừng để một lỗi hạ tầng làm bạn nghi oan cho bài viết của mình.
 
-Nếu thích đọc thêm các ghi chép vận hành blog và chỉnh giao diện theo kiểu "vừa làm vừa rút kinh nghiệm", bạn có thể ghé bài [làm theme log, sửa menu công cụ](/zola/posting/lam-theme-log-sua-menu-cong-cu/) hoặc lướt cả chuyên mục [Công nghệ](/zola/categories/cong-nghe/) của blog.
+Nếu thích đọc thêm các ghi chép vận hành blog và chỉnh giao diện theo kiểu "vừa làm vừa rút kinh nghiệm", bạn có thể ghé bài [làm theme log, sửa menu công cụ](/posting/lam-theme-log-sua-menu-cong-cu/) hoặc lướt cả chuyên mục [Công nghệ](/categories/cong-nghe/) của blog.
 
 ## Bước tiếp theo
 
 Tóm lại một câu: blog của mình chưa từng mất bài — chỉ là **phân trang trang chủ Zola** giới hạn ở 10 bài mới nhất, khiến phần còn lại không có lối ra từ trang chủ. Cách chữa gọn nhất là dựng một trang lưu trữ liệt kê tất cả, đặt lối vào ở trang chủ và footer, giữ nguyên mọi URL.
 
-Nếu bạn đang chạy blog tĩnh và muốn chắc chắn không bài nào bị "ẩn", hãy thử ngay ba việc: chạy `zola build` rồi đếm trang, kiểm tra `sitemap.xml`, và mở [trang lưu trữ tất cả bài viết](/zola/archive/) để soi xem listing có khớp số bài thật không. Còn nếu bạn muốn mình viết tiếp một bài hướng dẫn từng bước dựng trang archive có bộ lọc danh mục cho Zola, để lại góp ý nhé — mình sẽ làm một bài chi tiết kèm full code.
+Nếu bạn đang chạy blog tĩnh và muốn chắc chắn không bài nào bị "ẩn", hãy thử ngay ba việc: chạy `zola build` rồi đếm trang, kiểm tra `sitemap.xml`, và mở [trang lưu trữ tất cả bài viết](/archive/) để soi xem listing có khớp số bài thật không. Còn nếu bạn muốn mình viết tiếp một bài hướng dẫn từng bước dựng trang archive có bộ lọc danh mục cho Zola, để lại góp ý nhé — mình sẽ làm một bài chi tiết kèm full code.

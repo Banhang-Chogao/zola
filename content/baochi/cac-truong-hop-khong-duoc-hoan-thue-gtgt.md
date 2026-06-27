@@ -28,7 +28,7 @@ Mình từng chứng kiến không ít chủ doanh nghiệp đứng ngồi khôn
 
 <!-- more -->
 
-> 💡 **Minh bạch & miễn trừ:** Bài viết tổng hợp theo cách hiểu của mình từ các văn bản như Luật Quản lý thuế 2019, Thông tư 80/2021/TT-BTC, Nghị định 125/2020/NĐ-CP — **chỉ mang tính tham khảo, không phải tư vấn pháp lý hay kế toán chuyên nghiệp**. Quy định thuế thay đổi liên tục; trước khi quyết định, hãy đối chiếu văn bản gốc và hỏi cơ quan thuế quản lý hoặc đơn vị tư vấn. Chi tiết tại [Điều khoản & Miễn trừ](/zola/terms/).
+> 💡 **Minh bạch & miễn trừ:** Bài viết tổng hợp theo cách hiểu của mình từ các văn bản như Luật Quản lý thuế 2019, Thông tư 80/2021/TT-BTC, Nghị định 125/2020/NĐ-CP — **chỉ mang tính tham khảo, không phải tư vấn pháp lý hay kế toán chuyên nghiệp**. Quy định thuế thay đổi liên tục; trước khi quyết định, hãy đối chiếu văn bản gốc và hỏi cơ quan thuế quản lý hoặc đơn vị tư vấn. Chi tiết tại [Điều khoản & Miễn trừ](/terms/).
 
 ## Hoàn thuế GTGT là gì?
 

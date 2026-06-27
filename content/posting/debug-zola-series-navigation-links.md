@@ -193,7 +193,7 @@ Bad link: /posting/google-preferred-sources-2-...
 Mà trong markdown, tất cả link đều là:
 
 ```markdown
-[Bài tiếp theo](/zola/posting/google-preferred-sources-2-...)
+[Bài tiếp theo](/posting/google-preferred-sources-2-...)
 ```
 
 **Có `/zola/` prefix, nhưng checker báo missing?**
@@ -225,7 +225,7 @@ base_url = "https://seomoney.org/zola"
 Vì config cho base_url là `https://seomoney.org` (root), nên link phải là:
 
 ```markdown
-[Bài tiếp theo](/zola/posting/google-preferred-sources-2-...)
+[Bài tiếp theo](/posting/google-preferred-sources-2-...)
 ```
 
 **Chọn cách nào?** Phụ thuộc vào actual deployment. Nếu:
@@ -307,14 +307,14 @@ base_url = "https://seomoney.org"  # KHÔNG có /zola/
 Thì markdown link phải là:
 
 ```markdown
-[Bài tiếp theo](/zola/posting/series-2-title/)  # KHÔNG /zola/
+[Bài tiếp theo](/posting/series-2-title/)  # KHÔNG /zola/
 ```
 
 Kiểm tra:
 
 ```bash
 # Tìm link chứa /zola/ nếu base_url không có /zola/
-grep -r "/zola/posting/" content/posting/your-series-*.md
+grep -r "/posting/" content/posting/your-series-*.md
 
 # Nếu có kết quả, cần fix:
 sed -i 's|/zola/posting/|/posting/|g' content/posting/your-series-*.md
@@ -534,9 +534,9 @@ Với quy trình này, "11 broken links" → "0 broken links" chỉ trong vài p
 
 ## Bài viết liên quan
 
-- [Tạo blog với Zola từ A–Z](/zola/posting/tao-blog-voi-zola/) — guide chi tiết cấu trúc và cấu hình Zola
-- [Tự động deploy Zola với GitHub Actions](/zola/posting/tu-dong-deploy-zola-github-actions/) — CI/CD cho static site
-- [Zola vs Hugo: so sánh chi tiết](/zola/posting/zola-vs-hugo/) — chọn static site generator phù hợp
+- [Tạo blog với Zola từ A–Z](/posting/tao-blog-voi-zola/) — guide chi tiết cấu trúc và cấu hình Zola
+- [Tự động deploy Zola với GitHub Actions](/posting/tu-dong-deploy-zola-github-actions/) — CI/CD cho static site
+- [Zola vs Hugo: so sánh chi tiết](/posting/zola-vs-hugo/) — chọn static site generator phù hợp
 
 ---
 
