@@ -1,0 +1,68 @@
+name: Continuous Merge Safety Validator
+
+# Run every 15 minutes to catch and auto-fix dirty PRs (merge conflicts after base drift)
+# Also available via workflow_dispatch for manual triggering
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # Every 15 minutes
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to validate (optional; validates all if not specified)'
+        required: false
+
+concurrency:
+  group: continuous-merge-validator
+  cancel-in-progress: false  # Queue validations; don't cancel in-progress
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0  # Full history for rebase
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Zola
+        run: |
+          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          sudo mv zola /usr/local/bin/
+
+      - name: Install Python dependencies
+        run: |
+          pip install -r scripts/requirements-og-images.txt
+
+      - name: Run continuous merge validator
+        id: validator
+        run: |
+          if [ -n "${{ github.event.inputs.pr_number }}" ]; then
+            python3 scripts/continuous_merge_validator.py --pr ${{ github.event.inputs.pr_number }}
+          else
+            python3 scripts/continuous_merge_validator.py
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true  # Don't fail the workflow if some PRs can't be fixed
+
+      - name: Report results (if validator ran)
+        if: always()
+        run: |
+          echo "✅ Continuous merge validation completed"
+          echo "   Check GitHub PR comments for auto-rebase results"
+          echo "   If any PRs failed to auto-rebase, they need manual intervention"
