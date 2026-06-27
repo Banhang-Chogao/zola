@@ -5,23 +5,18 @@
 {% import "macros/pagination.html" as pager %}
 {% import "macros/series-nav.html" as series_nav %}
 
-{# CONTEXT DETECTION: Handle both page and section contexts #}
-{% set is_section = section is defined and section.title is defined %}
-{% set is_page = page is defined and page.title is defined %}
-{% if is_section %}
-  {% set display_title = section.title %}
-  {% set current_page_index = paginator.current_index | default(value=1) %}
-{% elif is_page %}
-  {% set display_title = page.title %}
-  {% set current_page_index = 1 %}
-{% else %}
-  {% set display_title = "Not Found" %}
-  {% set current_page_index = 1 %}
-{% endif %}
+{# CONTEXT DETECTION (page vs section) lives INSIDE the blocks below.
+   In an extending template, top-level statements outside {% block %} are not
+   executed when the parent renders, and a {% set %} inside an if/elif is scoped
+   to that branch only — so the title is computed inline and the context vars are
+   set at the top of {% block main %} (non-nested → visible through the block). #}
 
-{% block title %}{{ display_title }} — {{ config.title }}{% endblock %}
+{% block title %}{% if page is defined and page.title is defined %}{{ page.title }}{% elif section is defined and section.title is defined %}{{ section.title }}{% else %}{{ config.title }}{% endif %} — {{ config.title }}{% endblock %}
 
 {% block main %}
+{% set is_section = section is defined and section.title is defined %}
+{% set is_page = page is defined and page.title is defined %}
+{% set current_page_index = paginator.current_index | default(value=1) %}
 <main class="left-sidebar-layout">
     <!-- BREADCRUMB -->
     <div class="left-sidebar__breadcrumb" aria-label="Breadcrumb">
@@ -83,11 +78,11 @@
                 <div class="left-sidebar-widget__box">
                     <h3 class="left-sidebar-widget__title">📂 Categories</h3>
                     <ul class="left-sidebar-widget__categories">
-                        <li><a href="{{ config.base_url | safe }}categories/tat-ca/">💻 Tất cả</a></li>
-                        <li><a href="{{ config.base_url | safe }}categories/cong-nghe/">🔧 Công nghệ</a></li>
-                        <li><a href="{{ config.base_url | safe }}categories/du-lich/">✈️ Du lịch</a></li>
-                        <li><a href="{{ config.base_url | safe }}categories/ngan-hang/">🏦 Ngân hàng</a></li>
-                        <li><a href="{{ config.base_url | safe }}categories/dien-anh/">🎬 Điện ảnh</a></li>
+                        <li><a href="{{ get_url(path='categories/tat-ca/', trailing_slash=true) | safe }}">💻 Tất cả</a></li>
+                        <li><a href="{{ get_url(path='categories/cong-nghe/', trailing_slash=true) | safe }}">🔧 Công nghệ</a></li>
+                        <li><a href="{{ get_url(path='categories/du-lich/', trailing_slash=true) | safe }}">✈️ Du lịch</a></li>
+                        <li><a href="{{ get_url(path='categories/ngan-hang/', trailing_slash=true) | safe }}">🏦 Ngân hàng</a></li>
+                        <li><a href="{{ get_url(path='dien-anh/', trailing_slash=true) | safe }}">🎬 Điện ảnh</a></li>
                     </ul>
                 </div>
             </div>
