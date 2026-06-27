@@ -1,7 +1,7 @@
 +++
 title = "Setup Guide: Hướng dẫn kỹ thuật Preferred Sources"
 description = "5 bước triển khai Preferred Sources trên trang web: code, CTA placement, tracking, và tối ưu hóa."
-date = 2026-06-26
+date = 2026-06-23
 aliases = ["/google-preferred-sources-3-huong-dan-thiet-lap-ky-thuat/"]
 [taxonomies]
 categories = ["Tất cả", "SEO", "Công nghệ"]
@@ -392,7 +392,7 @@ Sau 2-4 tuần triển khai, kiểm tra:
 
 ---
 
-**Bước tiếp theo**: Bài 4 tập trung vào [chiến lược nội dung để tăng lựa chọn Preferred Sources](/zola/posting/google-preferred-sources-4-chien-luoc-noi-dung/).
+**Bước tiếp theo**: Bài 4 tập trung vào [chiến lược nội dung để tăng lựa chọn Preferred Sources](/posting/google-preferred-sources-4-chien-luoc-noi-dung/).
 
 ---
 

@@ -80,6 +80,11 @@
        Home Indicator che. Áp dụng CSS qua env() vars trong _reset.scss. #}
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
+    {# View switcher — áp dụng sớm (trước paint) lựa chọn "xem bản desktop" đã
+       lưu để mobile render layout desktop ngay, tránh nháy layout. Nút bật/tắt
+       nằm ở trang chủ (index.html); preference giữ qua mọi trang. #}
+    <script>(function(){try{if(localStorage.getItem('seomoney-view-mode')==='desktop'){var v=document.querySelector('meta[name="viewport"]');if(v){v.setAttribute('content','width=1024');}}}catch(e){}})();</script>
+
     {# Content-Security-Policy — meta tag vì GitHub Pages không cho custom HTTP
        headers. Layer defense chống XSS: nếu attacker inject script qua content
        hoặc CDN compromise, browser từ chối exec script ngoài allowlist.
@@ -845,30 +850,6 @@
                         </ul>
                     </section>
 
-                    {# CATEGORIES #}
-                    <section class="sidebar-block sidebar-block--categories">
-                        <h3 class="sidebar-label">DANH MỤC</h3>
-                        <ul class="cat-list">
-                            {% set cats = get_taxonomy(kind="categories") %}
-                            {% for c in cats.items %}
-                                <li class="cat-list__item">
-                                    <a class="cat-list__link" href="{{ c.permalink }}">{{ c.name }}</a>
-                                    <span class="cat-list__count">{{ c.pages | length }}</span>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </section>
-
-                    {# TAGS — text-only, gọn nhẹ; hover xem số bài (title) #}
-                    <section class="sidebar-block">
-                        <h3 class="sidebar-label">TAGS</h3>
-                        {% set sb_tags = get_taxonomy(kind="tags") %}
-                        <div class="tag-cloud">
-                            {% for t in sb_tags.items %}
-                                <a class="tag-cloud__item" href="{{ t.permalink }}" title="{{ t.pages | length }} bài viết">#{{ t.name }}</a>
-                            {% endfor %}
-                        </div>
-                    </section>
 
                     {{ google_rank::widget() }}
                 </aside>

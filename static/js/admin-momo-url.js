@@ -52,7 +52,7 @@
 
   function consumeUrlHashSid() {
     if (!location.hash) return;
-    const m = location.hash.match(/(?:^|[#&])sid=([A-Za-z0-9_-]+)/);
+    const m = location.hash.match(/#(?:.*[&?])?sid=([A-Za-z0-9_-]+)/);
     if (!m) return;
     setSid(m[1]);
     history.replaceState(null, "", location.pathname + location.search);
@@ -74,7 +74,10 @@
       const res = await fetch(AUTH_API + "/auth/me", opts);
       if (res.ok) {
         const user = await res.json();
+        console.log("Auth successful, user:", user);
         return user;
+      } else {
+        console.warn("fetchMe failed with status:", res.status);
       }
     } catch (e) {
       console.warn("fetchMe error:", e);
@@ -455,18 +458,27 @@
 
   // ============= Init =============
   async function init() {
+    console.log("Init starting, URL hash:", location.hash, "localStorage sid:", getSid());
     consumeUrlHashSid();
+    console.log("After consumeUrlHashSid, localStorage sid:", getSid());
     const user = await fetchMe();
 
     if (!user) {
+      console.warn("Init: no user, showing auth gate");
       showAuthGate();
       return;
     }
 
+    console.log("Init: authenticated, showing admin content");
     currentUser = user;
     showAdminContent();
     loadMoMoLinks();
   }
 
-  document.addEventListener("DOMContentLoaded", init);
+  // Call init immediately and also on DOMContentLoaded for safety
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();
