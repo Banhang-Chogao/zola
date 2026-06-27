@@ -2,12 +2,12 @@
 title = "2 lỗi YAML ẩn khiến GitHub Actions workflow invalid"
 description = "Case study workflow check-branch-ancestry: block scalar bị phá bởi template literal, plain scalar chứa dấu hai chấm — và gate validate_workflows chặn tái phát."
 date = 2026-06-27
+aliases = ["/loi-yaml-github-actions-workflow-invalid-case-study/"]
 slug = "loi-yaml-github-actions-workflow-invalid-case-study"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["github-actions", "yaml", "ci-cd", "devops", "qa", "automation", "workflow"]
-
+tags = ["automation", "ci-cd", "devops", "github-actions", "qa", "workflow", "yaml"]
 [extra]
 seo_keyword = "lỗi YAML GitHub Actions workflow invalid"
 thumbnail = "img/placeholder/placeholder.svg"

@@ -2,12 +2,12 @@
 title = "GitHub Actions Secrets Setup & Management Guide"
 description = "Hướng dẫn chi tiết setup và management GitHub Actions secrets an toàn. Bao gồm step-by-step, best practices, checklist, và troubleshooting."
 date = 2026-06-27
+aliases = ["/github-actions-secrets-setup-guide/"]
 updated = 2026-06-27
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["github-actions", "security", "devops", "ci-cd", "secrets-management"]
-
+tags = ["ci-cd", "devops", "github-actions", "secrets-management", "security"]
 [extra]
 seo_keyword = "github actions secrets setup management"
 thumbnail = "/img/placeholder.svg"

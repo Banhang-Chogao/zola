@@ -2,11 +2,11 @@
 title = "Google Preferred Sources: Từ thuật toán sang tùy chọn của người dùng"
 description = "Hiểu về Preferred Sources trong Google Search — cách Google đưa quyền lựa chọn cho người dùng, tác động đến E-E-A-T và SEO."
 date = 2026-06-21
+aliases = ["/google-preferred-sources-1-tu-thuat-toi-giao-dien-tim-kiem/"]
 
 [taxonomies]
 categories = ["Tất cả", "SEO"]
-tags = ["google search", "preferred sources", "e-e-a-t", "seo", "brand"]
-
+tags = ["brand", "e-e-a-t", "google search", "preferred sources", "seo"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "google preferred sources"

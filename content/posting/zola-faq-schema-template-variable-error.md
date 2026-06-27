@@ -2,12 +2,12 @@
 title = "Fix 'Variable not found' lỗi FAQ schema trong Zola"
 description = "Hướng dẫn debug và khắc phục lỗi 'Variable item.q not found' khi render FAQ schema trong Zola. Học cách sử dụng đúng frontmatter fields cho FAQ."
 date = 2026-06-27
+aliases = ["/zola-faq-schema-template-variable-error/"]
 slug = "zola-faq-schema-template-variable-error"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["zola", "faq-schema", "template", "debug", "frontmatter", "static-site", "bug-fix"]
-
+tags = ["bug-fix", "debug", "faq-schema", "frontmatter", "static-site", "template", "zola"]
 [extra]
 seo_keyword = "zola faq schema variable not found"
 thumbnail = "img/placeholder/placeholder.svg"

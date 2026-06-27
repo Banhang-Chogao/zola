@@ -6,7 +6,7 @@ aliases = ["/loi-nhieu-the-h1-sua-seo-toan-site/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["seo", "thẻ h1", "lighthouse", "html", "zola", "ci/cd", "audit seo", "kỹ thuật blog"]
+tags = ["audit seo", "ci/cd", "html", "kỹ thuật blog", "lighthouse", "seo", "thẻ h1", "zola"]
 [extra]
 seo_keyword = "lỗi nhiều thẻ H1"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"

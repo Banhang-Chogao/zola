@@ -5,7 +5,7 @@ date = 2026-06-23
 aliases = ["/google-preferred-sources-3-huong-dan-thiet-lap-ky-thuat/"]
 [taxonomies]
 categories = ["Tất cả", "SEO", "Công nghệ"]
-tags = ["google search", "preferred sources", "implementation", "html", "javascript"]
+tags = ["google search", "html", "implementation", "javascript", "preferred sources"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "preferred sources implementation"

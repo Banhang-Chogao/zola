@@ -2,12 +2,12 @@
 title = "Zola responsive layout context detection Tera template"
 description = "Giải pháp bền vững cho lỗi template context trong Zola. Hướng dẫn tạo responsive layout 30/70 tối ưu AdSense với context detection an toàn."
 date = 2026-06-27
+aliases = ["/zola-responsive-layout-context-detection/"]
 slug = "zola-responsive-layout-context-detection"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["zola", "template-engine", "tera", "responsive-design", "adsense", "static-site-generator"]
-
+tags = ["adsense", "responsive-design", "static-site-generator", "template-engine", "tera", "zola"]
 [extra]
 seo_keyword = "zola responsive layout context detection tera template"
 thumbnail = "/img/placeholder/placeholder.svg"

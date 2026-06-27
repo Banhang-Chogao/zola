@@ -3,11 +3,11 @@ title = "Git Stale Branch & Merge-Base CI Fail: Phòng Ngừa"
 slug = "git-stale-branch-root-cause-analysis-va-giai-phap"
 description = "Phân tích stale branch git mất common ancestor với main, nguyên nhân CI fail 7 phút, và hệ thống 5-lớp phòng ngừa vĩnh viễn."
 date = 2026-06-27
+aliases = ["/git-stale-branch-root-cause-analysis-2026/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "ci-cd", "automation", "root-cause-analysis", "devops", "github-actions", "phòng-ngừa"]
-
+tags = ["automation", "ci-cd", "devops", "git", "github-actions", "phòng-ngừa", "root-cause-analysis"]
 [extra]
 seo_keyword = "git stale branch merge-base CI fail phòng ngừa automation"
 thumbnail = "/img/git-stale-branch-hero.svg"

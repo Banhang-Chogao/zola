@@ -2,12 +2,12 @@
 title = "Giải Quyết Merge Conflict Tự Động: Case Study CI/CD Thực Tế"
 description = "Hướng dẫn giải quyết merge conflict tự động cho file auto-generated trong CI/CD. Case study thực tế: resolve data JSON, broken link và lỗi template Tera."
 date = 2026-06-27
+aliases = ["/giai-quyet-merge-conflict-tu-dong-ci-cd/"]
 slug = "giai-quyet-merge-conflict-tu-dong-ci-cd"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "merge-conflict", "ci-cd", "devops", "automation"]
-
+tags = ["automation", "ci-cd", "devops", "git", "merge-conflict"]
 [extra]
 seo_keyword = "giải quyết merge conflict"
 thumbnail = "img/placeholder/placeholder.svg"

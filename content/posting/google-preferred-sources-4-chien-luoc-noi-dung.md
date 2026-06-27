@@ -5,7 +5,7 @@ date = 2026-06-24
 aliases = ["/google-preferred-sources-4-chien-luoc-noi-dung/"]
 [taxonomies]
 categories = ["Tất cả", "SEO"]
-tags = ["content strategy", "preferred sources", "cta", "conversion", "trust"]
+tags = ["content strategy", "conversion", "cta", "preferred sources", "trust"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "content strategy preferred sources"

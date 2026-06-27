@@ -2,12 +2,12 @@
 title = "Troubleshooting GitHub Actions Workflow Build Failure"
 description = "Hướng dẫn troubleshooting build failure trên GitHub Actions. Phân tích case study thực tế với missing secrets và cách khắc phục vĩnh viễn."
 date = 2026-06-27
+aliases = ["/github-actions-ci-cd-build-failure-vipzone-token/"]
 updated = 2026-06-27
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["github-actions", "ci-cd", "devops", "troubleshooting", "workflow"]
-
+tags = ["ci-cd", "devops", "github-actions", "troubleshooting", "workflow"]
 [extra]
 seo_keyword = "github actions workflow build failure troubleshooting"
 thumbnail = "/img/placeholder.svg"

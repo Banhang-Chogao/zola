@@ -5,7 +5,7 @@ date = 2026-06-26
 aliases = ["/google-preferred-sources-6-tuong-lai-seo/"]
 [taxonomies]
 categories = ["Tất cả", "SEO"]
-tags = ["seo future", "preferred sources", "user choice", "trends", "e-e-a-t"]
+tags = ["e-e-a-t", "preferred sources", "seo future", "trends", "user choice"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "future seo preferred sources"

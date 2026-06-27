@@ -5,7 +5,7 @@ date = 2026-06-27
 aliases = ["/phan-trang-trang-chu-zola-archive/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["zola", "static site generator", "seo", "phân trang", "github pages"]
+tags = ["github pages", "phân trang", "seo", "static site generator", "zola"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "phân trang trang chủ Zola"

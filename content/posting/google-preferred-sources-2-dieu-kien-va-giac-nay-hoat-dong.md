@@ -5,7 +5,7 @@ date = 2026-06-22
 aliases = ["/google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong/"]
 [taxonomies]
 categories = ["Tất cả", "SEO"]
-tags = ["google search", "preferred sources", "eligibility", "badge", "seo"]
+tags = ["badge", "eligibility", "google search", "preferred sources", "seo"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "preferred sources eligibility"

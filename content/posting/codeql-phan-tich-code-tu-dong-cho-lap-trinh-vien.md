@@ -1,13 +1,13 @@
 +++
 title = "CodeQL: Công cụ phân tích code tự động tìm lỗ hổng bảo mật"
 date = 2026-06-27
+aliases = ["/codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien/"]
 description = "CodeQL phân tích code tự động để tìm lỗi bảo mật. Hướng dẫn chi tiết từ cơ bản, cách sử dụng, query language, tích hợp CI/CD."
 slug = "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["codeql", "bảo mật", "static-analysis", "lập trình", "devops"]
-
+tags = ["bảo mật", "codeql", "devops", "lập trình", "static-analysis"]
 [extra]
 seo_keyword = "CodeQL phân tích code"
 thumbnail = "/img/placeholder/placeholder.svg"

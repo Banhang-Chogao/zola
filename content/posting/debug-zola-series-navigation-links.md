@@ -2,11 +2,11 @@
 title = "Debug Lỗi Zola Series Navigation: Từ 11 Broken Links Đến Fix"
 description = "Debug 11 broken links trong Zola series navigation — phân tích 3 nguyên nhân chính (frontmatter, date, URL) và cách fix từng cái."
 date = 2026-06-27
+aliases = ["/debug-zola-series-navigation-links/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["zola", "debug", "seo", "static site generator", "internal links", "series navigation"]
-
+tags = ["debug", "internal links", "seo", "series navigation", "static site generator", "zola"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "zola series navigation debug"
@@ -92,8 +92,7 @@ date = 2026-06-26
 
 [taxonomies]
 categories = ["Tất cả"]
-tags = [...]
-
+tags = ["..."]
 [extra]
 thumbnail = "..."
 sticky = true
@@ -121,8 +120,7 @@ date = 2026-06-21  # ← lưu ý: ngày sẽ sửa sau
 
 [taxonomies]
 categories = ["Tất cả", "SEO"]
-tags = [...]
-
+tags = ["..."]
 [extra]
 seo_keyword = "google preferred sources"
 series = "google-preferred-sources"
@@ -481,8 +479,7 @@ date = 2026-06-21  # UNIQUE, SEQUENTIAL!
 
 [taxonomies]
 categories = ["Tất cả", "Category Name"]
-tags = ["tag1", "tag2", "series-name"]
-
+tags = ["series-name", "tag1", "tag2"]
 [extra]
 seo_keyword = "your main keyword"
 series = "series-name"

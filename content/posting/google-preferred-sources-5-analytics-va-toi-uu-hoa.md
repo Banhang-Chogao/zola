@@ -5,7 +5,7 @@ date = 2026-06-25
 aliases = ["/google-preferred-sources-5-analytics-va-toi-uu-hoa/"]
 [taxonomies]
 categories = ["Tất cả", "SEO"]
-tags = ["analytics", "google analytics", "preferred sources", "optimization", "metrics"]
+tags = ["analytics", "google analytics", "metrics", "optimization", "preferred sources"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "preferred sources analytics optimization"

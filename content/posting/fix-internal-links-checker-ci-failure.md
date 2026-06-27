@@ -2,11 +2,11 @@
 title = "Sửa Lỗi Internal Links Checker CI Fail — Pattern vs File"
 description = "Sửa lỗi internal links checker CI fail: rewrite từ prefix matching sang file existence validation cho Zola site."
 date = 2026-06-27
+aliases = ["/fix-internal-links-checker-ci-failure/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["ci-cd", "zola", "automation", "internal links", "debugging", "python", "github-actions"]
-
+tags = ["automation", "ci-cd", "debugging", "github-actions", "internal links", "python", "zola"]
 [extra]
 seo_keyword = "sửa lỗi internal links checker CI fail"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"

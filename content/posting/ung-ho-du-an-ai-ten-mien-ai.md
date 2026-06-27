@@ -2,6 +2,7 @@
 title = "Ủng Hộ Dự Án AI: Vì Sao Website Cần Tên Miền .AI?"
 description = "Lời mời ủng hộ dự án AI phi lợi nhuận: vì sao website cần tên miền .AI, chi phí ra sao và khoản đóng góp tự nguyện của bạn sẽ được dùng vào việc gì."
 date = 2026-06-18
+aliases = ["/ung-ho-du-an-ai-ten-mien-ai/"]
 
 [taxonomies]
 categories = ["premium"]

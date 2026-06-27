@@ -2,12 +2,12 @@
 title = "Lỗi Tera Template Syntax Error: Cách khắc phục"
 description = "Hướng dẫn fix lỗi tera template syntax error khi sử dụng conditional operators. Học cách viết template Tera đúng cách để tránh lỗi build Zola."
 date = 2026-06-27
+aliases = ["/tera-template-syntax-error-conditional/"]
 slug = "tera-template-syntax-error-conditional"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["tera", "zola", "template", "syntax-error", "debug", "static-site", "web-development"]
-
+tags = ["debug", "static-site", "syntax-error", "template", "tera", "web-development", "zola"]
 [extra]
 seo_keyword = "tera template syntax error"
 thumbnail = "img/placeholder/placeholder.svg"
