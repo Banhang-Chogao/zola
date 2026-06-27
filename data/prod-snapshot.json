@@ -1,28 +1,28 @@
 {
-  "generated_at": "2026-06-27T08:13:57.690046+00:00",
-  "generated_at_display": "15:13 27/06/2026",
+  "generated_at": "2026-06-27T12:17:24.089680+00:00",
+  "generated_at_display": "19:17 27/06/2026",
   "source": "build_prod_snapshot.py",
   "shortcut": "??",
   "main": {
-    "sha": "4f32d5ce53df1d47ab0242f2f90ebde649a4d55d",
-    "sha_short": "4f32d5c",
-    "title": "main @ 4f32d5c",
-    "url": "https://github.com/Banhang-Chogao/zola/commit/4f32d5ce53df1d47ab0242f2f90ebde649a4d55d"
+    "sha": "fe38079a59a939edb7387340d2b2696da48ccbf2",
+    "sha_short": "fe38079",
+    "title": "main @ fe38079",
+    "url": "https://github.com/Banhang-Chogao/zola/commit/fe38079a59a939edb7387340d2b2696da48ccbf2"
   },
   "deploy": {
-    "sha": "4909ce0c1ef0548eb6f73de5379bb92db67d198c",
-    "sha_short": "4909ce0",
+    "sha": "5091bcb3c5a43dc60b9afcd1f499501002991604",
+    "sha_short": "5091bcb",
     "status": "yellow",
-    "deployed_at": "2026-06-27T08:12:46Z",
-    "deployed_at_display": "15:12 27/06/2026",
-    "run_number": 1280,
-    "status_line": "🔄 #1281 đang chạy · ✅ last success #1280 · ❌ #1278 (đã superseded)",
+    "deployed_at": "2026-06-27T11:18:40Z",
+    "deployed_at_display": "18:18 27/06/2026",
+    "run_number": 1306,
+    "status_line": "🔄 #1316 đang chạy · ✅ last success #1306",
     "deploying": true
   },
   "backend": {
     "ok": true,
-    "sha": "4909ce0c1ef0548eb6f73de5379bb92db67d198c",
-    "sha_short": "4909ce0",
+    "sha": "0f493f97c12651df65e1ad18b91d714a0cce0a73",
+    "sha_short": "0f493f9",
     "comments_mounted": true,
     "oauth_configured": true,
     "url": "https://blog-vipzone-api.onrender.com"
@@ -33,9 +33,9 @@
     "hint": "Có commit đang chờ hoặc deploy đang chạy — đợi workflow xanh.",
     "main_ahead_of_deploy": true,
     "backend_behind_main": true,
-    "status_line": "main 4f32d5c · deploy 4909ce0 · backend 4909ce0"
+    "status_line": "main fe38079 · deploy 5091bcb · backend 0f493f9"
   },
-  "open_prs_count": 2,
+  "open_prs_count": 0,
   "deploy_monitor_stale": false,
   "deploy_monitor_ok": true
 }
