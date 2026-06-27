@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-27T09:16:57Z",
+  "updated_at": "2026-06-27T09:37:07Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 46,
+    "today": 47,
     "this_week": 196,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "unknown": 52,
       "ci": 8,
       "feature": 45,
-      "fix": 90,
-      "unknown": 51,
+      "fix": 89,
       "chore": 1,
       "content": 5
     }
   },
   "merges": [
+    {
+      "pr_number": 1083,
+      "pr_title": "remove(footer): xoá QA Dashboard và Google Analytics Stats khỏi footer",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1083",
+      "merged_at": "2026-06-27T09:30:43Z",
+      "merge_commit_sha": "b7114279e9e90a73f934a83a7562166508a57a53",
+      "merge_commit_short": "b711427",
+      "head_branch": "claude/blog-modules-removal-xd3jhu",
+      "summary_vi": "Xoá toàn bộ 2 module khỏi base.html:",
+      "change_type": "unknown",
+      "files_changed": 1,
+      "additions": 0,
+      "deletions": 297,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1284,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28285254382",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 1080,
       "pr_title": "content: case study lỗi YAML GitHub Actions workflow invalid",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1283,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28284717593",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 1079,
@@ -547,8 +566,8 @@
       "deletions": 55,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1255,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28277802453",
+      "build_run_number": 1257,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28278196935",
       "build_conclusion": "failure"
     },
     {
@@ -566,8 +585,8 @@
       "deletions": 8,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1254,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28277705402",
+      "build_run_number": 1257,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28278196935",
       "build_conclusion": "failure"
     },
     {
@@ -623,9 +642,9 @@
       "deletions": 2081,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1255,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28277802453",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 1045,
@@ -3642,25 +3661,6 @@
       "files_changed": 1,
       "additions": 4,
       "deletions": 9,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 778,
-      "pr_title": "fix(vaccine-hotfix): claude/clever-brown-oj8wer",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/778",
-      "merged_at": "2026-06-23T14:29:18Z",
-      "merge_commit_sha": "3053f2de08c8a116a6dabbaf36b1af7415deae0a",
-      "merge_commit_short": "3053f2d",
-      "head_branch": "vaccine-hotfix/claude-clever-brown-oj8wer",
-      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 38,
-      "deletions": 38,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
