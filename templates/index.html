@@ -44,6 +44,18 @@
     {% set feed_pages = paginator.number_pagers | default(value=1) %}
     {% set page_feed = feed | slice(start=offset, end=offset + per_page) %}
 
+    {# Nút chuyển bản desktop ↔ điện thoại. Hữu ích khi đọc blog trên mobile mà
+       muốn xem layout desktop (và ngược lại). Logic: js/view-switcher.js đổi
+       thẻ viewport; lựa chọn lưu localStorage, giữ qua mọi trang. #}
+    <div class="view-switcher" data-view-switcher>
+        <button type="button" class="view-switcher__btn" data-view-toggle
+                aria-pressed="false"
+                title="Bấm để xem giao diện desktop trên điện thoại">
+            <span class="view-switcher__icon" aria-hidden="true">🖥️</span>
+            <span class="view-switcher__label">Xem bản desktop</span>
+        </button>
+    </div>
+
     {# Decorative wordmark banner — letters POSTINGS spread evenly #}
     <div class="home-tabs" aria-hidden="true">
         <span class="home-tabs__letter">P</span>
@@ -171,3 +183,8 @@
         </nav>
     {% endif %}
 {% endblock main %}
+
+{% block extra_scripts %}
+    {{ super() }}
+    <script src="{{ get_url(path='js/view-switcher.js') }}?v={{ asset_version }}" defer></script>
+{% endblock extra_scripts %}

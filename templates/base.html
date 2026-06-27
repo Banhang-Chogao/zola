@@ -80,6 +80,11 @@
        Home Indicator che. Áp dụng CSS qua env() vars trong _reset.scss. #}
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
+    {# View switcher — áp dụng sớm (trước paint) lựa chọn "xem bản desktop" đã
+       lưu để mobile render layout desktop ngay, tránh nháy layout. Nút bật/tắt
+       nằm ở trang chủ (index.html); preference giữ qua mọi trang. #}
+    <script>(function(){try{if(localStorage.getItem('seomoney-view-mode')==='desktop'){var v=document.querySelector('meta[name="viewport"]');if(v){v.setAttribute('content','width=1024');}}}catch(e){}})();</script>
+
     {# Content-Security-Policy — meta tag vì GitHub Pages không cho custom HTTP
        headers. Layer defense chống XSS: nếu attacker inject script qua content
        hoặc CDN compromise, browser từ chối exec script ngoài allowlist.
