@@ -208,8 +208,10 @@ def main() -> int:
     admin_token = os.environ.get("VIPZONE_ADMIN_TOKEN", "").strip()
 
     if not admin_token:
-        print("✗ VIPZONE_ADMIN_TOKEN not set", file=sys.stderr)
-        return 1
+        print("✗ VIPZONE_ADMIN_TOKEN not set in GitHub Actions secrets", file=sys.stderr)
+        print("   Skipping changelog backend push (graceful degradation)", file=sys.stderr)
+        print("   To enable: Add VIPZONE_ADMIN_TOKEN to repository settings", file=sys.stderr)
+        return 0  # Changed from 1 to 0 — allow workflow to continue
 
     try:
         pr_title = os.environ["PR_TITLE"].strip()
