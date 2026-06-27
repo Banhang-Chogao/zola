@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-27T04:13:12Z",
+  "updated_at": "2026-06-27T04:23:53Z",
   "score": 97.8,
   "grade": "A+",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "718/746 in range"
+          "detail": "723/751 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "746/746 complete"
+          "detail": "751/751 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "746/746 set"
+          "detail": "751/751 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "745/746 single H1"
+          "detail": "750/751 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "746/746 with lang"
+          "detail": "751/751 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "746/746 ready"
+          "detail": "751/751 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "746/746 pages"
+          "detail": "751/751 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "746/746 pages covered"
+          "detail": "751/751 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "178/178 articles"
+          "detail": "179/179 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "178/178 tagged"
+          "detail": "179/179 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "178/178 substantive"
+          "detail": "179/179 substantive"
         },
         {
           "label": "Unique titles",
@@ -215,7 +215,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "742/746 pages"
+          "detail": "747/751 pages"
         },
         {
           "label": "Skip navigation",
@@ -251,8 +251,8 @@
       "text": "Structure: Document language"
     }
   ],
-  "pages_scanned": 746,
-  "articles_scanned": 184,
+  "pages_scanned": 751,
+  "articles_scanned": 185,
   "fix_log": [
     {
       "category": "Links",
@@ -260,7 +260,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 3 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/debug-zola-series-navigation-links/index.html → /posting/zola-series-nav-setup/ (Target not found in public/ after zola build); public/posting/debug-zola-series-navigation-links/index.html → /posting/seo-series-articles/ (Target not found in public/ after zola build); public/posting/debug-zola-series-navigation-links/index.html → /posting/zola-build-debug-templates/ (Target not found in public/ after zola build)",
-      "at": "2026-06-27T04:13:12Z"
+      "at": "2026-06-27T04:23:53Z"
     }
   ],
   "fix_summary": {
