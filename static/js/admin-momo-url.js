@@ -458,18 +458,27 @@
 
   // ============= Init =============
   async function init() {
+    console.log("Init starting, URL hash:", location.hash, "localStorage sid:", getSid());
     consumeUrlHashSid();
+    console.log("After consumeUrlHashSid, localStorage sid:", getSid());
     const user = await fetchMe();
 
     if (!user) {
+      console.warn("Init: no user, showing auth gate");
       showAuthGate();
       return;
     }
 
+    console.log("Init: authenticated, showing admin content");
     currentUser = user;
     showAdminContent();
     loadMoMoLinks();
   }
 
-  document.addEventListener("DOMContentLoaded", init);
+  // Call init immediately and also on DOMContentLoaded for safety
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();
