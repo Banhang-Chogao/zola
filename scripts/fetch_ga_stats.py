@@ -41,6 +41,7 @@ from google.analytics.data_v1beta.types import (
     RunReportRequest,
 )
 from google.oauth2 import service_account
+from google.api_core.exceptions import PermissionDenied
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "data" / "ga-stats.json"
@@ -143,12 +144,79 @@ def format_duration(seconds: float) -> str:
     return f"{m}m {s}s"
 
 
+def get_fallback_stats():
+    """Fallback stats when GA permission denied or unavailable."""
+    return {
+        "updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "today_users": 0,
+        "today_pageviews": 0,
+        "week_users": 0,
+        "week_pageviews": 0,
+        "month_users": 0,
+        "month_pageviews": 0,
+        "month_sessions": 0,
+        "month_new_users": 0,
+        "month_bounce_rate_pct": 0,
+        "month_avg_session_duration_str": "0s",
+        "month_engagement_rate_pct": 0,
+        "top_country": "—",
+        "top_device": "—",
+    }
+
+
 def main():
-    client = get_client()
-    today = fetch_metric(client, "today", "today")
-    week = fetch_metric(client, "7daysAgo", "today")
-    month = fetch_metric(client, "30daysAgo", "today")
-    ext = fetch_extended_30d(client)
+    try:
+        client = get_client()
+    except SystemExit:
+        # get_client() calls sys.exit(1) on missing/invalid key
+        print(
+            "WARN: GA_SERVICE_ACCOUNT_KEY not configured; using fallback stats",
+            file=sys.stderr,
+        )
+        result = get_fallback_stats()
+        OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+        OUTPUT.write_text(
+            json.dumps(result, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        print(f"Wrote {OUTPUT.relative_to(ROOT)} (fallback): {result}")
+        return
+
+    try:
+        today = fetch_metric(client, "today", "today")
+        week = fetch_metric(client, "7daysAgo", "today")
+        month = fetch_metric(client, "30daysAgo", "today")
+        ext = fetch_extended_30d(client)
+    except PermissionDenied as e:
+        print(
+            f"ERROR: GA permission denied. Service account may lack access to property {PROPERTY_ID}.",
+            file=sys.stderr,
+        )
+        print(
+            "WARN: Check that service account email is added to GA4 property with Viewer role.",
+            file=sys.stderr,
+        )
+        print(f"WARN: Using fallback stats; details: {e}", file=sys.stderr)
+        result = get_fallback_stats()
+        OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+        OUTPUT.write_text(
+            json.dumps(result, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        print(f"Wrote {OUTPUT.relative_to(ROOT)} (fallback): {result}")
+        return
+    except Exception as e:
+        print(f"ERROR: Failed to fetch GA metrics: {e}", file=sys.stderr)
+        print("WARN: Using fallback stats", file=sys.stderr)
+        result = get_fallback_stats()
+        OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+        OUTPUT.write_text(
+            json.dumps(result, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        print(f"Wrote {OUTPUT.relative_to(ROOT)} (fallback): {result}")
+        return
+
     try:
         top_country = fetch_top_dimension(client, "country")
     except Exception as e:
