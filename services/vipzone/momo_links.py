@@ -128,16 +128,60 @@ async def get_momo_links(
     try:
         audit_data = json.loads(audit_file.read_text(encoding="utf-8"))
 
+        blocks_by_url: dict[str, list[dict[str, Any]]] = {}
+        cp_file = Path(__file__).parents[2] / "data" / "content-placements.json"
+        if cp_file.exists():
+            try:
+                cp_data = json.loads(cp_file.read_text(encoding="utf-8"))
+                for block in cp_data.get("blocks", []):
+                    block_url = (block.get("url") or "").strip()
+                    if not block_url:
+                        continue
+                    display = (
+                        block.get("title")
+                        or block.get("button_text")
+                        or block.get("id")
+                        or ""
+                    )
+                    blocks_by_url.setdefault(block_url, []).append(
+                        {
+                            "id": block.get("id"),
+                            "placement_id": block.get("placement_id"),
+                            "display_text": display,
+                            "enabled": bool(block.get("enabled")),
+                        }
+                    )
+            except Exception:
+                pass
+
         # Reshape for frontend
         links_by_url = {}
         for url, link_info in audit_data.get("links_by_url", {}).items():
+            content_blocks = blocks_by_url.get(url, [])
+            placement_ids = sorted(
+                {b["placement_id"] for b in content_blocks if b.get("placement_id")}
+            )
+            display_text = ", ".join(
+                b.get("display_text") or b.get("id", "")
+                for b in content_blocks
+                if b.get("display_text") or b.get("id")
+            )
+            locations = list(link_info.get("locations", []))
+            for block in content_blocks:
+                loc = f"data/content-placements.json:block:{block.get('id')}"
+                if loc not in locations:
+                    locations.append(loc)
+
             links_by_url[url] = {
                 "url": url,
                 "category": link_info.get("category", "Unknown"),
-                "locations": link_info.get("locations", []),
-                "count": len(link_info.get("locations", [])),
+                "locations": locations,
+                "count": len(locations),
                 "post_slug": link_info.get("post_slug"),
                 "post_title": link_info.get("post_title"),
+                "content_blocks": content_blocks,
+                "placement_ids": placement_ids,
+                "display_text": display_text,
             }
 
         return {

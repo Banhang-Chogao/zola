@@ -87,6 +87,9 @@ jobs:
       - name: Validate series template registration (V8 prevention)
         run: python3 scripts/validate_series_registration.py
 
+      - name: Validate content placements registry + hooks
+        run: python3 scripts/validate_content_placements.py
+
       - name: Zola build smoke test
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

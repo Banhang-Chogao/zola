@@ -426,6 +426,9 @@
         </section>
         {% endif %}
 
+        {# Content placement hook: post_after_related. #}
+        {{ placement::render(id="post_after_related", page=page) }}
+
         {# ===== COMMENTS — native Google-auth system (replaces Giscus) ===== #}
         {{ comments::section(page=page) }}
 
