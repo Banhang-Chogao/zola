@@ -26,17 +26,16 @@
   {%- set show_placeholder = (ads_config and (ads_config.enabled or ads_config.placeholders)) or false -%}
 
   {%- if show_placeholder -%}
-    {%- set default_heights = {
-      "home-top": "300px",
-      "home-feed": "300px",
-      "home-sidebar": "320px",
-      "article-inline": "250px",
-      "article-end": "280px",
-      "archive-feed": "250px",
-      "generic": "250px"
-    } -%}
+    {# Determine default height based on type #}
+    {%- set default_height = "250px" -%}
+    {%- if type == "home-top" %}{% set default_height = "300px" %}{% endif -%}
+    {%- if type == "home-feed" %}{% set default_height = "300px" %}{% endif -%}
+    {%- if type == "home-sidebar" %}{% set default_height = "320px" %}{% endif -%}
+    {%- if type == "article-inline" %}{% set default_height = "250px" %}{% endif -%}
+    {%- if type == "article-end" %}{% set default_height = "280px" %}{% endif -%}
+    {%- if type == "archive-feed" %}{% set default_height = "250px" %}{% endif -%}
 
-    {%- set final_height = min_height | default(value=default_heights[type] | default(value="250px")) -%}
+    {%- set final_height = min_height | default(value=default_height) -%}
     {%- set css_class = "ad-placeholder" -%}
     {%- if desktop_only %}{% set css_class = css_class ~ " ad-placeholder--desktop-only" %}{% endif -%}
     {%- if mobile_only %}{% set css_class = css_class ~ " ad-placeholder--mobile-only" %}{% endif -%}
