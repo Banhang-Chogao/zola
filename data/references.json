@@ -380,6 +380,25 @@
     "external_count": 2,
     "internal_count": 6
   },
+  "content/posting/codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien.md": {
+    "external": [
+      {
+        "title": "GitHub Release",
+        "url": "https://github.com/github/codeql-cli-binaries/releases",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "bài viết khác trên blog",
+        "url": "https://seomoney.org/categories/tat-ca/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Release. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 1
+  },
   "content/posting/cong-nghe-blog-duy-nguyen.md": {
     "external": [
       {
@@ -2737,6 +2756,55 @@
     "copyright": "Nội dung dựa trên tài liệu chính thức Google AdSense Help (Publisher Policies, Publisher Restrictions, Policy center). Google có thể cập nhật nhãn và quy trình xử lý bất cứ lúc nào — publisher có trách nhiệm đối chiếu phiên bản mới nhất theo Terms and Conditions.",
     "external_count": 6,
     "internal_count": 5
+  },
+  "content/posting/phan-trang-trang-chu-zola-archive.md": {
+    "external": [
+      {
+        "title": "trang pagination của Zola",
+        "url": "https://www.getzola.org/documentation/templates/pagination",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "tạo blog với Zola từ con số 0",
+        "url": "https://seomoney.org/posting/tao-blog-voi-zola/",
+        "kind": "internal"
+      },
+      {
+        "title": "Zola với Hugo",
+        "url": "https://seomoney.org/posting/zola-vs-hugo/",
+        "kind": "internal"
+      },
+      {
+        "title": "QA Gatekeeper tự fix lỗi blog",
+        "url": "https://seomoney.org/posting/qa-gatekeeper-tu-fix-loi-blog/",
+        "kind": "internal"
+      },
+      {
+        "title": "tự động deploy Zola bằng GitHub Actions",
+        "url": "https://seomoney.org/posting/tu-dong-deploy-zola-github-actions/",
+        "kind": "internal"
+      },
+      {
+        "title": "làm theme log, sửa menu công cụ",
+        "url": "https://seomoney.org/posting/lam-theme-log-sua-menu-cong-cu/",
+        "kind": "internal"
+      },
+      {
+        "title": "Công nghệ",
+        "url": "https://seomoney.org/categories/cong-nghe/",
+        "kind": "internal"
+      },
+      {
+        "title": "trang lưu trữ tất cả bài viết",
+        "url": "https://seomoney.org/archive/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ trang pagination của Zola. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 7
   },
   "content/posting/premium-fintech-paywall-demo.md": {
     "external": [
