@@ -1,37 +1,13 @@
 +++
 title = "Fix QA Gatekeeper GitHub Actions: bài học từ nút Countdown bị mất"
 date = 2026-06-22
-aliases = ["/fix-qa-gatekeeper-github-actions-merge-conflict-zola/"]
-description = "Case study debug GitHub Actions: từ merge conflict, stale branch đến QA Gatekeeper xanh và auto-merge sau 12 phút."
-slug = "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
 
 [taxonomies]
-categories = ["Tất cả", "Công nghệ"]
+categories = ["Tất cả"]
 tags = ["ci cd", "debug", "github actions", "merge conflict", "qa gatekeeper", "regression test", "zola"]
+
 [extra]
-thumbnail = "/img/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/cover.webp"
-seo_keyword = "fix QA Gatekeeper GitHub Actions"
-featured = false
-
-[[extra.faq]]
-q = "QA Gatekeeper trong GitHub Actions là gì?"
-a = "QA Gatekeeper là một job trong CI/CD pipeline chạy các bài test tự động (unit test, link check, SEO, frontmatter…) trước khi cho phép auto-merge. Nếu bất kỳ test nào fail, PR sẽ bị giữ lại và không merge vào main."
-
-[[extra.faq]]
-q = "Merge conflict và QA fail khác nhau thế nào?"
-a = "Merge conflict là lỗi ở tầng Git — branch không thể merge sạch vào main vì có xung đột file. QA fail là lỗi ở tầng code/content — branch có thể merge nhưng test tự động phát hiện vấn đề như broken link, thiếu frontmatter, regression lỗi UI. Hai lỗi cần cách sửa khác nhau."
-
-[[extra.faq]]
-q = "Empty commit có sửa được QA fail không?"
-a = "Không. Empty commit (git commit --allow-empty) chỉ retrigger workflow, không sửa lỗi gốc. Nếu test đang fail vì thiếu link, class HTML, hay broken reference thì phải sửa đúng nguyên nhân trước rồi mới push."
-
-[[extra.faq]]
-q = "Stale-base race trong CI/CD là gì?"
-a = "Stale-base race xảy ra khi branch đang được review nhưng main liên tục có commit mới từ các PR khác hoặc bot. Branch bị lệch, mergeable_state chuyển thành dirty. Cách xử lý là git fetch origin rồi git merge origin/main, resolve conflict đúng cách, chạy QA local và push lại."
-
-[[extra.faq]]
-q = "Regression test trong static blog có cần thiết không?"
-a = "Rất cần. Static blog có nhiều điểm dễ bị mất sau refactor: link quản trị, menu, footer, robots.txt, thumbnail, internal link. Regression test giữ lại những thứ con người dễ xóa nhầm và giúp phát hiện sớm trước khi lên production."
+sticky = true
 +++
 
 Khoảng 2:02 sáng ngày 22/06/2026, tôi ngồi ở The Coffee Bean & Tea Leaf, trước mặt là chiếc MacBook, một ly nước đã vơi dần và một pull request tưởng như chỉ còn "xử lý conflict cho xong". Bài này là case study thực tế về cách **fix QA Gatekeeper GitHub Actions** khi PR bị vướng nhiều lớp: merge conflict, stale branch, conflict marker còn sót — rồi cuối cùng nhìn GitHub Actions chạy hơn 10 phút và tự auto-merge vào `main`.
