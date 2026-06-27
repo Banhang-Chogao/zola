@@ -23,6 +23,24 @@
   justify-content: center;
   z-index: 1000;
 
+  // The `hidden` attribute MUST win over `display:flex` above. Without this the
+  // JS `showAdminContent()` (authGate.hidden = true) cannot remove the overlay,
+  // so an authenticated admin stays locked behind the "Đăng nhập" modal and the
+  // z-index:1000 overlay keeps swallowing clicks (auth-vaccine A1).
+  &[hidden] { display: none !important; }
+
+  // Internal state views toggled by the auth state machine.
+  &__view[hidden] { display: none !important; }
+
+  &__checking {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+    color: var(--c-text-muted);
+    font-size: 0.95rem;
+  }
+
   &__overlay {
     position: absolute;
     inset: 0;

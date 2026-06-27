@@ -20,9 +20,14 @@
   var root = document.querySelector("[data-comments-root]");
   if (!root) return;
 
+  // Single init guard — a duplicate include must not double-wire listeners.
+  if (root.getAttribute("data-comments-init") === "1") return;
+  root.setAttribute("data-comments-init", "1");
+
   var API = (root.getAttribute("data-comments-api") || "").replace(/\/$/, "");
   var PATH = root.getAttribute("data-comments-path") || location.pathname;
   var MAXLEN = parseInt(root.getAttribute("data-comments-maxlength"), 10) || 1500;
+  var AUTH_TIMEOUT_MS = 7000; // cold Render dynos: never spin the loader forever.
 
   // Dedicated comment session; fall back to the shared CMS session for admins.
   var COMMENT_SID_KEY = "seomoney-comment-sid";
@@ -35,6 +40,9 @@
     loading: root.querySelector("[data-comments-loading]"),
     guest: root.querySelector("[data-comments-guest]"),
     loginBtn: root.querySelector("[data-comments-login]"),
+    error: root.querySelector("[data-comments-error]"),
+    errorText: root.querySelector("[data-comments-error-text]"),
+    retryBtn: root.querySelector("[data-comments-retry]"),
     form: root.querySelector("[data-comments-form]"),
     input: root.querySelector("[data-comments-input]"),
     submit: root.querySelector("[data-comments-submit]"),
@@ -51,6 +59,17 @@
   };
 
   var me = null; // {comment_role, name, avatar, ...} or null = anonymous
+  var mePromise = null; // single-flight guard for /auth/me
+
+  // Auth state machine: idle/guest (no spinner) → checking (spinner) →
+  // authenticated | guest | error. Never leaves the spinner running once a
+  // request resolves or times out (auth-vaccine A1).
+  var AUTH_STATE = {
+    CHECKING: "checking",
+    AUTHENTICATED: "authenticated",
+    GUEST: "guest",
+    ERROR: "error",
+  };
 
   // ---------- session helpers ----------
   function getSid() {
@@ -83,8 +102,14 @@
     setSid(m[1]);
     // Check if fragment contains 'comments' (from backend redirect: #sid=...&comments).
     var hasComments = /[#&]comments(?:[#&]|$)/.test(location.hash);
-    // Clean URL: keep pathname + search, add back #comments anchor if present.
-    var clean = location.pathname + location.search;
+    // Clean URL: drop the OAuth hint params, keep the rest of the query, and add
+    // back the #comments anchor if present (auth-vaccine A1 — never leave
+    // auth=success lingering or it looks like the flow re-ran).
+    var params = new URLSearchParams(location.search);
+    params.delete("auth");
+    params.delete("auth_error");
+    var qs = params.toString();
+    var clean = location.pathname + (qs ? "?" + qs : "");
     if (hasComments) {
       clean += "#comments";
     }
@@ -225,60 +250,122 @@
   }
 
   // ---------- auth / form state ----------
+  // Verify the session: single-flight + AbortController timeout. Resolves to
+  // { ok, user, error } and NEVER hangs (a cold backend → error, not a stuck
+  // spinner). Returns immediately as anonymous when there is no sid.
   function loadMe() {
+    if (mePromise) return mePromise;
     var sid = getSid();
     if (!sid) {
       me = null;
-      return Promise.resolve(null);
+      return Promise.resolve({ ok: true, user: null });
     }
-    return fetch(API + "/auth/me", {
+    var controller =
+      typeof AbortController !== "undefined" ? new AbortController() : null;
+    var timer = setTimeout(function () {
+      if (controller) controller.abort();
+    }, AUTH_TIMEOUT_MS);
+    var opts = {
       headers: { Authorization: "Bearer " + sid },
       credentials: "omit",
       cache: "no-store",
-    })
+    };
+    if (controller) opts.signal = controller.signal;
+    mePromise = fetch(API + "/auth/me", opts)
       .then(function (r) {
         if (r.status === 401) {
           clearSid();
-          return null;
+          me = null;
+          return { ok: true, user: null };
         }
-        return r.ok ? r.json() : null;
-      })
-      .then(function (data) {
-        me = data;
-        return data;
+        if (!r.ok) return { ok: false, user: null, error: true };
+        return r.json().then(function (data) {
+          me = data;
+          return { ok: true, user: data };
+        });
       })
       .catch(function () {
         me = null;
-        return null;
+        return { ok: false, user: null, error: true };
+      })
+      .then(function (res) {
+        clearTimeout(timer);
+        mePromise = null; // allow an explicit retry from the error view
+        return res;
       });
+    return mePromise;
   }
 
-  function renderAuth() {
+  // Toggle exactly one auth-zone view. The spinner only shows for CHECKING.
+  function setAuthState(state) {
     hide(els.loading);
-    if (!me) {
-      // Anonymous → login CTA.
-      hide(els.form);
-      show(els.guest);
+    hide(els.guest);
+    hide(els.form);
+    hide(els.error);
+    if (state === AUTH_STATE.CHECKING) {
+      show(els.loading);
       hide(els.mod);
       return;
     }
-    // Logged in.
-    hide(els.guest);
-    show(els.form);
-    els.meName.textContent = me.name || me.email || "Bạn";
-    if (me.avatar || me.avatar_url) {
-      els.meAvatar.src = me.avatar || me.avatar_url;
-      show(els.meAvatar);
-    }
-    var isAdmin = me.comment_role === "admin" || me.account_type === "admin" || me.is_admin;
-    if (isAdmin) {
-      show(els.adminBadge);
-      show(els.mod);
-    } else {
-      hide(els.adminBadge);
+    if (state === AUTH_STATE.ERROR) {
+      show(els.error);
       hide(els.mod);
+      return;
     }
-    updateCounter();
+    if (state === AUTH_STATE.AUTHENTICATED && me) {
+      show(els.form);
+      els.meName.textContent = me.name || me.email || "Bạn";
+      // Always reset the identity avatar so a previous account's picture can
+      // never linger when switching to an account without one on the same page.
+      if (me.avatar || me.avatar_url) {
+        els.meAvatar.src = me.avatar || me.avatar_url;
+        show(els.meAvatar);
+      } else {
+        els.meAvatar.removeAttribute("src");
+        hide(els.meAvatar);
+      }
+      // Comment login is comment-only by default; admin moderation only for
+      // accounts the backend marks as admin (whitelist enforced server-side).
+      var isAdmin =
+        me.comment_role === "admin" || me.account_type === "admin" || me.is_admin;
+      if (isAdmin) {
+        show(els.adminBadge);
+        show(els.mod);
+      } else {
+        hide(els.adminBadge);
+        hide(els.mod);
+      }
+      updateCounter();
+      return;
+    }
+    // GUEST (default): calm login CTA, no spinner.
+    show(els.guest);
+    hide(els.mod);
+  }
+
+  // Render the resolved auth state from `me` (used after submit/logout).
+  function renderAuth() {
+    setAuthState(me ? AUTH_STATE.AUTHENTICATED : AUTH_STATE.GUEST);
+  }
+
+  // Run one auth check with a visible (but finite) spinner only while a sid is
+  // actually being verified. No sid → straight to guest, no spinner flash.
+  function runAuthCheck() {
+    if (!getSid()) {
+      me = null;
+      setAuthState(AUTH_STATE.GUEST);
+      return;
+    }
+    setAuthState(AUTH_STATE.CHECKING);
+    loadMe().then(function (res) {
+      if (res && res.user) {
+        setAuthState(AUTH_STATE.AUTHENTICATED);
+      } else if (res && res.error) {
+        setAuthState(AUTH_STATE.ERROR);
+      } else {
+        setAuthState(AUTH_STATE.GUEST);
+      }
+    });
   }
 
   function loginUrl() {
@@ -367,17 +454,23 @@
   }
 
   function logout() {
-    var sid = getSid();
-    clearSid();
+    // Comment logout must stay in the comment scope: clear ONLY the dedicated
+    // comment session and never the admin/CMS session key. If the commenter was
+    // riding the CMS session fallback (no dedicated comment sid), we drop local
+    // comment state but leave the CMS session intact (server + storage) so an
+    // admin editing on the same page is not logged out of the editor.
+    var commentSid = "";
     try {
-      sessionStorage.removeItem(CMS_SID_KEY);
+      commentSid = sessionStorage.getItem(COMMENT_SID_KEY) || "";
     } catch (e) {}
+    clearSid(); // removes COMMENT_SID_KEY only — CMS_SID_KEY is preserved
     me = null;
-    if (sid) {
+    if (commentSid) {
       fetch(API + "/auth/logout", {
         method: "POST",
-        headers: { Authorization: "Bearer " + sid },
+        headers: { Authorization: "Bearer " + commentSid },
         credentials: "omit",
+        keepalive: true,
       }).catch(function () {});
     }
     renderAuth();
@@ -494,6 +587,12 @@
       setNotice("");
     });
     els.logout.addEventListener("click", logout);
+    if (els.retryBtn) {
+      els.retryBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        runAuthCheck();
+      });
+    }
     els.modToggle.addEventListener("click", function () {
       var open = els.modBody.hidden;
       els.modBody.hidden = !open;
@@ -501,7 +600,7 @@
     });
 
     loadComments();
-    loadMe().then(renderAuth);
+    runAuthCheck();
 
     // Scroll to #comments if anchor is in URL (e.g., direct navigation or bookmark).
     if (location.hash.indexOf("#comments") > -1) {

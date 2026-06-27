@@ -4,6 +4,7 @@
 {% import "macros/img.html" as img %}
 {% import "macros/footer-countdown.html" as footer_countdown %}
 {% import "macros/datetime.html" as dt %}
+{% import "macros/placement.html" as placement %}
 {# ============================================================================
    GitHub commits — fetch ở BUILD-TIME qua load_data, KHÔNG fetch client-side.
    - CI build: có ZOLA_GH_TOKEN → 5000 req/h, đủ vô tận.
@@ -626,6 +627,18 @@
             </button>
 
             <ul class="navbar__menu" id="navbar-menu">
+                {# Drawer header — chỉ hiện trên mobile (CSS ẩn ở desktop). Tiêu đề +
+                   nút đóng rõ ràng. Là <li> để markup <ul> hợp lệ. #}
+                <li class="navbar__drawer-head">
+                    <span class="navbar__drawer-title">Menu</span>
+                    <button type="button" class="navbar__drawer-close" data-drawer-close aria-label="Đóng menu">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
+                             stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </li>
                 {% for item in config.extra.menu %}
                     {% if item.groups %}
                         {# Mega menu: 'groups' = nhiều nhóm có heading. Desktop → panel
@@ -701,6 +714,9 @@
         {# Overlay backdrop khi menu mở trên mobile — tap đóng menu #}
         <div class="navbar__backdrop" data-backdrop aria-hidden="true"></div>
     </nav>
+
+    {# Content placement hook: global_header_below (managed at /tools/momo-url/). #}
+    {{ placement::render(id="global_header_below", page=page | default(value=false), section=section | default(value=false)) }}
 
     <div class="site-search" role="dialog" aria-modal="true" aria-labelledby="site-search-title" data-site-search hidden>
         <div class="site-search__backdrop" data-search-close></div>
@@ -856,6 +872,9 @@
             {% endblock sidebar %}
         </div>
     </main>
+
+    {# Content placement hook: footer_above (managed at /tools/momo-url/). #}
+    {{ placement::render(id="footer_above", page=page | default(value=false), section=section | default(value=false)) }}
 
     <footer class="site-footer">
         {# Tag cloud đã chuyển sang RIGHT SIDEBAR (text-only) — xem block

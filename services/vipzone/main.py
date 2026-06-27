@@ -64,6 +64,36 @@ CORS_ORIGIN = os.getenv("VIPZONE_CORS_ORIGIN", "https://seomoney.org")
 BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://seomoney.org").rstrip("/")
 DB_PATH = os.getenv("VIPZONE_DB_PATH", "")
 
+
+def _cors_allow_origins() -> list[str]:
+    """Build the explicit CORS allowlist.
+
+    Credentialed fetches (``credentials: "include"`` from the admin tools) forbid
+    the ``*`` wildcard, so we keep an explicit list. The primary origin comes from
+    ``VIPZONE_CORS_ORIGIN`` (or the seomoney.org default) and an optional
+    comma-separated ``VIPZONE_CORS_ORIGINS`` adds more. We always include the
+    www. variant, the legacy GitHub Pages origin and localhost so a custom-domain
+    migration never silently breaks /auth/me (auth-vaccine A1)."""
+    origins: list[str] = []
+
+    def _add(o: str) -> None:
+        o = (o or "").strip().rstrip("/")
+        if o and o not in origins:
+            origins.append(o)
+
+    _add(CORS_ORIGIN)
+    for extra in os.getenv("VIPZONE_CORS_ORIGINS", "").split(","):
+        _add(extra)
+    # www. twin of the primary custom domain (apex ↔ www both reach the API).
+    if CORS_ORIGIN.startswith("https://") and "://www." not in CORS_ORIGIN:
+        _add(CORS_ORIGIN.replace("https://", "https://www.", 1))
+    _add("https://seomoney.org")
+    _add("https://www.seomoney.org")
+    _add("https://banhang-chogao.github.io")  # legacy GitHub Pages origin
+    _add("http://127.0.0.1:1111")
+    _add("http://localhost:1111")
+    return origins
+
 ADMIN_EMAILS = {
     e.strip().lower()
     for e in os.getenv("ADMIN_EMAILS", "292648126+banhang-chogao@users.noreply.github.com").split(",")
@@ -107,7 +137,7 @@ def get_db() -> VipzoneDB:
 app = FastAPI(title="VIPZone API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[CORS_ORIGIN, "http://127.0.0.1:1111", "http://localhost:1111"],
+    allow_origins=_cors_allow_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -259,6 +289,37 @@ try:
 except Exception as exc:  # pragma: no cover - defensive: keep the rest of the API up
     MOMO_LINKS_MOUNTED = False
     print(f"[vipzone] momo_links router not mounted: {exc!r}")
+
+
+# ============= Content Placement Admin (placement registry + content blocks) =============
+# Admins (Google whitelist) manage editable content blocks bound to stable
+# placement IDs; writes commit data/content-placements.json so deploy.yml rebuilds.
+# The commit token prefers a service PAT (Google admins have no GitHub OAuth token)
+# and falls back to the admin's GitHub OAuth token when present.
+try:
+    import content_placements
+
+    async def _cp_get_token(authorization: str, cookie_sid: str | None = None) -> str:
+        svc = (
+            os.getenv("CONTENT_PLACEMENTS_GH_TOKEN")
+            or os.getenv("ZOLA_GH_TOKEN")
+            or os.getenv("WORKFLOW_BOT_PAT")
+            or os.getenv("GH_PAT")
+        )
+        if svc:
+            return svc
+        from main import get_db
+
+        return await github_token_from_session(
+            get_db(), authorization or "", cookie_sid=cookie_sid
+        )
+
+    content_placements.configure(get_token=_cp_get_token)
+    app.include_router(content_placements.router)
+    CONTENT_PLACEMENTS_MOUNTED = True
+except Exception as exc:  # pragma: no cover - defensive: keep the rest of the API up
+    CONTENT_PLACEMENTS_MOUNTED = False
+    print(f"[vipzone] content_placements router not mounted: {exc!r}")
 
 
 async def require_admin(profile: dict[str, Any] = Depends(session_dep)) -> dict[str, Any]:

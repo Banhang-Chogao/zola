@@ -1,5 +1,38 @@
 # CLAUDE.md — Quy tắc làm việc
 
+## Public vs Private Agent Memory
+
+> Đọc trước khi học bài học mới từ bug. Chi tiết văn hoá deploy/QA: **[`CULTURE_OF_DEPLOYMENT.md`](CULTURE_OF_DEPLOYMENT.md)**.
+
+`CLAUDE.md` là **public-safe guidance** cho agent và contributor — ai cũng đọc được trong repo public:
+runbook, deployment culture, high-level QA policy, public-safe vaccine summaries, non-sensitive command
+patterns, general coding rules, link tới docs công khai.
+
+Private strategy, sensitive deployment tactics, fragile internal notes, backend/auth/VIPZone caveats, và
+local-only auto-healing heuristics phải nằm trong **`CLAUDE_PRIVATE.md`**.
+
+`CLAUDE_PRIVATE.md` **cố ý gitignore** và **KHÔNG được commit**. CI **không** phụ thuộc file này — checkout
+sạch vẫn phải pass. Public auto-healing chỉ dùng rule/script **đã commit, an toàn, công khai**. Agent
+local (Claude/OpenCode) **được** đọc `CLAUDE_PRIVATE.md` khi có. **Không** in nội dung private vào CI log.
+
+Khi học từ một bug:
+
+- Bài học **public-safe + tái dùng được** → thêm summary ngắn vào `CLAUDE.md` (vd vaccine `#### V<N>`).
+- Bài học **tactical/sensitive** → ghi chi tiết vào `CLAUDE_PRIVATE.md` (local), để lại trace đã sanitize ở public nếu cần.
+- **Không bao giờ** lộ secret hay chi tiết backend/auth nhạy cảm vào docs công khai.
+
+Template private an toàn: `CLAUDE_PRIVATE.example.md` (copy → `CLAUDE_PRIVATE.md` để dùng local).
+
+### Deployment culture (tóm tắt)
+
+> `Bug found → Fix it → Learn from it → Auto-healing` · pipeline `Detect → Classify → Heal → Build → Learn → Deploy`.
+
+QA là **deployment immune system**, KHÔNG phải cảnh sát chặn deploy. Chỉ **P0** (build vỡ, Tera/SCSS lỗi,
+frontmatter TOML invalid, conflict markers, workflow YAML invalid, secret commit, critical route hỏng,
+auth/VIPZone nguy hiểm) mới fail CI. **P1** thử auto-heal trước khi fail. **P2/P3** (SEO/content/PageSpeed/
+compliance/external-link…) **KHÔNG** được block deploy — chỉ report. Severity model đầy đủ + QA Decision
+Rule: xem [`CULTURE_OF_DEPLOYMENT.md`](CULTURE_OF_DEPLOYMENT.md) §4.
+
 ## Repository Automation Policy (effective 2026-06-18 — ZERO_BARRIER_AUTOMATION)
 
 > **100% tự động:** CI pass → auto-merge `main` → deploy production. Không kiểm duyệt trung gian.
@@ -584,6 +617,200 @@ fenced blocks.
 - **Setup for permanent fix:** To restore full functionality, add `VIPZONE_ADMIN_TOKEN` to GitHub repository → Settings → Secrets and variables → Actions → New repository secret. Value = admin token from VIPZone backend (`blog-vipzone-api.onrender.com`).
 - **Prevention:** Document this required secret in a setup guide or `.github/SETUP.md` for future environment configuration.
 
+#### V18 — Auto-Healing Merge Conflicts: phân loại file → resolve theo chiến lược cố định (27/06/2026)
+
+> Process vaccine. Khi nhiều PR mở song song bị conflict với `main`, **đừng resolve mù quáng**.
+> Phân loại file theo nguồn gốc → áp đúng chiến lược. Match dấu hiệu → làm NGAY, không chẩn lại.
+
+- **Dấu hiệu:** Một hoặc nhiều PR báo `This branch has conflicts that must be resolved`. Conflict
+  tập trung ở `data/*.json` tự sinh (`seo-qa-scores.json`, `references.json`, `related.json`),
+  đôi khi kèm `content/posting/*.md` (add/add) hoặc `templates/*.html`. Có thể kèm `qa-check`
+  đỏ vì build vỡ.
+- **Nguyên nhân:** Nhánh feature cắt từ `main` cũ; trong lúc chờ merge, `main` chạy lại hook/cron
+  sinh data mới → đụng timestamp. **Không phải xung đột logic.** Nội dung `.md` thật thường KHÔNG conflict.
+- **FIXER — phân loại 3 nhóm, mỗi nhóm 1 chiến lược:**
+
+  | Nhóm file | Chiến lược | Lệnh |
+  |-----------|-----------|------|
+  | `data/*.json` tự sinh (scores, references, related, dashboards, reports) | **Luôn lấy main** (V6) | `git checkout --theirs data/<file>.json` |
+  | `content/posting/*.md` | **Giữ bản PR** — TRỪ 2 ngoại lệ dưới | `git checkout --ours <file>.md` |
+  | `templates/*.html`, mã nguồn | **Resolve TỪNG VÙNG**, không lấy mù | sửa tay vùng `<<<<<<<`…`>>>>>>>` |
+
+- **2 BẪY bắt buộc kiểm tra (lọt qua conflict marker nhưng vẫn vỡ build):**
+  1. **Bài trùng / link nội bộ hỏng (lấy main thay vì PR):** nếu bài đã merge sẵn trên `main`
+     (add/add), hoặc bản PR thêm internal link trỏ tới bài **chưa tồn tại** → `git checkout --theirs`
+     (lấy main) cho file `.md`. Verify mọi link đích tồn tại: `for p in <slug>; do [ -f content/posting/$p.md ]; done`.
+  2. **Ternary kiểu Python trong template Tera:** `{% set x = a if cond else b %}` → Tera KHÔNG hỗ trợ,
+     `zola build` vỡ `expected or, and, not...`. Resolve giữ khối `if-elif-else` của main. Quét:
+     `grep -nE "\{%\s*set .* if .* else " templates/`.
+  3. **(Phụ) Category sai cấp:** `categories`/`tags` ở top-level frontmatter thay vì dưới `[taxonomies]`
+     → Zola bỏ qua taxonomy. `qa_check.py` cảnh báo "không có category". Sửa: chuyển vào `[taxonomies]`.
+- **VERIFY bắt buộc trước push** (PR không marker vẫn vỡ): (1) `python3 qa_check.py`; (2) `zola build`;
+  (3) `python3 scripts/check_internal_links.py`; (4) `grep -rln "^<<<<<<<\|^>>>>>>>"` = rỗng.
+- **Evidence (27/06/2026, 4 PR cùng phiên):**
+  - PR #1053 — content+2 data → content giữ PR, data lấy main (sạch).
+  - PR #1054 — seo-scores → data lấy main + sửa `[taxonomies]` (category để sai cấp).
+  - PR #1057 — content+2 data → **content lấy main** (bản PR thêm 3 link hỏng tới bài chưa tồn tại;
+    bài đã merge qua #1052).
+  - PR #1061 — template+seo-scores → **template resolve từng vùng** (bản PR có ternary Python vỡ build),
+    giữ if-elif-else của main + bảo toàn layout sidebar của nhánh.
+- **Tự động hóa:** logic này khớp `scripts/autofix_conflicts.py` (classify `data/*.json` regen → strategy
+  `main`); mở rộng cho 2 bẫy trên khi cần.
+
+#### V19 — FAQ field naming: `question=`/`answer=` thay vì `q=`/`a=` → vỡ `zola build` toàn repo (27/06/2026)
+
+> Content vaccine — recurring. Match dấu hiệu → fix NGAY bằng FIXER, không chẩn lại. Bug này
+> **lọt qua qa-check của PR gốc** rồi lên `main` → chặn build của **MỌI** PR khác (V9: CI build cả repo).
+
+- **Dấu hiệu:** `zola build` vỡ với `ERROR Reason: Variable `item.q` not found in context while
+  rendering 'page.html'` (đôi khi `item.a`). Trỏ tới một file `content/posting/*.md` cụ thể.
+  qa-check đỏ ở step `zola build` dù file `.md` không có conflict.
+- **Nguyên nhân:** Block FAQ trong frontmatter dùng key **`question = "..."` / `answer = "..."`**
+  (kiểu người quen schema khác). Nhưng template `page.html` của Zola lặp `[[extra.faq]]` và đọc
+  field **`q`** và **`a`** (ngắn). Sai tên field → Tera không thấy `item.q` → vỡ render.
+- **FIXER:** đổi MỌI key FAQ về `q=`/`a=` (chỉ ở **đầu dòng** frontmatter, KHÔNG đụng prose):
+  ```bash
+  # Quét toàn repo tìm file dính bug:
+  for f in content/posting/*.md content/baochi/*.md content/pages/*.md; do
+    grep -q '^\[\[extra\.faq\]\]' "$f" && grep -qE '^question\s*=|^answer\s*=' "$f" && echo "$f"
+  done
+  # Fix line-anchored: question = → q = ; answer = → a =  (giữ nguyên value)
+  ```
+  Sau đó `python3 qa_check.py` + (nếu có) `zola build`. Commit + push.
+- **Prevention:** khi viết/sửa bài có FAQ, LUÔN dùng `q = "..."` / `a = "..."`. Khi resolve conflict
+  hay nhận PR mới, grep nhanh pattern trên trước khi tin qa-check. **Conflict-free / PR-merged ≠
+  build-safe** — một file FAQ sai field đã lên `main` sẽ chặn build mọi PR cho tới khi sửa.
+- **Evidence:** PR #1064 (27/06/2026) — `github-actions-secrets-setup-guide.md` (đã trên `main`) dùng
+  `question=`/`answer=` → vỡ build → đỏ qa-check trên #1064 + #1054/#1057/#1061. Fix 7 cặp FAQ trên
+  cả 4 branch → build xanh trở lại. Cùng họ bug với fix FAQ ở #1055 (CodeQL/GitHub Actions posts).
+
+#### V20 (auth-vaccine A1) — OAuth callback success nhưng UI vẫn KHOÁ (modal kẹt / spinner quay mãi) (27/06/2026)
+
+> Auth UX vaccine — recurring. **Dấu hiệu khớp → fix NGAY theo FIXER, không chẩn lại.** Đây là pattern
+> rất hay gặp với Google login VIPZone: OAuth thành công (`?auth=success`) nhưng frontend auth gate
+> không đồng bộ trạng thái → modal "Đăng nhập để tiếp tục" vẫn che trang, hoặc spinner comment quay vô hạn.
+
+- **Dấu hiệu:**
+  1. `/tools/momo-url/?auth=success` — login Google xong nhưng modal admin vẫn hiện, click bị "nuốt",
+     site giật/loop.
+  2. Card bình luận "Đăng nhập để tham gia thảo luận" có spinner quay **mãi** dù guest/đã login/lỗi.
+- **Nguyên nhân GỐC (giống nhau cho cả 2 — CSS thắng `[hidden]`):** một rule `display:flex/block` trên
+  cùng phần tử **ghi đè** thuộc tính `[hidden]` của HTML. JS gọi `el.hidden = true` nhưng UA rule
+  `[hidden]{display:none}` (origin UA) **luôn thua** author rule `.x{display:flex}` → phần tử KHÔNG bao
+  giờ ẩn. Cụ thể: `.auth-gate{display:flex}` (overlay z-index:1000 không ẩn được) và
+  `.comments__state--loading{display:flex}` (spinner không ẩn được).
+- **Nguyên nhân PHỤ (làm bug khó chẩn + vi phạm yêu cầu):**
+  - Frontend chỉ đọc `#sid=` ở hash, **không xử lý / không dọn** `?auth=success` (lingering, init lặp).
+  - Không có timeout khi gọi `/auth/me` → backend Render cold-start (30–60s) làm spinner/checking treo.
+  - Không có **state machine** (`checking · authenticated · guest · unauthorized · error`) → không phân
+    biệt "không có quyền" với "chưa đăng nhập" với "lỗi mạng".
+  - Nút "Đăng nhập bằng Google" lại trỏ `/auth/login` (endpoint **GitHub**) thay vì `/auth/google/start`.
+  - Backend admin endpoint đọc `authorization` như **query param** (không phải header) và **bỏ qua**
+    auth check → vừa thủng bảo mật vừa không nhận Bearer thật.
+  - CORS allowlist không gồm domain mới (`seomoney.org` / `www`) sau khi đổi custom domain.
+- **FIXER (đã áp 27/06/2026 — branch `claude/momo-url-oauth-bug-jdp0hi`):**
+  1. **CSS bắt `[hidden]` luôn thắng:** `.auth-gate[hidden]{display:none!important}` (sass/_admin-momo-url.scss);
+     `.comments [hidden]{display:none!important}` (sass/_comments.scss). Quy tắc chung: **mọi phần tử bị JS
+     toggle bằng `hidden` mà có rule `display:*` riêng → phải có `[hidden]{display:none!important}`.**
+  2. **State machine + consume `auth=success`:** verify session bằng `/auth/me` (KHÔNG tin URL param);
+     `credentials:"include"` + `Authorization: Bearer <sid>`; dọn `?auth=success`/`auth_error`/`#sid` bằng
+     `history.replaceState`; single-init guard (`window.__momoAuthInitDone` / `data-comments-init`);
+     single-flight `/auth/me` + **AbortController timeout** (8s admin, 7s comment); luôn clear loading khi
+     resolve; nút login → `/auth/google/start` (Google only, KHÔNG GitHub) giữ `return_to`.
+  3. **Spinner KHÔNG phải default:** template comment để loading `hidden`, guest hiện mặc định; spinner chỉ
+     bật khi **đang thực sự** gọi `/auth/me` (có sid).
+  4. **Backend admin guard đúng:** `momo_links.py` dùng `Depends(require_momo_admin)` đọc `Authorization`
+     header + cookie, check `is_admin(email, username) or is_superadmin(profile)`, chặn `commenter`. Sửa
+     `is_admin(profile)` (sai chữ ký) → `is_admin(profile.get("email"), profile.get("username"))`.
+  5. **CORS đa-origin:** `main.py` `_cors_allow_origins()` gồm seomoney.org + www + legacy github.io +
+     localhost; env `VIPZONE_CORS_ORIGIN`/`VIPZONE_CORS_ORIGINS`. Giữ `allow_credentials=True` (không `*`).
+- **Phân tách scope (BẮT BUỘC):** comment login = **comment-only** (không bao giờ chạm CMS/admin), admin
+  tool vẫn yêu cầu whitelist. Comment dùng session key riêng (`seomoney-comment-sid`, sessionStorage),
+  admin dùng `zola-cms-session-id` (localStorage) → không trộn scope.
+- **Auto-healing hint:** URL có `auth=success` mà modal/admin vẫn khoá → kiểm: (a) có rule `display:*`
+  ghi đè `[hidden]` không; (b) verify `/auth/me` với `credentials:include` + Bearer; (c) cookie
+  SameSite=None;Secure + CORS allow origin; (d) dọn query param; (e) chặn double-init; (f) clear loading
+  trong `finally`. Spinner comment quay mãi → thêm state machine hữu hạn + timeout + ẩn spinner ở
+  guest/authenticated/error + `[hidden]{display:none!important}`.
+
+#### V21 — "Merged is not live": PR merged ≠ route live trên production (404 dù đã merge) (27/06/2026)
+
+> Deployment-verification vaccine — public-safe. **Merged is not live.** Một PR đã merge vào `main`
+> KHÔNG có nghĩa feature/route đã lên production. Với MỌI route/page public mới, task chỉ **xong** khi
+> CẢ HAI check pass. Auto-healing pattern: **`merged-pr-route-still-404`**.
+
+**Nguyên tắc (BẮT BUỘC — không report "done/live" tới khi cả 2 pass):**
+
+```text
+Merged is not live.
+
+A PR merged into main does not mean the feature is live on production.
+
+For every new public route/page, the task is only complete when both checks pass:
+
+1. Zola build output exists:
+   public/<route>/index.html
+
+2. Production URL returns HTTP 200:
+   curl -I https://seomoney.org/<route>/
+
+Do not report "done/live" until both checks pass.
+```
+
+- **Dấu hiệu:** PR đã merge thành công nhưng route public kỳ vọng vẫn trả **404** trên production
+  (vd Claude báo `/demo-left-sidebar-layout/` sẽ live, nhưng `https://seomoney.org/demo-left-sidebar-layout/`
+  vẫn 404). Build local có thể OK nhưng deploy chưa gồm commit, hoặc route source sai chỗ / draft / slug sai.
+- **Nguyên nhân có thể:** (a) GitHub Pages deploy chưa chạy xong; (b) deploy chạy nhưng KHÔNG gồm merge
+  commit; (c) file source Zola đặt sai thư mục; (d) frontmatter `path`/`slug` sai; (e) page là `draft`
+  hoặc không render; (f) template tồn tại nhưng không có content route nào tham chiếu; (g) chưa sinh ra
+  `public/<route>/index.html`; (h) navbar trỏ `/route/` nhưng route thật ở `/pages/route/` hoặc path khác.
+- **FIXER (`merged-pr-route-still-404`) — verify trước, fix sau:**
+  1. Check deploy workflow gần nhất (đã chạy xong chưa).
+  2. Confirm commit đã deploy gồm thay đổi route.
+  3. Chạy `zola build`.
+  4. Confirm `public/<route>/index.html` tồn tại.
+  5. Check navbar/menu link trỏ đúng route chính xác.
+  6. Chạy `curl -I https://seomoney.org/<route>/`.
+  7. Chỉ đánh dấu **live** khi HTTP **200**.
+- **Safe fix:** thêm/sửa Zola content route thật — section route ưu tiên `content/<route>/_index.md`; hoặc
+  page file đặt `path = "<route>"` rõ ràng ở frontmatter; đảm bảo `draft = false`; template được tham
+  chiếu đúng; rebuild + redeploy.
+- **Severity:** **P1** nếu route do user yêu cầu hoặc được link trong navbar; **P2** nếu route nội bộ/demo
+  không được link; **P0** chỉ khi route critical/homepage/nav/sitemap hỏng.
+- **Required final report (mọi task tạo route/page public mới):**
+  ```text
+  Route source file:
+  Template used:
+  Zola output exists:
+  - public/<route>/index.html: Yes/No
+  Production check:
+  - https://seomoney.org/<route>/ status:
+  Deployed commit:
+  Live verified: Yes/No
+  ```
+- **KHÔNG:** report "live" chỉ dựa vào PR merged; nhầm "PR merged" với "GitHub Pages deployed"; bỏ qua
+  check `public/<route>/index.html`; bỏ qua verify production HTTP 200.
+
+#### V22 — Route 404 dù page đã có trong content (thiếu `path` khi section `render = false`) — root cause của V21
+
+- **Dấu hiệu:** URL mong đợi (vd `/<slug>/`) trả **404** trên production dù homepage + deploy bình
+  thường; file `content/.../<slug>.md` đã tồn tại và đã merge vào `main`.
+- **Nguyên nhân thường gặp:** page nằm trong section có `render = false` (vd `content/pages/`). Các
+  page khác trong section này route ra **root** nhờ khai báo `path = "..."` trong frontmatter; page mới
+  chỉ có `slug` (thiếu `path`) → KHÔNG route ra `/<slug>/` như mong đợi (nếu có route thì là
+  `/<section>/<slug>/`). **KHÔNG** phải lỗi build/draft.
+- **FIXER:** thêm `path = "<slug>"` vào frontmatter (khớp pattern các page đang chạy cùng section); set
+  `template` đúng nếu page cần layout riêng. `zola build` → xác nhận `public/<route>/index.html` tồn tại
+  + `rel="canonical"` trỏ đúng root URL.
+- **Auto-healing checklist (route 404 sau deploy):** (1) file content tồn tại? (2) `slug`/`path`/`draft`/
+  `render`/`template` đúng? (3) `public/<route>/index.html` sinh ra sau build? (4) PR đã merge vào
+  `main`? (5) Pages deploy commit gần nhất đã gồm commit đó? (6) `base_url`/CNAME không gây sai path
+  (vd prefix `/zola` sót lại).
+- **Liên quan (template dùng chung page+section):** set biến context (is_page/is_section/…) ở **đầu**
+  `{% block main %}` (không nest trong if; top-level `set`/`set_global` NGOÀI block KHÔNG chạy ở template
+  `extends`). Hardcode link trong template phải dùng `get_url(path=...)` (slash an toàn) và trỏ tới
+  taxonomy/section **thật sự tồn tại** — xem V8/V18 cho Tera scoping.
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
@@ -893,6 +1120,28 @@ Bắt buộc với MỌI task có thay đổi code (đã commit + push).
   báo mọi thứ (CI success / merge-conflict) → nếu có `send_later` thì hẹn tự
   check-in ~1h tái kiểm tra state/CI/mergeability rồi re-arm cho tới khi merge.
   Dừng theo dõi khi user yêu cầu (`unsubscribe_pr_activity`).
+
+### Bugfix PR Summary Standard
+
+Mọi PR sửa bug PHẢI ghi rõ QA outcome + nơi lưu bài học, theo format (xem
+[`CULTURE_OF_DEPLOYMENT.md`](CULTURE_OF_DEPLOYMENT.md) §13):
+
+```text
+P0 blockers:
+P1 healed/candidates:
+P2 warnings:
+P3 info:
+Build result:
+Experience added:
+- Public CLAUDE.md: Yes/No
+- Private CLAUDE_PRIVATE.md: Yes/No/Local-only
+Reason:
+```
+
+- `Public CLAUDE.md: Yes` — chỉ khi bài học an toàn + tái dùng được công khai.
+- `Private CLAUDE_PRIVATE.md: Yes/Local-only` — cho bài học sensitive/tactical.
+- `No` — khi bug trivial hoặc không tái dùng.
+- **Không** lộ secret hay chi tiết backend/auth nhạy cảm vào PR summary hay CI log.
 
 ## Quy tắc SEO QA cho mỗi bài blog (BẮT BUỘC)
 
@@ -1709,6 +1958,44 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 | Python insights | `scripts/f_dashboard_insights.py` |
 | Tests | `scripts/test_f_dashboard.py` |
 | Deps | `scripts/requirements-f-dashboard.txt` (`openpyxl`) |
+
+## Auto Build Failed Healing (bot maintainer tự động)
+
+> SEOMONEY auto maintainer: `Bug found → Fix it → Learn from it → Auto-healing`.
+> Pipeline `Detect → Classify → Heal → Build → Learn → PR`. Dò build/deploy/qa
+> **failed trong 48h gần nhất**, phân loại P0/P1/P2/P3 theo registry public-safe,
+> apply safe fix, mở hotfix PR. **KHÔNG** push thẳng `main`.
+
+- **Trigger:** `workflow_run` (deploy/qa/build/pages — chỉ act khi `conclusion=failure`)
+  + cron hourly (quét failed 48h) + `workflow_dispatch` (optional `dry_run`).
+- **48h rule (cứng):** lỗi >48h → `stale_ignored`, KHÔNG revive branch cũ, KHÔNG tạo PR.
+- **Severity:** P0 (build vỡ/Tera/SCSS/frontmatter/conflict/secret/route) heal nếu có
+  fixer an toàn, không thì PR manual-review; P1 auto-heal → build → hotfix PR; **P2/P3
+  advisory — KHÔNG block, KHÔNG PR**.
+- **Healing sources (public-safe, đã commit):** `CLAUDE.md`, `CULTURE_OF_DEPLOYMENT.md`,
+  `data/healing-patterns.json`, `docs/HEALING_PATTERNS.md`. **KHÔNG** require/đọc/commit
+  `CLAUDE_PRIVATE.md`; CI checkout sạch vẫn pass; KHÔNG in private content vào log.
+- **Safe fixers (deterministic, reuse script sẵn có):** `regenerate-references`
+  (`build_references.py`), `clean-public` (xoá `public/`), `internal-link-fix`
+  (`qa-404-checker.py --fix`), `faq-field-rename` (V19 `question=/answer=` → `q=/a=`).
+  Risky (auth/payment/backend/deploy creds/template lớn) → chỉ report/PR manual; secret/token → **không bao giờ** auto-fix.
+- **PR:** branch `auto-build-failed-healing/<pattern-id>-<run-id>`, title
+  `fix(auto-healing): <pattern-id>`, label `auto-healing` + `build-fix`; dedup theo
+  run-id/pattern (state `data/auto-healing-state.json`).
+
+| Thành phần | Path |
+|------------|------|
+| Workflow | `.github/workflows/auto-build-failed-healing.yml` |
+| Engine | `scripts/auto_build_failed_healing.py` |
+| Tests | `scripts/test_auto_build_failed_healing.py` |
+| Registry | `data/healing-patterns.json` · State `data/auto-healing-state.json` · Report `data/auto-healing-report.json` |
+| Docs | `docs/HEALING_PATTERNS.md` |
+
+```bash
+python3 scripts/auto_build_failed_healing.py --dry-run --hours 48   # scan + classify, no mutation
+python3 scripts/auto_build_failed_healing.py --hours 48 --apply     # safe fix + hotfix PR (never main)
+python3 -m unittest scripts.test_auto_build_failed_healing -v
+```
 
 ## QA Auto Rule Checker
 

@@ -15,7 +15,7 @@ Khi nói về những sân bay tốt nhất thế giới, Incheon International 
 
 <!-- more -->
 
-Mình có cơ hội qua sân bay quốc tế khá nhiều lần, và điều tôi nhận ra là **hành trình chuyển tiếp là phần căng thẳng nhất** của một chuyến bay dài. Khi [lập kế hoạch du lịch](/zola/categories/du-lich/) hay lên lịch chuyến bay quốc tế, phần chuyển tiếp luôn là yếu tố gây lo lắng nhất. Bạn phải xếp hàng qua kiểm soát nhập cảnh, lôi hành lý ra từ băng chuyền, chịu được kiểm tra hải quan, rồi kéo vali tới quầy check-in để gửi lại cho chuyến tiếp. Mỗi bước này tốn thời gian, mỗi bước đều có thể gây trễ chuyến bay tiếp theo. Và nếu window chuyển tiếp của bạn chỉ là 2–3 tiếng, thì đó chắc chắn là căng thẳng thực sự.
+Mình có cơ hội qua sân bay quốc tế khá nhiều lần, và điều tôi nhận ra là **hành trình chuyển tiếp là phần căng thẳng nhất** của một chuyến bay dài. Khi [lập kế hoạch du lịch](/categories/du-lich/) hay lên lịch chuyến bay quốc tế, phần chuyển tiếp luôn là yếu tố gây lo lắng nhất. Bạn phải xếp hàng qua kiểm soát nhập cảnh, lôi hành lý ra từ băng chuyền, chịu được kiểm tra hải quan, rồi kéo vali tới quầy check-in để gửi lại cho chuyến tiếp. Mỗi bước này tốn thời gian, mỗi bước đều có thể gây trễ chuyến bay tiếp theo. Và nếu window chuyển tiếp của bạn chỉ là 2–3 tiếng, thì đó chắc chắn là căng thẳng thực sự.
 
 ## Vấn đề cũ của sân bay quốc tế: Quy trình chuyển tiếp quá phức tạp
 
@@ -88,5 +88,5 @@ Nếu muốn tìm hiểu thêm về các mẹo bay quốc tế, bạn có thể 
 
 Remote baggage screening của Incheon là một minh chứng rõ ràng rằng **công nghệ và sáng kiến có thể giải quyết những vấn đề cũ**. Không phải tất cả các cải tiến đều cần phải lớn và ầm ĩ. Đôi khi, chỉ cần tiết kiệm 20 phút, loại bỏ một công đoạn căng thẳng, là đủ để nâng cao trải nghiệm của hàng triệu hành khách. Và đó là điều khiến Incheon vẫn xứng đáng là một trong những sân bay tốt nhất thế giới.
 
-Nếu bạn là người thường xuyên bay quốc tế, đây là tin tốt. Và nếu bạn chưa từng đi qua Incheon, có lẽ đây là một lý do để thử sân bay này ở lần tới. Bạn cũng có thể tìm hiểu thêm về [du lịch](/zola/categories/du-lich/) hoặc khám phá các [bài viết](/zola/archive/) chia sẻ kinh nghiệm bay quốc tế khác.
+Nếu bạn là người thường xuyên bay quốc tế, đây là tin tốt. Và nếu bạn chưa từng đi qua Incheon, có lẽ đây là một lý do để thử sân bay này ở lần tới. Bạn cũng có thể tìm hiểu thêm về [du lịch](/categories/du-lich/) hoặc khám phá các [bài viết](/archive/) chia sẻ kinh nghiệm bay quốc tế khác.
 +++

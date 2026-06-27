@@ -207,6 +207,34 @@ def step_build_related_model_id(dry_run: bool) -> dict:
     return out
 
 
+def step_stale_zola_prefix(dry_run: bool) -> dict:
+    """Strip legacy /zola/ internal links after apex-domain migration (V19)."""
+    out = {
+        "vaccine": "V19",
+        "name": "Stale /zola/ internal links",
+        "matched": False,
+        "fixed": False,
+        "changed": False,
+        "detail": "",
+    }
+    fixer = _script("scripts/fix_stale_zola_links.py")
+    if not os.path.isfile(fixer):
+        out["detail"] = "fix_stale_zola_links.py absent"
+        return out
+    cmd = [sys.executable, fixer] + (["--apply"] if not dry_run else ["--dry-run"])
+    try:
+        res = _run(cmd)
+    except subprocess.TimeoutExpired:
+        out["detail"] = "timeout"
+        return out
+    out["detail"] = (res.stdout or "").strip().splitlines()[-1] if res.stdout else f"exit {res.returncode}"
+    # dry-run exits 1 when links would be fixed; apply exits 0 when done
+    out["matched"] = "stale /zola" in (res.stdout or "").lower() or res.returncode == 1
+    if out["matched"] and not dry_run and res.returncode == 0:
+        out["fixed"] = out["changed"] = "Fixed" in (res.stdout or "")
+    return out
+
+
 def step_internal_links(dry_run: bool) -> dict:
     """Broken internal links — detect (and --fix when not dry-run)."""
     out = {"vaccine": "V-links", "name": "Internal link 404", "matched": False,
@@ -336,6 +364,7 @@ SAFE_STEPS = [
     step_scan_build_logs,      # diagnosis engine (gh CI logs) — report-only
     step_build_related_model_id,
     step_slack_v2,             # V2 detection — report-only
+    step_stale_zola_prefix,    # V19 — apex migration stale /zola/ links
     step_internal_links,
     step_build_references,
     step_rule_checker,

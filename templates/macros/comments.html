@@ -25,13 +25,18 @@
     <ol class="comments__list" data-comments-list></ol>
     <p class="comments__empty" data-comments-empty hidden>Chưa có bình luận nào. Hãy là người đầu tiên chia sẻ ý kiến.</p>
 
-    {# Auth zone — one of: loading / logged-out CTA / comment form. Toggled by JS. #}
+    {# Auth zone — one of: loading / logged-out CTA / comment form / error.
+       Toggled by the JS auth state machine. Default = guest CTA visible, spinner
+       hidden: the spinner only appears WHILE actively verifying a session, and
+       _comments.scss forces `[hidden]` to win so a resolved state always hides
+       the spinner (auth-vaccine A1). #}
     <div class="comments__auth" data-comments-auth>
-        <div class="comments__state comments__state--loading" data-comments-loading>
+        <div class="comments__state comments__state--loading" data-comments-loading hidden>
             <span class="comments__spinner" aria-hidden="true"></span>
+            <span class="comments__loading-text">Đang kiểm tra đăng nhập…</span>
         </div>
 
-        <div class="comments__state comments__state--guest" data-comments-guest hidden>
+        <div class="comments__state comments__state--guest" data-comments-guest>
             <p class="comments__cta-text">Đăng nhập để tham gia thảo luận.</p>
             <a class="comments__google-btn" data-comments-login href="#" rel="nofollow">
                 <span class="comments__google-mark" aria-hidden="true">
@@ -64,6 +69,11 @@
             </div>
             <p class="comments__notice" data-comments-notice hidden></p>
         </form>
+
+        <div class="comments__state comments__state--error" data-comments-error hidden>
+            <p class="comments__cta-text" data-comments-error-text>Không kết nối được máy chủ. Vui lòng thử lại.</p>
+            <button type="button" class="comments__google-btn" data-comments-retry>Thử lại</button>
+        </div>
     </div>
 
     {# Admin moderation panel — only shown to admins by JS. #}

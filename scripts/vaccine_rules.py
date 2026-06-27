@@ -112,6 +112,15 @@ VACCINE_RULES: list[VaccineRule] = [
         ),
         "frontmatter_issue",
     ),
+    VaccineRule(
+        "V19",
+        "Stale /zola/ internal links (apex domain)",
+        re.compile(
+            r"FAIL:\s+\d+\s+broken link|/zola/posting/|href=[\"']/zola/",
+            re.I,
+        ),
+        "stale_zola_prefix",
+    ),
 ]
 
 

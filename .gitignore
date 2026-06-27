@@ -16,6 +16,13 @@ pr-body.md
 reports/performance/*.json
 !reports/performance/.gitkeep
 
+# Private agent memory / local strategy (see CULTURE_OF_DEPLOYMENT.md §6)
+# Local-only tactical notes for Claude/OpenCode — NEVER commit. CI must not depend on these.
+CLAUDE_PRIVATE.md
+claude-private.md
+.claude-private.md
+.claude/private/
+
 # Sensitive: never commit tokens/keys
 ghp_*
 *.pem
@@ -41,3 +48,6 @@ changelog.json
 content/feed-anchor-*.md
 content/posting/feed-anchor-*.md
 node_modules/
+
+# auto-build-failed-healing runtime log (artifact, not source)
+data/auto-healing.log

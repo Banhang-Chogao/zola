@@ -3,10 +3,6 @@ title = "Demo Layout Blog"
 description = "Trực quan giao diện left-sidebar blog layout 30/70 với 3 ad spots cố định, tối ưu cho AdSense."
 sort_by = "date"
 template = "posting-left-sidebar.html"
-
-[taxonomies]
-categories = ["Tất cả"]
-tags = ["demo", "layout", "guideline"]
 +++
 
 Demo layout này hiển thị thiết kế **30/70 responsive layout** dành cho blog monetization với AdSense.

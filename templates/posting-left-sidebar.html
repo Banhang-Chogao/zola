@@ -5,23 +5,34 @@
 {% import "macros/pagination.html" as pager %}
 {% import "macros/series-nav.html" as series_nav %}
 
-{# CONTEXT DETECTION: Handle both page and section contexts #}
-{% set is_section = section is defined and section.title is defined %}
-{% set is_page = page is defined and page.title is defined %}
-{% if is_section %}
-  {% set display_title = section.title %}
-  {% set current_page_index = paginator.current_index | default(value=1) %}
-{% elif is_page %}
-  {% set display_title = page.title %}
-  {% set current_page_index = 1 %}
-{% else %}
-  {% set display_title = "Not Found" %}
-  {% set current_page_index = 1 %}
-{% endif %}
+{# CONTEXT DETECTION (page vs section) lives INSIDE the blocks below.
+   In an extending template, top-level statements outside {% block %} are not
+   executed when the parent renders, and a {% set %} inside an if/elif is scoped
+   to that branch only — so the title is computed inline and the context vars are
+   set at the top of {% block main %} (non-nested → visible through the block). #}
 
-{% block title %}{{ display_title }} — {{ config.title }}{% endblock %}
+{% block title %}{% if page is defined and page.title is defined %}{{ page.title }}{% elif section is defined and section.title is defined %}{{ section.title }}{% else %}{{ config.title }}{% endif %} — {{ config.title }}{% endblock %}
 
 {% block main %}
+{% set is_section = section is defined and section.title is defined %}
+{% set is_page = page is defined and page.title is defined %}
+{% set current_page_index = paginator.current_index | default(value=1) %}
+{# Tera has no `none`; use "" sentinel + set_global so sticky/featured are visible across the block. #}
+{% set_global sticky_post = "" %}
+{% set_global featured_post = "" %}
+{% if is_section and current_page_index == 1 %}
+    {% set posting = get_section(path="posting/_index.md") %}
+    {% for p in posting.pages %}
+        {% if sticky_post == "" and p.extra.sticky %}
+            {% set_global sticky_post = p %}
+        {% endif %}
+    {% endfor %}
+    {% for p in posting.pages %}
+        {% if featured_post == "" and (sticky_post == "" or p.slug != sticky_post.slug) %}
+            {% set_global featured_post = p %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
 <main class="left-sidebar-layout">
     <!-- BREADCRUMB -->
     <div class="left-sidebar__breadcrumb" aria-label="Breadcrumb">
@@ -38,16 +49,7 @@
         <aside class="left-sidebar-layout__sidebar">
 
             <!-- WIDGET: Sticky Post Widget (section context only) -->
-            {% if is_section and current_page_index == 1 %}
-                {% set posting = get_section(path="posting/_index.md") %}
-                {% set sticky_post = none %}
-                {% for p in posting.pages %}
-                    {% if not sticky_post and p.extra.sticky %}
-                        {% set sticky_post = p %}
-                    {% endif %}
-                {% endfor %}
-
-                {% if sticky_post %}
+            {% if is_section and current_page_index == 1 and sticky_post %}
                 <div class="left-sidebar-widget">
                     <div class="left-sidebar-widget__sticky">
                         <img
@@ -68,7 +70,6 @@
                         </div>
                     </div>
                 </div>
-                {% endif %}
             {% endif %}
 
             <!-- AD SPOT #2: 300x250 -->
@@ -83,11 +84,11 @@
                 <div class="left-sidebar-widget__box">
                     <h3 class="left-sidebar-widget__title">📂 Categories</h3>
                     <ul class="left-sidebar-widget__categories">
-                        <li><a href="{{ config.base_url | safe }}categories/tat-ca/">💻 Tất cả</a></li>
-                        <li><a href="{{ config.base_url | safe }}categories/cong-nghe/">🔧 Công nghệ</a></li>
-                        <li><a href="{{ config.base_url | safe }}categories/du-lich/">✈️ Du lịch</a></li>
-                        <li><a href="{{ config.base_url | safe }}categories/ngan-hang/">🏦 Ngân hàng</a></li>
-                        <li><a href="{{ config.base_url | safe }}categories/dien-anh/">🎬 Điện ảnh</a></li>
+                        <li><a href="{{ get_url(path='categories/tat-ca/', trailing_slash=true) | safe }}">💻 Tất cả</a></li>
+                        <li><a href="{{ get_url(path='categories/cong-nghe/', trailing_slash=true) | safe }}">🔧 Công nghệ</a></li>
+                        <li><a href="{{ get_url(path='categories/du-lich/', trailing_slash=true) | safe }}">✈️ Du lịch</a></li>
+                        <li><a href="{{ get_url(path='categories/ngan-hang/', trailing_slash=true) | safe }}">🏦 Ngân hàng</a></li>
+                        <li><a href="{{ get_url(path='dien-anh/', trailing_slash=true) | safe }}">🎬 Điện ảnh</a></li>
                     </ul>
                 </div>
             </div>
@@ -148,16 +149,7 @@
             {% endif %}
 
             <!-- FEATURED POST (section context, page 1 only) -->
-            {% if is_section and current_page_index == 1 %}
-                {% set posting = get_section(path="posting/_index.md") %}
-                {% set featured_post = none %}
-                {% for p in posting.pages %}
-                    {% if not featured_post and (not sticky_post or p.slug != sticky_post.slug) %}
-                        {% set featured_post = p %}
-                    {% endif %}
-                {% endfor %}
-
-                {% if featured_post %}
+            {% if is_section and current_page_index == 1 and featured_post %}
                 <article class="left-sidebar-layout__featured-post">
                     <img
                         src="{{ img::cover_src(page=featured_post) }}"
@@ -181,7 +173,6 @@
                         </div>
                     </div>
                 </article>
-                {% endif %}
             {% endif %}
 
             <!-- AD SPOT #3: 728x90 (IN-ARTICLE) -->
@@ -190,6 +181,14 @@
                      alt="Advertisement placeholder"
                      class="ad-placeholder__image">
             </div>
+
+            <!-- SECTION INTRO (Section _index.md body — e.g. demo/docs pages) -->
+            {% if is_section and section.content %}
+            <article class="left-sidebar-layout__page-content">
+                <h1>{{ section.title }}</h1>
+                {{ section.content | safe }}
+            </article>
+            {% endif %}
 
             <!-- SECTION FEED (Section context) -->
             {% if is_section and section.pages %}

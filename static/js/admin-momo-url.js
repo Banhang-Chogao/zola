@@ -1,25 +1,56 @@
 /**
  * Admin MoMo URL Manager
  *
- * Authentication: Google OAuth via VIPZone backend
- * UI: View all MoMo links, replace old with new
+ * Authentication: Google OAuth via the VIPZone backend (admin allowlist only).
+ * UI: View all MoMo links, replace old with new.
+ *
+ * Auth state machine (auth-vaccine A1 — "OAuth callback success but UI stays
+ * locked"): checking → authenticated | guest | unauthorized | error.
+ *   - The session id is handed back in the URL fragment (#sid=...) and/or a
+ *     cross-site cookie; ?auth=success is only a hint, never trusted on its own.
+ *     We always verify with GET /auth/me (Bearer + credentials:"include").
+ *   - The gate overlay is hidden via the `hidden` attribute; CSS forces
+ *     `.auth-gate[hidden]{display:none!important}` so an authenticated admin is
+ *     never trapped behind the modal.
+ *   - /auth/me is single-flight + has a timeout so a cold backend can never spin
+ *     forever; the URL is cleaned with history.replaceState so init never loops.
  */
 
 (function () {
+  // Single init guard — a duplicate <script> include must not double-wire the page.
+  if (window.__momoAuthInitDone) return;
+  window.__momoAuthInitDone = true;
+
   const AUTH_API = (() => {
     const m = document.querySelector('meta[name="zola-cms-auth-api"]');
-    if (m && m.getAttribute("content")) return m.getAttribute("content");
+    if (m && m.getAttribute("content")) return m.getAttribute("content").replace(/\/$/, "");
     return "https://blog-vipzone-api.onrender.com";
   })();
 
   const SESSION_KEY = "zola-cms-session-id";
+  const AUTH_TIMEOUT_MS = 8000; // cold Render dynos: never hang the gate forever.
+
+  const STATE = {
+    CHECKING: "checking",
+    AUTHENTICATED: "authenticated",
+    GUEST: "guest",
+    UNAUTHORIZED: "unauthorized",
+    ERROR: "error",
+  };
+
   let currentUser = null;
   let auditData = null;
+  let authState = null;
+  let mePromise = null;
+  let cpData = null; // { placements:[], blocks:[] } from /admin/content-placements
+  let cpEditingId = null; // block id being edited, or null when creating
 
   // ============= DOM Elements =============
   const authGate = document.getElementById("auth-gate");
   const adminContent = document.getElementById("admin-content");
   const googleLoginBtn = document.getElementById("google-login-btn");
+  const switchAccountBtn = document.getElementById("switch-account-btn");
+  const authRetryBtn = document.getElementById("auth-retry-btn");
   const logoutBtn = document.getElementById("logout-btn");
   const loadingState = document.getElementById("loading-state");
   const contentState = document.getElementById("content-state");
@@ -50,40 +81,68 @@
     } catch (e) {}
   }
 
-  function consumeUrlHashSid() {
-    if (!location.hash) return;
-    const m = location.hash.match(/#(?:.*[&?])?sid=([A-Za-z0-9_-]+)/);
-    if (!m) return;
-    setSid(m[1]);
-    history.replaceState(null, "", location.pathname + location.search);
+  /**
+   * Process the OAuth callback once: capture #sid=... from the fragment, then
+   * strip auth=success / auth_error / the sid fragment from the URL so a refresh
+   * or re-init never re-processes it (prevents loops + cleans the address bar).
+   * Returns { authSuccess, authError } parsed from the query before cleanup.
+   */
+  function consumeAuthCallback() {
+    let sidFromHash = "";
+    if (location.hash) {
+      const m = location.hash.match(/(?:^|[#&])sid=([A-Za-z0-9_-]+)/);
+      if (m) sidFromHash = m[1];
+    }
+    if (sidFromHash) setSid(sidFromHash);
+
+    const params = new URLSearchParams(location.search);
+    const authError = params.get("auth_error") || "";
+    const authSuccess = params.get("auth") === "success";
+
+    if (sidFromHash || authSuccess || authError) {
+      params.delete("auth");
+      params.delete("auth_error");
+      const qs = params.toString();
+      try {
+        history.replaceState(null, "", location.pathname + (qs ? "?" + qs : ""));
+      } catch (e) {}
+    }
+    return { authSuccess, authError };
   }
 
-  async function fetchMe() {
-    const opts = {
-      credentials: "include",
-      cache: "no-store",
-      headers: {},
-    };
+  /**
+   * Verify the current session. Single-flight (concurrent callers share one
+   * request) + AbortController timeout. Resolves to { status, user, error }.
+   */
+  function fetchMe() {
+    if (mePromise) return mePromise;
+    mePromise = (async () => {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), AUTH_TIMEOUT_MS);
+      try {
+        const opts = {
+          credentials: "include",
+          cache: "no-store",
+          headers: {},
+          signal: controller.signal,
+        };
+        const sid = getSid();
+        if (sid) opts.headers["Authorization"] = "Bearer " + sid;
 
-    const sid = getSid();
-    if (sid) {
-      opts.headers["Authorization"] = "Bearer " + sid;
-    }
-
-    try {
-      const res = await fetch(AUTH_API + "/auth/me", opts);
-      if (res.ok) {
+        const res = await fetch(AUTH_API + "/auth/me", opts);
+        if (res.status === 401) return { status: 401, user: null };
+        if (res.status === 403) return { status: 403, user: null };
+        if (!res.ok) return { status: res.status, user: null, error: true };
         const user = await res.json();
-        console.log("Auth successful, user:", user);
-        return user;
-      } else {
-        console.warn("fetchMe failed with status:", res.status);
+        return { status: 200, user };
+      } catch (e) {
+        return { status: 0, user: null, error: true };
+      } finally {
+        clearTimeout(timer);
+        mePromise = null; // allow an explicit retry from the error view
       }
-    } catch (e) {
-      console.warn("fetchMe error:", e);
-    }
-
-    return null;
+    })();
+    return mePromise;
   }
 
   async function logoutRemote() {
@@ -92,7 +151,6 @@
       clearSid();
       return;
     }
-
     try {
       await fetch(AUTH_API + "/auth/logout", {
         method: "POST",
@@ -104,17 +162,96 @@
     clearSid();
   }
 
-  // ============= UI State =============
-  function showAuthGate() {
-    authGate.hidden = false;
+  // ============= Auth state machine =============
+  function showGateView(view) {
+    document.querySelectorAll("[data-auth-view]").forEach((el) => {
+      el.hidden = el.getAttribute("data-auth-view") !== view;
+    });
+  }
+
+  function setAuthState(state, detail) {
+    authState = state;
+    if (state === STATE.AUTHENTICATED) {
+      authGate.hidden = true;
+      adminContent.hidden = false;
+      return;
+    }
+    // Every non-authenticated state shows the gate with the matching view.
     adminContent.hidden = true;
+    authGate.hidden = false;
+    showGateView(state);
+    if (detail && detail.message) {
+      const id =
+        state === STATE.UNAUTHORIZED ? "unauth-message" : "auth-error-message";
+      const el = document.getElementById(id);
+      if (el) el.textContent = detail.message;
+    }
   }
 
-  function showAdminContent() {
-    authGate.hidden = true;
-    adminContent.hidden = false;
+  function startLogin() {
+    const returnPath = location.pathname; // already cleaned of auth params
+    // Google only — this admin tool never uses GitHub OAuth.
+    window.location.href =
+      AUTH_API + "/auth/google/start?return_to=" + encodeURIComponent(returnPath);
   }
 
+  async function runAuthCheck(callbackError) {
+    setAuthState(STATE.CHECKING);
+    const { user, status, error } = await fetchMe();
+
+    if (user && (user.is_admin === true || user.is_super === true)) {
+      currentUser = user;
+      setAuthState(STATE.AUTHENTICATED);
+      loadMoMoLinks();
+      // Preload placements data in background
+      loadPlacements().catch(() => {});
+      return;
+    }
+    if (user) {
+      // Authenticated but not on the admin allowlist.
+      setAuthState(STATE.UNAUTHORIZED, {
+        message:
+          (user.email ? "Tài khoản " + user.email + " " : "Tài khoản này ") +
+          "không nằm trong danh sách quản trị. Vui lòng đăng nhập bằng tài khoản admin.",
+      });
+      return;
+    }
+    // A Google login by a non-whitelisted account creates NO session — the
+    // backend signals it only via ?auth_error=access_denied. Surface that as the
+    // unauthorized state (not the guest modal) so the user isn't stuck retrying.
+    if (callbackError === "access_denied") {
+      setAuthState(STATE.UNAUTHORIZED, {
+        message:
+          "Tài khoản Google của bạn không có quyền quản trị. Vui lòng đăng nhập bằng tài khoản admin được cấp phép.",
+      });
+      return;
+    }
+    if (status === 403) {
+      setAuthState(STATE.UNAUTHORIZED);
+      return;
+    }
+    if (status === 401) {
+      setAuthState(STATE.GUEST);
+      return;
+    }
+    if (error) {
+      setAuthState(STATE.ERROR, {
+        message:
+          "Không kết nối được máy chủ xác thực (có thể đang khởi động). Vui lòng thử lại.",
+      });
+      return;
+    }
+    if (callbackError) {
+      // Any other OAuth-callback error (token exchange, unreachable, etc.).
+      setAuthState(STATE.ERROR, {
+        message: "Đăng nhập không thành công (" + callbackError + "). Vui lòng thử lại.",
+      });
+      return;
+    }
+    setAuthState(STATE.GUEST);
+  }
+
+  // ============= UI State (admin content) =============
   function showLoading() {
     loadingState.hidden = false;
     contentState.hidden = true;
@@ -152,8 +289,14 @@
 
       const res = await fetch(AUTH_API + "/admin/momo-links", opts);
 
+      // Session expired or revoked between the gate check and this call → fall
+      // back to the gate instead of showing a confusing data error.
+      if (res.status === 401) {
+        setAuthState(STATE.GUEST);
+        return;
+      }
       if (res.status === 403) {
-        showAuthGate();
+        setAuthState(STATE.UNAUTHORIZED);
         return;
       }
 
@@ -404,6 +547,306 @@
     detailsModal.showModal();
   };
 
+  // ============= Content Placements =============
+  async function loadPlacements() {
+    try {
+      const opts = {
+        credentials: "include",
+        cache: "no-store",
+        headers: {},
+      };
+      const sid = getSid();
+      if (sid) opts.headers["Authorization"] = "Bearer " + sid;
+
+      const res = await fetch(AUTH_API + "/admin/content-placements", opts);
+      if (res.status === 401 || res.status === 403) {
+        setAuthState(STATE.GUEST);
+        return;
+      }
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+      cpData = await res.json();
+      renderPlacementRegistry();
+      renderBlocksTable();
+    } catch (e) {
+      console.error("loadPlacements error:", e);
+      alert(`Tải placement dữ liệu thất bại: ${e.message}`);
+    }
+  }
+
+  function renderPlacementRegistry() {
+    if (!cpData || !cpData.placements) return;
+    const tbody = document.getElementById("cp-registry-body");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
+    cpData.placements.forEach((placement) => {
+      const row = document.createElement("tr");
+      const blockCount = (cpData.blocks || []).filter(
+        (b) => b.placement_id === placement.id
+      ).length;
+
+      row.innerHTML = `
+        <td><code>${escapeHtml(placement.id)}</code></td>
+        <td>${escapeHtml(placement.label)}</td>
+        <td><span class="badge">${escapeHtml(placement.scope)}</span></td>
+        <td><small>${escapeHtml(placement.template_hint || "—")}</small></td>
+        <td><strong>${blockCount}</strong></td>
+        <td>${placement.hooked ? '✓' : '—'}</td>
+        <td>${placement.enabled ? '✓' : '—'}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  function renderBlocksTable() {
+    if (!cpData || !cpData.blocks) return;
+    const tbody = document.getElementById("cp-blocks-body");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
+    const sorted = [...cpData.blocks].sort((a, b) => (a.priority || 100) - (b.priority || 100));
+    sorted.forEach((block) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td><code>${escapeHtml(block.id)}</code></td>
+        <td>${escapeHtml(block.placement_id)}</td>
+        <td><span class="badge badge--sm">${escapeHtml(block.type)}</span></td>
+        <td>${escapeHtml(block.title || "—")}</td>
+        <td>${block.enabled ? '✓' : '—'}</td>
+        <td>
+          <button class="btn btn--small btn--secondary" onclick="window.editBlock('${escapeAttr(block.id)}')">Sửa</button>
+          <button class="btn btn--small btn--danger" onclick="window.deleteBlock('${escapeAttr(block.id)}')">Xóa</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  function getPlacementDropdown() {
+    if (!cpData || !cpData.placements) return "";
+    return cpData.placements
+      .map((p) => `<option value="${escapeAttr(p.id)}">${escapeHtml(p.label)}</option>`)
+      .join("");
+  }
+
+  window.openBlockModal = function (blockId = null) {
+    cpEditingId = blockId;
+    const modal = document.getElementById("block-modal");
+    if (!modal) return;
+
+    const form = document.getElementById("block-form");
+    const placementSelect = document.getElementById("block-placement");
+
+    // Populate placement dropdown
+    if (placementSelect && cpData && cpData.placements) {
+      placementSelect.innerHTML = cpData.placements
+        .map((p) => `<option value="${escapeAttr(p.id)}">${escapeHtml(p.label)}</option>`)
+        .join("");
+    }
+
+    if (blockId && cpData && cpData.blocks) {
+      const block = cpData.blocks.find((b) => b.id === blockId);
+      if (block) {
+        document.getElementById("block-id").value = block.id;
+        document.getElementById("block-id").disabled = true;
+        document.getElementById("block-placement").value = block.placement_id;
+        document.getElementById("block-type").value = block.type;
+        document.getElementById("block-title").value = block.title || "";
+        document.getElementById("block-body").value = block.body || "";
+        document.getElementById("block-button").value = block.button_text || "";
+        document.getElementById("block-url").value = block.url || "";
+        document.getElementById("block-style").value = block.style || "default";
+        document.getElementById("block-priority").value = block.priority || 100;
+        document.getElementById("block-enabled").checked = block.enabled || false;
+        document.getElementById("block-pages").value = (block.pages || ["*"]).join(", ");
+        document.getElementById("block-exclude").value = (block.exclude_pages || []).join(", ");
+        document.getElementById("block-start").value = block.start_date || "";
+        document.getElementById("block-end").value = block.end_date || "";
+      }
+    } else {
+      // Reset for create
+      document.getElementById("block-id").disabled = false;
+      form.reset();
+      document.getElementById("block-id").focus();
+    }
+
+    updateTypeWarning();
+    renderBlockPreview();
+    modal.showModal();
+  };
+
+  window.editBlock = function (blockId) {
+    openBlockModal(blockId);
+  };
+
+  window.deleteBlock = async function (blockId) {
+    if (!confirm(`Xóa block "${blockId}"?`)) return;
+
+    try {
+      const opts = {
+        method: "DELETE",
+        credentials: "include",
+        headers: {},
+      };
+      const sid = getSid();
+      if (sid) opts.headers["Authorization"] = "Bearer " + sid;
+
+      const res = await fetch(AUTH_API + `/admin/content-blocks/${encodeURIComponent(blockId)}`, opts);
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+      const result = await res.json();
+      await loadPlacements();
+      showCommitStatus(result);
+      alert("✓ Block đã xóa");
+    } catch (e) {
+      alert(`❌ Xóa thất bại: ${e.message}`);
+    }
+  };
+
+  function updateTypeWarning() {
+    const type = document.getElementById("block-type").value;
+    const warning = document.getElementById("html-safe-warning");
+    if (warning) warning.hidden = type !== "html_safe";
+  }
+
+  function renderBlockPreview() {
+    const title = document.getElementById("block-title").value;
+    const body = document.getElementById("block-body").value;
+    const button = document.getElementById("block-button").value;
+    const url = document.getElementById("block-url").value;
+    const type = document.getElementById("block-type").value;
+    const style = document.getElementById("block-style").value;
+
+    const stage = document.getElementById("cp-preview-stage");
+    if (!stage) return;
+
+    const ctaHtml =
+      button && url
+        ? `<a href="#" class="placement-block__cta" onclick="return false">${escapeHtml(button)}</a>`
+        : "";
+
+    stage.innerHTML = `
+      <div class="placement-block placement-block--${escapeHtml(type)} placement-block--${escapeHtml(style)}">
+        ${title ? `<h3 class="placement-block__title">${escapeHtml(title)}</h3>` : ""}
+        ${body ? `<p class="placement-block__body">${escapeHtml(body)}</p>` : ""}
+        ${ctaHtml}
+      </div>
+    `;
+  }
+
+  async function submitBlock() {
+    const id = document.getElementById("block-id").value.trim();
+    const placement = document.getElementById("block-placement").value;
+    const type = document.getElementById("block-type").value;
+    const title = document.getElementById("block-title").value;
+    const body = document.getElementById("block-body").value;
+    const button = document.getElementById("block-button").value;
+    const url = document.getElementById("block-url").value;
+    const style = document.getElementById("block-style").value;
+    const priority = parseInt(document.getElementById("block-priority").value) || 100;
+    const enabled = document.getElementById("block-enabled").checked;
+    const pagesStr = document.getElementById("block-pages").value;
+    const excludeStr = document.getElementById("block-exclude").value;
+    const start = document.getElementById("block-start").value;
+    const end = document.getElementById("block-end").value;
+
+    if (!id || !placement || !type) {
+      alert("Vui lòng điền tất cả trường bắt buộc");
+      return;
+    }
+
+    const payload = {
+      id: id,
+      placement_id: placement,
+      type: type,
+      title: title || null,
+      body: body || null,
+      button_text: button || null,
+      url: url || null,
+      style: style || "default",
+      priority: priority,
+      enabled: enabled,
+      pages: pagesStr ? pagesStr.split(",").map((s) => s.trim()) : ["*"],
+      exclude_pages: excludeStr ? excludeStr.split(",").map((s) => s.trim()) : [],
+      start_date: start || null,
+      end_date: end || null,
+    };
+
+    try {
+      const opts = {
+        method: cpEditingId ? "PATCH" : "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const sid = getSid();
+      if (sid) opts.headers["Authorization"] = "Bearer " + sid;
+
+      const url_path = cpEditingId
+        ? `/admin/content-blocks/${encodeURIComponent(cpEditingId)}`
+        : "/admin/content-blocks";
+
+      const res = await fetch(AUTH_API + url_path, {
+        ...opts,
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const err = await res.text();
+        throw new Error(err);
+      }
+
+      const result = await res.json();
+      await loadPlacements();
+      showCommitStatus(result);
+
+      document.getElementById("block-modal").close();
+      cpEditingId = null;
+      alert("✓ Block " + (cpEditingId ? "cập nhật" : "tạo") + " thành công");
+    } catch (e) {
+      alert(`❌ Lưu block thất bại: ${e.message}`);
+    }
+  }
+
+  function showCommitStatus(result) {
+    const status = document.getElementById("cp-commit-status");
+    if (!status) return;
+
+    if (result.committed) {
+      status.innerHTML = `
+        <div class="commit-ok">
+          ✓ Đã commit: <a href="${escapeHtml(result.commit_url)}" target="_blank">${result.commit_sha.slice(0, 7)}</a>
+          <br/>Deploy: ${escapeHtml(result.deploy_eta || "1-2 phút")}
+        </div>
+      `;
+    } else {
+      status.innerHTML = `
+        <div class="commit-warning">
+          ⚠ Lưu cục bộ (chưa commit): ${escapeHtml(result.reason || "không có token")}
+        </div>
+      `;
+    }
+    status.hidden = false;
+  }
+
+  function switchTab(tabName) {
+    document.querySelectorAll(".cp-tab").forEach((btn) => {
+      btn.classList.toggle("cp-tab--active", btn.getAttribute("data-tab") === tabName);
+      btn.setAttribute("aria-selected", btn.getAttribute("data-tab") === tabName);
+    });
+
+    document.querySelectorAll(".cp-panel").forEach((panel) => {
+      panel.hidden = panel.getAttribute("data-tab-panel") !== tabName;
+    });
+
+    // Load placements data on first switch to tabs 2 or 3
+    if ((tabName === "placements" || tabName === "blocks") && !cpData) {
+      loadPlacements();
+    }
+  }
+
   // ============= Utility Functions =============
   window.copyToClipboard = function (text) {
     navigator.clipboard.writeText(text).then(() => {
@@ -422,19 +865,36 @@
   }
 
   // ============= Event Listeners =============
-  googleLoginBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    const returnTo = location.pathname;
-    const loginUrl = `${AUTH_API}/auth/login?return_to=${encodeURIComponent(returnTo)}`;
-    location.href = loginUrl;
-  });
+  if (googleLoginBtn) {
+    googleLoginBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      startLogin();
+    });
+  }
 
-  logoutBtn.addEventListener("click", async () => {
-    if (confirm("Bạn chắc chắn muốn đăng xuất?")) {
-      await logoutRemote();
-      location.reload();
-    }
-  });
+  if (switchAccountBtn) {
+    switchAccountBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      clearSid();
+      startLogin();
+    });
+  }
+
+  if (authRetryBtn) {
+    authRetryBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      runAuthCheck();
+    });
+  }
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async () => {
+      if (confirm("Bạn chắc chắn muốn đăng xuất?")) {
+        await logoutRemote();
+        setAuthState(STATE.GUEST);
+      }
+    });
+  }
 
   document.getElementById("close-replace-modal").addEventListener("click", () => {
     replaceModal.close();
@@ -456,26 +916,65 @@
     radio.addEventListener("change", updateReplaceScope);
   });
 
-  // ============= Init =============
-  async function init() {
-    console.log("Init starting, URL hash:", location.hash, "localStorage sid:", getSid());
-    consumeUrlHashSid();
-    console.log("After consumeUrlHashSid, localStorage sid:", getSid());
-    const user = await fetchMe();
+  // Tab switching
+  document.querySelectorAll(".cp-tab").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      switchTab(btn.getAttribute("data-tab"));
+    });
+  });
 
-    if (!user) {
-      console.warn("Init: no user, showing auth gate");
-      showAuthGate();
-      return;
-    }
+  // Block form
+  const blockModal = document.getElementById("block-modal");
+  if (blockModal) {
+    document.getElementById("block-placement").addEventListener("change", () => {
+      renderBlockPreview();
+    });
+    document.getElementById("block-type").addEventListener("change", () => {
+      updateTypeWarning();
+      renderBlockPreview();
+    });
+    document.getElementById("block-title").addEventListener("input", () => {
+      renderBlockPreview();
+    });
+    document.getElementById("block-body").addEventListener("input", () => {
+      renderBlockPreview();
+    });
+    document.getElementById("block-button").addEventListener("input", () => {
+      renderBlockPreview();
+    });
+    document.getElementById("block-url").addEventListener("input", () => {
+      renderBlockPreview();
+    });
+    document.getElementById("block-style").addEventListener("change", () => {
+      renderBlockPreview();
+    });
 
-    console.log("Init: authenticated, showing admin content");
-    currentUser = user;
-    showAdminContent();
-    loadMoMoLinks();
+    document.getElementById("close-block-modal")?.addEventListener("click", () => {
+      blockModal.close();
+      cpEditingId = null;
+    });
+    document.getElementById("cancel-block-btn")?.addEventListener("click", () => {
+      blockModal.close();
+      cpEditingId = null;
+    });
+    document.getElementById("submit-block-btn")?.addEventListener("click", submitBlock);
   }
 
-  // Call init immediately and also on DOMContentLoaded for safety
+  const cpCreateBtn = document.getElementById("cp-create-btn");
+  if (cpCreateBtn) {
+    cpCreateBtn.addEventListener("click", () => {
+      openBlockModal();
+    });
+  }
+
+  // ============= Init =============
+  function init() {
+    // Process (and clean) any OAuth callback params before verifying — never
+    // trust ?auth=success on its own, always confirm with /auth/me.
+    const { authError } = consumeAuthCallback();
+    runAuthCheck(authError);
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {

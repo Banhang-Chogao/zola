@@ -7,6 +7,7 @@
 {% import "macros/series-nav.html" as series %}
 {% import "macros/series-hub.html" as series_hub %}
 {% import "macros/premium.html" as premium %}
+{% import "macros/placement.html" as placement %}
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
 {% block main %}
@@ -155,8 +156,13 @@
                 </ol>
             </nav>
             {% endif %}
+            {# Content placement hook: post_after_intro (before main body). #}
+            {{ placement::render(id="post_after_intro", page=page) }}
             {{ page.content | safe }}
         </div>
+
+        {# Content placement hook: post_after_content (after main body). #}
+        {{ placement::render(id="post_after_content", page=page) }}
 
         {{ series_hub::callout(page=page) }}
 
@@ -255,6 +261,9 @@
                 {% endif %}
             </div>
         </aside>
+
+        {# Content placement hook: post_before_related. #}
+        {{ placement::render(id="post_before_related", page=page) }}
 
         {# ===== RELATED ARTICLES =====
            Ưu tiên đọc semantic related từ data/related.json (built bởi

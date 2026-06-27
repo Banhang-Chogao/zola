@@ -76,7 +76,7 @@ Trước BitKeeper, thế giới đã có một loạt công cụ quản lý phi
 
 **Hệ thống phân tán (BitKeeper, Git)** thì ngược lại: **mỗi người có nguyên một thư viện riêng tại nhà**. Khi bạn "clone" một dự án, bạn nhận về **toàn bộ lịch sử** chứ không chỉ phiên bản mới nhất. Bạn đọc, ghi, tạo nhánh, xem lại lịch sử — tất cả ngay tại máy mình, không cần mạng. Khi nào sẵn sàng, bạn mới đồng bộ phần thay đổi với người khác. Nếu một máy chủ trung tâm cháy rụi, bất kỳ bản sao nào của cộng tác viên cũng đủ để dựng lại tất cả.
 
-Chính sự khác biệt này giải thích vì sao Linus mê mô hình phân tán đến vậy — và vì sao việc mất BitKeeper lại là một mất mát lớn đến mức ông quyết định tự viết công cụ thay thế. Nếu bạn muốn đào sâu hơn về định nghĩa version control, mình đã viết riêng một bài [Git là gì — version control cho người mới bắt đầu](/zola/posting/git-la-gi-version-control-cho-nguoi-moi/).
+Chính sự khác biệt này giải thích vì sao Linus mê mô hình phân tán đến vậy — và vì sao việc mất BitKeeper lại là một mất mát lớn đến mức ông quyết định tự viết công cụ thay thế. Nếu bạn muốn đào sâu hơn về định nghĩa version control, mình đã viết riêng một bài [Git là gì — version control cho người mới bắt đầu](/posting/git-la-gi-version-control-cho-nguoi-moi/).
 
 ## Một cuối tuần thay đổi lịch sử
 
@@ -88,12 +88,12 @@ Tốc độ thì gần như khó tin. Anh **mất khoảng một ngày để Git
 
 Nhưng đừng nhầm đây là phép màu. **Số lượng code thực tế trong những ngày đầu là rất nhỏ.** Bí quyết không nằm ở việc gõ thật nhanh, mà nằm ở việc **thiết kế cách tổ chức dữ liệu**. Linus không cố viết một công cụ "đẹp"; ông tập trung vào một câu hỏi gốc: *làm sao lưu trữ và đối chiếu nội dung một cách an toàn, nhanh và không thể bị âm thầm sửa đổi?* Câu trả lời — lưu mọi thứ thành các đối tượng được định danh bằng mã băm SHA — chính là nền tảng khiến Git nhanh và đáng tin đến tận hôm nay. Phần lớn thời gian "biến mất" cuối tuần đó là thời gian **suy ngẫm về mô hình dữ liệu**, không phải gõ phím.
 
-Nói cách khác: Git nhanh được tạo ra vì nó được *nghĩ* kỹ trước khi *viết*. Đó là bài học thiết kế mà bất kỳ lập trình viên nào cũng nên ghi nhớ. Chúng ta sẽ mổ xẻ chính mô hình dữ liệu này — object, commit, tree — ở các bài sau, và bắt đầu thực hành với [các lệnh Git cơ bản: init, add, commit](/zola/posting/lenh-git-co-ban-init-add-commit-status/) cũng như [làm việc với nhánh](/zola/posting/git-branch-lam-viec-voi-nhanh/).
+Nói cách khác: Git nhanh được tạo ra vì nó được *nghĩ* kỹ trước khi *viết*. Đó là bài học thiết kế mà bất kỳ lập trình viên nào cũng nên ghi nhớ. Chúng ta sẽ mổ xẻ chính mô hình dữ liệu này — object, commit, tree — ở các bài sau, và bắt đầu thực hành với [các lệnh Git cơ bản: init, add, commit](/posting/lenh-git-co-ban-init-add-commit-status/) cũng như [làm việc với nhánh](/posting/git-branch-lam-viec-voi-nhanh/).
 
 ## Kết: Git ra đời và hành trình của "kẻ vô danh"
 
 Sự ra đời của Git là một **bước ngoặt** thật sự của ngành phần mềm. Một công cụ được viết trong một cuối tuần, từ sự bực bội và một cuộc khủng hoảng cấp phép, đã dần trở thành tiêu chuẩn quản lý mã nguồn của gần như toàn bộ thế giới lập trình — từ dự án cá nhân nhỏ xíu đến những hệ thống khổng lồ.
 
-Điều đáng nói là Linus chưa bao giờ có ý định tạo ra một "ông vua". Ông chỉ cần một công cụ đủ tốt để tiếp tục công việc viết kernel. Vậy mà "kẻ vô danh" ấy đã lớn lên thành kẻ thống trị. Bạn có thể đọc thêm các bài cùng chủ đề tại chuyên mục [Công nghệ](/zola/categories/cong-nghe/), và xem cách Git được dùng trong quy trình thực tế ở bài [Git workflow chuyên nghiệp: Git Flow và GitHub Flow](/zola/posting/git-workflow-chuyen-nghiep-gitflow-github-flow/).
+Điều đáng nói là Linus chưa bao giờ có ý định tạo ra một "ông vua". Ông chỉ cần một công cụ đủ tốt để tiếp tục công việc viết kernel. Vậy mà "kẻ vô danh" ấy đã lớn lên thành kẻ thống trị. Bạn có thể đọc thêm các bài cùng chủ đề tại chuyên mục [Công nghệ](/categories/cong-nghe/), và xem cách Git được dùng trong quy trình thực tế ở bài [Git workflow chuyên nghiệp: Git Flow và GitHub Flow](/posting/git-workflow-chuyen-nghiep-gitflow-github-flow/).
 
 Hành trình mới chỉ bắt đầu. Ở **Bài 2: "Cài đặt và cấu hình Git — Bước chân đầu tiên"**, chúng ta sẽ rời khỏi lịch sử để chính tay cài đặt Git trên máy, thiết lập tên và email, và chuẩn bị cho commit đầu tiên của riêng bạn. Hẹn gặp lại bạn ở bài tiếp theo — và đừng quên, mọi chuyên gia Git đều từng bắt đầu từ con số 0 giống như chúng ta bây giờ.

@@ -292,12 +292,12 @@ Bạn vừa đọc **6 bài về Google Preferred Sources** — từ khái niệ
 ---
 
 **Tham khảo series:**
-1. [Từ thuật toán sang tùy chọn người dùng](/zola/posting/google-preferred-sources-1-tu-thuat-toi-giao-dien-tim-kiem/)
-2. [Điều kiện & Cách hoạt động](/zola/posting/google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong/)
-3. [Setup Guide kỹ thuật](/zola/posting/google-preferred-sources-3-huong-dan-thiet-lap-ky-thuat/)
-4. [Chiến lược nội dung](/zola/posting/google-preferred-sources-4-chien-luoc-noi-dung/)
-5. [Analytics & Tối ưu hóa](/zola/posting/google-preferred-sources-5-analytics-va-toi-uu-hoa/)
-6. [Tương lai SEO](/zola/google-preferred-sources-6-tuong-lai-seo/) (bài này)
+1. [Từ thuật toán sang tùy chọn người dùng](/posting/google-preferred-sources-1-tu-thuat-toi-giao-dien-tim-kiem/)
+2. [Điều kiện & Cách hoạt động](/posting/google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong/)
+3. [Setup Guide kỹ thuật](/posting/google-preferred-sources-3-huong-dan-thiet-lap-ky-thuat/)
+4. [Chiến lược nội dung](/posting/google-preferred-sources-4-chien-luoc-noi-dung/)
+5. [Analytics & Tối ưu hóa](/posting/google-preferred-sources-5-analytics-va-toi-uu-hoa/)
+6. [Tương lai SEO](/google-preferred-sources-6-tuong-lai-seo/) (bài này)
 
 ---
 
