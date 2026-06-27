@@ -811,6 +811,39 @@ Do not report "done/live" until both checks pass.
   `extends`). Hardcode link trong template phải dùng `get_url(path=...)` (slash an toàn) và trỏ tới
   taxonomy/section **thật sự tồn tại** — xem V8/V18 cho Tera scoping.
 
+#### V23 — "Invalid workflow file": YAML hỏng trong `.github/workflows/*` lọt qua QA (đỏ ✗ trên mọi PR) (27/06/2026)
+
+- **Dấu hiệu:** GitHub báo **"Invalid workflow file — You have an error in your yaml syntax on line N"**
+  cho một workflow; check đỏ ✗ trên **mọi** commit/PR (kể cả PR không liên quan) vì workflow không parse
+  được nên không bao giờ chạy job. KHÔNG chặn auto-merge (chỉ `qa-check` gate) → hỏng âm thầm lên `main`.
+- **Nguyên nhân GỐC (2 mode hay gặp):**
+  1. **Block scalar bị template literal phá:** `script: |` (github-script) chứa **JS template literal nhiều
+     dòng** (`` const msg = `...` ``) mà các dòng nội dung markdown để ở **cột 1** (không thụt lề, cho comment
+     sạch). YAML coi `|` block scalar kết thúc ở dòng thụt lề cuối → dòng cột-1 kế tiếp bị parse như key mới
+     → `could not find expected ':'`. Template literal muốn-không-thụt-lề **xung đột** với block scalar
+     bắt-buộc-thụt-lề.
+  2. **Plain scalar chứa `: ` (colon-space):** `run: echo "... ancestry: ${{ x }}"` — value plain scalar
+     không quote chứa `: ` → YAML hiểu nhầm mapping → `mapping values are not allowed here`. (Bug này hay
+     **ẩn** sau bug #1: parser chết ở lỗi đầu trước khi tới.)
+- **FIXER (vĩnh viễn):**
+  1. Trong github-script, **KHÔNG** dùng template literal nhiều dòng. Dựng message bằng **array `.join('\n')`**
+     — mỗi dòng JS thụt lề đều (YAML hợp lệ), nội dung markdown nằm trong quote nên không dính leading space.
+  2. Mọi giá trị có `: `/`#`/ký tự đặc biệt → dùng **block scalar** (`run: |`) hoặc quote.
+  3. Truyền giá trị động vào script qua **`env:`** (`HEAD_REF: ${{ github.head_ref }}` → `process.env.HEAD_REF`),
+     **KHÔNG** nội suy `${{ }}` thẳng vào thân script (chống injection + tránh phá block scalar).
+  4. Sửa context sai: `github.pull_request.*` → `github.event.pull_request.*`.
+- **PREVENTION (gate thật):** `scripts/validate_workflows.py` validate MỌI `.github/workflows/*.yml|yaml`
+  (parse YAML + `node --check` thân github-script sau khi thay `${{ }}`→placeholder). Wired vào `qa.yml`
+  (cài `PyYAML` + step "Validate GitHub Actions workflow YAML") → exit 2 nếu có file hỏng → CI đỏ → chặn
+  auto-merge. Best-effort fallback stdlib khi thiếu PyYAML. Lý do cần: `qa_check.py` stdlib-only KHÔNG parse
+  YAML nên trước đây không bắt được.
+- **Quy tắc chung:** "Invalid workflow file" = **P0** (CLAUDE.md §QA). Sau khi sửa/thêm bất kỳ workflow nào:
+  chạy `python3 scripts/validate_workflows.py` trước khi tin CI. **Workflow đỏ ✗ trên mọi PR thường là 1
+  workflow hỏng trên `main`, KHÔNG phải lỗi PR hiện tại** (cùng họ V9/V19 — repo-wide gate).
+- **Evidence:** `check-branch-ancestry.yml` hỏng dài ngày (template literal cột-1 ở dòng 57 + plain scalar
+  `ancestry: ${{ }}` ở dòng cuối). Fix bằng array-join + env + block scalar + sửa concurrency context →
+  34/34 workflow valid; validator bắt lại bản cũ (exit 2).
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
