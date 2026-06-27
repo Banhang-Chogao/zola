@@ -1,37 +1,9 @@
 {
-  "updated_at": "2026-06-27T04:13:12Z",
+  "updated_at": "2026-06-27T04:45:08Z",
   "summary": {
-    "broken_count": 3,
+    "broken_count": 0,
     "checked_unique": 133,
-    "status": "warn"
+    "status": "pass"
   },
-  "links": [
-    {
-      "source_page": "/posting/debug-zola-series-navigation-links/",
-      "source_file": "public/posting/debug-zola-series-navigation-links/index.html",
-      "href": "/zola/posting/zola-series-nav-setup/",
-      "target": "/posting/zola-series-nav-setup/",
-      "status": "404",
-      "reason": "Target not found in public/ after zola build",
-      "auto_fix_status": "pending"
-    },
-    {
-      "source_page": "/posting/debug-zola-series-navigation-links/",
-      "source_file": "public/posting/debug-zola-series-navigation-links/index.html",
-      "href": "/zola/posting/seo-series-articles/",
-      "target": "/posting/seo-series-articles/",
-      "status": "404",
-      "reason": "Target not found in public/ after zola build",
-      "auto_fix_status": "pending"
-    },
-    {
-      "source_page": "/posting/debug-zola-series-navigation-links/",
-      "source_file": "public/posting/debug-zola-series-navigation-links/index.html",
-      "href": "/zola/posting/zola-build-debug-templates/",
-      "target": "/posting/zola-build-debug-templates/",
-      "status": "404",
-      "reason": "Target not found in public/ after zola build",
-      "auto_fix_status": "pending"
-    }
-  ]
+  "links": []
 }
