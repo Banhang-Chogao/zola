@@ -12,24 +12,24 @@ thumbnail = "img/placeholder/placeholder.svg"
 toc = true
 
 [[extra.faq]]
-question = "Tại sao Tera không hỗ trợ Python ternary operators?"
-answer = "Tera là template engine độc lập (không phải dịch từ Python). Nó có syntax riêng, khác với Python. Python dùng `a if condition else b`, nhưng Tera không hỗ trợ cú pháp này trong `set` statements."
+q = "Tại sao Tera không hỗ trợ Python ternary operators?"
+a = "Tera là template engine độc lập (không phải dịch từ Python). Nó có syntax riêng, khác với Python. Python dùng `a if condition else b`, nhưng Tera không hỗ trợ cú pháp này trong `set` statements."
 
 [[extra.faq]]
-question = "Làm sao xử lý conditional logic trong Tera templates?"
-answer = "Dùng multi-line `if-elif-else` blocks để gán biến. Ví dụ: {% if condition %} {% set var = value1 %} {% elif other %} {% set var = value2 %} {% else %} {% set var = value3 %} {% endif %}"
+q = "Làm sao xử lý conditional logic trong Tera templates?"
+a = "Dùng multi-line `if-elif-else` blocks để gán biến. Ví dụ: {% if condition %} {% set var = value1 %} {% elif other %} {% set var = value2 %} {% else %} {% set var = value3 %} {% endif %}"
 
 [[extra.faq]]
-question = "Có cách nào viết ternary ngắn gọn trong Tera?"
-answer = "Tera không hỗ trợ ternary operators. Cách ngắn gọn nhất là dùng filter `default` hoặc logic `if` inline trong text output. Để gán biến thì chỉ có if-elif-else block."
+q = "Có cách nào viết ternary ngắn gọn trong Tera?"
+a = "Tera không hỗ trợ ternary operators. Cách ngắn gọn nhất là dùng filter `default` hoặc logic `if` inline trong text output. Để gán biến thì chỉ có if-elif-else block."
 
 [[extra.faq]]
-question = "Sai cú pháp Tera template sẽ báo lỗi gì?"
-answer = "Zola sẽ báo `Failed to parse template` với thông báo mong muốn operator hoặc filter. Lỗi sẽ chỉ ra dòng và vị trí chính xác gặp sự cố."
+q = "Sai cú pháp Tera template sẽ báo lỗi gì?"
+a = "Zola sẽ báo `Failed to parse template` với thông báo mong muốn operator hoặc filter. Lỗi sẽ chỉ ra dòng và vị trí chính xác gặp sự cố."
 
 [[extra.faq]]
-question = "Có thể dùng `or`, `and`, `default` filter thay thế ternary không?"
-answer = "Có thể dùng `default` filter cho giá trị mặc định: `page.title | default(value=\"Untitled\")`. Nhưng nếu cần logic phức tạp (nested conditions), chỉ có if-elif-else block mới khả dụng."
+q = "Có thể dùng `or`, `and`, `default` filter thay thế ternary không?"
+a = "Có thể dùng `default` filter cho giá trị mặc định: `page.title | default(value=\"Untitled\")`. Nhưng nếu cần logic phức tạp (nested conditions), chỉ có if-elif-else block mới khả dụng."
 +++
 
 ## Lỗi Tera Template Syntax Error: Nguyên nhân và giải pháp
