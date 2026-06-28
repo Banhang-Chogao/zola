@@ -22,6 +22,7 @@
   })();
 
   var SESSION_KEY = "zola-cms-session-id";
+  var CMS_RETURN_TO = "/cms-v2/";
   var root = document.querySelector("[data-cms-v2]");
   if (!root) return;
 
@@ -68,14 +69,24 @@
   };
 
   function getSid() {
-    try { return sessionStorage.getItem(SESSION_KEY) || ""; } catch (e) {}
-    try { return localStorage.getItem(SESSION_KEY) || ""; } catch (e) {}
+    try {
+      var sid = localStorage.getItem(SESSION_KEY) || "";
+      if (!sid) {
+        var legacySid = sessionStorage.getItem(SESSION_KEY) || "";
+        if (legacySid) {
+          localStorage.setItem(SESSION_KEY, legacySid);
+          sessionStorage.removeItem(SESSION_KEY);
+          sid = legacySid;
+        }
+      }
+      return sid;
+    } catch (e) {}
     return "";
   }
 
   function setSid(sid) {
-    try { sessionStorage.setItem(SESSION_KEY, sid); } catch (e) {}
     try { localStorage.setItem(SESSION_KEY, sid); } catch (e) {}
+    try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
   }
 
   function clearSid() {
@@ -92,46 +103,77 @@
   function consumeAuthParams() {
     var sid = readHashSid();
     if (sid) setSid(sid);
-    if (!location.search && !location.hash) return;
     var params = new URLSearchParams(location.search);
+    var authError = params.get("auth_error") || "";
+    var hadAuthParams = params.has("auth") || params.has("auth_error") || !!sid;
     params.delete("auth");
     params.delete("auth_error");
-    if (sid) {
+    if (hadAuthParams) {
       try {
         history.replaceState(null, "", location.pathname + (params.toString() ? "?" + params.toString() : ""));
       } catch (e) {}
     }
+    return authError;
   }
 
   function login() {
     if (!AUTH_API) return;
-    location.href = AUTH_API + "/auth/login?return_to=" + encodeURIComponent(location.pathname);
+    location.href = AUTH_API + "/auth/login?return_to=" + encodeURIComponent(CMS_RETURN_TO);
   }
 
-  async function fetchMe() {
-    var sid = getSid();
-    if (!sid || !AUTH_API) return null;
+  async function meRequest(useBearer) {
+    var headers = {};
+    if (useBearer) {
+      var sid = getSid();
+      if (!sid) return { status: 0 };
+      headers.Authorization = "Bearer " + sid;
+    }
+
+    var controller = new AbortController();
+    var timer = setTimeout(function () { controller.abort(); }, 10000);
     try {
-      var controller = new AbortController();
-      var timer = setTimeout(function () { controller.abort(); }, 10000);
       var res = await fetch(AUTH_API + "/auth/me", {
         method: "GET",
-        headers: { Authorization: "Bearer " + sid },
-        credentials: "omit",
+        headers: headers,
+        credentials: "include",
         cache: "no-store",
         signal: controller.signal,
       });
-      clearTimeout(timer);
-      if (res.status === 401) {
-        clearSid();
-        return null;
-      }
-      if (!res.ok) return null;
-      return await res.json();
+      if (!res.ok) return { status: res.status };
+      return { status: 200, user: await res.json() };
     } catch (e) {
-      return null;
+      return { status: -1 };
+    } finally {
+      clearTimeout(timer);
     }
   }
+
+  async function fetchMe() {
+    if (!AUTH_API) return null;
+    var sid = getSid();
+    var bearer = sid ? await meRequest(true) : { status: 0 };
+    if (bearer.status === 200) return bearer.user;
+
+    // The HttpOnly cookie is the durable session source. Cookie-only retry also
+    // recovers when an old Bearer sid exists in localStorage.
+    var cookie = await meRequest(false);
+    if (cookie.status === 200) return cookie.user;
+    if (cookie.status === 401 && sid) clearSid();
+    if (bearer.status === -1 || cookie.status === -1) {
+      return { __error: "backend_unreachable" };
+    }
+    return null;
+  }
+
+  var AUTH_ERROR_MESSAGES = {
+    access_denied: "Tài khoản GitHub này không có quyền quản trị CMS-V2.",
+    invalid_state: "Phiên đăng nhập GitHub đã hết hạn. Vui lòng thử lại.",
+    missing_params: "GitHub callback thiếu tham số. Vui lòng thử lại.",
+    token_exchange_failed: "Không thể hoàn tất xác thực GitHub. Vui lòng thử lại.",
+    github_unreachable: "Không thể kết nối GitHub. Vui lòng thử lại sau.",
+    github_profile_fetch_failed: "Không thể đọc hồ sơ GitHub. Vui lòng thử lại.",
+    github_disabled: "Đăng nhập GitHub hiện chưa khả dụng.",
+  };
 
   function showShell() {
     if (gate) gate.hidden = true;
@@ -261,13 +303,21 @@
   }
 
   async function boot() {
-    consumeAuthParams();
+    var authError = consumeAuthParams();
     bindTabs();
     bindComposer();
     if (loginButton) loginButton.addEventListener("click", login);
 
     var me = await fetchMe();
-    if (!me || !(me.is_admin || me.is_super)) {
+    if (me && me.__error === "backend_unreachable") {
+      showGate("Không thể kiểm tra phiên GitHub lúc này. Vui lòng thử lại sau.");
+      return;
+    }
+    if (!me || me.provider !== "github" || !(me.is_admin || me.is_super)) {
+      if (authError) {
+        showGate(AUTH_ERROR_MESSAGES[authError] || "Đăng nhập GitHub không thành công. Vui lòng thử lại.");
+        return;
+      }
       showGate("Đăng nhập GitHub bằng tài khoản admin để mở CMS-V2.");
       return;
     }
