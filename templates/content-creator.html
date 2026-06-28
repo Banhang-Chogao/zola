@@ -87,11 +87,29 @@
                 <a class="cc-btn cc-btn--ghost" id="cc-open-actions" target="_blank" rel="noopener" hidden>
                     ⚙ Mở workflow thủ công
                 </a>
+
+                {# ===== AI Blog Writer ===== #}
+                <button type="button" class="cc-btn cc-btn--primary cc-btn--write" id="cc-write-blog" disabled>
+                    ✍ Viết blog
+                </button>
             </div>
+
+            {# Loading / progress indicator #}
+            <div id="cc-write-loading" class="cc-write-loading" hidden>
+                <div class="cc-write-loading__bar"></div>
+                <span id="cc-write-status" class="cc-write-status" role="status" aria-live="polite"></span>
+            </div>
+
+            {# Result panel (shown after successful AI write) #}
+            <div id="cc-write-result" class="cc-write-result" hidden>
+                {# Populated by ai-writer.js #}
+            </div>
+
             <p class="cc-note">
                 Lưu ý: việc kích hoạt workflow cần đăng nhập GitHub (cùng tài khoản CMS).
                 Nếu backend dispatch không khả dụng, bạn vẫn có thể tải brief và chạy workflow
                 <code>Content Creator</code> thủ công trên GitHub Actions.
+                <strong>Nút "Viết blog"</strong> gọi AI để viết 1 bài và tạo PR tự động.
             </p>
         </section>
     </div>
@@ -100,4 +118,5 @@
 
 {% block extra_scripts %}
     <script src="{{ get_url(path='js/content-creator/app.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/content-creator/ai-writer.js') }}?v={{ asset_version }}" defer></script>
 {% endblock %}
