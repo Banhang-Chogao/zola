@@ -1,18 +1,21 @@
 /**
- * Changelog fetch — load admin-gated changelog data from VIPZone backend.
- * Requires GitHub OAuth session (CMS auth). Falls back to login if not authenticated.
+ * Changelog fetch — load public changelog data from VIPZone backend.
+ * Public users can view entries; admin-only controls are hidden/disabled.
+ * CMS auth (GitHub OAuth session) is optional — used only for admin actions.
  */
 (function () {
   "use strict";
 
   const VIPZONE_API = "https://blog-vipzone-api.onrender.com";
-  const AUTH_API = "https://blog-vipzone-api.onrender.com";
+  const PUBLIC_ENDPOINT = "/api/vipzone/changelog";
+  const ADMIN_ENDPOINT = "/api/vipzone/admin/changelog";
 
   const loader = document.querySelector("[data-changelog-loader]");
   const error = document.querySelector("[data-changelog-error]");
   const errorText = document.querySelector("[data-error-text]");
   const list = document.querySelector("[data-changelog-list]");
   const template = document.querySelector("[data-changelog-template]");
+  const adminPanel = document.querySelector("[data-changelog-admin-panel]");
 
   if (!loader || !list || !template) {
     console.warn("[changelog] Required elements not found");
@@ -94,19 +97,13 @@
     return node;
   }
 
-  async function loadChangelog() {
-    loader.hidden = false;
-    list.hidden = true;
-    if (error) error.hidden = true;
+  async function isAdmin() {
+    const sid = sessionStorage.getItem("zola-cms-session-id");
+    if (!sid) {
+      return false;
+    }
 
     try {
-      // Get session ID from sessionStorage (set by CMS auth flow)
-      const sid = sessionStorage.getItem("zola-cms-session-id");
-      if (!sid) {
-        throw new Error("Not authenticated");
-      }
-
-      // Fetch changelog from backend
       const res = await fetch(`${VIPZONE_API}/api/vipzone/admin/changelog`, {
         method: "GET",
         headers: {
@@ -115,10 +112,26 @@
         },
         credentials: "omit",
       });
+      return res.status === 200;
+    } catch (err) {
+      return false;
+    }
+  }
 
-      if (res.status === 401 || res.status === 403) {
-        throw new Error("Access denied — please log in as admin");
-      }
+  async function loadChangelog() {
+    loader.hidden = false;
+    list.hidden = true;
+    if (error) error.hidden = true;
+
+    try {
+      // Try public endpoint first (no auth required)
+      const res = await fetch(`${VIPZONE_API}${PUBLIC_ENDPOINT}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "omit",
+      });
 
       if (!res.ok) {
         const text = await res.text();
@@ -143,6 +156,12 @@
 
       loader.hidden = true;
       list.hidden = false;
+
+      // Check if user is admin and show admin panel if so
+      const userIsAdmin = await isAdmin();
+      if (adminPanel) {
+        adminPanel.hidden = !userIsAdmin;
+      }
     } catch (err) {
       console.error("[changelog] Load failed:", err.message);
       loader.hidden = true;
@@ -156,7 +175,7 @@
 
       // Show empty state if no error element
       if (!error) {
-        list.innerHTML = '<li class="changelog__empty">Lỗi tải dữ liệu. Bạn có thể cần đăng nhập.</li>';
+        list.innerHTML = '<li class="changelog__empty">Lỗi tải dữ liệu.</li>';
         list.hidden = false;
       }
     }
