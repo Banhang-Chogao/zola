@@ -225,6 +225,15 @@
 
     <title>{% block title %}{{ config.title }}{% endblock %}</title>
 
+    {# ===== Favicon assets (S-DNA branding) =====
+       Multi-format favicon suite: .ico, .svg, PNG variants, PWA manifest. #}
+    <link rel="icon" type="image/svg+xml" href="{{ get_url(path='favicon.svg') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ get_url(path='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ get_url(path='favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" href="{{ get_url(path='apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ get_url(path='site.webmanifest') }}">
+    <meta name="theme-color" content="#ffffff">
+
     {# ===== Canonical (chống duplicate content cho query string / pagination) ===== #}
     <link rel="canonical" href="{{ canonical_url | safe }}">
 
