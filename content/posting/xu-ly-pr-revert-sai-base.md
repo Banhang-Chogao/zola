@@ -5,7 +5,7 @@ date = 2026-06-28
 aliases = ["/xu-ly-pr-revert-sai-base/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "github", "devops", "ci-cd", "kinh-nghiem", "opencode", "case-study", "xử lý PR revert sai base"]
+tags = ["case-study", "ci-cd", "devops", "git", "github", "kinh-nghiem", "opencode", "xử lý pr revert sai base"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "xử lý PR revert sai base"

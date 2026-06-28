@@ -6,7 +6,7 @@ aliases = ["/github-actions-deploy-queue-production/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["github-actions", "ci-cd", "devops", "github-pages", "deploy", "workflow", "kinh-nghiem"]
+tags = ["ci-cd", "deploy", "devops", "github-actions", "github-pages", "kinh-nghiem", "workflow"]
 [extra]
 seo_keyword = "GitHub Actions deploy queue"
 thumbnail = "img/placeholder/placeholder.svg"

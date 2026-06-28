@@ -6,7 +6,7 @@ slug = "kiem-tra-trang-thai-pr-sau-khi-merge"
 description = "PR merge xong chưa chắc code đã lên production. Học kiểm tra thực tế bằng CLI: gh run list deploy.yml, gh run view --log, curl production. Biết chính xác deploy thành công chưa."
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["github", "github-actions", "devops", "ci-cd", "deploy", "github-pages", "merge"]
+tags = ["ci-cd", "deploy", "devops", "github", "github-actions", "github-pages", "merge"]
 [extra]
 seo_keyword = "kiểm tra PR sau merge"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
