@@ -1,0 +1,107 @@
+{
+  "generated_at": "2026-06-28T00:53:49.147583+00:00",
+  "blog_domain": "https://seomoney.org",
+  "total_urls": 3,
+  "links_with_public_usage": {
+    "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG": {
+      "url": "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG",
+      "category": "Donate (shared with Premium)",
+      "post_slug": null,
+      "post_title": null,
+      "public_usages": [
+        {
+          "title": "Trang chủ",
+          "public_url": "https://seomoney.org/",
+          "placement": "Header donate CTA",
+          "status": "configured",
+          "source": "config_donate"
+        },
+        {
+          "title": "Bài viết: Setup Guide: Hướng dẫn kỹ thuật Preferred Sources",
+          "public_url": "https://seomoney.org/posting/google-preferred-sources-3-huong-dan-thiet-lap-ky-thuat/",
+          "placement": "Post footer donate CTA (shortcode)",
+          "status": "configured",
+          "source": "donate_shortcode_example"
+        },
+        {
+          "title": "Bài viết: V-Plus & V-Advance VietinBank: gói tiện ích mới là gì?",
+          "public_url": "https://seomoney.org/posting/vietinbank-v-plus-v-advance-la-gi/",
+          "placement": "Post footer donate CTA (shortcode)",
+          "status": "configured",
+          "source": "donate_shortcode_example"
+        },
+        {
+          "title": "Bài viết: Tiện ích số VietinBank nhiều người chưa dùng hết",
+          "public_url": "https://seomoney.org/posting/tien-ich-so-vietinbank-chua-tan-dung-het/",
+          "placement": "Post footer donate CTA (shortcode)",
+          "status": "configured",
+          "source": "donate_shortcode_example"
+        },
+        {
+          "title": "Bài viết: Lỗi nhiều thẻ H1: chẩn đoán và sửa SEO toàn site",
+          "public_url": "https://seomoney.org/posting/loi-nhieu-the-h1-sua-seo-toan-site/",
+          "placement": "Post footer donate CTA (shortcode)",
+          "status": "configured",
+          "source": "donate_shortcode_example"
+        },
+        {
+          "title": "Bài viết: Nhà máy làm giàu uranium hoạt động như thế nào?",
+          "public_url": "https://seomoney.org/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/",
+          "placement": "Post footer donate CTA (shortcode)",
+          "status": "configured",
+          "source": "donate_shortcode_example"
+        },
+        {
+          "title": "…và 157 bài viết khác",
+          "public_url": null,
+          "placement": "Tất cả bài viết có donate shortcode",
+          "status": "configured",
+          "source": "donate_all_posts"
+        }
+      ],
+      "technical_usages": [
+        "config.toml:[extra].donate_momo_link",
+        "config.toml:[extra].momo_payment_link",
+        "docs/paywall.md",
+        "render.yaml",
+        "templates/macros/paywall.html"
+      ]
+    },
+    "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/MvbmqW94lpp0bYA": {
+      "url": "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/MvbmqW94lpp0bYA",
+      "category": "Workflow/env",
+      "post_slug": null,
+      "post_title": null,
+      "public_usages": [
+        {
+          "title": "Configuration detected",
+          "public_url": null,
+          "placement": "Link is configured globally",
+          "status": "configured",
+          "source": "unmapped"
+        }
+      ],
+      "technical_usages": [
+        "render.yaml"
+      ]
+    },
+    "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg": {
+      "url": "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg",
+      "category": "Workflow/env",
+      "post_slug": null,
+      "post_title": null,
+      "public_usages": [
+        {
+          "title": "Configuration detected",
+          "public_url": null,
+          "placement": "Link is configured globally",
+          "status": "configured",
+          "source": "unmapped"
+        }
+      ],
+      "technical_usages": [
+        "render.yaml"
+      ]
+    }
+  }
+}

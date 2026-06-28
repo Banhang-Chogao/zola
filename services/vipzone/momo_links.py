@@ -154,6 +154,16 @@ async def get_momo_links(
             except Exception:
                 pass
 
+        # Load public usage data (if available)
+        public_usage_data = {}
+        public_usage_file = Path(__file__).parents[2] / "data" / "momo-public-usage.json"
+        if public_usage_file.exists():
+            try:
+                public_usage_data = json.loads(public_usage_file.read_text(encoding="utf-8"))
+                public_usage_data = public_usage_data.get("links_with_public_usage", {})
+            except Exception:
+                pass
+
         # Reshape for frontend
         links_by_url = {}
         for url, link_info in audit_data.get("links_by_url", {}).items():
@@ -172,16 +182,26 @@ async def get_momo_links(
                 if loc not in locations:
                     locations.append(loc)
 
+            # Get public usage from the public usage audit
+            public_usages = []
+            technical_usages = locations
+            if url in public_usage_data:
+                public_usages = public_usage_data[url].get("public_usages", [])
+                technical_usages = public_usage_data[url].get("technical_usages", locations)
+
             links_by_url[url] = {
                 "url": url,
                 "category": link_info.get("category", "Unknown"),
-                "locations": locations,
+                "locations": locations,  # Keep for backward compat
                 "count": len(locations),
                 "post_slug": link_info.get("post_slug"),
                 "post_title": link_info.get("post_title"),
                 "content_blocks": content_blocks,
                 "placement_ids": placement_ids,
                 "display_text": display_text,
+                # New fields for modal:
+                "public_usages": public_usages,
+                "technical_usages": technical_usages,
             }
 
         return {
