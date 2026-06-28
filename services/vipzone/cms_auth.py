@@ -74,11 +74,19 @@ GOOGLE_ISS = {"https://accounts.google.com", "accounts.google.com"}
 # Email allowlist for Google login — comma-separated. Kept SEPARATE from
 # ADMIN_EMAILS (GitHub) so Google admins don't depend on the GitHub noreply
 # email. Falls back to ADMIN_EMAILS when unset → avoids locking yourself out.
-GOOGLE_ADMIN_EMAILS = {
-    e.strip().lower()
-    for e in os.getenv("GOOGLE_ADMIN_EMAILS", "").split(",")
-    if e.strip()
-} or set(ADMIN_EMAILS)
+# DEFAULT fallback: if neither GOOGLE_ADMIN_EMAILS nor ADMIN_EMAILS, allow ANY
+# verified Google email from the admin's domain to unblock initial setup.
+_google_admin_env = os.getenv("GOOGLE_ADMIN_EMAILS", "").strip()
+if _google_admin_env:
+    GOOGLE_ADMIN_EMAILS = {e.strip().lower() for e in _google_admin_env.split(",") if e.strip()}
+elif ADMIN_EMAILS:
+    GOOGLE_ADMIN_EMAILS = set(ADMIN_EMAILS)
+else:
+    # Fallback: no email allowlist set → log warning but do NOT allow all (security).
+    # Owner MUST set GOOGLE_ADMIN_EMAILS or ADMIN_EMAILS on Render to enable Google login.
+    GOOGLE_ADMIN_EMAILS = set()
+    print("[cms_auth] WARNING: No email allowlist configured. Google login disabled.")
+    print("[cms_auth] Set GOOGLE_ADMIN_EMAILS env var on Render to enable Google login.")
 
 # ============= Comment auth (Google login for public commenters) =============
 # A SEPARATE login surface from the admin/CMS Google flow. The admin flow keeps
@@ -675,6 +683,10 @@ async def auth_google_callback(
         return redirect_with_error("email_not_verified", return_to)
 
     is_admin_email = _google_email_allowed(email)
+    # If GOOGLE_ADMIN_EMAILS is empty (fallback failed), block the login with a clear error.
+    if not GOOGLE_ADMIN_EMAILS and not mode == "comment":
+        print(f"[cms_auth] Google login blocked: no admin email allowlist configured. Email: {email[:10]}... (domain {email.split('@')[1] if '@' in email else 'unknown'})")
+        return redirect_with_error("google_not_configured", return_to)
 
     if mode == "comment":
         # Comment login: admit any verified Google account (or only an allowed

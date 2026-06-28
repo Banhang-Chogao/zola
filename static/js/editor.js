@@ -122,9 +122,19 @@
     }
     try {
       const res = await fetch(AUTH_API + "/auth/me", opts);
-      if (!res.ok) return { status: res.status };
+      if (!res.ok) {
+        // Log non-200 auth responses for debugging (but not in console to avoid overwhelming user)
+        if (res.status === 401) {
+          // Session expired or invalid — expected when not logged in
+        } else if (res.status >= 500) {
+          // Backend error — transient, should retry
+          console.warn("[CMS] /auth/me backend error:", res.status);
+        }
+        return { status: res.status };
+      }
       return { status: 200, user: await res.json() };
     } catch (e) {
+      console.warn("[CMS] /auth/me fetch failed (likely CORS or network):", e.message);
       return { status: -1 }; // network/CORS fail → transient, KHÔNG coi là logout
     }
   }
@@ -136,7 +146,20 @@
     let r = sid ? await meRequest(true) : { status: 0 };
     if (r.status === 200) return r.user;
     // Bearer thiếu / 401 / lỗi → thử cookie HttpOnly.
-    if (r.status === 0 || r.status === 401 || r.status === -1) {
+    // NHƯNG: nếu network error (-1), KHÔNG retry, chỉ return null để hiện lỗi.
+    if (r.status === -1) {
+      // Network/CORS error on bearer attempt — backend might be down/slow.
+      // Show error instead of redirecting to login (which could cause loop).
+      console.warn("[CMS] Backend unreachable (network/CORS). Trying cookie fallback...");
+      const c = await meRequest(false);
+      if (c.status === 200) return c.user;
+      if (c.status === -1) {
+        // Both attempts failed due to network → report backend error, don't show login.
+        return { __error: "backend_unreachable" };
+      }
+      return null;
+    }
+    if (r.status === 0 || r.status === 401) {
       const c = await meRequest(false);
       if (c.status === 200) return c.user;
       // Chỉ clear sid khi backend KHẲNG ĐỊNH 401 (cả Bearer lẫn cookie đều fail).
@@ -3013,6 +3036,12 @@ tags = ${tagsStr}
     //    chỉ xoá static cache, không xoá site data) thì vẫn đăng nhập được,
     //    KHÔNG bắt login lại.
     const user = await fetchMe();
+    if (user && user.__error === "backend_unreachable") {
+      // Backend không kết nối → hiển thị lỗi rõ, KHÔNG redirect (chống loop).
+      setStatus("[data-status]", "❌ Backend không kết nối. Vui lòng kiểm tra lại sau.", "error");
+      showView("login");
+      return;
+    }
     if (user) {
       currentUser = user;
       populateUserBar(user);
