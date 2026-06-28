@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-28T14:59:37Z",
+  "updated_at": "2026-06-28T18:56:04Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,7 +15,7 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "0 broken links · 19 weak related pairs",
+      "detail": "0 broken links · 10 weak related pairs",
       "source": "compliance-link-report.json",
       "updated_at": "2026-06-28T10:59:41Z"
     },
@@ -24,9 +24,9 @@
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 55/100 · LCP 9.2 s · needs work",
+      "detail": "Mobile 61/100 · LCP 7.0 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-28T08:34:40+00:00"
+      "updated_at": "2026-06-28T15:04:35+00:00"
     },
     {
       "id": "schema",
@@ -51,9 +51,9 @@
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "done",
-      "detail": "1094 links OK · IndexNow on publish",
+      "detail": "1114 links OK · IndexNow on publish",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-28T08:39:12Z"
+      "updated_at": "2026-06-28T15:10:07Z"
     },
     {
       "id": "image_opt",
@@ -69,9 +69,9 @@
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 55/100 vs desktop 90/100 (Δ35) · 857/857 ready",
+      "detail": "Mobile 61/100 vs desktop 85/100 (Δ24) · 857/857 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-28T08:34:40+00:00"
+      "updated_at": "2026-06-28T15:04:35+00:00"
     }
   ],
   "summary": {
