@@ -506,6 +506,7 @@
             {% set page_cat = page.taxonomies.categories.0 | default(value="") | lower %}
             {
                 "slug": {{ page.slug | json_encode | safe }},
+                "section": {{ section_dir | json_encode | safe }},
                 "title": {{ page.title | json_encode | safe }},
                 "permalink": {{ page.permalink | json_encode | safe }},
                 "date": {{ page.date | json_encode | safe }},

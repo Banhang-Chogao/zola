@@ -63,6 +63,24 @@ CMS_REPO_BRANCH = os.getenv("CMS_REPO_BRANCH", "main")
 CMS_CONTENT_DIR = "content/posting"
 CMS_CATEGORIES_PATH = "categories.json"
 
+# All valid article sections. Used when demoting featured/sticky across the entire
+# site (not just content/posting/). Match the sections in templates/editor.html & config.toml.
+ARTICLE_SECTIONS = [
+    "content/posting", "content/baochi", "content/khoa-hoc",
+    "content/the-gioi", "content/cong-nghe", "content/du-lich",
+    "content/ngan-hang", "content/bao-hiem", "content/doi-song",
+    "content/the-thao",
+]
+
+
+def _validate_section(section: str) -> str:
+    """Validate and normalize an article section. Falls back to 'posting'."""
+    s = section.strip().lower().strip("/")
+    candidate = f"content/{s}"
+    if candidate in ARTICLE_SECTIONS:
+        return candidate
+    return CMS_CONTENT_DIR
+
 # Valid slug: a-z + 0-9 + dash, 2-80 chars. Matches the Zola slug pattern.
 _SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9-]{1,79}$")
 _CATEGORY_RE = re.compile(r"^[\wÀ-ſḀ-ỿ\s\-+&()]{1,100}$", re.UNICODE)
@@ -218,29 +236,31 @@ def _demote_sticky_frontmatter(content: str) -> str:
 async def _demote_other_featured_posts(
     client: httpx.AsyncClient, selected_path: str, selected_slug: str, token: str,
 ) -> int:
-    """Clear older manual Featured overrides from every OTHER CMS post."""
-    entries = await _gh_list_dir(client, CMS_CONTENT_DIR, token)
+    """Clear older manual Featured overrides from every OTHER CMS post.
+    Scans ALL article sections (not just content/posting/)."""
     demoted = 0
-    for entry in entries:
-        path = entry.get("path", "")
-        if (
-            entry.get("type") != "file"
-            or not path.endswith(".md")
-            or path.endswith("/_index.md")
-            or path == selected_path
-        ):
-            continue
-        sha, text = await _gh_get_file(client, path, token)
-        if not sha or not _frontmatter_forces_featured(text):
-            continue
-        demoted_text = _demote_featured_frontmatter(text)
-        if demoted_text == text:
-            continue
-        await _gh_put_file(
-            client, path, demoted_text, sha,
-            f"CMS: bỏ Featured cũ khi chọn '{selected_slug}'", token,
-        )
-        demoted += 1
+    for section in ARTICLE_SECTIONS:
+        entries = await _gh_list_dir(client, section, token)
+        for entry in entries:
+            path = entry.get("path", "")
+            if (
+                entry.get("type") != "file"
+                or not path.endswith(".md")
+                or path.endswith("/_index.md")
+                or path == selected_path
+            ):
+                continue
+            sha, text = await _gh_get_file(client, path, token)
+            if not sha or not _frontmatter_forces_featured(text):
+                continue
+            demoted_text = _demote_featured_frontmatter(text)
+            if demoted_text == text:
+                continue
+            await _gh_put_file(
+                client, path, demoted_text, sha,
+                f"CMS: bỏ Featured cũ khi chọn '{selected_slug}'", token,
+            )
+            demoted += 1
     return demoted
 
 
@@ -248,29 +268,31 @@ async def _demote_other_sticky_posts(
     client: httpx.AsyncClient, selected_path: str, selected_slug: str, token: str,
 ) -> int:
     """Enforce the "only ONE sticky post" rule: saving a sticky post clears the
-    sticky flag from every OTHER post in the SAME save op (single-active sticky)."""
-    entries = await _gh_list_dir(client, CMS_CONTENT_DIR, token)
+    sticky flag from every OTHER post in the SAME save op (single-active sticky).
+    Scans ALL article sections (not just content/posting/)."""
     demoted = 0
-    for entry in entries:
-        path = entry.get("path", "")
-        if (
-            entry.get("type") != "file"
-            or not path.endswith(".md")
-            or path.endswith("/_index.md")
-            or path == selected_path
-        ):
-            continue
-        sha, text = await _gh_get_file(client, path, token)
-        if not sha or not _frontmatter_forces_sticky(text):
-            continue
-        demoted_text = _demote_sticky_frontmatter(text)
-        if demoted_text == text:
-            continue
-        await _gh_put_file(
-            client, path, demoted_text, sha,
-            f"CMS: bỏ Sticky cũ khi ghim '{selected_slug}'", token,
-        )
-        demoted += 1
+    for section in ARTICLE_SECTIONS:
+        entries = await _gh_list_dir(client, section, token)
+        for entry in entries:
+            path = entry.get("path", "")
+            if (
+                entry.get("type") != "file"
+                or not path.endswith(".md")
+                or path.endswith("/_index.md")
+                or path == selected_path
+            ):
+                continue
+            sha, text = await _gh_get_file(client, path, token)
+            if not sha or not _frontmatter_forces_sticky(text):
+                continue
+            demoted_text = _demote_sticky_frontmatter(text)
+            if demoted_text == text:
+                continue
+            await _gh_put_file(
+                client, path, demoted_text, sha,
+                f"CMS: bỏ Sticky cũ khi ghim '{selected_slug}'", token,
+            )
+            demoted += 1
     return demoted
 
 
@@ -321,9 +343,10 @@ async def cms_save_post(
     authorization: str = Header(default=""),
     cookie_sid: Optional[str] = Cookie(default=None, alias=SESSION_COOKIE_NAME),
 ):
-    """Create/update content/posting/{slug}.md via the GitHub Contents API.
+    """Create/update content/{section}/{slug}.md via the GitHub Contents API.
 
-    Body JSON: slug, content (full markdown incl. frontmatter), message (optional),
+    Body JSON: slug, section (optional — defaults to 'posting'),
+    content (full markdown incl. frontmatter), message (optional),
     sha (optional — sent by the editor when updating an existing file).
 
     Sticky/featured are single-active: saving a sticky (or featured) post clears the
@@ -341,6 +364,9 @@ async def cms_save_post(
     # Optional sha sent by the editor when updating an existing file. We re-read the
     # live sha (authoritative, avoids a stale-sha 409) but fall back to client_sha.
     client_sha = str(body.get("sha", "") or "").strip() or None
+    # Section (e.g. "posting", "ngan-hang", "khoa-hoc"). Backward-compat: default posting.
+    section_raw = str(body.get("section", "") or "").strip().lower()
+    content_dir = _validate_section(section_raw)
 
     if not _SLUG_RE.match(slug):
         raise HTTPException(400, "invalid_slug")
@@ -351,7 +377,7 @@ async def cms_save_post(
     if not message:
         message = f"CMS: {slug}"
 
-    path = f"{CMS_CONTENT_DIR}/{slug}.md"
+    path = f"{content_dir}/{slug}.md"
     force_featured = _frontmatter_forces_featured(content)
     force_sticky = _frontmatter_forces_sticky(content)
 
@@ -372,12 +398,12 @@ async def cms_save_post(
         if cat_match:
             await _ensure_category(client, cat_match.group(1).strip(), token)
 
-        # 4. Featured single-active.
+        # 4. Featured single-active — scan ALL sections.
         demoted_featured = 0
         if force_featured:
             demoted_featured = await _demote_other_featured_posts(client, path, slug, token)
 
-        # 5. Sticky single-active.
+        # 5. Sticky single-active — scan ALL sections.
         demoted_sticky = 0
         if force_sticky:
             demoted_sticky = await _demote_other_sticky_posts(client, path, slug, token)
@@ -417,12 +443,21 @@ async def cms_bulk_delete(
     seen: set = set()
     paths: list = []
     for s in slugs:
-        if not isinstance(s, str) or not _SLUG_RE.match(s):
-            raise HTTPException(400, f"invalid_slug: {s[:50] if isinstance(s, str) else type(s).__name__}")
-        if s in seen:
+        if isinstance(s, dict):
+            slug = str(s.get("slug", "")).strip().lower()
+            section_raw = str(s.get("section", "") or "").strip().lower()
+            content_dir = _validate_section(section_raw)
+        elif isinstance(s, str):
+            slug = s.strip().lower()
+            content_dir = CMS_CONTENT_DIR
+        else:
+            raise HTTPException(400, "invalid_slug_format")
+        if not _SLUG_RE.match(slug):
+            raise HTTPException(400, f"invalid_slug: {slug[:50]}")
+        if slug in seen:
             continue
-        seen.add(s)
-        paths.append(f"{CMS_CONTENT_DIR}/{s}.md")
+        seen.add(slug)
+        paths.append(f"{content_dir}/{slug}.md")
 
     headers = _gh_headers(token)
     async with httpx.AsyncClient(timeout=30.0) as client:

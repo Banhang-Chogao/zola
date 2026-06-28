@@ -299,6 +299,14 @@
     return PLACEHOLDER_THUMB;
   }
 
+  // Resolve post path from slug using state.posts section info.
+  // Falls back to "posting" if section unknown (backward compat).
+  function getPostPath(slug) {
+    const post = state.posts.find(p => p.slug === slug);
+    const section = (post && post.section) || "posting";
+    return "content/" + section + "/" + slug + ".md";
+  }
+
   function formatDisplayDate(iso) {
     if (!iso) return "—";
     try {
@@ -579,7 +587,8 @@
   function postPermalink(post) {
     if (post.permalink) return post.permalink;
     const base = location.pathname.replace(/\/editor\/?$/, "").replace(/\/$/, "");
-    return location.origin + base + "/" + CONTENT_DIR.replace(/^content\//, "") + "/" + post.slug + "/";
+    const section = (post && post.section) || "posting";
+    return location.origin + base + "/" + section + "/" + post.slug + "/";
   }
 
   function renderKPIs() {
@@ -729,7 +738,7 @@
         list
           .filter((f) => f.type === "file" && f.name.endsWith(".md") && !f.name.startsWith("_"))
           .forEach((f) => {
-            allSlugs.push(f.name.replace(/\.md$/, ""));
+            allSlugs.push({ slug: f.name.replace(/\.md$/, ""), section: sectionName });
           });
       } catch (e) {
         // Silent fail for missing section — not all sections may exist
@@ -766,21 +775,25 @@
       : (function () {
           const slugs = apiSlugs.slice();
           state.bakeMetadata.forEach((p) => {
-            if (p.slug && !slugs.includes(p.slug)) slugs.push(p.slug);
+            if (p.slug && !slugs.find(s => (typeof s === 'object' ? s.slug : s) === p.slug)) {
+              slugs.push({ slug: p.slug, section: p.section || "posting" });
+            }
           });
           return slugs;
         })();
 
     // Merge: ưu tiên local > bake > default. isNew=true nếu chưa có trong bake.
-    state.posts = mergedSlugs.map((slug) => {
+    state.posts = mergedSlugs.map((entry) => {
+      const slug = typeof entry === 'object' ? entry.slug : entry;
+      const section = typeof entry === 'object' ? (entry.section || "posting") : "posting";
       const inBake = bakeBySlug.has(slug);
       if (localBySlug.has(slug)) {
-        return Object.assign({}, localBySlug.get(slug), { isNew: !inBake });
+        return Object.assign({}, localBySlug.get(slug), { section, isNew: !inBake });
       }
       if (inBake) {
         return Object.assign({}, bakeBySlug.get(slug), { isNew: false });
       }
-      return { slug, title: slug, date: "", category: "", featured: false, sticky: false, isNew: true };
+      return { slug, section, title: slug, date: "", category: "", featured: false, sticky: false, isNew: true };
     });
     renderPostList();
     return true;
@@ -1083,7 +1096,7 @@ tags = ${tagsStr}
     }
     let sid = getSid();
 
-    const path = CONTENT_DIR + "/" + slug + ".md";
+    const path = getPostPath(slug);
     setStatus("[data-status]", "Đang cập nhật placement…", "info");
 
     try {
@@ -1116,7 +1129,7 @@ tags = ${tagsStr}
         method: "POST",
         headers: headers,
         credentials: "include",
-        body: JSON.stringify({ slug, content, message, sha: data.sha }),
+        body: JSON.stringify({ slug, section: (state.posts.find(p => p.slug === slug) || {}).section || "posting", content, message, sha: data.sha }),
       });
 
       if (res.status === 401) {
@@ -1362,7 +1375,7 @@ tags = ${tagsStr}
     });
     body.querySelector("[data-drawer-edit]").addEventListener("click", () => {
       closeDrawer();
-      openEditor(CONTENT_DIR + "/" + slug + ".md");
+      openEditor(getPostPath(slug));
     });
     body.querySelectorAll("[data-drawer-close]").forEach((b) => b.addEventListener("click", closeDrawer));
     body.querySelector("[data-drawer-save]").addEventListener("click", () => quickSaveFromDrawer(slug, body));
@@ -1391,7 +1404,7 @@ tags = ${tagsStr}
       currentUser = user;
     }
     const sid = getSid();
-    const path = CONTENT_DIR + "/" + slug + ".md";
+    const path = getPostPath(slug);
     if (btn) { btn.disabled = true; btn.classList.add("is-loading"); btn.textContent = "Đang lưu…"; }
     try {
       const data = await getPost(path);
@@ -1466,7 +1479,7 @@ tags = ${tagsStr}
     }
 
     list.innerHTML = displayPosts.map((p) => {
-      const path = CONTENT_DIR + "/" + p.slug + ".md";
+      const path = getPostPath(p.slug);
       const slugEsc = escapeHtml(p.slug);
       const checked = selectedSlugs.has(p.slug) ? " checked" : "";
       const st = postStatus(p);
@@ -1532,7 +1545,7 @@ tags = ${tagsStr}
   }
 
   async function duplicatePost(slug) {
-    const path = CONTENT_DIR + "/" + slug + ".md";
+    const path = getPostPath(slug);
     try {
       const data = await getPost(path);
       const { fm, body } = parseFrontmatter(data.content);
@@ -1628,7 +1641,10 @@ tags = ${tagsStr}
       showView("login");
       return;
     }
-    const slugs = Array.from(selectedSlugs);
+    const slugs = Array.from(selectedSlugs).map(slug => {
+      const post = state.posts.find(p => p.slug === slug);
+      return { slug, section: (post && post.section) || "posting" };
+    });
     if (slugs.length === 0) return;
 
     const confirmBtn = $("[data-modal-confirm]");
@@ -2209,12 +2225,14 @@ tags = ${tagsStr}
       const { fm, body } = parseFrontmatter(data.content);
       // originalDate = giá trị `date` gốc (có thể kèm giờ) → bảo toàn khi lưu lại,
       // vì <input type="date"> chỉ giữ phần ngày, không có giờ.
-      state.editing = { path: data.path, sha: data.sha, originalDate: fm.date, wasFeatured: fm.featured, featuredAt: fm.featured_at, wasSticky: fm.sticky };
+      const sectionMatch = data.path.match(/^content\/([^/]+)\//);
+      const section = sectionMatch ? sectionMatch[1] : "posting";
+      state.editing = { path: data.path, section, sha: data.sha, originalDate: fm.date, wasFeatured: fm.featured, featuredAt: fm.featured_at, wasSticky: fm.sticky };
       // Edit bài đã có slug → khoá auto-fill để không phá URL hiện tại khi đổi title
       slugLocked = true;
       form.title.value = fm.title;
-      // Loại prefix folder (content/posting/) khỏi slug input
-      const slug = data.path.replace(new RegExp("^" + CONTENT_DIR + "/"), "").replace(/\.md$/, "");
+      // Loại prefix folder (content/<section>/) khỏi slug input
+      const slug = data.path.replace(/^content\/[^/]+\//, "").replace(/\.md$/, "");
       form.slug.value = slug;
       lastDraftSlug = slug; // track để autosave xoá draft cũ khi user đổi slug
       // <input type="date"> chỉ nhận YYYY-MM-DD → cắt phần giờ để không bị xoá trắng.
@@ -2276,7 +2294,8 @@ tags = ${tagsStr}
       return;
     }
 
-    const path = CONTENT_DIR + "/" + slug + ".md";
+    const section = (state.editing && state.editing.section) || "posting";
+    const path = "content/" + section + "/" + slug + ".md";
     const content = buildFrontmatter(fm, body);
     const message = state.editing ? "Sửa bài: " + fm.title : "Bài mới: " + fm.title;
 
@@ -2341,7 +2360,7 @@ tags = ${tagsStr}
       : "CMS: bài mới '" + fm.title + "'";
 
     if (!confirm("Đăng bài '" + fm.title + "' lên GitHub?\n\nFile: " +
-                 CONTENT_DIR + "/" + slug + ".md\n\nGitHub Actions sẽ tự build + deploy ~1-2 phút.")) {
+                 path + "\n\nGitHub Actions sẽ tự build + deploy ~1-2 phút.")) {
       return;
     }
 
@@ -2354,7 +2373,7 @@ tags = ${tagsStr}
         method: "POST",
         headers: headers,
         credentials: "include",
-        body: JSON.stringify({ slug, content, message }),
+        body: JSON.stringify({ slug, section, content, message }),
       });
 
       if (res.status === 401) {
@@ -2404,7 +2423,7 @@ tags = ${tagsStr}
       await deletePost(state.editing.path, state.editing.sha, "Xoá bài");
       // Remove khỏi state.posts ngay (bake stale tới khi rebuild).
       const deletedSlug = state.editing.path
-        .replace(new RegExp("^" + CONTENT_DIR + "/"), "")
+        .replace(/^content\/[^/]+\//, "")
         .replace(/\.md$/, "");
       state.posts = state.posts.filter((p) => p.slug !== deletedSlug);
       invalidateListCache();
@@ -3041,8 +3060,7 @@ tags = ${tagsStr}
     const params = new URLSearchParams(location.search);
     const slug = params.get("slug");
     if (slug) {
-      const path = CONTENT_DIR + "/" + slug + ".md";
-      openEditor(path);
+      openEditor(getPostPath(slug));
       return true;
     }
     return false;
