@@ -144,6 +144,10 @@ def _validate_github_script_js(path: Path) -> list[str]:
                 # github-script body but not standalone JS. Replace each with a
                 # placeholder so node --check validates the real JS, not Actions.
                 script = re.sub(r"\$\{\{.*?\}\}", "0", script, flags=re.DOTALL)
+                # actions/github-script@v7 wraps the script in an async function,
+                # so top-level `await` is valid at runtime.  Wrap in an async IIFE
+                # so `node --check` accepts top-level `await` too.
+                script = "(async () => {\n" + script.lstrip("\n") + "\n})();"
                 with tempfile.NamedTemporaryFile(
                     "w", suffix=".js", delete=False, encoding="utf-8"
                 ) as fh:

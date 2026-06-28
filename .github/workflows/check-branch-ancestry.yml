@@ -1,12 +1,15 @@
 name: Check branch ancestry
 
-# Verify that PR branch has a common ancestor with main.
-# If not, the branch is "stale" (lost lineage due to main force-push).
-# Fail early + comment with rebase instructions.
+# Verify that PR branch has a common ancestor with main; also guard against
+# extremely stale / oversized branches to catch wrong-base issues early.
+# Docs-only changes (README.md, docs/**) skip this check.
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
 
 permissions:
   contents: read
@@ -18,99 +21,249 @@ concurrency:
 
 jobs:
   check-ancestry:
-    name: Verify branch has common ancestor with main
+    name: Verify branch ancestry & size
     runs-on: ubuntu-latest
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v6
         with:
-          fetch-depth: 0  # Full history for merge-base
+          fetch-depth: 0
 
       - name: Fetch origin/main
         run: git fetch origin main
 
-      - name: Check for common ancestor
-        id: check
+      - name: Gather PR stats
+        id: stats
         run: |
-          set +e  # Don't fail immediately; handle in next step
+          # Files changed (PR vs main merge-base)
+          FILES=$(git diff --name-only HEAD...origin/main 2>/dev/null | wc -l | tr -d ' ')
+          echo "files_changed=${FILES:-0}" >> "$GITHUB_OUTPUT"
+
+          # Commits ahead of main
+          AHEAD=$(git rev-list --count HEAD ^origin/main 2>/dev/null || echo 0)
+          echo "commits_ahead=${AHEAD}" >> "$GITHUB_OUTPUT"
+
+          # Commits behind main
+          BEHIND=$(git rev-list --count origin/main ^HEAD 2>/dev/null || echo 0)
+          echo "commits_behind=${BEHIND}" >> "$GITHUB_OUTPUT"
+
+          # Branch age (days since first PR-specific commit)
+          FIRST=$(git log --reverse --format="%ct" HEAD ^origin/main 2>/dev/null | head -1)
+          if [ -n "$FIRST" ]; then
+            NOW=$(date +%s)
+            AGE=$(( (NOW - FIRST) / 86400 ))
+          else
+            AGE=0
+          fi
+          echo "age_days=${AGE}" >> "$GITHUB_OUTPUT"
+
+      - name: Check for common ancestor
+        id: ancestry
+        run: |
+          set +e
           MERGE_BASE=$(git merge-base HEAD origin/main 2>&1)
           EXIT_CODE=$?
           set -e
-
           if [ $EXIT_CODE -eq 0 ]; then
             echo "✓ Common ancestor found: $MERGE_BASE"
             echo "status=ok" >> "$GITHUB_OUTPUT"
-            echo "merge_base=$MERGE_BASE" >> "$GITHUB_OUTPUT"
           else
             echo "✗ No common ancestor with origin/main"
             echo "status=stale" >> "$GITHUB_OUTPUT"
             echo "error_msg=$MERGE_BASE" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Comment on PR (stale branch)
-        if: steps.check.outputs.status == 'stale'
+      - name: Check diff size
+        id: diff_check
+        run: |
+          FILES=${{ steps.stats.outputs.files_changed }}
+          AHEAD=${{ steps.stats.outputs.commits_ahead }}
+          if [ "$FILES" -gt 300 ] || [ "$AHEAD" -gt 500 ]; then
+            echo "✗ PR diff is very large: ${FILES} files changed, ${AHEAD} commits ahead"
+            echo "status=large_diff" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=ok" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check branch age / behind count
+        id: age_check
+        run: |
+          AGE=${{ steps.stats.outputs.age_days }}
+          BEHIND=${{ steps.stats.outputs.commits_behind }}
+          WARN=""
+          if [ "$AGE" -gt 30 ]; then WARN="branch_age:${AGE}"; fi
+          if [ "$BEHIND" -gt 500 ]; then
+            WARN="${WARN:+${WARN}|}behind_main:${BEHIND}"
+          fi
+          echo "warnings=${WARN:-none}" >> "$GITHUB_OUTPUT"
+
+      - name: Comment on PR
         uses: actions/github-script@v7
         env:
-          # Pass dynamic values via env, never interpolate ${{ }} straight into
-          # the script body (avoids YAML-block-scalar breakage + script injection).
+          ANCESTRY_STATUS: ${{ steps.ancestry.outputs.status }}
+          ANCESTRY_ERROR: ${{ steps.ancestry.outputs.error_msg }}
+          DIFF_STATUS: ${{ steps.diff_check.outputs.status }}
+          FILES_CHANGED: ${{ steps.stats.outputs.files_changed }}
+          COMMITS_AHEAD: ${{ steps.stats.outputs.commits_ahead }}
+          AGE_DAYS: ${{ steps.stats.outputs.age_days }}
+          COMMITS_BEHIND: ${{ steps.stats.outputs.commits_behind }}
+          WARNINGS: ${{ steps.age_check.outputs.warnings }}
           HEAD_REF: ${{ github.head_ref }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         with:
           script: |
-            // Build the message from an array joined by "\n". A multi-line JS
-            // template literal forces its continuation lines to column 0, which
-            // ends the YAML `|` block scalar early ("could not find expected ':'").
-            // Array-join keeps every JS line indented (valid YAML) while the
-            // markdown stays free of accidental leading whitespace.
-            const headRef = process.env.HEAD_REF || 'your-branch';
+            const ancestryStatus = process.env.ANCESTRY_STATUS;
+            const diffStatus = process.env.DIFF_STATUS;
+            const warnings = process.env.WARNINGS;
+            const headRef = process.env.HEAD_REF || 'this-branch';
             const headSha = process.env.HEAD_SHA || 'unknown';
-            const msg = [
-              '❌ **Branch has no common ancestor with `main`**',
-              '',
-              'This branch is "stale" — it was created from an old commit, and `main` has been force-pushed since then. Git cannot find a merge base between this branch and `main`, making it unmerge-able.',
-              '',
-              '**How to fix (rebase):**',
-              '',
-              '```bash',
-              'git fetch origin main',
-              'git rebase origin/main',
-              '# Resolve conflicts if any',
-              'git push --force-with-lease -u origin ' + headRef,
-              '```',
-              '',
-              'Once rebased, this check will pass and CI will proceed.',
-              '',
-              '---',
-              '',
-              '**What happened:** Your branch was created from commit `' + headSha + '`, but `main` has moved far ahead (force-pushed). This is not a code bug — just a stale base. Rebase will fix it immediately.',
-            ].join('\n');
+            const filesChanged = process.env.FILES_CHANGED || '0';
+            const commitsAhead = process.env.COMMITS_AHEAD || '0';
+            const ageDays = process.env.AGE_DAYS || '0';
+            const commitsBehind = process.env.COMMITS_BEHIND || '0';
 
-            // Check if we already commented
-            const { data: comments } = await github.rest.issues.listComments({
+            // Build message parts
+            const parts = [];
+
+            if (ancestryStatus === 'stale') {
+              parts.push(
+                '❌ **Branch has no common ancestor with `main`**',
+                '',
+                'This branch is "stale" — it was created from an old commit, and `main` has been force-pushed since then. Git cannot find a merge base between this branch and `main`, making it unmerge-able.',
+                '',
+                '**How to fix (rebase):**',
+                '',
+                '```bash',
+                'git fetch origin main',
+                'git rebase origin/main',
+                '# Resolve conflicts if any',
+                'git push --force-with-lease -u origin ' + headRef,
+                '```',
+                '',
+                '---'
+              );
+            }
+
+            if (diffStatus === 'large_diff') {
+              parts.push(
+                '❌ **PR diff is extremely large**',
+                '',
+                'Files changed: **' + filesChanged + '** · Commits ahead: **' + commitsAhead + '**',
+                '',
+                'This likely indicates the wrong base branch or a stale branch that needs to be recreated from `origin/main`. Do not merge as-is — rebasing will not shrink the diff.',
+                '',
+                '**Recommended fix:** recreate the branch from `origin/main` and reapply changes:',
+                '',
+                '```bash',
+                'git checkout origin/main',
+                'git checkout -b ' + headRef,
+                '# Reapply your specific changes, then push --force-with-lease',
+                '```',
+                '',
+                '---'
+              );
+            }
+
+            const warnParts = [];
+            if (warnings !== 'none') {
+              const warnList = warnings.split('|');
+              if (warnList.some(w => w.startsWith('branch_age:'))) {
+                warnParts.push('Branch is **' + ageDays + ' days old** (consider rebasing onto latest main).');
+              }
+              if (warnList.some(w => w.startsWith('behind_main:'))) {
+                warnParts.push('Branch is **' + commitsBehind + ' commits behind `main`** — the larger the gap, the higher the risk of merge conflicts.');
+              }
+            }
+            if (warnParts.length > 0) {
+              parts.push(
+                '⚠️ **Branch health warnings**',
+                '',
+                ...warnParts,
+                '',
+                'These are warnings only — they do not block CI. But you should rebase or recreate this branch to avoid future conflicts.',
+                '',
+                '---'
+              );
+            }
+
+            // No issues → nothing to comment
+            if (parts.length === 0) {
+              // Delete any previous warning comment if the branch is now healthy
+              const { data: comments } = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+              });
+              for (const c of comments) {
+                if (c.user.type === 'Bot' && c.body && c.body.includes('Branch has no common ancestor')) {
+                  await github.rest.issues.deleteComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    comment_id: c.id,
+                  });
+                  break;
+                }
+              }
+              console.log('✓ Branch is healthy — no comment needed');
+              return;
+            }
+
+            const body = parts.join('\n');
+
+            // Find existing bot comment (by header marker) to update instead of creating a new one
+            const { data: existing } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
             });
 
-            const existing = comments.find(c => c.user.type === 'Bot' && c.body.includes('Branch has no common ancestor'));
+            const markers = ['Branch has no common ancestor', 'PR diff is extremely large', 'Branch health warnings'];
+            let found = null;
+            for (const c of existing) {
+              if (c.user.type === 'Bot') {
+                for (const marker of markers) {
+                  if (c.body && c.body.includes(marker)) {
+                    found = c;
+                    break;
+                  }
+                }
+              }
+              if (found) break;
+            }
 
-            if (!existing) {
+            if (found) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: found.id,
+                body: body,
+              });
+              console.log('↻ Updated existing comment #' + found.id);
+            } else {
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                body: msg,
+                body: body,
               });
+              console.log('✏ Created new comment');
             }
 
-      - name: Fail if stale
-        if: steps.check.outputs.status == 'stale'
+      - name: Fail if stale (no common ancestor)
+        if: steps.ancestry.outputs.status == 'stale'
         run: |
           echo "❌ Branch is stale (no common ancestor with main)"
           echo "See PR comment above for rebase instructions."
           exit 1
 
-      - name: Pass if healthy
-        if: steps.check.outputs.status == 'ok'
+      - name: Fail if diff too large
+        if: steps.diff_check.outputs.status == 'large_diff'
         run: |
-          echo "✓ Branch has healthy ancestry: ${{ steps.check.outputs.merge_base }}"
+          echo "❌ PR diff is extremely large (${{ steps.stats.outputs.files_changed }} files, ${{ steps.stats.outputs.commits_ahead }} commits)"
+          echo "See PR comment above for recommended fix."
+          exit 1
+
+      - name: Pass
+        if: steps.ancestry.outputs.status == 'ok' && steps.diff_check.outputs.status == 'ok'
+        run: |
+          echo "✓ Branch ancestry & size OK"
