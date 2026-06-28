@@ -277,3 +277,250 @@
 
   boot();
 })();
+
+/* CMS-V2 Quick Usable Layer — draft autosave, preview, copy markdown */
+(function () {
+  "use strict";
+
+  var DRAFT_KEY = "seomoney.cmsv2.quickDraft.v1";
+
+  function ready(fn) {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", fn);
+    } else {
+      fn();
+    }
+  }
+
+  function norm(s) {
+    return (s || "").toString().trim();
+  }
+
+  function slugify(value) {
+    return norm(value)
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "d")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 90);
+  }
+
+  function esc(value) {
+    return norm(value)
+      .replace(/\\/g, "\\\\")
+      .replace(/"/g, '\\"')
+      .replace(/\n/g, " ");
+  }
+
+  function findField(names) {
+    var selectors = [];
+    names.forEach(function (name) {
+      selectors.push("[name='" + name + "']");
+      selectors.push("#" + name);
+      selectors.push("[data-field='" + name + "']");
+      selectors.push("[data-cms-v2-field='" + name + "']");
+    });
+    return document.querySelector(selectors.join(","));
+  }
+
+  function valueOf(el) {
+    return el ? norm(el.value) : "";
+  }
+
+  function setValue(el, value) {
+    if (el && typeof el.value !== "undefined") el.value = value || "";
+  }
+
+  function collectFields() {
+    return {
+      title: findField(["title", "post-title", "cms-title", "cms-v2-title"]),
+      slug: findField(["slug", "post-slug", "cms-slug", "cms-v2-slug"]),
+      category: findField(["category", "categories", "post-category", "cms-category"]),
+      tags: findField(["tags", "post-tags", "cms-tags"]),
+      seoTitle: findField(["seo_title", "seo-title", "seoTitle", "cms-seo-title"]),
+      seoDescription: findField(["seo_description", "seo-description", "seoDescription", "cms-seo-description"]),
+      excerpt: findField(["excerpt", "summary", "post-excerpt"]),
+      body: findField(["body", "content", "markdown", "post-body", "cms-body", "article-body"]),
+      notes: findField(["notes", "editor_notes", "editor-notes"])
+    };
+  }
+
+  function makePanel() {
+    var shell = document.querySelector(".cms-v2__shell, .cms-v2, main, body");
+    if (!shell || document.querySelector("[data-cms-v2-quick-panel]")) return;
+
+    var panel = document.createElement("section");
+    panel.className = "cms-v2__panel cms-v2__quick-panel";
+    panel.setAttribute("data-cms-v2-quick-panel", "true");
+    panel.innerHTML =
+      '<div class="cms-v2__panel-head">' +
+        '<div>' +
+          '<p class="cms-v2__eyebrow">Quick usable mode</p>' +
+          '<h2>Composer preview & export</h2>' +
+        '</div>' +
+        '<div class="cms-v2__actions">' +
+          '<button type="button" class="cms-v2__button" data-cms-v2-copy-markdown>Copy Markdown</button>' +
+          '<button type="button" class="cms-v2__button cms-v2__button--ghost" data-cms-v2-clear-draft>Clear draft</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="cms-v2__metrics" data-cms-v2-counters></div>' +
+      '<p class="cms-v2__notice">Publish trực tiếp chưa bật — dùng Copy Markdown hoặc mở Editor cũ.</p>' +
+      '<div class="cms-v2__preview-copy">' +
+        '<h3>Markdown preview</h3>' +
+        '<pre class="cms-v2__markdown" data-cms-v2-markdown-preview></pre>' +
+      '</div>';
+
+    shell.appendChild(panel);
+  }
+
+  function splitTags(raw) {
+    return norm(raw)
+      .split(",")
+      .map(function (x) { return norm(x); })
+      .filter(Boolean);
+  }
+
+  function markdown(fields) {
+    var title = valueOf(fields.title);
+    var slug = valueOf(fields.slug) || slugify(title);
+    var category = valueOf(fields.category) || "Công nghệ";
+    var tags = splitTags(valueOf(fields.tags));
+    var seoTitle = valueOf(fields.seoTitle) || title;
+    var seoDescription = valueOf(fields.seoDescription);
+    var excerpt = valueOf(fields.excerpt);
+    var body = valueOf(fields.body) || "<!-- Viết nội dung bài tại đây -->";
+    var today = new Date().toISOString().slice(0, 10);
+
+    return [
+      "+++",
+      'title = "' + esc(title || "Bài viết mới") + '"',
+      'date = ' + today,
+      'updated = ' + today,
+      "",
+      "[taxonomies]",
+      'categories = ["' + esc(category) + '"]',
+      "tags = [" + tags.map(function (tag) { return '"' + esc(tag) + '"'; }).join(", ") + "]",
+      "",
+      "[extra]",
+      'slug = "' + esc(slug) + '"',
+      'seo_title = "' + esc(seoTitle) + '"',
+      'seo_description = "' + esc(seoDescription) + '"',
+      'excerpt = "' + esc(excerpt) + '"',
+      "+++",
+      "",
+      body
+    ].join("\n");
+  }
+
+  function saveDraft(fields) {
+    var data = {};
+    Object.keys(fields).forEach(function (key) {
+      if (fields[key]) data[key] = fields[key].value || "";
+    });
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function restoreDraft(fields) {
+    var raw = "";
+    try {
+      raw = localStorage.getItem(DRAFT_KEY) || "";
+    } catch (e) {}
+    if (!raw) return false;
+
+    try {
+      var data = JSON.parse(raw);
+      Object.keys(fields).forEach(function (key) {
+        if (fields[key] && typeof data[key] !== "undefined" && !fields[key].value) {
+          fields[key].value = data[key];
+        }
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function update(fields) {
+    if (fields.title && fields.slug && !fields.slug.dataset.cmsV2Touched) {
+      fields.slug.value = slugify(fields.title.value);
+    }
+
+    var preview = document.querySelector("[data-cms-v2-markdown-preview]");
+    if (preview) preview.textContent = markdown(fields);
+
+    var counters = document.querySelector("[data-cms-v2-counters]");
+    if (counters) {
+      counters.innerHTML = [
+        "<span>Title: " + valueOf(fields.title).length + "</span>",
+        "<span>SEO title: " + valueOf(fields.seoTitle).length + "/60</span>",
+        "<span>SEO desc: " + valueOf(fields.seoDescription).length + "/160</span>",
+        "<span>Excerpt: " + valueOf(fields.excerpt).length + "</span>",
+        "<span>Body: " + valueOf(fields.body).split(/\s+/).filter(Boolean).length + " words</span>"
+      ].join("");
+    }
+
+    saveDraft(fields);
+  }
+
+  function disableFakePublish() {
+    Array.prototype.forEach.call(document.querySelectorAll("button, a"), function (el) {
+      var txt = norm(el.textContent).toLowerCase();
+      if (txt.indexOf("publish") >= 0 || txt.indexOf("xuất bản") >= 0) {
+        el.setAttribute("aria-disabled", "true");
+        if (el.tagName === "BUTTON") el.disabled = true;
+        el.title = "Publish trực tiếp chưa bật — dùng Copy Markdown hoặc mở Editor cũ.";
+      }
+    });
+  }
+
+  ready(function () {
+    makePanel();
+
+    var fields = collectFields();
+    restoreDraft(fields);
+
+    if (fields.slug) {
+      fields.slug.addEventListener("input", function () {
+        fields.slug.dataset.cmsV2Touched = "true";
+      });
+    }
+
+    Object.keys(fields).forEach(function (key) {
+      var el = fields[key];
+      if (!el) return;
+      el.addEventListener("input", function () { update(fields); });
+      el.addEventListener("change", function () { update(fields); });
+    });
+
+    var copy = document.querySelector("[data-cms-v2-copy-markdown]");
+    if (copy) {
+      copy.addEventListener("click", function () {
+        var text = markdown(fields);
+        navigator.clipboard.writeText(text).then(function () {
+          copy.textContent = "Copied Markdown";
+          setTimeout(function () { copy.textContent = "Copy Markdown"; }, 1400);
+        }).catch(function () {
+          window.prompt("Copy Markdown:", text);
+        });
+      });
+    }
+
+    var clear = document.querySelector("[data-cms-v2-clear-draft]");
+    if (clear) {
+      clear.addEventListener("click", function () {
+        if (!window.confirm("Xoá draft local trên trình duyệt này?")) return;
+        try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+        Object.keys(fields).forEach(function (key) { setValue(fields[key], ""); });
+        update(fields);
+      });
+    }
+
+    disableFakePublish();
+    update(fields);
+  });
+})();
