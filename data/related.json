@@ -683,6 +683,10 @@
   ],
   "gh-run-list-monitor-deploy": [
     {
+      "score": 0.8238,
+      "slug": "kiem-tra-trang-thai-pr-sau-khi-merge"
+    },
+    {
       "score": 0.6774,
       "slug": "tu-dong-deploy-zola-github-actions"
     },
@@ -697,10 +701,6 @@
     {
       "score": 0.5873,
       "slug": "github-actions-ci-cd-cho-nguoi-moi"
-    },
-    {
-      "score": 0.5817,
-      "slug": "git-merge-va-xu-ly-conflict"
     }
   ],
   "giai-quyet-merge-conflict-tu-dong-ci-cd": [
@@ -1427,6 +1427,28 @@
     {
       "score": 0.2061,
       "slug": "nha-tranh"
+    }
+  ],
+  "kiem-tra-trang-thai-pr-sau-khi-merge": [
+    {
+      "score": 0.8238,
+      "slug": "gh-run-list-monitor-deploy"
+    },
+    {
+      "score": 0.65,
+      "slug": "tu-dong-deploy-zola-github-actions"
+    },
+    {
+      "score": 0.5972,
+      "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
+    },
+    {
+      "score": 0.5968,
+      "slug": "git-merge-va-xu-ly-conflict"
+    },
+    {
+      "score": 0.5807,
+      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
     }
   ],
   "kinh-hubble-mat-ma-vu-tru": [
@@ -3006,8 +3028,8 @@
       "slug": "cai-dat-git-cau-hinh-lan-dau"
     },
     {
-      "score": 0.279,
-      "slug": "github-actions-secrets-setup-guide"
+      "score": 0.2874,
+      "slug": "kiem-tra-trang-thai-pr-sau-khi-merge"
     }
   ],
   "top-ngan-hang-so-tot-nhat-viet-nam-2026": [
