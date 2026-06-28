@@ -15,8 +15,10 @@ Exit code:
   1 — fail (>=1 error)
 
 Usage:
-  python3 qa_check.py                    # scan toàn repo
-  python3 qa_check.py path/to/file ...   # scan files cụ thể
+  python3 qa_check.py                              # scan toàn repo
+  python3 qa_check.py path/to/file ...             # scan files cụ thể
+  python3 qa_check.py --scope                      # scan theo scope từ git diff (nhanh)
+  python3 qa_check.py --scope --report-only        # chỉ báo scope, không scan
 
 Stdlib only, không cần pip install gì.
 """
@@ -713,6 +715,118 @@ def check_base_url_hygiene():
     return issues
 
 
+def classify_scope(changed_files):
+    """Phân loại files changed → scope build/check cần thiết.
+
+    Returns dict với scope keys cần chạy và lý do.
+    """
+    scope = {
+        "content": False,     # content/posting/*.md
+        "template": False,    # templates/*.html
+        "style": False,       # sass/*.scss
+        "config_global": False,  # config.toml, base.html, workflow yml
+        "script": False,      # scripts/*.py
+        "data": False,        # data/*.json
+        "static_js": False,   # static/js/*.js
+    }
+    reasons = []
+
+    for f in changed_files:
+        if f.startswith("content/posting/") and f.endswith(".md"):
+            scope["content"] = True
+        elif f.startswith("content/") and f.endswith(".md"):
+            scope["content"] = True
+        elif f.startswith("templates/") and f.endswith(".html"):
+            scope["template"] = True
+            if f == "templates/base.html":
+                scope["config_global"] = True
+                reasons.append(f"base.html thay đổi → full build")
+        elif f.startswith("sass/") and f.endswith(".scss"):
+            scope["style"] = True
+        elif f == "config.toml":
+            scope["config_global"] = True
+            reasons.append("config.toml thay đổi → full build")
+        elif f.startswith(".github/workflows/"):
+            scope["config_global"] = True
+            reasons.append(f"workflow thay đổi ({f}) → full build")
+        elif f.startswith("scripts/") and f.endswith(".py"):
+            scope["script"] = True
+        elif f.startswith("data/") and f.endswith(".json"):
+            scope["data"] = True
+        elif f.startswith("static/js/") and f.endswith(".js"):
+            scope["static_js"] = True
+        elif f.startswith("static/"):
+            scope["template"] = True  # static assets affect build
+        else:
+            scope["config_global"] = True
+            reasons.append(f"file ngoài scope chuẩn ({f}) → full build")
+
+    return scope, reasons
+
+
+def scope_from_git_diff(base="origin/main"):
+    """Lấy changed files từ git diff so với base branch."""
+    import subprocess
+    try:
+        result = subprocess.run(
+            ["git", "diff", "--name-only", base + "...HEAD"],
+            capture_output=True, text=True, timeout=15,
+            cwd=REPO_ROOT,
+        )
+        if result.returncode != 0:
+            return []
+        files = [f.strip() for f in result.stdout.splitlines() if f.strip()]
+        return files
+    except Exception:
+        return []
+
+
+def needs_full_build(scope, reasons):
+    """Quyết định có cần full build dựa trên scope."""
+    full_triggers = {
+        "config_global": "config/global thay đổi",
+        "template": "template thay đổi (cần zola build)",
+        "style": "SCSS thay đổi (cần zola build)",
+    }
+    for key, msg in full_triggers.items():
+        if scope.get(key):
+            return True, msg
+    # content-only: không cần full build, chỉ cần qa_check scoped
+    if scope.get("content") and not any(scope.get(k) for k in ("template", "style", "config_global")):
+        return False, "content-only: chỉ cần QA scoped + check_internal_links"
+    # data-only: không cần full build
+    if scope.get("data") and not any(scope.get(k) for k in ("content", "template", "style", "config_global")):
+        return False, "data-only: không cần zola build"
+    return True, "mixed scope: cần full build để đảm bảo"
+
+
+def report_scope(changed_files, scope, reasons, full_build, full_reason):
+    """In báo cáo scope ra console."""
+    BOLD = lambda s: f"\033[1m{s}\033[0m"
+    GREEN = lambda s: f"\033[32m{s}\033[0m"
+    YELLOW = lambda s: f"\033[33m{s}\033[0m"
+    RED = lambda s: f"\033[31m{s}\033[0m"
+
+    print(f"\n{BOLD('=== SCOPE BUILD/QA ===')}")
+    print(f"Files changed: {len(changed_files)}")
+    for f in changed_files:
+        print(f"  {f}")
+    print()
+    active = [k for k, v in scope.items() if v]
+    print(f"Scope: {', '.join(active) if active else 'none'}")
+    if reasons:
+        for r in reasons:
+            print(f"  → {r}")
+    print()
+    if full_build:
+        print(f"{RED('Full build: CẦN THIẾT')}")
+        print(f"  Lý do: {full_reason}")
+    else:
+        print(f"{GREEN('Full build: KHÔNG CẦN')}")
+        print(f"  Lý do: {full_reason}")
+    print(f"{BOLD('=== END SCOPE ===')}\n")
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser(
@@ -723,10 +837,41 @@ def main():
                         help="Auto-fix mode: 'safe' (frontmatter mechanical) hoặc 'perf' (HTML/template img lazy)")
     parser.add_argument("--perf", action="store_true",
                         help="Chạy thêm performance check (file size, lazy load, CDN count)")
+    parser.add_argument("--scope", nargs="?", const="auto", choices=["auto", "report-only"],
+                        help="Phân tích scope từ git diff: 'auto' (scan scoped), 'report-only' (chỉ báo)")
     parser.add_argument("targets", nargs="*",
                         help="Files cụ thể để scan (default: toàn repo)")
     args = parser.parse_args()
     fix_mode = args.fix
+
+    # Scope mode: phân tích từ git diff
+    if args.scope:
+        changed = scope_from_git_diff()
+        if not changed:
+            print("[SCOPE] Không phát hiện changed files hoặc lỗi git diff.")
+            print("[SCOPE] Fallback: scan toàn repo.\n")
+        else:
+            scope, reasons = classify_scope(changed)
+            full_build, full_reason = needs_full_build(scope, reasons)
+            report_scope(changed, scope, reasons, full_build, full_reason)
+
+            if args.scope == "report-only":
+                return 0
+
+            # Auto: chỉ scan files changed
+            if not args.targets:
+                args.targets = changed
+
+            # Nếu content-only: thêm build_references + check_internal_links vào scope
+            if not full_build and scope.get("content"):
+                print("[SCOPE] Content-only: skip zola build, chạy QA scoped + internal links.\n")
+                import subprocess
+                subprocess.run([sys.executable, "scripts/build_references.py"], cwd=REPO_ROOT, timeout=60)
+                subprocess.run([sys.executable, "scripts/check_internal_links.py"], cwd=REPO_ROOT, timeout=60)
+
+            # Nếu cần full build: nhắc user
+            if full_build:
+                print(f"[SCOPE] Cần full build: {full_reason}")
 
     all_issues = []
     all_fixes = []
