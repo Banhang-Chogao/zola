@@ -165,6 +165,10 @@
     if (r.status === 0 || r.status === 401) {
       const c = await meRequest(false);
       if (c.status === 200) return c.user;
+      // Network error on cookie fallback — backend may be cold-starting.
+      if (c.status === -1) {
+        return { __error: "backend_unreachable" };
+      }
       // Chỉ clear sid khi backend KHẲNG ĐỊNH 401 (cả Bearer lẫn cookie đều fail).
       if (c.status === 401 && sid) clearSid();
     }
@@ -1059,11 +1063,25 @@ tags = ${tagsStr}
   }
 
   async function quickPlacement(slug, mode) {
-    const sid = getSid();
-    if (!sid || !AUTH_API) {
+    if (!AUTH_API) {
+      if (currentUser) {
+        // API URL missing but user is logged in — show generic error instead of login prompt.
+        setStatus("[data-status]", "✗ Không thể kết nối backend để cập nhật placement.", "error");
+        return;
+      }
       alert("Cần đăng nhập để cập nhật placement.");
       return;
     }
+    if (!currentUser) {
+      // No currentUser from init() — try to re-authenticate
+      const user = await fetchMe();
+      if (!user || user.__error === "backend_unreachable") {
+        alert("Cần đăng nhập để cập nhật placement.");
+        return;
+      }
+      currentUser = user;
+    }
+    let sid = getSid();
 
     const path = CONTENT_DIR + "/" + slug + ".md";
     setStatus("[data-status]", "Đang cập nhật placement…", "info");
@@ -1091,13 +1109,13 @@ tags = ${tagsStr}
       const content = buildFrontmatter(fm, body);
       const message = "CMS: placement " + mode + " — " + (fm.title || slug);
 
+      const headers = { "Content-Type": "application/json" };
+      if (sid) headers.Authorization = "Bearer " + sid;
+
       const res = await fetch(AUTH_API + "/cms/save-post", {
         method: "POST",
-        headers: {
-          "Authorization": "Bearer " + sid,
-          "Content-Type": "application/json",
-        },
-        credentials: "omit",
+        headers: headers,
+        credentials: "include",
         body: JSON.stringify({ slug, content, message, sha: data.sha }),
       });
 
@@ -1360,11 +1378,19 @@ tags = ${tagsStr}
 
   async function quickSaveFromDrawer(slug, bodyEl) {
     const btn = bodyEl.querySelector("[data-drawer-save]");
-    const sid = getSid();
-    if (!sid || !AUTH_API) {
+    if (!AUTH_API) {
       showToast("Cần đăng nhập để lưu.", "error");
       return;
     }
+    if (!currentUser) {
+      const user = await fetchMe();
+      if (!user) {
+        showToast("Cần đăng nhập để lưu.", "error");
+        return;
+      }
+      currentUser = user;
+    }
+    const sid = getSid();
     const path = CONTENT_DIR + "/" + slug + ".md";
     if (btn) { btn.disabled = true; btn.classList.add("is-loading"); btn.textContent = "Đang lưu…"; }
     try {

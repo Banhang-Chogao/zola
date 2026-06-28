@@ -1,7 +1,7 @@
 # VIPZone API — Deploy Render
 
 Backend MoMo payment requests, approve codes, VIP users, content picker admin.
-Frontend: `/tools/vipzone/` + `/tools/vipzone-admin/`.
+Frontend: `/tools/vipzone/` + `/editor/`.
 
 ## Deploy (~3 phút)
 
