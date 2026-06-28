@@ -3,6 +3,7 @@
 title = "Vụ rơi tiêm kích F/A-18 và bài học 57 triệu USD"
 description = "Vụ rơi tiêm kích F/A-18 trị giá 57 triệu USD ở Washington: ghế thoát hiểm cứu phi công và bài học về điều tra kỹ thuật khi công nghệ gặp sự cố."
 date = 2026-06-16
+aliases = ["/baochi/f18-crash-when-technology-fails/"]
 [taxonomies]
 categories = ["Tất cả", "Thế giới"]
 tags = ["công-nghệ-quân-sự", "an-toàn-hàng-không", "kỹ-thuật", "sự-cố", "điều-tra-kỹ-thuật"]
@@ -12,7 +13,6 @@ content_origin = "baochi"
 seo_keyword = "tiêm kích F/A-18"
 thumbnail = "https://seomoney.org/img/covers/f18-crash-when-technology-fails.svg"
 featured = false
-aliases = ["/baochi/f18-crash-when-technology-fails/"]
 +++
 
 Hôm 13/6, một chiếc tiêm kích F/A-18 Hornet của Thủy quân lục chiến Mỹ lao xuống sườn đồi gần hồ Rimrock, Washington. Máy bay có giá 57 triệu USD bốc cháy. Nhưng điều tôi nhận thấy là không phải sự cố máy bay hay chi phí thiệt hại — mà là cách hệ thống phòng chống rủi ro đã hoạt động.

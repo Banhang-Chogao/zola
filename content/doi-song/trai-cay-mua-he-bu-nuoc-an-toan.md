@@ -3,6 +3,7 @@
 title = "Trái cây mùa hè bù nước an toàn: cách chọn và ăn đúng"
 description = "Hướng dẫn bù nước mùa hè bằng trái cây an toàn, hạ nhiệt hiệu quả: dưa hấu, cam, thanh long—cách ăn tránh sốc."
 date = 2026-06-26
+aliases = ["/baochi/trai-cay-mua-he-bu-nuoc-an-toan/"]
 [taxonomies]
 categories = ["Tất cả", "Đời sống"]
 tags = ["mùa hè", "sức khỏe", "bù nước", "trái cây", "hạ nhiệt", "ẩm thực", "điều dưỡng"]
@@ -12,7 +13,6 @@ content_origin = "baochi"
 thumbnail = "https://picsum.photos/seed/trai-cay-mua-he-bu-nuoc-an-toan/600/400"
 seo_keyword = "trái cây mùa hè bù nước"
 featured = false
-aliases = ["/baochi/trai-cay-mua-he-bu-nuoc-an-toan/"]
 +++
 
 Mùa hè năm nay ở Việt Nam dường như nóng hơn mọi năm. Tôi nhận ra rằng chỉ cần đi ngoài trời nắng vài chục phút là cảm thấy khát khô, mệt mỏi, da khô. Lúc đầu tôi nghĩ uống nước lạnh là đủ, nhưng hóa ra không phải vậy. Cơ thể mùa hè không chỉ mất nước — nó còn mất điện giải, khoáng chất, vitamin. Chính vì thế, **cách bù nước mùa hè bằng trái cây không phải chỉ là thỏa cơn khát**, mà là cách để giúp cơ thể phục hồi toàn diện và duy trì sức khỏe. Bài viết này sẽ hướng dẫn bạn cách **chọn trái cây mùa hè** phù hợp và ăn đúng cách để tối ưu hóa lợi ích bù nước.

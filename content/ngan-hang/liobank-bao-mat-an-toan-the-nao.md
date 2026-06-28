@@ -3,6 +3,7 @@
 title = "Liobank bảo mật thế nào? Yên tâm giao dịch mỗi ngày"
 description = "Liobank bảo mật ra sao: eKYC, xác thực sinh trắc học, cảnh báo giao dịch và cách tự bảo vệ trước lừa đảo mạo danh — Phần 4 series trải nghiệm Liobank."
 date = 2026-06-16
+aliases = ["/baochi/liobank-bao-mat-an-toan-the-nao/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["ngân hàng", "liobank", "bảo mật", "an toàn giao dịch", "series liobank"]
@@ -24,7 +25,6 @@ a = "Không dễ mất: người nhặt được vẫn cần vân tay hoặc khu
 [[extra.faq]]
 q = "Làm sao tránh bị lừa đảo mạo danh Liobank?"
 a = "Chỉ thao tác trong app tải từ App Store hoặc Google Play, tuyệt đối không nhập CCCD, mật khẩu hay OTP vào link lạ. Liobank không bao giờ gọi điện hay nhắn tin yêu cầu bạn cung cấp OTP hoặc mật khẩu."
-aliases = ["/baochi/liobank-bao-mat-an-toan-the-nao/"]
 +++
 
 > 📚 **Series Liobank (Phần 4/5)** — Sau khi nói về [hoàn tiền](/ngan-hang/uu-dai-hoan-tien-the-liobank/) ở Phần 3, bài này trả lời câu hỏi nhiều người lo nhất khi dùng ngân hàng số.

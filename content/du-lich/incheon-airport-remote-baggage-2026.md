@@ -3,6 +3,7 @@
 title = "Remote baggage screening: Hành lý Incheon không cần lấy lại"
 description = "Remote baggage screening ở Incheon giúp tiết kiệm 20+ phút chuyển tiếp tới Mỹ. Công nghệ mới soi X-quang lúc bay, tự động chuyển hành lý sang chuyến tiếp."
 date = 2026-06-26
+aliases = ["/baochi/incheon-airport-remote-baggage-2026/"]
 [taxonomies]
 categories = ["Tất cả", "Du lịch"]
 tags = ["incheon-airport", "du-lich-hang-khong", "cong-nghe-san-bay", "los-angeles", "seattle", "han-quoc"]
@@ -12,7 +13,6 @@ content_origin = "baochi"
 thumbnail = "https://picsum.photos/seed/incheon-remote-baggage/600/400"
 seo_keyword = "remote baggage screening"
 featured = false
-aliases = ["/baochi/incheon-airport-remote-baggage-2026/"]
 +++
 
 Khi nói về những sân bay tốt nhất thế giới, Incheon International ở Seoul luôn xuất hiện trong top 3. Không chỉ vì kiến trúc hiện đại hay dịch vụ hoàn hảo, mà còn vì những bước tiến công nghệ táo bạo mà sân bay này liên tục giới thiệu. Và mới đây, họ vừa triển khai một chương trình **remote baggage screening** (soi hành lý từ xa) tới Los Angeles và Seattle — một sáng kiến có thể thay đổi cách hành khách chuyển tiếp ở sân bay quốc tế. Theo [thông báo chính thức của Bộ Cơ sở hạ tầng Hàn Quốc](https://www.korea.net), công nghệ này cho phép giảm thời gian chuyển tiếp ít nhất **20 phút**, mang lại trải nghiệm bay mượt mà hơn.

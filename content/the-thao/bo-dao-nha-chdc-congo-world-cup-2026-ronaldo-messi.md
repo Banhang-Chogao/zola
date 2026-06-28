@@ -3,6 +3,7 @@
 title = "Bồ Đào Nha vs Congo: Messi gọi, Ronaldo trả lời?"
 description = "Nhận định trận Bồ Đào Nha - CHDC Congo (0h 18/6): Ronaldo kỳ World Cup thứ 6, Opta dự đoán 54,6% thắng và câu chuyện đối đầu Messi."
 date = 2026-06-18
+aliases = ["/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi/"]
 [taxonomies]
 categories = ["Tất cả", "Thể thao"]
 tags = ["world-cup-2026", "ronaldo", "messi", "bo-dao-nha", "bong-da", "chdc-congo"]
@@ -12,7 +13,6 @@ content_origin = "baochi"
 seo_keyword = "Bồ Đào Nha CHDC Congo World Cup 2026"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 featured = false
-aliases = ["/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi/"]
 +++
 
 Tôi thức tới 0h ngày 18/6 không phải vì thói quen xem bóng đêm — mà vì trận Bồ Đào Nha gặp CHDC Congo mang theo một câu chuyện quen thuộc của cả thế hệ: Messi vừa lập hat-trick vào lưới Algeria, còn Ronaldo thì đang chờ cơ hội để "trả lời" ở kỳ World Cup có thể là cuối cùng của anh. Dù tiêu đề báo chí hơi kịch tính, tôi nghĩ trận này đáng xem vì nó là màn chạy đà của Selecao ở bảng K, không chỉ vì drama hai huyền thoại.

@@ -3,6 +3,7 @@
 title = "Uranium Iran: từ lập trường cứng sang ngoại giao"
 description = "Thỏa thuận tiêu hủy kho uranium làm giàu của Iran: vì sao bước ngoại giao Mỹ - Iran này đánh dấu chuyển từ lập trường cứng sang chính trị thực dụng."
 date = 2026-06-16
+aliases = ["/baochi/iran-uranium-destruction-what-it-means/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học", "Thế giới"]
 tags = ["địa-chính-trị", "năng-lượng-hạt-nhân", "iran", "mỹ", "thỏa-thuận-quốc-tế", "science uranium series"]
@@ -13,7 +14,6 @@ seo_keyword = "uranium Iran"
 thumbnail = "https://seomoney.org/img/covers/iran-uranium-destruction-what-it-means.svg"
 featured = false
 hub_series = "science-uranium"
-aliases = ["/baochi/iran-uranium-destruction-what-it-means/"]
 +++
 
 Tin tức mới nhất từ Phó Tổng thống Mỹ JD Vance khiến tôi suy ngẫm về một thực tế: đôi khi những bước ngoại giao nhỏ là dấu hiệu của những thay đổi lớn. Thỏa thuận tiêu hủy uranium làm giàu của Iran không đơn giản là một vấn đề kỹ thuật — nó là cuộc ngoại giao từ lập trường cứng nhắc sang lối chính trị thực dụng.

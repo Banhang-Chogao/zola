@@ -3,6 +3,7 @@
 title = "Chọn ngách nội dung để blog giữ chân người đọc"
 description = "Cách chọn ngách nội dung giúp blog giữ chân người đọc: tăng time on page, giảm bounce rate bằng hướng dẫn kỹ thuật và internal linking đúng ngữ cảnh."
 date = 2026-06-16
+aliases = ["/baochi/chon-ngach-noi-dung-giu-chan-nguoi-doc/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["blog", "content-strategy", "seo", "engagement", "mobile-ux"]
@@ -12,7 +13,6 @@ content_origin = "baochi"
 seo_keyword = "ngách nội dung"
 thumbnail = "https://seomoney.org/img/covers/chon-ngach-noi-dung-giu-chan-nguoi-doc.svg"
 featured = false
-aliases = ["/baochi/chon-ngach-noi-dung-giu-chan-nguoi-doc/"]
 +++
 
 Mấy hôm nay mình ngồi nhìn lại số liệu Analytics của blog và rút ra một điều hơi phũ: kéo người ta *vào* trang đã khó, giữ họ *ở lại* đọc hết bài còn khó gấp mấy lần. Một bài có thể ăn vài nghìn lượt click, nhưng nếu phần lớn thoát ra sau năm giây thì với mình nó gần như thất bại. Thế nên dạo này mình thôi chạy theo lượt xem, mà chăm chăm nhìn hai con số khác: thời gian ở lại trang (*time on page*) và tỉ lệ thoát (*bounce rate*). Và mình tin chìa khoá của cả hai nằm ngay từ bước đầu tiên — chọn đúng ngách nội dung để viết.

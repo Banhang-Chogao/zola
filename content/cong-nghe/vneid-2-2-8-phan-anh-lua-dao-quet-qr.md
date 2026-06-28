@@ -3,6 +3,7 @@
 title = "VNeID 2.2.8: phản ánh lừa đảo, quét QR căn cước"
 description = "VNeID 2.2.8 có gì mới? Cập nhật lớn: phản ánh lừa đảo trực tuyến ngay trên app, quét QR thẻ căn cước, thêm thông tin tạm trú và theo dõi giao thẻ căn cước."
 date = 2026-06-18
+aliases = ["/baochi/vneid-2-2-8-phan-anh-lua-dao-quet-qr/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["vneid", "định danh điện tử", "công nghệ", "an ninh mạng", "căn cước công dân"]
@@ -32,7 +33,6 @@ a = "Có. Từ bản 2.2.8, mục Thông tin cư trú bổ sung dữ liệu tạ
 [[extra.faq]]
 q = "VNeID hiện tích hợp bao nhiêu tiện ích?"
 a = "Theo Bộ Công an, VNeID đã tích hợp hơn 50 tiện ích: giấy tờ điện tử, dịch vụ công, thanh toán, cư trú, bảo hiểm y tế và nhiều tính năng phục vụ đời sống số hằng ngày."
-aliases = ["/baochi/vneid-2-2-8-phan-anh-lua-dao-quet-qr/"]
 +++
 
 Tôi thuộc kiểu người ngại cập nhật ứng dụng — cứ thấy "có bản mới" là tặc lưỡi để đó. Nhưng với **VNeID 2.2.8**, sau khi đọc kỹ những gì thay đổi, tôi đã bấm update ngay. Lý do đơn giản: bản này không chỉ vá lỗi vặt, mà bổ sung đúng những thứ tôi đang cần — đặc biệt là khả năng **phản ánh lừa đảo trực tuyến** ngay trong app, giữa thời buổi lừa đảo qua mạng nhiều như hiện nay.

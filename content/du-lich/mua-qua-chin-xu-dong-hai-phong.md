@@ -3,6 +3,7 @@
 title = "Mùa quả chín xứ Đông: du lịch nông nghiệp Hải Phòng"
 description = "Mùa quả chín xứ Đông là tour du lịch nông nghiệp mới của Hải Phòng: hái vải thiều Thanh Hà, thăm vườn nho VietGAP, ẩm thực và di tích xứ Đông."
 date = 2026-06-18
+aliases = ["/baochi/mua-qua-chin-xu-dong-hai-phong/"]
 [taxonomies]
 categories = ["Tất cả", "Du lịch"]
 tags = ["du lịch", "hải phòng", "vải thiều thanh hà", "du lịch nông nghiệp", "xứ đông"]
@@ -32,7 +33,6 @@ a = "Khu vực phía tây Hải Phòng có ổi Thanh Hà, tỏi Nam Sách, cà 
 [[extra.faq]]
 q = "Có thể kết hợp tour vải với điểm đến nào khác?"
 a = "Hành trình có thể nối với di tích Côn Sơn – Kiếp Bạc, đền thờ thầy giáo Chu Văn An, rồi xuôi ra vịnh Lan Hạ, đảo Cát Bà — tạo thành một chuyến đi khép kín cả nông nghiệp, văn hóa lẫn biển đảo."
-aliases = ["/baochi/mua-qua-chin-xu-dong-hai-phong/"]
 +++
 
 Nhắc tới Hải Phòng, đa số chúng ta nghĩ ngay tới biển Đồ Sơn, Cát Bà hay những chuyến đi cuối tuần ngắn ngày. Nhưng gần đây tôi đọc được một câu chuyện khiến mình phải nhìn lại định kiến đó: hành trình **Mùa quả chín xứ Đông**. Đây là một mô hình du lịch nông nghiệp mới, đưa du khách rời bãi biển để về với những vườn vải đỏ rực, vườn nho trĩu quả và bề dày văn hiến của vùng đất xứ Đông. Là người thích kiểu đi chậm, trải nghiệm thật, tôi thấy đây là một hướng đi rất đáng chú ý.
