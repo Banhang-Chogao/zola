@@ -372,7 +372,11 @@ def check_secrets(path, content):
 
 FRONTMATTER_RE = re.compile(r"^\+\+\+\n(.*?)\n\+\+\+\n?(.*)$", re.DOTALL)
 TOML_KV_RE = re.compile(r"^(\w+)\s*=\s*(.+)$", re.MULTILINE)
-DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+DATE_ONLY_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+ISO_DATETIME_RE = re.compile(
+    r"^\d{4}-\d{2}-\d{2}[T ][0-2]\d:[0-5]\d(?::[0-5]\d)?"
+    r"(?:Z|[+-]\d{2}:\d{2})?$"
+)
 
 # Strip markdown để đếm chars (sync với logic trong static/js/editor.js)
 MD_STRIP_PATTERNS = [
@@ -388,6 +392,14 @@ def strip_markdown(body):
     for pat, rep in MD_STRIP_PATTERNS:
         text = pat.sub(rep, text)
     return text.strip()
+
+
+def is_valid_seo_date(value):
+    """Accept date-only or ISO 8601 datetime frontmatter values."""
+    if value is None:
+        return False
+    text = str(value).strip()
+    return bool(DATE_ONLY_RE.match(text) or ISO_DATETIME_RE.match(text))
 
 
 def parse_frontmatter(content):
@@ -459,9 +471,10 @@ def check_seo(path, content):
     date = fm.get("date", "")
     if not date:
         issues.append(Issue("error", path, 3, "SEO: thiếu 'date' trong frontmatter"))
-    elif not DATE_RE.match(str(date)):
+    elif not is_valid_seo_date(date):
         issues.append(Issue("error", path, 3,
-                            f"SEO: date '{date}' không đúng format YYYY-MM-DD"))
+                            f"SEO: date '{date}' không đúng format YYYY-MM-DD "
+                            "hoặc ISO datetime"))
 
     # Body length sau strip markdown.
     # ERROR nếu body rỗng hoàn toàn (sẽ ảnh hưởng Zola summary extract).

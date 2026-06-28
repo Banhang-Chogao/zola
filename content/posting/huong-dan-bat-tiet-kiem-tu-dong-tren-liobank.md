@@ -2,10 +2,9 @@
 title = "Hướng dẫn bật Tiết kiệm tự động trên Liobank từng bước"
 description = "Hướng dẫn chi tiết cách bật Tiết kiệm tự động Liobank qua app: cài đặt số tiền, tần suất, theo dõi và tạm dừng. Chỉ mất 3 phút."
 date = 2026-06-28
-aliases = ["/huong-dan-bat-tiet-kiem-tu-dong-tren-liobank/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["cách bật tiết kiệm tự động", "hướng dẫn liobank", "series tiet-kiem-tu-dong liobank", "tiết kiệm tự động"]
+tags = ["cách bật tiết kiệm tự động", "hướng dẫn liobank", "tiết kiệm tự động", "series tiet-kiem-tu-dong liobank"]
 [extra]
 og_image = "img/placeholders/OG-Image-place-holer.webp"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"

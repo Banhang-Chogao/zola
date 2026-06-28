@@ -52,7 +52,9 @@ Trong bối cảnh lịch thi đấu World Cup 2026 theo giờ Việt Nam mới 
 
 **Algeria** là đại diện giàu thành tích của bóng đá châu Phi, từng hai lần đăng quang tại Cúp bóng đá châu Phi (AFCON) và nhiều lần góp mặt tại World Cup. Dù nhận thất bại trong ngày ra quân, Algeria vẫn được đánh giá là đối thủ khó chịu với lực lượng gồm nhiều cầu thủ đang thi đấu tại các giải vô địch hàng đầu châu Âu.
 
-Đừng quên theo dõi lịch thi đấu World Cup 2026 theo giờ Việt Nam mới nhất để không bỏ lỡ những màn so tài đỉnh cao tiếp theo của Messi, Argentina và các ông lớn bóng đá thế giới tại ngày hội bóng đá lớn nhất hành tinh.
+Đừng quên theo dõi lịch thi đấu World Cup 2026 theo giờ Việt Nam mới nhất để không bỏ lỡ những màn so tài đỉnh cao tiếp theo của Messi, Argentina và các ông lớn bóng đá thế giới tại ngày hội bóng đá lớn nhất hành tinh. Nếu bạn đang cần phần nhánh đấu thay vì giờ đá, xem ngay [sơ đồ thi đấu FIFA World Cup 2026](/posting/so-do-thi-dau-fifa-world-cup-2026/).
+
+Tra cứu thêm [sơ đồ thi đấu FIFA World Cup 2026](/posting/so-do-thi-dau-fifa-world-cup-2026/) — bracket vòng 32 đội, nhánh đấu và lịch knock-out chi tiết.
 
 Tra cứu thêm [sơ đồ thi đấu FIFA World Cup 2026](/posting/so-do-thi-dau-fifa-world-cup-2026/) — bracket vòng 32 đội, nhánh đấu và lịch knock-out chi tiết.
 

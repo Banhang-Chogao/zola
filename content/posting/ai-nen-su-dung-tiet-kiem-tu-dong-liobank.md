@@ -2,10 +2,9 @@
 title = "Ai nên sử dụng Tiết kiệm tự động Liobank? Kinh nghiệm tối ưu"
 description = "Phân tích đối tượng phù hợp với Tiết kiệm tự động Liobank và kinh nghiệm thực tế để tối ưu lợi nhuận: cài đặt, theo dõi, kết hợp với các sản phẩm khác."
 date = 2026-06-28
-aliases = ["/ai-nen-su-dung-tiet-kiem-tu-dong-liobank/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["ai nên dùng tiết kiệm tự động", "kinh nghiệm tiết kiệm", "liobank", "series tiet-kiem-tu-dong liobank", "tài chính cá nhân"]
+tags = ["ai nên dùng tiết kiệm tự động", "kinh nghiệm tiết kiệm", "liobank", "tài chính cá nhân", "series tiet-kiem-tu-dong liobank"]
 [extra]
 og_image = "img/placeholders/OG-Image-place-holer.webp"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"

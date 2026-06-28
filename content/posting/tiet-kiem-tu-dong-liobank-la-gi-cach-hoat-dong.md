@@ -2,10 +2,9 @@
 title = "Tiết kiệm tự động Liobank là gì? Cách hoạt động chi tiết"
 description = "Tiết kiệm tự động Liobank là tính năng tự động trích tiền từ tài khoản thanh toán sang tài khoản tiết kiệm theo lịch. Giải thích cơ chế, lợi ích và so sánh."
 date = 2026-06-28
-aliases = ["/tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["liobank", "ngân hàng số", "series tiet-kiem-tu-dong liobank", "tiết kiệm tự động"]
+tags = ["liobank", "ngân hàng số", "tiết kiệm tự động", "series tiet-kiem-tu-dong liobank"]
 [extra]
 og_image = "img/placeholders/OG-Image-place-holer.webp"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"

@@ -2,10 +2,9 @@
 title = "Lãi suất Tiết kiệm tự động Liobank có hấp dẫn không?"
 description = "Phân tích lãi suất Tiết kiệm tự động Liobank, so sánh với tài khoản thanh toán, tiết kiệm có kỳ hạn và các ngân hàng số khác. Có thực sự đáng dùng?"
 date = 2026-06-28
-aliases = ["/lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["lãi suất liobank", "lãi suất ngân hàng số", "series tiet-kiem-tu-dong liobank", "tiết kiệm tự động"]
+tags = ["lãi suất liobank", "tiết kiệm tự động", "lãi suất ngân hàng số", "series tiet-kiem-tu-dong liobank"]
 [extra]
 og_image = "img/placeholders/OG-Image-place-holer.webp"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
