@@ -1,4 +1,4 @@
-+++
+
 title = "Hướng dẫn xác thực CCCD trên MSB Digital Bank từ A–Z"
 description = "Hướng dẫn chi tiết cách xác thực lại CCCD trên MSB Digital Bank khi chuyển từ mBank: tải app, nhập OTP, quét khuôn mặt và xử lý các lỗi thường gặp."
 date = 2026-06-16
@@ -27,7 +27,7 @@ a = "Hãy bỏ kính và khẩu trang, đứng ở nơi đủ sáng, để mặt
 [[extra.faq]]
 q = "Không nhận được OTP khi xác thực thì xử lý thế nào?"
 a = "Kiểm tra sóng, tắt chặn tin nhắn lạ rồi bấm gửi lại sau 60 giây. Nếu số điện thoại đã đổi so với lúc đăng ký, bạn buộc phải ra quầy để cập nhật."
-aliases = ["/ngan-hang/huong-dan-xac-thuc-cccd-msb-digital-bank/"]
+aliases = ["/ngan-hang/huong-dan-xac-thuc-cccd-msb-digital-bank/", "/baochi/huong-dan-xac-thuc-cccd-msb-digital-bank/"]
 +++
 
 Sau khi MSB khai tử app mBank và chuyển sang siêu ứng dụng mới, câu hỏi tôi nhận được nhiều nhất không phải "app có đẹp không" mà là "làm sao xác thực CCCD MSB Digital Bank cho xong". Nghe thì đơn giản, nhưng nếu làm sai một bước — nhập nhầm số, quét khuôn mặt không nhận — là kẹt cả buổi không chuyển được tiền. Bài này tôi viết lại quy trình thật gọn, kèm cả những lỗi hay gặp và cách xử lý, để bạn làm một lần là xong.

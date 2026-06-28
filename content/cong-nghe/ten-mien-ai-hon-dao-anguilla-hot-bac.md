@@ -1,4 +1,4 @@
-+++
+
 title = "Tên miền .ai và hòn đảo 16.000 dân hốt bạc nhờ AI"
 description = "Tên miền .ai biến Anguilla — hòn đảo 16.000 dân — thành mỏ vàng số, thu hàng chục triệu USD mỗi năm từ Google và x.ai khi cơn sốt AI bùng nổ."
 date = 2026-06-18
@@ -31,7 +31,7 @@ a = "Phí trung bình khoảng 140 USD mỗi năm cho một tên miền .ai, cao
 [[extra.faq]]
 q = "Cá nhân hay doanh nghiệp Việt có nên mua tên miền .ai?"
 a = "Tùy mục tiêu thương hiệu: nếu sản phẩm gắn với AI thì .ai giúp định vị tốt, nhưng cần tính chi phí gia hạn dài hạn (~140 USD/năm). Đây chỉ là góc nhìn tham khảo, không phải lời khuyên đầu tư."
-aliases = ["/cong-nghe/ten-mien-ai-hon-dao-anguilla-hot-bac/"]
+aliases = ["/cong-nghe/ten-mien-ai-hon-dao-anguilla-hot-bac/", "/baochi/ten-mien-ai-hon-dao-anguilla-hot-bac/"]
 +++
 
 Có những câu chuyện kinh tế kỳ lạ tới mức nghe như đùa. Một hòn đảo vỏn vẹn 16.000 dân ở vùng Caribe — không trung tâm dữ liệu, không đội ngũ kỹ sư AI, không một dòng code — vậy mà mỗi năm bỏ túi hàng chục triệu USD từ chính Google, Perplexity và x.ai của tỷ phú Elon Musk. Bí mật của Anguilla nằm gọn trong hai chữ cái: **tên miền .ai**. Đọc xong câu chuyện này, tôi nhận ra rằng "đúng nơi, đúng lúc" đôi khi còn đáng giá hơn cả ngàn kỹ sư giỏi.

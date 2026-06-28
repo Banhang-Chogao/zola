@@ -1,4 +1,4 @@
-+++
+
 title = "Starbucks Fansipan: cửa hàng cà phê cao nhất châu Á"
 description = "Starbucks Fansipan vừa khai trương — cửa hàng cà phê cao nhất châu Á trên 'nóc nhà Đông Dương' tại Sa Pa. Vì sao Starbucks chọn các điểm di sản? Góc nhìn riêng."
 date = 2026-06-18
@@ -22,7 +22,7 @@ a = "Vì cửa hàng nằm ở khu Sân Mây gần đỉnh Fansipan (cao 3.143 m
 [[extra.faq]]
 q = "Vì sao Starbucks hay mở cửa hàng ở các điểm di sản, du lịch?"
 a = "Theo chuyên gia F&B, đây là chiến lược tái định vị thương hiệu: đặt cửa hàng trong không gian giàu giá trị văn hóa giúp tạo biểu tượng, điểm check-in và truyền thông tự nhiên, định vị thương hiệu ở tầng cảm xúc — chứ không chỉ để bán lẻ."
-aliases = ["/du-lich/starbucks-cua-hang-cao-nhat-chau-a-fansipan/"]
+aliases = ["/du-lich/starbucks-cua-hang-cao-nhat-chau-a-fansipan/", "/baochi/starbucks-cua-hang-cao-nhat-chau-a-fansipan/"]
 +++
 
 Hôm nay lướt tin tôi bắt gặp một thông tin khá thú vị: **Starbucks Fansipan** — cửa hàng được giới thiệu là *cao nhất châu Á* — vừa khai trương ngay trên "nóc nhà Đông Dương". Là người vừa thích cà phê vừa mê đi núi, tôi thấy đây không chỉ là chuyện mở thêm một quán, mà là một nước cờ thương hiệu rất đáng mổ xẻ.

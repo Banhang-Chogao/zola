@@ -1,4 +1,4 @@
-+++
+
 title = "MSB Digital Bank thay mBank: cần làm gì?"
 description = "MSB chính thức ra mắt MSB Digital Bank thay thế mBank từ 01/06/2026. Cách tải app mới, xác thực lại CCCD và chuyển dữ liệu chỉ trong 5 phút."
 date = 2026-06-16
@@ -27,7 +27,7 @@ a = "Việc chuyển đổi không diễn ra cùng lúc cho mọi người. MSB 
 [[extra.faq]]
 q = "Chuyển sang MSB Digital Bank cần làm những gì?"
 a = "Tải app MSB Digital Bank mới từ kho ứng dụng, xác thực lại CCCD bằng eKYC và quét khuôn mặt, sau đó đặt lại mật khẩu hoặc PIN là có thể giao dịch."
-aliases = ["/ngan-hang/msb-digital-bank-ra-mat-thay-mbank/"]
+aliases = ["/ngan-hang/msb-digital-bank-ra-mat-thay-mbank/", "/baochi/msb-digital-bank-ra-mat-thay-mbank/"]
 +++
 
 Sáng nay mở điện thoại định chuyển khoản như mọi khi, một người bạn của tôi hốt hoảng nhắn: "mBank không vào được nữa, mất tiền rồi à?". Hoá ra không phải mất tiền — MSB vừa chính thức khai tử ứng dụng mBank quen thuộc và thay bằng một siêu ứng dụng mới toanh: **MSB Digital Bank**. Điều quan trọng cần nhớ là việc chuyển đổi **không diễn ra cùng lúc cho tất cả mọi người**: MSB mở cho khách hàng chuyển sang app mới theo từng đợt, nên có người dùng được ngay, có người vẫn phải chờ. Tôi ngồi đọc kỹ thông báo, và thấy đây là một câu chuyện đáng để viết lại cho gọn — vì rất nhiều người đang hoang mang giống bạn tôi.

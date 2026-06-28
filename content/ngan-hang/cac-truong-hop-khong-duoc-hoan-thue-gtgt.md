@@ -1,4 +1,4 @@
-+++
+
 title = "Các trường hợp không được hoàn thuế GTGT [cập nhật 2026]"
 description = "Tổng hợp các trường hợp không được hoàn thuế GTGT: chưa đủ vốn, nợ thuế, hóa đơn vi phạm, sai kê khai… cùng cách phòng tránh hồ sơ hoàn thuế bị từ chối."
 date = 2026-06-18
@@ -24,7 +24,7 @@ a = "Không phải lúc nào cũng được. Nếu chỉ có số thuế đầu 
 [[extra.faq]]
 q = "Kê khai hoàn thuế GTGT sai bị phạt thế nào?"
 a = "Theo Nghị định 125/2020/NĐ-CP, khai sai làm tăng số tiền được hoàn thường bị phạt 20% trên số tiền hoàn cao hơn quy định; với hành vi gian lận, dùng hóa đơn bất hợp pháp mức phạt có thể lên tới 100% số tiền vi phạm, kèm truy thu và tiền chậm nộp. Đây là thông tin tham khảo, mức phạt cụ thể do cơ quan thuế quyết định."
-aliases = ["/ngan-hang/cac-truong-hop-khong-duoc-hoan-thue-gtgt/"]
+aliases = ["/ngan-hang/cac-truong-hop-khong-duoc-hoan-thue-gtgt/", "/baochi/cac-truong-hop-khong-duoc-hoan-thue-gtgt/"]
 +++
 
 Mình từng chứng kiến không ít chủ doanh nghiệp đứng ngồi không yên vì hồ sơ hoàn thuế bị trả lại — tiền thì kẹt, kế hoạch dòng tiền thì vỡ, mà lý do nhiều khi chỉ là vài sai sót tưởng nhỏ. Vấn đề là **không được hoàn thuế GTGT** không phải lúc nào cũng vì làm sai, mà còn vì rơi đúng vào những nhóm trường hợp pháp luật đã loại trừ. Hiểu trước các nhóm này, bạn sẽ tránh được rất nhiều phiền phức.

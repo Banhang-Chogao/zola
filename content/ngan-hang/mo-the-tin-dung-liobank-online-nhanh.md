@@ -1,4 +1,4 @@
-+++
+
 title = "Mở thẻ tín dụng Liobank online: nhanh, khỏi ra quầy"
 description = "Hướng dẫn mở thẻ tín dụng Liobank online từ A–Z: chuẩn bị CCCD, định danh eKYC, kích hoạt thẻ vật lý và phi vật lý ngay trên app — Phần 2 series Liobank."
 date = 2026-06-16
@@ -27,7 +27,7 @@ a = "Thẻ phi vật lý dùng được gần như ngay sau khi duyệt để th
 [[extra.faq]]
 q = "Vì sao nên kích hoạt thẻ vật lý sau khi nhận?"
 a = "Để dùng đầy đủ tính năng của thẻ, và nếu bạn đăng ký qua link giới thiệu thì việc kích hoạt thẻ vật lý thành công mới giúp người giới thiệu được tính thưởng."
-aliases = ["/ngan-hang/mo-the-tin-dung-liobank-online-nhanh/"]
+aliases = ["/ngan-hang/mo-the-tin-dung-liobank-online-nhanh/", "/baochi/mo-the-tin-dung-liobank-online-nhanh/"]
 +++
 
 > 📚 **Series Liobank (Phần 2/5)** — Tiếp nối [Phần 1: Liobank là gì](/ngan-hang/liobank-la-gi-ngan-hang-so-noi-bat/), bài này tôi đi sâu vào bước thực tế đầu tiên: mở thẻ.

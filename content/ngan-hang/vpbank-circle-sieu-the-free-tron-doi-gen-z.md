@@ -1,4 +1,4 @@
-+++
+
 title = "Thẻ VPBank Circle: 'siêu thẻ' free trọn đời cho Gen Z"
 description = "VPBank bắt tay Circle ra mắt thẻ VPBank Circle PayLater: miễn phí thường niên trọn đời, mở thẻ chỉ cần CCCD, quản lý mọi thứ trong app. Góc nhìn của mình."
 date = 2026-06-18
@@ -31,7 +31,7 @@ a = "Sản phẩm cho phép chuyển giao dịch sang trả góp ngay trong app,
 [[extra.faq]]
 q = "Có nên mở thẻ VPBank Circle không?"
 a = "Nếu bạn là Gen Z hoặc Millennials, quen chi tiêu và quản lý tài chính trên điện thoại thì thẻ này khá hợp. Đây là góc nhìn tham khảo, không phải lời khuyên tài chính — hãy tự cân đối nhu cầu và đọc kỹ điều khoản, biểu phí trước khi quyết định."
-aliases = ["/ngan-hang/vpbank-circle-sieu-the-free-tron-doi-gen-z/"]
+aliases = ["/ngan-hang/vpbank-circle-sieu-the-free-tron-doi-gen-z/", "/baochi/vpbank-circle-sieu-the-free-tron-doi-gen-z/"]
 +++
 
 Mấy hôm nay lướt Tuổi Trẻ, mình thấy tin **VPBank bắt tay Circle ra mắt "siêu thẻ" free trọn đời cho Gen Z và Millennials**, và thú thật là cái cụm "free trọn đời" làm mình tò mò ngay. Là người hay mở thử các loại **thẻ ngân hàng số** để viết review, mình muốn ngồi xuống mổ xẻ kỹ: **thẻ VPBank Circle** rốt cuộc là gì, "free trọn đời" có thật như quảng cáo, và nó hợp với ai.

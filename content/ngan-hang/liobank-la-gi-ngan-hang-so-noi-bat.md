@@ -1,4 +1,4 @@
-+++
+
 title = "Liobank là gì? 5 ưu điểm ngân hàng số đáng thử"
 description = "Liobank là gì và vì sao đáng mở thẻ? Tổng quan ngân hàng số Liobank: mở thẻ online, hoàn tiền, bảo mật và quản lý chi tiêu — mở màn series trải nghiệm thực tế."
 date = 2026-06-16
@@ -23,7 +23,7 @@ a = "Năm điểm chính: mở thẻ online nhanh bằng eKYC, hoàn tiền khi 
 [[extra.faq]]
 q = "Liobank hợp với những ai?"
 a = "Hợp nhất với người trẻ, dân văn phòng và freelancer quen thao tác trên điện thoại, ngại thủ tục giấy tờ và hay thanh toán online."
-aliases = ["/ngan-hang/liobank-la-gi-ngan-hang-so-noi-bat/"]
+aliases = ["/ngan-hang/liobank-la-gi-ngan-hang-so-noi-bat/", "/baochi/liobank-la-gi-ngan-hang-so-noi-bat/"]
 +++
 
 > 📚 **Series Liobank (Phần 1/5)** — Mình viết loạt bài này để chia sẻ trải nghiệm dùng Liobank một cách có hệ thống, từ tổng quan cho tới từng tính năng cụ thể. Đây là bài mở màn.

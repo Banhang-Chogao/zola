@@ -1,4 +1,4 @@
-+++
+
 title = "Bảng mã codon DNA và RNA: Bộ từ điển của sự sống"
 description = "Tìm hiểu bảng mã codon DNA và RNA — 64 codon quyết định cách cơ thể tổng hợp protein, từ codon mở đầu AUG đến các codon kết thúc và mã di truyền thay thế."
 date = 2026-06-27
@@ -27,7 +27,7 @@ a = "Không hoàn toàn. Mã di truyền 'chuẩn' áp dụng cho hầu hết si
 [[extra.faq]]
 q = "64 codon mã hóa cho bao nhiêu amino acid?"
 a = "64 codon mã hóa cho 20 amino acid chuẩn cộng 3 tín hiệu kết thúc. Nhiều amino acid được mã hóa bởi nhiều hơn 1 codon (tính dư thừa/degeneracy), ví dụ Leucin có tới 6 codon khác nhau."
-aliases = ["/khoa-hoc/bang-ma-codon-dna-rna/"]
+aliases = ["/khoa-hoc/bang-ma-codon-dna-rna/", "/baochi/bang-ma-codon-dna-rna/"]
 +++
 
 Hồi học sinh, mỗi lần nghe đến "mã di truyền" tôi cứ hình dung một đoạn mật thư khó đọc nào đó. Đến khi thực sự ngồi nghiên cứu kỹ, tôi mới nhận ra: đây thực chất là một cái **bảng từ điển cực kỳ thanh lịch** — và nó vận hành mọi sinh vật trên Trái Đất.

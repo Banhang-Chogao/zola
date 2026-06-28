@@ -1,4 +1,4 @@
-+++
+
 title = "BIDV SmartBanking không vào được? Cách xử lý nhanh"
 description = "BIDV SmartBanking không vào được do mất mạng, sai mật khẩu, đổi thiết bị hay bảo trì? Tổng hợp nguyên nhân và cách xử lý nhanh, kèm số tổng đài BIDV."
 date = 2026-06-21
@@ -25,7 +25,7 @@ a = "Tài khoản thường bị tạm khoá đăng nhập sau nhiều lần sai
 [[extra.faq]]
 q = "Làm sao biết BIDV SmartBanking đang bảo trì hệ thống?"
 a = "Khi bảo trì, app thường báo lỗi kết nối máy chủ dù mạng của bạn vẫn tốt, hoặc hiện thông báo bảo trì. Bảo trì thường rơi vào khung giờ đêm khuya. Lúc này không có cách nào ngoài chờ hệ thống mở lại; bạn có thể theo dõi thông báo chính thức trên website hoặc fanpage BIDV."
-aliases = ["/ngan-hang/bidv-smartbanking-khong-vao-duoc/"]
+aliases = ["/ngan-hang/bidv-smartbanking-khong-vao-duoc/", "/baochi/bidv-smartbanking-khong-vao-duoc/"]
 +++
 
 "BIDV SmartBanking không vào được" có lẽ là kiểu lỗi gây ức chế nhất với người dùng ngân hàng số: đúng lúc cần chuyển tiền gấp thì app cứ quay vòng, báo sai mật khẩu, hoặc văng ra màn hình trắng. Mình từng dính đúng cảnh đó giữa lúc thanh toán, nên bài này mình gom lại toàn bộ nguyên nhân thường gặp và cách xử lý theo thứ tự từ nhanh tới căn cơ, để bạn không phải mò mẫm trong lúc đang sốt ruột.

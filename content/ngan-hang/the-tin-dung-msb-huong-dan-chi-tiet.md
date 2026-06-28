@@ -1,4 +1,4 @@
-+++
+
 title = "Thẻ tín dụng MSB: ưu đãi và cách dùng hiệu quả"
 description = "Thẻ tín dụng MSB: ưu đãi miễn phí, tích điểm x10, trả góp 0% và cách dùng thẻ thông minh cho người mới."
 date = 2026-06-16
@@ -11,7 +11,7 @@ content_origin = "baochi"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 seo_keyword = "thẻ tín dụng MSB"
 featured = false
-aliases = ["/ngan-hang/the-tin-dung-msb-huong-dan-chi-tiet/"]
+aliases = ["/ngan-hang/the-tin-dung-msb-huong-dan-chi-tiet/", "/baochi/the-tin-dung-msb-huong-dan-chi-tiet/"]
 +++
 
 Thẻ tín dụng đã trở thành một công cụ tài chính không thể thiếu trong cuộc sống hiện đại. Nếu bạn đang tìm hiểu về các lựa chọn thẻ tín dụng tại Việt Nam, **thẻ tín dụng MSB** là một trong những sản phẩm đáng chú ý với nhiều ưu đãi hấp dẫn. Bài viết này sẽ giúp bạn hiểu rõ thẻ tín dụng MSB là gì, những lợi ích nó mang lại, và cách sử dụng nó một cách thông minh.

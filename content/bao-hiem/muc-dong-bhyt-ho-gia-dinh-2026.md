@@ -1,4 +1,4 @@
-+++
+
 title = "BHYT hộ gia đình 2026: đóng bao nhiêu, giảm trừ?"
 description = "Từ 01/7/2026 lương cơ sở tăng lên 2,53 triệu, mức đóng BHYT hộ gia đình cũng đổi. Mình giải thích cách tính, mức giảm trừ từng người và vài lưu ý thực tế."
 date = 2026-06-16
@@ -22,7 +22,7 @@ a = "Vì từ ngày 01/7/2026 lương cơ sở tăng lên 2.530.000 đồng/thá
 [[extra.faq]]
 q = "Cả nhà cùng tham gia BHYT hộ gia đình có được giảm tiền không?"
 a = "Có. Khi các thành viên cùng một hộ cùng tham gia trong năm tài chính, từ người thứ hai trở đi được giảm trừ dần: 70%, 60%, 50% và 40% mức đóng của người thứ nhất."
-aliases = ["/bao-hiem/muc-dong-bhyt-ho-gia-dinh-2026/"]
+aliases = ["/bao-hiem/muc-dong-bhyt-ho-gia-dinh-2026/", "/baochi/muc-dong-bhyt-ho-gia-dinh-2026/"]
 +++
 
 Sáng nay lướt báo, mình đọc được bản tin về mức đóng bảo hiểm y tế (BHYT) hộ gia đình thay đổi từ ngày 01/7/2026. Thoạt nghe thì khô khan, nhưng đây lại là chuyện chạm trực tiếp tới ví tiền của gần như mọi gia đình Việt — kể cả nhà mình. Lý do thay đổi rất đơn giản: lương cơ sở tăng. Mà cái gì tính theo lương cơ sở thì cũng nhúc nhích theo. Mình ngồi tính lại cho cả nhà rồi, nên viết ra đây vừa để nhớ, vừa để ai đang phân vân thì có chỗ tham khảo.
