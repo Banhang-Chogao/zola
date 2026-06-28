@@ -1,21 +1,15 @@
 /**
- * Changelog fetch — load public changelog data from VIPZone backend.
- * Public users can view entries; admin-only controls are hidden/disabled.
- * CMS auth (GitHub OAuth session) is optional — used only for admin actions.
+ * Changelog fetch — load public changelog data from file-based changelog.json.
+ * Public users can view entries. No admin authentication needed — changelog is public.
  */
 (function () {
   "use strict";
-
-  const VIPZONE_API = "https://blog-vipzone-api.onrender.com";
-  const PUBLIC_ENDPOINT = "/api/vipzone/changelog";
-  const ADMIN_ENDPOINT = "/api/vipzone/admin/changelog";
 
   const loader = document.querySelector("[data-changelog-loader]");
   const error = document.querySelector("[data-changelog-error]");
   const errorText = document.querySelector("[data-error-text]");
   const list = document.querySelector("[data-changelog-list]");
   const template = document.querySelector("[data-changelog-template]");
-  const adminPanel = document.querySelector("[data-changelog-admin-panel]");
 
   if (!loader || !list || !template) {
     console.warn("[changelog] Required elements not found");
@@ -28,13 +22,13 @@
       const day = String(d.getDate()).padStart(2, "0");
       const month = String(d.getMonth() + 1).padStart(2, "0");
       const year = d.getFullYear();
-      return `${day}-${month}-${year}`;
+      return `${day}/${month}/${year}`;
     } catch (e) {
       return isoDate;
     }
   }
 
-  function renderEntry(item, index) {
+  function renderEntry(item) {
     const node = template.content.cloneNode(true);
     const li = node.querySelector("li");
     const titleEl = node.querySelector("[data-title]");
@@ -82,11 +76,11 @@
     const net = added - removed;
     if (added > 0 || removed > 0) {
       const statsHtml = `
-        <span class="changelog__stats-rem">−${removed} dòng xóa</span>
-        <span class="changelog__stats-dot">·</span>
-        <span class="changelog__stats-add">+${added} dòng thêm</span>
-        <span class="changelog__stats-dot">·</span>
-        <span class="changelog__stats-net">Net ${net >= 0 ? "+" : ""}${net} dòng</span>
+        <span class="changelog__stats-rem">\u2212${removed} d\xf2ng x\xf3a</span>
+        <span class="changelog__stats-dot">\xb7</span>
+        <span class="changelog__stats-add">+${added} d\xf2ng th\xeam</span>
+        <span class="changelog__stats-dot">\xb7</span>
+        <span class="changelog__stats-net">Net ${net >= 0 ? "+" : ""}${net} d\xf2ng</span>
       `;
       if (statsEl) {
         statsEl.innerHTML = statsHtml;
@@ -97,71 +91,43 @@
     return node;
   }
 
-  async function isAdmin() {
-    const sid = sessionStorage.getItem("zola-cms-session-id");
-    if (!sid) {
-      return false;
-    }
-
-    try {
-      const res = await fetch(`${VIPZONE_API}/api/vipzone/admin/changelog`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${sid}`,
-          "Content-Type": "application/json",
-        },
-        credentials: "omit",
-      });
-      return res.status === 200;
-    } catch (err) {
-      return false;
-    }
-  }
-
   async function loadChangelog() {
     loader.hidden = false;
     list.hidden = true;
     if (error) error.hidden = true;
 
     try {
-      // Try public endpoint first (no auth required)
-      const res = await fetch(`${VIPZONE_API}${PUBLIC_ENDPOINT}`, {
+      const res = await fetch("/changelog.json", {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         credentials: "omit",
       });
 
       if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`HTTP ${res.status}: ${text}`);
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
 
       const data = await res.json();
-      if (!data.items || !Array.isArray(data.items)) {
+      if (!data || !Array.isArray(data)) {
         throw new Error("Invalid response format");
       }
 
+      // Sort by date descending (newest first)
+      data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
       // Render list
       list.innerHTML = "";
-      if (data.items.length === 0) {
-        list.innerHTML = '<li class="changelog__empty">Chưa có entry nào.</li>';
+      if (data.length === 0) {
+        list.innerHTML = '<li class="changelog__empty">Ch\u01b0a c\xf3 entry n\xe0o.</li>';
       } else {
-        data.items.forEach((item, i) => {
-          const node = renderEntry(item, i);
+        data.forEach((item) => {
+          const node = renderEntry(item);
           list.appendChild(node);
         });
       }
 
       loader.hidden = true;
       list.hidden = false;
-
-      // Check if user is admin and show admin panel if so
-      const userIsAdmin = await isAdmin();
-      if (adminPanel) {
-        adminPanel.hidden = !userIsAdmin;
-      }
     } catch (err) {
       console.error("[changelog] Load failed:", err.message);
       loader.hidden = true;
@@ -173,9 +139,8 @@
         error.hidden = false;
       }
 
-      // Show empty state if no error element
       if (!error) {
-        list.innerHTML = '<li class="changelog__empty">Lỗi tải dữ liệu.</li>';
+        list.innerHTML = '<li class="changelog__empty">L\u1ed7i t\u1ea3i d\u1eef li\u1ec7u.</li>';
         list.hidden = false;
       }
     }
