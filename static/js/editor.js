@@ -122,9 +122,19 @@
     }
     try {
       const res = await fetch(AUTH_API + "/auth/me", opts);
-      if (!res.ok) return { status: res.status };
+      if (!res.ok) {
+        // Log non-200 auth responses for debugging (but not in console to avoid overwhelming user)
+        if (res.status === 401) {
+          // Session expired or invalid — expected when not logged in
+        } else if (res.status >= 500) {
+          // Backend error — transient, should retry
+          console.warn("[CMS] /auth/me backend error:", res.status);
+        }
+        return { status: res.status };
+      }
       return { status: 200, user: await res.json() };
     } catch (e) {
+      console.warn("[CMS] /auth/me fetch failed (likely CORS or network):", e.message);
       return { status: -1 }; // network/CORS fail → transient, KHÔNG coi là logout
     }
   }
@@ -136,7 +146,20 @@
     let r = sid ? await meRequest(true) : { status: 0 };
     if (r.status === 200) return r.user;
     // Bearer thiếu / 401 / lỗi → thử cookie HttpOnly.
-    if (r.status === 0 || r.status === 401 || r.status === -1) {
+    // NHƯNG: nếu network error (-1), KHÔNG retry, chỉ return null để hiện lỗi.
+    if (r.status === -1) {
+      // Network/CORS error on bearer attempt — backend might be down/slow.
+      // Show error instead of redirecting to login (which could cause loop).
+      console.warn("[CMS] Backend unreachable (network/CORS). Trying cookie fallback...");
+      const c = await meRequest(false);
+      if (c.status === 200) return c.user;
+      if (c.status === -1) {
+        // Both attempts failed due to network → report backend error, don't show login.
+        return { __error: "backend_unreachable" };
+      }
+      return null;
+    }
+    if (r.status === 0 || r.status === 401) {
       const c = await meRequest(false);
       if (c.status === 200) return c.user;
       // Chỉ clear sid khi backend KHẲNG ĐỊNH 401 (cả Bearer lẫn cookie đều fail).
@@ -2992,40 +3015,75 @@ tags = ${tagsStr}
     return !!(p && avail && avail[p] === true);
   }
 
-  async function init() {
-    // 1. Consume #sid=... từ callback redirect (nếu vừa OAuth xong)
-    consumeUrlHashSid();
-    // 2. Consume ?auth_error=... (luôn strip param khỏi URL qua replaceState).
-    //    KHÔNG hiện ngay — chờ /auth/config để bỏ cảnh báo mâu thuẫn (vd
-    //    google_disabled cũ trong khi backend đã bật Google ở chế độ dual).
-    const errCode = consumeUrlAuthError();
+  // Complete post-callback auth validation flow
+  // Detects if we just came back from OAuth, validates session, hides modal if authenticated
+  async function validatePostCallbackAuth() {
+    console.log("[CMS Auth] Starting post-callback validation...");
 
-    // 3. Nếu backend chưa configure → không verify được config, hiện lỗi thô.
+    // 1. Check for ?auth_error in query string (backend denial)
+    const errCode = consumeUrlAuthError();
+    if (errCode) {
+      console.warn("[CMS Auth] OAuth returned error:", errCode);
+      return { authenticated: false, error: errCode };
+    }
+
+    // 2. Extract #sid from callback URL (if present)
+    consumeUrlHashSid();
+
+    // 3. Validate session via /auth/me with credentials: include
+    // This ensures the HttpOnly session cookie is sent if it exists
+    const user = await fetchMe();
+
+    if (user && user.__error === "backend_unreachable") {
+      console.error("[CMS Auth] Backend unreachable");
+      return { authenticated: false, error: "backend_unreachable" };
+    }
+
+    if (user) {
+      console.log("[CMS Auth] Session validated successfully");
+      currentUser = user;
+      return { authenticated: true, user: user };
+    }
+
+    console.log("[CMS Auth] No valid session found");
+    return { authenticated: false };
+  }
+
+  async function init() {
+    // 1. Try to validate post-callback auth first (handles OAuth redirect case)
+    const authResult = await validatePostCallbackAuth();
+
+    // 2. Check if authentication succeeded
+    if (authResult.authenticated) {
+      // Session valid — load editor immediately
+      console.log("[CMS Auth] Loading editor with authenticated session");
+      populateUserBar(authResult.user);
+      if (!checkUrlParam()) await enterDashboard(true);
+      return;
+    }
+
+    // 3. If backend unreachable, show error instead of login (prevent loop)
+    if (authResult.error === "backend_unreachable") {
+      console.error("[CMS Auth] Backend not responding");
+      setStatus("[data-status]", "❌ Không thể kết nối backend. Vui lòng kiểm tra lại sau.", "error");
+      showView("login");
+      return;
+    }
+
+    // 4. Not authenticated — show login screen with appropriate providers
+    // Backend chưa configure → không verify được config, hiện lỗi thô.
     if (!AUTH_API) {
-      if (errCode) showLoginError(errCode);
+      if (authResult.error) showLoginError(authResult.error);
       showLoginHint();
       showView("login");
       return;
     }
 
-    // 4. Validate phiên qua /auth/me — thử Bearer (localStorage) RỒI cookie
-    //    HttpOnly. Gọi cả khi localStorage trống: nếu cookie còn sống (vd user
-    //    chỉ xoá static cache, không xoá site data) thì vẫn đăng nhập được,
-    //    KHÔNG bắt login lại.
-    const user = await fetchMe();
-    if (user) {
-      currentUser = user;
-      populateUserBar(user);
-      if (!checkUrlParam()) await enterDashboard(true);
-      return;
-    }
-    // Hết phiên thật (cả Bearer lẫn cookie fail) → rơi xuống màn login.
-
-    // 5. Chưa login → fetch /auth/config TRƯỚC (render đúng nút + biết provider
-    //    nào đang bật), rồi mới quyết định có hiện cảnh báo *_disabled không.
+    // 5. Fetch /auth/config để render đúng nút (Google primary trong dual/google)
+    //    và quyết định có hiện cảnh báo *_disabled hay không.
     const avail = await applyAuthProviders();
-    if (errCode && !_isContradictedError(errCode, avail)) {
-      showLoginError(errCode);
+    if (authResult.error && !_isContradictedError(authResult.error, avail)) {
+      showLoginError(authResult.error);
     }
     showView("login");
   }
