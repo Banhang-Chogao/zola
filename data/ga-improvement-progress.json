@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-28T18:56:04Z",
+  "updated_at": "2026-06-28T22:42:18Z",
   "tasks": [
     {
       "id": "seo",
@@ -17,25 +17,25 @@
       "status": "running",
       "detail": "0 broken links · 10 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-28T10:59:41Z"
+      "updated_at": "2026-06-28T18:59:49Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 61/100 · LCP 7.0 s · needs work",
+      "detail": "Mobile 60/100 · LCP 7.0 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-28T15:04:35+00:00"
+      "updated_at": "2026-06-28T19:58:42+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 857/857 pages",
+      "detail": "15 pages missing FAQ/schema · 885/885 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-28T10:59:41Z"
+      "updated_at": "2026-06-28T18:59:49Z"
     },
     {
       "id": "content_refresh",
@@ -51,33 +51,33 @@
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "done",
-      "detail": "1114 links OK · IndexNow on publish",
+      "detail": "1126 links OK · IndexNow on publish",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-28T15:10:07Z"
+      "updated_at": "2026-06-28T20:42:45Z"
     },
     {
       "id": "image_opt",
       "label": "Image optimization",
       "icon": "🖼️",
-      "status": "done",
-      "detail": "formats OK · WebP workflow",
+      "status": "running",
+      "detail": "2 large file(s)",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-28T10:59:41Z"
+      "updated_at": "2026-06-28T18:59:49Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 61/100 vs desktop 85/100 (Δ24) · 857/857 ready",
+      "detail": "Mobile 60/100 vs desktop 75/100 (Δ15) · 885/885 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-28T15:04:35+00:00"
+      "updated_at": "2026-06-28T19:58:42+00:00"
     }
   ],
   "summary": {
     "pending": 0,
-    "running": 5,
-    "done": 3
+    "running": 6,
+    "done": 2
   },
   "note": "Statuses from QA/SEO/PERF snapshots — informational, not GA metrics."
 }
