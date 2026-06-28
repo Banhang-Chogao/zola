@@ -2,9 +2,10 @@
 title = "So sánh Tiết kiệm tự động Liobank với các hình thức khác"
 description = "So sánh Tiết kiệm tự động Liobank với tài khoản thanh toán, tiết kiệm có kỳ hạn, và các kênh đầu tư khác. Chọn đúng công cụ cho từng mục tiêu tài chính."
 date = 2026-06-28
+aliases = ["/so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["so sánh tiết kiệm tự động", "liobank", "tài chính cá nhân", "series tiet-kiem-tu-dong liobank"]
+tags = ["liobank", "series tiet-kiem-tu-dong liobank", "so sánh tiết kiệm tự động", "tài chính cá nhân"]
 [extra]
 og_image = "img/placeholders/OG-Image-place-holer.webp"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"

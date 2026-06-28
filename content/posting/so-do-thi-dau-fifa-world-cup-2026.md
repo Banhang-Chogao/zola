@@ -2,12 +2,12 @@
 title = "Sơ đồ thi đấu FIFA World Cup 2026: bracket 32 đội, nhánh đấu và lịch"
 description = "Sơ đồ thi đấu FIFA World Cup 2026 chi tiết: 16 cặp vòng 32 đội, nhánh đấu knock-out, lịch từ vòng 32 đến chung kết. Cập nhật bracket World Cup 2026 mới nhất."
 date = 2026-06-28
+aliases = ["/so-do-thi-dau-fifa-world-cup-2026/"]
 updated = 2026-06-28
 
 [taxonomies]
 categories = ["Tất cả", "Thể thao", "World cup 2026"]
-tags = ["world cup 2026", "fifa world cup", "sơ đồ thi đấu", "bracket world cup 2026", "nhánh đấu world cup 2026", "vòng 32 đội", "lịch knock-out world cup 2026"]
-
+tags = ["bracket world cup 2026", "fifa world cup", "lịch knock-out world cup 2026", "nhánh đấu world cup 2026", "sơ đồ thi đấu", "vòng 32 đội", "world cup 2026"]
 [extra]
 seo_keyword = "sơ đồ thi đấu FIFA World Cup 2026"
 thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
