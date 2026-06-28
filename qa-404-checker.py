@@ -472,7 +472,7 @@ def run_fixes(report: dict) -> tuple[list[dict], bool]:
     if not broken:
         return fixes, False
 
-    # Build replacement map: broken target → corrected site path (with /zola).
+    # Build replacement map: broken target → corrected site path (canonical, no /zola).
     md_files = list(CONTENT.rglob("*.md")) if CONTENT.is_dir() else []
 
     for entry in broken:
@@ -480,7 +480,13 @@ def run_fixes(report: dict) -> tuple[list[dict], bool]:
         suggestion = entry["suggestion"]
         if not suggestion:
             continue
-        corrected = SITE_PREFIX + suggestion  # keep GitHub Pages prefix
+        corrected = suggestion  # canonical site-relative path (no /zola prefix for production)
+
+        # P0 GUARD: never allow /zola/ in corrected output (production base_url is seomoney.org, not /zola)
+        if "/zola/" in corrected or corrected.startswith("/zola"):
+            print(f"::error::qa-404-checker P0: fixer would output /zola/ path {corrected} — aborting", file=sys.stderr)
+            sys.exit(2)
+
         olds = _site_url_variants(target)
         # Avoid replacing if the "broken" spelling equals the corrected one.
         olds = [o for o in olds if o.rstrip("/") != corrected.rstrip("/")]
