@@ -21,7 +21,18 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
-CONTENT_DIRS = (ROOT / "content" / "posting", ROOT / "content" / "baochi")
+CONTENT_DIRS = (
+    ROOT / "content" / "posting",
+    ROOT / "content" / "baochi",
+    ROOT / "content" / "ngan-hang",
+    ROOT / "content" / "du-lich",
+    ROOT / "content" / "khoa-hoc",
+    ROOT / "content" / "cong-nghe",
+    ROOT / "content" / "the-gioi",
+    ROOT / "content" / "bao-hiem",
+    ROOT / "content" / "the-thao",
+    ROOT / "content" / "doi-song",
+)
 TEMPLATE_DIRS = (ROOT / "templates", ROOT / "sass")
 DATA_OUT = ROOT / "data" / "ad-report-v2.json"
 MANIFEST_OUT = ROOT / "data" / "ad-report-v2-manifest.json"
