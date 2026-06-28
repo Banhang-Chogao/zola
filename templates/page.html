@@ -10,6 +10,13 @@
 {% import "macros/placement.html" as placement %}
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
+{% block extra_head %}
+    {{ super() }}
+    {% if page %}
+    <link rel="preload" as="image" href="{{ img::cover_src(page=page) }}" fetchpriority="high">
+    {% endif %}
+{% endblock %}
+
 {% block main %}
     <article class="post-single">
             <div class="post-single__hero">
