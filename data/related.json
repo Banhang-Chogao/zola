@@ -1,23 +1,23 @@
 {
   "ai-nen-su-dung-tiet-kiem-tu-dong-liobank": [
     {
-      "score": 0.8944,
+      "score": 0.9006,
       "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac"
     },
     {
-      "score": 0.8731,
+      "score": 0.8704,
       "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong"
     },
     {
-      "score": 0.8475,
+      "score": 0.8392,
       "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong"
     },
     {
-      "score": 0.7183,
+      "score": 0.7153,
       "slug": "review-liobank-by-ocb"
     },
     {
-      "score": 0.7023,
+      "score": 0.7043,
       "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank"
     }
   ],
@@ -127,7 +127,7 @@
       "slug": "ngan-hang-so-cho-sinh-vien"
     },
     {
-      "score": 0.5509,
+      "score": 0.5476,
       "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank"
     }
   ],
@@ -291,6 +291,10 @@
       "slug": "codeql-api-rate-limit-giai-phap"
     },
     {
+      "score": 0.4309,
+      "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
+    },
+    {
       "score": 0.4198,
       "slug": "github-actions-secrets-setup-guide"
     },
@@ -301,10 +305,6 @@
     {
       "score": 0.3976,
       "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
-    },
-    {
-      "score": 0.3969,
-      "slug": "bao-mat-best-practices-git-github"
     }
   ],
   "cong-nghe-blog-duy-nguyen": [
@@ -321,12 +321,12 @@
       "slug": "phan-trang-trang-chu-zola-archive"
     },
     {
-      "score": 0.6544,
-      "slug": "qa-gatekeeper-tu-fix-loi-blog"
+      "score": 0.7114,
+      "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
     },
     {
-      "score": 0.6059,
-      "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
+      "score": 0.6544,
+      "slug": "qa-gatekeeper-tu-fix-loi-blog"
     }
   ],
   "cot-moc-lich-su-phat-trien-vietinbank": [
@@ -413,7 +413,7 @@
       "slug": "fix-internal-links-checker-ci-failure"
     },
     {
-      "score": 0.5548,
+      "score": 0.5259,
       "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
     }
   ],
@@ -669,7 +669,7 @@
       "slug": "debug-zola-series-navigation-links"
     },
     {
-      "score": 0.5789,
+      "score": 0.5805,
       "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
     },
     {
@@ -1431,23 +1431,23 @@
   ],
   "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank": [
     {
-      "score": 0.725,
+      "score": 0.7298,
       "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong"
     },
     {
-      "score": 0.7023,
+      "score": 0.7043,
       "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank"
     },
     {
-      "score": 0.653,
+      "score": 0.6445,
       "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong"
     },
     {
-      "score": 0.5999,
+      "score": 0.6019,
       "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac"
     },
     {
-      "score": 0.5509,
+      "score": 0.5476,
       "slug": "cach-mo-tai-khoan-ngan-hang-so-online"
     }
   ],
@@ -1541,24 +1541,46 @@
   ],
   "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push": [
     {
-      "score": 0.7265,
+      "score": 0.6897,
       "slug": "phan-trang-trang-chu-zola-archive"
     },
     {
-      "score": 0.6218,
+      "score": 0.6366,
+      "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
+    },
+    {
+      "score": 0.6055,
       "slug": "tu-dong-deploy-zola-github-actions"
     },
     {
-      "score": 0.6178,
+      "score": 0.5984,
+      "slug": "qa-gatekeeper-tu-fix-loi-blog"
+    },
+    {
+      "score": 0.5931,
+      "slug": "cong-nghe-blog-duy-nguyen"
+    }
+  ],
+  "kinh-nghiem-xay-cms-v2-cho-blog-zola": [
+    {
+      "score": 0.745,
       "slug": "tao-blog-voi-zola"
     },
     {
-      "score": 0.6059,
+      "score": 0.7315,
+      "slug": "tu-dong-deploy-zola-github-actions"
+    },
+    {
+      "score": 0.7114,
       "slug": "cong-nghe-blog-duy-nguyen"
     },
     {
-      "score": 0.5789,
-      "slug": "fix-internal-links-checker-ci-failure"
+      "score": 0.6366,
+      "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
+    },
+    {
+      "score": 0.5973,
+      "slug": "phan-trang-trang-chu-zola-archive"
     }
   ],
   "kinh-ngu-nopimmal-tieng-han": [
@@ -1585,23 +1607,23 @@
   ],
   "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong": [
     {
-      "score": 0.8615,
+      "score": 0.8606,
       "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac"
     },
     {
-      "score": 0.8475,
+      "score": 0.8392,
       "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank"
     },
     {
-      "score": 0.8228,
+      "score": 0.816,
       "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong"
     },
     {
-      "score": 0.653,
+      "score": 0.6445,
       "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank"
     },
     {
-      "score": 0.6454,
+      "score": 0.6406,
       "slug": "review-liobank-by-ocb"
     }
   ],
@@ -1615,7 +1637,7 @@
       "slug": "cong-nghe-blog-duy-nguyen"
     },
     {
-      "score": 0.5547,
+      "score": 0.5831,
       "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
     },
     {
@@ -1651,7 +1673,7 @@
   ],
   "lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick": [
     {
-      "score": 0.7516,
+      "score": 0.7531,
       "slug": "so-do-thi-dau-fifa-world-cup-2026"
     }
   ],
@@ -1709,7 +1731,7 @@
       "slug": "cong-nghe-blog-duy-nguyen"
     },
     {
-      "score": 0.5413,
+      "score": 0.5579,
       "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
     },
     {
@@ -1749,7 +1771,7 @@
       "slug": "ngan-hang-so-cho-sinh-vien"
     },
     {
-      "score": 0.495,
+      "score": 0.4946,
       "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank"
     },
     {
@@ -2413,7 +2435,7 @@
       "slug": "cong-nghe-blog-duy-nguyen"
     },
     {
-      "score": 0.7265,
+      "score": 0.6897,
       "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
     },
     {
@@ -2567,12 +2589,12 @@
       "slug": "tu-dong-deploy-zola-github-actions"
     },
     {
-      "score": 0.5877,
-      "slug": "tao-blog-voi-zola"
+      "score": 0.5984,
+      "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
     },
     {
-      "score": 0.5774,
-      "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
+      "score": 0.5877,
+      "slug": "tao-blog-voi-zola"
     }
   ],
   "quy-tac-phat-am-tieng-han": [
@@ -2621,24 +2643,24 @@
   ],
   "review-liobank-by-ocb": [
     {
-      "score": 0.7183,
+      "score": 0.7153,
       "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank"
+    },
+    {
+      "score": 0.6646,
+      "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong"
     },
     {
       "score": 0.6589,
       "slug": "faq-toan-tap-ngan-hang-so"
     },
     {
-      "score": 0.6576,
-      "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong"
-    },
-    {
-      "score": 0.6454,
-      "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong"
-    },
-    {
-      "score": 0.6257,
+      "score": 0.6449,
       "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac"
+    },
+    {
+      "score": 0.6406,
+      "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong"
     }
   ],
   "review-tnex-chi-tiet": [
@@ -2695,7 +2717,7 @@
       "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
     },
     {
-      "score": 0.403,
+      "score": 0.3924,
       "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
     },
     {
@@ -2703,8 +2725,8 @@
       "slug": "tera-template-syntax-error-conditional"
     },
     {
-      "score": 0.3445,
-      "slug": "debug-zola-series-navigation-links"
+      "score": 0.3558,
+      "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
     }
   ],
   "seo-la-gi-huong-dan-co-ban-google-search": [
@@ -2753,7 +2775,7 @@
   ],
   "so-do-thi-dau-fifa-world-cup-2026": [
     {
-      "score": 0.7516,
+      "score": 0.7531,
       "slug": "lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick"
     }
   ],
@@ -2767,7 +2789,7 @@
       "slug": "top-ngan-hang-so-tot-nhat-viet-nam-2026"
     },
     {
-      "score": 0.659,
+      "score": 0.665,
       "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac"
     },
     {
@@ -2781,23 +2803,23 @@
   ],
   "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac": [
     {
-      "score": 0.8944,
+      "score": 0.9006,
       "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank"
     },
     {
-      "score": 0.8615,
+      "score": 0.8606,
       "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong"
     },
     {
-      "score": 0.8493,
+      "score": 0.8549,
       "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong"
     },
     {
-      "score": 0.659,
+      "score": 0.665,
       "slug": "so-sanh-cake-vs-liobank"
     },
     {
-      "score": 0.6446,
+      "score": 0.6455,
       "slug": "ngan-hang-so-hoan-tien-nhieu-nhat"
     }
   ],
@@ -2881,12 +2903,12 @@
       "slug": "phan-trang-trang-chu-zola-archive"
     },
     {
-      "score": 0.6681,
-      "slug": "zola-vs-hugo"
+      "score": 0.745,
+      "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
     },
     {
-      "score": 0.6178,
-      "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
+      "score": 0.6681,
+      "slug": "zola-vs-hugo"
     }
   ],
   "tau-con-thoi-atlantis": [
@@ -3067,23 +3089,23 @@
   ],
   "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong": [
     {
-      "score": 0.8731,
+      "score": 0.8704,
       "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank"
     },
     {
-      "score": 0.8493,
+      "score": 0.8549,
       "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac"
     },
     {
-      "score": 0.8228,
+      "score": 0.816,
       "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong"
     },
     {
-      "score": 0.725,
+      "score": 0.7298,
       "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank"
     },
     {
-      "score": 0.6576,
+      "score": 0.6646,
       "slug": "review-liobank-by-ocb"
     }
   ],
@@ -3193,8 +3215,8 @@
       "slug": "cai-dat-git-cau-hinh-lan-dau"
     },
     {
-      "score": 0.279,
-      "slug": "github-actions-secrets-setup-guide"
+      "score": 0.2792,
+      "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
     }
   ],
   "top-ngan-hang-so-tot-nhat-viet-nam-2026": [
@@ -3321,12 +3343,12 @@
       "slug": "phan-trang-trang-chu-zola-archive"
     },
     {
-      "score": 0.6774,
-      "slug": "gh-run-list-monitor-deploy"
+      "score": 0.7315,
+      "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
     },
     {
-      "score": 0.6633,
-      "slug": "kiem-tra-trang-thai-pr-sau-khi-merge"
+      "score": 0.6774,
+      "slug": "gh-run-list-monitor-deploy"
     }
   ],
   "tuong-lai-ngan-hang-so-va-vi-the-vietinbank": [
@@ -3765,8 +3787,8 @@
       "slug": "debug-zola-series-navigation-links"
     },
     {
-      "score": 0.5712,
-      "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
+      "score": 0.5706,
+      "slug": "tao-blog-voi-zola"
     }
   ],
   "zola-vs-hugo": [
@@ -3787,8 +3809,8 @@
       "slug": "tu-dong-deploy-zola-github-actions"
     },
     {
-      "score": 0.5142,
-      "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
+      "score": 0.569,
+      "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
     }
   ]
 }
