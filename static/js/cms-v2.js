@@ -116,10 +116,15 @@
     return authError;
   }
 
+  function buildLoginUrl() {
+    var url = new URL("/auth/login", AUTH_API);
+    url.searchParams.set("return_to", CMS_RETURN_TO);
+    return url.toString();
+  }
+
   function startOAuth() {
     if (!AUTH_API) return;
-    var loginUrl = AUTH_API + "/auth/login?return_to=" + encodeURIComponent(CMS_RETURN_TO);
-    window.location.assign(loginUrl);
+    window.location.assign(buildLoginUrl());
   }
 
   async function meRequest(useBearer) {
