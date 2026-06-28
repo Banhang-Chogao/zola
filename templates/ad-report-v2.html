@@ -28,6 +28,7 @@
 {% if ar.scan_stats.incremental %}{% set ar_incremental = ar.scan_stats.incremental %}{% else %}{% set ar_incremental = false %}{% endif %}
 {% if ar.pagespeed_snapshot %}{% set ar_pagespeed = ar.pagespeed_snapshot %}{% else %}{% set ar_pagespeed = false %}{% endif %}
 {% if ar.latest_report_path %}{% set ar_report_path = ar.latest_report_path %}{% else %}{% set ar_report_path = "reports/ad-report-v2/" %}{% endif %}
+{% if ar.action_suggestions %}{% set ar_actions = ar.action_suggestions %}{% else %}{% set ar_actions = false %}{% endif %}
 {% else %}
 {% set ar_num = 0 %}
 {% set ar_score = 0 %}
@@ -95,6 +96,7 @@
 
     <nav class="ad-report__toc ad-report-v2__toc" aria-label="Mục lục">
         <a href="#ui-review">UI Review</a>
+        <a href="#action-suggestions">Gợi ý sau báo cáo</a>
         <a href="#revenue">Revenue Opportunities</a>
         <a href="#keywords">High Value Keywords</a>
         <a href="#rpm-boost">RPM Booster</a>
@@ -119,6 +121,111 @@
             <div><dt>LCP</dt><dd>{{ ar_pagespeed.lcp | default(value="—") }}</dd></div>
             <div><dt>CLS</dt><dd>{{ ar_pagespeed.cls | default(value="—") }}</dd></div>
         </dl>
+        {% endif %}
+    </section>
+
+    <section id="action-suggestions" class="ad-report-v2__section">
+        <h2>Gợi ý sau báo cáo</h2>
+        <p class="ad-report-v2__lede">Các hành động cụ thể dựa trên dữ liệu UI review, RPM potential, và AdSense readiness — ưu tiên theo P0 → P2.</p>
+
+        {% set imm_actions = ar_actions.immediate_actions | default(value=[]) %}
+        {% if imm_actions | length > 0 %}
+        <section class="ad-report-v2__subsection">
+            <h3>1️⃣ Việc nên làm ngay</h3>
+            <ul class="ad-report-v2__action-list">
+            {% for action in imm_actions %}
+                <li class="ad-report-v2__action ad-report-v2__action--{{ action.priority | lower }}">
+                    <span class="ad-report-v2__action-priority">[{{ action.priority }}]</span>
+                    <strong>{{ action.action }}</strong>
+                    <span class="ad-report-v2__action-detail">{{ action.detail }}</span>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
+        {% endif %}
+
+        {% set opt_posts = ar_actions.posts_to_optimize | default(value=[]) %}
+        {% if opt_posts | length > 0 %}
+        <section class="ad-report-v2__subsection">
+            <h3>2️⃣ Bài nên tối ưu</h3>
+            <ul class="ad-report-v2__post-optimize-list">
+            {% for post in opt_posts %}
+                <li class="ad-report-v2__post-opt">
+                    <a href="{{ post.url }}">{{ post.title }}</a>
+                    <span class="ad-report-v2__score">{{ post.score }}</span>
+                    <span class="ad-report-v2__category">{{ post.category }}</span>
+                    <span class="ad-report-v2__reason">{{ post.reason }}</span>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
+        {% endif %}
+
+        {% set topics = ar_actions.topics_to_write | default(value=[]) %}
+        {% if topics | length > 0 %}
+        <section class="ad-report-v2__subsection">
+            <h3>3️⃣ Chủ đề nên viết tiếp</h3>
+            <ul class="ad-report-v2__topic-list">
+            {% for topic in topics %}
+                <li class="ad-report-v2__topic">
+                    <strong class="ad-report-v2__topic-name">{{ topic.category }}</strong>
+                    <span class="ad-report-v2__topic-meta">{{ topic.current_posts }} posts · RPM max {{ topic.max_rpm }}</span>
+                    <p class="ad-report-v2__topic-expansion">📌 {{ topic.suggested_expansion }}</p>
+                    <p class="ad-report-v2__topic-rationale">💡 {{ topic.rationale }}</p>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
+        {% endif %}
+
+        {% set link_sugg = ar_actions.internal_link_suggestions | default(value=[]) %}
+        {% if link_sugg | length > 0 %}
+        <section class="ad-report-v2__subsection">
+            <h3>4️⃣ Internal links nên thêm</h3>
+            <ul class="ad-report-v2__link-suggestions">
+            {% for link in link_sugg %}
+                <li class="ad-report-v2__link-item">
+                    <p class="ad-report-v2__link-source">
+                        <strong>Từ:</strong> <a href="{{ link.source_url }}">{{ link.source_title }}</a>
+                    </p>
+                    <p class="ad-report-v2__link-target">
+                        <strong>Tới:</strong> <a href="{{ link.target_url }}">{{ link.target_title }}</a>
+                    </p>
+                    <p class="ad-report-v2__link-anchor">
+                        <strong>Anchor:</strong> <code>{{ link.anchor_text }}</code>
+                    </p>
+                    <p class="ad-report-v2__link-reason">{{ link.reason }}</p>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
+        {% endif %}
+
+        {% set ad_placements = ar_actions.adsense_placements | default(value=[]) %}
+        {% if ad_placements | length > 0 %}
+        <section class="ad-report-v2__subsection">
+            <h3>5️⃣ AdSense placement actions</h3>
+            <ul class="ad-report-v2__placement-list">
+            {% for placement in ad_placements %}
+                {% if placement.status == "ready" %}
+                    {% set status_emoji = "✅" %}
+                    {% set status_class = "ready" %}
+                {% elif placement.status == "needs_qa" %}
+                    {% set status_emoji = "⚠️" %}
+                    {% set status_class = "needs-qa" %}
+                {% else %}
+                    {% set status_emoji = "📝" %}
+                    {% set status_class = "add-placeholder" %}
+                {% endif %}
+                <li class="ad-report-v2__placement ad-report-v2__placement--{{ status_class }}">
+                    <span class="ad-report-v2__placement-emoji">{{ status_emoji }}</span>
+                    <strong>{{ placement.slot_type }}</strong>
+                    <span class="ad-report-v2__placement-status">({{ placement.status | upper }})</span>
+                    <p class="ad-report-v2__placement-detail">{{ placement.detail }}</p>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
         {% endif %}
     </section>
 
