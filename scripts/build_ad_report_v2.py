@@ -21,10 +21,9 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
-# Scan all section directories + posting (baochi articles now live in real sections)
 CONTENT_DIRS = (
     ROOT / "content" / "posting",
-    ROOT / "content" / "baochi",  # bb10 Wikipedia articles still here
+    ROOT / "content" / "baochi",
     ROOT / "content" / "ngan-hang",
     ROOT / "content" / "du-lich",
     ROOT / "content" / "khoa-hoc",
@@ -65,20 +64,7 @@ _CATS_RE = re.compile(r'categories\s*=\s*\[([^\]]+)\]', re.MULTILINE)
 _TAGS_RE = re.compile(r'tags\s*=\s*\[([^\]]+)\]', re.MULTILINE)
 _SERIES_RE = re.compile(r'^\s*series\s*=\s*"([^"]+)"', re.MULTILINE)
 _SEO_KW_RE = re.compile(r'^\s*seo_keyword\s*=\s*"([^"]+)"', re.MULTILINE)
-_SOURCE_RE = re.compile(r'^\s*source\s*=\s*"([^"]+)"', re.MULTILINE)
 _LINK_RE = re.compile(r'\]\((/[^)]+|https://seomoney\.org[^)]*)\)')
-
-# Category → section path mapping (used for baochi articles with source="bb")
-_CATEGORY_TO_SECTION = {
-    "Ngân hàng": "ngan-hang",
-    "Du lịch": "du-lich",
-    "Khoa học": "khoa-hoc",
-    "Công nghệ": "cong-nghe",
-    "Thế giới": "the-gioi",
-    "Bảo hiểm": "bao-hiem",
-    "Thể thao": "the-thao",
-    "Đời sống": "doi-song",
-}
 
 
 def _load_json(path: Path) -> dict | list | None:
@@ -102,8 +88,63 @@ def _word_count(body: str) -> int:
     return len(re.findall(r"\w+", body, flags=re.UNICODE))
 
 
+def _get_real_category(categories: list[str]) -> str:
+    """Get first real (non-fake) category from list.
+
+    Skips: 'tất cả', 'all', 'báo chí', 'baochi', 'premium'.
+    Returns the first real category, or '—' if none found.
+    """
+    # Categories to skip: source metadata, not real content categories
+    skip_cats = {"tất cả", "all", "báo chí", "baochi", "premium"}
+
+    for cat in categories:
+        if cat.lower() not in skip_cats:
+            return cat
+
+    return "—"
+
+
+def _category_to_section(categories: list[str]) -> str:
+    """Convert category name to canonical section slug (e.g., 'Ngân hàng' → 'ngan-hang').
+
+    Use first real (non-fake) category. Fallback to 'posting' if none found.
+    """
+    # Categories to skip: source metadata, not real content categories
+    skip_cats = {"tất cả", "all", "báo chí", "baochi", "premium"}
+
+    # Map category name to section slug (Vietnamese accent-stripped)
+    category_to_slug = {
+        "Ngân hàng": "ngan-hang",
+        "Khoa học": "khoa-hoc",
+        "Công nghệ": "cong-nghe",
+        "Du lịch": "du-lich",
+        "Tài chính": "tai-chinh",
+        "Đời sống": "doi-song",
+        "Thể thao": "the-thao",
+        "Bảo hiểm": "bao-hiem",
+        "Thế giới": "the-gioi",
+        "Kiến thức": "kien-thuc",
+    }
+
+    for cat in categories:
+        if cat.lower() not in skip_cats:
+            # Try to map category to section slug
+            if cat in category_to_slug:
+                return category_to_slug[cat]
+            # Otherwise keep category name (shouldn't happen with normalized categories)
+            return cat.lower().replace(" ", "-")
+
+    # Fallback: use 'posting' if no real category found
+    return "posting"
+
+
 def _scan_posts(manifest: dict) -> tuple[list[dict], dict, bool]:
-    """Return posts, new manifest, incremental flag."""
+    """Return posts, new manifest, incremental flag.
+
+    Scans content/posting and content/baochi folders.
+    Uses real category to determine canonical URL section, not folder name.
+    Filters out source metadata categories (báo chí, baochi, etc.).
+    """
     posts: list[dict] = []
     new_manifest: dict[str, str] = {}
     changed = False
@@ -131,8 +172,6 @@ def _scan_posts(manifest: dict) -> tuple[list[dict], dict, bool]:
                 continue
             title = title_m.group(1)
             slug = md.stem
-            section = folder.name
-            source = (_SOURCE_RE.search(text).group(1) if _SOURCE_RE.search(text) else "")
             cats_m = _CATS_RE.search(text)
             tags_m = _TAGS_RE.search(text)
             categories = _parse_list_field(cats_m.group(1)) if cats_m else []
@@ -159,23 +198,15 @@ def _scan_posts(manifest: dict) -> tuple[list[dict], dict, bool]:
             faq_bonus = 6 if "[[extra.faq]]" in text or "[extra.faq]" in text else 0
             monetization = min(100, rpm_score // 2 + depth + link_bonus + series_bonus + faq_bonus)
 
-            # Determine real section path:
-            # - If source="bb" (baochi article): use category mapping to find real section
-            # - Otherwise: use folder name as-is (e.g., posting, baochi for bb10)
-            if source == "bb" and categories:
-                # Extract non-"Tất cả" category and map to section
-                content_category = next((c for c in categories if c.lower() != "tất cả"), "")
-                real_section = _CATEGORY_TO_SECTION.get(content_category, section)
-            else:
-                real_section = section
-
-            url = f"{BASE_URL}/{real_section}/{slug}/"
+            # Posts always route through /posting/ regardless of category
+            # (categories are for organization/filtering, not route determination)
+            section = _category_to_section(categories)
+            url = f"{BASE_URL}/posting/{slug}/"
             posts.append(
                 {
                     "title": title,
                     "slug": slug,
                     "section": section,
-                    "real_section": real_section,
                     "url": url,
                     "categories": categories,
                     "tags": tags,
@@ -188,7 +219,6 @@ def _scan_posts(manifest: dict) -> tuple[list[dict], dict, bool]:
                     "rpm_score": rpm_score,
                     "rpm_topics": rpm_topics,
                     "monetization_score": monetization,
-                    "source": source or None,
                 }
             )
 
@@ -278,10 +308,17 @@ def _ui_review(pagespeed: dict | None, compliance: dict | None, posts: list[dict
 
 
 def _category_opportunities(posts: list[dict]) -> list[dict]:
+    """Extract category opportunities, filtering out fake/source categories.
+
+    Skip: 'tất cả', 'all', 'báo chí', 'baochi', 'premium' (source/fake categories).
+    """
+    # Categories to skip: source metadata, not real content categories
+    skip_cats = {"tất cả", "all", "báo chí", "baochi", "premium"}
+
     buckets: dict[str, list[int]] = defaultdict(list)
     for p in posts:
         for c in p["categories"]:
-            if c.lower() in ("tất cả", "all"):
+            if c.lower() in skip_cats:
                 continue
             buckets[c].append(p["rpm_score"])
     out = []
@@ -664,12 +701,10 @@ def build_report(*, force_full: bool = False) -> dict:
         {
             "title": p["title"],
             "url": p["url"],
-            "category": p["categories"][0] if p["categories"] else "—",
+            "category": _get_real_category(p["categories"]) if p["categories"] else "—",
             "categories": p["categories"],
             "score": p["monetization_score"],
             "rpm_topics": p["rpm_topics"],
-            "source": p.get("source"),
-            "real_section": p.get("real_section"),
         }
         for p in ranked[:50]
     ]
@@ -713,8 +748,6 @@ def build_report(*, force_full: bool = False) -> dict:
                 "monetization_score": p["monetization_score"],
                 "rpm_score": p["rpm_score"],
                 "rpm_topics": p["rpm_topics"],
-                "source": p.get("source"),
-                "real_section": p.get("real_section"),
             }
             for p in top20
         ],
