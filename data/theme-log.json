@@ -18,6 +18,139 @@
   },
   "milestones": [
     {
+      "id": "milestone-20260628-rollback-milestones-registry-t-44ae2b",
+      "type": "feature",
+      "title": "Rollback Milestones Registry (theme-log evolution)",
+      "summary": "Mở rộng /tools/theme-log/ thành Rollback Milestone Registry với filter, pagination, CLI add_milestone.py. Backfill 4 milestone đầu tiên.",
+      "commit": "f8531a6",
+      "merge_commit": "",
+      "pr": "#1124",
+      "branch": "",
+      "date": "2026-06-28T07:23:49+07:00",
+      "status": "live",
+      "scope": "templates/theme-log.html,sass/_theme-log.scss,data/theme-log.json,scripts/add_milestone.py",
+      "routes": [
+        "/tools/theme-log/"
+      ],
+      "files": [],
+      "restore_mode": "rollback-full",
+      "restore_hint": "",
+      "qa": {
+        "zola_build": "unknown",
+        "qa_check": "unknown",
+        "qa_404": "unknown"
+      },
+      "risk": "low",
+      "notes": ""
+    },
+    {
+      "id": "milestone-20260628-changelog-public-visibility-fi-f58bdb",
+      "type": "hotfix",
+      "title": "Changelog public visibility fix",
+      "summary": "Fix changelog không hiển thị public — visibility gate + UI update để changelog accessible không cần auth.",
+      "commit": "",
+      "merge_commit": "",
+      "pr": "#1129",
+      "branch": "",
+      "date": "2026-06-28T07:23:44+07:00",
+      "status": "merged",
+      "scope": "templates,static/js",
+      "routes": [
+        "/changelog/"
+      ],
+      "files": [],
+      "restore_mode": "cherry-pick-files",
+      "restore_hint": "",
+      "qa": {
+        "zola_build": "unknown",
+        "qa_check": "unknown",
+        "qa_404": "unknown"
+      },
+      "risk": "low",
+      "notes": ""
+    },
+    {
+      "id": "milestone-20260628-production-deploy-resilience-s-c2fb7e",
+      "type": "deploy",
+      "title": "Production Deploy Resilience System + broken links healer",
+      "summary": "Fixes deploy.yml: cancel-in-progress=false, exponential backoff. Thêm deploy-guard.yml + broken-links healer workflow. Bảo vệ production khỏi cancel race.",
+      "commit": "",
+      "merge_commit": "",
+      "pr": "#1128",
+      "branch": "",
+      "date": "2026-06-28T07:23:41+07:00",
+      "status": "merged",
+      "scope": ".github/workflows,scripts",
+      "routes": [
+        "/.github/workflows/deploy.yml",
+        "/.github/workflows/deploy-guard.yml"
+      ],
+      "files": [],
+      "restore_mode": "cherry-pick-files",
+      "restore_hint": "",
+      "qa": {
+        "zola_build": "unknown",
+        "qa_check": "unknown",
+        "qa_404": "unknown"
+      },
+      "risk": "low",
+      "notes": ""
+    },
+    {
+      "id": "milestone-20260628-bb-category-mapping-homepage-d-cf9846",
+      "type": "feature",
+      "title": "bb category mapping + homepage discovery rewrite (34 posts)",
+      "summary": "Cập nhật category mapping cho 34 bài, cải thiện homepage discovery mapping — major content taxonomy rewrite.",
+      "commit": "",
+      "merge_commit": "",
+      "pr": "#1125",
+      "branch": "",
+      "date": "2026-06-28T07:23:37+07:00",
+      "status": "merged",
+      "scope": "content/posting,templates/index.html,data/categories.json",
+      "routes": [
+        "/categories/tat-ca/",
+        "/",
+        "/categories/"
+      ],
+      "files": [],
+      "restore_mode": "cherry-pick-files",
+      "restore_hint": "",
+      "qa": {
+        "zola_build": "unknown",
+        "qa_check": "unknown",
+        "qa_404": "unknown"
+      },
+      "risk": "medium",
+      "notes": ""
+    },
+    {
+      "id": "milestone-20260628-codon-dna-rna-wikipedia-articl-f496d4",
+      "type": "content",
+      "title": "Codon DNA/RNA Wikipedia article (bb10)",
+      "summary": "Bài khoa học Wikipedia về bảng mã codon, DNA/RNA — nguồn CC BY-SA. Sinh qua phím tắt bb10.",
+      "commit": "",
+      "merge_commit": "",
+      "pr": "#1123",
+      "branch": "",
+      "date": "2026-06-28T07:23:33+07:00",
+      "status": "merged",
+      "scope": "content/baochi",
+      "routes": [
+        "/posting/bang-ma-codon-dna-rna/"
+      ],
+      "files": [],
+      "restore_mode": "reference-only",
+      "restore_hint": "",
+      "qa": {
+        "zola_build": "unknown",
+        "qa_check": "unknown",
+        "qa_404": "unknown"
+      },
+      "risk": "low",
+      "notes": ""
+    },
+    {
       "id": "milestone-20260628-theme-checkpoint-a9e7a20",
       "type": "theme",
       "title": "Theme Checkpoint — Homepage + Editor-era Transition",
