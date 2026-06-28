@@ -295,6 +295,34 @@ async def gsc_metrics_public(background_tasks: BackgroundTasks):
     return await _refresh_metrics(r, force=True)
 
 
+@router.get("/page-metrics")
+async def gsc_page_metrics(url: str = "", authorization: str = Header(default="")):
+    """GSC metrics for a specific page URL — auth-gated (any editor session)."""
+    r = await _get_redis()
+    refresh = await _load_refresh_token(r)
+    prop = await _load_property(r)
+    if not refresh or not prop:
+        return disconnected_payload("not_connected")
+    if not _gsc_configured():
+        return disconnected_payload("not_configured")
+    if not url:
+        raise HTTPException(400, "Query param 'url' is required")
+    await _require_session(authorization)
+    from gsc_client import fetch_page_metrics
+
+    try:
+        payload = fetch_page_metrics(refresh, GSC_CLIENT_ID, GSC_CLIENT_SECRET, prop, url)
+        return payload
+    except PermissionError:
+        return disconnected_payload("token_expired")
+    except RuntimeError as exc:
+        if "quota" in str(exc).lower():
+            return disconnected_payload("quota_exceeded")
+        raise
+    except Exception:
+        return disconnected_payload("api_error")
+
+
 @router.get("/oauth/start")
 async def gsc_oauth_start(
     return_to: str = "/",

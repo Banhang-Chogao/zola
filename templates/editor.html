@@ -444,6 +444,7 @@
 
             <div class="editor-rail-column">
                 {% include "partials/editor-placement-rail.html" %}
+                {% include "partials/editor-seo-insights-rail.html" %}
                 {% include "partials/editor-seo-rail.html" %}
             </div>
           </div>
@@ -535,4 +536,5 @@
     <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ editor_asset_version }}"></script>
     <script src="{{ get_url(path='js/editor.js') }}?v={{ editor_asset_version }}" defer></script>
     <script src="{{ get_url(path='js/cms/editor-seo-rail.js') }}?v={{ editor_asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/cms/editor-seo-insights.js') }}?v={{ editor_asset_version }}" defer></script>
 {% endblock %}
