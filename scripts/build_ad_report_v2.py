@@ -198,10 +198,14 @@ def _scan_posts(manifest: dict) -> tuple[list[dict], dict, bool]:
             faq_bonus = 6 if "[[extra.faq]]" in text or "[extra.faq]" in text else 0
             monetization = min(100, rpm_score // 2 + depth + link_bonus + series_bonus + faq_bonus)
 
-            # Posts always route through /posting/ regardless of category
-            # (categories are for organization/filtering, not route determination)
+            # Route URL through the article's ACTUAL content folder so it matches
+            # Zola's real output path. Articles in content/ngan-hang/ build at
+            # /ngan-hang/<slug>/, content/posting/ at /posting/<slug>/, etc.
+            # Hardcoding /posting/ broke links for posts that live in other
+            # sections (e.g. ngan-hang). `section` (category-derived) stays as
+            # display metadata; the URL uses the folder name (canonical route).
             section = _category_to_section(categories)
-            url = f"{BASE_URL}/posting/{slug}/"
+            url = f"{BASE_URL}/{folder.name}/{slug}/"
             posts.append(
                 {
                     "title": title,
