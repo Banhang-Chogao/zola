@@ -104,10 +104,14 @@ class VipzoneDB:
                     location TEXT NOT NULL DEFAULT '',
                     notes TEXT NOT NULL DEFAULT '',
                     status TEXT NOT NULL DEFAULT '',
+                    visibility TEXT NOT NULL DEFAULT 'private',
+                    reminder_enabled INTEGER NOT NULL DEFAULT 0,
+                    reminder_sent INTEGER NOT NULL DEFAULT 0,
                     created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
                 );
                 CREATE INDEX IF NOT EXISTS idx_calendar_owner ON calendar_events(owner);
+                CREATE INDEX IF NOT EXISTS idx_calendar_visibility ON calendar_events(visibility, created_at);
                 -- Private "3M Whiteboard" sticky notes — same durable, owner-scoped
                 -- store. `order_index` keeps the pinned-note ordering stable.
                 CREATE TABLE IF NOT EXISTS whiteboard_notes (
@@ -468,6 +472,9 @@ class VipzoneDB:
             "location": row["location"],
             "notes": row["notes"],
             "status": row["status"],
+            "visibility": row.get("visibility", "private"),
+            "reminderEnabled": bool(row.get("reminder_enabled", 0)),
+            "reminderSent": bool(row.get("reminder_sent", 0)),
             "createdAt": row["created_at"],
             "updatedAt": row["updated_at"],
         }
@@ -500,8 +507,8 @@ class VipzoneDB:
             conn.execute(
                 """
                 INSERT INTO calendar_events
-                    (id, owner, title, start, end, all_day, color, location, notes, status, created_at, updated_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    (id, owner, title, start, end, all_day, color, location, notes, status, visibility, reminder_enabled, reminder_sent, created_at, updated_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     eid, owner,
@@ -509,6 +516,9 @@ class VipzoneDB:
                     1 if data.get("allDay") else 0,
                     data.get("color", "teal"), data.get("location", ""),
                     data.get("notes", ""), data.get("status", ""),
+                    data.get("visibility", "private"),
+                    1 if data.get("reminderEnabled") else 0,
+                    1 if data.get("reminderSent") else 0,
                     now, now,
                 ),
             )
@@ -527,7 +537,7 @@ class VipzoneDB:
                 """
                 UPDATE calendar_events
                 SET title = ?, start = ?, end = ?, all_day = ?, color = ?,
-                    location = ?, notes = ?, status = ?, updated_at = ?
+                    location = ?, notes = ?, status = ?, visibility = ?, reminder_enabled = ?, reminder_sent = ?, updated_at = ?
                 WHERE owner = ? AND id = ?
                 """,
                 (
@@ -535,6 +545,9 @@ class VipzoneDB:
                     1 if merged.get("allDay") else 0,
                     merged.get("color", "teal"), merged.get("location", ""),
                     merged.get("notes", ""), merged.get("status", ""),
+                    merged.get("visibility", "private"),
+                    1 if merged.get("reminderEnabled") else 0,
+                    1 if merged.get("reminderSent") else 0,
                     _now(), owner, event_id,
                 ),
             )
@@ -548,6 +561,14 @@ class VipzoneDB:
                 (owner, event_id),
             )
         return cur.rowcount > 0
+
+    def list_public_calendar_events(self) -> list[dict[str, Any]]:
+        """List public calendar events (no owner restriction) for read-only display."""
+        with self._conn() as conn:
+            rows = conn.execute(
+                "SELECT * FROM calendar_events WHERE visibility = 'public' ORDER BY start ASC"
+            ).fetchall()
+        return [self._event_row_to_dict(r) for r in rows]
 
     # ============= Private Whiteboard sticky notes (owner-scoped, durable) =============
     @staticmethod

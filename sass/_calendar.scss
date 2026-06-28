@@ -430,6 +430,52 @@ body.cal-dragging { cursor: grabbing; user-select: none; }
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   &:hover { transform: scale(1.1); }
   &.is-active { border-color: var(--cal-ink); box-shadow: 0 0 0 2px #fff inset; }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+}
+
+/* ============================== public bar header ============================ */
+.priv__pubbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.65rem 1rem;
+  background: var(--cal-surface); border: 1px solid var(--cal-border); border-radius: 12px;
+  box-shadow: var(--cal-shadow);
+  margin-bottom: 1rem;
+  &[hidden] { display: none; }
+}
+.priv__pubinfo {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.88rem; font-weight: 600; color: var(--cal-ink);
+}
+.priv__pubicon {
+  flex: 0 0 16px; width: 16px; height: 16px;
+  color: var(--cal-muted); fill: currentColor;
+}
+.priv__publogin {
+  padding: 0.45rem 0.9rem; border: 1px solid var(--cal-border);
+  background: var(--cal-page); color: var(--cal-body);
+  border-radius: 8px; font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; transition: all 0.18s ease;
+  &:hover { border-color: var(--cal-teal); color: var(--cal-teal); background: var(--cal-teal-soft); }
+}
+
+/* ============================== readonly notice ============================ */
+.cal__dialog-readonly {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.7rem 0.75rem; margin-top: 0.75rem;
+  background: rgba(0, 167, 160, 0.08); border-radius: 9px;
+  border: 1px solid rgba(0, 167, 160, 0.2);
+  font-size: 0.82rem; color: var(--cal-ink);
+  svg { flex: 0 0 18px; width: 18px; height: 18px; color: var(--cal-muted); }
+  span { flex: 1; }
+  &[hidden] { display: none; }
+}
+
+/* ============================== form disabled states ============================ */
+.cal__dialog-field input:disabled,
+.cal__dialog-field textarea:disabled {
+  background: var(--cal-page); color: var(--cal-muted); cursor: not-allowed;
+  border-color: var(--cal-border);
+  &:focus { outline: none; border-color: var(--cal-border); box-shadow: none; }
 }
 
 @keyframes cal-pop { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: none; } }
