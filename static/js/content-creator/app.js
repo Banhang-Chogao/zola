@@ -223,6 +223,7 @@
       };
       data.prompt = buildPrompt(data);
       promptEl.value = data.prompt;
+      promptEl.dispatchEvent(new Event("input", { bubbles: true }));
       copyBtn.disabled = false;
       dlBtn.disabled = false;
       lastJob = buildJob(data);
@@ -272,6 +273,7 @@
     document.getElementById("cc-reset").addEventListener("click", function () {
       form.reset();
       promptEl.value = "";
+      promptEl.dispatchEvent(new Event("input", { bubbles: true }));
       if (copyBtn) copyBtn.disabled = true;
       if (dlBtn) dlBtn.disabled = true;
       if (openBtn) openBtn.hidden = true;
