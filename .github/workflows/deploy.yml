@@ -15,7 +15,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages-deploy-production
   # false: queue deploy thay vì cancel để đảm bảo latest main commit luôn được deploy.
   # REASON: PR merge dồn dập có thể huỷ run cũ, khiến latest main commit không lên
   # production (V21 — "Merged is not live"). Build cache + 6h schedule cron giảm
@@ -27,7 +27,55 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
+  # ── Preflight: classify changed files + check queue ───────────────────
+  # Smart Deploy Queue gate. If the commit only touches LOW_VALUE generated
+  # data (dashboards, reports, stats, heartbeat) AND there's already a
+  # production deploy queued or in_progress, skip this run to preserve quota.
+  # IMPORTANT commits (content, templates, config, hotfix) always proceed.
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      decision: ${{ steps.smart_queue.outputs.decision }}
+      reason: ${{ steps.smart_queue.outputs.reason }}
+      classification: ${{ steps.smart_queue.outputs.classification }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Smart Deploy Queue — preflight check
+        id: smart_queue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.event.after }}
+        run: python3 scripts/ci_smart_deploy_queue.py
+
+      - name: Log preflight result
+        run: |
+          echo "🧠 Smart Deploy Queue: ${{ steps.smart_queue.outputs.decision }}"
+          echo "   ${{ steps.smart_queue.outputs.reason }}"
+
+      - name: Skip notification
+        if: steps.smart_queue.outputs.decision == 'skip_low_value'
+        run: |
+          echo "✅ Build skipped: ${{ steps.smart_queue.outputs.reason }}"
+          echo "   LOW_VALUE data/report commit while deploy is already queued."
+          echo "   The data will be included in the next deploy run."
+
+  # ── Build ─────────────────────────────────────────────────────────────
   build:
+    needs: preflight
+    if: needs.preflight.outputs.decision != 'skip_low_value'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
