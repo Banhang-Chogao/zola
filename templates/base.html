@@ -182,74 +182,36 @@
     {# OG image: social KHÔNG render SVG → raster .webp. Cover SVG có twin
        `.og.webp` (1200×630) sinh bởi scripts/build_og_images.py → dùng twin để
        social hiện đúng ảnh BÀI thay vì banner chung. Ưu tiên: og_image →
-       thumbnail (svg→twin, hoặc raster sẵn) → fallback og-default.webp.
-
-       Social compatibility: hầu hết platform (FB, X, LinkedIn, Zalo, Telegram)
-       hỗ trợ WebP + PNG. Nếu feature image có sẵn, dùng đó; nếu không, fallback
-       og-default.webp (branded, không generic). Mọi URL phải absolute (canonical root). #}
+       thumbnail (svg→twin, hoặc raster sẵn) → fallback og-default.webp. #}
     {# Owned-image chain cho social/structured-data: chỉ ảnh RASTER local (social không
        render SVG). Cover SVG tự sinh KHÔNG đặt làm og:image → giữ og-default.webp owned
        raster làm fallback site-level → KHÔNG bao giờ broken/hotlink ngoài. #}
     {% set og_image = config.base_url ~ "/img/og-default.webp" %}
-    {% set og_image_type = "image/webp" %}
     {% if page and page.extra.og_image %}
         {% set_global og_image = img::thumb_src(thumb=page.extra.og_image) %}
-        {% set_global og_image_type = "image/webp" %}
     {% elif page and page.extra.image %}
         {% if page.extra.image is ending_with(".svg") %}
             {% set_global og_image = page.extra.image | replace(from=".svg", to=".og.webp") %}
-            {% set_global og_image_type = "image/webp" %}
         {% else %}
             {% set_global og_image = img::thumb_src(thumb=page.extra.image) %}
-            {% if page.extra.image is ending_with(".png") %}
-                {% set_global og_image_type = "image/png" %}
-            {% elif page.extra.image is ending_with(".jpg") or page.extra.image is ending_with(".jpeg") %}
-                {% set_global og_image_type = "image/jpeg" %}
-            {% endif %}
         {% endif %}
     {% elif page and page.extra.cover %}
         {% if page.extra.cover is ending_with(".svg") %}
             {% set_global og_image = page.extra.cover | replace(from=".svg", to=".og.webp") %}
-            {% set_global og_image_type = "image/webp" %}
         {% else %}
             {% set_global og_image = img::thumb_src(thumb=page.extra.cover) %}
-            {% if page.extra.cover is ending_with(".png") %}
-                {% set_global og_image_type = "image/png" %}
-            {% elif page.extra.cover is ending_with(".jpg") or page.extra.cover is ending_with(".jpeg") %}
-                {% set_global og_image_type = "image/jpeg" %}
-            {% endif %}
         {% endif %}
     {% elif page and page.extra.thumbnail and "/img/placeholder/" not in page.extra.thumbnail %}
         {% if page.extra.thumbnail is ending_with(".svg") %}
             {% set_global og_image = page.extra.thumbnail | replace(from=".svg", to=".og.webp") %}
-            {% set_global og_image_type = "image/webp" %}
         {% else %}
             {% set_global og_image = img::thumb_src(thumb=page.extra.thumbnail) %}
-            {% if page.extra.thumbnail is ending_with(".png") %}
-                {% set_global og_image_type = "image/png" %}
-            {% elif page.extra.thumbnail is ending_with(".jpg") or page.extra.thumbnail is ending_with(".jpeg") %}
-                {% set_global og_image_type = "image/jpeg" %}
-            {% endif %}
         {% endif %}
     {% elif section and section.extra.thumbnail %}
         {% if section.extra.thumbnail is ending_with(".svg") %}
             {% set_global og_image = section.extra.thumbnail | replace(from=".svg", to=".og.webp") %}
-            {% set_global og_image_type = "image/webp" %}
         {% else %}
             {% set_global og_image = img::thumb_src(thumb=section.extra.thumbnail) %}
-            {% if section.extra.thumbnail is ending_with(".png") %}
-                {% set_global og_image_type = "image/png" %}
-            {% elif section.extra.thumbnail is ending_with(".jpg") or section.extra.thumbnail is ending_with(".jpeg") %}
-                {% set_global og_image_type = "image/jpeg" %}
-            {% endif %}
-        {% endif %}
-    {% endif %}
-    {# Ensure og_image is absolute URL (canonical root, no /zola/) #}
-    {% if not og_image is starting_with("http") %}
-        {% if og_image is starting_with("/") %}
-            {% set_global og_image = config.base_url ~ og_image %}
-        {% else %}
-            {% set_global og_image = config.base_url ~ "/" ~ og_image %}
         {% endif %}
     {% endif %}
 
@@ -281,17 +243,12 @@
     <link rel="alternate" type="application/atom+xml" title="{{ config.title }} — Atom" href="{{ get_url(path='atom.xml', trailing_slash=false) }}">
     <link rel="alternate" type="application/rss+xml" title="{{ config.title }} — RSS" href="{{ get_url(path='rss.xml', trailing_slash=false) }}">
 
-    {# ===== Open Graph (Facebook, LinkedIn, Zalo, Telegram, Threads preview) =====
-       Rich social preview: image-first with proper type + security headers.
-       Noncompliance: URL phải absolute (không relative), type phải explicit (webp/png/jpeg).
-       Compatibility: WebP thường được hỗ trợ modern social, PNG fallback nếu cần. #}
+    {# ===== Open Graph (Facebook, LinkedIn, Zalo, Telegram preview) ===== #}
     <meta property="og:type" content="{% if page %}article{% else %}website{% endif %}">
     <meta property="og:title" content="{{ page_title_full }}">
     <meta property="og:description" content="{{ page_description }}">
     <meta property="og:url" content="{{ canonical_url | safe }}">
     <meta property="og:image" content="{{ og_image | safe }}">
-    <meta property="og:image:secure_url" content="{{ og_image | replace(from='http://', to='https://') | safe }}">
-    <meta property="og:image:type" content="{{ og_image_type }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="{{ config.title }}">
@@ -300,21 +257,18 @@
     {% if page.date %}
     <meta property="article:published_time" content="{{ page.date | date(format='%Y-%m-%dT%H:%M:%S%:z') }}">
     {% endif %}
-    {% if page.updated %}<meta property="article:modified_time" content="{{ page.updated | date(format='%Y-%m-%dT%H:%M:%S%:z') }}">{% elif page.date %}<meta property="article:modified_time" content="{{ page.date | date(format='%Y-%m-%dT%H:%M:%S%:z') }}">{% endif %}
+    {% if page.updated %}<meta property="article:modified_time" content="{{ page.updated | date(format='%Y-%m-%dT%H:%M:%S%:z') }}">{% endif %}
     <meta property="article:author" content="{{ config.extra.author }}">
     {% if page.taxonomies.categories %}<meta property="article:section" content="{{ page.taxonomies.categories | first }}">{% endif %}
     {% if page.taxonomies.tags %}{% for tag in page.taxonomies.tags %}
     <meta property="article:tag" content="{{ tag }}">{% endfor %}{% endif %}
     {% endif %}
 
-    {# ===== Twitter/X Card (summary_large_image for rich preview) =====
-       Ensure large image display on X/Twitter timeline. Image must be publicly
-       accessible URL (absolute path, no relative). Recommended dimensions: 1200x630. #}
+    {# ===== Twitter Card ===== #}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ page_title_full }}">
     <meta name="twitter:description" content="{{ page_description }}">
     <meta name="twitter:image" content="{{ og_image | safe }}">
-    <meta name="twitter:image:alt" content="{% if page %}{{ page.title }}{% else %}{{ config.title }}{% endif %}"
 
     {# ===== JSON-LD structured data (rich snippet schema.org) =====
        Page (article) → Article schema với headline, image, datePublished.
