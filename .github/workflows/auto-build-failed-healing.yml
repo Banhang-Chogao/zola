@@ -44,10 +44,7 @@ permissions:
 
 concurrency:
   group: auto-build-failed-healing
-  cancel-in-progress: false
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  cancel-in-progress: true
 
 jobs:
   heal:
@@ -76,10 +73,36 @@ jobs:
           tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
           sudo mv zola /usr/local/bin/ || true
 
+      - name: Check if deploy is already in progress (skip healing if busy)
+        id: deploy_gate
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python3 << 'GATE_SCRIPT'
+          import json, os, subprocess, sys
+          repo = os.environ.get("GITHUB_REPOSITORY", "Banhang-Chogao/zola")
+          try:
+              res = subprocess.run(
+                  ["gh", "api", f"repos/{repo}/actions/workflows/deploy.yml/runs?status=in_progress&per_page=5",
+                   "--jq", ".workflow_runs | length"],
+                  capture_output=True, text=True, timeout=15)
+              count = int((res.stdout or "0").strip())
+          except Exception:
+              count = 0
+          if count > 0:
+              print(f"deploy_in_progress=true Deploy run(s) active ({count}) — deferring healing")
+          else:
+              print("deploy_in_progress=false No active deploy — proceeding")
+          GATE_SCRIPT
+
       - name: Determine mode
         id: mode
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
+          GATE="${{ steps.deploy_gate.outputs.deploy_in_progress }}"
+          if [ "$GATE" = "true" ]; then
+            echo "args=--dry-run --hours 48" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
             echo "args=--dry-run --hours 48" >> "$GITHUB_OUTPUT"
           else
             echo "args=--apply --hours 48" >> "$GITHUB_OUTPUT"

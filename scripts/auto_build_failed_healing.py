@@ -72,6 +72,26 @@ WATCHED_WORKFLOWS = (
 
 SEVERITY_ORDER = {"P0": 0, "P1": 1, "P2": 2, "P3": 3}
 
+# Transient infrastructure patterns — report only, never create PR.
+TRANSIENT_PATTERNS = (
+    "rate limit", "rate_limit", "api rate limit",
+    "403", "429", "5xx", "http 5", "status: 403", "status: 429",
+    "too many requests",
+    "createPagesDeployment failed",
+    "configure-pages failed", "deploy-pages failed",
+    "pages deployment failed",
+    "github pages is temporarily unavailable",
+    "deployment already exists",
+    "cancelled deploy", "deploy cancelled",
+    "concurrency group", "cancel-in-progress",
+    "stale deployment", "deployment superseded",
+    "network error", "connection reset", "connection refused",
+    "timeout", "timed out", "dns resolution",
+    "server error", "internal server error",
+    "quota", "quota_exceeded",
+    "worker pool", "runner offline",
+)
+
 
 # --------------------------------------------------------------------------
 # small utilities
@@ -413,6 +433,40 @@ def save_state(state: dict) -> None:
         log(f"could not persist state ({exc})")
 
 
+def is_transient_issue(log_text: str, pattern: dict | None = None) -> bool:
+    """Return True if the failure is a transient infra/rate-limit/network issue.
+
+    Transient failures should be reported as advisory only — never trigger a
+    code-fix PR. The bot still counts them as 'checked' and logs them, but
+    does not open a PR.
+    """
+    text = (log_text or "").lower()
+    if any(t in text for t in TRANSIENT_PATTERNS):
+        return True
+    if pattern and pattern.get("severity") == "P3":
+        desc = (pattern.get("description") or pattern.get("title", "")).lower()
+        if any(t in desc for t in ("rate", "timeout", "quota", "transient", "network", "pages")):
+            return True
+    return False
+
+
+def deploy_or_build_in_progress() -> bool:
+    """Quick GH API check: any deploy/build workflow currently in_progress?"""
+    from shutil import which
+    if not (which("gh") and os.environ.get("GH_TOKEN")):
+        return False  # offline-safe: assume nothing running
+    try:
+        res = subprocess.run(
+            ["gh", "api",
+             f"repos/{REPO_SLUG}/actions/workflows/deploy.yml/runs?status=in_progress&per_page=3",
+             "--jq", ".workflow_runs | length"],
+            capture_output=True, text=True, timeout=15)
+        count = int((res.stdout or "0").strip())
+        return count > 0
+    except Exception:
+        return False
+
+
 def dedup_key(run_id, pattern_id: str, branch: str = "") -> str:
     return f"{run_id}:{pattern_id}:{branch or 'main'}"
 
@@ -441,17 +495,41 @@ def _ensure_label(name: str, color: str, desc: str) -> None:
                    cwd=REPO, capture_output=True, text=True)
 
 
-def open_existing_healing_pr(branch: str) -> str | None:
-    """Return URL of an open auto-healing PR for `branch`, else None."""
+def open_existing_healing_pr(branch: str = "", pattern_id: str = "") -> str | None:
+    """Return URL of an open auto-healing PR for `branch` or `pattern_id`.
+
+    Checks:
+    1. Exact branch match (run_id + pattern_id in branch name).
+    2. Any open PR with label ``auto-healing`` and same pattern_id in title.
+    Returns the first match URL, or None.
+    """
     if not _gh_available():
         return None
     try:
-        res = subprocess.run(
-            ["gh", "pr", "list", "--state", "open", "--head", branch,
-             "--json", "url", "--repo", REPO_SLUG],
-            cwd=REPO, capture_output=True, text=True, timeout=20)
-        data = json.loads(res.stdout or "[]")
-        return data[0]["url"] if data else None
+        # 1. Exact branch match (legacy / deterministic).
+        if branch:
+            res = subprocess.run(
+                ["gh", "pr", "list", "--state", "open", "--head", branch,
+                 "--json", "url", "--repo", REPO_SLUG],
+                cwd=REPO, capture_output=True, text=True, timeout=15)
+            data = json.loads(res.stdout or "[]")
+            if data:
+                return data[0]["url"]
+
+        # 2. Cross-check: any open PR with same pattern_id in the title?
+        if pattern_id:
+            label_args = ["--label", "auto-healing"]
+            res2 = subprocess.run(
+                ["gh", "pr", "list", "--state", "open",
+                 *label_args, "--json", "title,url", "--repo", REPO_SLUG],
+                cwd=REPO, capture_output=True, text=True, timeout=15)
+            data2 = json.loads(res2.stdout or "[]")
+            for pr in data2:
+                pid_short = pattern_id.replace("_", "-").lower()
+                title = (pr.get("title") or "").lower()
+                if pid_short in title:
+                    return pr.get("url") or pr.get("url")
+        return None
     except Exception:
         return None
 
@@ -656,6 +734,13 @@ def heal(hours: float, apply: bool, dry_run: bool,
             report["manual"].append(entry)
             continue
 
+        # Transient infrastructure issue? → advisory only, never PR.
+        if is_transient_issue(log_text, pattern):
+            entry["action"] = "transient_skipped"
+            entry["note"] = "Transient infra/rate-limit issue — reported, no fix attempted"
+            report["advisory"].append(entry)
+            continue
+
         # P2/P3 are advisory — NEVER block, NEVER PR.
         if pattern["severity"] in ("P2", "P3"):
             entry["action"] = "advisory"
@@ -663,11 +748,18 @@ def heal(hours: float, apply: bool, dry_run: bool,
             report["advisory"].append(entry)
             continue
 
-        # dedup
+        # dedup: skip if this run+pattern was already healed.
         key = dedup_key(run.get("id"), pattern["id"], run.get("head_branch", ""))
         if already_handled(state, key) and not dry_run:
             entry["action"] = "dedup_skip"
             report["skipped"].append({"id": run.get("id"), "reason": "dedup"})
+            continue
+
+        # Check if another deploy is running — defer fix to avoid race.
+        if deploy_or_build_in_progress() and apply and not dry_run:
+            entry["action"] = "deferred_deploy_in_progress"
+            entry["note"] = "Deploy/build currently in progress — deferring healing"
+            report["skipped"].append({"id": run.get("id"), "reason": "deferred_deploy_in_progress"})
             continue
 
         fix_result = apply_safe_fix(pattern, dry_run=dry_run or not apply)
@@ -682,8 +774,15 @@ def heal(hours: float, apply: bool, dry_run: bool,
         entry["build"] = build_result.get("detail")
 
         if apply and not dry_run:
+            # Cross-check: skip if another open healing PR exists for same pattern.
+            existing = open_existing_healing_pr(pattern_id=pattern.get("id", ""))
+            if existing:
+                entry["action"] = "dedup_skip_pr_exists"
+                entry["pr_url"] = existing
+                report["skipped"].append({"id": run.get("id"), "reason": "dedup_pr_exists"})
+                continue
             pr = create_hotfix_pr(pattern, run, fix_result, build_result,
-                                  dry_run=False)
+                                   dry_run=False)
             entry["pr"] = pr
             if pr.get("url"):
                 report["prs"].append(pr["url"])
