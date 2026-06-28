@@ -21,12 +21,29 @@
     {% set posting = get_section(path="posting/_index.md") %}
     {% set baochi = get_section(path="baochi/_index.md") %}
     {% set_global all_pages = [] %}
+    {% set_global all_pages_unsorted = [] %}
     {% for page in posting.pages | concat(with=baochi.pages) %}
         {% if not page.extra.feed_anchor %}
-            {% set_global all_pages = all_pages | concat(with=[page]) %}
+            {% set_global all_pages_unsorted = all_pages_unsorted | concat(with=[page]) %}
         {% endif %}
     {% endfor %}
-    {% set all_pages = all_pages | sort(attribute="date") | reverse %}
+
+    {# Load pre-sorted article metadata (production order) #}
+    {% set sorted_articles = load_data(path="data/articles-sorted-by-production.json", required=false) %}
+
+    {# Wire sorted order: iterate through pre-sorted list, lookup full page objects #}
+    {% if sorted_articles and sorted_articles.articles %}
+        {% for sorted_article in sorted_articles.articles %}
+            {% for page in all_pages_unsorted %}
+                {% if page.slug == sorted_article.slug %}
+                    {% set_global all_pages = all_pages | concat(with=[page]) %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% else %}
+        {# Fallback: use frontmatter date if sorted data unavailable #}
+        {% set all_pages = all_pages_unsorted | sort(attribute="date") | reverse %}
+    {% endif %}
 
     {% set per_page = 12 %}
     {% set page_num = paginator.current_index | default(value=1) %}
