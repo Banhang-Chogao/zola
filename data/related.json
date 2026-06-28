@@ -687,6 +687,10 @@
       "slug": "kiem-tra-trang-thai-pr-sau-khi-merge"
     },
     {
+      "score": 0.782,
+      "slug": "github-actions-deploy-queue-production"
+    },
+    {
       "score": 0.6774,
       "slug": "tu-dong-deploy-zola-github-actions"
     },
@@ -697,10 +701,6 @@
     {
       "score": 0.5978,
       "slug": "lenh-git-co-ban-init-add-commit-status"
-    },
-    {
-      "score": 0.5873,
-      "slug": "github-actions-ci-cd-cho-nguoi-moi"
     }
   ],
   "giai-quyet-merge-conflict-tu-dong-ci-cd": [
@@ -959,15 +959,19 @@
       "slug": "loi-yaml-github-actions-workflow-invalid-case-study"
     },
     {
-      "score": 0.6215,
-      "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
+      "score": 0.6375,
+      "slug": "github-actions-deploy-queue-production"
     },
     {
-      "score": 0.6093,
-      "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
+      "score": 0.6215,
+      "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
     }
   ],
   "github-actions-ci-cd-cho-nguoi-moi": [
+    {
+      "score": 0.7644,
+      "slug": "github-actions-deploy-queue-production"
+    },
     {
       "score": 0.7539,
       "slug": "lenh-git-co-ban-init-add-commit-status"
@@ -983,10 +987,28 @@
     {
       "score": 0.7171,
       "slug": "github-actions-secrets-setup-guide"
+    }
+  ],
+  "github-actions-deploy-queue-production": [
+    {
+      "score": 0.782,
+      "slug": "gh-run-list-monitor-deploy"
     },
     {
-      "score": 0.7124,
-      "slug": "cai-dat-git-cau-hinh-lan-dau"
+      "score": 0.7644,
+      "slug": "github-actions-ci-cd-cho-nguoi-moi"
+    },
+    {
+      "score": 0.7362,
+      "slug": "kiem-tra-trang-thai-pr-sau-khi-merge"
+    },
+    {
+      "score": 0.6749,
+      "slug": "github-actions-secrets-setup-guide"
+    },
+    {
+      "score": 0.6678,
+      "slug": "push-pull-fetch-dong-bo-voi-github"
     }
   ],
   "github-actions-secrets-setup-guide": [
@@ -1003,12 +1025,12 @@
       "slug": "github-actions-ci-cd-build-failure-vipzone-token"
     },
     {
-      "score": 0.6581,
-      "slug": "cai-dat-git-cau-hinh-lan-dau"
+      "score": 0.6749,
+      "slug": "github-actions-deploy-queue-production"
     },
     {
-      "score": 0.6473,
-      "slug": "lenh-git-co-ban-init-add-commit-status"
+      "score": 0.6581,
+      "slug": "cai-dat-git-cau-hinh-lan-dau"
     }
   ],
   "github-la-gi-tao-repository-dau-tien": [
@@ -1435,6 +1457,10 @@
       "slug": "gh-run-list-monitor-deploy"
     },
     {
+      "score": 0.7362,
+      "slug": "github-actions-deploy-queue-production"
+    },
+    {
       "score": 0.65,
       "slug": "tu-dong-deploy-zola-github-actions"
     },
@@ -1445,10 +1471,6 @@
     {
       "score": 0.5968,
       "slug": "git-merge-va-xu-ly-conflict"
-    },
-    {
-      "score": 0.5807,
-      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
     }
   ],
   "kinh-hubble-mat-ma-vu-tru": [
@@ -3160,8 +3182,8 @@
       "slug": "gh-run-list-monitor-deploy"
     },
     {
-      "score": 0.6531,
-      "slug": "qa-gatekeeper-tu-fix-loi-blog"
+      "score": 0.6596,
+      "slug": "github-actions-deploy-queue-production"
     }
   ],
   "tuong-lai-ngan-hang-so-va-vi-the-vietinbank": [
