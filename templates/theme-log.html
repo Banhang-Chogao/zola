@@ -215,11 +215,24 @@
             <span class="theme-log__badge theme-log__badge--failed">failed</span>
         </div>
 
-        {# ===== THEME HISTORY (preserved) ===== #}
+        {# ===== THEME HISTORY (with pagination) ===== #}
         {% if data.themes and data.themes | length > 0 %}
-        <section class="theme-log__themes">
+        <section class="theme-history" id="theme-history">
             <h2 class="theme-log__themes-heading">Theme History <span class="theme-log__themes-count">({{ data.themes | length }} mốc)</span></h2>
             <p class="theme-log__note" style="margin-bottom:0.75rem;">Lịch sử chi tiết các thay đổi theme/layout — sinh từ git history thật qua <code>scripts/theme_audit.py</code>.</p>
+
+            {# Page size selector #}
+            <div class="theme-history__toolbar">
+                <span class="theme-history__count" id="theme-count">Đang tải…</span>
+                <label class="theme-history__page-size-label" for="theme-page-size">Hiện:
+                    <select class="theme-history__select" id="theme-page-size">
+                        <option value="10">10</option>
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                        <option value="0">Tất cả</option>
+                    </select>
+                </label>
+            </div>
 
             <div class="theme-log__table-wrap" role="region" aria-label="Theme rollback milestones" tabindex="0">
                 <table class="theme-log__table">
@@ -236,11 +249,14 @@
                             <th scope="col">Notes</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="theme-tbody">
                         {% for t in data.themes %}
                         {% set st = t.status | default(value="pending") %}
                         {% set st_class = st | replace(from=" ", to="-") %}
-                        <tr>
+                        <tr class="theme-row"
+                            data-status="{{ st_class }}"
+                            data-search="{{ t.theme_id | default(value='') }} {{ t.theme_name | default(value='') }} {{ t.commit_hash | default(value='') }} {{ t.layout_style | default(value='') }} {{ t.color_system | default(value='') }}"
+                            >
                             <td><code>{{ t.theme_id | default(value="unknown") }}</code></td>
                             <td>
                                 {% if t.commit_hash and t.commit_hash != "unknown" %}
@@ -259,6 +275,10 @@
                     </tbody>
                 </table>
             </div>
+
+            {# Pagination #}
+            <nav class="theme-history__pagination" id="theme-pagination" aria-label="Theme history pagination"></nav>
+
         </section>
         {% endif %}
 
@@ -396,6 +416,95 @@
       if (filterStatus) filterStatus.addEventListener('change', reset);
       if (filterRisk) filterRisk.addEventListener('change', reset);
       if (filterSearch) filterSearch.addEventListener('input', reset);
+      if (pageSize) pageSize.addEventListener('change', reset);
+
+      render();
+    })();
+
+    // ===== THEME HISTORY PAGINATION =====
+    (function () {
+      'use strict';
+      var tbody = document.getElementById('theme-tbody');
+      if (!tbody) return;
+
+      var allRows = [];
+      var rows = tbody.querySelectorAll('tr.theme-row');
+      rows.forEach(function (row) {
+        allRows.push({ row: row });
+      });
+
+      var pageSize = document.getElementById('theme-page-size');
+      var countEl = document.getElementById('theme-count');
+      var pagination = document.getElementById('theme-pagination');
+
+      var currentPage = 1;
+
+      function getFilteredRows() {
+        return allRows;
+      }
+
+      function render() {
+        var filtered = getFilteredRows();
+        var ps = parseInt((pageSize ? pageSize.value : '20') || '20', 10);
+        var total = filtered.length;
+        var totalPages = ps === 0 ? 1 : Math.ceil(total / ps);
+        if (currentPage > totalPages) currentPage = 1;
+
+        var start = ps === 0 ? 0 : (currentPage - 1) * ps;
+        var end = ps === 0 ? total : Math.min(start + ps, total);
+
+        allRows.forEach(function (item) {
+          item.row.hidden = true;
+        });
+        filtered.slice(start, end).forEach(function (item) {
+          item.row.hidden = false;
+        });
+
+        if (countEl) {
+          if (total === 0) {
+            countEl.textContent = 'Không có theme nào.';
+          } else if (ps === 0) {
+            countEl.textContent = 'Hiện tất cả ' + total + ' theme records';
+          } else {
+            countEl.textContent = 'Hiện ' + (start + 1) + '–' + end + ' / ' + total + ' theme records';
+          }
+        }
+
+        if (pagination) {
+          pagination.innerHTML = '';
+          if (ps > 0 && totalPages > 1) {
+            var frag = document.createDocumentFragment();
+            function btn(label, page, disabled, active) {
+              var b = document.createElement('button');
+              b.className = 'theme-history__page-btn' + (active ? ' theme-history__page-btn--active' : '');
+              b.textContent = label;
+              b.disabled = disabled;
+              if (!disabled) b.addEventListener('click', function () { currentPage = page; render(); });
+              frag.appendChild(b);
+            }
+            btn('‹', currentPage - 1, currentPage === 1, false);
+            var range = [];
+            for (var i = 1; i <= totalPages; i++) {
+              if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) range.push(i);
+              else if (range[range.length - 1] !== '…') range.push('…');
+            }
+            range.forEach(function (p) {
+              if (p === '…') {
+                var s = document.createElement('span');
+                s.className = 'theme-history__page-ellipsis';
+                s.textContent = '…';
+                frag.appendChild(s);
+              } else {
+                btn(p, p, false, p === currentPage);
+              }
+            });
+            btn('›', currentPage + 1, currentPage === totalPages, false);
+            pagination.appendChild(frag);
+          }
+        }
+      }
+
+      function reset() { currentPage = 1; render(); }
       if (pageSize) pageSize.addEventListener('change', reset);
 
       render();
