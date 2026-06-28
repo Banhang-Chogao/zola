@@ -6,7 +6,6 @@ date = 2026-06-28
 categories = ["Tất cả", "Khoa học", "Kiến thức"]
 tags = ["không-gian", "NASA", "tàu-con-thoi", "khám-phá", "vũ-trụ"]
 [extra]
-thumbnail = "https://picsum.photos/seed/space-shuttle-atlantis/600/400"
 seo_keyword = "tàu con thoi Atlantis"
 featured = false
 source = "bb10"

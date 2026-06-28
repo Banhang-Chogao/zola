@@ -34,9 +34,26 @@
 {%- set cov = page.extra.cover | default(value="") -%}
 {%- set thumb = page.extra.thumbnail | default(value="") -%}
 {%- set resolved = "" -%}
-{%- if img -%}{%- set resolved = img -%}
-{%- elif cov -%}{%- set resolved = cov -%}
-{%- elif thumb and "/img/placeholder/" not in thumb -%}{%- set resolved = thumb -%}
+{# Skip external/hotlink URLs — only seomoney.org domain or local paths valid for OG. #}
+{%- if img -%}
+  {%- set is_ext = img is starting_with("http") -%}
+  {%- if is_ext and "seomoney.org" not in img and "localhost" not in img -%}
+  {%- else -%}
+    {%- set resolved = img -%}
+  {%- endif -%}
+{%- elif cov -%}
+  {%- set is_ext = cov is starting_with("http") -%}
+  {%- if is_ext and "seomoney.org" not in cov and "localhost" not in cov -%}
+  {%- else -%}
+    {%- set resolved = cov -%}
+  {%- endif -%}
+{%- elif thumb -%}
+  {%- set is_ext = thumb is starting_with("http") -%}
+  {%- if "/img/placeholder/" in thumb -%}
+  {%- elif is_ext and "seomoney.org" not in thumb and "localhost" not in thumb -%}
+  {%- else -%}
+    {%- set resolved = thumb -%}
+  {%- endif -%}
 {%- endif -%}
 {%- if resolved -%}
 {# normalize raster nội bộ → .webp (giống thumb_src); URL ngoài/svg giữ nguyên #}

@@ -179,20 +179,29 @@
     {% set canonical_url = config.base_url %}
     {% if current_url %}{% set_global canonical_url = current_url %}{% endif %}
 
-    {# OG image: priority order → extra.og_image (custom), generated card, fallback. #}
-    {% set og_image = config.base_url ~ "/img/seomoney-og.png" %}
-    {% if page and page.extra.og_image %}
-        {% set_global og_image = img::thumb_src(thumb=page.extra.og_image) %}
-    {% elif page and page.path is starting_with("/posting/") %}
-        {% set_global og_image = config.base_url ~ "/og/generated/" ~ page.slug ~ ".png" %}
-    {% elif page and page.path is starting_with("/baochi/") %}
-        {% set_global og_image = config.base_url ~ "/og/generated/" ~ page.slug ~ ".png" %}
+    {# OG image: priority chain (local/R2/CDN only — no hotlink/external).
+       1) page.extra fields (og_image/image/cover/thumbnail) — validate local domain
+       2) cover_src macro (owned covers, category placeholders, og-default.webp)
+       3) section.extra.thumbnail for section pages
+       Rule: external/hotlink URLs MUST NOT be used as og:image.
+       SVGs use .og.webp twin for social preview compatibility. #}
+    {% set og_image = get_url(path="img/placeholders/OG-Image-place-holer.webp") %}
+    {% if page %}
+        {% set_global og_image = img::cover_src(page=page) %}
     {% elif section and section.extra.thumbnail %}
         {% if section.extra.thumbnail is ending_with(".svg") %}
             {% set_global og_image = section.extra.thumbnail | replace(from=".svg", to=".og.webp") %}
         {% else %}
             {% set_global og_image = img::thumb_src(thumb=section.extra.thumbnail) %}
         {% endif %}
+    {% endif %}
+    {# SVGs not supported by social platforms → use .og.webp twin #}
+    {% if og_image is ending_with(".svg") %}
+        {% set_global og_image = og_image | replace(from=".svg", to=".og.webp") %}
+    {% endif %}
+    {# Security guard: ensure no external/hotlink URL leaks into og:image #}
+    {% if og_image is starting_with("http") and "seomoney.org" not in og_image %}
+        {% set_global og_image = get_url(path="img/placeholders/OG-Image-place-holer.webp") %}
     {% endif %}
 
     <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
@@ -231,7 +240,15 @@
     <meta property="og:image" content="{{ og_image | safe }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    {% if og_image is ending_with(".webp") %}
+    <meta property="og:image:type" content="image/webp">
+    {% elif og_image is ending_with(".png") %}
     <meta property="og:image:type" content="image/png">
+    {% elif og_image is ending_with(".jpg") or og_image is ending_with(".jpeg") %}
+    <meta property="og:image:type" content="image/jpeg">
+    {% else %}
+    <meta property="og:image:type" content="image/png">
+    {% endif %}
     <meta property="og:site_name" content="{{ config.title }}">
     <meta property="og:locale" content="vi_VN">
     {% if page %}
