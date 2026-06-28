@@ -1,3 +1,4 @@
++++
 
 title = "Cây vải cổ thụ 150 năm ở Hải Phòng, mỗi mùa thu 5 tạ quả"
 description = "Cây vải cổ thụ 150 năm tuổi ở thôn Phù Tinh, Hải Phòng mỗi mùa cho 3-5 tạ quả, chiết từ cây vải Tổ gần 200 năm. Chuyện 4 đời giữ cây và góc nhìn của mình."
@@ -31,7 +32,7 @@ a = "Ngoài vị trí đất cao giúp cây sống sót trận lụt năm 1996, 
 [[extra.faq]]
 q = "Mùa thu hoạch vải diễn ra khi nào?"
 a = "Tháng 5 Âm lịch hằng năm (thường rơi vào khoảng tháng 6 dương lịch) là thời điểm thu hoạch vải. Sau mùa vụ, gia chủ mới bắt đầu cắt tỉa và chăm bón cho cây chuẩn bị cho năm sau."
-aliases = ["/du-lich/cay-vai-co-thu-150-nam-hai-phong/", "/baochi/cay-vai-co-thu-150-nam-hai-phong/"]
+aliases = ["/baochi/cay-vai-co-thu-150-nam-hai-phong/"]
 +++
 
 Có những cái cây mà tuổi đời còn dài hơn cả ký ức của một dòng họ. Hôm nay mình đọc được trên báo Dân trí câu chuyện về một cây vải cổ thụ khoảng 150 năm tuổi ở Hải Phòng, mỗi mùa vẫn cho tới 5 tạ quả, và mình cứ ngồi nghĩ mãi. Không phải vì con số sản lượng, mà vì cách một cái cây có thể đứng đó suốt bốn đời người, chứng kiến bao thăng trầm rồi vẫn lặng lẽ đơm hoa kết trái. Mình muốn kể lại câu chuyện này theo cách của riêng mình, và nhân tiện nói thêm vài điều về giống vải đã làm nên tên tuổi cả một vùng đất.

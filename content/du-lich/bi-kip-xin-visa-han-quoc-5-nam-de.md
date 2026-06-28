@@ -1,3 +1,4 @@
++++
 
 title = "Bí kíp xin visa Hàn Quốc 5 năm dễ hơn bạn nghĩ"
 description = "Bí kíp xin visa Hàn Quốc 5 năm (C-3-9): hồ sơ cần có, chứng minh tài chính, lịch sử du lịch và mẹo tránh rớt hồ sơ cho người Việt."
@@ -34,7 +35,7 @@ a = "Người Việt thường nộp qua Đại sứ quán/Lãnh sự quán Hàn
 [[extra.faq]]
 q = "Làm gì khi bị từ chối visa Hàn Quốc?"
 a = "Đọc kỹ lý do (nếu có), bổ sung chứng minh ràng buộc tại Việt Nam (việc làm, tài sản, gia đình), sao kê tài chính rõ ràng hơn, tránh nộp lại y hệt hồ sơ cũ. Có thể xin lại sau khi cải thiện điểm yếu; tham khảo hướng dẫn chính thức của cơ quan lãnh sự."
-aliases = ["/du-lich/bi-kip-xin-visa-han-quoc-5-nam-de/", "/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/"]
+aliases = ["/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/"]
 +++
 
 Mình từng nghĩ **xin visa Hàn Quốc 5 năm** là chuyện của dân “xê dịch nhiều” hoặc người có thu nhập khủng. Sau vài lần làm hồ sơ cho bạn bè và tự đi lại Hàn, mình nhận ra: phần lớn người bị rớt không phải vì “không đủ giàu”, mà vì **hồ sơ không kể được một câu chuyện nhất quán** — bạn là ai, đi để làm gì, tiền từ đâu, và vì sao chắc chắn quay về Việt Nam.
