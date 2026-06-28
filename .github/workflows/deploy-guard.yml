@@ -115,12 +115,45 @@ jobs:
               latest_deploy_sha = latest_deploy_run.get("head_sha")
               print(f"✓ Latest deploy run: #{latest_deploy_run.get('run_number')} (SHA: {short_sha(latest_deploy_sha)})")
 
+          # ─── Smart Deploy Queue: check if deploy already queued/in_progress ───
+          active_runs_data = api_get(
+              f"/repos/{REPO}/actions/workflows/deploy.yml/runs"
+              f"?status=in_progress&per_page=5"
+          )
+          queued_runs_data = api_get(
+              f"/repos/{REPO}/actions/workflows/deploy.yml/runs"
+              f"?status=queued&per_page=5"
+          )
+          has_active_deploy = False
+          active_deploy_desc = ""
+          all_active: list[dict] = []
+          if active_runs_data:
+              all_active.extend(active_runs_data.get("workflow_runs") or [])
+          if queued_runs_data:
+              all_active.extend(queued_runs_data.get("workflow_runs") or [])
+          if all_active:
+              # Exclude current run ID
+              current_run_id = os.environ.get("GITHUB_RUN_ID", "")
+              other_active = [r for r in all_active if str(r.get("id", "")) != current_run_id]
+              if other_active:
+                  has_active_deploy = True
+                  desc_parts = []
+                  for r in other_active:
+                      desc_parts.append(f"#{r.get('run_number','?')} ({r.get('status','?')})")
+                  active_deploy_desc = ", ".join(desc_parts)
+
           # Determine guard status
           guard_status = "unknown"
           guard_action = None
           guard_reason = ""
 
-          if main_sha and deployed_sha:
+          # ── If deploy is already queued or in_progress, do NOT dispatch ──
+          if has_active_deploy:
+              guard_status = "deploy_pending"
+              guard_reason = f"Deploy already active: {active_deploy_desc} — skipping dispatch"
+              guard_action = "wait"
+              print(f"⏳ {guard_reason}")
+          elif main_sha and deployed_sha:
               if main_sha == deployed_sha:
                   guard_status = "live"
                   guard_reason = "Latest main commit is live on GitHub Pages"
@@ -163,9 +196,17 @@ jobs:
       - name: Dispatch deploy.yml if needed
         if: steps.guard.outputs.guard_action == 'dispatch_deploy'
         run: |
+          echo "⏳ Deploy is stale — dispatching deploy.yml..."
           gh workflow run deploy.yml --ref main
+          echo "✅ Deploy dispatched"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Skip dispatch (deploy already active)
+        if: steps.guard.outputs.guard_action == 'wait'
+        run: |
+          echo "⏳ ${{ steps.guard.outputs.guard_reason }}"
+          echo "   Deploy Guard will check again next hour."
 
       - name: Build production dashboard
         env:

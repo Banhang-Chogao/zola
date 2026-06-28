@@ -108,8 +108,108 @@ jobs:
             echo "args=--apply --hours 48" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Preflight — check if failure is transient (rate-limit / queue / quota)
+        id: preflight_heal
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          FAILED_RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          python3 << 'PY'
+          import json, os, sys
+          from urllib.request import Request, urlopen
+          from urllib.error import HTTPError, URLError
+
+          repo = os.environ.get("GITHUB_REPOSITORY", "")
+          token = os.environ.get("GH_TOKEN", "")
+          run_id = os.environ.get("FAILED_RUN_ID", "")
+
+          if not run_id or not token:
+              print("transient=false")
+              print("reason=missing run_id or token — proceed with healing")
+              sys.exit(0)
+
+          # Fetch the failed run's logs/logs_url to check for rate-limit/queue patterns
+          url = f"https://api.github.com/repos/{repo}/actions/runs/{run_id}"
+          req = Request(url, headers={"Authorization": f"Bearer {token}",
+                                       "Accept": "application/vnd.github+json",
+                                       "User-Agent": "auto-heal-preflight/1.0"})
+          try:
+              with urlopen(req, timeout=12) as resp:
+                  data = json.loads(resp.read().decode("utf-8"))
+          except Exception:
+              print("transient=false")
+              print("reason=can't fetch run data — proceed with healing")
+              sys.exit(0)
+
+          conclusion = data.get("conclusion", "")
+          name = (data.get("name") or "").lower()
+
+          # Transient patterns that don't need a fix PR
+          transient_keywords = [
+              "rate limit", "quota", "timeout", "cancelled", "aborted",
+              "concurrency", "already running", "skip_low_value",
+              "pages-deploy-production",
+          ]
+          log_url = data.get("logs_url", "")
+          transient = False
+          reason = ""
+
+          # Check conclusion + name for transient patterns
+          if conclusion == "cancelled":
+              transient = True
+              reason = "Run was cancelled (concurrency/queue) — transient, not a code bug"
+          elif conclusion == "skipped":
+              transient = True
+              reason = "Run was skipped — transient"
+
+          # Check jobs for transient failures (e.g., deploy retries hitting rate limit)
+          jobs_url = f"https://api.github.com/repos/{repo}/actions/runs/{run_id}/jobs"
+          try:
+              jobs_req = Request(jobs_url, headers={"Authorization": f"Bearer {token}",
+                                                     "Accept": "application/vnd.github+json",
+                                                     "User-Agent": "auto-heal-preflight/1.0"})
+              with urlopen(jobs_req, timeout=12) as resp:
+                  jobs_data = json.loads(resp.read().decode("utf-8"))
+              for job in jobs_data.get("jobs", []):
+                  for step in job.get("steps", []):
+                      if step.get("conclusion") == "failure":
+                          log = ((step.get("name") or "") + " " +
+                                 (step.get("conclusion") or "")).lower()
+                          for kw in transient_keywords:
+                              if kw in log:
+                                  transient = True
+                                  reason = f"Step '{step.get('name')}' hit '{kw}' — transient"
+                                  break
+                      if transient:
+                          break
+                  if transient:
+                      break
+          except Exception:
+              pass
+
+          if transient:
+              print(f"transient=true")
+              print(f"reason={reason}")
+              print(f"::set-output name=is_transient::true")
+              print(f"::set-output name=transient_reason::{reason}")
+          else:
+              print(f"transient=false")
+              print(f"reason=No transient pattern detected — proceed with healing")
+              print(f"::set-output name=is_transient::false")
+              print(f"::set-output name=transient_reason::")
+          PY
+
+      - name: Skip healing for transient failures (rate-limit / queue / quota)
+        if: steps.preflight_heal.outputs.is_transient == 'true'
+        run: |
+          echo "⏳ ${{ steps.preflight_heal.outputs.transient_reason }}"
+          echo "   Skipping auto-healing — this is a transient infrastructure issue,"
+          echo "   not a code bug. The deploy queue will retry automatically."
+
       - name: Run auto-build-failed-healing
         # 💉 Remediation/observer bot must never turn itself red (CLAUDE.md V3/V7).
+        if: steps.preflight_heal.outputs.is_transient != 'true'
         continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -33,12 +33,48 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  auto-merge:
-    # Chạy khi: cron schedule, dispatch tay, hoặc QA Gatekeeper xanh (workflow_run)
+  deploy_check:
+    # Preflight: check if production deploy is already queued or in_progress.
+    # If so, skip auto-merge to avoid piling up merges that each trigger deploy.
     if: >-
       github.event_name == 'schedule' ||
       github.event_name == 'workflow_dispatch' ||
       github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      deploy_busy: ${{ steps.check.outputs.deploy_busy }}
+    steps:
+      - name: Check deploy queue status
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          echo "🔍 Checking if production deploy is active..."
+          # Query for in_progress or queued deploy runs
+          ACTIVE=$(gh api "repos/${GH_REPO}/actions/workflows/deploy.yml/runs?status=in_progress&per_page=3" \
+            --jq '.workflow_runs | length' 2>/dev/null || echo "0")
+          QUEUED=$(gh api "repos/${GH_REPO}/actions/workflows/deploy.yml/runs?status=queued&per_page=3" \
+            --jq '.workflow_runs | length' 2>/dev/null || echo "0")
+          TOTAL=$(( ACTIVE + QUEUED ))
+          if [ "$TOTAL" -gt 0 ]; then
+            echo "⏳ Production deploy is busy: ${ACTIVE} in_progress, ${QUEUED} queued"
+            echo "deploy_busy=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "✅ Production deploy queue is clear"
+            echo "deploy_busy=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Skip auto-merge (deploy busy)
+        if: steps.check.outputs.deploy_busy == 'true'
+        run: |
+          echo "⏳ Production deploy is in_progress or queued. Delaying auto-merge."
+          echo "   Will re-attempt on next scheduled run (~5 min)."
+
+  auto-merge:
+    needs: deploy_check
+    if: needs.deploy_check.outputs.deploy_busy != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout (policy + engine từ main)
