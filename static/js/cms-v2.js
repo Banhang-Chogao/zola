@@ -22,7 +22,7 @@
   })();
 
   var SESSION_KEY = "zola-cms-session-id";
-  var CMS_RETURN_TO = "/cms-v2/";
+  var CMS_RETURN_TO = "https://seomoney.org/cms-v2/";
   var root = document.querySelector("[data-cms-v2]");
   if (!root) return;
 
@@ -116,9 +116,10 @@
     return authError;
   }
 
-  function login() {
+  function startOAuth() {
     if (!AUTH_API) return;
-    location.href = AUTH_API + "/auth/login?return_to=" + encodeURIComponent(CMS_RETURN_TO);
+    var loginUrl = AUTH_API + "/auth/login?return_to=" + encodeURIComponent(CMS_RETURN_TO);
+    window.location.assign(loginUrl);
   }
 
   async function meRequest(useBearer) {
@@ -306,7 +307,12 @@
     var authError = consumeAuthParams();
     bindTabs();
     bindComposer();
-    if (loginButton) loginButton.addEventListener("click", login);
+    if (loginButton) {
+      loginButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        startOAuth();
+      });
+    }
 
     var me = await fetchMe();
     if (me && me.__error === "backend_unreachable") {
