@@ -14,6 +14,8 @@
 
         {% include "partials/changelog-prod-snapshot.html" %}
 
+        {% include "partials/changelog-prod-dashboard.html" %}
+
         {# ===== STAGING QUEUE WIDGET =====
            Hydrate qua static/js/staging-queue.js (GitHub API + sessionStorage 60s).
            Empty-state mặc định nếu fetch fail / chưa load — không phá UX. #}

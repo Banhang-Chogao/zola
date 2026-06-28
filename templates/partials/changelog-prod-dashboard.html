@@ -1,0 +1,151 @@
+{# Production Dashboard — merged PRs and their deploy status.
+   Data: data/production-dashboard.json (build_production_dashboard.py).
+   Browser never calls GitHub APIs. #}
+{% set dashboard = load_data(path="data/production-dashboard.json", required=false) %}
+{% if dashboard and dashboard.items %}
+<section class="prod-dashboard" aria-labelledby="prod-dashboard-title">
+    <header class="prod-dashboard__header">
+        <h2 id="prod-dashboard-title" class="prod-dashboard__title">Production Dashboard</h2>
+        <p class="prod-dashboard__sub">
+            Merged PRs and production status · last updated
+            <time datetime="{{ dashboard.generated_at }}">
+                {%- if dashboard.generated_at -%}
+                    {{- dashboard.generated_at | split(pat="T") | first -}}
+                {%- else -%}
+                    —
+                {%- endif -%}
+            </time>
+        </p>
+    </header>
+
+    <div class="prod-dashboard__status-bar">
+        <div class="prod-dashboard__status-item">
+            <span class="prod-dashboard__label">main HEAD</span>
+            <code class="prod-dashboard__value">{{ dashboard.latest_main_short | default(value="—") }}</code>
+        </div>
+        <div class="prod-dashboard__status-divider" aria-hidden="true">→</div>
+        <div class="prod-dashboard__status-item">
+            <span class="prod-dashboard__label">deployed</span>
+            <code class="prod-dashboard__value">{{ dashboard.latest_deployed_short | default(value="—") }}</code>
+        </div>
+        <div class="prod-dashboard__status-item" style="margin-left: auto;">
+            <span class="prod-dashboard__badge prod-dashboard__badge--{{ dashboard.overall_status | default(value='unknown') }}">
+                {%- if dashboard.overall_status == 'live' -%}
+                    ✓ Live
+                {%- elif dashboard.overall_status == 'stale_deploy' -%}
+                    ⚠ Stale
+                {%- else -%}
+                    ? Unknown
+                {%- endif -%}
+            </span>
+        </div>
+    </div>
+
+    <div class="prod-dashboard__table-wrapper">
+        <table class="prod-dashboard__table" role="grid">
+            <thead class="prod-dashboard__head">
+                <tr class="prod-dashboard__row">
+                    <th class="prod-dashboard__cell prod-dashboard__cell--ticket" scope="col">PR</th>
+                    <th class="prod-dashboard__cell prod-dashboard__cell--commit" scope="col">Commit</th>
+                    <th class="prod-dashboard__cell prod-dashboard__cell--feature" scope="col">Feature / Change</th>
+                    <th class="prod-dashboard__cell prod-dashboard__cell--status" scope="col">Merge</th>
+                    <th class="prod-dashboard__cell prod-dashboard__cell--status" scope="col">Deploy</th>
+                    <th class="prod-dashboard__cell prod-dashboard__cell--final" scope="col">Final Status</th>
+                </tr>
+            </thead>
+            <tbody class="prod-dashboard__body">
+                {%- for item in dashboard.items | slice(count=10) -%}
+                <tr class="prod-dashboard__row" data-pr="{{ item.pr | default(value='none') }}">
+                    <td class="prod-dashboard__cell prod-dashboard__cell--ticket">
+                        {%- if item.pr -%}
+                        <a href="https://github.com/{{ config.extra.repo_github | default(value='Banhang-Chogao/zola') }}/pull/{{ item.pr | replace(from='#', to='') }}" target="_blank" rel="noopener" class="prod-dashboard__link">{{ item.pr }}</a>
+                        {%- else -%}
+                        —
+                        {%- endif -%}
+                    </td>
+                    <td class="prod-dashboard__cell prod-dashboard__cell--commit">
+                        <code class="prod-dashboard__code">{{ item.commit }}</code>
+                    </td>
+                    <td class="prod-dashboard__cell prod-dashboard__cell--feature">
+                        {{ item.feature | truncate(length=50) }}
+                    </td>
+                    <td class="prod-dashboard__cell prod-dashboard__cell--status">
+                        <span class="prod-dashboard__badge prod-dashboard__badge--{{ item.merge_status | default(value='unknown') }}">
+                            {%- if item.merge_status == 'merged' -%}
+                                ✓ Merged
+                            {%- elif item.merge_status == 'open' -%}
+                                ○ Open
+                            {%- else -%}
+                                —
+                            {%- endif -%}
+                        </span>
+                    </td>
+                    <td class="prod-dashboard__cell prod-dashboard__cell--status">
+                        <span class="prod-dashboard__badge prod-dashboard__badge--{{ item.deploy_status | default(value='unknown') }}">
+                            {%- if item.deploy_status == 'live' -%}
+                                ✓ Live
+                            {%- elif item.deploy_status == 'deployed' -%}
+                                ✓ Deployed
+                            {%- elif item.deploy_status == 'deploy_running' -%}
+                                ⟳ Running
+                            {%- elif item.deploy_status == 'deploy_cancelled' -%}
+                                ⊘ Cancelled
+                            {%- elif item.deploy_status == 'deploy_failed' -%}
+                                ✗ Failed
+                            {%- elif item.deploy_status == 'pending_deploy' -%}
+                                ○ Pending
+                            {%- else -%}
+                                ?
+                            {%- endif -%}
+                        </span>
+                        {%- if item.deploy_run_url -%}
+                        <a href="{{ item.deploy_run_url }}" target="_blank" rel="noopener" class="prod-dashboard__run-link" title="View deploy run">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                        {%- endif -%}
+                    </td>
+                    <td class="prod-dashboard__cell prod-dashboard__cell--final">
+                        <span class="prod-dashboard__badge prod-dashboard__badge--{{ item.final_status | default(value='unknown') }}">
+                            {%- if item.final_status == 'production_verified' -%}
+                                ✓ Live
+                            {%- elif item.final_status == 'deploy_success' -%}
+                                ✓ Success
+                            {%- elif item.final_status == 'deploy_running' -%}
+                                ⟳ In Progress
+                            {%- elif item.final_status == 'deploy_retrying' -%}
+                                ⟳ Retrying
+                            {%- elif item.final_status == 'deploy_pending' -%}
+                                ○ Pending
+                            {%- elif item.final_status == 'needs_bugfix' -%}
+                                ✗ Fix Needed
+                            {%- else -%}
+                                ?
+                            {%- endif -%}
+                        </span>
+                    </td>
+                </tr>
+                {%- if item.failed_reason -%}
+                <tr class="prod-dashboard__row prod-dashboard__row--error">
+                    <td colspan="6" class="prod-dashboard__cell prod-dashboard__cell--error">
+                        <strong>Failed reason:</strong> {{ item.failed_reason }}
+                    </td>
+                </tr>
+                {%- endif -%}
+                {%- endfor -%}
+            </tbody>
+        </table>
+    </div>
+
+    <footer class="prod-dashboard__footer">
+        <p class="prod-dashboard__hint">
+            ℹ️ Dashboard updates automatically after each deploy. If your PR is
+            merged but not live, the <strong>Deploy Guard</strong> workflow retries
+            automatically every hour.
+        </p>
+    </footer>
+</section>
+{% endif %}

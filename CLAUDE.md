@@ -45,6 +45,41 @@ Rule: xem [`CULTURE_OF_DEPLOYMENT.md`](CULTURE_OF_DEPLOYMENT.md) §4.
 
 Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`, `.github/ACTIONS-PERMISSIONS.md`.
 
+## Production Deploy Resilience (effective 2026-06-27)
+
+> **Merged is not live.** Latest main commit must be deployed to production.
+> If deploy is cancelled, rate-limited, quota-blocked, or stale, retry automatically.
+
+### Policy
+
+- **Deploy concurrency:** `cancel-in-progress: false` (queue deploys instead of cancel)
+  → ensures latest main commit always reaches GitHub Pages eventually.
+- **Deploy Guard workflow:** `deploy-guard.yml` (hourly schedule + `workflow_run` trigger)
+  → verifies latest main HEAD is deployed; dispatches deploy.yml if stale.
+- **Auto-retry for transient failures:** cancelled, timeout, rate-limited, quota-waiting.
+- **Manual fix required for:** build/QA failures → fix PR, do not blind retry.
+- **Production Dashboard:** `/changelog/` shows recent merged PRs, deploy status, live
+  verification. Data: `data/production-dashboard.json` (built by deploy-guard).
+- **Task only complete when:** merged PR is live on production (confirmed by GET
+  production URL → HTTP 200 + latest commit deployed).
+
+### Rationale
+
+Previous issue: PR #1125 merged but latest main commit never reached GitHub Pages due
+to `cancel-in-progress: true` + batch merges. Owner had to manually inspect every case.
+
+Solution stack:
+1. Disable cancel-in-progress → queue deploys (simple, reliable).
+2. Add deploy-guard → verify latest main is live; auto-dispatch if stale (no manual intervention).
+3. Production dashboard → show merge/deploy status + production verification (visibility).
+
+### Validation
+
+- Script: `scripts/build_production_dashboard.py` (stdlib, no external deps).
+- Workflow: `.github/workflows/deploy-guard.yml` (hourly).
+- Template: `templates/partials/changelog-prod-dashboard.html` (static render).
+- Data: `data/production-dashboard.json` (machine-readable).
+
 ## Auto-Merge Policy (ZERO_BARRIER — ghi đè mọi rule PR-only / manual merge cũ)
 
 > CI pass → **auto-merge `main` ngay** → `deploy.yml` production. Không chờ human approval.
