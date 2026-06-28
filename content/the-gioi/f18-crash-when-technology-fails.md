@@ -11,7 +11,7 @@ content_origin = "baochi"
 seo_keyword = "tiêm kích F/A-18"
 thumbnail = "https://seomoney.org/img/covers/f18-crash-when-technology-fails.svg"
 featured = false
-aliases = ["/the-gioi/f18-crash-when-technology-fails/"]
+aliases = ["/the-gioi/f18-crash-when-technology-fails/", "/baochi/f18-crash-when-technology-fails/"]
 +++
 
 Hôm 13/6, một chiếc tiêm kích F/A-18 Hornet của Thủy quân lục chiến Mỹ lao xuống sườn đồi gần hồ Rimrock, Washington. Máy bay có giá 57 triệu USD bốc cháy. Nhưng điều tôi nhận thấy là không phải sự cố máy bay hay chi phí thiệt hại — mà là cách hệ thống phòng chống rủi ro đã hoạt động.

@@ -11,7 +11,7 @@ content_origin = "baochi"
 seo_keyword = "hòa bình Mỹ-Iran"
 thumbnail = "https://seomoney.org/img/covers/my-iran-peace-deal-global-energy.svg"
 featured = false
-aliases = ["/the-gioi/my-iran-peace-deal-global-energy/"]
+aliases = ["/the-gioi/my-iran-peace-deal-global-energy/", "/baochi/my-iran-peace-deal-global-energy/"]
 +++
 
 Ngày 14/6, tin tức về thỏa thuận hòa bình giữa Mỹ và Iran khiến thị trường toàn cầu rung chuyển. Dầu thô rớt giá 5-6%, chỉ số chứng khoán Châu Á tăng vọt. Nhìn bề ngoài, đây chỉ là tin tức chính trị. Nhưng thực tế? Nó có tác động trực tiếp đến chi phí sống của chúng ta.

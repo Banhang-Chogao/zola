@@ -31,7 +31,7 @@ a = "Thẻ digital dùng ngay trên app để thanh toán online, quét QR, thê
 [[extra.faq]]
 q = "Có nên mở thẻ Techcombank Eco Digital không?"
 a = "Nếu bạn thanh toán online nhiều, thích làm mọi thứ trên điện thoại và ngại thủ tục giấy tờ thì rất đáng mở. Đây là góc nhìn tham khảo, không phải lời khuyên tài chính — hãy tự cân đối nhu cầu và đọc kỹ biểu phí."
-aliases = ["/ngan-hang/mo-the-techcombank-eco-digital-mien-phi/"]
+aliases = ["/ngan-hang/mo-the-techcombank-eco-digital-mien-phi/", "/baochi/mo-the-techcombank-eco-digital-mien-phi/"]
 +++
 
 Hôm trước lướt Threads, mình thấy một bạn đăng đúng nỗi băn khoăn mà rất nhiều người gặp: *"Mình đang cần mở thẻ online Techcombank, có bạn nào làm bank này hỗ trợ mình với... với mở thẻ Tech thì nên mở loại thẻ nào vậy ạ?"*. Bên dưới có người bảo "tải app Tech rồi làm theo hướng dẫn, nhanh mà", nhưng vẫn không ai nói rõ **mở loại nào** và **có tốn tiền không**. Mình đang xài **thẻ Techcombank Eco Digital** nên viết bài này để gỡ đúng cái "pain" đó cho bạn.

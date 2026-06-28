@@ -27,7 +27,7 @@ a = "Họ phải tải app Liobank qua đúng link hoặc mã QR giới thiệu 
 [[extra.faq]]
 q = "Gửi link giới thiệu Liobank sao cho an toàn và không lỗi?"
 a = "Người được mời nên sao chép link và mở bằng trình duyệt thay vì bấm trực tiếp trong Zalo hay Messenger; khi quét QR thì dùng camera điện thoại thay vì tính năng quét tích hợp trong app chat."
-aliases = ["/ngan-hang/liobank-gioi-thieu-ban-be-nhan-thuong/"]
+aliases = ["/ngan-hang/liobank-gioi-thieu-ban-be-nhan-thuong/", "/baochi/liobank-gioi-thieu-ban-be-nhan-thuong/"]
 +++
 
 Mấy hôm nay nhóm bạn của tôi rủ nhau khá rôm rả về chuyện **giới thiệu Liobank nhận thưởng**: chỉ cần mời bạn bè mở thẻ thành công là có thể nhận tới 500.000đ cho mỗi lượt. Nghe thì hấp dẫn, nhưng tôi vốn cẩn thận với mấy chương trình "mời bạn nhận tiền", nên đã ngồi đọc kỹ thể lệ rồi viết lại đây cho gọn — để bạn nào quan tâm thì làm một lần là hiểu, và quan trọng hơn là làm sao tránh mất tiền oan vì click nhầm link giả.

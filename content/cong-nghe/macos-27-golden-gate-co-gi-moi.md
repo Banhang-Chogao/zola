@@ -27,7 +27,7 @@ a = "Chỉ các máy Mac chạy chip Apple Silicon: MacBook Neo (A18 Pro 2026), 
 [[extra.faq]]
 q = "Máy Mac chip Intel có dùng được macOS 27 không?"
 a = "Không. macOS 27 Golden Gate chính thức ngừng hỗ trợ mọi máy Mac chip Intel và khai tử luôn lớp phiên dịch Rosetta 2, nên không còn chạy được phần mềm x86 cũ."
-aliases = ["/cong-nghe/macos-27-golden-gate-co-gi-moi/"]
+aliases = ["/cong-nghe/macos-27-golden-gate-co-gi-moi/", "/baochi/macos-27-golden-gate-co-gi-moi/"]
 +++
 
 Đêm qua tôi thức tới 0h để hóng keynote WWDC26, và như mọi năm, phần khiến tôi tò mò nhất luôn là hệ điều hành Mac. Năm nay Apple đặt tên **macOS 27 Golden Gate** — lấy theo cây cầu biểu tượng của San Francisco — và đây là một bản cập nhật đáng để ngồi viết lại tử tế, vì nó vừa mở ra kỷ nguyên AI trên Mac, vừa đóng lại một chương dài của chip Intel.

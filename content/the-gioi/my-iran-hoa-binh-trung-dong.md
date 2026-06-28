@@ -11,7 +11,7 @@ content_origin = "baochi"
 seo_keyword = "hòa bình Mỹ-Iran"
 thumbnail = "https://seomoney.org/img/covers/my-iran-hoa-binh-trung-dong.svg"
 featured = false
-aliases = ["/the-gioi/my-iran-hoa-binh-trung-dong/"]
+aliases = ["/the-gioi/my-iran-hoa-binh-trung-dong/", "/baochi/my-iran-hoa-binh-trung-dong/"]
 +++
 
 Những tuần vừa qua, thế giới chứng kiến một tin tức hiếm hoi khiến dòng căng thẳng trong quan hệ quốc tế tạm thời hạ nhiệt: Mỹ và Iran đồng thời xác nhận đạt được thỏa thuận hòa bình sơ bộ. Đọc tin này, tôi không thể không cảm thấy một tia hy vọng lẫn hoài nghi. Vì sao? Bởi lịch sử những năm qua cho ta thấy: mỗi lần khi hai cường quốc này bước gần nhau, lại có thứ gì đó làm họ nước đôi quay lưng.

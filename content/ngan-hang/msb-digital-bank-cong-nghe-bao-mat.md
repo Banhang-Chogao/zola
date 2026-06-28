@@ -22,7 +22,7 @@ a = "Ứng dụng phân tích dữ liệu nhân khẩu học và lịch sử gia
 [[extra.faq]]
 q = "Tín dụng duyệt tự động 100% trên MSB Digital Bank có gì đáng lưu ý?"
 a = "MSB cho phép duyệt online combo vay, thẻ tín dụng và thấu chi với hạn mức tới 1 tỷ đồng, phê duyệt tự động hoàn toàn. Rất nhanh và tiện, nhưng vay dễ cũng đồng nghĩa cần tỉnh táo: chỉ vay trong khả năng trả và đọc kỹ lãi suất, phí trước khi bấm đồng ý."
-aliases = ["/ngan-hang/msb-digital-bank-cong-nghe-bao-mat/"]
+aliases = ["/ngan-hang/msb-digital-bank-cong-nghe-bao-mat/", "/baochi/msb-digital-bank-cong-nghe-bao-mat/"]
 +++
 
 Hôm trước mình đã viết về chuyện [MSB khai tử mBank và bắt cả nhà đổi sang app mới](@/ngan-hang/msb-digital-bank-ra-mat-thay-mbank.md) — góc nhìn của người dùng đang hoang mang. Lần này mình muốn đội mũ developer, soi vào phần ít người để ý nhưng lại quyết định chất lượng thật sự của một ngân hàng số: **bên trong MSB Digital Bank có những công nghệ gì, và vì sao chúng đáng quan tâm hơn cái giao diện mới**.

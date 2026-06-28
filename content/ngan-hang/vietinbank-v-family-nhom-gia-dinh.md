@@ -31,7 +31,7 @@ a = "Tùy hạng nhóm, thành viên được miễn phí thường niên trọn
 [[extra.faq]]
 q = "V-Family có phù hợp với gia đình thu nhập trung bình không?"
 a = "Phần lớn ưu đãi chỉ kích hoạt từ hạng Gold trở lên, tức nhóm cần số dư bình quân từ 2 tỷ đồng. Vì vậy V-Family hợp nhất với gia đình nhiều thế hệ hoặc nhóm có dòng tiền gửi lớn. Đây là thông tin tham khảo, không phải lời khuyên tài chính."
-aliases = ["/ngan-hang/vietinbank-v-family-nhom-gia-dinh/"]
+aliases = ["/ngan-hang/vietinbank-v-family-nhom-gia-dinh/", "/baochi/vietinbank-v-family-nhom-gia-dinh/"]
 +++
 
 Ngân hàng số bây giờ không chỉ đua nhau ở chuyện mở thẻ nhanh hay app đẹp, mà đã bắt đầu nhắm tới cả… cái gia đình của bạn. Đầu tháng 6/2026, VietinBank tung ra **VietinBank V-Family** — một gói giải pháp tài chính theo nhóm với khẩu hiệu khá bắt tai: "Chung nhóm, chung lợi". Là người hay theo dõi các sản phẩm ngân hàng số, tôi thấy đây là một nước đi thú vị, nên ngồi đọc kỹ chính sách và viết lại theo cách dễ hiểu nhất cho bạn.
