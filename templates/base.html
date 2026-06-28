@@ -193,50 +193,42 @@
     {% set canonical_url = config.base_url %}
     {% if current_url %}{% set_global canonical_url = current_url %}{% endif %}
 
-    {% set brand_tagline = config.extra.brand_tagline | default(value=config.extra.tagline | default(value="SEO, AI & hệ thống tăng trưởng số")) %}
-
-    {# ===== OG / social image resolution (Facebook · Zalo · Telegram · X) =====
-       Social KHÔNG render SVG/CSS → phải trỏ tới ảnh .webp 1200×630 ĐANG TỒN TẠI
-       trên production. Ưu tiên (img::social_image_url chuẩn hoá → absolute HTTPS .webp):
-         1) ẢNH THẬT đầu tiên trong thân bài (page.content) — bỏ qua /placeholder/
-         2) page.extra.og_image (override) → page.extra.thumbnail (nếu là ảnh thật)
-         3) section.extra.thumbnail (nếu là ảnh thật)
-         4) Card mặc định S-DNA dựng sẵn (https://assets.seomoney.org/img/og/seomoney-og.og.webp)
-       Ảnh /placeholder/ bị coi là "chưa có ảnh" → rơi xuống card S-DNA cho đẹp,
-       thay vì hiện ảnh placeholder generic khi share. #}
-    {% set_global og_src = "" %}
-    {# 1) ảnh thật đầu tiên trong thân bài đã render #}
-    {% if page and page.content and page.content is containing("<img") %}
-        {% for chunk in page.content | split(pat="<img") %}
-            {% if og_src == "" and not loop.first and chunk is containing('src="') %}
-                {% set cand = chunk | split(pat='src="') | nth(n=1) | split(pat='"') | first %}
-                {# bỏ qua ảnh không-phải-nội-dung: placeholder generic + QR donate (momo) #}
-                {% if cand and not (cand is containing("/placeholder/")) and not (cand is containing("momo-qr")) %}
-                    {% set_global og_src = cand %}
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-    {# 2-3) override / thumbnail (bỏ qua placeholder → "no real image" rơi xuống default) #}
-    {% set_global og_thumb = "" %}
-    {% if og_src == "" %}
-        {% if page and page.extra.og_image %}
-            {% set_global og_thumb = page.extra.og_image %}
-        {% elif page and page.extra.thumbnail %}
-            {% set_global og_thumb = page.extra.thumbnail %}
-        {% elif section and section.extra.thumbnail %}
-            {% set_global og_thumb = section.extra.thumbnail %}
+    {# OG image: social KHÔNG render SVG → raster .webp. Cover SVG có twin
+       `.og.webp` (1200×630) sinh bởi scripts/build_og_images.py → dùng twin để
+       social hiện đúng ảnh BÀI thay vì banner chung. Ưu tiên: og_image →
+       thumbnail (svg→twin, hoặc raster sẵn) → fallback seomoney-og.og.webp. #}
+    {# Owned-image chain cho social/structured-data: chỉ ảnh RASTER local (social không
+       render SVG). Cover SVG tự sinh KHÔNG đặt làm og:image → giữ local SEOMONEY
+       OG twin làm fallback site-level → KHÔNG bao giờ broken/hotlink ngoài. #}
+    {% set og_image = config.base_url ~ "/img/og/seomoney-og.og.webp" %}
+    {% if page and page.extra.og_image %}
+        {% set_global og_image = img::thumb_src(thumb=page.extra.og_image) %}
+    {% elif page and page.extra.image %}
+        {% if page.extra.image is ending_with(".svg") %}
+            {% set_global og_image = page.extra.image | replace(from=".svg", to=".og.webp") %}
+        {% else %}
+            {% set_global og_image = img::thumb_src(thumb=page.extra.image) %}
         {% endif %}
-        {% if og_thumb and not (og_thumb is containing("/placeholder/")) %}
-            {% set_global og_src = og_thumb %}
+    {% elif page and page.extra.cover %}
+        {% if page.extra.cover is ending_with(".svg") %}
+            {% set_global og_image = page.extra.cover | replace(from=".svg", to=".og.webp") %}
+        {% else %}
+            {% set_global og_image = img::thumb_src(thumb=page.extra.cover) %}
+        {% endif %}
+    {% elif page and page.extra.thumbnail and "/img/placeholder/" not in page.extra.thumbnail %}
+        {% if page.extra.thumbnail is ending_with(".svg") %}
+            {% set_global og_image = page.extra.thumbnail | replace(from=".svg", to=".og.webp") %}
+        {% else %}
+            {% set_global og_image = img::thumb_src(thumb=page.extra.thumbnail) %}
+        {% endif %}
+    {% elif section and section.extra.thumbnail %}
+        {% if section.extra.thumbnail is ending_with(".svg") %}
+            {% set_global og_image = section.extra.thumbnail | replace(from=".svg", to=".og.webp") %}
+        {% else %}
+            {% set_global og_image = img::thumb_src(thumb=section.extra.thumbnail) %}
         {% endif %}
     {% endif %}
-    {# 4) normalize → absolute HTTPS .webp; rỗng/unknown → card S-DNA mặc định #}
-    {% set_global og_image = img::social_image_url(src=og_src, base_url=config.base_url) | trim %}
-    {% set_global og_image_type = "image/webp" %}
-    {% if og_image is ending_with(".png") %}{% set_global og_image_type = "image/png" %}
-    {% elif og_image is ending_with(".jpg") or og_image is ending_with(".jpeg") %}{% set_global og_image_type = "image/jpeg" %}
-    {% endif %}
+    {% set_global og_image = img::social_image_url(src=og_image, base_url=config.base_url) | trim %}
 
     <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}" loading="lazy" decoding="async">
     <meta name="author" content="{{ config.extra.author }}">
@@ -263,11 +255,8 @@
     <meta property="og:description" content="{{ page_description }}">
     <meta property="og:url" content="{{ canonical_url | safe }}">
     <meta property="og:image" content="{{ og_image | safe }}">
-    <meta property="og:image:secure_url" content="{{ og_image | safe }}">
-    <meta property="og:image:type" content="{{ og_image_type | safe }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="{{ page_title_full }} — {{ config.title }} social preview">
     <meta property="og:site_name" content="{{ config.title }}">
     <meta property="og:locale" content="vi_VN">
     {% if page %}
@@ -286,7 +275,6 @@
     <meta name="twitter:title" content="{{ page_title_full }}">
     <meta name="twitter:description" content="{{ page_description }}">
     <meta name="twitter:image" content="{{ og_image | safe }}">
-    <meta name="twitter:image:alt" content="{{ page_title_full }} — {{ config.title }} social preview">
 
     {# ===== JSON-LD structured data (rich snippet schema.org) =====
        Page (article) → Article schema với headline, image, datePublished.
