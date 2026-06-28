@@ -27,6 +27,7 @@
   var root, board, emptyEl;
   var notes = [];
   var booted = false;
+  var isEditMode = false;
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -109,6 +110,10 @@
       // colour change
       $$("[data-wb-color]", el).forEach(function (b) {
         b.addEventListener("click", function () {
+          if (!isEditMode) {
+            toast("Chế độ xem công khai — bạn không thể chỉnh sửa", "error");
+            return;
+          }
           var color = b.getAttribute("data-wb-color");
           if (COLOR_KEYS.indexOf(color) < 0) return;
           var n = getNote(id);
@@ -129,6 +134,7 @@
       var ta = $("[data-wb-text]", el);
       if (ta) {
         function saveNote() {
+          if (!isEditMode) return;
           var n = getNote(id);
           if (!n) return;
           var val = ta.value;
@@ -160,6 +166,10 @@
       // delete
       var del = $("[data-wb-del]", el);
       if (del) del.addEventListener("click", function () {
+        if (!isEditMode) {
+          toast("Chế độ xem công khai — bạn không thể chỉnh sửa", "error");
+          return;
+        }
         if (!confirm("Xoá ghi chú này?")) return;
         apiDelete(id).then(function () {
           notes = notes.filter(function (n) { return n.id !== id; });
@@ -170,8 +180,20 @@
 
       // reorder
       var up = $("[data-wb-up]", el), down = $("[data-wb-down]", el);
-      if (up) up.addEventListener("click", function () { move(id, -1); });
-      if (down) down.addEventListener("click", function () { move(id, 1); });
+      if (up) up.addEventListener("click", function () {
+        if (!isEditMode) {
+          toast("Chế độ xem công khai — bạn không thể chỉnh sửa", "error");
+          return;
+        }
+        move(id, -1);
+      });
+      if (down) down.addEventListener("click", function () {
+        if (!isEditMode) {
+          toast("Chế độ xem công khai — bạn không thể chỉnh sửa", "error");
+          return;
+        }
+        move(id, 1);
+      });
     });
   }
 
@@ -204,6 +226,10 @@
   }
 
   async function addNote() {
+    if (!isEditMode) {
+      toast("Chế độ xem công khai — bạn không thể chỉnh sửa", "error");
+      return;
+    }
     try {
       var saved = await apiCreate({ text: "", color: "yellow" });
       notes.push(saved);
@@ -238,6 +264,7 @@
     if (!board) return;
     try {
       await loadNotes();
+      isEditMode = true;
       render();
     } catch (e) {
       if (e && e.status === 401) return; // gate handles re-login
@@ -245,5 +272,11 @@
     }
   }
 
+  function guestMode() {
+    isEditMode = false;
+  }
+
   document.addEventListener("private-auth:authed", start);
+  document.addEventListener("public-auth:guest", guestMode);
+  document.addEventListener("public-auth:offline", guestMode);
 })();

@@ -44,6 +44,7 @@
     miniMonth: startOfMonth(today0),
     sideOpen: true,
     events: [],
+    isEditMode: false,     // false = public read-only, true = authenticated edit
   };
 
   let drag = null;     // active drag descriptor
@@ -85,15 +86,28 @@
   }
 
   /* ============================== storage =========================== */
-  // Durable, private, server-side persistence via the VIPZone API. The shared
-  // PrivateAuth guard supplies the Bearer session; no localStorage is used.
-  function api(path, opts) { return window.PrivateAuth.api(path, opts); }
+  // Durable, server-side persistence via the VIPZone API.
+  // Supports both PublicAuth (public read) and PrivateAuth (authenticated edit).
+  function api(path, opts) {
+    // For write operations, use PrivateAuth (authenticated)
+    if (window.PrivateAuth && window.PrivateAuth.api) {
+      return window.PrivateAuth.api(path, opts);
+    }
+    // Fallback to PublicAuth if PrivateAuth not available
+    if (window.PublicAuth && window.PublicAuth.api) {
+      return window.PublicAuth.api(path, opts);
+    }
+    throw new Error("auth_not_available");
+  }
 
   function eventPayload(ev) {
     return {
       title: ev.title, start: ev.start, end: ev.end, allDay: !!ev.allDay,
       color: ev.color, location: ev.location || "", notes: ev.notes || "",
       status: ev.status || "",
+      visibility: ev.visibility || "private",
+      reminderEnabled: !!ev.reminderEnabled,
+      reminderSent: !!ev.reminderSent,
     };
   }
 
@@ -133,17 +147,29 @@
   }
 
   async function createEvent(ev) {
+    if (!state.isEditMode) {
+      toast("Chế độ xem công khai — bạn không thể chỉnh sửa", "error");
+      throw new Error("read_only_mode");
+    }
     var saved = (await api("/calendar/events", { method: "POST", body: eventPayload(ev) })).event;
     state.events.push(saved);
     return saved;
   }
   async function updateEvent(ev) {
+    if (!state.isEditMode) {
+      toast("Chế độ xem công khai — bạn không thể chỉnh sửa", "error");
+      throw new Error("read_only_mode");
+    }
     var saved = (await api("/calendar/events/" + encodeURIComponent(ev.id),
       { method: "PATCH", body: eventPayload(ev) })).event;
     if (saved) upsertLocal(saved);
     return saved;
   }
   async function deleteEvent(id) {
+    if (!state.isEditMode) {
+      toast("Chế độ xem công khai — bạn không thể chỉnh sửa", "error");
+      throw new Error("read_only_mode");
+    }
     await api("/calendar/events/" + encodeURIComponent(id), { method: "DELETE" });
     removeLocal(id);
   }
@@ -538,6 +564,10 @@
     el.addEventListener("pointerdown", function (e) {
       if (e.button !== 0) return;
       if (e.target.closest("[data-cal-resize]")) return;
+      if (!state.isEditMode) {
+        toast("Chế độ xem công khai — bạn không thể chỉnh sửa", "error");
+        return;
+      }
       var id = el.getAttribute("data-cal-drag");
       var ev = getEvent(id);
       if (!ev) return;
@@ -547,6 +577,11 @@
   function attachResize(handle) {
     handle.addEventListener("pointerdown", function (e) {
       if (e.button !== 0) return;
+      if (!state.isEditMode) {
+        toast("Chế độ xem công khai — bạn không thể chỉnh sửa", "error");
+        e.stopPropagation();
+        return;
+      }
       e.stopPropagation();
       var ev = getEvent(handle.getAttribute("data-cal-resize"));
       if (!ev) return;
@@ -711,6 +746,10 @@
   }
 
   function openEditorNew(when, allDay) {
+    if (!state.isEditMode) {
+      toast("Chế độ xem công khai — bạn không thể chỉnh sửa", "error");
+      return;
+    }
     var start = when || atMinutes(state.selected, nextHourMin());
     var end;
     if (allDay) { start = startOfDay(start); end = start; }
@@ -742,6 +781,37 @@
     selectColor(ev.color || "teal");
     syncAllDay();
     formRefs.del.hidden = !!isNew;
+
+    // Disable all form fields and show readonly notice if not in edit mode
+    var readonlyNote = $("[data-cal-readonly-note]");
+    if (!state.isEditMode) {
+      // Disable form inputs
+      formRefs.titleIn.disabled = true;
+      formRefs.allday.disabled = true;
+      formRefs.sdate.disabled = true;
+      formRefs.stime.disabled = true;
+      formRefs.edate.disabled = true;
+      formRefs.etime.disabled = true;
+      formRefs.loc.disabled = true;
+      formRefs.notes.disabled = true;
+      $$("[data-cal-color]", formRefs.colors).forEach(function (b) { b.disabled = true; });
+      // Show readonly notice, hide save button
+      if (readonlyNote) readonlyNote.hidden = false;
+    } else {
+      // Enable form inputs
+      formRefs.titleIn.disabled = false;
+      formRefs.allday.disabled = false;
+      formRefs.sdate.disabled = false;
+      formRefs.stime.disabled = false;
+      formRefs.edate.disabled = false;
+      formRefs.etime.disabled = false;
+      formRefs.loc.disabled = false;
+      formRefs.notes.disabled = false;
+      $$("[data-cal-color]", formRefs.colors).forEach(function (b) { b.disabled = false; });
+      // Hide readonly notice
+      if (readonlyNote) readonlyNote.hidden = true;
+    }
+
     modal.hidden = false;
     document.body.classList.add("cal-modal-open");
     setTimeout(function () { formRefs.titleIn.focus(); }, 20);
@@ -756,6 +826,10 @@
 
   function onSubmit(e) {
     e.preventDefault();
+    if (!state.isEditMode) {
+      toast("Chế độ xem công khai — bạn không thể chỉnh sửa", "error");
+      return;
+    }
     var allDay = formRefs.allday.checked;
     var sdate = formRefs.sdate.value, edate = formRefs.edate.value;
     if (!sdate) { toast("Chọn ngày bắt đầu", "error"); return; }
@@ -801,6 +875,10 @@
     return atMinutes(d, (+t[0]) * 60 + (+t[1] || 0));
   }
   function onDelete() {
+    if (!state.isEditMode) {
+      toast("Chế độ xem công khai — bạn không thể chỉnh sửa", "error");
+      return;
+    }
     if (!editingId) { closeEditor(); return; }
     var id = editingId;
     deleteEvent(id).then(function () {
@@ -905,22 +983,39 @@
   }
 
   var booted = false;
-  async function init() {
+  async function init(isEditMode, events) {
     if (booted) return;
     booted = true;
+    state.isEditMode = isEditMode;
+    if (events && events.events) {
+      state.events = Array.isArray(events.events) ? events.events : [];
+    }
     cacheModal();
     bindChrome();
-    render();                         // empty grid first (no private data yet)
-    try {
-      await loadEvents();
-      render();
-    } catch (e) {
-      if (!(e && e.status === 401)) toast("Không tải được lịch", "error");
+    render();
+    // In edit mode, try to load user's private events
+    if (isEditMode) {
+      try {
+        await loadEvents();
+        render();
+      } catch (e) {
+        if (!(e && e.status === 401)) toast("Không tải được lịch", "error");
+      }
     }
     nowTimer = setInterval(updateNowLine, 60000);
   }
 
-  // Private tool: only start after the shared GitHub-OAuth guard confirms an
-  // authenticated, allowlisted admin. Until then nothing private is fetched.
-  document.addEventListener("private-auth:authed", init);
+  // Support both private-auth (backward compat) and public-auth (new public mode)
+  document.addEventListener("private-auth:authed", function () {
+    init(true, {}); // authenticated edit mode
+  });
+  document.addEventListener("public-auth:authed", function () {
+    init(true, {}); // CMS session found — unlock edit mode
+  });
+  document.addEventListener("public-auth:guest", function (e) {
+    init(false, e.detail || {}); // public read-only mode
+  });
+  document.addEventListener("public-auth:offline", function (e) {
+    init(false, e.detail || {}); // offline mode — show cached data
+  });
 })();
