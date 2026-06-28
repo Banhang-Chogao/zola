@@ -15,6 +15,7 @@ tags = ["world cup 2026", "fifa world cup", "sơ đồ thi đấu", "bracket wor
 seo_keyword = "sơ đồ thi đấu fifa world cup 2026"
 featured = true
 sticky = false
+thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 image_alt = "Sơ đồ thi đấu FIFA World Cup 2026"
 references_copyright = "Bài viết là nội dung biên tập lại theo phong cách SEOMONEY. Dữ kiện về lịch knock-out, cặp đấu và thể thức được tổng hợp từ FIFA cùng nguồn thể thao uy tín đã liên kết ở phần nguồn; phần phân tích, cách đọc bracket và biên tập cấu trúc là do SEOMONEY thực hiện riêng."
 
@@ -157,3 +158,44 @@ Nếu bạn chỉ nhớ một điều, hãy nhớ điều này: sơ đồ thi đ
 Sơ đồ thi đấu FIFA World Cup 2026 là landing page đúng intent cho truy vấn “bracket”, “nhánh đấu” và “vòng loại trực tiếp”. Bài lịch thi đấu sẽ tiếp tục giữ vai trò timeline, còn hub này là nơi gom toàn bộ cấu trúc của phần knock-out vào một chỗ để người đọc và Google đều hiểu nhanh.
 
 Nếu bạn đang cần giờ đá cụ thể, quay lại [Lịch thi đấu World Cup 2026 giờ VN](/posting/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick/). Nếu bạn đang muốn xem tổng quan toàn bộ giải, có thể ghé [World Cup 2026 News Hub](/worldcup-2026/) hoặc đi vào chuyên mục [World cup 2026](/categories/world-cup-2026/).
+
+## Liên kết bên ngoài được sử dụng trong bài viết
+
+- [FIFA World Cup 26](https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026)
+- [SB Nation - World Cup schedule and scores: round of 32](https://www.sbnation.com/soccer/1120771/world-cup-schedule-scores-round-32)
+
+## Liên kết nội bộ liên quan
+
+- [Lịch thi đấu World Cup 2026 giờ VN](/posting/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick/)
+- [World Cup 2026 News Hub](/worldcup-2026/)
+- [World cup 2026](/categories/world-cup-2026/)
+
+## Bản quyền & Ghi nguồn
+
+Bài viết này là nội dung biên tập lại theo phong cách SEOMONEY. Dữ kiện về lịch knock-out, cặp đấu và thể thức được tổng hợp từ FIFA và nguồn thể thao uy tín đã liên kết ở phần trên. Phần giải thích bracket, cách đọc nhánh đấu và các nhận định biên tập là nội dung riêng của SEOMONEY, không phải trích dẫn nguyên văn từ nguồn nào.
+
+## FAQ: Câu hỏi thường gặp
+
+### Sơ đồ thi đấu FIFA World Cup 2026 có bao nhiêu đội?
+
+World Cup 2026 có 32 đội tham dự vòng chung kết, chia 8 bảng (A–H) mỗi bảng 4 đội. Sau vòng bảng, 16 đội nhất nhì mỗi bảng vào vòng loại trực tiếp với tổng cộng 16 trận vòng 32 đội.
+
+### Thể thức knock-out World Cup 2026 thế nào?
+
+Từ vòng 32 đội, các trận đấu loại trực tiếp: thua là về nước. Nếu hòa sau 90 phút chính thức, hai đội đá hiệp phụ 30 phút. Vẫn hòa thì luân lưu 11m. Không có đá lại.
+
+### Vòng 32 đội World Cup 2026 bắt đầu từ ngày nào?
+
+Vòng 32 đội diễn ra từ 28/06 đến 03/07/2026, với 16 trận đấu trong 6 ngày.
+
+### Round of 16 có phải là vòng 16 đội không?
+
+Đúng. Round of 16 chính là vòng 16 đội, tức các đội thắng ở vòng 32 đội sẽ bước tiếp vào giai đoạn này.
+
+### Chung kết World Cup 2026 diễn ra khi nào?
+
+Trận chung kết FIFA World Cup 2026 diễn ra vào ngày 19/07/2026 tại sân vận động MetLife, New Jersey, Hoa Kỳ.
+
+### Làm sao đọc bracket World Cup 2026?
+
+Đọc từ trái sang phải: đội thắng mỗi cặp vòng 32 đi tiếp vào vòng 16 đội, thắng vòng 16 vào tứ kết, thắng tứ kết vào bán kết. Hai đội thắng bán kết gặp nhau ở chung kết; hai đội thua đá tranh hạng ba.
