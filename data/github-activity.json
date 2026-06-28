@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-27T11:17:43Z",
+  "updated_at": "2026-06-28T12:01:18Z",
   "source": "git+api",
   "stale": false,
   "fetch_error": "",
@@ -7,19 +7,11 @@
   "repository_url": "https://github.com/Banhang-Chogao/zola",
   "contributor": "Duy Nguyen",
   "period_days": 365,
-  "period_start": "2025-06-28",
-  "period_end": "2026-06-27",
-  "total_contributions": 991,
-  "latest_activity_at": "2026-06-27T18:08:21+07:00",
+  "period_start": "2025-06-29",
+  "period_end": "2026-06-28",
+  "total_contributions": 1136,
+  "latest_activity_at": "2026-06-28T18:54:32+07:00",
   "days": [
-    {
-      "date": "2025-06-28",
-      "count": 0,
-      "commits": 0,
-      "pull_requests": 0,
-      "issues": 0,
-      "reviews": 0
-    },
     {
       "date": "2025-06-29",
       "count": 0,
@@ -2870,49 +2862,49 @@
     },
     {
       "date": "2026-06-20",
-      "count": 18,
+      "count": 0,
       "commits": 0,
-      "pull_requests": 18,
+      "pull_requests": 0,
       "issues": 0,
       "reviews": 0
     },
     {
       "date": "2026-06-21",
-      "count": 14,
+      "count": 0,
       "commits": 0,
-      "pull_requests": 14,
+      "pull_requests": 0,
       "issues": 0,
       "reviews": 0
     },
     {
       "date": "2026-06-22",
-      "count": 10,
+      "count": 0,
       "commits": 0,
-      "pull_requests": 10,
+      "pull_requests": 0,
       "issues": 0,
       "reviews": 0
     },
     {
       "date": "2026-06-23",
-      "count": 20,
+      "count": 0,
       "commits": 0,
-      "pull_requests": 20,
+      "pull_requests": 0,
       "issues": 0,
       "reviews": 0
     },
     {
       "date": "2026-06-24",
-      "count": 20,
+      "count": 0,
       "commits": 0,
-      "pull_requests": 19,
-      "issues": 1,
+      "pull_requests": 0,
+      "issues": 0,
       "reviews": 0
     },
     {
       "date": "2026-06-25",
-      "count": 197,
+      "count": 183,
       "commits": 140,
-      "pull_requests": 57,
+      "pull_requests": 43,
       "issues": 0,
       "reviews": 0
     },
@@ -2926,20 +2918,28 @@
     },
     {
       "date": "2026-06-27",
-      "count": 288,
-      "commits": 221,
-      "pull_requests": 65,
+      "count": 367,
+      "commits": 272,
+      "pull_requests": 93,
       "issues": 0,
       "reviews": 2
+    },
+    {
+      "date": "2026-06-28",
+      "count": 162,
+      "commits": 95,
+      "pull_requests": 67,
+      "issues": 0,
+      "reviews": 0
     }
   ],
   "breakdown": {
-    "commits": 688,
+    "commits": 834,
     "pull_requests": 300,
-    "issues": 1,
+    "issues": 0,
     "reviews": 2,
-    "commits_pct": 70,
-    "pull_requests_pct": 30,
+    "commits_pct": 74,
+    "pull_requests_pct": 26,
     "issues_pct": 0,
     "reviews_pct": 0
   },
@@ -2950,22 +2950,6 @@
       "Fri"
     ],
     "weeks": [
-      {
-        "month_label": "Jun",
-        "days": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          {
-            "date": "2025-06-28",
-            "count": 0,
-            "level": 0
-          }
-        ]
-      },
       {
         "month_label": "Jul",
         "days": [
@@ -5001,8 +4985,8 @@
           },
           {
             "date": "2026-06-20",
-            "count": 18,
-            "level": 1
+            "count": 0,
+            "level": 0
           }
         ]
       },
@@ -5011,27 +4995,27 @@
         "days": [
           {
             "date": "2026-06-21",
-            "count": 14,
-            "level": 1
+            "count": 0,
+            "level": 0
           },
           {
             "date": "2026-06-22",
-            "count": 10,
-            "level": 1
+            "count": 0,
+            "level": 0
           },
           {
             "date": "2026-06-23",
-            "count": 20,
-            "level": 1
+            "count": 0,
+            "level": 0
           },
           {
             "date": "2026-06-24",
-            "count": 20,
-            "level": 1
+            "count": 0,
+            "level": 0
           },
           {
             "date": "2026-06-25",
-            "count": 197,
+            "count": 183,
             "level": 2
           },
           {
@@ -5041,9 +5025,25 @@
           },
           {
             "date": "2026-06-27",
-            "count": 288,
-            "level": 3
+            "count": 367,
+            "level": 4
           }
+        ]
+      },
+      {
+        "month_label": "",
+        "days": [
+          {
+            "date": "2026-06-28",
+            "count": 162,
+            "level": 2
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
         ]
       }
     ],
