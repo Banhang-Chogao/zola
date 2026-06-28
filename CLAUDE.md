@@ -1319,6 +1319,35 @@ script Python sinh nội dung public).
 
 Bắt buộc với MỌI task có thay đổi code (đã commit + push).
 
+### Smart PR Mapping Rule (2026-06-28)
+
+> Mỗi yêu cầu / mỗi tính năng / mỗi bugfix chỉ được mapping vào đúng 1 PR riêng.
+> Không gom nhiều yêu cầu không liên quan vào cùng 1 PR.
+
+#### Phân tách theo loại (BẮT BUỘC)
+
+- Không dồn **UI change + logic change + SEO change + data change** vào chung một PR.
+- Mỗi PR phải có **scope nhỏ, rõ ràng, dễ review, dễ revert**.
+- Nếu user đưa nhiều yêu cầu trong cùng prompt → tự tách thành nhiều PR theo từng
+  feature/bugfix độc lập.
+- Ví dụ phân tách đúng:
+  - `fix(css): responsive navbar` — UI change riêng
+  - `feat(api): add /comments` — logic change riêng
+  - `fix(seo): canonical URL` — SEO change riêng
+  - `chore(data): refresh references` — data change riêng
+
+#### Dependency & thứ tự
+
+- PR nào phụ thuộc PR trước → ghi rõ `Depends-on: #<PR>` trong description và
+  xếp hàng theo thứ tự (PR trước merge xong mới tạo PR sau).
+- PR độc lập = chạy song song (không cần chờ nhau).
+
+#### Mục tiêu
+
+- Giảm conflict (mỗi PR chạm ít file, ít overlap)
+- Giảm deploy failed (scope nhỏ → dễ chẩn đoán)
+- Dễ rollback khi lỗi production (revert 1 PR, không kéo theo feature khác)
+
 ### Mỗi thay đổi = 1 PR riêng, tự auto-merge (2026-06-18 — user request)
 
 > ⛔ **KHÔNG GỘP** nhiều thay đổi độc lập vào cùng 1 PR — user phải chờ lâu nếu gộp.
