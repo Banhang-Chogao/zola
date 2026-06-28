@@ -45,6 +45,16 @@ ADMIN_USERNAMES = {
     if u.strip()
 }
 
+# ============= Debug logging control =============
+# CMS_AUTH_DEBUG=true enables detailed OAuth callback traces.
+# Default: false (production quiet). Set on Render when diagnosing auth issues.
+CMS_AUTH_DEBUG = os.getenv("CMS_AUTH_DEBUG", "false").strip().lower() in {"true", "1", "yes"}
+
+def _debug_log(msg: str) -> None:
+    """Log only when CMS_AUTH_DEBUG is enabled. Never logs tokens, secrets, or session IDs."""
+    if CMS_AUTH_DEBUG:
+        print(msg)
+
 # ============= Auth provider rollout (GitHub → Google) =============
 # AUTH_PROVIDER controls which login gateways are enabled:
 #   "github" (default) — GitHub OAuth only (legacy behaviour, unchanged)
@@ -687,14 +697,14 @@ async def auth_google_callback(
     email_domain = email.split("@")[1] if "@" in email else "unknown"
     email_normalized = email.lower().strip()
     google_allowlist_count = len(GOOGLE_ADMIN_EMAILS) if GOOGLE_ADMIN_EMAILS else 0
-    print(f"[cms_auth] Google OAuth callback START: mode={mode}")
-    print(f"[cms_auth]   email_domain={email_domain} email_normalized={email_normalized[:3]}***@{email_domain}")
-    print(f"[cms_auth]   GOOGLE_ADMIN_EMAILS configured={bool(GOOGLE_ADMIN_EMAILS)} count={google_allowlist_count}")
-    print(f"[cms_auth]   email_allowed={is_admin_email}")
+    _debug_log(f"[cms_auth] Google OAuth callback START: mode={mode}")
+    _debug_log(f"[cms_auth]   email_domain={email_domain} email_normalized={email_normalized[:3]}***@{email_domain}")
+    _debug_log(f"[cms_auth]   GOOGLE_ADMIN_EMAILS configured={bool(GOOGLE_ADMIN_EMAILS)} count={google_allowlist_count}")
+    _debug_log(f"[cms_auth]   email_allowed={is_admin_email}")
 
     # If GOOGLE_ADMIN_EMAILS is empty (fallback failed), block the login with a clear error.
     if not GOOGLE_ADMIN_EMAILS and not mode == "comment":
-        print(f"[cms_auth] Google login blocked: admin mode requires email allowlist. Email domain: {email_domain}")
+        _debug_log(f"[cms_auth] Google login blocked: admin mode requires email allowlist. Email domain: {email_domain}")
         return redirect_with_error("google_not_configured", return_to)
 
     if mode == "comment":
@@ -704,11 +714,11 @@ async def auth_google_callback(
         # strictly comment-only account that can NEVER reach the editor/CMS.
         comment_domain_allowed = _comment_email_allowed(email)
         if not is_admin_email and not comment_domain_allowed:
-            print(f"[cms_auth]   comment_domain_check=failed email_domain={email_domain}")
+            _debug_log(f"[cms_auth]   comment_domain_check=failed email_domain={email_domain}")
             return redirect_with_error("comment_domain_not_allowed", return_to)
         is_super = is_admin_email
         account_type = ACCOUNT_TYPE_ADMIN if is_admin_email else ACCOUNT_TYPE_COMMENTER
-        print(f"[cms_auth]   mode=comment account_type={account_type} is_super={is_super}")
+        _debug_log(f"[cms_auth]   mode=comment account_type={account_type} is_super={is_super}")
         session_payload = {
             "provider": "google",
             "email": email,
@@ -725,10 +735,10 @@ async def auth_google_callback(
     else:
         # Admin/CMS login — UNCHANGED: the email MUST be on the admin allowlist.
         if not is_admin_email:
-            print(f"[cms_auth]   mode=admin email_allowed=false → access_denied")
+            _debug_log(f"[cms_auth]   mode=admin email_allowed=false → access_denied")
             return redirect_with_error("access_denied", return_to)
         is_super = email in ADMIN_EMAILS or is_admin_email
-        print(f"[cms_auth]   mode=admin email_allowed=true is_super={is_super}")
+        _debug_log(f"[cms_auth]   mode=admin email_allowed=true is_super={is_super}")
         session_payload = {
             "provider": "google",
             "email": email,
@@ -745,7 +755,7 @@ async def auth_google_callback(
 
     sid = db.create_cms_session(session_payload, SESSION_TTL)
     session_created = bool(sid)
-    print(f"[cms_auth]   session_created={session_created} sid_length={len(sid) if sid else 0}")
+    _debug_log(f"[cms_auth]   session_created={session_created} sid_length={len(sid) if sid else 0}")
 
     # Extract safe fragment from return_to (e.g., #comments) to preserve in redirect.
     safe_fragment = ""
@@ -761,8 +771,8 @@ async def auth_google_callback(
     redirect_url = build_blog_url(return_to, fragment=fragment_value, extra_query={"auth": "success"})
     response = RedirectResponse(redirect_url)
     attach_session_cookie(response, sid)
-    print(f"[cms_auth]   cookie_attached=True cookie_name={SESSION_COOKIE_NAME} max_age={SESSION_TTL}")
-    print(f"[cms_auth] Google OAuth callback COMPLETE: redirect_url={redirect_url}")
+    _debug_log(f"[cms_auth]   cookie_attached=True cookie_name={SESSION_COOKIE_NAME} max_age={SESSION_TTL}")
+    _debug_log(f"[cms_auth] Google OAuth callback COMPLETE: redirect_url={redirect_url}")
     return response
 
 
