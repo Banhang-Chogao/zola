@@ -1025,6 +1025,23 @@ Do not report "done/live" until both checks pass.
 - **Quy tắc chung:** mỗi khi PR có >5 Markdown content conflicts → **DỪNG, kiểm tra**, không tiếp tục merge. Merge race ở content là tín hiệu PR base stale, cần rebase/recreate.
 - **Evidence (PR #1148, 28/06/2026):** baochi canonical migration — PR dựa trên commit f5732ec (7 commits trước main e4189ec). Trong khoảng đó, main đã chạy PR #1134 + #1144 migrate part của baochi posts với aliases. PR #1148 conflict ở 7+ section `_index.md` + individual posts + `data/references.json` + `data/seo-qa-scores.json`. Decision: **close as stale** vì migration already done (chỉ differ ở details/ordering, không cần reapply).
 
+#### V26 — Generated QA report files bloat feature PRs (prevention) — **EFFECTIVE 28/06/2026**
+
+> **BẮT BUỘC prevention:** Generated `data/qa-*.json` files (timestamps, counts auto-updated by QA scripts) KHÔNG được commit vào feature/fix PRs TRỪ khi PR explicitly focuses on those reports.
+
+- **Dấu hiệu:** Feature PR (fix auth, add page, refactor code) vẫn modify `data/qa-404-report.json`, `data/qa-domain-selector-report.json`, v.v. → chỉ timestamp/count khác. Gây conflict với concurrent PRs.
+- **Nguyên nhân:** QA run (`qa-404-checker.py`, `qa-domain-selector.py`) sinh lại report tự động; feature PR author không cố tình commit nó, nhưng CI regenerate → diff chứa file đó.
+- **FIXER (mandatory):**
+  1. Khi feature PR finish QA nhưng `git status` hiển thị `data/qa-*.json` modified:
+     ```bash
+     git checkout origin/main -- data/qa-404-report.json data/qa-domain-selector-report.json [...]
+     ```
+  2. Xác nhận chỉ thực chất PR files (auth code, new page, config, docs) vẫn staged.
+  3. Commit + push → đặc PR chứa CHỈ feature logic, KHÔNG generated report churn.
+- **KHÔNG áp dụng:** PR rõ ràng là "chore(qa): update reports" hoặc "fix(links): heal broken links" → cố tý commit report thì được.
+- **Prevention workflow (future):** đoạn PR CI check, nếu PR title KHÔNG gồm keyword `qa|404|report|domain|link|heal`, mà vẫn modify `data/qa-*.json` → warning comment gợi ý `git checkout origin/main -- data/qa-*.json`. KHÔNG block auto-merge, chỉ reminder.
+- **Rule chung:** genererated files là artifact/CI output, KHÔNG feature diff. Commit chỉ khi PR thực sự đổi logic generator, KHÔNG khi CI re-run artifact.
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
