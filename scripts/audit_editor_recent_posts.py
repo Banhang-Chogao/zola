@@ -21,10 +21,11 @@ from collections import defaultdict
 REPO_ROOT = Path(__file__).parent.parent
 CONTENT_DIR = REPO_ROOT / "content"
 EDITOR_TEMPLATE = REPO_ROOT / "templates" / "editor.html"
+EDITOR_PUBLIC = REPO_ROOT / "public" / "editor" / "index.html"  # Baked metadata from build output
 
 # Sections that should be included in Editor
 # (based on templates/editor.html article scan)
-EDITOR_SECTIONS = {"posting", "baochi"}
+EDITOR_SECTIONS = {"posting", "baochi", "khoa-hoc", "the-gioi", "cong-nghe", "du-lich", "ngan-hang", "bao-hiem", "doi-song", "the-thao"}
 
 # Sections that are NOT articles (should be skipped)
 SKIP_SECTIONS = {
@@ -162,27 +163,38 @@ def scan_article_files():
 
 
 def extract_baked_metadata():
-    """Extract baked metadata from editor.html template."""
+    """Extract baked metadata from editor.html (public build output preferred)."""
     baked = []
 
-    if not EDITOR_TEMPLATE.exists():
-        return baked
+    # Try public build output first (has actual baked data), then fallback to template
+    files_to_try = [EDITOR_PUBLIC, EDITOR_TEMPLATE]
 
-    try:
-        content = EDITOR_TEMPLATE.read_text(encoding="utf-8")
+    for filepath in files_to_try:
+        if not filepath.exists():
+            continue
 
-        # Find the posts-metadata script block
-        match = re.search(
-            r'<script type="application/json" id="posts-metadata">(.*?)</script>',
-            content,
-            re.DOTALL
-        )
-        if match:
-            json_text = match.group(1).strip()
-            if json_text:
-                baked = json.loads(json_text)
-    except Exception as e:
-        print(f"Error reading baked metadata: {e}", file=sys.stderr)
+        try:
+            content = filepath.read_text(encoding="utf-8")
+
+            # Find the posts-metadata script block
+            match = re.search(
+                r'<script type="application/json" id="posts-metadata">(.*?)</script>',
+                content,
+                re.DOTALL
+            )
+            if match:
+                json_text = match.group(1)
+                # Clean up whitespace while preserving JSON structure
+                json_text = re.sub(r'\s+', ' ', json_text).strip()
+                if json_text and json_text != '[ ]':
+                    try:
+                        baked = json.loads(json_text)
+                        if baked:  # Successfully parsed non-empty data
+                            return baked
+                    except json.JSONDecodeError:
+                        continue
+        except Exception as e:
+            continue
 
     return baked
 
