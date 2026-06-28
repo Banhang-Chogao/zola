@@ -1,17 +1,518 @@
 {
-  "updated_at": "2026-06-28T01:37:45Z",
-  "generated_at_vn": "08:37:45 28-06-2026",
+  "updated_at": "2026-06-28T02:34:58Z",
+  "generated_at_vn": "09:34:58 28-06-2026",
   "summary": {
-    "broken_count": 0,
-    "checked": 1070,
-    "status": "pass",
-    "internal_broken": 0,
-    "internal_checked": 1070,
+    "broken_count": 50,
+    "checked": 1123,
+    "status": "fail",
+    "internal_broken": 50,
+    "internal_checked": 1123,
     "external_broken": 0,
     "external_checked": 0,
     "external_total_unique": 664,
     "external_enabled": false,
     "scanned_pages": 832
   },
-  "links": []
+  "links": [
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/vietinbank-v-plus-chi-tiet-quyen-loi/",
+      "target": "/ngan-hang/vietinbank-v-plus-chi-tiet-quyen-loi/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/vietinbank-v-plus-chi-tiet-quyen-loi/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/vietinbank-v-advance-nang-tam-trai-nghiem/",
+      "target": "/ngan-hang/vietinbank-v-advance-nang-tam-trai-nghiem/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/vietinbank-v-advance-nang-tam-trai-nghiem/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/so-sanh-v-plus-va-v-advance-chon-goi-nao/",
+      "target": "/ngan-hang/so-sanh-v-plus-va-v-advance-chon-goi-nao/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/so-sanh-v-plus-va-v-advance-chon-goi-nao/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/vietinbank-v-plus-v-advance-la-gi/",
+      "target": "/ngan-hang/vietinbank-v-plus-v-advance-la-gi/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/vietinbank-v-plus-v-advance-la-gi/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/vietinbank-cong-nghe-trai-nghiem-khach-hang/",
+      "target": "/ngan-hang/vietinbank-cong-nghe-trai-nghiem-khach-hang/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/bao-mat-ngan-hang-so-vietinbank/",
+      "target": "/ngan-hang/bao-mat-ngan-hang-so-vietinbank/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/bao-mat-ngan-hang-so-vietinbank/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua/",
+      "target": "/ngan-hang/chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/cot-moc-lich-su-phat-trien-vietinbank/",
+      "target": "/ngan-hang/cot-moc-lich-su-phat-trien-vietinbank/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/cot-moc-lich-su-phat-trien-vietinbank/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/vietinbank-hien-dai-hoa-core-banking/",
+      "target": "/ngan-hang/vietinbank-hien-dai-hoa-core-banking/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/vietinbank-hien-dai-hoa-core-banking/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/he-sinh-thai-san-pham-vietinbank/",
+      "target": "/ngan-hang/he-sinh-thai-san-pham-vietinbank/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/he-sinh-thai-san-pham-vietinbank/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/dieu-kien-du-tu-cach-adsense/",
+      "target": "/cong-nghe/dieu-kien-du-tu-cach-adsense/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/dieu-kien-du-tu-cach-adsense/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/website-san-sang-cho-adsense/",
+      "target": "/cong-nghe/website-san-sang-cho-adsense/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/website-san-sang-cho-adsense/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/khoa-hoc/uranium-lam-giau-la-gi/",
+      "target": "/khoa-hoc/uranium-lam-giau-la-gi/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/uranium-lam-giau-la-gi/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/google-search-hoat-dong-the-nao/",
+      "target": "/cong-nghe/google-search-hoat-dong-the-nao/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/google-search-hoat-dong-the-nao/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/google-publisher-policies-noi-dung-bi-cam/",
+      "target": "/cong-nghe/google-publisher-policies-noi-dung-bi-cam/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/google-publisher-policies-noi-dung-bi-cam/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/khoa-hoc/nha-may-lam-giau-uranium-hoat-dong-the-nao/",
+      "target": "/khoa-hoc/nha-may-lam-giau-uranium-hoat-dong-the-nao/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/nha-may-lam-giau-uranium-hoat-dong-the-nao/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/khoa-hoc/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/",
+      "target": "/khoa-hoc/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/phan-biet-policies-va-restrictions-adsense/",
+      "target": "/cong-nghe/phan-biet-policies-va-restrictions-adsense/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/phan-biet-policies-va-restrictions-adsense/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/bao-lau-de-thay-ket-qua-seo/",
+      "target": "/cong-nghe/bao-lau-de-thay-ket-qua-seo/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/bao-lau-de-thay-ket-qua-seo/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/khoa-hoc/dien-hat-nhan-khac-vu-khi-hat-nhan/",
+      "target": "/khoa-hoc/dien-hat-nhan-khac-vu-khi-hat-nhan/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/dien-hat-nhan-khac-vu-khi-hat-nhan/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/engagement-rate-bounce-rate-google-analytics/",
+      "target": "/cong-nghe/engagement-rate-bounce-rate-google-analytics/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/engagement-rate-bounce-rate-google-analytics/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/doc-bao-cao-google-analytics-15-phut-moi-ngay/",
+      "target": "/cong-nghe/doc-bao-cao-google-analytics-15-phut-moi-ngay/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/doc-bao-cao-google-analytics-15-phut-moi-ngay/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/nguon-traffic-organic-direct-referral-social-paid/",
+      "target": "/cong-nghe/nguon-traffic-organic-direct-referral-social-paid/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/nguon-traffic-organic-direct-referral-social-paid/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/giup-google-tim-noi-dung-site/",
+      "target": "/cong-nghe/giup-google-tim-noi-dung-site/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/giup-google-tim-noi-dung-site/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/google-nhin-trang-giong-nguoi-dung/",
+      "target": "/cong-nghe/google-nhin-trang-giong-nguoi-dung/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/google-nhin-trang-giong-nguoi-dung/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/google-publisher-restrictions-noi-dung-han-che/",
+      "target": "/cong-nghe/google-publisher-restrictions-noi-dung-han-che/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/google-publisher-restrictions-noi-dung-han-che/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/chan-trang-khoi-google-search/",
+      "target": "/cong-nghe/chan-trang-khoi-google-search/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/chan-trang-khoi-google-search/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam/",
+      "target": "/ngan-hang/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/vietinbank-tu-giao-dich-quay-den-ngan-hang-so/",
+      "target": "/ngan-hang/vietinbank-tu-giao-dich-quay-den-ngan-hang-so/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/vietinbank-tu-giao-dich-quay-den-ngan-hang-so/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/toan-canh-chuyen-doi-so-vietinbank/",
+      "target": "/ngan-hang/toan-canh-chuyen-doi-so-vietinbank/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/toan-canh-chuyen-doi-so-vietinbank/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/top-ngan-hang-so-tot-nhat-viet-nam-2026/",
+      "target": "/ngan-hang/top-ngan-hang-so-tot-nhat-viet-nam-2026/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/top-ngan-hang-so-tot-nhat-viet-nam-2026/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/vietinbank-cuoc-dua-ngan-hang-so-big4/",
+      "target": "/ngan-hang/vietinbank-cuoc-dua-ngan-hang-so-big4/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/vietinbank-cuoc-dua-ngan-hang-so-big4/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/google-analytics-la-gi-lo-trinh-10-ngay/",
+      "target": "/cong-nghe/google-analytics-la-gi-lo-trinh-10-ngay/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/google-analytics-la-gi-lo-trinh-10-ngay/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/tuong-lai-ngan-hang-so-va-vi-the-vietinbank/",
+      "target": "/ngan-hang/tuong-lai-ngan-hang-so-va-vi-the-vietinbank/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/tuong-lai-ngan-hang-so-va-vi-the-vietinbank/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/tien-ich-so-vietinbank-chua-tan-dung-het/",
+      "target": "/ngan-hang/tien-ich-so-vietinbank-chua-tan-dung-het/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/tien-ich-so-vietinbank-chua-tan-dung-het/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/the-vietinbank-lich-su-va-cac-dong-the/",
+      "target": "/ngan-hang/the-vietinbank-lich-su-va-cac-dong-the/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/the-vietinbank-lich-su-va-cac-dong-the/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/vietinbank-la-ai-hanh-trinh-hinh-thanh/",
+      "target": "/ngan-hang/vietinbank-la-ai-hanh-trinh-hinh-thanh/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/vietinbank-la-ai-hanh-trinh-hinh-thanh/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/review-liobank-by-ocb/",
+      "target": "/ngan-hang/review-liobank-by-ocb/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/review-liobank-by-ocb/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/faq-toan-tap-ngan-hang-so/",
+      "target": "/ngan-hang/faq-toan-tap-ngan-hang-so/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/faq-toan-tap-ngan-hang-so/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/",
+      "target": "/ngan-hang/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/google-adsense-la-gi-chinh-sach-chuong-trinh/",
+      "target": "/cong-nghe/google-adsense-la-gi-chinh-sach-chuong-trinh/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/google-adsense-la-gi-chinh-sach-chuong-trinh/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/top-10-cong-cu-terminal-cho-mac-2026/",
+      "target": "/cong-nghe/top-10-cong-cu-terminal-cho-mac-2026/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/top-10-cong-cu-terminal-cho-mac-2026/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/users-new-users-sessions-google-analytics/",
+      "target": "/cong-nghe/users-new-users-sessions-google-analytics/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/users-new-users-sessions-google-analytics/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/so-sanh-cake-vs-liobank/",
+      "target": "/ngan-hang/so-sanh-cake-vs-liobank/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/so-sanh-cake-vs-liobank/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/ngan-hang-so-cho-sinh-vien/",
+      "target": "/ngan-hang/ngan-hang-so-cho-sinh-vien/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/ngan-hang-so-cho-sinh-vien/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/ngan-hang-so-cho-kinh-doanh-online/",
+      "target": "/ngan-hang/ngan-hang-so-cho-kinh-doanh-online/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/ngan-hang-so-cho-kinh-doanh-online/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/ngan-hang-so-cho-freelancer/",
+      "target": "/ngan-hang/ngan-hang-so-cho-freelancer/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/ngan-hang-so-cho-freelancer/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/cong-nghe/loi-yaml-github-actions-workflow-invalid-case-study/",
+      "target": "/cong-nghe/loi-yaml-github-actions-workflow-invalid-case-study/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/loi-yaml-github-actions-workflow-invalid-case-study/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/review-cake-by-vpbank/",
+      "target": "/ngan-hang/review-cake-by-vpbank/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/posting/review-cake-by-vpbank/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/ngan-hang/ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat/",
+      "target": "/ngan-hang/ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat/",
+      "kind": "internal"
+    }
+  ]
 }
