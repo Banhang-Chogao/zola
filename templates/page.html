@@ -173,9 +173,10 @@
         {{ references::section(page=page) }}
 
         {# ===== FAQ (Câu hỏi thường gặp) → JSON-LD FAQPage sinh ở base.html ===== #}
-        {% if page.extra.faq %}
+        {% set editorial_footer_source = page.extra.editorial_footer_source | default(value="") %}
+        {% if page.extra.faq and editorial_footer_source != "markdown" %}
         <section class="faq" aria-labelledby="faq-heading">
-            <h2 class="faq__title" id="faq-heading">Câu hỏi thường gặp</h2>
+            <h2 class="faq__title" id="faq-heading">FAQ: Câu hỏi thường gặp</h2>
             {% for item in page.extra.faq %}
             <details class="faq__item"{% if loop.first %} open{% endif %}>
                 <summary class="faq__q">{{ item.q }}</summary>

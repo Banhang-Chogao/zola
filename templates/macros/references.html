@@ -4,7 +4,8 @@
    references_skip_copyright, references_external[], references_internal[] #}
 
 {% macro section(page) %}
-{% if page and not page.extra.references_skip %}
+{% set editorial_footer_source = page.extra.editorial_footer_source | default(value="") %}
+{% if page and not page.extra.references_skip and editorial_footer_source != "markdown" %}
     {% set ref_data = load_data(path="data/references.json", required=false) %}
     {% set_global refs = false %}
     {% if ref_data %}
@@ -20,11 +21,10 @@
     {% endif %}
     {% if refs and (refs.external or refs.internal or refs.copyright) %}
     <section class="post-references" aria-labelledby="post-references-heading">
-        <h2 class="post-references__title" id="post-references-heading">Tham khảo &amp; Nguồn dữ liệu</h2>
 
         {% if refs.external and refs.external | length > 0 %}
         <div class="post-references__block">
-            <h3 class="post-references__subtitle">1. Liên kết bên ngoài được sử dụng trong bài viết</h3>
+            <h2 class="post-references__subtitle" id="post-references-heading">Liên kết bên ngoài được sử dụng trong bài viết</h2>
             <ul class="post-references__list post-references__list--external">
                 {% for item in refs.external %}
                 <li>
@@ -39,7 +39,7 @@
 
         {% if refs.internal and refs.internal | length > 0 %}
         <div class="post-references__block">
-            <h3 class="post-references__subtitle">2. Liên kết nội bộ liên quan</h3>
+            <h2 class="post-references__subtitle">Liên kết nội bộ liên quan</h2>
             <ul class="post-references__list post-references__list--internal">
                 {% for item in refs.internal %}
                 <li>
@@ -52,7 +52,7 @@
 
         {% if refs.copyright %}
         <div class="post-references__block post-references__block--copyright">
-            <h3 class="post-references__subtitle">3. Bản quyền &amp; Ghi nguồn</h3>
+            <h2 class="post-references__subtitle">Bản quyền &amp; Ghi nguồn</h2>
             <blockquote class="post-references__copyright">
                 <p>{{ refs.copyright }}</p>
             </blockquote>
