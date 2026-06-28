@@ -200,6 +200,7 @@ def _scan_posts(manifest: dict) -> tuple[list[dict], dict, bool]:
 
             # Posts always route through /posting/ regardless of category
             # (categories are for organization/filtering, not route determination)
+            section = _category_to_section(categories)
             url = f"{BASE_URL}/posting/{slug}/"
             posts.append(
                 {
