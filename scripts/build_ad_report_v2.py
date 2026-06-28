@@ -64,6 +64,7 @@ _CATS_RE = re.compile(r'categories\s*=\s*\[([^\]]+)\]', re.MULTILINE)
 _TAGS_RE = re.compile(r'tags\s*=\s*\[([^\]]+)\]', re.MULTILINE)
 _SERIES_RE = re.compile(r'^\s*series\s*=\s*"([^"]+)"', re.MULTILINE)
 _SEO_KW_RE = re.compile(r'^\s*seo_keyword\s*=\s*"([^"]+)"', re.MULTILINE)
+_SOURCE_RE = re.compile(r'^\s*source\s*=\s*"([^"]+)"', re.MULTILINE)
 _LINK_RE = re.compile(r'\]\((/[^)]+|https://seomoney\.org[^)]*)\)')
 
 
@@ -180,6 +181,7 @@ def _scan_posts(manifest: dict) -> tuple[list[dict], dict, bool]:
             series = (_SERIES_RE.search(text).group(1) if _SERIES_RE.search(text) else "")
             date_s = (_DATE_RE.search(text).group(1) if _DATE_RE.search(text) else "")
             desc = (_DESC_RE.search(text).group(1) if _DESC_RE.search(text) else "")
+            source = (_SOURCE_RE.search(text).group(1) if _SOURCE_RE.search(text) else "")
             internal_links = len(_LINK_RE.findall(body))
             words = _word_count(body)
             blob = f"{title} {' '.join(categories)} {' '.join(tags)} {seo_kw} {body[:1200]}".lower()
@@ -198,10 +200,17 @@ def _scan_posts(manifest: dict) -> tuple[list[dict], dict, bool]:
             faq_bonus = 6 if "[[extra.faq]]" in text or "[extra.faq]" in text else 0
             monetization = min(100, rpm_score // 2 + depth + link_bonus + series_bonus + faq_bonus)
 
-            # Posts always route through /posting/ regardless of category
-            # (categories are for organization/filtering, not route determination)
+            # Determine URL based on source: posts from baochi use /baochi/, others use /posting/
             section = _category_to_section(categories)
-            url = f"{BASE_URL}/posting/{slug}/"
+            if source == "bb" or folder.name == "baochi":
+                # Baochi/newspaper content routes to /baochi/
+                url = f"{BASE_URL}/baochi/{slug}/"
+            elif folder.name == "posting":
+                # Direct posting folder routes to /posting/
+                url = f"{BASE_URL}/posting/{slug}/"
+            else:
+                # Category-specific folders (ngan-hang, cong-nghe, etc.) route to /posting/
+                url = f"{BASE_URL}/posting/{slug}/"
             posts.append(
                 {
                     "title": title,

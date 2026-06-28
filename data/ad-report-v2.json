@@ -1,20 +1,19 @@
 {
   "version": 2,
-  "report_number": 5,
-  "generated_at": "2026-06-28T02:37:22Z",
-  "monetization_score": 78,
+  "report_number": 7,
+  "generated_at": "2026-06-28T05:43:32Z",
+  "monetization_score": 84,
   "ad_density": {
-    "verdict": "too_dense",
-    "slots": 5,
+    "verdict": "optimal",
+    "slots": 4,
     "live_units": 0,
     "files": [
-      "templates/page.html",
       "sass/_banner.scss",
       "sass/_theme-overrides.scss",
       "sass/_media-guard.scss",
       "sass/_paywall.scss"
     ],
-    "recommendation": "Giảm số slot — tránh accidental click và CLS trên mobile."
+    "recommendation": "Mật độ hợp lý cho blog editorial — theo dõi viewability trước khi thêm."
   },
   "ui_review": {
     "overall_grade": "B+",
@@ -32,7 +31,7 @@
       {
         "area": "Content depth",
         "level": "ok",
-        "text": "Trung bình 1379 từ/bài — đủ depth cho RPM."
+        "text": "Trung bình 1387 từ/bài — đủ depth cho RPM."
       },
       {
         "area": "SEO UX",
@@ -84,7 +83,7 @@
       },
       {
         "category": "SEO",
-        "post_count": 6,
+        "post_count": 7,
         "avg_rpm_potential": 78.0,
         "max_rpm_potential": 78
       },
@@ -120,7 +119,7 @@
       },
       {
         "category": "Công nghệ",
-        "post_count": 66,
+        "post_count": 68,
         "avg_rpm_potential": 77.2,
         "max_rpm_potential": 95
       },
@@ -338,7 +337,7 @@
     },
     {
       "topic": "SEO/MarTech",
-      "mentions": 26,
+      "mentions": 27,
       "sample_keywords": [
         "google adsense",
         "seo"
@@ -861,7 +860,7 @@
     },
     {
       "title": "Thẻ VPBank Circle: 'siêu thẻ' free trọn đời cho Gen Z",
-      "url": "https://seomoney.org/posting/vpbank-circle-sieu-the-free-tron-doi-gen-z/",
+      "url": "https://seomoney.org/baochi/vpbank-circle-sieu-the-free-tron-doi-gen-z/",
       "category": "Ngân hàng",
       "categories": [
         "Tất cả",
@@ -990,7 +989,7 @@
     },
     {
       "title": "Thẻ Techcombank Eco Digital: mở online miễn phí thật",
-      "url": "https://seomoney.org/posting/mo-the-techcombank-eco-digital-mien-phi/",
+      "url": "https://seomoney.org/baochi/mo-the-techcombank-eco-digital-mien-phi/",
       "category": "Ngân hàng",
       "categories": [
         "Tất cả",
@@ -1368,11 +1367,6 @@
       },
       {
         "priority": "P1",
-        "action": "Reduce ad slot count",
-        "detail": "Giảm đến 3–4 slots tối đa — tránh accidental click + CLS penalty."
-      },
-      {
-        "priority": "P1",
         "action": "Enable live AdSense units",
         "detail": "Placeholder CSS đã có — thêm unit ID + viewability QA trước khi go live."
       },
@@ -1471,9 +1465,9 @@
       },
       {
         "category": "SEO",
-        "current_posts": 6,
+        "current_posts": 7,
         "max_rpm": 78,
-        "suggested_expansion": "Add 9 posts (6–12 post cluster = hub-spoke model)",
+        "suggested_expansion": "Add 8 posts (6–12 post cluster = hub-spoke model)",
         "rationale": "Đủ thứ hạng seed — mở rộng để capture topic depth + cross-link bonus"
       },
       {
@@ -1527,6 +1521,16 @@
     ],
     "adsense_placements": [
       {
+        "slot_type": "in-content (after paragraph 2)",
+        "status": "ready",
+        "detail": "Enable 300×250 + 336×280 responsive unit — tap target safe on mobile"
+      },
+      {
+        "slot_type": "in-content (before conclusion)",
+        "status": "ready",
+        "detail": "Enable 300×250 unit — distance from CTA button checked"
+      },
+      {
         "slot_type": "sidebar (desktop only)",
         "status": "ready",
         "detail": "Sticky unit safe on desktop — hide on mobile ≤720px (already implemented)"
@@ -1568,10 +1572,24 @@
       "monetization_score": 78,
       "ad_density_verdict": "too_dense",
       "ui_grade": "B+"
+    },
+    {
+      "report_number": 6,
+      "generated_at": "2026-06-28T05:38:33Z",
+      "monetization_score": 84,
+      "ad_density_verdict": "optimal",
+      "ui_grade": "B+"
+    },
+    {
+      "report_number": 7,
+      "generated_at": "2026-06-28T05:43:32Z",
+      "monetization_score": 84,
+      "ad_density_verdict": "optimal",
+      "ui_grade": "B+"
     }
   ],
   "scan_stats": {
-    "total_posts": 197,
+    "total_posts": 199,
     "incremental": true,
     "pages_scanned": 223,
     "site_seo_score": 99.8
@@ -1581,5 +1599,5 @@
     "lcp": "9.2 s",
     "cls": "0"
   },
-  "latest_report_path": "reports/ad-report-v2/report-005-20260628.md"
+  "latest_report_path": "reports/ad-report-v2/report-007-20260628.md"
 }
