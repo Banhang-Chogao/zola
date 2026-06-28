@@ -16,10 +16,12 @@ permissions:
 
 concurrency:
   group: "pages"
-  # true: gộp "cơn bão" deploy (PR merge dồn dập / bot dispatch) → chỉ run mới
-  # nhất chạy tới cùng, các run cũ bị huỷ sớm → giảm mạnh số lần gọi Pages API,
-  # tránh "API rate limit exceeded for installation" ở bước configure-pages.
-  cancel-in-progress: true
+  # false: queue deploy thay vì cancel để đảm bảo latest main commit luôn được deploy.
+  # REASON: PR merge dồn dập có thể huỷ run cũ, khiến latest main commit không lên
+  # production (V21 — "Merged is not live"). Build cache + 6h schedule cron giảm
+  # Pages API quota pressure. Queuing deploy là quy trình chuẩn GitHub Pages.
+  # (Nếu cần nhanh hơn: dùng deploy-guard.yml để verify + retry, không cancel build.)
+  cancel-in-progress: false
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
