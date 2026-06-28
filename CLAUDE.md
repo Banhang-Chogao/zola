@@ -80,6 +80,68 @@ Solution stack:
 - Template: `templates/partials/changelog-prod-dashboard.html` (static render).
 - Data: `data/production-dashboard.json` (machine-readable).
 
+## SEOMONEY Production Base URL — Canonical Rules (effective 2026-06-28)
+
+> **Current production base:** `https://seomoney.org` with root path `/` (NOT `/zola/`).
+> The `/zola/` path is **legacy from old GitHub Pages project structure** and must NOT appear in:
+> active URLs, generated links, dashboards, documentation, or production verification checks.
+
+### Canonical URLs (Use These)
+
+All production and verification URLs must use root paths:
+
+```text
+https://seomoney.org/
+https://seomoney.org/changelog/
+https://seomoney.org/tools/theme-log/
+https://seomoney.org/tools/content-direction/
+https://seomoney.org/categories/ngan-hang/
+https://seomoney.org/ad-report-v2/
+```
+
+### Forbidden (Legacy — Do NOT Use)
+
+```text
+❌ https://seomoney.org/zola/  # Old GitHub Pages path
+❌ https://seomoney.org/zola/changelog/  # Old GitHub Pages path
+❌ https://seomoney.org/zola/tools/theme-log/  # Old GitHub Pages path
+❌ https://seomoney.org/zola/categories/ngan-hang/  # Old GitHub Pages path
+```
+
+**Note:** Examples above are marked as "Old GitHub Pages path" for historical reference.
+
+### Rule Scope
+
+1. **Production URLs** in templates, scripts, dashboards, deploy verification — MUST NOT contain `/zola/`.
+2. **Generated content** (Production Dashboard, broken-link reports, deploy logs) — MUST NOT contain `/zola/`.
+3. **Documentation & examples** — if referencing old path, mark clearly as "**Legacy old GitHub Pages path, not current production**".
+4. **Backend services** (VIPZone RUM, Comments) — may strip legacy `/zola/` prefix for **incoming** data compatibility, but never **generate** it.
+5. **User-facing instructions** — always use canonical root paths.
+
+### Implementation
+
+- **Config:** `config.toml` → `base_url = "https://seomoney.org"` (correct, no `/zola/`).
+- **QA Gate:** `scripts/check_base_url_hygiene.py` scans repo; fails P0 if active production URLs contain `/zola/`.
+- **Broken-link healer:** Safe auto-fix rule: `/zola/changelog/` → `/changelog/`, `/zola/tools/*` → `/tools/*`.
+- **Templates:** Use `get_url()` filter (respects `base_url` automatically) instead of hardcoded paths.
+- **Services:** RUM & Comments APIs may receive legacy `/zola/` paths from old browser caches; they strip it internally (see `rum.py` line 149–151, `comments.py` line 107–109).
+
+### Violation Examples
+
+**Bad (old GitHub Pages path — HISTORICAL EXAMPLE ONLY — do not use):**
+
+```jinja2
+{# Wrong — hardcoded /zola/ path (old GitHub Pages structure) #}
+<a href="https://seomoney.org/zola/changelog/">Production Dashboard</a>
+```
+
+**Good:**
+
+```jinja2
+{# Correct — respects base_url from config #}
+<a href="{{ get_url(path='changelog/') }}">Production Dashboard</a>
+```
+
 ## Auto-Merge Policy (ZERO_BARRIER — ghi đè mọi rule PR-only / manual merge cũ)
 
 > CI pass → **auto-merge `main` ngay** → `deploy.yml` production. Không chờ human approval.
