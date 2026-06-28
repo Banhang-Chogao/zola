@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+{% block robots %}noindex, follow{% endblock %}
+{% block title %}Snapshot Production V2 | {{ config.title }}{% endblock %}
+{% block description %}Bảng snapshot tình trạng deploy, main, dev và production live của SEOMONEY.{% endblock %}
+
+{% block main %}
+{% set snap = load_data(path="data/prod-snapshot.json", required=false) %}
+{% set dm = load_data(path="data/deploy-monitor.json", required=false) %}
+
+<section class="snapv2">
+
+  <header class="snapv2__header">
+    <h1 class="snapv2__title">🔍 Trạng thái deploy</h1>
+    <p class="snapv2__sub">
+      Dữ liệu từ phím tắt <code>??</code> · 
+      {% if snap and snap.generated_at_display %}
+      cập nhật <time datetime="{{ snap.generated_at }}">{{ snap.generated_at_display }}</time>
+      {% else %}
+      chưa có snapshot
+      {% endif %}
+    </p>
+  </header>
+
+  {% if not snap or not snap.main %}
+  <div class="snapv2__empty">
+    <p>Chưa có snapshot mới. Hãy chạy shortcut <code>??</code> rồi rebuild/deploy.</p>
+  </div>
+  {% else %}
+
+  {# === STATUS BAR === #}
+  {% set drift_status = snap.drift.status | default(value="unknown") %}
+  <div class="snapv2__status-bar snapv2__status-bar--{{ drift_status }}">
+    <span class="snapv2__status-icon">
+      {%- if drift_status == "green" -%}✅
+      {%- elif drift_status == "red" -%}❌
+      {%- else -%}⚠️
+      {%- endif -%}
+    </span>
+    <span class="snapv2__status-text">{{ snap.drift.status_vi | default(value="Chưa rõ") }}</span>
+    {% if snap.deploy.run_number %}
+    <span class="snapv2__status-meta">Build #{{ snap.deploy.run_number }}</span>
+    {% endif %}
+  </div>
+
+  {# === INFO GRID === #}
+  <div class="snapv2__grid">
+    <div class="snapv2__card">
+      <span class="snapv2__card-label">main HEAD</span>
+      {% if snap.main.url %}
+      <a class="snapv2__card-value" href="{{ snap.main.url }}" target="_blank" rel="noopener"><code>{{ snap.main.sha_short }}</code></a>
+      {% else %}
+      <span class="snapv2__card-value"><code>{{ snap.main.sha_short | default(value="—") }}</code></span>
+      {% endif %}
+      <span class="snapv2__card-hint">Nhánh production trên GitHub</span>
+    </div>
+    <div class="snapv2__card">
+      <span class="snapv2__card-label">Deploy live</span>
+      <span class="snapv2__card-value"><code>{{ snap.deploy.sha_short | default(value="—") }}</code></span>
+      <span class="snapv2__card-hint">
+        {% if snap.deploy.deployed_at_display %}
+        ✅ {{ snap.deploy.deployed_at_display }}
+        {% elif snap.deploy.deploying %}
+        ⏳ Đang chạy deploy.yml
+        {% endif %}
+      </span>
+    </div>
+    <div class="snapv2__card">
+      <span class="snapv2__card-label">Backend Render</span>
+      <span class="snapv2__card-value"><code>{{ snap.backend.sha_short | default(value="—") }}</code></span>
+      <span class="snapv2__card-hint">
+        {% if snap.backend.ok %}✅ VIPZone · comments{% if snap.backend.comments_mounted %} ✓{% endif %}
+        {% else %}❌ /health không phản hồi{% endif %}
+      </span>
+    </div>
+    <div class="snapv2__card">
+      <span class="snapv2__card-label">PR đang mở</span>
+      <span class="snapv2__card-value">{{ snap.open_prs_count }}</span>
+      <span class="snapv2__card-hint">Chưa merge → chưa live</span>
+    </div>
+  </div>
+
+  {# === DEPLOY TABLE === #}
+  {% if dm and dm.feed and dm.feed | length > 0 %}
+  <div class="snapv2__table-wrap">
+    <table class="snapv2__table">
+      <thead>
+        <tr>
+          <th scope="col">Commit</th>
+          <th scope="col">Title</th>
+          <th scope="col">Branch</th>
+          <th scope="col">Status</th>
+          <th scope="col">Ghi chú</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for run in dm.feed %}
+        {% set sha_s = run.sha_short | default(value="—") %}
+        {% set title_s = run.title | default(value="—") %}
+        {% set conclusion_s = run.conclusion | default(value="") %}
+        {% set status_s = run.status | default(value="") %}
+
+        {# === Map status to A/B/D/F === #}
+        {% if conclusion_s == "success" %}
+          {% set status_label = "D" %}
+          {% set status_badge = "snapv2__badge--deployed" %}
+          {% set status_text = "✅ D" %}
+          {% set note = "Deploy thành công" %}
+        {% elif conclusion_s == "failure" or conclusion_s == "cancelled" %}
+          {% set status_label = "F" %}
+          {% set status_badge = "snapv2__badge--failed" %}
+          {% set status_text = "❌ F" %}
+          {% if conclusion_s == "cancelled" %}
+            {% set note = "Bị huỷ (concurrency)" %}
+          {% else %}
+            {% set note = "Deploy thất bại" %}
+          {% endif %}
+        {% elif status_s == "in_progress" or status_s == "waiting" %}
+          {% set status_label = "B" %}
+          {% set status_badge = "snapv2__badge--building" %}
+          {% set status_text = "⏳ B" %}
+          {% set note = "Đang chạy deploy" %}
+        {% elif status_s == "pending" or status_s == "queued" %}
+          {% set status_label = "A" %}
+          {% set status_badge = "snapv2__badge--awaiting" %}
+          {% set status_text = "⏳ A" %}
+          {% set note = "Đang chờ xử lý" %}
+        {% else %}
+          {% set status_label = "?" %}
+          {% set status_badge = "snapv2__badge--unknown" %}
+          {% set status_text = "⏳ ?" %}
+          {% set note = conclusion_s | default(value=status_s) %}
+        {% endif %}
+
+        <tr>
+          <td>
+            {% if run.commit_url %}
+            <a class="snapv2__commit" href="{{ run.commit_url }}" target="_blank" rel="noopener"><code>{{ sha_s }}</code></a>
+            {% else %}
+            <code>{{ sha_s }}</code>
+            {% endif %}
+          </td>
+          <td class="snapv2__title-cell">{{ title_s }}</td>
+          <td><code>main</code></td>
+          <td>
+            <span class="snapv2__badge {{ status_badge }}">{{ status_text }}</span>
+          </td>
+          <td class="snapv2__note-cell">
+            {{ note }}
+            {% if run.run_number %}
+            <span class="snapv2__run-num">#{{ run.run_number }}</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {# Mobile cards (same data) #}
+  <div class="snapv2__mobile-cards" aria-label="Deploy history mobile view">
+    {% for run in dm.feed %}
+    {% set sha_s = run.sha_short | default(value="—") %}
+    {% set title_s = run.title | default(value="—") %}
+    {% set conclusion_s = run.conclusion | default(value="") %}
+    {% set status_s = run.status | default(value="") %}
+
+    {% if conclusion_s == "success" %}
+      {% set status_label = "D" %}
+      {% set status_badge = "snapv2__badge--deployed" %}
+      {% set status_text = "✅ D" %}
+      {% set note = "Deploy thành công" %}
+    {% elif conclusion_s == "failure" or conclusion_s == "cancelled" %}
+      {% set status_label = "F" %}
+      {% set status_badge = "snapv2__badge--failed" %}
+      {% set status_text = "❌ F" %}
+      {% if conclusion_s == "cancelled" %}{% set note = "Bị huỷ (concurrency)" %}{% else %}{% set note = "Deploy thất bại" %}{% endif %}
+    {% elif status_s == "in_progress" or status_s == "waiting" %}
+      {% set status_label = "B" %}
+      {% set status_badge = "snapv2__badge--building" %}
+      {% set status_text = "⏳ B" %}
+      {% set note = "Đang chạy deploy" %}
+    {% elif status_s == "pending" or status_s == "queued" %}
+      {% set status_label = "A" %}
+      {% set status_badge = "snapv2__badge--awaiting" %}
+      {% set status_text = "⏳ A" %}
+      {% set note = "Đang chờ xử lý" %}
+    {% else %}
+      {% set status_label = "?" %}
+      {% set status_badge = "snapv2__badge--unknown" %}
+      {% set status_text = "⏳ ?" %}
+      {% set note = conclusion_s | default(value=status_s) %}
+    {% endif %}
+
+    <article class="snapv2__mobile-card">
+      <div class="snapv2__mc-header">
+        <span class="snapv2__badge {{ status_badge }}">{{ status_text }}</span>
+        <code class="snapv2__mc-commit">{{ sha_s }}</code>
+        {% if run.run_number %}<span class="snapv2__run-num">#{{ run.run_number }}</span>{% endif %}
+      </div>
+      <div class="snapv2__mc-title">{{ title_s }}</div>
+      <div class="snapv2__mc-note">{{ note }}</div>
+    </article>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {# === LIVE VERIFICATION === #}
+  <div class="snapv2__live">
+    <h2 class="snapv2__section-title">Trạng thái live</h2>
+    <div class="snapv2__live-grid">
+      <div class="snapv2__live-item">
+        <span class="snapv2__live-icon">
+          {% if drift_status == "green" %}✅{% elif drift_status == "red" %}❌{% else %}⚠️{% endif %}
+        </span>
+        <span class="snapv2__live-label">Production</span>
+        <span class="snapv2__live-value">
+          {% if drift_status == "green" %}Đồng bộ{% elif drift_status == "red" %}Mất đồng bộ{% else %}Đang deploy{% endif %}
+        </span>
+      </div>
+      <div class="snapv2__live-item">
+        <span class="snapv2__live-icon">
+          {%- if snap.backend.ok -%}✅{%- else -%}❌{%- endif -%}
+        </span>
+        <span class="snapv2__live-label">Backend</span>
+        <span class="snapv2__live-value">{% if snap.backend.ok %}Hoạt động{% else %}Không phản hồi{% endif %}</span>
+      </div>
+      <div class="snapv2__live-item">
+        <span class="snapv2__live-icon">
+          {%- if snap.deploy_monitor_stale -%}⚠️{%- else -%}✅{%- endif -%}
+        </span>
+        <span class="snapv2__live-label">Deploy Monitor</span>
+        <span class="snapv2__live-value">{% if snap.deploy_monitor_stale %}Cũ{% else %}OK{% endif %}</span>
+      </div>
+      <div class="snapv2__live-item">
+        <span class="snapv2__live-icon">
+          {%- if snap.open_prs_count == 0 -%}✅{%- else -%}⚠️{%- endif -%}
+        </span>
+        <span class="snapv2__live-label">PR chờ merge</span>
+        <span class="snapv2__live-value">
+          {%- if snap.open_prs_count == 0 -%}Không có{%- else -%}{{ snap.open_prs_count }} PR{%- endif -%}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  {# === ĐỀ XUẤT === #}
+  {% if snap.drift.hint %}
+  <div class="snapv2__suggest">
+    <h2 class="snapv2__section-title">Đề xuất</h2>
+    <ul class="snapv2__suggest-list">
+      {% if snap.drift.main_ahead_of_deploy %}
+      <li>Code đã merge main nhưng GitHub Pages chưa ship bản mới — đợi deploy hoặc dispatch deploy.yml nếu quá lâu.</li>
+      {% endif %}
+      {% if snap.drift.backend_behind_main %}
+      <li>Backend Render đang tụt sau main — cần Manual Sync nếu dùng API mới.</li>
+      {% endif %}
+      {% if snap.deploy.deploying %}
+      <li>Deploy đang chạy — theo dõi workflow hoàn tất trước khi kiểm tra lại.</li>
+      {% endif %}
+      {% if snap.open_prs_count > 0 %}
+      <li>Có <strong>{{ snap.open_prs_count }} PR</strong> đang mở chưa merge — chạy <code>prm</code> để merge batch hoặc review từng PR.</li>
+      {% endif %}
+      <li>{{ snap.drift.hint }}</li>
+    </ul>
+  </div>
+  {% endif %}
+
+  {# === STATUS LINE === #}
+  {% if snap.drift.status_line %}
+  <div class="snapv2__statusline">
+    <code>{{ snap.drift.status_line }}</code>
+  </div>
+  {% endif %}
+
+  {# === LEGEND === #}
+  <details class="snapv2__legend">
+    <summary class="snapv2__legend-summary">Chú thích trạng thái</summary>
+    <ul class="snapv2__legend-list">
+      <li><strong>✅ D</strong> = deployed — commit đã deploy lên production thành công</li>
+      <li><strong>⏳ B</strong> = building/deploying — deploy đang chạy, chờ hoàn tất</li>
+      <li><strong>⏳ A</strong> = awaiting — commit/PR chưa merge hoặc đang chờ xử lý</li>
+      <li><strong>❌ F</strong> = failed — deploy thất bại, cần chẩn đoán</li>
+      <li><strong>⊘</strong> = cancelled — bị huỷ do concurrency (run mới hơn thay thế)</li>
+    </ul>
+  </details>
+
+  {% endif %}
+</section>
+{% endblock main %}
+{% block sidebar %}{% endblock %}
