@@ -6,7 +6,7 @@ date = 2026-06-28
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["Liobank", "ngan-hang-so", "the-tin-dung", "OCB", "the-da-nang", "hoan-tien", "tai-chinh-so"]
 [extra]
-thumbnail = "https://picsum.photos/seed/so-luoc-ve-liobank/600/400"
+thumbnail = "/img/the-tin-dung-lio-bank-han-muc-len-den-200-trieu-dong.webp"
 seo_keyword = "Liobank"
 featured = false
 source = "bb"
@@ -15,6 +15,8 @@ original_source_type = "news_rewrite"
 category_confidence = 0.95
 category_reason = "Nội dung về sản phẩm ngân hàng số Liobank do OCB bảo trợ, chuyên mục Ngân hàng"
 +++
+
+![Thẻ tín dụng Liobank hạn mức lên đến 200 triệu đồng](/img/the-tin-dung-lio-bank-han-muc-len-den-200-trieu-dong.webp)
 
 Mới đây mình có dịp tìm hiểu kỹ hơn về **Liobank** — một ngân hàng số đang khá nổi gần đây, được bảo trợ bởi Ngân Hàng Phương Đông (OCB). Ấn tượng đầu tiên của mình là họ tập trung vào trải nghiệm "một ứng dụng cho mọi nhu cầu": vừa mở thẻ tín dụng, vừa gửi tiết kiệm, vừa chuyển tiền, tất cả trong một app duy nhất. Bài này mình ghi lại những gì thấy được, cho ai cũng đang tò mò về Liobank.
 
