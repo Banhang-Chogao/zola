@@ -28,7 +28,7 @@ q = "Nhà máy điện hạt nhân có thể 'thành' vũ khí không?"
 a = "Lò điện thương mại không phải vũ khí; nhưng chu trình nhiên liệu (làm giàu, vận hành lò) có khía cạnh dual-use — cùng kiến thức/vật liệu có thể hướng sang mục đích quân sự nếu không giám sát. Đó là lý do IAEA safeguards và tin uranium Iran quan tâm % và kg — không đồng nghĩa mọi nhà máy điện đều là vũ khí."
 +++
 
-> 🔬 **Series Khoa học — Uranium & năng lượng hạt nhân (Bài 4/5)** — Sau [Bài 1: Uranium là gì?](/posting/uranium-la-gi-tai-sao-quan-trong/), [Bài 2: Làm giàu là gì, các mức 0,7%–90%](/posting/uranium-lam-giau-la-gi/) và [Bài 3: Nhà máy làm giàu hoạt động thế nào?](/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/), bài này trả lời câu hỏi độc giả hay gặp khi đọc [tin uranium Iran](/baochi/iran-uranium-destruction-what-it-means/): **điện hạt nhân khác vũ khí hạt nhân ở điểm nào?** Giáo dục khoa học trung lập — không hướng dẫn thiết kế vũ khí.
+> 🔬 **Series Khoa học — Uranium & năng lượng hạt nhân (Bài 4/5)** — Sau [Bài 1: Uranium là gì?](/posting/uranium-la-gi-tai-sao-quan-trong/), [Bài 2: Làm giàu là gì, các mức 0,7%–90%](/posting/uranium-lam-giau-la-gi/) và [Bài 3: Nhà máy làm giàu hoạt động thế nào?](/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/), bài này trả lời câu hỏi độc giả hay gặp khi đọc [tin uranium Iran](/khoa-hoc/iran-uranium-destruction-what-it-means/): **điện hạt nhân khác vũ khí hạt nhân ở điểm nào?** Giáo dục khoa học trung lập — không hướng dẫn thiết kế vũ khí.
 
 Ba bài trước cho bạn **uranium**, **% U-235**, và **nhà máy làm giàu**. Bài 4 nối các mảnh đó với **ứng dụng hòa bình (điện)** và **bối cảnh vũ khí trong tin tức** — để headline "60%", "HEU", "nhà máy điện" không bị trộn lẫn trong đầu đọc báo.
 
@@ -126,7 +126,7 @@ Quặng → UF₆ → cascade → LEU 3–5% → nhiên liệu lò → ĐIỆN
                     ↘ tiếp tục cascade → HEU cao → GIÁM SÁT / tin tức
 ```
 
-Điện hạt nhân **cần** làm giàu LEU — hợp pháp, phổ biến. Vấn đề chính trị trong [tin Iran](/baochi/iran-uranium-destruction-what-it-means/) là **mức % và khối lượng** vượt nhu cầu điện điển hình, không phải "có nhà máy điện = có bom".
+Điện hạt nhân **cần** làm giàu LEU — hợp pháp, phổ biến. Vấn đề chính trị trong [tin Iran](/khoa-hoc/iran-uranium-destruction-what-it-means/) là **mức % và khối lượng** vượt nhu cầu điện điển hình, không phải "có nhà máy điện = có bom".
 
 **Khắc phục hiểu nhầm phổ biến:**
 
@@ -144,7 +144,7 @@ Hơn [400 lò điện hạt nhân](https://www.world-nuclear.org/information-lib
 
 Một số quốc gia có **cả điện lẫn vũ khí** — đó là quyết định chính sách và chương trình quân sự **tách** khỏi lò điện thương mại trong phần lớn trường hợp (ngoại lệ phức tạp ngoài phạm vi bài giáo dục này).
 
-Blog series của tôi liên kết [hub Iran](/baochi/iran-uranium-destruction-what-it-means/) vì tin nhắc **kho HEU, tiêu hủy** — không phải vì mọi nhà máy điện đều nguy hiểm như headline.
+Blog series của tôi liên kết [hub Iran](/khoa-hoc/iran-uranium-destruction-what-it-means/) vì tin nhắc **kho HEU, tiêu hủy** — không phải vì mọi nhà máy điện đều nguy hiểm như headline.
 
 ## Đọc tin Iran với khung Bài 1–4 {#doc-tin-iran}
 
@@ -185,6 +185,6 @@ Series **không** kết luận ý đồ chính trị. Cung cấp **từ vựng k
 
 **Điện hạt nhân khác vũ khí hạt nhân** ở **mục đích** (điện vs vụ nổ), **cách kiểm soát phản ứng** (critical ổn định vs siêu critical), và **vật liệu** (LEU 3–5% vs HEU/plutonium). Cùng nền fission và có thể cùng **công nghệ làm giàu** — nhưng nhà máy điện thương mại không phải vũ khí; headline 60% HEU nói về **vùng vật liệu và giám sát** khác nhiên liệu lò.
 
-Hiểu phân biệt này giúp đọc [tin uranium Iran](/baochi/iran-uranium-destruction-what-it-means/) và mọi tin hạt nhân với **từ đúng nghĩa** — uranium, %, cascade, điện, safeguards — thay vì sợ mọi từ "hạt nhân" như nhau.
+Hiểu phân biệt này giúp đọc [tin uranium Iran](/khoa-hoc/iran-uranium-destruction-what-it-means/) và mọi tin hạt nhân với **từ đúng nghĩa** — uranium, %, cascade, điện, safeguards — thay vì sợ mọi từ "hạt nhân" như nhau.
 
 Tiếp theo: [**Bài 5 — Điều gì xảy ra khi cơ sở hạt nhân bị phá hủy hoặc tiêu hủy vật liệu?**](/posting/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/) — disposition, môi trường, và sổ sách IAEA sau headline tiêu hủy. *(Series Uranium hoàn tất 5/5.)*

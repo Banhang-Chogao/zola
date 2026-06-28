@@ -1306,11 +1306,11 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
      `category_reason` nêu rõ lý do fallback. KHÔNG để trang chỉ có `["Tất cả"]`.
 
 6. **Auto-workflow**:
-   - Checkout nhánh `baochi` (hoặc create nếu không tồn tại)
-   - Write file `content/baochi/<slug>.md`
+   - Checkout nhánh tạm (hoặc tạo nếu không tồn tại)
+   - Write file vào **real content section** dựa trên category thật (vd `content/ngan-hang/<slug>.md` cho bài ngân hàng, `content/du-lich/<slug>.md` cho du lịch)
+   - Thêm metadata `[extra] source="bb" content_origin="baochi"` (dấu nguồn)
    - Commit: `feat: Add Dân Trí article — <short title>`
-   - Push lên `baochi`
-   - Tạo PR từ `baochi` → `main`
+   - Push → PR → `main`
    - **MERGE NGAY** (bypass 16:00 rule vì là article aggregation, KHÔNG code)
    - Trigger deploy
 
@@ -1422,10 +1422,10 @@ buổi tối**, với điều kiện vượt qua QA gate. Đây là biến thể
 ### `bb10` — Xử lý bài từ Wikipedia (EN/VI) → viết lại + dẫn nguồn gốc
 
 **Mục đích**: Copy-paste nội dung một bài Wikipedia (tiếng Anh và/hoặc tiếng Việt)
-→ Claude viết lại theo phong cách blog cá nhân → auto-commit vào nhánh `baochi`
+→ Claude viết lại theo phong cách blog cá nhân → auto-commit vào real content section
 → PR → merge ngay. **Logic Y HỆT `bb`**, chỉ khác 3 điểm: (a) nguồn dán vào là
-Wikipedia (không phải Dân Trí/VnExpress), (b) category mặc định là **`"Kiến thức"`**
-(không phải `"Báo chí"` — vì nội dung bách khoa), (c) cuối bài LUÔN có đường dẫn
+Wikipedia (không phải Dân Trí/VnExpress), (b) category BẮT BUỘC gồm `"Kiến thức"`
+(không phải `"Báo chí"` — đó là nguồn, ghi ở `[extra]`), (c) cuối bài LUÔN có đường dẫn
 tới bài Wikipedia gốc.
 
 **Hành động**:
