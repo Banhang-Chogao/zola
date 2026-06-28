@@ -33,7 +33,7 @@ CHECK_PATTERNS = [
 ]
 
 # Exclude these directories
-EXCLUDE_DIRS = {".git", "public", "node_modules", ".venv", ".pytest_cache", "sections-backup"}
+EXCLUDE_DIRS = {".git", "public", "node_modules", ".venv", ".pytest_cache", "sections-backup", "__pycache__"}
 
 # Allowed labels (if a line has these, it's not a violation)
 ALLOWED_LABELS = {
@@ -58,6 +58,8 @@ ALLOWED_FILES = {
     "scripts/check_base_url_hygiene.py",  # This script itself (pattern definitions)
     "scripts/compliance_fix.py",  # Legacy link fixing patterns
     "scripts/test_fix_stale_zola_links.py",  # Test code with legacy URLs
+    "zola/scripts/test_link_utils.py",  # Test code with legacy URL normalization
+    "zola/scripts/test_link_normalization.py",  # Test code with legacy URL normalization
     "services/vipzone/test_rum.py",  # Test data with legacy URLs
 }
 
