@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-28T10:07:22.810605+07:00",
+  "updated_at": "2026-06-28T10:22:45.885265+07:00",
   "posts": {
     "content/posting/cong-nghe-blog-duy-nguyen.md": {
       "title": "Tự xây blog cá nhân $0/tháng với Zola + GitHub Pages",
@@ -15712,6 +15712,137 @@
           "scored_at": "2026-06-28T10:07:22.810605+07:00",
           "score": 90.8,
           "grade": "A"
+        }
+      ]
+    },
+    "content/cong-nghe/auto-healing-bot-pr-conflict-blog-zola.md": {
+      "title": "Fix PR conflict Zola blog: auto-healing an toàn vs recreate",
+      "slug": "auto-healing-bot-pr-conflict-blog-zola",
+      "keyword": "fix PR conflict Zola auto-healing",
+      "score": 96.8,
+      "grade": "A+",
+      "word_count": 1368,
+      "published": true,
+      "scored_at": "2026-06-28T10:22:45.885265+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 4.8,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "không nên dùng H1 (#) trong body — title đã là H1"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-28T10:21:08.063766+07:00",
+          "score": 59.8,
+          "grade": "F"
+        },
+        {
+          "scored_at": "2026-06-28T10:21:18.592104+07:00",
+          "score": 72.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-28T10:21:28.763807+07:00",
+          "score": 72.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-28T10:21:39.716379+07:00",
+          "score": 72.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-28T10:21:47.305941+07:00",
+          "score": 72.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-28T10:22:06.256293+07:00",
+          "score": 82.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-28T10:22:14.972910+07:00",
+          "score": 90.8,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-28T10:22:31.628111+07:00",
+          "score": 96.8,
+          "grade": "A+"
+        },
+        {
+          "scored_at": "2026-06-28T10:22:37.550663+07:00",
+          "score": 96.8,
+          "grade": "A+"
+        },
+        {
+          "scored_at": "2026-06-28T10:22:45.885265+07:00",
+          "score": 96.8,
+          "grade": "A+"
         }
       ]
     }
