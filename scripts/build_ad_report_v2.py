@@ -198,9 +198,9 @@ def _scan_posts(manifest: dict) -> tuple[list[dict], dict, bool]:
             faq_bonus = 6 if "[[extra.faq]]" in text or "[extra.faq]" in text else 0
             monetization = min(100, rpm_score // 2 + depth + link_bonus + series_bonus + faq_bonus)
 
-            # Use canonical section from real category, not folder name
-            section = _category_to_section(categories)
-            url = f"{BASE_URL}/{section}/{slug}/"
+            # Posts always route through /posting/ regardless of category
+            # (categories are for organization/filtering, not route determination)
+            url = f"{BASE_URL}/posting/{slug}/"
             posts.append(
                 {
                     "title": title,
