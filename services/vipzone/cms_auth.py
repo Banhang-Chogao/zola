@@ -206,7 +206,7 @@ def normalize_return_to(return_to: str) -> str:
     """
     rt = (return_to or "").strip()
     if not rt:
-        return "/tools/vipzone-admin/"
+        return "/editor/"
 
     # Extract fragment and validate it.
     fragment = ""
@@ -222,7 +222,7 @@ def normalize_return_to(return_to: str) -> str:
         parsed = urlparse(rt)
         blog = urlparse(BLOG_URL)
         if parsed.netloc != blog.netloc:
-            return "/tools/vipzone-admin/"
+            return "/editor/"
         path = parsed.path or "/"
         if parsed.query:
             path += "?" + parsed.query
@@ -231,7 +231,7 @@ def normalize_return_to(return_to: str) -> str:
     if rt.startswith("/"):
         return rt + fragment
 
-    return "/tools/vipzone-admin/"
+    return "/editor/"
 
 
 def build_blog_url(
@@ -285,7 +285,7 @@ def clear_session_cookie(response: Response) -> None:
     )
 
 
-def redirect_with_error(error: str, return_to: str = "/tools/vipzone-admin/") -> RedirectResponse:
+def redirect_with_error(error: str, return_to: str = "/editor/") -> RedirectResponse:
     base = build_blog_url(return_to)
     sep = "&" if "?" in base else "?"
     return RedirectResponse(f"{base}{sep}auth_error={error}")
@@ -411,7 +411,7 @@ def session_role_payload(db: VipzoneDB, profile: dict[str, Any]) -> dict[str, An
     response_class=RedirectResponse,
     responses={307: {"description": "Redirect to GitHub authorize"}, 503: {"description": "OAuth not configured"}},
 )
-async def auth_login(return_to: str = "/tools/vipzone-admin/") -> RedirectResponse:
+async def auth_login(return_to: str = "/editor/") -> RedirectResponse:
     if not _github_enabled():
         return redirect_with_error("github_disabled", return_to)
     if not GH_CLIENT_ID or not GH_CLIENT_SECRET:
@@ -541,7 +541,7 @@ async def auth_config() -> dict[str, Any]:
     response_class=RedirectResponse,
     responses={307: {"description": "Redirect to Google consent screen"}},
 )
-async def auth_google_start(return_to: str = "/tools/vipzone-admin/") -> RedirectResponse:
+async def auth_google_start(return_to: str = "/editor/") -> RedirectResponse:
     """Begin Google OAuth 2.0 / OIDC: create a CSRF state, store it, redirect the
     user to the Google consent screen. Scope is openid/email/profile only — no
     Gmail API scope."""

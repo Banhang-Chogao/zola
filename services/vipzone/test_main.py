@@ -102,7 +102,7 @@ class VipzoneApiTests(unittest.TestCase):
         try:
             res = self.client.get(
                 "/auth/login",
-                params={"return_to": "/tools/vipzone-admin/"},
+                params={"return_to": "/editor/"},
                 follow_redirects=False,
             )
             self.assertEqual(res.status_code, 307)
