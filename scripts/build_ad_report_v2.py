@@ -21,7 +21,19 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
-CONTENT_DIRS = (ROOT / "content" / "posting", ROOT / "content" / "baochi")
+# Scan all section directories + posting (baochi articles now live in real sections)
+CONTENT_DIRS = (
+    ROOT / "content" / "posting",
+    ROOT / "content" / "baochi",  # bb10 Wikipedia articles still here
+    ROOT / "content" / "ngan-hang",
+    ROOT / "content" / "du-lich",
+    ROOT / "content" / "khoa-hoc",
+    ROOT / "content" / "cong-nghe",
+    ROOT / "content" / "the-gioi",
+    ROOT / "content" / "bao-hiem",
+    ROOT / "content" / "the-thao",
+    ROOT / "content" / "doi-song",
+)
 TEMPLATE_DIRS = (ROOT / "templates", ROOT / "sass")
 DATA_OUT = ROOT / "data" / "ad-report-v2.json"
 MANIFEST_OUT = ROOT / "data" / "ad-report-v2-manifest.json"
@@ -53,7 +65,20 @@ _CATS_RE = re.compile(r'categories\s*=\s*\[([^\]]+)\]', re.MULTILINE)
 _TAGS_RE = re.compile(r'tags\s*=\s*\[([^\]]+)\]', re.MULTILINE)
 _SERIES_RE = re.compile(r'^\s*series\s*=\s*"([^"]+)"', re.MULTILINE)
 _SEO_KW_RE = re.compile(r'^\s*seo_keyword\s*=\s*"([^"]+)"', re.MULTILINE)
+_SOURCE_RE = re.compile(r'^\s*source\s*=\s*"([^"]+)"', re.MULTILINE)
 _LINK_RE = re.compile(r'\]\((/[^)]+|https://seomoney\.org[^)]*)\)')
+
+# Category → section path mapping (used for baochi articles with source="bb")
+_CATEGORY_TO_SECTION = {
+    "Ngân hàng": "ngan-hang",
+    "Du lịch": "du-lich",
+    "Khoa học": "khoa-hoc",
+    "Công nghệ": "cong-nghe",
+    "Thế giới": "the-gioi",
+    "Bảo hiểm": "bao-hiem",
+    "Thể thao": "the-thao",
+    "Đời sống": "doi-song",
+}
 
 
 def _load_json(path: Path) -> dict | list | None:
@@ -107,6 +132,7 @@ def _scan_posts(manifest: dict) -> tuple[list[dict], dict, bool]:
             title = title_m.group(1)
             slug = md.stem
             section = folder.name
+            source = (_SOURCE_RE.search(text).group(1) if _SOURCE_RE.search(text) else "")
             cats_m = _CATS_RE.search(text)
             tags_m = _TAGS_RE.search(text)
             categories = _parse_list_field(cats_m.group(1)) if cats_m else []
@@ -133,12 +159,23 @@ def _scan_posts(manifest: dict) -> tuple[list[dict], dict, bool]:
             faq_bonus = 6 if "[[extra.faq]]" in text or "[extra.faq]" in text else 0
             monetization = min(100, rpm_score // 2 + depth + link_bonus + series_bonus + faq_bonus)
 
-            url = f"{BASE_URL}/{section}/{slug}/"
+            # Determine real section path:
+            # - If source="bb" (baochi article): use category mapping to find real section
+            # - Otherwise: use folder name as-is (e.g., posting, baochi for bb10)
+            if source == "bb" and categories:
+                # Extract non-"Tất cả" category and map to section
+                content_category = next((c for c in categories if c.lower() != "tất cả"), "")
+                real_section = _CATEGORY_TO_SECTION.get(content_category, section)
+            else:
+                real_section = section
+
+            url = f"{BASE_URL}/{real_section}/{slug}/"
             posts.append(
                 {
                     "title": title,
                     "slug": slug,
                     "section": section,
+                    "real_section": real_section,
                     "url": url,
                     "categories": categories,
                     "tags": tags,
@@ -151,6 +188,7 @@ def _scan_posts(manifest: dict) -> tuple[list[dict], dict, bool]:
                     "rpm_score": rpm_score,
                     "rpm_topics": rpm_topics,
                     "monetization_score": monetization,
+                    "source": source or None,
                 }
             )
 
@@ -370,6 +408,8 @@ def build_report(*, force_full: bool = False) -> dict:
             "categories": p["categories"],
             "score": p["monetization_score"],
             "rpm_topics": p["rpm_topics"],
+            "source": p.get("source"),
+            "real_section": p.get("real_section"),
         }
         for p in ranked[:50]
     ]
@@ -413,6 +453,8 @@ def build_report(*, force_full: bool = False) -> dict:
                 "monetization_score": p["monetization_score"],
                 "rpm_score": p["rpm_score"],
                 "rpm_topics": p["rpm_topics"],
+                "source": p.get("source"),
+                "real_section": p.get("real_section"),
             }
             for p in top20
         ],
