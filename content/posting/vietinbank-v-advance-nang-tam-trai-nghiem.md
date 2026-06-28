@@ -167,7 +167,7 @@ V-Plus cũng có 50% ẩm thực/khách sạn/resort, nhưng **không có Golf**
 
 Cách đọc đúng: V-Advance không bán "giảm giá" — nó bán **quyền truy cập** vào hệ đối tác cao cấp mà bạn vốn đã chi tiêu. Membership giúp chi ít hơn cho cùng một trải nghiệm.
 
-Nếu bạn quan tâm cách ngân hàng khác gói trải nghiệm premium, có thể đối chiếu với [BIDV Flagship Private Banking](/baochi/bidv-flagship-private-banking-tphcm/) — nhưng V-Advance có lợi thế **phí thấp hơn nhiều** và đăng ký hoàn toàn trên app.
+Nếu bạn quan tâm cách ngân hàng khác gói trải nghiệm premium, có thể đối chiếu với [BIDV Flagship Private Banking](/ngan-hang/bidv-flagship-private-banking-tphcm/) — nhưng V-Advance có lợi thế **phí thấp hơn nhiều** và đăng ký hoàn toàn trên app.
 
 ## Tài khoản số đẹp 50 triệu & miễn phí ngoại tệ
 
