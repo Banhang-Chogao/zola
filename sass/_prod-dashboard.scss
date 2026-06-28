@@ -260,4 +260,27 @@
   &__hint {
     margin: 0;
   }
+
+  /* Empty state — waiting for first data generation */
+  &__empty-state {
+    padding: 2rem;
+    text-align: center;
+    background: var(--c-bg-soft);
+    border-radius: 12px;
+    color: var(--c-text-body);
+
+    p {
+      margin: 0.5rem 0;
+
+      &:first-child {
+        font-weight: 600;
+        color: var(--c-text-heading);
+        margin-bottom: 0.75rem;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
 }

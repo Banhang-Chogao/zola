@@ -96,6 +96,12 @@ jobs:
           python3 scripts/fetch_deploy_monitor.py || true
           python3 scripts/build_prod_snapshot.py
 
+      - name: Audit MoMo links across repo
+        run: python3 scripts/audit_momo_links.py
+
+      - name: Build MoMo public usage report (for admin modal UX)
+        run: python3 scripts/audit_momo_public_usage.py
+
       - name: Build site
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

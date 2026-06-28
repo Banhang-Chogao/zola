@@ -40,7 +40,7 @@ Bạn đã đọc [tổng quan V-Plus & V-Advance](/posting/vietinbank-v-plus-v-
 
 Không có câu trả lời "luôn luôn V-Advance" hay "ai cũng nên V-Plus". Có **khung quyết định** — dựa trên chi phí bạn bỏ ra, giá trị bạn thực sự dùng, và persona tài chính của bạn.
 
-Bài này xây khung đó: bảng ma trận quyết định, kịch bản ROI, so khớp persona (nhân viên văn phòng vs HNWI), và vị trí của hai gói so với [VietinBank V-Family](/baochi/vietinbank-v-family-nhom-gia-dinh/).
+Bài này xây khung đó: bảng ma trận quyết định, kịch bản ROI, so khớp persona (nhân viên văn phòng vs HNWI), và vị trí của hai gói so với [VietinBank V-Family](/ngan-hang/vietinbank-v-family-nhom-gia-dinh/).
 
 <!-- more -->
 
@@ -177,7 +177,7 @@ Ba sản phẩm này **không thay thế** nhau hoàn toàn — chúng giải qu
 | **V-Advance** | Membership cá nhân cao cấp | 1 triệu/năm | Lounge, hạn mức lớn, lifestyle |
 | **V-Family** | Nhóm gia đình | Gộp số dư nhóm | Cả nhà có tiền gửi lớn, leo hạng chung |
 
-[VietinBank V-Family](/baochi/vietinbank-v-family-nhom-gia-dinh/) yêu cầu nhóm đạt hạng Gold (số dư bình quân từ **2 tỷ**) mới mở khóa phần lớn ưu đãi. Đây là con đường cho **gia đình đa thế hệ** gộp sổ tiết kiệm.
+[VietinBank V-Family](/ngan-hang/vietinbank-v-family-nhom-gia-dinh/) yêu cầu nhóm đạt hạng Gold (số dư bình quân từ **2 tỷ**) mới mở khóa phần lớn ưu đãi. Đây là con đường cho **gia đình đa thế hệ** gộp sổ tiết kiệm.
 
 V-Advance là con đường cho **cá nhân** muốn đặc quyền ngay, không cần thuyết phục cả nhà "vào nhóm".
 

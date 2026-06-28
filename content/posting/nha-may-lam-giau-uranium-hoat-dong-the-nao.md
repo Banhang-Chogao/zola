@@ -25,10 +25,10 @@ a = "Vì U-235 và U-238 chỉ chênh khối lượng hạt nhân khoảng 1,3% 
 
 [[extra.faq]]
 q = "IAEA giám sát nhà máy làm giàu như thế nào?"
-a = "Qua safeguards: khai báo vật liệu, niêm phong, camera, đo lường định kỳ tại cơ sở. Mục tiêu là xác minh uranium không bị chuyển hướng khỏi mục đích đã khai báo — liên quan trực tiếp bối cảnh tin [uranium Iran](/baochi/iran-uranium-destruction-what-it-means/)."
+a = "Qua safeguards: khai báo vật liệu, niêm phong, camera, đo lường định kỳ tại cơ sở. Mục tiêu là xác minh uranium không bị chuyển hướng khỏi mục đích đã khai báo — liên quan trực tiếp bối cảnh tin [uranium Iran](/khoa-hoc/iran-uranium-destruction-what-it-means/)."
 +++
 
-> 🔬 **Series Khoa học — Uranium & năng lượng hạt nhân (Bài 3/5)** — Sau [Bài 1: Uranium là gì?](/posting/uranium-la-gi-tai-sao-quan-trong/) và [Bài 2: Làm giàu là gì, các mức 0,7%–90%](/posting/uranium-lam-giau-la-gi/), bài này giải thích **nhà máy làm giàu hoạt động thế nào** ở mức **khái niệm khoa học** — chuỗi từ quặng đến UF₆, cascade ly tâm, và vì sao cơ sở này nằm trung tâm giám sát quốc tế như trong [tin uranium Iran](/baochi/iran-uranium-destruction-what-it-means/).
+> 🔬 **Series Khoa học — Uranium & năng lượng hạt nhân (Bài 3/5)** — Sau [Bài 1: Uranium là gì?](/posting/uranium-la-gi-tai-sao-quan-trong/) và [Bài 2: Làm giàu là gì, các mức 0,7%–90%](/posting/uranium-lam-giau-la-gi/), bài này giải thích **nhà máy làm giàu hoạt động thế nào** ở mức **khái niệm khoa học** — chuỗi từ quặng đến UF₆, cascade ly tâm, và vì sao cơ sở này nằm trung tâm giám sát quốc tế như trong [tin uranium Iran](/khoa-hoc/iran-uranium-destruction-what-it-means/).
 
 [Bài 2](/posting/uranium-lam-giau-la-gi/) cho bạn bảng % U-235: 0,7% tự nhiên, 3–5% điện, 20%+ HEU… Bài 3 trả lời **cơ sở vật chất** tạo ra các con số đó — không phải hướng dẫn vận hành thiết bị, mà là bức tranh giáo dục để đọc báo và hiểu IAEA đang kiểm tra **cái gì**.
 
@@ -46,7 +46,7 @@ Phân biệt với [Bài 2](/posting/uranium-lam-giau-la-gi/):
 | **Ứng dụng** | Điện vs HEU vs giám sát | Máy móc, cascade, UF₆ |
 | **Tin tức** | "400 kg 60%" nghĩa là gì | Vì sao IAEA quan tâm *nhà máy* |
 
-Hàng chục quốc gia vận hành hoặc mua dịch vụ làm giàu **hợp pháp** cho điện hạt nhân. Cùng loại cơ sở, khi báo cáo mức làm giàu cao hoặc mở rộng capacity, trở thành **điểm nóng ngoại giao** — như [hub uranium Iran](/baochi/iran-uranium-destruction-what-it-means/).
+Hàng chục quốc gia vận hành hoặc mua dịch vụ làm giàu **hợp pháp** cho điện hạt nhân. Cùng loại cơ sở, khi báo cáo mức làm giàu cao hoặc mở rộng capacity, trở thành **điểm nóng ngoại giao** — như [hub uranium Iran](/khoa-hoc/iran-uranium-destruction-what-it-means/).
 
 ## Từ quặng đến UF₆ — chuỗi tiền xử lý {#tu-quang-den-uf6}
 
@@ -148,13 +148,13 @@ Quy mô cơ sở thương mại điện hạt nhân (ví dụ các nhà máy là
 2. **Containment & surveillance** — niêm phong, camera tại khu vực nhạy cảm.
 3. **Inspections** — đo lường, lấy mẫu, đối chiếu khai báo quốc gia.
 
-Khi [tin Iran](/baochi/iran-uranium-destruction-what-it-means/) nhắc **Natanz, Fordow**, hoặc **400 kg 60%**, độc giả có thể hiểu: đó là **điểm trên chuỗi** nơi % U-235 và kg được **tạo ra và kiểm đếm** — không phải số ảo tách rời nhà máy.
+Khi [tin Iran](/khoa-hoc/iran-uranium-destruction-what-it-means/) nhắc **Natanz, Fordow**, hoặc **400 kg 60%**, độc giả có thể hiểu: đó là **điểm trên chuỗi** nơi % U-235 và kg được **tạo ra và kiểm đếm** — không phải số ảo tách rời nhà máy.
 
 Giám sát quan tâm **mức làm giàu** vì cùng cascade có thể (về mặt khái niệm) hướng tới LEU hoặc tiếp tục tăng — đó là lý do chính trị, không chỉ vật lý "bước nhảy" mới.
 
 ## Nhà máy làm giàu trong tin Iran — đọc headline thế nào? {#trong-tin-iran}
 
-Kết hợp Bài 1–3 với [hub Iran](/baochi/iran-uranium-destruction-what-it-means/):
+Kết hợp Bài 1–3 với [hub Iran](/khoa-hoc/iran-uranium-destruction-what-it-means/):
 
 | Thuật ngữ headline | Nền khoa học (series) |
 |---|---|
@@ -193,6 +193,6 @@ Nếu bạn cần chi tiết kỹ thuật sâu, hãy dùng tài liệu chuyên n
 
 **Nhà máy làm giàu uranium hoạt động thế nào?** — Ở mức khái niệm: uranium qua tiền xử lý thành **UF₆ khí**, rồi qua **cascade** ly tâm (hoặc khuếch tán) — mỗi bước tách chút ít U-235 vì khối lượng đồng vị gần như nhau. Lặp đủ để đạt **3–5%** (điện) hoặc **mức cao hơn** (HEU — giám sát chặt).
 
-**Product** đi làm nhiên liệu lò; **tails** thành depleted uranium cần quản lý. **IAEA** kiểm tra sổ sách và thiết bị tại cơ sở — nền để đọc [tin uranium Iran](/baochi/iran-uranium-destruction-what-it-means/) với hiểu biết khoa học, không chỉ con số kg trên headline.
+**Product** đi làm nhiên liệu lò; **tails** thành depleted uranium cần quản lý. **IAEA** kiểm tra sổ sách và thiết bị tại cơ sở — nền để đọc [tin uranium Iran](/khoa-hoc/iran-uranium-destruction-what-it-means/) với hiểu biết khoa học, không chỉ con số kg trên headline.
 
 Tiếp theo: [**Bài 4: Điện hạt nhân khác vũ khí hạt nhân ở điểm nào?**](/posting/dien-hat-nhan-khac-vu-khi-hat-nhan/) — phân biệt phản ứng dây chuyền có kiểm soát trong lò điện với bối cảnh vũ khí trong giáo dục công cộng.

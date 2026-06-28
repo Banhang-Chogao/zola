@@ -4,7 +4,6 @@
 {% import "macros/premium.html" as premium %}
 {% import "macros/pagination.html" as pager %}
 {% import "macros/placement.html" as placement %}
-{% import "partials/ad-placeholder.html" as ad %}
 
 {% block title %}{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân{% endblock %}
 
@@ -69,6 +68,7 @@
     {% set korean_series = load_data(path="data/korean-30day-series.json", required=false) %}
     {% set trends_data = load_data(path="data/google-trends-vn.json", required=false) %}
     {% set ga_stats = load_data(path="data/ga-stats.json", required=false) %}
+    {% set homepage_categories = load_data(path="data/homepage-categories.json", required=false) %}
 
     <div class="home-discovery" data-home-discovery>
         <header class="home-discovery__hero">
@@ -90,9 +90,6 @@
 
         {{ placement::render(id="home_hero_after") }}
 
-        {# Ad placeholder: top of homepage, before filters #}
-        {{ ad::placeholder(id="home-ad-top", type="home-top", label="Quảng cáo") }}
-
         <div class="home-discovery__layout">
             <aside class="home-discovery__rail" aria-label="Lọc chủ đề">
                 <div class="home-discovery__rail-head">
@@ -102,15 +99,19 @@
                 </div>
                 <nav class="home-discovery__rail-nav" id="home-filter-panel" data-home-filter-panel>
                     <ul class="home-discovery__topics" role="list">
+                        {# Dynamic categories from real posts #}
                         <li><button type="button" class="home-discovery__topic is-active" data-filter-category="">Tất cả</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="Công nghệ">Công nghệ</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="SEO">SEO</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="AI WebOps">AI WebOps</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="Tài chính cá nhân">Tài chính cá nhân</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="Ngân hàng">Ngân hàng</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="Du lịch">Du lịch</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="Đời sống">Đời sống</button></li>
-                        <li><button type="button" class="home-discovery__topic" data-filter-category="case-study">Case Study</button></li>
+                        {% if homepage_categories and homepage_categories.categories %}
+                            {% for cat_item in homepage_categories.categories %}
+                                <li><button type="button" class="home-discovery__topic" data-filter-category="{{ cat_item.name }}">{{ cat_item.name }}</button></li>
+                            {% endfor %}
+                        {% else %}
+                            {# Fallback if categories data doesn't exist #}
+                            <li><button type="button" class="home-discovery__topic" data-filter-category="Công nghệ">Công nghệ</button></li>
+                            <li><button type="button" class="home-discovery__topic" data-filter-category="Ngân hàng">Ngân hàng</button></li>
+                            <li><button type="button" class="home-discovery__topic" data-filter-category="Du lịch">Du lịch</button></li>
+                            <li><button type="button" class="home-discovery__topic" data-filter-category="SEO">SEO</button></li>
+                        {% endif %}
                     </ul>
                     <p class="home-discovery__quick-label">Lọc nhanh</p>
                     <div class="home-discovery__chips" role="group" aria-label="Lọc nhanh">
@@ -232,16 +233,6 @@
                                 <a class="home-discovery__card-cta" href="{{ page.permalink }}">Đọc bài viết →</a>
                             </div>
                         </article>
-
-                        {# Ad placeholder: after post #3 #}
-                        {% if loop.index == 3 %}
-                            {{ ad::placeholder(id="home-ad-feed-1", type="home-feed", label="Quảng cáo") }}
-                        {% endif %}
-
-                        {# Ad placeholder: after post #8 (desktop only) #}
-                        {% if loop.index == 8 %}
-                            {{ ad::placeholder(id="home-ad-feed-2", type="home-feed", label="Quảng cáo", desktop_only=true) }}
-                        {% endif %}
                     {% endfor %}
                 </div>
 
@@ -334,9 +325,6 @@
                         {% endif %}
                     </ul>
                 </section>
-
-                {# Ad placeholder: sidebar after Series section #}
-                {{ ad::placeholder(id="home-ad-sidebar", type="home-sidebar", label="Quảng cáo", min_height="320px") }}
 
                 {% if trends_data and trends_data.items %}
                     <section class="home-discovery__rail-block search-rank" aria-label="Xếp hạng tìm kiếm Google Trends Việt Nam">

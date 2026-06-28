@@ -15,9 +15,12 @@
   const OWNER = "Banhang-Chogao";
   const REPO = "zola";
   const BRANCH = "main";
-  // Bài viết sống trong content/posting/ (section đã config sort + paginate).
-  // Trang chủ (/) và section /posting/ đều đọc từ đây.
-  const CONTENT_DIR = "content/posting";
+  // Bài viết sống trong content/ với nhiều sections:
+  //   - posting/ (main articles)
+  //   - baochi/ (imported/curated articles)
+  //   - khoa-hoc/, the-gioi/, cong-nghe/, du-lich/, ngan-hang/, bao-hiem/, doi-song/, the-thao/ (category sections)
+  const CONTENT_DIR = "content/posting";  // fallback for legacy API calls
+  const ARTICLE_SECTIONS = ["posting", "baochi", "khoa-hoc", "the-gioi", "cong-nghe", "du-lich", "ngan-hang", "bao-hiem", "doi-song", "the-thao"];
   const API = "https://api.github.com";
 
   /* ============= AUTH (GitHub OAuth via FastAPI backend) =============
@@ -122,9 +125,19 @@
     }
     try {
       const res = await fetch(AUTH_API + "/auth/me", opts);
-      if (!res.ok) return { status: res.status };
+      if (!res.ok) {
+        // Log non-200 auth responses for debugging (but not in console to avoid overwhelming user)
+        if (res.status === 401) {
+          // Session expired or invalid — expected when not logged in
+        } else if (res.status >= 500) {
+          // Backend error — transient, should retry
+          console.warn("[CMS] /auth/me backend error:", res.status);
+        }
+        return { status: res.status };
+      }
       return { status: 200, user: await res.json() };
     } catch (e) {
+      console.warn("[CMS] /auth/me fetch failed (likely CORS or network):", e.message);
       return { status: -1 }; // network/CORS fail → transient, KHÔNG coi là logout
     }
   }
@@ -136,7 +149,20 @@
     let r = sid ? await meRequest(true) : { status: 0 };
     if (r.status === 200) return r.user;
     // Bearer thiếu / 401 / lỗi → thử cookie HttpOnly.
-    if (r.status === 0 || r.status === 401 || r.status === -1) {
+    // NHƯNG: nếu network error (-1), KHÔNG retry, chỉ return null để hiện lỗi.
+    if (r.status === -1) {
+      // Network/CORS error on bearer attempt — backend might be down/slow.
+      // Show error instead of redirecting to login (which could cause loop).
+      console.warn("[CMS] Backend unreachable (network/CORS). Trying cookie fallback...");
+      const c = await meRequest(false);
+      if (c.status === 200) return c.user;
+      if (c.status === -1) {
+        // Both attempts failed due to network → report backend error, don't show login.
+        return { __error: "backend_unreachable" };
+      }
+      return null;
+    }
+    if (r.status === 0 || r.status === 401) {
       const c = await meRequest(false);
       if (c.status === 200) return c.user;
       // Chỉ clear sid khi backend KHẲNG ĐỊNH 401 (cả Bearer lẫn cookie đều fail).
@@ -685,13 +711,29 @@
     return res.json();
   }
 
-  // 1 API call: lấy danh sách slug .md trong content/posting/. Dùng để diff với
+  // Fetch slug list from ALL article sections. Dùng để diff với
   // bake metadata, KHÔNG fetch content từng file (tránh N+1).
   async function fetchPostSlugs() {
-    const list = await api("/repos/" + OWNER + "/" + REPO + "/contents/" + CONTENT_DIR + "?ref=" + BRANCH);
-    return list
-      .filter((f) => f.type === "file" && f.name.endsWith(".md") && !f.name.startsWith("_"))
-      .map((f) => f.name.replace(/\.md$/, ""));
+    const allSlugs = [];
+
+    for (const sectionName of ARTICLE_SECTIONS) {
+      try {
+        const path = "content/" + sectionName;
+        const list = await api("/repos/" + OWNER + "/" + REPO + "/contents/" + path + "?ref=" + BRANCH);
+        if (!Array.isArray(list)) continue;
+
+        list
+          .filter((f) => f.type === "file" && f.name.endsWith(".md") && !f.name.startsWith("_"))
+          .forEach((f) => {
+            allSlugs.push(f.name.replace(/\.md$/, ""));
+          });
+      } catch (e) {
+        // Silent fail for missing section — not all sections may exist
+        console.debug(`[CMS] Section ${sectionName} not found or inaccessible`);
+      }
+    }
+
+    return allSlugs;
   }
 
   // Background refresh: fetch slug list thật từ repo → diff với bake để biết
@@ -2992,40 +3034,75 @@ tags = ${tagsStr}
     return !!(p && avail && avail[p] === true);
   }
 
-  async function init() {
-    // 1. Consume #sid=... từ callback redirect (nếu vừa OAuth xong)
-    consumeUrlHashSid();
-    // 2. Consume ?auth_error=... (luôn strip param khỏi URL qua replaceState).
-    //    KHÔNG hiện ngay — chờ /auth/config để bỏ cảnh báo mâu thuẫn (vd
-    //    google_disabled cũ trong khi backend đã bật Google ở chế độ dual).
-    const errCode = consumeUrlAuthError();
+  // Complete post-callback auth validation flow
+  // Detects if we just came back from OAuth, validates session, hides modal if authenticated
+  async function validatePostCallbackAuth() {
+    console.log("[CMS Auth] Starting post-callback validation...");
 
-    // 3. Nếu backend chưa configure → không verify được config, hiện lỗi thô.
+    // 1. Check for ?auth_error in query string (backend denial)
+    const errCode = consumeUrlAuthError();
+    if (errCode) {
+      console.warn("[CMS Auth] OAuth returned error:", errCode);
+      return { authenticated: false, error: errCode };
+    }
+
+    // 2. Extract #sid from callback URL (if present)
+    consumeUrlHashSid();
+
+    // 3. Validate session via /auth/me with credentials: include
+    // This ensures the HttpOnly session cookie is sent if it exists
+    const user = await fetchMe();
+
+    if (user && user.__error === "backend_unreachable") {
+      console.error("[CMS Auth] Backend unreachable");
+      return { authenticated: false, error: "backend_unreachable" };
+    }
+
+    if (user) {
+      console.log("[CMS Auth] Session validated successfully");
+      currentUser = user;
+      return { authenticated: true, user: user };
+    }
+
+    console.log("[CMS Auth] No valid session found");
+    return { authenticated: false };
+  }
+
+  async function init() {
+    // 1. Try to validate post-callback auth first (handles OAuth redirect case)
+    const authResult = await validatePostCallbackAuth();
+
+    // 2. Check if authentication succeeded
+    if (authResult.authenticated) {
+      // Session valid — load editor immediately
+      console.log("[CMS Auth] Loading editor with authenticated session");
+      populateUserBar(authResult.user);
+      if (!checkUrlParam()) await enterDashboard(true);
+      return;
+    }
+
+    // 3. If backend unreachable, show error instead of login (prevent loop)
+    if (authResult.error === "backend_unreachable") {
+      console.error("[CMS Auth] Backend not responding");
+      setStatus("[data-status]", "❌ Không thể kết nối backend. Vui lòng kiểm tra lại sau.", "error");
+      showView("login");
+      return;
+    }
+
+    // 4. Not authenticated — show login screen with appropriate providers
+    // Backend chưa configure → không verify được config, hiện lỗi thô.
     if (!AUTH_API) {
-      if (errCode) showLoginError(errCode);
+      if (authResult.error) showLoginError(authResult.error);
       showLoginHint();
       showView("login");
       return;
     }
 
-    // 4. Validate phiên qua /auth/me — thử Bearer (localStorage) RỒI cookie
-    //    HttpOnly. Gọi cả khi localStorage trống: nếu cookie còn sống (vd user
-    //    chỉ xoá static cache, không xoá site data) thì vẫn đăng nhập được,
-    //    KHÔNG bắt login lại.
-    const user = await fetchMe();
-    if (user) {
-      currentUser = user;
-      populateUserBar(user);
-      if (!checkUrlParam()) await enterDashboard(true);
-      return;
-    }
-    // Hết phiên thật (cả Bearer lẫn cookie fail) → rơi xuống màn login.
-
-    // 5. Chưa login → fetch /auth/config TRƯỚC (render đúng nút + biết provider
-    //    nào đang bật), rồi mới quyết định có hiện cảnh báo *_disabled không.
+    // 5. Fetch /auth/config để render đúng nút (Google primary trong dual/google)
+    //    và quyết định có hiện cảnh báo *_disabled hay không.
     const avail = await applyAuthProviders();
-    if (errCode && !_isContradictedError(errCode, avail)) {
-      showLoginError(errCode);
+    if (authResult.error && !_isContradictedError(authResult.error, avail)) {
+      showLoginError(authResult.error);
     }
     showView("login");
   }

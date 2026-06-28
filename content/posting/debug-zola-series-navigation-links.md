@@ -228,7 +228,7 @@ Vì config cho base_url là `https://seomoney.org` (root), nên link phải là:
 
 **Chọn cách nào?** Phụ thuộc vào actual deployment. Nếu:
 - Site deploy ở `https://seomoney.org/` (root) → xóa `/zola/`
-- Site deploy ở `https://seomoney.org/zola/` → thêm `/zola/` vào base_url
+- Site deploy ở `https://seomoney.org/zola/` (old GitHub Pages path, historical) → thêm `/zola/` vào base_url
 
 Trong trường hợp này, site deploy ở root → fix: xóa `/zola/` từ markdown.
 

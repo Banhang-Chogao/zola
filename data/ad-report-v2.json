@@ -1,20 +1,19 @@
 {
   "version": 2,
-  "report_number": 1,
-  "generated_at": "2026-06-27T21:30:45Z",
-  "monetization_score": 78,
+  "report_number": 6,
+  "generated_at": "2026-06-28T03:37:32Z",
+  "monetization_score": 84,
   "ad_density": {
-    "verdict": "too_dense",
-    "slots": 5,
+    "verdict": "optimal",
+    "slots": 4,
     "live_units": 0,
     "files": [
-      "templates/page.html",
       "sass/_banner.scss",
       "sass/_theme-overrides.scss",
       "sass/_media-guard.scss",
       "sass/_paywall.scss"
     ],
-    "recommendation": "Giảm số slot — tránh accidental click và CLS trên mobile."
+    "recommendation": "Mật độ hợp lý cho blog editorial — theo dõi viewability trước khi thêm."
   },
   "ui_review": {
     "overall_grade": "B+",
@@ -32,7 +31,7 @@
       {
         "area": "Content depth",
         "level": "ok",
-        "text": "Trung bình 1372 từ/bài — đủ depth cho RPM."
+        "text": "Trung bình 1387 từ/bài — đủ depth cho RPM."
       },
       {
         "area": "SEO UX",
@@ -71,18 +70,6 @@
         "max_rpm_potential": 88
       },
       {
-        "category": "Báo chí",
-        "post_count": 34,
-        "avg_rpm_potential": 87.1,
-        "max_rpm_potential": 95
-      },
-      {
-        "category": "premium",
-        "post_count": 31,
-        "avg_rpm_potential": 78.1,
-        "max_rpm_potential": 82
-      },
-      {
         "category": "Học tiếng Hàn",
         "post_count": 29,
         "avg_rpm_potential": 78.0,
@@ -90,19 +77,25 @@
       },
       {
         "category": "Khoa học",
-        "post_count": 6,
+        "post_count": 9,
         "avg_rpm_potential": 78.0,
         "max_rpm_potential": 78
       },
       {
         "category": "SEO",
-        "post_count": 6,
+        "post_count": 7,
         "avg_rpm_potential": 78.0,
         "max_rpm_potential": 78
       },
       {
         "category": "Thế giới",
         "post_count": 4,
+        "avg_rpm_potential": 78.0,
+        "max_rpm_potential": 78
+      },
+      {
+        "category": "Kiến thức",
+        "post_count": 3,
         "avg_rpm_potential": 78.0,
         "max_rpm_potential": 78
       },
@@ -114,7 +107,7 @@
       },
       {
         "category": "Thể thao",
-        "post_count": 1,
+        "post_count": 2,
         "avg_rpm_potential": 78.0,
         "max_rpm_potential": 78
       },
@@ -126,8 +119,14 @@
       },
       {
         "category": "Công nghệ",
-        "post_count": 66,
+        "post_count": 68,
         "avg_rpm_potential": 77.2,
+        "max_rpm_potential": 95
+      },
+      {
+        "category": "Du lịch",
+        "post_count": 15,
+        "avg_rpm_potential": 76.6,
         "max_rpm_potential": 95
       }
     ],
@@ -338,7 +337,7 @@
     },
     {
       "topic": "SEO/MarTech",
-      "mentions": 26,
+      "mentions": 27,
       "sample_keywords": [
         "google adsense",
         "seo"
@@ -369,7 +368,7 @@
     {
       "title": "V-Plus VietinBank: quyền lợi chi tiết chỉ 20.000đ/tháng",
       "url": "https://seomoney.org/posting/vietinbank-v-plus-chi-tiet-quyen-loi/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -384,7 +383,7 @@
     {
       "title": "V-Advance VietinBank: đặc quyền Tài chính–Lifestyle",
       "url": "https://seomoney.org/posting/vietinbank-v-advance-nang-tam-trai-nghiem/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -398,7 +397,7 @@
     {
       "title": "V-Plus hay V-Advance: chọn gói VietinBank nào?",
       "url": "https://seomoney.org/posting/so-sanh-v-plus-va-v-advance-chon-goi-nao/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -412,7 +411,7 @@
     {
       "title": "V-Plus & V-Advance VietinBank: gói tiện ích mới là gì?",
       "url": "https://seomoney.org/posting/vietinbank-v-plus-v-advance-la-gi/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -426,7 +425,7 @@
     {
       "title": "Công nghệ VietinBank thay đổi trải nghiệm khách hàng",
       "url": "https://seomoney.org/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -441,7 +440,7 @@
     {
       "title": "Bảo mật VietinBank: ngân hàng số an toàn ra sao?",
       "url": "https://seomoney.org/posting/bao-mat-ngan-hang-so-vietinbank/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -456,7 +455,7 @@
     {
       "title": "Chuyển đổi số VietinBank: chiến lược và kết quả",
       "url": "https://seomoney.org/posting/chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -470,7 +469,7 @@
     {
       "title": "Lịch sử VietinBank: những cột mốc phát triển đáng nhớ",
       "url": "https://seomoney.org/posting/cot-moc-lich-su-phat-trien-vietinbank/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -484,7 +483,7 @@
     {
       "title": "Core banking VietinBank: hành trình hiện đại hóa lõi",
       "url": "https://seomoney.org/posting/vietinbank-hien-dai-hoa-core-banking/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -498,7 +497,7 @@
     {
       "title": "Sản phẩm VietinBank: bức tranh hệ sinh thái hiện nay",
       "url": "https://seomoney.org/posting/he-sinh-thai-san-pham-vietinbank/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -512,7 +511,7 @@
     {
       "title": "Điều kiện đủ tư cách tham gia AdSense",
       "url": "https://seomoney.org/posting/dieu-kien-du-tu-cach-adsense/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -526,7 +525,7 @@
     {
       "title": "Website sẵn sàng cho AdSense: nội dung, navigation, UX",
       "url": "https://seomoney.org/posting/website-san-sang-cho-adsense/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -540,7 +539,7 @@
     {
       "title": "Uranium làm giàu là gì? Các mức độ 0,7% đến 90%",
       "url": "https://seomoney.org/posting/uranium-lam-giau-la-gi/",
-      "category": "Tất cả",
+      "category": "Khoa học",
       "categories": [
         "Tất cả",
         "Khoa học"
@@ -554,7 +553,7 @@
     {
       "title": "Google Search hoạt động thế nào? Crawl, index và xếp hạng",
       "url": "https://seomoney.org/posting/google-search-hoat-dong-the-nao/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -568,7 +567,7 @@
     {
       "title": "Google Publisher Policies — nội dung bị cấm hiển thị quảng cáo",
       "url": "https://seomoney.org/posting/google-publisher-policies-noi-dung-bi-cam/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -582,7 +581,7 @@
     {
       "title": "Nhà máy làm giàu uranium hoạt động như thế nào?",
       "url": "https://seomoney.org/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/",
-      "category": "Tất cả",
+      "category": "Khoa học",
       "categories": [
         "Tất cả",
         "Khoa học"
@@ -596,7 +595,7 @@
     {
       "title": "Phá hủy cơ sở hạt nhân và tiêu hủy uranium: điều gì xảy ra?",
       "url": "https://seomoney.org/posting/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/",
-      "category": "Tất cả",
+      "category": "Khoa học",
       "categories": [
         "Tất cả",
         "Khoa học"
@@ -610,7 +609,7 @@
     {
       "title": "Phân biệt Policies và Restrictions trong AdSense",
       "url": "https://seomoney.org/posting/phan-biet-policies-va-restrictions-adsense/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -624,7 +623,7 @@
     {
       "title": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
       "url": "https://seomoney.org/posting/bao-lau-de-thay-ket-qua-seo/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -638,7 +637,7 @@
     {
       "title": "Điện hạt nhân khác vũ khí hạt nhân ở điểm nào?",
       "url": "https://seomoney.org/posting/dien-hat-nhan-khac-vu-khi-hat-nhan/",
-      "category": "Tất cả",
+      "category": "Khoa học",
       "categories": [
         "Tất cả",
         "Khoa học"
@@ -652,7 +651,7 @@
     {
       "title": "Engagement Rate và Bounce Rate trong Google Analytics",
       "url": "https://seomoney.org/posting/engagement-rate-bounce-rate-google-analytics/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -665,7 +664,7 @@
     {
       "title": "Đọc báo cáo Google Analytics 15 phút mỗi ngày",
       "url": "https://seomoney.org/posting/doc-bao-cao-google-analytics-15-phut-moi-ngay/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -678,7 +677,7 @@
     {
       "title": "Nguồn traffic GA4: Organic, Direct, Referral, Social, Paid",
       "url": "https://seomoney.org/posting/nguon-traffic-organic-direct-referral-social-paid/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -691,7 +690,7 @@
     {
       "title": "Giúp Google tìm nội dung: site: operator, liên kết và sitemap",
       "url": "https://seomoney.org/posting/giup-google-tim-noi-dung-site/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -705,7 +704,7 @@
     {
       "title": "Google có nhìn thấy trang giống người dùng không?",
       "url": "https://seomoney.org/posting/google-nhin-trang-giong-nguoi-dung/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -719,7 +718,7 @@
     {
       "title": "Google Publisher Restrictions — nội dung có giới hạn quảng cáo",
       "url": "https://seomoney.org/posting/google-publisher-restrictions-noi-dung-han-che/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -733,7 +732,7 @@
     {
       "title": "Chặn trang khỏi Google Search khi cần (noindex, robots)",
       "url": "https://seomoney.org/posting/chan-trang-khoi-google-search/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -748,7 +747,7 @@
     {
       "title": "Vai trò VietinBank trong hệ thống ngân hàng Việt Nam",
       "url": "https://seomoney.org/posting/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -762,7 +761,7 @@
     {
       "title": "Ngân hàng số VietinBank: từ giao dịch quầy đến app",
       "url": "https://seomoney.org/posting/vietinbank-tu-giao-dich-quay-den-ngan-hang-so/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -776,7 +775,7 @@
     {
       "title": "Toàn cảnh chuyển đổi số VietinBank từ 1988 đến nay",
       "url": "https://seomoney.org/posting/toan-canh-chuyen-doi-so-vietinbank/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -790,7 +789,7 @@
     {
       "title": "Top ngân hàng số tốt nhất Việt Nam năm 2026",
       "url": "https://seomoney.org/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -804,7 +803,7 @@
     {
       "title": "Ngân hàng số VietinBank trong cuộc đua Big 4",
       "url": "https://seomoney.org/posting/vietinbank-cuoc-dua-ngan-hang-so-big4/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -819,7 +818,7 @@
     {
       "title": "Google Analytics là gì? Lộ trình 10 ngày đọc hiểu dữ liệu",
       "url": "https://seomoney.org/posting/google-analytics-la-gi-lo-trinh-10-ngay/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -832,7 +831,7 @@
     {
       "title": "Tương lai VietinBank trong làn sóng ngân hàng số",
       "url": "https://seomoney.org/posting/tuong-lai-ngan-hang-so-va-vi-the-vietinbank/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -847,7 +846,7 @@
     {
       "title": "Tiện ích số VietinBank nhiều người chưa dùng hết",
       "url": "https://seomoney.org/posting/tien-ich-so-vietinbank-chua-tan-dung-het/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -861,11 +860,10 @@
     },
     {
       "title": "Thẻ VPBank Circle: 'siêu thẻ' free trọn đời cho Gen Z",
-      "url": "https://seomoney.org/baochi/vpbank-circle-sieu-the-free-tron-doi-gen-z/",
-      "category": "Tất cả",
+      "url": "https://seomoney.org/posting/vpbank-circle-sieu-the-free-tron-doi-gen-z/",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
-        "Báo chí",
         "Ngân hàng"
       ],
       "score": 90,
@@ -877,7 +875,7 @@
     {
       "title": "Thẻ VietinBank: lịch sử và các dòng thẻ nổi bật",
       "url": "https://seomoney.org/posting/the-vietinbank-lich-su-va-cac-dong-the/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -891,7 +889,7 @@
     {
       "title": "VietinBank là ai? Hành trình hình thành từ ngày đầu",
       "url": "https://seomoney.org/posting/vietinbank-la-ai-hanh-trinh-hinh-thanh/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -906,7 +904,7 @@
     {
       "title": "Review Liobank by OCB chi tiết: ưu nhược điểm, phí, hoàn tiền",
       "url": "https://seomoney.org/posting/review-liobank-by-ocb/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -922,7 +920,7 @@
     {
       "title": "FAQ toàn tập về ngân hàng số: giải đáp mọi thắc mắc",
       "url": "https://seomoney.org/posting/faq-toan-tap-ngan-hang-so/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -937,7 +935,7 @@
     {
       "title": "VietinBank iPay: Internet Banking qua các thời kỳ",
       "url": "https://seomoney.org/posting/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -951,7 +949,7 @@
     {
       "title": "Google AdSense là gì? Chính sách Program policies",
       "url": "https://seomoney.org/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -965,7 +963,7 @@
     {
       "title": "Top 10 công cụ terminal cho Mac 2026: dev toolkit",
       "url": "https://seomoney.org/posting/top-10-cong-cu-terminal-cho-mac-2026/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -979,7 +977,7 @@
     {
       "title": "Users, New Users và Sessions trong Google Analytics",
       "url": "https://seomoney.org/posting/users-new-users-sessions-google-analytics/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -991,11 +989,10 @@
     },
     {
       "title": "Thẻ Techcombank Eco Digital: mở online miễn phí thật",
-      "url": "https://seomoney.org/baochi/mo-the-techcombank-eco-digital-mien-phi/",
-      "category": "Tất cả",
+      "url": "https://seomoney.org/posting/mo-the-techcombank-eco-digital-mien-phi/",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
-        "Báo chí",
         "Ngân hàng"
       ],
       "score": 85,
@@ -1008,7 +1005,7 @@
     {
       "title": "So sánh Cake vs Liobank: nên chọn ngân hàng số nào?",
       "url": "https://seomoney.org/posting/so-sanh-cake-vs-liobank/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -1022,7 +1019,7 @@
     {
       "title": "Ngân hàng số cho sinh viên: chọn app nào tốt nhất?",
       "url": "https://seomoney.org/posting/ngan-hang-so-cho-sinh-vien/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -1036,7 +1033,7 @@
     {
       "title": "Ngân hàng số cho người kinh doanh online tốt nhất",
       "url": "https://seomoney.org/posting/ngan-hang-so-cho-kinh-doanh-online/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -1050,7 +1047,7 @@
     {
       "title": "Ngân hàng số cho freelancer: quản lý thu nhập tự do",
       "url": "https://seomoney.org/posting/ngan-hang-so-cho-freelancer/",
-      "category": "Tất cả",
+      "category": "Ngân hàng",
       "categories": [
         "Tất cả",
         "Ngân hàng"
@@ -1064,7 +1061,7 @@
     {
       "title": "2 lỗi YAML ẩn khiến GitHub Actions workflow invalid",
       "url": "https://seomoney.org/posting/loi-yaml-github-actions-workflow-invalid-case-study/",
-      "category": "Tất cả",
+      "category": "Công nghệ",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -1361,6 +1358,185 @@
       ]
     }
   ],
+  "action_suggestions": {
+    "immediate_actions": [
+      {
+        "priority": "P0",
+        "action": "Optimize Core Web Vitals",
+        "detail": "Mobile LCP 9.2 ss — trim CSS + font subsetting trước khi bật ads (tránh layout shift)."
+      },
+      {
+        "priority": "P1",
+        "action": "Enable live AdSense units",
+        "detail": "Placeholder CSS đã có — thêm unit ID + viewability QA trước khi go live."
+      },
+      {
+        "priority": "P2",
+        "action": "Add FAQ schema to top posts",
+        "detail": "Tăng featured snippet chance + CTR ở top 20 high-value posts."
+      }
+    ],
+    "posts_to_optimize": [
+      {
+        "title": "V-Plus hay V-Advance: chọn gói VietinBank nào?",
+        "url": "https://seomoney.org/posting/so-sanh-v-plus-va-v-advance-chon-goi-nao/",
+        "category": "Ngân hàng",
+        "score": 100,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "V-Advance VietinBank: đặc quyền Tài chính–Lifestyle",
+        "url": "https://seomoney.org/posting/vietinbank-v-advance-nang-tam-trai-nghiem/",
+        "category": "Ngân hàng",
+        "score": 100,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "V-Plus VietinBank: quyền lợi chi tiết chỉ 20.000đ/tháng",
+        "url": "https://seomoney.org/posting/vietinbank-v-plus-chi-tiet-quyen-loi/",
+        "category": "Ngân hàng",
+        "score": 100,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "V-Plus & V-Advance VietinBank: gói tiện ích mới là gì?",
+        "url": "https://seomoney.org/posting/vietinbank-v-plus-v-advance-la-gi/",
+        "category": "Ngân hàng",
+        "score": 100,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "Bảo mật VietinBank: ngân hàng số an toàn ra sao?",
+        "url": "https://seomoney.org/posting/bao-mat-ngan-hang-so-vietinbank/",
+        "category": "Ngân hàng",
+        "score": 94,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "Chuyển đổi số VietinBank: chiến lược và kết quả",
+        "url": "https://seomoney.org/posting/chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua/",
+        "category": "Ngân hàng",
+        "score": 94,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "Công nghệ VietinBank thay đổi trải nghiệm khách hàng",
+        "url": "https://seomoney.org/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang/",
+        "category": "Ngân hàng",
+        "score": 94,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
+        "url": "https://seomoney.org/posting/bao-lau-de-thay-ket-qua-seo/",
+        "category": "Công nghệ",
+        "score": 93,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "Chặn trang khỏi Google Search khi cần (noindex, robots)",
+        "url": "https://seomoney.org/posting/chan-trang-khoi-google-search/",
+        "category": "Công nghệ",
+        "score": 93,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "Lịch sử VietinBank: những cột mốc phát triển đáng nhớ",
+        "url": "https://seomoney.org/posting/cot-moc-lich-su-phat-trien-vietinbank/",
+        "category": "Ngân hàng",
+        "score": 93,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      }
+    ],
+    "topics_to_write": [
+      {
+        "category": "Tài chính",
+        "current_posts": 9,
+        "max_rpm": 95,
+        "suggested_expansion": "Add 6 posts (6–12 post cluster = hub-spoke model)",
+        "rationale": "Đủ thứ hạng seed — mở rộng để capture topic depth + cross-link bonus"
+      },
+      {
+        "category": "Khoa học",
+        "current_posts": 9,
+        "max_rpm": 78,
+        "suggested_expansion": "Add 6 posts (6–12 post cluster = hub-spoke model)",
+        "rationale": "Đủ thứ hạng seed — mở rộng để capture topic depth + cross-link bonus"
+      },
+      {
+        "category": "SEO",
+        "current_posts": 7,
+        "max_rpm": 78,
+        "suggested_expansion": "Add 8 posts (6–12 post cluster = hub-spoke model)",
+        "rationale": "Đủ thứ hạng seed — mở rộng để capture topic depth + cross-link bonus"
+      },
+      {
+        "category": "Kiến thức",
+        "current_posts": 3,
+        "max_rpm": 78,
+        "suggested_expansion": "Add 12 posts (6–12 post cluster = hub-spoke model)",
+        "rationale": "Đủ thứ hạng seed — mở rộng để capture topic depth + cross-link bonus"
+      },
+      {
+        "category": "Thế giới",
+        "current_posts": 4,
+        "max_rpm": 78,
+        "suggested_expansion": "Add 11 posts (6–12 post cluster = hub-spoke model)",
+        "rationale": "Đủ thứ hạng seed — mở rộng để capture topic depth + cross-link bonus"
+      }
+    ],
+    "internal_link_suggestions": [
+      {
+        "source_title": "Ngày 19 — Mệnh lệnh & rủ rê 으세요, ㅂ시다, 을까요 tiếng Hàn",
+        "source_url": "https://seomoney.org/posting/cau-menh-lenh-ru-re-tieng-han/",
+        "target_title": "Ngày 30 — Tổng ôn & chiến lược thi TOPIK I tiếng Hàn",
+        "target_url": "https://seomoney.org/posting/tong-on-chien-luoc-thi-topik-tieng-han/",
+        "anchor_text": "Ngày 30 — Tổng ôn & chiến lược thi TOPIK I tiếng H",
+        "reason": "Link từ 'Ngày 19 — Mệnh lệnh & rủ rê 으세요, ㅂ시다, 을까' tới hub 'Ngày 30 — Tổng ôn & chiến lược thi TOPIK' — tăng crawl depth Học tiếng Hàn"
+      },
+      {
+        "source_title": "Ngày 8: 이다/입니다 & giới thiệu bản thân tiếng Hàn",
+        "source_url": "https://seomoney.org/posting/cau-truc-ipnida-gioi-thieu-ban-than-tieng-han/",
+        "target_title": "Ngày 30 — Tổng ôn & chiến lược thi TOPIK I tiếng Hàn",
+        "target_url": "https://seomoney.org/posting/tong-on-chien-luoc-thi-topik-tieng-han/",
+        "anchor_text": "Ngày 30 — Tổng ôn & chiến lược thi TOPIK I tiếng H",
+        "reason": "Link từ 'Ngày 8: 이다/입니다 & giới thiệu bản thân tiế' tới hub 'Ngày 30 — Tổng ôn & chiến lược thi TOPIK' — tăng crawl depth Học tiếng Hàn"
+      },
+      {
+        "source_title": "CodeQL: Công cụ phân tích code tự động tìm lỗ hổng bảo mật",
+        "source_url": "https://seomoney.org/posting/codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien/",
+        "target_title": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
+        "target_url": "https://seomoney.org/posting/bao-lau-de-thay-ket-qua-seo/",
+        "anchor_text": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
+        "reason": "Link từ 'CodeQL: Công cụ phân tích code tự động t' tới hub 'Bao lâu để thấy kết quả SEO sau khi chỉn' — tăng crawl depth Công nghệ"
+      },
+      {
+        "source_title": "Ngày 9: Đại từ & chỉ định 이/그/저 trong tiếng Hàn",
+        "source_url": "https://seomoney.org/posting/dai-tu-chi-dinh-tieng-han/",
+        "target_title": "Ngày 30 — Tổng ôn & chiến lược thi TOPIK I tiếng Hàn",
+        "target_url": "https://seomoney.org/posting/tong-on-chien-luoc-thi-topik-tieng-han/",
+        "anchor_text": "Ngày 30 — Tổng ôn & chiến lược thi TOPIK I tiếng H",
+        "reason": "Link từ 'Ngày 9: Đại từ & chỉ định 이/그/저 trong ti' tới hub 'Ngày 30 — Tổng ôn & chiến lược thi TOPIK' — tăng crawl depth Học tiếng Hàn"
+      }
+    ],
+    "adsense_placements": [
+      {
+        "slot_type": "in-content (after paragraph 2)",
+        "status": "ready",
+        "detail": "Enable 300×250 + 336×280 responsive unit — tap target safe on mobile"
+      },
+      {
+        "slot_type": "in-content (before conclusion)",
+        "status": "ready",
+        "detail": "Enable 300×250 unit — distance from CTA button checked"
+      },
+      {
+        "slot_type": "sidebar (desktop only)",
+        "status": "ready",
+        "detail": "Sticky unit safe on desktop — hide on mobile ≤720px (already implemented)"
+      }
+    ]
+  },
   "history": [
     {
       "report_number": 1,
@@ -1368,10 +1544,45 @@
       "monetization_score": 78,
       "ad_density_verdict": "too_dense",
       "ui_grade": "B+"
+    },
+    {
+      "report_number": 2,
+      "generated_at": "2026-06-28T01:25:52Z",
+      "monetization_score": 78,
+      "ad_density_verdict": "too_dense",
+      "ui_grade": "B+"
+    },
+    {
+      "report_number": 3,
+      "generated_at": "2026-06-28T01:36:59Z",
+      "monetization_score": 78,
+      "ad_density_verdict": "too_dense",
+      "ui_grade": "B+"
+    },
+    {
+      "report_number": 4,
+      "generated_at": "2026-06-28T02:14:41Z",
+      "monetization_score": 78,
+      "ad_density_verdict": "too_dense",
+      "ui_grade": "B+"
+    },
+    {
+      "report_number": 5,
+      "generated_at": "2026-06-28T02:37:22Z",
+      "monetization_score": 78,
+      "ad_density_verdict": "too_dense",
+      "ui_grade": "B+"
+    },
+    {
+      "report_number": 6,
+      "generated_at": "2026-06-28T03:37:32Z",
+      "monetization_score": 84,
+      "ad_density_verdict": "optimal",
+      "ui_grade": "B+"
     }
   ],
   "scan_stats": {
-    "total_posts": 194,
+    "total_posts": 199,
     "incremental": false,
     "pages_scanned": 223,
     "site_seo_score": 99.8
@@ -1381,5 +1592,5 @@
     "lcp": "9.2 s",
     "cls": "0"
   },
-  "latest_report_path": "reports/ad-report-v2/report-001-20260627.md"
+  "latest_report_path": "reports/ad-report-v2/report-006-20260628.md"
 }

@@ -166,7 +166,14 @@ def _get_main_sha() -> str | None:
 
 
 def _get_deployed_sha() -> str | None:
-    """Get latest GitHub Pages deployed SHA."""
+    """Get latest GitHub Pages deployed SHA from deploy-monitor.json (source of truth)."""
+    dm = _load_json(ROOT / "data" / "deploy-monitor.json")
+    if dm:
+        summary = dm.get("summary") or {}
+        deployed = summary.get("prod_commit")
+        if deployed:
+            return deployed
+    # Fallback: try GitHub Pages API
     pages = _api_get(f"/repos/{REPO}/pages")
     if pages:
         return pages.get("source", {}).get("sha")
@@ -203,6 +210,8 @@ def build_dashboard() -> dict:
     deployed_sha = _get_deployed_sha()
     commits = _git_commits(limit=15)
     deploy_runs = _get_deploy_runs(limit=10)
+    dm = _load_json(ROOT / "data" / "deploy-monitor.json")
+    dm_summary = (dm.get("summary") or {}) if dm else {}
 
     # Map commits to deploy status
     items = []
@@ -250,8 +259,15 @@ def build_dashboard() -> dict:
         if pr_info:
             merge_status = "merged" if pr_info["state"] == "closed" else "open"
 
+        # Build PR URL (canonical, never HTML-escaped)
+        pr_url = None
+        if commit["pr"]:
+            pr_num = commit["pr"].lstrip("#")
+            pr_url = f"https://github.com/{REPO}/pull/{pr_num}"
+
         item = {
             "pr": commit["pr"],
+            "pr_url": pr_url,
             "title": pr_info.get("title") if pr_info else commit["subject"],
             "commit": commit["short"],
             "commit_full": commit["sha"],
@@ -271,13 +287,25 @@ def build_dashboard() -> dict:
         }
         items.append(item)
 
+    # Determine overall status from deploy-monitor state
+    overall_status = "unknown"
+    if main_sha and deployed_sha:
+        if main_sha == deployed_sha:
+            overall_status = "live"
+        elif dm_summary.get("deploying") or dm_summary.get("prod_status") == "yellow":
+            overall_status = "deploying"
+        else:
+            overall_status = "stale_deploy"
+    elif main_sha and not deployed_sha:
+        overall_status = "stale_deploy"
+
     return {
         "generated_at": _now_iso(),
         "latest_main_sha": main_sha,
         "latest_main_short": _short(main_sha),
         "latest_deployed_sha": deployed_sha,
         "latest_deployed_short": _short(deployed_sha),
-        "overall_status": "live" if main_sha == deployed_sha else "stale_deploy",
+        "overall_status": overall_status,
         "items": items,
     }
 

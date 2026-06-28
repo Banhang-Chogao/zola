@@ -189,8 +189,26 @@ def _classify(href: str) -> tuple[str, str | None]:
     return "internal", path
 
 
-def _internal_ok(path: str, pub_paths: set[str]) -> bool:
-    """True if an internal site path resolves to a file in public/ (offline)."""
+def _internal_ok(path: str, pub_paths: set[str] | None = None) -> bool:
+    """True if an internal site path resolves to a file in public/ (offline).
+
+    If pub_paths is None, checks the filesystem directly (always fresh, no stale cache).
+    """
+    if pub_paths is None:
+        # No cached paths — check filesystem directly (fresh)
+        p = PUBLIC / path.lstrip("/")
+        # Try various resolutions
+        if (p / "index.html").is_file():
+            return True
+        if (Path(str(p) + ".html")).is_file():
+            return True
+        if p.is_file():
+            return True
+        if p.is_dir():  # Directory itself exists
+            return True
+        return False
+
+    # Use cached paths (backward compat)
     if path in pub_paths:
         return True
     alt = path.rstrip("/") + "/"
@@ -368,7 +386,7 @@ def scan(check_external: bool, ext_cap: int) -> dict:
                 continue
             if kind == "internal":
                 checked_internal.add(norm)
-                if _internal_ok(norm, pub_paths):
+                if _internal_ok(norm):  # Fresh filesystem check (no stale cache)
                     continue
                 key = (source_file, norm)
                 if key in seen_internal:
@@ -472,7 +490,7 @@ def run_fixes(report: dict) -> tuple[list[dict], bool]:
     if not broken:
         return fixes, False
 
-    # Build replacement map: broken target → corrected site path (with /zola).
+    # Build replacement map: broken target → corrected site path (NEVER /zola).
     md_files = list(CONTENT.rglob("*.md")) if CONTENT.is_dir() else []
 
     for entry in broken:
@@ -480,7 +498,10 @@ def run_fixes(report: dict) -> tuple[list[dict], bool]:
         suggestion = entry["suggestion"]
         if not suggestion:
             continue
-        corrected = SITE_PREFIX + suggestion  # keep GitHub Pages prefix
+        # Safety guard: NEVER insert /zola/ into production URLs (V22 canonical rule).
+        if suggestion.startswith("/zola"):
+            continue
+        corrected = suggestion  # canonical path, NO /zola prefix
         olds = _site_url_variants(target)
         # Avoid replacing if the "broken" spelling equals the corrected one.
         olds = [o for o in olds if o.rstrip("/") != corrected.rstrip("/")]

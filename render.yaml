@@ -78,7 +78,10 @@ services:
         sync: false
       - key: GOOGLE_REDIRECT_URI
         value: https://blog-vipzone-api.onrender.com/auth/google/callback
-      # Email Google được phép vào CMS — comma-separated. Để trống → fallback ADMIN_EMAILS.
+      # Email Google được phép vào CMS — comma-separated. BẮT BUỘC để dùng Google login.
+      # Để trống → fallback ADMIN_EMAILS (GitHub noreply email), không dùng Google được.
+      # VD: "duy.nguyen@gmail.com" hoặc "duy.nguyen@gmail.com,admin@company.com"
+      # ⚠️  Nếu bỏ trống cả này lẫn ADMIN_EMAILS → Google login sẽ báo "not configured".
       - key: GOOGLE_ADMIN_EMAILS
         sync: false
 

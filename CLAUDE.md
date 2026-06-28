@@ -80,6 +80,68 @@ Solution stack:
 - Template: `templates/partials/changelog-prod-dashboard.html` (static render).
 - Data: `data/production-dashboard.json` (machine-readable).
 
+## SEOMONEY Production Base URL — Canonical Rules (effective 2026-06-28)
+
+> **Current production base:** `https://seomoney.org` with root path `/` (NOT `/zola/`).
+> The `/zola/` path is **legacy from old GitHub Pages project structure** and must NOT appear in:
+> active URLs, generated links, dashboards, documentation, or production verification checks.
+
+### Canonical URLs (Use These)
+
+All production and verification URLs must use root paths:
+
+```text
+https://seomoney.org/
+https://seomoney.org/changelog/
+https://seomoney.org/tools/theme-log/
+https://seomoney.org/tools/content-direction/
+https://seomoney.org/categories/ngan-hang/
+https://seomoney.org/ad-report-v2/
+```
+
+### Forbidden (Legacy — Do NOT Use)
+
+```text
+❌ https://seomoney.org/zola/  # Old GitHub Pages path
+❌ https://seomoney.org/zola/changelog/  # Old GitHub Pages path
+❌ https://seomoney.org/zola/tools/theme-log/  # Old GitHub Pages path
+❌ https://seomoney.org/zola/categories/ngan-hang/  # Old GitHub Pages path
+```
+
+**Note:** Examples above are marked as "Old GitHub Pages path" for historical reference.
+
+### Rule Scope
+
+1. **Production URLs** in templates, scripts, dashboards, deploy verification — MUST NOT contain `/zola/`.
+2. **Generated content** (Production Dashboard, broken-link reports, deploy logs) — MUST NOT contain `/zola/`.
+3. **Documentation & examples** — if referencing old path, mark clearly as "**Legacy old GitHub Pages path, not current production**".
+4. **Backend services** (VIPZone RUM, Comments) — may strip legacy `/zola/` prefix for **incoming** data compatibility, but never **generate** it.
+5. **User-facing instructions** — always use canonical root paths.
+
+### Implementation
+
+- **Config:** `config.toml` → `base_url = "https://seomoney.org"` (correct, no `/zola/`).
+- **QA Gate:** `scripts/check_base_url_hygiene.py` scans repo; fails P0 if active production URLs contain `/zola/`.
+- **Broken-link healer:** Safe auto-fix rule: `/zola/changelog/` → `/changelog/`, `/zola/tools/*` → `/tools/*`.
+- **Templates:** Use `get_url()` filter (respects `base_url` automatically) instead of hardcoded paths.
+- **Services:** RUM & Comments APIs may receive legacy `/zola/` paths from old browser caches; they strip it internally (see `rum.py` line 149–151, `comments.py` line 107–109).
+
+### Violation Examples
+
+**Bad (old GitHub Pages path — HISTORICAL EXAMPLE ONLY — do not use):**
+
+```jinja2
+{# Wrong — hardcoded /zola/ path (old GitHub Pages structure) #}
+<a href="https://seomoney.org/zola/changelog/">Production Dashboard</a>
+```
+
+**Good:**
+
+```jinja2
+{# Correct — respects base_url from config #}
+<a href="{{ get_url(path='changelog/') }}">Production Dashboard</a>
+```
+
 ## Auto-Merge Policy (ZERO_BARRIER — ghi đè mọi rule PR-only / manual merge cũ)
 
 > CI pass → **auto-merge `main` ngay** → `deploy.yml` production. Không chờ human approval.
@@ -930,6 +992,38 @@ Do not report "done/live" until both checks pass.
   GMT+7; mọi nơi HIỂN THỊ giờ phải guard date-only.
 - **Validation:** `zola build` PASS; bài date-only render `Đăng: 27/06/2026`; bài có timestamp render
   `Đăng: 14:37, 27/06/2026` + `Cập nhật: 15:42, 27/06/2026`; `qa_check.py` PASS; `check_internal_links.py` OK.
+
+#### V25 — Mass content migration conflicts: >5 `content/*.md` files conflict với `main` (28/06/2026) — AUTO-DETECTION PATTERN
+
+> **BẮT BUỘC pattern:** PR với nhiều `content/**/*.md` conflict (>5 files) từ migration lớn/refactor toàn bộ section. **Khớp dấu hiệu → KHÔNG HAND-MERGE, không merge từng dòng, không auto-merge.**
+
+- **Dấu hiệu:**
+  1. PR có `mergeable_state: dirty` (conflicts)
+  2. >5 files dưới `content/**/*.md` bị conflict (section `_index.md`, individual posts)
+  3. Ngoài `content/`, còn conflict ở `data/*.json` (tự sinh như `references.json`, `seo-qa-scores.json`)
+  4. PR base **stale** — merge commit cách main >7 days hoặc >5 commits
+  5. Conflict type: **add/add** (cùng file được tạo/sửa trên cả 2 branch)
+- **Nguyên nhân:** branch cũ tách từ old commit; trong lúc chờ merge, main chạy migration/refactor **cùng files** → cùng đụng nhau. **Không phải lỗi logic, là merge race + stale base.**
+- **FIXER (quy tắc BẮT BUỘC):**
+  1. **KHÔNG** merge thủ công từng file (quá lỗi/mất công/mất dữ liệu)
+  2. **KHÔNG** auto-merge blind (`git checkout --ours/--theirs` toàn bộ)
+  3. **Thay vào đó: KIỂM TRA** xem feature/migration của PR có **still needed** trên main không:
+     - Nếu migration **đã done trên main** (posts đã migrate, aliases đã thêm, category đã fix) → **CLOSE PR as stale/superseded**
+     - Nếu migration **still needed** (chỉ partial done, hoặc files mới thêm chưa migrate) → **RECREATE từ latest main bằng idempotent script**
+  4. **Recreate path** (nếu needed):
+     - Checkout latest `main`
+     - Tạo branch mới từ `main`
+     - Viết/chạy idempotent script (vd `scripts/complete_baochi_migration.py`) → migrate chỉ files chưa có trên `main`
+     - Giữ nguyên prose/frontmatter của `main` nếu destination đã tồn tại
+     - Chỉ thêm aliases + metadata (source, content_origin) khi cần
+     - Run QA: `qa_check.py`, `zola build`, `check_internal_links.py`
+     - Create PR từ clean branch
+- **Auto-detection workflow** (`.github/workflows/detect-mass-content-conflict.yml` — future):
+  - Mỗi PR open: nếu >5 `content/**/*.md` conflicts → thêm label `mass-content-conflict` + `needs-clean-rebase`
+  - Comment: "This PR has mass content migration conflicts. Recommended: check if migration is already done on main. If yes, close PR. If no, recreate branch from latest main using idempotent script."
+  - KHÔNG auto-merge (label block)
+- **Quy tắc chung:** mỗi khi PR có >5 Markdown content conflicts → **DỪNG, kiểm tra**, không tiếp tục merge. Merge race ở content là tín hiệu PR base stale, cần rebase/recreate.
+- **Evidence (PR #1148, 28/06/2026):** baochi canonical migration — PR dựa trên commit f5732ec (7 commits trước main e4189ec). Trong khoảng đó, main đã chạy PR #1134 + #1144 migrate part của baochi posts với aliases. PR #1148 conflict ở 7+ section `_index.md` + individual posts + `data/references.json` + `data/seo-qa-scores.json`. Decision: **close as stale** vì migration already done (chỉ differ ở details/ordering, không cần reapply).
 
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 

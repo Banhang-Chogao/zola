@@ -84,6 +84,7 @@ MAX_SHORT = 500
 MAX_DATETIME = 40
 
 CALENDAR_COLORS = {"teal", "blue", "purple", "amber", "green", "red", "pink"}
+CALENDAR_VISIBILITY = {"public", "private"}
 NOTE_COLORS = {"yellow", "green", "blue", "pink", "purple", "orange", "white"}
 EVENT_STATUSES = {"", "confirmed", "tentative", "cancelled", "done", "busy", "free"}
 
@@ -146,6 +147,19 @@ def _sanitize_event(body: dict[str, Any], *, partial: bool) -> dict[str, Any]:
         out["status"] = status if status in EVENT_STATUSES else ""
     elif not partial:
         out["status"] = ""
+    if present("visibility"):
+        visibility = _clean(body.get("visibility"), 20).lower()
+        out["visibility"] = visibility if visibility in CALENDAR_VISIBILITY else "private"
+    elif not partial:
+        out["visibility"] = "private"
+    if present("reminderEnabled"):
+        out["reminderEnabled"] = bool(body.get("reminderEnabled"))
+    elif not partial:
+        out["reminderEnabled"] = False
+    if present("reminderSent"):
+        out["reminderSent"] = bool(body.get("reminderSent"))
+    elif not partial:
+        out["reminderSent"] = False
     return out
 
 
@@ -165,6 +179,12 @@ def _sanitize_note(body: dict[str, Any], *, partial: bool) -> dict[str, Any]:
 
 
 # ============= Calendar events =============
+@router.get("/calendar/events/public")
+async def list_public_events() -> dict[str, Any]:
+    """Public calendar events (read-only, no auth required). Visibility=public only."""
+    return {"events": _db().list_public_calendar_events()}
+
+
 @router.get("/calendar/events")
 async def list_events(profile: dict[str, Any] = Depends(require_owner)) -> dict[str, Any]:
     return {"events": _db().list_calendar_events(_owner(profile))}

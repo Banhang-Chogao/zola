@@ -1,8 +1,11 @@
 {# Production Dashboard — merged PRs and their deploy status.
    Data: data/production-dashboard.json (build_production_dashboard.py).
-   Browser never calls GitHub APIs. #}
+   Browser never calls GitHub APIs.
+
+   IMPORTANT: Section must be visible even if data is missing/not ready yet.
+   Empty state shows placeholder until deploy-guard generates data.
+#}
 {% set dashboard = load_data(path="data/production-dashboard.json", required=false) %}
-{% if dashboard and dashboard.items %}
 <section class="prod-dashboard" aria-labelledby="prod-dashboard-title">
     <header class="prod-dashboard__header">
         <h2 id="prod-dashboard-title" class="prod-dashboard__title">Production Dashboard</h2>
@@ -18,6 +21,8 @@
         </p>
     </header>
 
+    {%- if dashboard and dashboard.items -%}
+    {# Dashboard data exists — show table #}
     <div class="prod-dashboard__status-bar">
         <div class="prod-dashboard__status-item">
             <span class="prod-dashboard__label">main HEAD</span>
@@ -57,8 +62,8 @@
                 {%- for item in dashboard.items | slice(count=10) -%}
                 <tr class="prod-dashboard__row" data-pr="{{ item.pr | default(value='none') }}">
                     <td class="prod-dashboard__cell prod-dashboard__cell--ticket">
-                        {%- if item.pr -%}
-                        <a href="https://github.com/{{ config.extra.repo_github | default(value='Banhang-Chogao/zola') }}/pull/{{ item.pr | replace(from='#', to='') }}" target="_blank" rel="noopener" class="prod-dashboard__link">{{ item.pr }}</a>
+                        {%- if item.pr_url -%}
+                        <a href="{{ item.pr_url | safe }}" target="_blank" rel="noopener" class="prod-dashboard__link">{{ item.pr }}</a>
                         {%- else -%}
                         —
                         {%- endif -%}
@@ -147,5 +152,15 @@
             automatically every hour.
         </p>
     </footer>
+
+    {%- else -%}
+    {# No data yet — show empty state #}
+    <div class="prod-dashboard__empty-state">
+        <p><strong>Đang chờ dữ liệu deploy đầu tiên.</strong></p>
+        <p>Hệ thống sẽ tự cập nhật sau khi deploy guard chạy.</p>
+        <p style="font-size: 0.875rem; color: var(--c-text-muted); margin-top: 0.5rem;">
+            Deploy guard chạy mỗi giờ hoặc sau mỗi deploy thành công.
+        </p>
+    </div>
+    {%- endif -%}
 </section>
-{% endif %}

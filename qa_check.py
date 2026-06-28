@@ -680,6 +680,39 @@ def check_theme_log():
     return issues
 
 
+def check_base_url_hygiene():
+    """Repo-level QA cho SEOMONEY canonical base URL (enforce no active /zola/ paths).
+
+    Gate (error):
+      Production URLs must NOT contain /zola/ (legacy GitHub Pages path).
+      Allowed: only if line contains "legacy", "historical", "old github pages", or similar label.
+
+    Uses: scripts/check_base_url_hygiene.py
+    """
+    issues = []
+    script_path = REPO_ROOT / "scripts" / "check_base_url_hygiene.py"
+    if not script_path.exists():
+        return [Issue("error", "scripts/check_base_url_hygiene.py", 1,
+                      "Base URL: missing check script (run: cp scripts/check_base_url_hygiene.py from template)")]
+
+    import subprocess
+    try:
+        result = subprocess.run([sys.executable, str(script_path)], capture_output=True, text=True, timeout=30)
+        if result.returncode == 0:
+            return []  # Clean
+        # Parse output: find "❌ Base URL Hygiene: Found N violation(s)" and extract violations
+        output = result.stdout + result.stderr
+        if "violation" in output.lower():
+            issues.append(Issue("error", "config/base_url", 1,
+                "Base URL hygiene: /zola/ references found in active production code. "
+                "Run: python3 scripts/check_base_url_hygiene.py"))
+    except subprocess.TimeoutExpired:
+        issues.append(Issue("warning", "scripts/check_base_url_hygiene.py", 1, "Base URL check timed out"))
+    except Exception as e:
+        issues.append(Issue("warning", "scripts/check_base_url_hygiene.py", 1, f"Base URL check error: {e}"))
+    return issues
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser(
@@ -758,6 +791,7 @@ def main():
     # không khi user truyền file cụ thể → tránh false-fail lúc scan 1 file lẻ).
     if not args.targets:
         all_issues.extend(check_theme_log())
+        all_issues.extend(check_base_url_hygiene())
 
     # Apply content fixes CHỈ ở --fix safe mode (perf mode đã apply img
     # fixes inline trong loop ở trên, không touch content frontmatter)

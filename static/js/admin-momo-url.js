@@ -532,31 +532,95 @@
     const link = auditData.links_by_url[url];
     if (!link) return;
 
+    const publicUsages = link.public_usages || [];
+    const technicalUsages = link.technical_usages || link.locations || [];
+
     const content = document.getElementById("details-content");
-    content.innerHTML = `
-      <div class="details-list">
-        <div class="details-item">
-          <div class="details-label">Loại:</div>
-          <div class="details-value">${escapeHtml(link.category)}</div>
+
+    // Build public usage section (main view)
+    const publicUsageHtml = publicUsages.length > 0 ? `
+      <section class="details-section">
+        <h3 class="details-section__title">📄 Trang public đang dùng link này</h3>
+        <ul class="public-usage-list">
+          ${publicUsages.map((usage) => `
+            <li class="public-usage-item" data-status="${usage.status}">
+              <div class="public-usage-main">
+                <div class="public-usage-title">${escapeHtml(usage.title)}</div>
+                <div class="public-usage-placement">
+                  <span class="badge badge--placement">${escapeHtml(usage.placement)}</span>
+                  <span class="badge badge--${usage.status}">${escapeHtml(usage.status)}</span>
+                </div>
+              </div>
+              ${usage.public_url ? `
+                <div class="public-usage-url">
+                  <a href="${escapeAttr(usage.public_url)}" target="_blank" rel="noopener noreferrer" class="link-public-url">
+                    ${escapeHtml(usage.public_url)}
+                  </a>
+                  <button class="copy-url-btn" onclick="navigator.clipboard.writeText('${escapeAttr(usage.public_url)}'); this.textContent='✓ Copied'; setTimeout(() => this.textContent='📋 Copy', 2000);" title="Copy URL">
+                    📋 Copy
+                  </button>
+                </div>
+              ` : `
+                <div class="public-usage-url-empty">
+                  <em>Không có URL cụ thể (configured globally)</em>
+                </div>
+              `}
+            </li>
+          `).join("")}
+        </ul>
+      </section>
+    ` : `
+      <section class="details-section">
+        <div class="alert alert--info">
+          Chưa tìm thấy trang public cụ thể. Link này đang được cấu hình toàn cục và có thể được render qua CTA/donate block.
         </div>
-        <div class="details-item">
-          <div class="details-label">URL:</div>
-          <div class="details-value"><code>${escapeHtml(url)}</code></div>
-        </div>
-        ${link.post_title ? `
-        <div class="details-item">
-          <div class="details-label">Bài viết:</div>
-          <div class="details-value">${escapeHtml(link.post_title)} (${escapeHtml(link.post_slug)})</div>
-        </div>
-        ` : ""}
-        <div class="details-item">
-          <div class="details-label">Sử dụng ở:</div>
-          <div class="details-value">
-            <ul class="location-list">
-              ${link.locations.map((loc) => `<li><code>${escapeHtml(loc)}</code></li>`).join("")}
-            </ul>
+        <p class="details-hint">
+          <strong>Gợi ý:</strong> Hãy kiểm tra các trang này:
+        </p>
+        <ul class="suggested-urls">
+          <li><a href="https://seomoney.org/" target="_blank" rel="noopener noreferrer">https://seomoney.org/</a></li>
+          <li><a href="https://seomoney.org/posting/" target="_blank" rel="noopener noreferrer">https://seomoney.org/posting/</a> (Danh sách bài viết)</li>
+        </ul>
+      </section>
+    `;
+
+    // Build technical details section (collapsed)
+    const technicalDetailsHtml = technicalUsages.length > 0 ? `
+      <details class="details-section details-section--technical">
+        <summary class="details-section__title details-section__title--collapsible">
+          ⚙️ Chi tiết kỹ thuật
+        </summary>
+        <div class="technical-details-body">
+          <div class="details-item">
+            <div class="details-label">Loại:</div>
+            <div class="details-value">${escapeHtml(link.category)}</div>
+          </div>
+          <div class="details-item">
+            <div class="details-label">URL:</div>
+            <div class="details-value"><code>${escapeHtml(url)}</code></div>
+          </div>
+          ${link.post_title ? `
+          <div class="details-item">
+            <div class="details-label">Bài viết:</div>
+            <div class="details-value">${escapeHtml(link.post_title)} (${escapeHtml(link.post_slug)})</div>
+          </div>
+          ` : ""}
+          <div class="details-item">
+            <div class="details-label">Cấu hình ở các file:</div>
+            <div class="details-value">
+              <ul class="location-list">
+                ${technicalUsages.map((loc) => `<li><code>${escapeHtml(loc)}</code></li>`).join("")}
+              </ul>
+            </div>
           </div>
         </div>
+      </details>
+    ` : "";
+
+    content.innerHTML = `
+      <div class="details-container">
+        ${publicUsageHtml}
+        ${technicalDetailsHtml}
       </div>
     `;
 

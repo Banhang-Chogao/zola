@@ -1,17 +1,38 @@
 {
-  "updated_at": "2026-06-28T02:36:38Z",
-  "generated_at_vn": "09:36:38 28-06-2026",
+  "updated_at": "2026-06-28T03:40:13Z",
+  "generated_at_vn": "10:40:13 28-06-2026",
   "summary": {
-    "broken_count": 0,
-    "checked": 1058,
-    "status": "pass",
-    "internal_broken": 0,
-    "internal_checked": 1058,
+    "broken_count": 2,
+    "checked": 1084,
+    "status": "fail",
+    "internal_broken": 2,
+    "internal_checked": 1084,
     "external_broken": 0,
     "external_checked": 0,
-    "external_total_unique": 668,
+    "external_total_unique": 672,
     "external_enabled": false,
-    "scanned_pages": 816
+    "scanned_pages": 840
   },
-  "links": []
+  "links": [
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/posting/vpbank-circle-sieu-the-free-tron-doi-gen-z/",
+      "target": "/posting/vpbank-circle-sieu-the-free-tron-doi-gen-z/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/baochi/vpbank-circle-sieu-the-free-tron-doi-gen-z/",
+      "kind": "internal"
+    },
+    {
+      "source_page": "/ad-report-v2/",
+      "source_file": "public/ad-report-v2/index.html",
+      "href": "https://seomoney.org/posting/mo-the-techcombank-eco-digital-mien-phi/",
+      "target": "/posting/mo-the-techcombank-eco-digital-mien-phi/",
+      "status": "404",
+      "error_type": "internal_not_found",
+      "suggestion": "/baochi/mo-the-techcombank-eco-digital-mien-phi/",
+      "kind": "internal"
+    }
+  ]
 }
