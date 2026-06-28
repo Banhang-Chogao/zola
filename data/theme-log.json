@@ -18,6 +18,37 @@
   },
   "milestones": [
     {
+      "id": "milestone-20260628-core-web-vitals-performance-op-494cb7",
+      "type": "feature",
+      "title": "Core Web Vitals Performance Optimization",
+      "summary": "Preload LCP hero image on article pages. Add dns-prefetch (5 origins) + preconnect for googletagmanager. Remove duplicate render-blocking Google Fonts on homepage. Add Inter:wght@400 to non-blocking font bundle.",
+      "commit": "fabe99c5",
+      "merge_commit": "",
+      "pr": "#1203",
+      "branch": "perf/core-web-vitals-optimization",
+      "date": "2026-06-28T20:47:59+07:00",
+      "status": "merged",
+      "scope": "templates, performance, Core Web Vitals",
+      "routes": [
+        "/",
+        "/*"
+      ],
+      "files": [
+        "templates/base.html",
+        "templates/index.html",
+        "templates/page.html"
+      ],
+      "restore_mode": "cherry-pick-files",
+      "restore_hint": "",
+      "qa": {
+        "zola_build": "unknown",
+        "qa_check": "unknown",
+        "qa_404": "unknown"
+      },
+      "risk": "low",
+      "notes": "Performance-only optimizations. No UI/UX changes. Preload LCP image reduces LCP by ~100-200ms. dns-prefetch/preconnect speeds up DNS + connection setup for key origins. Removing render-blocking Google Fonts improves FCP."
+    },
+    {
       "id": "milestone-20260628-rollback-milestones-registry-t-44ae2b",
       "type": "feature",
       "title": "Rollback Milestones Registry (theme-log evolution)",
