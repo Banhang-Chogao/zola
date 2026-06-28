@@ -238,6 +238,57 @@ Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit
 - Simulation: `python3 -m unittest scripts.test_task_priority -v`
 - Pass criteria: P0 hoàn thành trước P1 bị preempt; P1 resume sau P0 drain.
 
+## Scoped Build/QA Policy (hiệu lực 28/06/2026)
+
+> Không mặc định rebuild/regenerate toàn bộ blog nếu task chỉ chạm một phần nhỏ.
+> `python3 qa_check.py --scope` tự động phân tích scope từ git diff và quyết định build gì.
+
+### Quy tắc
+
+1. **Xác định files changed** — `git diff --name-only origin/main...HEAD`.
+2. **Phân loại scope:**
+   - `content` — chỉ `content/posting/*.md` → QA scoped + `build_references.py` + `check_internal_links.py`. KHÔNG cần `zola build`.
+   - `data` — chỉ `data/*.json` → không cần build (trừ khi data ảnh hưởng template).
+   - `template` — `templates/*.html` → cần `zola build`.
+   - `style` — `sass/*.scss` → cần `zola build`.
+   - `config_global` — `config.toml`, `templates/base.html`, `.github/workflows/*` → cần full build.
+   - `script` — `scripts/*.py` → chạy test cho script đó.
+   - `static_js` — `static/js/*.js` → không cần build.
+3. **Chỉ full build khi** config/template/SCSS/thay đổi hoặc trước merge lên production.
+4. **Content-only:** `python3 qa_check.py --scope` + `python3 scripts/check_internal_links.py`. Bỏ `zola build`.
+5. **Data-only:** không cần chạy gì ngoài QA cơ bản.
+
+### Cách dùng
+
+```bash
+# Phân tích scope từ git diff + chạy QA scoped
+python3 qa_check.py --scope
+
+# Chỉ báo scope, không scan (dùng để quyết định build strategy)
+python3 qa_check.py --scope report-only
+
+# Scan files cụ thể (truyền tay, không cần scope)
+python3 qa_check.py path/to/file.md
+
+# Scan toàn repo (mặc định)
+python3 qa_check.py
+```
+
+### File map
+
+| File | Vai trò |
+|------|---------|
+| `qa_check.py` | Thêm `--scope` flag, `classify_scope()`, `scope_from_git_diff()`, `needs_full_build()`, `report_scope()` |
+| `CLAUDE.md` §Scoped Build/QA Policy | Policy này |
+
+### Lưu ý
+
+- `--scope` dùng git diff so với `origin/main` — cần fetch `origin/main` trước khi chạy.
+- Nếu git diff fail hoặc không có changes → fallback scan toàn repo.
+- Khi thay đổi `templates/base.html` hoặc `config.toml`, scope tự động báo "cần full build".
+- Task content thuần (viết/sửa bài) không cần chạy `zola build` local — chỉ cần QA scoped.
+- Trước merge production, CI vẫn chạy full build để đảm bảo.
+
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
 
 > 💉 Bộ "vaccine" tích luỹ từ audit toàn bộ lịch sử CI. **Giao thức bắt buộc**:
