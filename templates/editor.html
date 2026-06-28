@@ -471,12 +471,17 @@
     </script>
 
     {# Bake metadata bài viết → editor.js render list view tức thì 0ms. Background
-       refresh sẽ diff với API thật để mark bài mới publish (chưa kịp build). #}
+       refresh sẽ diff với API thật để mark bài mới publish (chưa kịp build).
+       Include posts from BOTH posting/ và baochi/ sections để match homepage post count. #}
     {% set posting_section = get_section(path="posting/_index.md") %}
+    {% set baochi_section = get_section(path="baochi/_index.md") %}
+    {% set all_posts = posting_section.pages | concat(with=baochi_section.pages) | sort(attribute="date") | reverse %}
     {% set seo_data = load_data(path="data/seo-qa-scores.json", required=false) %}
     <script type="application/json" id="posts-metadata">
-        [{% for page in posting_section.pages -%}
-            {% set content_path = "content/posting/" ~ page.slug ~ ".md" %}
+        [{% for page in all_posts -%}
+            {# Support both posting/ and baochi/ sections #}
+            {% set section_dir = page.components.0 | default(value="posting") %}
+            {% set content_path = "content/" ~ section_dir ~ "/" ~ page.slug ~ ".md" %}
             {% set_global seo_post = false %}
             {% if seo_data and seo_data.posts and seo_data.posts[content_path] %}
                 {% set_global seo_post = seo_data.posts[content_path] %}
