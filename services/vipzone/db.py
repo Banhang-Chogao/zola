@@ -157,23 +157,6 @@ class VipzoneDB:
                 );
                 CREATE INDEX IF NOT EXISTS idx_reports_created_at ON reports(created_at DESC);
 
-                -- Changelog entries — PR/commit history with structured metadata.
-                -- Admin-gated via /auth/me. Replaces public changelog.json.
-                CREATE TABLE IF NOT EXISTS changelog (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    title TEXT NOT NULL,
-                    tag TEXT NOT NULL DEFAULT 'chore',
-                    date TEXT NOT NULL,
-                    pr INTEGER,
-                    commit_sha TEXT,
-                    lines_added INTEGER DEFAULT 0,
-                    lines_removed INTEGER DEFAULT 0,
-                    highlights TEXT DEFAULT '[]',
-                    created_at TEXT NOT NULL
-                );
-                CREATE INDEX IF NOT EXISTS idx_changelog_date ON changelog(date DESC);
-                CREATE INDEX IF NOT EXISTS idx_changelog_created_at ON changelog(created_at DESC);
-
                 -- Real-User-Monitoring (RUM) Web Vitals — anonymous, cross-visitor
                 -- field data so Speed Insights reflects the WHOLE blog instead of a
                 -- single browser's localStorage. No PII is ever stored: only the
@@ -841,94 +824,7 @@ class VipzoneDB:
             cur = conn.execute("DELETE FROM reports WHERE filename = ?", (filename,))
         return cur.rowcount > 0
 
-    # ============= Changelog (PR/commit history, admin-gated) =============
-    def insert_changelog(self, data: dict[str, Any]) -> int:
-        """Save a changelog entry. Returns the entry ID."""
-        import json
-        highlights = data.get("highlights") or []
-        if not isinstance(highlights, str):
-            highlights = json.dumps(highlights, ensure_ascii=False)
-        with self._conn() as conn:
-            cur = conn.execute(
-                """
-                INSERT INTO changelog
-                    (title, tag, date, pr, commit_sha, lines_added, lines_removed, highlights, created_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """,
-                (
-                    data.get("title", ""),
-                    data.get("tag", "chore"),
-                    data.get("date", ""),
-                    data.get("pr"),
-                    data.get("commit"),
-                    data.get("lines_added", 0),
-                    data.get("lines_removed", 0),
-                    highlights,
-                    _now(),
-                ),
-            )
-        return cur.lastrowid
-
-    def list_changelog(self) -> list[dict[str, Any]]:
-        """List all changelog entries, newest first."""
-        import json
-        with self._conn() as conn:
-            rows = conn.execute(
-                "SELECT id, title, tag, date, pr, commit_sha, lines_added, lines_removed, highlights, created_at FROM changelog ORDER BY date DESC"
-            ).fetchall()
-        return [
-            {
-                **dict(r),
-                "commit": r["commit_sha"],
-                "highlights": json.loads(r.get("highlights") or "[]"),
-            }
-            for r in rows
-        ]
-
-    def get_changelog_entry(self, entry_id: int) -> dict[str, Any] | None:
-        """Get a single changelog entry by ID."""
-        import json
-        with self._conn() as conn:
-            row = conn.execute(
-                "SELECT id, title, tag, date, pr, commit_sha, lines_added, lines_removed, highlights, created_at FROM changelog WHERE id = ?",
-                (entry_id,),
-            ).fetchone()
-        if not row:
-            return None
-        return {
-            **dict(row),
-            "commit": row["commit_sha"],
-            "highlights": json.loads(row.get("highlights") or "[]"),
-        }
-
-    def update_changelog(self, entry_id: int, data: dict[str, Any]) -> bool:
-        """Update a changelog entry."""
-        import json
-        highlights = data.get("highlights")
-        if highlights and not isinstance(highlights, str):
-            highlights = json.dumps(highlights, ensure_ascii=False)
-        with self._conn() as conn:
-            fields = []
-            values = []
-            for key in ["title", "tag", "date", "pr", "commit_sha", "lines_added", "lines_removed"]:
-                if key in data:
-                    fields.append(f"{key} = ?")
-                    values.append(data[key])
-            if highlights:
-                fields.append("highlights = ?")
-                values.append(highlights)
-            if not fields:
-                return False
-            values.append(entry_id)
-            query = f"UPDATE changelog SET {', '.join(fields)} WHERE id = ?"
-            cur = conn.execute(query, values)
-        return cur.rowcount > 0
-
-    def delete_changelog(self, entry_id: int) -> bool:
-        """Delete a changelog entry by ID."""
-        with self._conn() as conn:
-            cur = conn.execute("DELETE FROM changelog WHERE id = ?", (entry_id,))
-        return cur.rowcount > 0
+    # ===== Changelog table has been removed (reverted to file-based changelog.json on 2026-06-28) =====
 
     # ===== Web Vitals RUM (anonymous field data) =====
     def insert_web_vital(self, data: dict[str, Any], retention_days: int = 90) -> str:

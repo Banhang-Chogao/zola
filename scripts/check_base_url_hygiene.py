@@ -61,6 +61,7 @@ ALLOWED_FILES = {
     "zola/scripts/test_link_utils.py",  # Test code with legacy URL normalization
     "zola/scripts/test_link_normalization.py",  # Test code with legacy URL normalization
     "services/vipzone/test_rum.py",  # Test data with legacy URLs
+    "changelog.json",  # Historical changelog — references old paths in past events
 }
 
 
