@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-26T15:45:34Z",
+  "generated_at": "2026-06-28T20:15:50+07:00",
   "repo": "Banhang-Chogao/zola",
   "production_url": "https://seomoney.org",
-  "current_head": "a2b7b701d45d821e83d46cf6ac284056cdbb29fd",
+  "current_head": "08e327e2",
   "current_theme": {
     "theme_name": "Hilda (Ericsson)",
     "color_system": "Ericsson Blue + teal accent",
@@ -17,6 +17,32 @@
     "oldest_row": "2026-06-14T00:09:46+07:00"
   },
   "milestones": [
+    {
+      "id": "milestone-20260628-theme-checkpoint-tr-c-khi-tri-819b5e",
+      "type": "theme",
+      "title": "Theme Checkpoint — Trước khi triển khai home-magazine layout (scoped build/QA)",
+      "summary": "Mốc rollback trước khi chuyển homepage từ home-discovery layout sang home-magazine layout. Build scoped QA và fix series Liobank.",
+      "commit": "08e327e2",
+      "merge_commit": "",
+      "pr": "",
+      "branch": "",
+      "date": "2026-06-28T20:15:50+07:00",
+      "status": "rollback-target",
+      "scope": "templates/index.html,sass/_home-magazine.scss,static/js/home-magazine.js,data/theme-log.json",
+      "routes": [
+        "/"
+      ],
+      "files": [],
+      "restore_mode": "rollback-full",
+      "restore_hint": "",
+      "qa": {
+        "zola_build": "unknown",
+        "qa_check": "unknown",
+        "qa_404": "unknown"
+      },
+      "risk": "high",
+      "notes": "Rollback toàn bộ repo về commit này để khôi phục home-discovery layout cũ. Home-magazine là layout mới với JSON data blob + client render + CSS grid."
+    },
     {
       "id": "milestone-20260628-rollback-milestones-registry-t-44ae2b",
       "type": "feature",
