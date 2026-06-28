@@ -15,34 +15,35 @@
 {# 2-cấp: Trang chủ → trang hiện tại. KHÔNG link "/tools/" (content/tools/_index.md render=false → route không tồn tại → 404). #}
 {{ bc::tools(base_url=config.base_url, section_label=page.title | default(value="Lịch & sự kiện")) }}
 <div class="priv" data-priv-root>
-  {# ===== Loading (auth check) ===== #}
+  {# ===== Loading (public data check) ===== #}
   <div class="priv__loading" data-priv-loading>
     <span class="priv__spinner" aria-hidden="true"></span>
-    <span>Đang kiểm tra đăng nhập…</span>
+    <span>Đang tải lịch…</span>
   </div>
 
-  {# ===== Login-required gate — NO private data rendered until authed ===== #}
+  {# ===== Optional login gate — shows when backend down or user wants to edit =====
+      This gate is optional (not a hard block). Read-only public mode is always available. #}
   <section class="priv__gate" data-priv-gate hidden role="dialog" aria-labelledby="priv-gate-title">
     <div class="priv__gate-card">
       <div class="priv__gate-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="40" height="40"><path d="M12 1l9 4v6c0 5-3.8 9.4-9 11-5.2-1.6-9-6-9-11V5l9-4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <h1 class="priv__gate-title" id="priv-gate-title">Khu vực riêng tư</h1>
-      <p class="priv__gate-sub">
-        Lịch &amp; Bảng ghi chú 3M là công cụ cá nhân. Đăng nhập GitHub để truy cập —
-        dữ liệu được lưu an toàn phía máy chủ, không hiển thị công khai.
+      <h1 class="priv__gate-title" id="priv-gate-title">Đăng nhập để chỉnh sửa</h1>
+      <p class="priv__gate-sub" data-priv-gate-reason>
+        Lịch được chia sẻ công khai, nhưng chỉ chủ sở hữu mới có thể tạo & chỉnh sửa.
       </p>
       <p class="priv__gate-error" data-priv-error role="status" aria-live="polite" hidden></p>
       <button type="button" class="priv__gate-btn" data-priv-login>
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 00-3.64 22.42c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.75.4-1.27.73-1.56-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 015.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.25 5.69.41.36.78 1.05.78 2.12v3.14c0 .31.21.67.8.56A11.5 11.5 0 0012 .5z"/></svg>
-        <span>Đăng nhập GitHub</span>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+        <span>Đăng nhập với Google</span>
       </button>
       <p class="priv__gate-hint" data-priv-hint hidden>Backend xác thực chưa được cấu hình.</p>
     </div>
   </section>
 
-  {# ===== Authenticated workspace — Calendar (left) + 3M Whiteboard (right) ===== #}
+  {# ===== App workspace (read-only public or authenticated edit) ===== #}
   <div class="priv__app" data-priv-app hidden>
+    {# Userbar shows when authenticated (has edit mode); hidden in public read-only #}
     <header class="priv__userbar" data-priv-userbar hidden>
       <img class="priv__avatar" data-priv-avatar src="" alt="" loading="lazy" decoding="async">
       <span class="priv__userinfo">
@@ -53,13 +54,23 @@
       <button type="button" class="priv__logout" data-priv-logout>Đăng xuất</button>
     </header>
 
+    {# Public read-only indicator (shown when viewing public calendar without auth) #}
+    <header class="priv__pubbar" data-priv-pubbar hidden>
+      <span class="priv__pubinfo">
+        <svg class="priv__pubicon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/></svg>
+        <span>Chế độ xem công khai</span>
+      </span>
+      <button type="button" class="priv__publogin" data-priv-show-login>Đăng nhập để chỉnh sửa</button>
+    </header>
+
     <div class="priv__workspace">
       <section class="priv__pane priv__pane--cal" aria-label="Lịch">
 <div id="cal-app" class="cal" data-cal-root>
   {# ===== Toolbar — Microsoft 365 command bar ===== #}
   <header class="cal__toolbar">
     <div class="cal__toolbar-group">
-      <button type="button" class="cal__btn cal__btn--primary" data-cal-new>
+      {# "New event" button only visible when authenticated (edit mode) #}
+      <button type="button" class="cal__btn cal__btn--primary" data-cal-new hidden data-cal-edit-only>
         <svg class="cal__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
         <span>Sự kiện mới</span>
       </button>
@@ -167,10 +178,15 @@
       </div>
 
       <footer class="cal__dialog-foot">
-        <button type="button" class="cal__btn cal__btn--danger" data-cal-delete hidden>Xoá</button>
+        <button type="button" class="cal__btn cal__btn--danger" data-cal-delete hidden data-cal-edit-only>Xoá</button>
         <span class="cal__dialog-spacer"></span>
         <button type="button" class="cal__btn cal__btn--ghost" data-cal-modal-close>Huỷ</button>
-        <button type="submit" class="cal__btn cal__btn--primary">Lưu</button>
+        <button type="submit" class="cal__btn cal__btn--primary" data-cal-edit-only hidden>Lưu</button>
+        {# Read-only view note button #}
+        <p class="cal__dialog-readonly" data-cal-readonly-note hidden>
+          <svg class="cal__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+          <span>Chế độ xem công khai — bạn không thể chỉnh sửa</span>
+        </p>
       </footer>
     </form>
   </div>
@@ -211,8 +227,8 @@
 {% block sidebar %}{% endblock %}
 
 {% block extra_scripts %}
-    {# Shared GitHub-OAuth guard first → emits private-auth:authed for the apps. #}
-    <script src="{{ get_url(path='js/private-auth.js') }}" defer></script>
+    {# Optional Google OAuth with fallback to public read-only mode. #}
+    <script src="{{ get_url(path='js/public-auth.js') }}" defer></script>
     <script src="{{ get_url(path='js/calendar/app.js') }}" defer></script>
     <script src="{{ get_url(path='js/whiteboard/app.js') }}" defer></script>
 {% endblock %}

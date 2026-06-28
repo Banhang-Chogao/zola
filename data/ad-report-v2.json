@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "report_number": 1,
-  "generated_at": "2026-06-28T02:28:36Z",
+  "report_number": 5,
+  "generated_at": "2026-06-28T02:37:22Z",
   "monetization_score": 78,
   "ad_density": {
     "verdict": "too_dense",
@@ -1359,10 +1359,212 @@
       ]
     }
   ],
+  "action_suggestions": {
+    "immediate_actions": [
+      {
+        "priority": "P0",
+        "action": "Optimize Core Web Vitals",
+        "detail": "Mobile LCP 9.2 ss — trim CSS + font subsetting trước khi bật ads (tránh layout shift)."
+      },
+      {
+        "priority": "P1",
+        "action": "Reduce ad slot count",
+        "detail": "Giảm đến 3–4 slots tối đa — tránh accidental click + CLS penalty."
+      },
+      {
+        "priority": "P1",
+        "action": "Enable live AdSense units",
+        "detail": "Placeholder CSS đã có — thêm unit ID + viewability QA trước khi go live."
+      },
+      {
+        "priority": "P2",
+        "action": "Add FAQ schema to top posts",
+        "detail": "Tăng featured snippet chance + CTR ở top 20 high-value posts."
+      }
+    ],
+    "posts_to_optimize": [
+      {
+        "title": "V-Plus hay V-Advance: chọn gói VietinBank nào?",
+        "url": "https://seomoney.org/posting/so-sanh-v-plus-va-v-advance-chon-goi-nao/",
+        "category": "Ngân hàng",
+        "score": 100,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "V-Advance VietinBank: đặc quyền Tài chính–Lifestyle",
+        "url": "https://seomoney.org/posting/vietinbank-v-advance-nang-tam-trai-nghiem/",
+        "category": "Ngân hàng",
+        "score": 100,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "V-Plus VietinBank: quyền lợi chi tiết chỉ 20.000đ/tháng",
+        "url": "https://seomoney.org/posting/vietinbank-v-plus-chi-tiet-quyen-loi/",
+        "category": "Ngân hàng",
+        "score": 100,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "V-Plus & V-Advance VietinBank: gói tiện ích mới là gì?",
+        "url": "https://seomoney.org/posting/vietinbank-v-plus-v-advance-la-gi/",
+        "category": "Ngân hàng",
+        "score": 100,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "Bảo mật VietinBank: ngân hàng số an toàn ra sao?",
+        "url": "https://seomoney.org/posting/bao-mat-ngan-hang-so-vietinbank/",
+        "category": "Ngân hàng",
+        "score": 94,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "Chuyển đổi số VietinBank: chiến lược và kết quả",
+        "url": "https://seomoney.org/posting/chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua/",
+        "category": "Ngân hàng",
+        "score": 94,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "Công nghệ VietinBank thay đổi trải nghiệm khách hàng",
+        "url": "https://seomoney.org/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang/",
+        "category": "Ngân hàng",
+        "score": 94,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
+        "url": "https://seomoney.org/posting/bao-lau-de-thay-ket-qua-seo/",
+        "category": "Công nghệ",
+        "score": 93,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "Chặn trang khỏi Google Search khi cần (noindex, robots)",
+        "url": "https://seomoney.org/posting/chan-trang-khoi-google-search/",
+        "category": "Công nghệ",
+        "score": 93,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "Lịch sử VietinBank: những cột mốc phát triển đáng nhớ",
+        "url": "https://seomoney.org/posting/cot-moc-lich-su-phat-trien-vietinbank/",
+        "category": "Ngân hàng",
+        "score": 93,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      }
+    ],
+    "topics_to_write": [
+      {
+        "category": "Tài chính",
+        "current_posts": 9,
+        "max_rpm": 95,
+        "suggested_expansion": "Add 6 posts (6–12 post cluster = hub-spoke model)",
+        "rationale": "Đủ thứ hạng seed — mở rộng để capture topic depth + cross-link bonus"
+      },
+      {
+        "category": "Khoa học",
+        "current_posts": 9,
+        "max_rpm": 78,
+        "suggested_expansion": "Add 6 posts (6–12 post cluster = hub-spoke model)",
+        "rationale": "Đủ thứ hạng seed — mở rộng để capture topic depth + cross-link bonus"
+      },
+      {
+        "category": "SEO",
+        "current_posts": 6,
+        "max_rpm": 78,
+        "suggested_expansion": "Add 9 posts (6–12 post cluster = hub-spoke model)",
+        "rationale": "Đủ thứ hạng seed — mở rộng để capture topic depth + cross-link bonus"
+      },
+      {
+        "category": "Kiến thức",
+        "current_posts": 3,
+        "max_rpm": 78,
+        "suggested_expansion": "Add 12 posts (6–12 post cluster = hub-spoke model)",
+        "rationale": "Đủ thứ hạng seed — mở rộng để capture topic depth + cross-link bonus"
+      },
+      {
+        "category": "Thế giới",
+        "current_posts": 4,
+        "max_rpm": 78,
+        "suggested_expansion": "Add 11 posts (6–12 post cluster = hub-spoke model)",
+        "rationale": "Đủ thứ hạng seed — mở rộng để capture topic depth + cross-link bonus"
+      }
+    ],
+    "internal_link_suggestions": [
+      {
+        "source_title": "Ngày 19 — Mệnh lệnh & rủ rê 으세요, ㅂ시다, 을까요 tiếng Hàn",
+        "source_url": "https://seomoney.org/posting/cau-menh-lenh-ru-re-tieng-han/",
+        "target_title": "Ngày 30 — Tổng ôn & chiến lược thi TOPIK I tiếng Hàn",
+        "target_url": "https://seomoney.org/posting/tong-on-chien-luoc-thi-topik-tieng-han/",
+        "anchor_text": "Ngày 30 — Tổng ôn & chiến lược thi TOPIK I tiếng H",
+        "reason": "Link từ 'Ngày 19 — Mệnh lệnh & rủ rê 으세요, ㅂ시다, 을까' tới hub 'Ngày 30 — Tổng ôn & chiến lược thi TOPIK' — tăng crawl depth Học tiếng Hàn"
+      },
+      {
+        "source_title": "Ngày 8: 이다/입니다 & giới thiệu bản thân tiếng Hàn",
+        "source_url": "https://seomoney.org/posting/cau-truc-ipnida-gioi-thieu-ban-than-tieng-han/",
+        "target_title": "Ngày 30 — Tổng ôn & chiến lược thi TOPIK I tiếng Hàn",
+        "target_url": "https://seomoney.org/posting/tong-on-chien-luoc-thi-topik-tieng-han/",
+        "anchor_text": "Ngày 30 — Tổng ôn & chiến lược thi TOPIK I tiếng H",
+        "reason": "Link từ 'Ngày 8: 이다/입니다 & giới thiệu bản thân tiế' tới hub 'Ngày 30 — Tổng ôn & chiến lược thi TOPIK' — tăng crawl depth Học tiếng Hàn"
+      },
+      {
+        "source_title": "CodeQL: Công cụ phân tích code tự động tìm lỗ hổng bảo mật",
+        "source_url": "https://seomoney.org/posting/codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien/",
+        "target_title": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
+        "target_url": "https://seomoney.org/posting/bao-lau-de-thay-ket-qua-seo/",
+        "anchor_text": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
+        "reason": "Link từ 'CodeQL: Công cụ phân tích code tự động t' tới hub 'Bao lâu để thấy kết quả SEO sau khi chỉn' — tăng crawl depth Công nghệ"
+      },
+      {
+        "source_title": "Ngày 9: Đại từ & chỉ định 이/그/저 trong tiếng Hàn",
+        "source_url": "https://seomoney.org/posting/dai-tu-chi-dinh-tieng-han/",
+        "target_title": "Ngày 30 — Tổng ôn & chiến lược thi TOPIK I tiếng Hàn",
+        "target_url": "https://seomoney.org/posting/tong-on-chien-luoc-thi-topik-tieng-han/",
+        "anchor_text": "Ngày 30 — Tổng ôn & chiến lược thi TOPIK I tiếng H",
+        "reason": "Link từ 'Ngày 9: Đại từ & chỉ định 이/그/저 trong ti' tới hub 'Ngày 30 — Tổng ôn & chiến lược thi TOPIK' — tăng crawl depth Học tiếng Hàn"
+      }
+    ],
+    "adsense_placements": [
+      {
+        "slot_type": "sidebar (desktop only)",
+        "status": "ready",
+        "detail": "Sticky unit safe on desktop — hide on mobile ≤720px (already implemented)"
+      }
+    ]
+  },
   "history": [
     {
       "report_number": 1,
-      "generated_at": "2026-06-28T02:28:36Z",
+      "generated_at": "2026-06-27T21:30:45Z",
+      "monetization_score": 78,
+      "ad_density_verdict": "too_dense",
+      "ui_grade": "B+"
+    },
+    {
+      "report_number": 2,
+      "generated_at": "2026-06-28T01:25:52Z",
+      "monetization_score": 78,
+      "ad_density_verdict": "too_dense",
+      "ui_grade": "B+"
+    },
+    {
+      "report_number": 3,
+      "generated_at": "2026-06-28T01:36:59Z",
+      "monetization_score": 78,
+      "ad_density_verdict": "too_dense",
+      "ui_grade": "B+"
+    },
+    {
+      "report_number": 4,
+      "generated_at": "2026-06-28T02:14:41Z",
+      "monetization_score": 78,
+      "ad_density_verdict": "too_dense",
+      "ui_grade": "B+"
+    },
+    {
+      "report_number": 5,
+      "generated_at": "2026-06-28T02:37:22Z",
       "monetization_score": 78,
       "ad_density_verdict": "too_dense",
       "ui_grade": "B+"
@@ -1370,7 +1572,7 @@
   ],
   "scan_stats": {
     "total_posts": 197,
-    "incremental": false,
+    "incremental": true,
     "pages_scanned": 223,
     "site_seo_score": 99.8
   },
@@ -1379,5 +1581,5 @@
     "lcp": "9.2 s",
     "cls": "0"
   },
-  "latest_report_path": "reports/ad-report-v2/report-001-20260628.md"
+  "latest_report_path": "reports/ad-report-v2/report-005-20260628.md"
 }
