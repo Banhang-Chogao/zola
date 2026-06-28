@@ -2,10 +2,11 @@
 title = "Kinh nghiệm refactor homepage Zola: khi code đúng nhưng chưa nên push"
 description = "Một case study thực tế khi refactor homepage blog SEOMONEY theo layout editorial: QA pass, scope sạch, nhưng build chưa có exit code 0 nên vẫn phải dừng đúng lúc."
 date = 2026-06-28T23:10:00+07:00
+aliases = ["/kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push/"]
 updated = 2026-06-28T23:10:00+07:00
 [taxonomies]
 categories = ["Công nghệ"]
-tags = ["Zola", "WebOps", "QA", "CI/CD", "refactor", "homepage", "SEO"]
+tags = ["ci/cd", "homepage", "qa", "refactor", "seo", "webops", "zola"]
 [extra]
 author = "Duy Nguyen"
 featured = true

@@ -1,12 +1,12 @@
 +++
 title = "Kinh nghiệm xây CMS-V2 cho blog Zola: một đêm từ PR sạch đến deploy sống"
 date = 2026-06-29
+aliases = ["/kinh-nghiem-xay-cms-v2-cho-blog-zola/"]
 updated = 2026-06-29
 
 [taxonomies]
 categories = ["Công nghệ"]
-tags = ["AI WebOps", "Zola", "CMS", "GitHub Pages", "GitHub Actions", "SEOMONEY"]
-
+tags = ["ai webops", "cms", "github actions", "github pages", "seomoney", "zola"]
 [extra]
 seo_title = "Kinh nghiệm xây CMS-V2 cho blog Zola: PR sạch, QA và deploy"
 seo_description = "Ghi lại kinh nghiệm xây CMS-V2 cho blog Zola: giữ PR sạch, admin gate, xử lý GitHub Pages deploy, kiểm tra JS live và tránh fake publish."
@@ -46,14 +46,3 @@ Cách kiểm tra đúng là dùng bằng chứng cụ thể:
 ```bash
 curl -I https://seomoney.org/cms-v2/
 curl -L https://seomoney.org/cms-v2/ | grep "cms-v2.js"
-
-
-
-
-
-
-
-
-
-
-
