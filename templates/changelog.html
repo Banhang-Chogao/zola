@@ -61,7 +61,7 @@
 
         <div class="changelog__error" data-changelog-error hidden>
             <p class="changelog__error-text" data-error-text></p>
-            <a href="{{ config.base_url | safe }}/editor/" class="changelog__error-link">Đăng nhập</a>
+            <p class="changelog__error-hint">Vui lòng thử tải lại trang.</p>
         </div>
 
         <ol class="changelog__list" data-changelog-list hidden></ol>
@@ -95,8 +95,25 @@
             </li>
         </template>
 
+        {# Admin-only panel — hidden by default, shown only if user is authenticated as admin #}
+        <aside class="changelog__admin-panel" data-changelog-admin-panel hidden>
+            <h2 class="changelog__admin-title">Thao tác Admin</h2>
+            <div class="changelog__admin-actions">
+                <button class="changelog__admin-btn" id="btn-export-changelog" aria-label="Tải xuống changelog dạng JSON">
+                    Tải xuống JSON
+                </button>
+                <button class="changelog__admin-btn" id="btn-sync-changelog" aria-label="Đồng bộ changelog từ VIPZone">
+                    Đồng bộ dữ liệu
+                </button>
+                <a href="{{ config.base_url | safe }}/editor/" class="changelog__admin-link">
+                    Soạn changelog
+                </a>
+            </div>
+        </aside>
+
         <footer class="changelog__footer">
-            <p>Dữ liệu được lưu an toàn trên backend VIPZone. Chỉ admin mới có quyền xem/sửa dữ liệu changelog.</p>
+            <p>Dữ liệu changelog được lưu an toàn trên backend VIPZone.</p>
+            <p class="changelog__footer-note">Chỉ admin mới có quyền tải xuống hoặc chỉnh sửa dữ liệu changelog.</p>
         </footer>
     </section>
 {% endblock main %}

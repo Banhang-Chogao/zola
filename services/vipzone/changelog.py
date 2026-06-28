@@ -60,8 +60,31 @@ class ChangelogEntryOut(BaseModel):
     created_at: str
 
 
+@router.get("/api/vipzone/changelog", response_model=dict[str, Any])
+async def list_changelog_public() -> dict[str, Any]:
+    """List all changelog entries (newest first). PUBLIC — no auth required."""
+    db = get_db()
+    entries = db.list_changelog()
+    # Ensure only public-safe fields are returned
+    public_entries = [
+        {
+            "id": e.get("id"),
+            "title": e.get("title"),
+            "tag": e.get("tag"),
+            "date": e.get("date"),
+            "pr": e.get("pr"),
+            "commit": e.get("commit"),
+            "lines_added": e.get("lines_added"),
+            "lines_removed": e.get("lines_removed"),
+            "highlights": e.get("highlights", []),
+        }
+        for e in entries
+    ]
+    return {"items": public_entries}
+
+
 @router.get("/api/vipzone/admin/changelog", response_model=dict[str, Any])
-async def list_changelog(_admin: dict[str, Any] = Depends(_require_admin)) -> dict[str, Any]:
+async def list_changelog_admin(_admin: dict[str, Any] = Depends(_require_admin)) -> dict[str, Any]:
     """List all changelog entries (newest first). Admin-only."""
     db = get_db()
     entries = db.list_changelog()
