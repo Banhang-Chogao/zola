@@ -355,6 +355,208 @@ def _rpm_suggestions(posts: list[dict], categories: list[dict]) -> list[str]:
     return suggestions[:6]
 
 
+def _get_real_category(categories: list[str]) -> str:
+    """Extract real category from list, filtering out fake categories."""
+    skip_cats = {"tất cả", "all", "báo chí", "baochi", "premium"}
+    for cat in categories:
+        if cat.lower() not in skip_cats:
+            return cat
+    return "—"
+
+
+def _immediate_actions(pagespeed: dict | None, compliance: dict | None, ad_density: dict, ui_review: dict) -> list[dict]:
+    """Generate immediate action items from performance & compliance data."""
+    actions: list[dict] = []
+
+    mobile = (pagespeed or {}).get("mobile") or {}
+    perf = mobile.get("performance")
+    lcp = mobile.get("lcp")
+
+    # Mobile performance
+    if perf and perf < 60:
+        actions.append({
+            "priority": "P0",
+            "action": "Optimize Core Web Vitals",
+            "detail": f"Mobile LCP {lcp}s — trim CSS + font subsetting trước khi bật ads (tránh layout shift).",
+        })
+
+    # Ad density warning
+    if ad_density["verdict"] == "too_dense":
+        actions.append({
+            "priority": "P1",
+            "action": "Reduce ad slot count",
+            "detail": "Giảm đến 3–4 slots tối đa — tránh accidental click + CLS penalty.",
+        })
+
+    # AdSense readiness
+    if ad_density["live_units"] == 0 and ad_density["slots"] > 0:
+        actions.append({
+            "priority": "P1",
+            "action": "Enable live AdSense units",
+            "detail": "Placeholder CSS đã có — thêm unit ID + viewability QA trước khi go live.",
+        })
+
+    # Compliance checks
+    comp_score = (compliance or {}).get("score")
+    if comp_score and comp_score < 85:
+        actions.append({
+            "priority": "P2",
+            "action": "Audit compliance issues",
+            "detail": f"Score {comp_score}/100 — fix headings + link density + heading hierarchy.",
+        })
+
+    # SEO schema
+    actions.append({
+        "priority": "P2",
+        "action": "Add FAQ schema to top posts",
+        "detail": "Tăng featured snippet chance + CTR ở top 20 high-value posts.",
+    })
+
+    return actions[:5]
+
+
+def _posts_to_optimize(posts: list[dict], categories: list[dict]) -> list[dict]:
+    """Posts with high potential but needing optimization."""
+    candidates: list[dict] = []
+
+    skip_cats = {"tất cả", "all", "báo chí", "baochi", "premium"}
+
+    for p in posts:
+        if p["monetization_score"] >= 70:  # High potential
+            real_cat = _get_real_category(p["categories"])
+            if real_cat == "—":
+                continue
+
+            # Weak internal links (< 3)
+            if p["internal_links"] < 3:
+                candidates.append({
+                    "title": p["title"],
+                    "url": p["url"],
+                    "category": real_cat,
+                    "score": p["monetization_score"],
+                    "reason": f"High potential ({p['rpm_score']} RPM) nhưng weak internal links ({p['internal_links']})",
+                })
+            # Missing FAQ schema
+            elif "[[extra.faq]]" not in str(p).lower():
+                candidates.append({
+                    "title": p["title"],
+                    "url": p["url"],
+                    "category": real_cat,
+                    "score": p["monetization_score"],
+                    "reason": "Thiếu FAQ schema — tăng featured snippet potential",
+                })
+
+    # Sort by score desc
+    candidates.sort(key=lambda x: -x["score"])
+    return candidates[:10]
+
+
+def _topics_to_write(posts: list[dict], categories: list[dict]) -> list[dict]:
+    """Identify content clusters with RPM potential but low coverage."""
+    topics: list[dict] = []
+
+    # Posts per category
+    cat_posts: dict[str, int] = defaultdict(int)
+    cat_rpm: dict[str, float] = defaultdict(float)
+
+    skip_cats = {"tất cả", "all", "báo chí", "baochi", "premium"}
+    for p in posts:
+        for cat in p["categories"]:
+            if cat.lower() not in skip_cats:
+                cat_posts[cat] += 1
+                cat_rpm[cat] = max(cat_rpm.get(cat, 0), p["rpm_score"])
+
+    # High RPM, low coverage
+    for cat, rpm in sorted(cat_rpm.items(), key=lambda x: -x[1]):
+        count = cat_posts[cat]
+        if count >= 3 and count <= 12:  # Sweet spot for cluster expansion
+            topics.append({
+                "category": cat,
+                "current_posts": count,
+                "max_rpm": int(rpm),
+                "suggested_expansion": f"Add {max(2, 15 - count)} posts (6–12 post cluster = hub-spoke model)",
+                "rationale": f"Đủ thứ hạng seed — mở rộng để capture topic depth + cross-link bonus",
+            })
+
+    return topics[:8]
+
+
+def _internal_links_suggestions(posts: list[dict]) -> list[dict]:
+    """Posts needing internal link connections to high-value posts."""
+    suggestions: list[dict] = []
+
+    # High-value posts (monetization ≥ 75)
+    hub_posts = [p for p in posts if p["monetization_score"] >= 75]
+
+    # Low-link posts (internal_links < 2) with medium potential
+    spoke_posts = [p for p in posts if p["internal_links"] < 2 and p["monetization_score"] >= 50]
+
+    if not hub_posts or not spoke_posts:
+        return suggestions
+
+    # Match by category
+    for spoke in spoke_posts[:5]:
+        spoke_cat = _get_real_category(spoke["categories"])
+        if spoke_cat == "—":
+            continue
+
+        # Find hub in same category
+        matching_hubs = [h for h in hub_posts if spoke_cat in [_get_real_category(h["categories"])]]
+        if matching_hubs:
+            hub = matching_hubs[0]
+            suggestions.append({
+                "source_title": spoke["title"],
+                "source_url": spoke["url"],
+                "target_title": hub["title"],
+                "target_url": hub["url"],
+                "anchor_text": hub["title"][:50],  # Use target title as anchor
+                "reason": f"Link từ '{spoke['title'][:40]}' tới hub '{hub['title'][:40]}' — tăng crawl depth {spoke_cat}",
+            })
+
+    return suggestions[:8]
+
+
+def _adsense_placement_actions(ad_density: dict, ui_review: dict, posts: list[dict]) -> list[dict]:
+    """AdSense placement readiness recommendations."""
+    actions: list[dict] = []
+
+    # Base recommendation based on ad density
+    if ad_density["verdict"] == "optimal":
+        actions.append({
+            "slot_type": "in-content (after paragraph 2)",
+            "status": "ready",
+            "detail": "Enable 300×250 + 336×280 responsive unit — tap target safe on mobile",
+        })
+        actions.append({
+            "slot_type": "in-content (before conclusion)",
+            "status": "ready",
+            "detail": "Enable 300×250 unit — distance from CTA button checked",
+        })
+    elif ad_density["verdict"] == "too_sparse":
+        actions.append({
+            "slot_type": "in-content (after para 2 + before conclusion)",
+            "status": "add_placeholder",
+            "detail": "Thêm 2 placeholder slots — verify viewability sau 1 tuần traffic",
+        })
+
+    # Mobile-specific checks
+    actions.append({
+        "slot_type": "sidebar (desktop only)",
+        "status": "ready",
+        "detail": "Sticky unit safe on desktop — hide on mobile ≤720px (already implemented)",
+    })
+
+    # Manual QA required
+    if ad_density["live_units"] > 0:
+        actions.append({
+            "slot_type": "all live units",
+            "status": "needs_qa",
+            "detail": "Manual viewability QA — check viewport coverage ≥50% on mobile + desktop (weekly)",
+        })
+
+    return actions[:6]
+
+
 def _render_markdown(payload: dict) -> str:
     n = payload["report_number"]
     lines = [
@@ -369,7 +571,58 @@ def _render_markdown(payload: dict) -> str:
     for f in payload["ui_review"]["findings"]:
         icon = "⚠️" if f["level"] == "warn" else "✅"
         lines.append(f"- {icon} **{f['area']}:** {f['text']}")
-    lines.extend(["", "## Revenue Opportunities (Top 20)", ""])
+
+    # Gợi ý sau báo cáo (Action suggestions)
+    lines.extend(["", "## Gợi ý sau báo cáo", ""])
+
+    # 1. Việc nên làm ngay
+    lines.append("### 1️⃣ Việc nên làm ngay")
+    lines.append("")
+    for action in payload.get("action_suggestions", {}).get("immediate_actions", []):
+        lines.append(f"- **[{action['priority']}] {action['action']}** — {action['detail']}")
+    lines.append("")
+
+    # 2. Bài nên tối ưu
+    lines.append("### 2️⃣ Bài nên tối ưu")
+    lines.append("")
+    for post in payload.get("action_suggestions", {}).get("posts_to_optimize", []):
+        lines.append(f"- [{post['title']}]({post['url']}) · {post['category']} ({post['score']}) — {post['reason']}")
+    if not payload.get("action_suggestions", {}).get("posts_to_optimize"):
+        lines.append("_(Tất cả bài đã tối ưu tốt)_")
+    lines.append("")
+
+    # 3. Chủ đề nên viết tiếp
+    lines.append("### 3️⃣ Chủ đề nên viết tiếp")
+    lines.append("")
+    for topic in payload.get("action_suggestions", {}).get("topics_to_write", []):
+        lines.append(f"- **{topic['category']}** ({topic['current_posts']} posts) · Max RPM {topic['max_rpm']}")
+        lines.append(f"  - Đề xuất: {topic['suggested_expansion']}")
+        lines.append(f"  - Lý do: {topic['rationale']}")
+    lines.append("")
+
+    # 4. Internal links nên thêm
+    lines.append("### 4️⃣ Internal links nên thêm")
+    lines.append("")
+    for link in payload.get("action_suggestions", {}).get("internal_link_suggestions", []):
+        lines.append(f"- **Từ:** [{link['source_title']}]({link['source_url']})")
+        lines.append(f"  **Tới:** [{link['target_title']}]({link['target_url']})")
+        lines.append(f"  **Anchor:** `{link['anchor_text']}`")
+        lines.append(f"  **Lý do:** {link['reason']}")
+    if not payload.get("action_suggestions", {}).get("internal_link_suggestions"):
+        lines.append("_(Internal linking đã tối ưu)_")
+    lines.append("")
+
+    # 5. AdSense placement actions
+    lines.append("### 5️⃣ AdSense placement actions")
+    lines.append("")
+    for action in payload.get("action_suggestions", {}).get("adsense_placements", []):
+        status_emoji = "✅" if action["status"] == "ready" else "⚠️" if action["status"] == "needs_qa" else "📝"
+        lines.append(f"- {status_emoji} **{action['slot_type']}** ({action['status'].upper()})")
+        lines.append(f"  {action['detail']}")
+    lines.append("")
+
+    # Original sections
+    lines.extend(["## Revenue Opportunities (Top 20)", ""])
     for i, p in enumerate(payload["priority_posts_top20"][:20], 1):
         lines.append(f"{i}. [{p['title']}]({p['url']}) — score {p['monetization_score']} · {', '.join(p['rpm_topics'][:2]) or 'general'}")
     lines.extend(["", "## Top Adsense Candidates (50)", ""])
@@ -398,6 +651,13 @@ def build_report(*, force_full: bool = False) -> dict:
     ui_review = _ui_review(pagespeed, compliance, posts)
     categories = _category_opportunities(posts)
     keywords = _extract_keywords(posts)
+
+    # Generate action suggestions
+    immediate_actions = _immediate_actions(pagespeed, compliance, ad_density, ui_review)
+    posts_to_optimize = _posts_to_optimize(posts, categories)
+    topics_to_write = _topics_to_write(posts, categories)
+    link_suggestions = _internal_links_suggestions(posts)
+    adsense_placements = _adsense_placement_actions(ad_density, ui_review, posts)
 
     ranked = sorted(posts, key=lambda p: (-p["monetization_score"], -p["rpm_score"], -p["word_count"]))
     top50 = [
@@ -458,6 +718,13 @@ def build_report(*, force_full: bool = False) -> dict:
             }
             for p in top20
         ],
+        "action_suggestions": {
+            "immediate_actions": immediate_actions,
+            "posts_to_optimize": posts_to_optimize,
+            "topics_to_write": topics_to_write,
+            "internal_link_suggestions": link_suggestions,
+            "adsense_placements": adsense_placements,
+        },
         "history": history,
         "scan_stats": {
             "total_posts": len(posts),
