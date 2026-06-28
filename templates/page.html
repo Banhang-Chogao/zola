@@ -8,7 +8,6 @@
 {% import "macros/series-hub.html" as series_hub %}
 {% import "macros/premium.html" as premium %}
 {% import "macros/placement.html" as placement %}
-{% import "partials/ad-placeholder.html" as ad %}
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
 {% block main %}
@@ -124,20 +123,6 @@
             </div>
         </header>
 
-        {# Ad banner — sau này thay link/ảnh khi có quảng cáo #}
-        <a class="ad-banner" href="{{ config.base_url }}" title="Về trang chủ">
-            <div class="ad-banner__image">
-                <img src="{{ get_url(path='img/placeholder/placeholder-wide.svg') }}" alt="Banner quảng cáo — về trang chủ" onerror="this.style.display='none'; this.parentNode.classList.add('ad-banner__image--placeholder')" loading="lazy" decoding="async">
-                <span class="ad-banner__icon" aria-hidden="true">🐻</span>
-            </div>
-            <div class="ad-banner__text">
-                <span class="ad-banner__label">QUẢNG CÁO</span>
-                <h3 class="ad-banner__title">Đặt banner quảng cáo của bạn tại đây</h3>
-                <p class="ad-banner__desc">Nhấp để về trang chủ — Khu vực này sẽ hiển thị quảng cáo khi có hợp đồng.</p>
-            </div>
-            <span class="ad-banner__arrow" aria-hidden="true">→</span>
-        </a>
-
         <div class="post-single__content">
             {# ===== Mục lục (TOC) — tự động từ native page.toc cho MỌI bài có
                >= 3 heading (H2/H3). Anchor dùng id heading thật (custom {#id}
@@ -171,9 +156,6 @@
             {% endif %}
             {# Content placement hook: post_after_intro (before main body). #}
             {{ placement::render(id="post_after_intro", page=page) }}
-
-            {# Ad placeholder: inline ad after TOC #}
-            {{ ad::placeholder(id="article-ad-inline-1", type="article-inline", label="Quảng cáo") }}
 
             {{ page.content | safe }}
         </div>
@@ -278,9 +260,6 @@
                 {% endif %}
             </div>
         </aside>
-
-        {# Ad placeholder: end of article, before related #}
-        {{ ad::placeholder(id="article-ad-end", type="article-end", label="Quảng cáo") }}
 
         {# Content placement hook: post_before_related. #}
         {{ placement::render(id="post_before_related", page=page) }}
