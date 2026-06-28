@@ -473,10 +473,25 @@
 
     {# Bake metadata bài viết → editor.js render list view tức thì 0ms. Background
        refresh sẽ diff với API thật để mark bài mới publish (chưa kịp build).
-       Include posts from BOTH posting/ và baochi/ sections để match homepage post count. #}
-    {% set posting_section = get_section(path="posting/_index.md") %}
-    {% set baochi_section = get_section(path="baochi/_index.md") %}
-    {% set all_posts = posting_section.pages | concat(with=baochi_section.pages) | sort(attribute="date") | reverse %}
+
+       Include ALL article sections (not just posting/ & baochi/) to show:
+       - posting/ — main articles
+       - baochi/ — imported/curated articles
+       - khoa-hoc/, the-gioi/, cong-nghe/, du-lich/, ngan-hang/, bao-hiem/, doi-song/, the-thao/ — category-specific sections
+
+       Skip non-article sections:
+       - admin*, editor, insights, pages, stats, tools, archive, changelog, content
+    #}
+    {% set article_sections = ["posting", "baochi", "khoa-hoc", "the-gioi", "cong-nghe", "du-lich", "ngan-hang", "bao-hiem", "doi-song", "the-thao"] %}
+    {% set all_posts = [] %}
+    {% for section_name in article_sections %}
+        {% set section_path = section_name ~ "/_index.md" %}
+        {% set section = get_section(path=section_path) %}
+        {% if section %}
+            {% set_global all_posts = all_posts | concat(with=section.pages) %}
+        {% endif %}
+    {% endfor %}
+    {% set all_posts = all_posts | sort(attribute="date") | reverse %}
     {% set seo_data = load_data(path="data/seo-qa-scores.json", required=false) %}
     <script type="application/json" id="posts-metadata">
         [{% for page in all_posts -%}
