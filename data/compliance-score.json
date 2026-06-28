@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-06-27T19:00:31Z",
-  "score": 95.7,
-  "grade": "A+",
+  "updated_at": "2026-06-28T10:59:41Z",
+  "score": 93.5,
+  "grade": "A",
   "mood": "good",
   "stats": {
-    "pass": 22,
-    "warn": 0,
+    "pass": 21,
+    "warn": 1,
     "fail": 1,
     "total": 23
   },
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "773/808 in range"
+          "detail": "818/857 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "808/808 complete"
+          "detail": "856/857 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "808/808 set"
+          "detail": "857/857 set"
         }
       ]
     },
@@ -46,42 +46,42 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "807/808 single H1"
+          "detail": "855/857 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "808/808 with lang"
+          "detail": "857/857 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "808/808 ready"
+          "detail": "857/857 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "808/808 pages"
+          "detail": "857/857 pages"
         }
       ]
     },
     {
       "id": "media",
       "label": "Media",
-      "score": 100.0,
-      "pass": 3,
-      "warn": 0,
+      "score": 83.3,
+      "pass": 2,
+      "warn": 1,
       "fail": 0,
       "items": [
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "807/808 pages covered"
+          "detail": "855/857 pages covered"
         },
         {
           "label": "Image weight",
-          "status": "pass",
-          "detail": "within budget"
+          "status": "warn",
+          "detail": "1 large file(s)"
         },
         {
           "label": "Image formats",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "194/194 articles"
+          "detail": "172/172 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "194/194 tagged"
+          "detail": "172/172 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "194/194 substantive"
+          "detail": "172/172 substantive"
         },
         {
           "label": "Unique titles",
@@ -171,7 +171,7 @@
         {
           "label": "GitHub Pages base path",
           "status": "fail",
-          "detail": "143 href(s) missing /zola/"
+          "detail": "149 href(s) missing /zola/"
         }
       ]
     },
@@ -186,7 +186,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "804/808 pages"
+          "detail": "853/857 pages"
         },
         {
           "label": "Skip navigation",
@@ -197,6 +197,10 @@
     }
   ],
   "highlights": [
+    {
+      "type": "warn",
+      "text": "Media: Image weight"
+    },
     {
       "type": "fail",
       "text": "Links: GitHub Pages base path"
@@ -216,28 +220,32 @@
     {
       "type": "pass",
       "text": "Structure: Heading focus"
-    },
-    {
-      "type": "pass",
-      "text": "Structure: Document language"
     }
   ],
-  "pages_scanned": 808,
-  "articles_scanned": 201,
+  "pages_scanned": 857,
+  "articles_scanned": 179,
   "fix_log": [
+    {
+      "category": "Media",
+      "label": "Image weight",
+      "check_status": "warn",
+      "outcome": "failed",
+      "message": "Chưa có auto-fix an toàn cho mục này (1 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-28T10:59:41Z"
+    },
     {
       "category": "Links",
       "label": "GitHub Pages base path",
       "check_status": "fail",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (143 href(s) missing /zola/). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-27T19:00:31Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (149 href(s) missing /zola/). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-28T10:59:41Z"
     }
   ],
   "fix_summary": {
-    "attempted": 1,
+    "attempted": 2,
     "fixed": 0,
-    "failed": 1,
+    "failed": 2,
     "skipped": 0
   }
 }
