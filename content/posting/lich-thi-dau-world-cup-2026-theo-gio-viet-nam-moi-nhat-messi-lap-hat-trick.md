@@ -56,4 +56,6 @@ Trong bối cảnh lịch thi đấu World Cup 2026 theo giờ Việt Nam mới 
 
 Tra cứu thêm [sơ đồ thi đấu FIFA World Cup 2026](/posting/so-do-thi-dau-fifa-world-cup-2026/) — bracket vòng 32 đội, nhánh đấu và lịch knock-out chi tiết.
 
+Tra cứu thêm [sơ đồ thi đấu FIFA World Cup 2026](/posting/so-do-thi-dau-fifa-world-cup-2026/) — bracket vòng 32 đội, nhánh đấu và lịch knock-out chi tiết.
+
 Đọc thêm: [Tháng 6 đi Hàn ăn gì, làm gì?](/posting/thang-6-di-han-an-gi-lam-gi/) nếu bạn đang lên kế hoạch du lịch mùa hè, hoặc [Tết Đoan Ngọ ở Hàn, Việt, Trung khác nhau thế nào?](/posting/tet-doan-ngo-han-viet-trung/) để khám phá văn hóa lễ tiết châu Á.
