@@ -1,16 +1,16 @@
 {
   "version": 2,
-  "report_number": 6,
-  "generated_at": "2026-06-28T05:37:37Z",
+  "report_number": 7,
+  "generated_at": "2026-06-28T10:08:59Z",
   "monetization_score": 84,
   "ad_density": {
     "verdict": "optimal",
     "slots": 4,
     "live_units": 0,
     "files": [
+      "sass/_media-guard.scss",
       "sass/_banner.scss",
       "sass/_theme-overrides.scss",
-      "sass/_media-guard.scss",
       "sass/_paywall.scss"
     ],
     "recommendation": "Mật độ hợp lý cho blog editorial — theo dõi viewability trước khi thêm."
@@ -21,7 +21,7 @@
       {
         "area": "Core Web Vitals",
         "level": "warn",
-        "text": "Mobile performance 53/100 — LCP 9.2 s, CLS 0. Ưu tiên font/CSS trim trước khi bật ads."
+        "text": "Mobile performance 55/100 — LCP 9.2 s, CLS 0. Ưu tiên font/CSS trim trước khi bật ads."
       },
       {
         "area": "Compliance",
@@ -31,7 +31,7 @@
       {
         "area": "Content depth",
         "level": "ok",
-        "text": "Trung bình 1387 từ/bài — đủ depth cho RPM."
+        "text": "Trung bình 1394 từ/bài — đủ depth cho RPM."
       },
       {
         "area": "SEO UX",
@@ -88,14 +88,14 @@
         "max_rpm_potential": 78
       },
       {
-        "category": "Thế giới",
+        "category": "Kiến thức",
         "post_count": 4,
         "avg_rpm_potential": 78.0,
         "max_rpm_potential": 78
       },
       {
-        "category": "Kiến thức",
-        "post_count": 3,
+        "category": "Thế giới",
+        "post_count": 4,
         "avg_rpm_potential": 78.0,
         "max_rpm_potential": 78
       },
@@ -119,8 +119,8 @@
       },
       {
         "category": "Công nghệ",
-        "post_count": 68,
-        "avg_rpm_potential": 77.2,
+        "post_count": 71,
+        "avg_rpm_potential": 77.1,
         "max_rpm_potential": 95
       },
       {
@@ -1059,8 +1059,8 @@
       ]
     },
     {
-      "title": "2 lỗi YAML ẩn khiến GitHub Actions workflow invalid",
-      "url": "https://seomoney.org/posting/loi-yaml-github-actions-workflow-invalid-case-study/",
+      "title": "GitHub Actions Deploy Queue: cách đọc và trigger đúng cách",
+      "url": "https://seomoney.org/posting/github-actions-deploy-queue-production/",
       "category": "Công nghệ",
       "categories": [
         "Tất cả",
@@ -1069,7 +1069,8 @@
       "score": 85,
       "rpm_topics": [
         "SEO/MarTech",
-        "Technology"
+        "Technology",
+        "Education"
       ]
     }
   ],
@@ -1472,9 +1473,9 @@
       },
       {
         "category": "Kiến thức",
-        "current_posts": 3,
+        "current_posts": 4,
         "max_rpm": 78,
-        "suggested_expansion": "Add 12 posts (6–12 post cluster = hub-spoke model)",
+        "suggested_expansion": "Add 11 posts (6–12 post cluster = hub-spoke model)",
         "rationale": "Đủ thứ hạng seed — mở rộng để capture topic depth + cross-link bonus"
       },
       {
@@ -1579,18 +1580,25 @@
       "monetization_score": 84,
       "ad_density_verdict": "optimal",
       "ui_grade": "B+"
+    },
+    {
+      "report_number": 7,
+      "generated_at": "2026-06-28T10:08:59Z",
+      "monetization_score": 84,
+      "ad_density_verdict": "optimal",
+      "ui_grade": "B+"
     }
   ],
   "scan_stats": {
-    "total_posts": 199,
+    "total_posts": 203,
     "incremental": false,
     "pages_scanned": 223,
     "site_seo_score": 99.8
   },
   "pagespeed_snapshot": {
-    "mobile_performance": 53,
+    "mobile_performance": 55,
     "lcp": "9.2 s",
     "cls": "0"
   },
-  "latest_report_path": "reports/ad-report-v2/report-006-20260628.md"
+  "latest_report_path": "reports/ad-report-v2/report-007-20260628.md"
 }
