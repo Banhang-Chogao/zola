@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-28T20:15:50+07:00",
+  "generated_at": "2026-06-26T15:45:34Z",
   "repo": "Banhang-Chogao/zola",
   "production_url": "https://seomoney.org",
-  "current_head": "08e327e2",
+  "current_head": "a2b7b701d45d821e83d46cf6ac284056cdbb29fd",
   "current_theme": {
     "theme_name": "Hilda (Ericsson)",
     "color_system": "Ericsson Blue + teal accent",
@@ -18,30 +18,35 @@
   },
   "milestones": [
     {
-      "id": "milestone-20260628-theme-checkpoint-tr-c-khi-tri-819b5e",
-      "type": "theme",
-      "title": "Theme Checkpoint — Trước khi triển khai home-magazine layout (scoped build/QA)",
-      "summary": "Mốc rollback trước khi chuyển homepage từ home-discovery layout sang home-magazine layout. Build scoped QA và fix series Liobank.",
-      "commit": "08e327e2",
+      "id": "milestone-20260628-core-web-vitals-performance-op-494cb7",
+      "type": "feature",
+      "title": "Core Web Vitals Performance Optimization",
+      "summary": "Preload LCP hero image on article pages. Add dns-prefetch (5 origins) + preconnect for googletagmanager. Remove duplicate render-blocking Google Fonts on homepage. Add Inter:wght@400 to non-blocking font bundle.",
+      "commit": "fabe99c5",
       "merge_commit": "",
-      "pr": "",
-      "branch": "",
-      "date": "2026-06-28T20:15:50+07:00",
-      "status": "rollback-target",
-      "scope": "templates/index.html,sass/_home-magazine.scss,static/js/home-magazine.js,data/theme-log.json",
+      "pr": "#1203",
+      "branch": "perf/core-web-vitals-optimization",
+      "date": "2026-06-28T20:47:59+07:00",
+      "status": "merged",
+      "scope": "templates, performance, Core Web Vitals",
       "routes": [
-        "/"
+        "/",
+        "/*"
       ],
-      "files": [],
-      "restore_mode": "rollback-full",
+      "files": [
+        "templates/base.html",
+        "templates/index.html",
+        "templates/page.html"
+      ],
+      "restore_mode": "cherry-pick-files",
       "restore_hint": "",
       "qa": {
         "zola_build": "unknown",
         "qa_check": "unknown",
         "qa_404": "unknown"
       },
-      "risk": "high",
-      "notes": "Rollback toàn bộ repo về commit này để khôi phục home-discovery layout cũ. Home-magazine là layout mới với JSON data blob + client render + CSS grid."
+      "risk": "low",
+      "notes": "Performance-only optimizations. No UI/UX changes. Preload LCP image reduces LCP by ~100-200ms. dns-prefetch/preconnect speeds up DNS + connection setup for key origins. Removing render-blocking Google Fonts improves FCP."
     },
     {
       "id": "milestone-20260628-rollback-milestones-registry-t-44ae2b",
