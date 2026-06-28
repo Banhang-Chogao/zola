@@ -1,0 +1,90 @@
+<aside class="esi-rail editor-rail-card" data-seo-insights-rail aria-label="SEO Insights">
+    <h3 class="editor-rail-card__title">
+        <span class="editor-rail-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </span>
+        SEO Insights
+        <span class="esi-synced" data-esi-synced></span>
+    </h3>
+
+    {# Loading state #}
+    <div class="esi-status" data-esi-loading>
+        <span class="esi-spinner"></span>
+        <span>Đang tải dữ liệu GSC…</span>
+    </div>
+
+    {# Empty / no data state #}
+    <div class="esi-status" data-esi-empty hidden>
+        <p class="esi-empty-msg">Đang tải…</p>
+    </div>
+
+    {# Content (hidden until data loads) #}
+    <div class="esi-content" data-esi-content hidden>
+
+        {# Indexed + Canonical + Last Crawl #}
+        <div class="esi-meta">
+            <div class="esi-meta__row">
+                <span class="esi-meta__label">Google Indexed</span>
+                <span class="esi-meta__value" data-esi-indexed>—</span>
+            </div>
+            <div class="esi-meta__row">
+                <span class="esi-meta__label">Canonical</span>
+                <code class="esi-meta__url" data-esi-canonical>—</code>
+            </div>
+            <div class="esi-meta__row">
+                <span class="esi-meta__label">Last Crawl</span>
+                <span class="esi-meta__value" data-esi-last-crawl>—</span>
+            </div>
+        </div>
+
+        {# KPI cards #}
+        <div class="esi-kpis">
+            <div class="esi-kpi esi-kpi--clicks">
+                <span class="esi-kpi__label">Clicks (30d)</span>
+                <strong class="esi-kpi__value" data-esi-clicks>—</strong>
+            </div>
+            <div class="esi-kpi esi-kpi--impressions">
+                <span class="esi-kpi__label">Impressions</span>
+                <strong class="esi-kpi__value" data-esi-impressions>—</strong>
+            </div>
+            <div class="esi-kpi esi-kpi--ctr">
+                <span class="esi-kpi__label">CTR</span>
+                <strong class="esi-kpi__value" data-esi-ctr>—</strong>
+            </div>
+            <div class="esi-kpi esi-kpi--position">
+                <span class="esi-kpi__label">Avg Position</span>
+                <strong class="esi-kpi__value" data-esi-position>—</strong>
+                <span data-esi-position-badge></span>
+            </div>
+        </div>
+
+        {# Top Queries #}
+        <section class="esi-card">
+            <h4 class="esi-card__title">Top Queries</h4>
+            <div class="esi-queries" data-esi-queries>
+                <span class="esi-muted">Đang tải…</span>
+            </div>
+            <a class="esi-view-all" data-esi-view-all hidden target="_blank" rel="noopener">
+                View all →
+            </a>
+        </section>
+
+        {# Trend #}
+        <section class="esi-card">
+            <h4 class="esi-card__title">Trend</h4>
+            <table class="esi-trend-table">
+                <tbody data-esi-trend>
+                    <tr><td colspan="2"><span class="esi-muted">Đang tải…</span></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        {# Recommendations #}
+        <section class="esi-card">
+            <h4 class="esi-card__title">Recommendations</h4>
+            <ul class="esi-recs" data-esi-recs>
+                <li class="esi-rec esi-muted">Đang tải…</li>
+            </ul>
+        </section>
+    </div>
+</aside>
