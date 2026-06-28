@@ -1,28 +1,28 @@
 {
-  "generated_at": "2026-06-28T00:15:15.805535+00:00",
-  "generated_at_display": "07:15 28/06/2026",
+  "generated_at": "2026-06-28T10:16:15.336731+00:00",
+  "generated_at_display": "17:16 28/06/2026",
   "source": "build_prod_snapshot.py",
   "shortcut": "??",
   "main": {
-    "sha": "1ab0e6480fecfe4b760e1c73644c6f24bccb94a9",
-    "sha_short": "1ab0e64",
-    "title": "main @ 1ab0e64",
-    "url": "https://github.com/Banhang-Chogao/zola/commit/1ab0e6480fecfe4b760e1c73644c6f24bccb94a9"
+    "sha": "615fba7b73b42334f2d68953208358f98bcdccde",
+    "sha_short": "615fba7",
+    "title": "main @ 615fba7",
+    "url": "https://github.com/Banhang-Chogao/zola/commit/615fba7b73b42334f2d68953208358f98bcdccde"
   },
   "deploy": {
-    "sha": "a898c36ff88fab32c439812d62399545d41ebe9b",
-    "sha_short": "a898c36",
+    "sha": "86eee034a1e977385cac1e6114c8206fee7cc660",
+    "sha_short": "86eee03",
     "status": "yellow",
-    "deployed_at": "2026-06-28T00:05:43Z",
-    "deployed_at_display": "07:05 28/06/2026",
-    "run_number": 1330,
-    "status_line": "🔄 #1333 đang chạy · ✅ last success #1330",
+    "deployed_at": "2026-06-28T10:10:20Z",
+    "deployed_at_display": "17:10 28/06/2026",
+    "run_number": 1413,
+    "status_line": "🔄 #1415 đang chạy · ✅ last success #1413 · ❌ #1407 (đã superseded)",
     "deploying": true
   },
   "backend": {
     "ok": true,
-    "sha": "1ab0e6480fecfe4b760e1c73644c6f24bccb94a9",
-    "sha_short": "1ab0e64",
+    "sha": "41ed5d1034ef864255fa17d109ca5ad4015af24f",
+    "sha_short": "41ed5d1",
     "comments_mounted": true,
     "oauth_configured": true,
     "url": "https://blog-vipzone-api.onrender.com"
@@ -32,10 +32,10 @@
     "status_vi": "Đang deploy",
     "hint": "Có commit đang chờ hoặc deploy đang chạy — đợi workflow xanh.",
     "main_ahead_of_deploy": true,
-    "backend_behind_main": false,
-    "status_line": "main 1ab0e64 · deploy a898c36 · backend 1ab0e64"
+    "backend_behind_main": true,
+    "status_line": "main 615fba7 · deploy 86eee03 · backend 41ed5d1"
   },
-  "open_prs_count": 0,
+  "open_prs_count": 2,
   "deploy_monitor_stale": false,
   "deploy_monitor_ok": true
 }
