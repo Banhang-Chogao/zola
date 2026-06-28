@@ -62,8 +62,8 @@
                 {%- for item in dashboard.items | slice(count=10) -%}
                 <tr class="prod-dashboard__row" data-pr="{{ item.pr | default(value='none') }}">
                     <td class="prod-dashboard__cell prod-dashboard__cell--ticket">
-                        {%- if item.pr -%}
-                        <a href="https://github.com/{{ config.extra.repo_github | default(value='Banhang-Chogao/zola') }}/pull/{{ item.pr | replace(from='#', to='') }}" target="_blank" rel="noopener" class="prod-dashboard__link">{{ item.pr }}</a>
+                        {%- if item.pr_url -%}
+                        <a href="{{ item.pr_url | safe }}" target="_blank" rel="noopener" class="prod-dashboard__link">{{ item.pr }}</a>
                         {%- else -%}
                         —
                         {%- endif -%}

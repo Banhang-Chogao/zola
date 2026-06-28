@@ -250,8 +250,15 @@ def build_dashboard() -> dict:
         if pr_info:
             merge_status = "merged" if pr_info["state"] == "closed" else "open"
 
+        # Build PR URL (canonical, never HTML-escaped)
+        pr_url = None
+        if commit["pr"]:
+            pr_num = commit["pr"].lstrip("#")
+            pr_url = f"https://github.com/{REPO}/pull/{pr_num}"
+
         item = {
             "pr": commit["pr"],
+            "pr_url": pr_url,
             "title": pr_info.get("title") if pr_info else commit["subject"],
             "commit": commit["short"],
             "commit_full": commit["sha"],
