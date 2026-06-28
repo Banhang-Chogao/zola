@@ -2,6 +2,7 @@
 title = "Xử lý PR revert sai base: case study 3135 commits và 1112 files"
 description = "Case study xử lý PR revert sai base với 3135 commits, 1112 files. Cách dùng git revert -m 1, tìm merge commit, và quy trình QA/build trước khi merge."
 date = 2026-06-28
+aliases = ["/xu-ly-pr-revert-sai-base/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["git", "github", "devops", "ci-cd", "kinh-nghiem", "opencode", "case-study", "xử lý PR revert sai base"]
