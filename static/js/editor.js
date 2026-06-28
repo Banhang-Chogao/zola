@@ -15,9 +15,12 @@
   const OWNER = "Banhang-Chogao";
   const REPO = "zola";
   const BRANCH = "main";
-  // Bài viết sống trong content/posting/ (section đã config sort + paginate).
-  // Trang chủ (/) và section /posting/ đều đọc từ đây.
-  const CONTENT_DIR = "content/posting";
+  // Bài viết sống trong content/ với nhiều sections:
+  //   - posting/ (main articles)
+  //   - baochi/ (imported/curated articles)
+  //   - khoa-hoc/, the-gioi/, cong-nghe/, du-lich/, ngan-hang/, bao-hiem/, doi-song/, the-thao/ (category sections)
+  const CONTENT_DIR = "content/posting";  // fallback for legacy API calls
+  const ARTICLE_SECTIONS = ["posting", "baochi", "khoa-hoc", "the-gioi", "cong-nghe", "du-lich", "ngan-hang", "bao-hiem", "doi-song", "the-thao"];
   const API = "https://api.github.com";
 
   /* ============= AUTH (GitHub OAuth via FastAPI backend) =============
@@ -685,13 +688,29 @@
     return res.json();
   }
 
-  // 1 API call: lấy danh sách slug .md trong content/posting/. Dùng để diff với
+  // Fetch slug list from ALL article sections. Dùng để diff với
   // bake metadata, KHÔNG fetch content từng file (tránh N+1).
   async function fetchPostSlugs() {
-    const list = await api("/repos/" + OWNER + "/" + REPO + "/contents/" + CONTENT_DIR + "?ref=" + BRANCH);
-    return list
-      .filter((f) => f.type === "file" && f.name.endsWith(".md") && !f.name.startsWith("_"))
-      .map((f) => f.name.replace(/\.md$/, ""));
+    const allSlugs = [];
+
+    for (const sectionName of ARTICLE_SECTIONS) {
+      try {
+        const path = "content/" + sectionName;
+        const list = await api("/repos/" + OWNER + "/" + REPO + "/contents/" + path + "?ref=" + BRANCH);
+        if (!Array.isArray(list)) continue;
+
+        list
+          .filter((f) => f.type === "file" && f.name.endsWith(".md") && !f.name.startsWith("_"))
+          .forEach((f) => {
+            allSlugs.push(f.name.replace(/\.md$/, ""));
+          });
+      } catch (e) {
+        // Silent fail for missing section — not all sections may exist
+        console.debug(`[CMS] Section ${sectionName} not found or inaccessible`);
+      }
+    }
+
+    return allSlugs;
   }
 
   // Background refresh: fetch slug list thật từ repo → diff với bake để biết
