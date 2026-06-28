@@ -508,6 +508,7 @@ def _health_payload() -> dict[str, Any]:
         "rum_mounted": RUM_MOUNTED,
         "ai_writer_mounted": AI_WRITER_MOUNTED,
         "ai_writer_configured": bool(os.getenv("CONTENT_CREATOR_AI_API_KEY")),
+        "ai_writer_dispatch_mounted": AI_WRITER_DISPATCH_MOUNTED,
         "critical_routes": _critical_routes_status(),
         "gsc_configured": bool(os.getenv("GSC_CLIENT_ID") and os.getenv("GSC_CLIENT_SECRET")),
     }
@@ -769,4 +770,25 @@ try:
 except Exception as exc:
     AI_WRITER_MOUNTED = False
     print(f"[vipzone] AI writer router not mounted: {exc!r}")
+
+# ============= AI Writer Dispatch (repository_dispatch proxy) =============
+# Lightweight endpoint that proxies content-creator write requests to GitHub
+# repository_dispatch so the browser never handles a GitHub token. The actual AI
+# work runs in a GitHub Actions workflow.
+try:
+    import ai_writer_dispatch
+
+    async def _ai_dispatch_get_token(authorization: str, cookie_sid: str | None = None) -> str:
+        from main import get_db
+
+        return await github_token_from_session(
+            get_db(), authorization or "", cookie_sid=cookie_sid
+        )
+
+    ai_writer_dispatch.configure(get_token=_ai_dispatch_get_token)
+    app.include_router(ai_writer_dispatch.router)
+    AI_WRITER_DISPATCH_MOUNTED = True
+except Exception as exc:
+    AI_WRITER_DISPATCH_MOUNTED = False
+    print(f"[vipzone] AI writer dispatch router not mounted: {exc!r}")
 

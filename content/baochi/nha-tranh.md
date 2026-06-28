@@ -8,6 +8,9 @@ categories = ["Tất cả", "Kiến thức"]
 tags = ["nhà-tranh", "kiến-trúc-truyền-thống", "nông-thôn-việt-nam", "vật-liệu-tự-nhiên", "văn-hóa-việt", "mái-tranh"]
 
 [extra]
+image = "/img/posting/nha-tranh/thatched-cottage-denmark.webp"
+image_alt = "Nhà tranh truyền thống giữa cồn cát ven biển Đan Mạch"
+og_image = "/img/posting/nha-tranh/thatched-cottage-denmark.webp"
 seo_keyword = "nhà tranh"
 featured = false
 source = "bb10"
@@ -52,6 +55,8 @@ url = "https://en.wikipedia.org/wiki/Thatching"
 Có những hình ảnh mà chỉ cần nhắc tên là cả một miền ký ức ùa về. Với mình, đó là mái nhà tranh thấp thoáng sau lũy tre xanh — một biểu tượng không thể trộn lẫn của làng quê Việt Nam xưa.
 
 <!-- more -->
+
+![Nhà tranh truyền thống giữa cồn cát ven biển Đan Mạch](/img/posting/nha-tranh/thatched-cottage-denmark.webp "Nhà tranh truyền thống giữa cồn cát ven biển Đan Mạch")
 
 ## Nhà tranh là gì?
 

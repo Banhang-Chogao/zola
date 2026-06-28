@@ -2,17 +2,20 @@
  * AI Blog Writer — "Viết blog" button for /tools/content-creator/.
  *
  * Reads the prompt from the existing #cc-prompt textarea (filled by app.js),
- * calls the backend POST /api/content-creator/write-blog, and shows the
- * result (PR link, slug, preview URL) without disturbing the prompt text.
+ * dispatches the write request to the backend via POST /cms/ai-writer-dispatch,
+ * which proxies to GitHub repository_dispatch. The actual AI work runs in
+ * a GitHub Actions workflow, which creates a branch + PR.
  *
- * Requires a CMS admin session (same OAuth as the editor). When the AI API
- * is not configured on the backend, the button shows a friendly fallback
- * message and the user can still copy the prompt manually.
+ * We show "Đã gửi yêu cầu viết bài, PR sẽ được tạo sau vài phút." on success
+ * and a link to the Actions page so the user can track progress.
+ *
+ * Requires a CMS admin session (same OAuth as the editor). When the backend is
+ * unreachable or unconfigured, we fall back to showing the Actions URL.
  */
 (function () {
   "use strict";
 
-  // ── Auth helpers (reuse same pattern as app.js) ──────────────
+  // ── DOM helpers ────────────────────────────────────────────────
   function authApi() {
     var m = document.querySelector('meta[name="zola-cms-auth-api"]');
     return m && m.getAttribute("content")
@@ -28,9 +31,16 @@
     }
   }
 
-  function baseUrl() {
-    var m = document.querySelector('meta[name="zola-base-url"]');
-    return m ? m.getAttribute("content").replace(/\/$/, "") : "";
+  function actionsUrl() {
+    var m = document.querySelector('meta[name="cc-actions-url"]');
+    if (m) return m.getAttribute("content");
+    var base = document.querySelector('meta[name="zola-base-url"]');
+    if (!base) return "https://github.com/Banhang-Chogao/zola/actions";
+    return "https://github.com/Banhang-Chogao/zola/actions";
+  }
+
+  function aiWriterActionsUrl() {
+    return "https://github.com/Banhang-Chogao/zola/actions/workflows/ai-writer-dispatch.yml";
   }
 
   // ── DOM refs ─────────────────────────────────────────────────
@@ -45,7 +55,6 @@
     loadingPanel = document.getElementById("cc-write-loading");
     resultPanel = document.getElementById("cc-write-result");
 
-    // Enable/disable based on prompt presence.
     function updateButtonState() {
       var hasPrompt =
         promptEl && promptEl.value && promptEl.value.trim().length > 0;
@@ -77,53 +86,68 @@
     if (!resultPanel) return;
     resultPanel.hidden = false;
 
-    var html = "";
-    if (data.pr_url) {
-      html +=
-        '<div class="cc-write-result__meta">' +
-        '<span class="cc-write-result__title">' +
-        escapeHtml(data.title || "") +
-        "</span>" +
-        '<span class="cc-write-result__slug">/' +
-        escapeHtml(data.slug || "") +
-        "/</span>" +
-        "</div>" +
-        '<div class="cc-write-result__actions">' +
-        '<a href="' +
-        escapeAttr(data.pr_url) +
-        '" target="_blank" rel="noopener" class="cc-btn cc-btn--primary cc-btn--sm">' +
-        "🔍 Xem PR #" +
-        escapeHtml(String(data.pr_number || "")) +
-        "</a>" +
-        '<a href="' +
-        escapeAttr(data.public_url || "") +
-        '" target="_blank" rel="noopener" class="cc-btn cc-btn--ghost cc-btn--sm"' +
-        ' id="cc-preview-link">' +
-        "🔗 Xem preview" +
-        "</a>" +
-        '<button type="button" class="cc-btn cc-btn--ghost cc-btn--sm" id="cc-copy-blog-link">' +
-        "📋 Copy link" +
-        "</button>" +
-        "</div>";
-    }
+    var actionsHref = aiWriterActionsUrl();
+    var html =
+      '<div class="cc-write-result__meta">' +
+      '<span class="cc-write-result__icon">✅</span>' +
+      '<span class="cc-write-result__msg">' +
+      escapeHtml(data && data.message ? data.message : "Đã gửi yêu cầu viết bài.") +
+      "</span>" +
+      "</div>" +
+      '<div class="cc-write-result__actions">' +
+      '<a href="' +
+      escapeAttr(actionsHref) +
+      '" target="_blank" rel="noopener" class="cc-btn cc-btn--primary cc-btn--sm">' +
+      "⚙ Theo dõi tiến độ trên Actions" +
+      "</a>" +
+      '<button type="button" class="cc-btn cc-btn--ghost cc-btn--sm" id="cc-write-again">' +
+      "✍ Viết bài khác" +
+      "</button>" +
+      "</div>" +
+      '<p class="cc-write-result__note">' +
+      "PR sẽ được tạo tự động sau khi workflow hoàn tất. " +
+      'Theo dõi tại <a href="' +
+      escapeAttr(actionsHref) +
+      '" target="_blank" rel="noopener">GitHub Actions</a> ' +
+      "hoặc mục <strong>Changelog</strong> trên site." +
+      "</p>";
+
     resultPanel.innerHTML = html;
 
-    // Wire copy link button.
-    var copyLinkBtn = document.getElementById("cc-copy-blog-link");
-    if (copyLinkBtn && data.public_url) {
-      copyLinkBtn.addEventListener("click", function () {
-        copyToClipboard(data.public_url)
-          .then(function () {
-            copyLinkBtn.textContent = "✓ Copied!";
-            setTimeout(function () {
-              copyLinkBtn.textContent = "📋 Copy link";
-            }, 2200);
-          })
-          .catch(function () {
-            copyLinkBtn.textContent = "✗ Copy failed";
-          });
+    var againBtn = document.getElementById("cc-write-again");
+    if (againBtn) {
+      againBtn.addEventListener("click", function () {
+        resultPanel.hidden = true;
+        if (promptEl) promptEl.focus();
       });
     }
+  }
+
+  function showFallback(msg) {
+    if (!resultPanel) return;
+    resultPanel.hidden = false;
+
+    var actionsHref = aiWriterActionsUrl();
+    var html =
+      '<div class="cc-write-result__meta">' +
+      '<span class="cc-write-result__icon">ℹ️</span>' +
+      '<span class="cc-write-result__msg">' +
+      escapeHtml(msg || "Không thể gửi yêu cầu qua backend.") +
+      "</span>" +
+      "</div>" +
+      '<div class="cc-write-result__actions">' +
+      '<a href="' +
+      escapeAttr(actionsHref) +
+      '" target="_blank" rel="noopener" class="cc-btn cc-btn--ghost cc-btn--sm">' +
+      "⚙ Mở workflow thủ công" +
+      "</a>" +
+      "</div>" +
+      '<p class="cc-write-result__note">' +
+      "Bạn có thể copy prompt và chạy workflow <strong>AI Writer Dispatch</strong> " +
+      "thủ công trên GitHub Actions, hoặc dùng prompt trong ô phía trên với AI ngoài." +
+      "</p>";
+
+    resultPanel.innerHTML = html;
   }
 
   function escapeHtml(s) {
@@ -138,43 +162,6 @@
   function escapeAttr(s) {
     if (!s) return "";
     return String(s).replace(/"/g, "&quot;").replace(/&/g, "&amp;");
-  }
-
-  function copyToClipboard(text) {
-    if (!text) return Promise.reject(new Error("empty"));
-    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
-      return navigator.clipboard.writeText(text).catch(function () {
-        return fallbackCopy(text);
-      });
-    }
-    return fallbackCopy(text);
-  }
-
-  function fallbackCopy(text) {
-    return new Promise(function (resolve, reject) {
-      var ta = document.createElement("textarea");
-      ta.value = text;
-      ta.setAttribute("readonly", "");
-      ta.style.position = "fixed";
-      ta.style.left = "-9999px";
-      ta.style.top = "0";
-      ta.opacity = "0";
-      document.body.appendChild(ta);
-      ta.focus();
-      ta.select();
-      try {
-        if (ta.setSelectionRange) ta.setSelectionRange(0, text.length);
-      } catch (e) {}
-      var ok = false;
-      try {
-        ok = document.execCommand("copy");
-      } catch (err) {
-        ok = false;
-      }
-      document.body.removeChild(ta);
-      if (ok) resolve();
-      else reject(new Error("execCommand_failed"));
-    });
   }
 
   // ── Main handler ─────────────────────────────────────────────
@@ -198,10 +185,9 @@
       return;
     }
 
-    // Hide previous result.
     if (resultPanel) resultPanel.hidden = true;
     setLoading(true);
-    setStatus("⏳ AI đang viết bài…", "info");
+    setStatus("⏳ Đang gửi yêu cầu…", "info");
 
     var form = getFormData();
     var api = authApi();
@@ -211,16 +197,17 @@
       setLoading(false);
       setStatus(
         "🔒 Cần đăng nhập CMS để dùng AI Writer. " +
-          'Hãy copy prompt thủ công hoặc <a href="' +
+          'Hãy <a href="' +
           escapeAttr(api ? api + "/auth/login?return_to=/tools/content-creator/" : "#") +
           '" class="cc-write-status__link">đăng nhập</a> trước.',
         "error"
       );
+      showFallback("Cần đăng nhập CMS để gửi yêu cầu viết bài.");
       return;
     }
 
     try {
-      var res = await fetch(api + "/api/content-creator/write-blog", {
+      var res = await fetch(api + "/cms/ai-writer-dispatch", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -233,7 +220,6 @@
           pricing: form.pricing,
           brief: form.brief,
           ux_brief: form.ux,
-          watermark: "",
         }),
       });
 
@@ -247,31 +233,19 @@
       setLoading(false);
 
       if (res.ok && data.ok) {
-        setStatus("✅ " + data.message, "success");
+        setStatus("✅ " + (data.message || "Đã gửi yêu cầu."), "success");
         showResult(data);
       } else if (res.status === 401) {
         setStatus(
           "🔒 Phiên đăng nhập hết hạn. Hãy refresh trang và đăng nhập lại.",
           "error"
         );
-      } else if (res.status === 429) {
-        setStatus(
-          "⚠️ " +
-            (data.detail ||
-              "AI provider quota exceeded. Giữ prompt và thử lại sau, hoặc copy thủ công."),
-          "warn"
-        );
-      } else if (res.status === 501) {
-        setStatus(
-          "ℹ️ " +
-            (data.detail ||
-              "AI chưa được cấu hình. Copy prompt và dùng AI ngoài để viết bài."),
-          "warn"
-        );
+        showFallback("Phiên đăng nhập hết hạn.");
       } else {
         var errMsg =
           data.detail || data.message || "Lỗi không xác định — thử lại sau.";
-        setStatus("❌ Chưa thể publish: " + escapeHtml(errMsg), "error");
+        setStatus("❌ Chưa thể gửi yêu cầu: " + escapeHtml(errMsg), "error");
+        showFallback(errMsg);
       }
     } catch (err) {
       setLoading(false);
@@ -279,6 +253,7 @@
         "❌ Không thể kết nối server — hãy thử lại hoặc copy prompt thủ công.",
         "error"
       );
+      showFallback("Không thể kết nối server AI Writer.");
     }
   }
 
