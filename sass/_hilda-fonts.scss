@@ -1,139 +1,176 @@
 /* ============================================================
-   ===== HILDA FONTS — Ericsson Hilda (self-hosted, official) =====
+   ===== TYPOGRAPHY TOKENS — Ericsson Hilda-inspired (legal fonts)
    ============================================================
-   Font Ericsson Hilda chính chủ, self-host trong static/fonts/
-   (serve qua 'self' → CSP-safe, không phụ thuộc CDN ngoài, không bị
-   Content-Security-Policy chặn như bản raw.githubusercontent cũ).
+   AUDIT: Production typography audit per CLAUDE.md §Quy tắc SEO QA.
 
-   Weights có sẵn (5 file .ttf ~95KB):
-   ExtraLight 200 · Light 300 · Medium 500 · Bold 700 · ExtraBold 800.
+   This file defines typography using LEGAL FONT STACKS ONLY:
+   - No proprietary Ericsson Hilda font files (@font-face removed)
+   - Fallback stack: Inter → IBM Plex Sans → Be Vietnam Pro → system-ui
+   - Honors guideline design language without proprietary licenses
 
-   Dùng @font-face WEIGHT-RANGE để map đúng guideline mà không cần
-   synthetic weight (không có file 400/600 riêng):
-   - 400 (Regular body) → Medium glyphs (đậm vừa, đọc rõ trên nền sáng)
-   - 600 (SemiBold H3)  → Bold glyphs
-   - 700 (Bold H1/H2)   → Bold glyphs
-   Browser chỉ tải weight thực sự dùng trên trang → không phí băng thông.
+   Font sizes, weights, and letter-spacing follow Ericsson Hilda
+   guideline aesthetics, applied via CSS custom properties (tokens).
 
-   Đây là NGUỒN CHUẨN của family 'Ericsson Hilda' cho cả site (theme
-   Hilda + trang Font Guideline). _hilda-fonts import trước _font-guideline
-   nên family sẵn sàng cho mọi specimen.
+   Token values:
+   - Display: 52px / 800 / -0.03em
+   - H1: 36px / 700 / -0.02em
+   - H2: 26px / 700 / -0.01em
+   - H3: 19px / 500 / -0.01em
+   - Body: 16px / 400 / 1.6 line-height
+   - Caption: 13px / 500 / 0.04em
+*/
 
-   url() là RELATIVE so với site.css: cùng cấp root ({base_url}/site.css ↔
-   {base_url}/fonts/…) → resolve đúng kể cả khi chạy ở subpath /zola/. */
+/* ===== Typography CSS Variables (Hilda-inspired design language) ===== */
+:root {
+  /* Font family stack — legal fonts only */
+  --font-sans: "Inter", "IBM Plex Sans", "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-ui: "Inter", "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
-/* WOFF2 first (Brotli, ~64% nhỏ hơn TTF, mọi browser hiện đại hỗ trợ) →
-   TTF fallback chỉ cho browser cực cũ. Browser hiện đại CHỈ tải .woff2 →
-   cắt payload font (đang là resource nặng nhất ~282KB) → LCP mobile nhanh hơn.
-   Sinh .woff2 bằng: python3 scripts/to_woff2.py */
-@font-face {
-  font-family: 'Ericsson Hilda';
-  src: url('fonts/EricssonHilda-ExtraLight.woff2') format('woff2'),
-       url('fonts/EricssonHilda-ExtraLight.ttf') format('truetype');
-  font-weight: 100 200;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Ericsson Hilda';
-  src: url('fonts/EricssonHilda-Light.woff2') format('woff2'),
-       url('fonts/EricssonHilda-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Ericsson Hilda';
-  src: url('fonts/EricssonHilda-Medium.woff2') format('woff2'),
-       url('fonts/EricssonHilda-Medium.ttf') format('truetype');
-  font-weight: 400 500;   /* Regular body map → Medium */
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Ericsson Hilda';
-  src: url('fonts/EricssonHilda-Bold.woff2') format('woff2'),
-       url('fonts/EricssonHilda-Bold.ttf') format('truetype');
-  font-weight: 600 700;   /* SemiBold + Bold map → Bold */
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Ericsson Hilda';
-  src: url('fonts/EricssonHilda-ExtraBold.woff2') format('woff2'),
-       url('fonts/EricssonHilda-ExtraBold.ttf') format('truetype');
-  font-weight: 800 900;
-  font-style: normal;
-  font-display: swap;
+  /* Display (52px / 800) */
+  --type-display-size: 52px;
+  --type-display-weight: 800;
+  --type-display-tracking: -0.03em;
+  --type-display-line-height: 1.1;
+
+  /* Heading 1 (36px / 700) */
+  --type-h1-size: 36px;
+  --type-h1-weight: 700;
+  --type-h1-tracking: -0.02em;
+  --type-h1-line-height: 1.2;
+
+  /* Heading 2 (26px / 700) */
+  --type-h2-size: 26px;
+  --type-h2-weight: 700;
+  --type-h2-tracking: -0.01em;
+  --type-h2-line-height: 1.3;
+
+  /* Heading 3 (19px / 500) */
+  --type-h3-size: 19px;
+  --type-h3-weight: 500;
+  --type-h3-tracking: -0.01em;
+  --type-h3-line-height: 1.4;
+
+  /* Body (16px / 400) */
+  --type-body-size: 16px;
+  --type-body-weight: 400;
+  --type-body-line-height: 1.6;
+  --type-body-tracking: 0em;
+
+  /* Caption (13px / 500) */
+  --type-caption-size: 13px;
+  --type-caption-weight: 500;
+  --type-caption-tracking: 0.04em;
+  --type-caption-line-height: 1.4;
 }
 
-/* ===== Apply Font Stack to Hilda Theme ===== */
+/* ===== Apply Hilda Theme — Legal Font Stack ===== */
 :root[data-theme="hilda"] {
-  --hilda-font-family: 'Ericsson Hilda', 'Manrope', 'Be Vietnam Pro', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-family: var(--hilda-font-family);
-}
-
-/* ===== Font Size & Weight Variables ===== */
-:root[data-theme="hilda"] {
-  --hilda-font-size-base: 16px;
-  --hilda-font-weight-regular: 400;
-  --hilda-font-weight-semibold: 600;
-  --hilda-font-weight-bold: 700;
-}
-
-/* ===== Crisp professional rendering =====
-   Antialiased + legibility → chữ Ericsson sắc, sạch. CHỈ ảnh hưởng render
-   chữ của theme Hilda, KHÔNG đụng layout. */
-:root[data-theme="hilda"] {
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
 /* ============================================================
-   ===== HILDA TYPOGRAPHY SCALE (branding guideline) =====
+   ===== HILDA TYPOGRAPHY SCALE (using CSS tokens) =====
    ============================================================
-   Cỡ chữ theo guideline: H1 32px/700, H2 28px/700, H3 24px/600,
-   body line-height 1.6. Scoped Hilda. DESKTOP + MOBILE tách block
-   riêng (CLAUDE.md rule 4) → rule Hilda-scoped specificity cao sẽ
-   thắng cả rule mobile global nếu không có block mobile tương ứng. */
+   Apply Ericsson Hilda guideline typography using CSS custom
+   properties (tokens). Scoped to [data-theme="hilda"]. */
 
 /* ----- DESKTOP (Hilda, global) ----- */
 :root[data-theme="hilda"] {
-  /* H1 — tiêu đề bài viết: 32px / Bold */
+  /* Post title: H1-scale per guideline */
   .post-single__title {
-    font-size: 2rem;            /* 32px */
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
+    font-size: var(--type-h1-size);
+    font-weight: var(--type-h1-weight);
+    line-height: var(--type-h1-line-height);
+    letter-spacing: var(--type-h1-tracking);
   }
 
-  /* Body rhythm 1.6 + heading scale trong nội dung */
+  /* Post body: standard body rhythm + heading scales */
   .post-single__content {
-    line-height: 1.6;           /* guideline body */
+    font-size: var(--type-body-size);
+    line-height: var(--type-body-line-height);
 
     h2 {
-      font-size: 1.75rem;       /* 28px */
-      font-weight: 700;
-      letter-spacing: -0.02em;
+      font-size: var(--type-h2-size);
+      font-weight: var(--type-h2-weight);
+      letter-spacing: var(--type-h2-tracking);
+      line-height: var(--type-h2-line-height);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
     }
 
     h3 {
-      font-size: 1.5rem;        /* 24px */
-      font-weight: 600;
-      letter-spacing: -0.02em;
+      font-size: var(--type-h3-size);
+      font-weight: var(--type-h3-weight);
+      letter-spacing: var(--type-h3-tracking);
+      line-height: var(--type-h3-line-height);
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
     }
+  }
+
+  /* Homepage hero + display areas */
+  .hero__title,
+  .home__featured-title {
+    font-size: var(--type-display-size);
+    font-weight: var(--type-display-weight);
+    letter-spacing: var(--type-display-tracking);
+    line-height: var(--type-display-line-height);
+  }
+
+  /* Card titles + sidebar headings */
+  .card__title,
+  .sidebar__title,
+  .widget__title {
+    font-size: var(--type-h2-size);
+    font-weight: var(--type-h2-weight);
+    letter-spacing: var(--type-h2-tracking);
+  }
+
+  /* Captions + metadata labels */
+  .post-meta,
+  .caption,
+  .timestamp,
+  .label {
+    font-size: var(--type-caption-size);
+    font-weight: var(--type-caption-weight);
+    letter-spacing: var(--type-caption-tracking);
+  }
+
+  /* Navigation + UI labels */
+  nav,
+  .nav__link,
+  button,
+  .btn {
+    font-family: var(--font-ui);
+    font-weight: var(--type-body-weight);
   }
 }
 
-/* ----- MOBILE (Hilda, ≤720px) — scale xuống, giữ responsive ----- */
+/* ----- MOBILE (Hilda, ≤720px) — scale responsively ----- */
 @media (max-width: 720px) {
   :root[data-theme="hilda"] {
-    .post-single__title { font-size: 1.5rem; }    /* 24px */
+    /* Scale down H1 for mobile */
+    .post-single__title {
+      font-size: clamp(24px, 6vw, var(--type-h1-size));
+    }
 
-    .post-single__content {
-      h2 { font-size: 1.375rem; }                  /* 22px */
-      h3 { font-size: 1.2rem; }                    /* ~19px */
+    /* H2/H3 responsive scaling */
+    .post-single__content h2 {
+      font-size: clamp(22px, 5.5vw, var(--type-h2-size));
+    }
+
+    .post-single__content h3 {
+      font-size: clamp(17px, 4.5vw, var(--type-h3-size));
+    }
+
+    /* Hero/display scale for mobile */
+    .hero__title,
+    .home__featured-title {
+      font-size: clamp(32px, 8vw, var(--type-display-size));
     }
   }
 }

@@ -58,8 +58,8 @@
   /* Color scheme for native form controls */
   color-scheme: light;
 
-  /* Font stack */
-  font-family: 'Ericsson Hilda', 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* Font stack (legal fonts only — audit per CLAUDE.md) */
+  font-family: 'Inter', 'IBM Plex Sans', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* ===== Smooth transitions when theme properties change =====

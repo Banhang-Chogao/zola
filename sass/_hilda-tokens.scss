@@ -1,9 +1,11 @@
 /* ============================================================
-   ===== HILDA TOKENS — Ericsson Professional Style =====
+   ===== HILDA TOKENS — Ericsson Professional Style (legal fonts)
    ============================================================
-   Color palette, typography, and spacing for Hilda theme.
+   AUDIT: Production typography compliance per CLAUDE.md.
+   Color palette, typography tokens, and spacing for Hilda theme.
    Primary: #003784 (Ericsson Blue)
-   Font: Ericsson Hilda (OTF) or fallback to Inter/Roboto
+   Font stack: Inter → IBM Plex Sans → Be Vietnam Pro (legal only)
+   No proprietary Ericsson Hilda font files.
 */
 
 /* ===== Color Tokens ===== */
@@ -29,8 +31,8 @@ $hilda-success:          #00a69d;  /* Teal for success */
 $hilda-warning:          #ff9500;  /* Orange for warnings */
 $hilda-focus-ring:       rgba(0, 55, 132, 0.35);
 
-/* ===== Typography Tokens ===== */
-$hilda-font-family:      'Ericsson Hilda', 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+/* ===== Typography Tokens (legal fonts only) ===== */
+$hilda-font-family:      'Inter', 'IBM Plex Sans', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 $hilda-font-size-base:   16px;
 $hilda-font-weight-regular:   400;
 $hilda-font-weight-semibold:  600;
