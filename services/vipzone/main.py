@@ -198,6 +198,8 @@ except Exception as exc:  # pragma: no cover - defensive: keep the rest of the A
     GSC_MOUNTED = False
     print(f"[vipzone] GSC router not mounted: {exc!r}")
 
+# Declare AI_WRITER_MOUNTED early so the health endpoint can refer to it.
+AI_WRITER_MOUNTED: bool = bool(os.getenv("CONTENT_CREATOR_AI_API_KEY"))
 
 # ============= CMS repo-write routes (save-post / bulk-delete / categories) =============
 # The blog editor (static/js/editor.js) commits posts to GitHub via
@@ -504,6 +506,8 @@ def _health_payload() -> dict[str, Any]:
         "comments_mounted": COMMENTS_MOUNTED,
         "reports_mounted": REPORTS_MOUNTED,
         "rum_mounted": RUM_MOUNTED,
+        "ai_writer_mounted": AI_WRITER_MOUNTED,
+        "ai_writer_configured": bool(os.getenv("CONTENT_CREATOR_AI_API_KEY")),
         "critical_routes": _critical_routes_status(),
         "gsc_configured": bool(os.getenv("GSC_CLIENT_ID") and os.getenv("GSC_CLIENT_SECRET")),
     }
@@ -747,4 +751,22 @@ except ImportError:
     from wd_heartbeat import router as wd_heartbeat_router
 
 app.include_router(wd_heartbeat_router)
+
+# ============= AI Blog Writer (content-creator /write-blog) =============
+try:
+    import ai_writer
+
+    async def _ai_writer_get_token(authorization: str, cookie_sid: str | None = None) -> str:
+        from main import get_db
+
+        return await github_token_from_session(
+            get_db(), authorization or "", cookie_sid=cookie_sid
+        )
+
+    ai_writer.configure(get_token=_ai_writer_get_token)
+    app.include_router(ai_writer.router)
+    AI_WRITER_MOUNTED = True
+except Exception as exc:
+    AI_WRITER_MOUNTED = False
+    print(f"[vipzone] AI writer router not mounted: {exc!r}")
 

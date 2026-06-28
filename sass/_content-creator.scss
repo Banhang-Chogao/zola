@@ -184,6 +184,107 @@
 .cc-result-panel__hint { margin: 0 0 .75rem; }
 .cc-note { margin: .75rem 0 0; }
 
+/* ===== AI Blog Writer — buttons, loading, result ===== */
+.cc-btn--write {
+  margin-left: auto;
+  background: linear-gradient(135deg, #38bdf8, #1d4ed8);
+  color: #fff;
+  font-size: .95rem;
+  padding: .65rem 1.3rem;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, .25);
+  transition: transform .15s, box-shadow .15s;
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, .3);
+  }
+  &:disabled { opacity: .55; cursor: not-allowed; }
+}
+
+.cc-btn--sm {
+  font-size: .85rem;
+  padding: .45rem .9rem;
+  border-radius: 8px;
+}
+
+.cc-write-loading {
+  margin-top: .6rem;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+
+  &__bar {
+    height: 3px;
+    background: linear-gradient(90deg, #38bdf8, #1d4ed8, #38bdf8);
+    background-size: 200% 100%;
+    border-radius: 2px;
+    animation: cc-write-progress 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes cc-write-progress {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+.cc-write-status {
+  font-size: .9rem;
+  min-height: 1.2em;
+
+  &--info    { color: #2563eb; }
+  &--success { color: #059669; }
+  &--warn    { color: #b45309; }
+  &--error   { color: #dc2626; }
+
+  &__link {
+    color: inherit;
+    text-decoration: underline;
+  }
+}
+
+.cc-write-result {
+  margin-top: .6rem;
+  background: var(--c-bg-surface, #f0fdf4);
+  border: 1px solid #86efac;
+  border-radius: 10px;
+  padding: .85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: .15rem;
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: .95rem;
+    color: var(--c-text, #0f172a);
+  }
+
+  &__slug {
+    font-size: .82rem;
+    color: var(--c-text-muted, #475569);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .cc-write-result {
+    border-color: #166534;
+    background: #052e16;
+  }
+}
+
 /* ===== MOBILE (≤ 720px) ===== */
 @media (max-width: 720px) {
   .cc-grid {
