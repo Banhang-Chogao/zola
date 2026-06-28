@@ -76,10 +76,10 @@ def parse_frontmatter_date(file_path: Path) -> str | None:
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
 
-        # Extract date from frontmatter
-        match = re.search(r'^date\s*=\s*["\']?([^"\']+)["\']?', content, re.MULTILINE)
+        # Extract date from frontmatter (stop at newline if not quoted)
+        match = re.search(r'^date\s*=\s*"([^"]+)"|^date\s*=\s*([^\s\n]+)', content, re.MULTILINE)
         if match:
-            return match.group(1)
+            return match.group(1) if match.group(1) else match.group(2)
     except Exception as e:
         print(f"Warning: Failed to parse frontmatter for {file_path}: {e}")
 
@@ -179,7 +179,6 @@ def build_metadata() -> list[dict]:
                 "ordering_timestamp": ordering_timestamp,
                 "ordering_source": ordering_source,
                 "frontmatter_date": frontmatter_date,
-                "metadata_generated_at": datetime.now(timezone.utc).isoformat(),
             }
 
             articles.append(article)
@@ -203,17 +202,12 @@ def main():
         # Create output file
         OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
 
-        metadata = {
-            "generated_at": datetime.now(timezone.utc).isoformat(),
-            "total_articles": len(articles),
-            "sections": ARTICLE_SECTIONS,
-            "articles": articles,
-        }
-
+        # Compact JSON output: 2-space indent for readability, but minimal whitespace
         with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-            json.dump(metadata, f, indent=2, ensure_ascii=False)
+            json.dump(articles, f, indent=2, ensure_ascii=False)
 
         print(f"✓ Generated {len(articles)} article metadata entries")
+        print(f"✓ File size: {OUTPUT_FILE.stat().st_size} bytes")
         print(f"✓ Saved to {OUTPUT_FILE}")
 
         # Show newest article
