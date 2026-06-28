@@ -91,42 +91,6 @@
         {{ placement::render(id="home_hero_after") }}
 
         <div class="home-discovery__layout">
-            <aside class="home-discovery__rail" aria-label="Lọc chủ đề">
-                <div class="home-discovery__rail-head">
-                    <h2 class="home-discovery__rail-title">Khám phá</h2>
-                    <button type="button" class="home-discovery__rail-toggle" data-home-filter-toggle
-                            aria-expanded="false" aria-controls="home-filter-panel">Lọc</button>
-                </div>
-                <nav class="home-discovery__rail-nav" id="home-filter-panel" data-home-filter-panel>
-                    <ul class="home-discovery__topics" role="list">
-                        {# Dynamic categories from real posts #}
-                        <li><button type="button" class="home-discovery__topic is-active" data-filter-category="">Tất cả</button></li>
-                        {% if homepage_categories and homepage_categories.categories %}
-                            {% for cat_item in homepage_categories.categories %}
-                                <li><button type="button" class="home-discovery__topic" data-filter-category="{{ cat_item.name }}">{{ cat_item.name }}</button></li>
-                            {% endfor %}
-                        {% else %}
-                            {# Fallback if categories data doesn't exist #}
-                            <li><button type="button" class="home-discovery__topic" data-filter-category="Công nghệ">Công nghệ</button></li>
-                            <li><button type="button" class="home-discovery__topic" data-filter-category="Ngân hàng">Ngân hàng</button></li>
-                            <li><button type="button" class="home-discovery__topic" data-filter-category="Du lịch">Du lịch</button></li>
-                            <li><button type="button" class="home-discovery__topic" data-filter-category="SEO">SEO</button></li>
-                        {% endif %}
-                    </ul>
-                    <p class="home-discovery__quick-label">Lọc nhanh</p>
-                    <div class="home-discovery__chips" role="group" aria-label="Lọc nhanh">
-                        <button type="button" class="home-discovery__chip is-active" data-filter-quick="latest">Mới nhất</button>
-                        <button type="button" class="home-discovery__chip" data-filter-quick="featured">Biên tập chọn</button>
-                        <button type="button" class="home-discovery__chip" data-filter-quick="sticky">Bài nổi bật</button>
-                        <button type="button" class="home-discovery__chip" data-filter-quick="series">Có series</button>
-                        <button type="button" class="home-discovery__chip" data-filter-quick="faq">Có FAQ</button>
-                    </div>
-                    <ul class="home-discovery__topic-links" role="list">
-                        <li><a href="{{ get_url(path='@/archive/_index.md') }}">Xem toàn bộ {{ feed_total }} bài →</a></li>
-                    </ul>
-                </nav>
-            </aside>
-
             <section class="home-discovery__feed" aria-label="Bài viết mới">
                 {% if sticky and page_num == 1 %}
                     {% set_global sticky_cat = "" %}
