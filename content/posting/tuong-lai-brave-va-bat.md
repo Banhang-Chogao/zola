@@ -2,10 +2,11 @@
 title = "Tương lai của Brave và BAT — từ trình duyệt riêng tư đến kinh tế chú ý"
 description = "Tương lai Brave và BAT phụ thuộc trải nghiệm người dùng, hệ sinh thái đối tác và niềm tin vào mô hình quảng cáo riêng tư, tự nguyện."
 date = 2026-06-29T10:05:00Z
+aliases = ["/tuong-lai-brave-va-bat/"]
 updated = 2026-06-29T10:05:00Z
 [taxonomies]
 categories = ["Tất cả", "Công nghệ", "Series"]
-tags = ["Brave Browser", "BAT", "Web3", "Privacy", "Browser", "Brave Rewards"]
+tags = ["bat", "brave browser", "brave rewards", "browser", "privacy", "web3"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 seo_title = "Tương lai Brave và BAT trong kinh tế chú ý"

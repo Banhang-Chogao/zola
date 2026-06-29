@@ -2,10 +2,11 @@
 title = "Brave Browser: quảng cáo không theo dõi người dùng có sống được không?"
 description = "Brave Browser thử xây lại quảng cáo số bằng quyền riêng tư mặc định, quảng cáo tự nguyện và phần thưởng BAT cho sự chú ý của người dùng."
 date = 2026-06-29T10:01:00Z
+aliases = ["/brave-browser-quang-cao-khong-theo-doi/"]
 updated = 2026-06-29T10:01:00Z
 [taxonomies]
 categories = ["Tất cả", "Công nghệ", "Series"]
-tags = ["Brave Browser", "BAT", "Web3", "Privacy", "Browser", "Brave Rewards"]
+tags = ["bat", "brave browser", "brave rewards", "browser", "privacy", "web3"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 seo_title = "Brave Browser và quảng cáo không theo dõi"

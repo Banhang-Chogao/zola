@@ -2,10 +2,11 @@
 title = "Từ quảng cáo truyền thống đến BAT — Brave viết lại cách kiếm tiền trên Internet"
 description = "Brave thử phân phối lại giá trị quảng cáo giữa người dùng, nhà quảng cáo và creator bằng quyền lựa chọn, quảng cáo riêng tư và BAT."
 date = 2026-06-29T10:04:00Z
+aliases = ["/quang-cao-truyen-thong-den-bat/"]
 updated = 2026-06-29T10:04:00Z
 [taxonomies]
 categories = ["Tất cả", "Công nghệ", "Series"]
-tags = ["Brave Browser", "BAT", "Web3", "Privacy", "Browser", "Brave Rewards"]
+tags = ["bat", "brave browser", "brave rewards", "browser", "privacy", "web3"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 seo_title = "Từ quảng cáo truyền thống đến mô hình BAT"

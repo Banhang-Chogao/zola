@@ -2,10 +2,11 @@
 title = "Brave Origin — khi người dùng trả tiền để giữ một trình duyệt riêng tư, tối giản và không bị làm phiền"
 description = "Review Brave Origin: bản Brave trả phí một lần, giữ Shields, cập nhật Chromium và quyền riêng tư nhưng cho phép loại bỏ các tính năng không cần thiết."
 date = 2026-06-29T10:06:00Z
+aliases = ["/brave-origin-trinh-duyet-rieng-tu-toi-gian/"]
 updated = 2026-06-29T10:06:00Z
 [taxonomies]
 categories = ["Tất cả", "Công nghệ", "Series"]
-tags = ["Brave Browser", "Brave Origin", "Privacy", "Web Browser", "Chromium", "Ad Block", "Open Source"]
+tags = ["ad block", "brave browser", "brave origin", "chromium", "open source", "privacy", "web browser"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 og_image = "https://seomoney.org/img/placeholder/placeholder.svg"

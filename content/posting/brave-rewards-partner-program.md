@@ -2,10 +2,11 @@
 title = "Brave Rewards Partner Program — khi BAT bước vào đời sống Web3"
 description = "Brave Rewards 3.0 Partner Program mở rộng tiện ích BAT qua game, danh tính số, creator, thương mại và các trải nghiệm Web3."
 date = 2026-06-29T10:03:00Z
+aliases = ["/brave-rewards-partner-program/"]
 updated = 2026-06-29T10:03:00Z
 [taxonomies]
 categories = ["Tất cả", "Công nghệ", "Series"]
-tags = ["Brave Browser", "BAT", "Web3", "Privacy", "Browser", "Brave Rewards"]
+tags = ["bat", "brave browser", "brave rewards", "browser", "privacy", "web3"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 seo_title = "Brave Rewards Partner Program và tiện ích BAT"
