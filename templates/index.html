@@ -550,7 +550,8 @@
                     <ul class="home-editorial__rail-posts home-editorial__rail-posts--text">
                         {% for page in popular_posts %}
                             <li class="home-editorial__rail-post home-editorial__rail-post--text">
-                                <div>
+                                <span class="home-editorial__rail-index" aria-hidden="true">{{ loop.index }}</span>
+                                <div class="home-editorial__rail-copy">
                                     <h5><a href="{{ page.permalink }}">{{ page.title }}</a></h5>
                                     <time datetime="{{ page.date }}">{{ dt::display_datetime(value=page.date) }}</time>
                                 </div>
