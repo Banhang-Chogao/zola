@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros/placement.html" as placement %}
 {% import "macros/img.html" as img %}
 {% import "macros/premium.html" as premium %}
 {% import "macros/hot-search.html" as hot_search %}
@@ -145,6 +146,9 @@
             </div>
         </header>
 
+        {# Content placement hook: home_hero_after. #}
+        {{ placement::render(id="home_hero_after", page=page | default(value=false), section=section | default(value=false)) }}
+
         <nav class="home-editorial__category-nav" aria-label="Chuyên mục nổi bật">
             <a class="is-active" href="#editorial-top">Tất cả</a>
             <a href="#topic-seo-ai">SEO</a>
@@ -154,6 +158,9 @@
             <a href="#topic-life">Đời sống</a>
             <a href="#series">Series</a>
         </nav>
+
+        {# Content placement hook: home_top_banner_below. #}
+        {{ placement::render(id="home_top_banner_below", page=page | default(value=false), section=section | default(value=false)) }}
 
         <section class="home-editorial__front-grid" id="editorial-top" aria-label="Câu chuyện hôm nay">
             {% if sticky %}
