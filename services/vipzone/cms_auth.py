@@ -17,6 +17,8 @@ from github_repo import check_repo_superadmin
 from roles import resolve_role, username_is_superadmin
 
 SESSION_COOKIE_NAME = os.getenv("VIPZONE_SESSION_COOKIE", "zola_cms_sid")
+CMS_V2_RETURN_TO = "https://seomoney.org/cms-v2/"
+CMS_RETURN_TO_HOST = "seomoney.org"
 
 BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://seomoney.org").rstrip("/")
 BACKEND_URL = os.getenv(
@@ -234,6 +236,38 @@ def normalize_return_to(return_to: str) -> str:
     return "/editor/"
 
 
+def normalize_github_return_to(return_to: str) -> str:
+    """Return an absolute, allowlisted URL for the GitHub OAuth round trip."""
+    rt = (return_to or "").strip()
+    if not rt:
+        return CMS_V2_RETURN_TO
+
+    parsed = urlparse(rt)
+    if (
+        parsed.scheme == "https"
+        and parsed.netloc == CMS_RETURN_TO_HOST
+        and parsed.hostname == CMS_RETURN_TO_HOST
+    ):
+        return rt
+
+    # Keep legacy callers using an internal path on the canonical site.
+    if rt.startswith("/") and not rt.startswith("//"):
+        return f"https://{CMS_RETURN_TO_HOST}{rt}"
+
+    return CMS_V2_RETURN_TO
+
+
+def require_github_oauth_env() -> None:
+    """Fail clearly without exposing values or unrelated configuration."""
+    missing = []
+    if not GH_CLIENT_ID:
+        missing.append("GITHUB_CLIENT_ID")
+    if not GH_CLIENT_SECRET:
+        missing.append("GITHUB_CLIENT_SECRET")
+    if missing:
+        raise HTTPException(500, detail=missing)
+
+
 def build_blog_url(
     return_to: str,
     fragment: str = "",
@@ -409,17 +443,14 @@ def session_role_payload(db: VipzoneDB, profile: dict[str, Any]) -> dict[str, An
     "/auth/login",
     summary="Start GitHub OAuth",
     response_class=RedirectResponse,
-    responses={307: {"description": "Redirect to GitHub authorize"}, 503: {"description": "OAuth not configured"}},
+    responses={302: {"description": "Redirect to GitHub authorize"}, 500: {"description": "OAuth environment missing"}},
 )
-async def auth_login(return_to: str = "/editor/") -> RedirectResponse:
-    if not _github_enabled():
-        return redirect_with_error("github_disabled", return_to)
-    if not GH_CLIENT_ID or not GH_CLIENT_SECRET:
-        raise HTTPException(503, "oauth_not_configured")
+async def auth_login(return_to: str = CMS_V2_RETURN_TO) -> RedirectResponse:
+    require_github_oauth_env()
     from main import get_db
 
     db = get_db()
-    rt = normalize_return_to(return_to)
+    rt = normalize_github_return_to(return_to)
     state = secrets.token_urlsafe(24)
     db.save_oauth_state(state, rt)
     params = urlencode({
@@ -429,18 +460,25 @@ async def auth_login(return_to: str = "/editor/") -> RedirectResponse:
         "redirect_uri": f"{BACKEND_URL}/auth/callback",
         "allow_signup": "false",
     })
-    return RedirectResponse(f"https://github.com/login/oauth/authorize?{params}")
+    return RedirectResponse(
+        f"https://github.com/login/oauth/authorize?{params}",
+        status_code=302,
+    )
 
 
 @router.get(
     "/auth/callback",
     summary="GitHub OAuth callback",
     response_class=RedirectResponse,
-    responses={307: {"description": "Redirect back to blog with #sid= session fragment"}},
+    responses={
+        302: {"description": "Set the session cookie and redirect to return_to"},
+        500: {"description": "OAuth environment missing"},
+    },
 )
 async def auth_callback(code: str = "", state: str = "") -> RedirectResponse:
     from main import get_db
 
+    require_github_oauth_env()
     if not code or not state:
         return redirect_with_error("missing_params")
     db = get_db()
@@ -510,9 +548,7 @@ async def auth_callback(code: str = "", state: str = "") -> RedirectResponse:
         },
         SESSION_TTL,
     )
-    response = RedirectResponse(
-        build_blog_url(return_to, fragment=f"sid={sid}", extra_query={"auth": "success"}),
-    )
+    response = RedirectResponse(return_to, status_code=302)
     attach_session_cookie(response, sid)
     return response
 

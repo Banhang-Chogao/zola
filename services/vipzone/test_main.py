@@ -6,6 +6,7 @@ import os
 import tempfile
 import unittest
 from pathlib import Path
+from urllib.parse import parse_qs, urlparse
 
 from fastapi.testclient import TestClient
 
@@ -91,7 +92,11 @@ class VipzoneApiTests(unittest.TestCase):
 
     def test_auth_login_without_oauth_config(self) -> None:
         res = self.client.get("/auth/login")
-        self.assertEqual(res.status_code, 503)
+        self.assertEqual(res.status_code, 500)
+        self.assertEqual(
+            res.json()["detail"],
+            ["GITHUB_CLIENT_ID", "GITHUB_CLIENT_SECRET"],
+        )
 
     def test_auth_login_redirects_when_configured(self) -> None:
         import cms_auth as auth_mod
@@ -102,14 +107,19 @@ class VipzoneApiTests(unittest.TestCase):
         try:
             res = self.client.get(
                 "/auth/login",
-                params={"return_to": "/editor/"},
+                params={"return_to": "https://seomoney.org/cms-v2/"},
                 follow_redirects=False,
             )
-            self.assertEqual(res.status_code, 307)
+            self.assertEqual(res.status_code, 302)
             loc = res.headers.get("location", "")
             self.assertIn("github.com/login/oauth/authorize", loc)
             self.assertIn("client_id=test-client-id", loc)
             self.assertIn("redirect_uri=", loc)
+            state = parse_qs(urlparse(loc).query)["state"][0]
+            self.assertEqual(
+                get_db().pop_oauth_state(state),
+                "https://seomoney.org/cms-v2/",
+            )
         finally:
             auth_mod.GH_CLIENT_ID, auth_mod.GH_CLIENT_SECRET = old_id, old_secret
 
