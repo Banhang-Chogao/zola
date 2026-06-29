@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-29T14:37:10Z",
+  "updated_at": "2026-06-29T21:01:14Z",
   "tasks": [
     {
       "id": "seo",
@@ -17,25 +17,25 @@
       "status": "running",
       "detail": "0 broken links · 10 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-28T18:59:49Z"
+      "updated_at": "2026-06-29T16:45:40Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 59/100 · LCP 8.9 s · needs work",
+      "detail": "Mobile 31/100 · LCP 6.8 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-29T00:18:30+00:00"
+      "updated_at": "2026-06-29T14:54:38+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 885/885 pages",
+      "detail": "15 pages missing FAQ/schema · 908/908 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-28T18:59:49Z"
+      "updated_at": "2026-06-29T16:45:40Z"
     },
     {
       "id": "content_refresh",
@@ -51,9 +51,9 @@
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "done",
-      "detail": "1148 links OK · IndexNow on publish",
+      "detail": "1150 links OK · IndexNow on publish",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-29T14:00:32Z"
+      "updated_at": "2026-06-29T20:36:30Z"
     },
     {
       "id": "image_opt",
@@ -62,16 +62,16 @@
       "status": "running",
       "detail": "2 large file(s)",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-28T18:59:49Z"
+      "updated_at": "2026-06-29T16:45:40Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 59/100 vs desktop 90/100 (Δ31) · 885/885 ready",
+      "detail": "Mobile 31/100 vs desktop 89/100 (Δ58) · 908/908 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-29T00:18:30+00:00"
+      "updated_at": "2026-06-29T14:54:38+00:00"
     }
   ],
   "summary": {
