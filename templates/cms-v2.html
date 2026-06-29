@@ -42,8 +42,8 @@
 
             <div class="cms-v2__topbar-meta">
                 <div class="cms-v2__status-pills" aria-label="Workspace status">
-                    <span class="cms-v2__status-pill">GitHub connected</span>
-                    <span class="cms-v2__status-pill">Role / superadmin</span>
+                    <span class="cms-v2__status-pill" data-cms-v2-backend-pill>GitHub connected</span>
+                    <span class="cms-v2__status-pill" data-cms-v2-role-pill>User role / superadmin</span>
                 </div>
 
                 <div class="cms-v2__usercard" data-cms-v2-usercard hidden>
@@ -86,14 +86,13 @@
 
                     <div class="cms-v2__action-row">
                         <button
-                            type="reset"
+                            type="button"
                             class="cms-v2__button cms-v2__button--primary"
-                            form="cms-v2-composer-form"
-                            data-cms-v2-clear-draft
+                            data-cms-v2-new-draft
                         >
                             New Draft
                         </button>
-                        <button type="button" class="cms-v2__button cms-v2__button--ghost" aria-disabled="true" disabled>
+                        <button type="button" class="cms-v2__button cms-v2__button--ghost" data-cms-v2-review-queue>
                             Review Queue
                         </button>
                     </div>
@@ -108,6 +107,9 @@
                         <p class="cms-v2__desk-note">
                             Workspace workflow is kept local until a publish path is explicitly enabled.
                         </p>
+                        <p class="cms-v2__desk-note" data-cms-v2-shortcut-note>
+                            Shortcut: Ctrl/Cmd + Shift + C để copy Markdown nhanh.
+                        </p>
                     </article>
 
                     <article class="cms-v2__card cms-v2__card--command">
@@ -115,19 +117,19 @@
                         <div class="cms-v2__status-stack">
                             <div class="cms-v2__status-row">
                                 <span>Auth</span>
-                                <strong>GitHub connected</strong>
+                                <strong data-cms-v2-auth-state>Waiting for login</strong>
                             </div>
                             <div class="cms-v2__status-row">
                                 <span>Session</span>
-                                <strong>superadmin OK</strong>
+                                <strong data-cms-v2-session-state>No active session</strong>
                             </div>
                             <div class="cms-v2__status-row">
                                 <span>Draft</span>
-                                <strong>local active</strong>
+                                <strong data-cms-v2-draft-state>Local draft idle</strong>
                             </div>
                             <div class="cms-v2__status-row">
                                 <span>Publish</span>
-                                <strong>not enabled yet</strong>
+                                <strong data-cms-v2-publish-state>Not published yet</strong>
                             </div>
                         </div>
                     </article>
@@ -202,6 +204,7 @@
                                 type="text"
                                 class="cms-v2__input"
                                 name="series"
+                                data-cms-v2-series
                                 placeholder="Editorial series / collection"
                             >
                         </label>
@@ -356,10 +359,13 @@
                     </div>
 
                     <div class="cms-v2__composer-actions">
-                        <button type="button" class="cms-v2__button cms-v2__button--primary" data-cms-v2-copy-markdown>
+                        <button type="submit" class="cms-v2__button cms-v2__button--primary" data-cms-v2-publish>
+                            Publish to GitHub
+                        </button>
+                        <button type="button" class="cms-v2__button cms-v2__button--ghost" data-cms-v2-copy-markdown>
                             Copy Markdown
                         </button>
-                        <button type="reset" class="cms-v2__button cms-v2__button--ghost">
+                        <button type="button" class="cms-v2__button cms-v2__button--ghost" data-cms-v2-clear-draft>
                             Clear Draft
                         </button>
                     </div>
@@ -380,20 +386,20 @@
                 <article class="cms-v2__preview-card">
                     <div class="cms-v2__preview-meta">
                         <span>Category</span>
-                        <strong>SEOMONEY</strong>
+                        <strong data-cms-v2-preview-category>SEOMONEY</strong>
                         <span>Date</span>
-                        <strong>{{ today_display }}</strong>
+                        <strong data-cms-v2-preview-date>{{ today_display }}</strong>
                         <span>Author</span>
-                        <strong>{{ author_name }}</strong>
+                        <strong data-cms-v2-preview-author>{{ author_name }}</strong>
                     </div>
 
                     <div class="cms-v2__preview-body">
                         <p class="cms-v2__preview-kicker">Headline preview</p>
-                        <h3 class="cms-v2__preview-title">CMS-V2 workspace draft</h3>
-                        <p class="cms-v2__preview-excerpt">
+                        <h3 class="cms-v2__preview-title" data-cms-v2-preview-title>CMS-V2 workspace draft</h3>
+                        <p class="cms-v2__preview-excerpt" data-cms-v2-preview-excerpt>
                             Excerpt preview will reflect the draft summary and metadata flow.
                         </p>
-                        <div class="cms-v2__preview-markdown" data-cms-v2-markdown-preview>
+                        <div class="cms-v2__preview-markdown" data-cms-v2-preview-body>
                             # Draft body
 
                             Live markdown source will appear here.
@@ -497,10 +503,71 @@
                 </div>
             </section>
         </div>
+
+        <div class="cms-v2__review-modal" data-cms-v2-review-modal hidden>
+            <div class="cms-v2__review-modal-card" role="dialog" aria-modal="true" aria-labelledby="cms-v2-review-title">
+                <div class="cms-v2__review-modal-head">
+                    <div>
+                        <p class="cms-v2__eyebrow">Review queue</p>
+                        <h2 class="cms-v2__panel-title" id="cms-v2-review-title">Editorial Review Queue</h2>
+                        <p class="cms-v2__panel-copy">
+                            Tóm tắt trạng thái draft hiện tại, lịch sử publish gần nhất và hành động đẩy bài lên repo.
+                        </p>
+                    </div>
+                    <button type="button" class="cms-v2__button cms-v2__button--ghost" data-cms-v2-close-review>
+                        Close
+                    </button>
+                </div>
+
+                <div class="cms-v2__review-grid">
+                    <article class="cms-v2__card">
+                        <span class="cms-v2__card-label">Queue state</span>
+                        <div class="cms-v2__status-stack cms-v2__status-stack--compact">
+                            <div class="cms-v2__status-row">
+                                <span>Auth</span>
+                                <strong data-cms-v2-review-auth>Waiting</strong>
+                            </div>
+                            <div class="cms-v2__status-row">
+                                <span>Draft</span>
+                                <strong data-cms-v2-review-draft>Blank</strong>
+                            </div>
+                            <div class="cms-v2__status-row">
+                                <span>QA</span>
+                                <strong data-cms-v2-review-qa>Not checked yet</strong>
+                            </div>
+                            <div class="cms-v2__status-row">
+                                <span>Publish</span>
+                                <strong data-cms-v2-review-publish>Not published yet</strong>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="cms-v2__card">
+                        <span class="cms-v2__card-label">Recent publishes</span>
+                        <div class="cms-v2__review-history" data-cms-v2-review-history>
+                            <p class="cms-v2__card-note">Chưa có publish nào trong phiên này.</p>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="cms-v2__review-actions">
+                    <button type="button" class="cms-v2__button cms-v2__button--primary" data-cms-v2-publish>
+                        Publish to GitHub
+                    </button>
+                    <button type="button" class="cms-v2__button cms-v2__button--ghost" data-cms-v2-copy-markdown>
+                        Copy Markdown
+                    </button>
+                    <button type="button" class="cms-v2__button cms-v2__button--ghost" data-cms-v2-new-draft>
+                        New Draft
+                    </button>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
     <script src="{{ get_url(path='js/cms-v2.js') }}?v={{ asset_version }}" defer></script>
 {% endblock %}

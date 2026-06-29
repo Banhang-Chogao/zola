@@ -1,13 +1,12 @@
 /**
  * CMS-V2 controller
  *
- * Read-only first version:
- *   - GitHub OAuth admin gate
- *   - tab switching
- *   - live composer validation
- *   - homepage/ad/SEO previews
- *
- * No write/publish API is assumed here.
+ * Connects the CMS-V2 workspace shell to:
+ * - GitHub auth gate
+ * - draft autosave / restore
+ * - live preview + QA
+ * - GitHub repo publish via /cms/save-post
+ * - review queue modal backed by local history
  */
 (function () {
   "use strict";
@@ -22,8 +21,12 @@
   })();
 
   var SESSION_KEY = "zola-cms-session-id";
+  var DRAFT_KEY = "seomoney.cmsv2.draft.v1";
+  var HISTORY_KEY = "seomoney.cmsv2.publish-history.v1";
   var CMS_RETURN_TO = "https://seomoney.org/cms-v2/";
   var AUTH_TIMEOUT_MS = 10000;
+  var MARKED = window.marked || null;
+
   var root = document.querySelector("[data-cms-v2]");
   if (!root) return;
 
@@ -39,6 +42,42 @@
   var tabs = Array.prototype.slice.call(root.querySelectorAll("[data-cms-v2-tab]"));
   var panels = Array.prototype.slice.call(root.querySelectorAll("[data-cms-v2-panel]"));
 
+  var topbarPill = root.querySelector("[data-cms-v2-backend-pill]");
+  var rolePill = root.querySelector("[data-cms-v2-role-pill]");
+  var authState = root.querySelector("[data-cms-v2-auth-state]");
+  var sessionState = root.querySelector("[data-cms-v2-session-state]");
+  var draftState = root.querySelector("[data-cms-v2-draft-state]");
+  var publishState = root.querySelector("[data-cms-v2-publish-state]");
+  var reviewAuth = root.querySelector("[data-cms-v2-review-auth]");
+  var reviewDraft = root.querySelector("[data-cms-v2-review-draft]");
+  var reviewQa = root.querySelector("[data-cms-v2-review-qa]");
+  var reviewPublish = root.querySelector("[data-cms-v2-review-publish]");
+  var reviewModal = root.querySelector("[data-cms-v2-review-modal]");
+  var reviewHistory = root.querySelector("[data-cms-v2-review-history]");
+
+  var preview = {
+    category: root.querySelector("[data-cms-v2-preview-category]"),
+    date: root.querySelector("[data-cms-v2-preview-date]"),
+    author: root.querySelector("[data-cms-v2-preview-author]"),
+    title: root.querySelector("[data-cms-v2-preview-title]"),
+    excerpt: root.querySelector("[data-cms-v2-preview-excerpt]"),
+    body: root.querySelector("[data-cms-v2-preview-body]"),
+  };
+
+  var qa = {
+    titleLength: root.querySelector("[data-cms-v2-title-length]"),
+    metaLength: root.querySelector("[data-cms-v2-meta-length]"),
+    slugQuality: root.querySelector("[data-cms-v2-slug-quality]"),
+    schemaStatus: root.querySelector("[data-cms-v2-schema-status]"),
+    h1Match: root.querySelector("[data-cms-v2-h1-match]"),
+    checks: {
+      external: root.querySelector("[data-cms-v2-check='external'] strong"),
+      internal: root.querySelector("[data-cms-v2-check='internal'] strong"),
+      copyright: root.querySelector("[data-cms-v2-check='copyright'] strong"),
+      editorial: root.querySelector("[data-cms-v2-check='editorial'] strong"),
+    },
+  };
+
   var fields = {
     title: root.querySelector("[data-cms-v2-title]"),
     slug: root.querySelector("[data-cms-v2-slug]"),
@@ -50,6 +89,7 @@
     metaDescription: root.querySelector("[data-cms-v2-meta-description]"),
     heroImage: root.querySelector("[data-cms-v2-hero-image]"),
     heroMode: root.querySelector("[data-cms-v2-hero-mode]"),
+    series: root.querySelector("[data-cms-v2-series]"),
     tags: root.querySelector("[data-cms-v2-tags]"),
     body: root.querySelector("[data-cms-v2-body]"),
     faq: root.querySelector("[data-cms-v2-faq]"),
@@ -61,17 +101,28 @@
   };
 
   var canonical = root.querySelector("[data-cms-v2-canonical]");
-  var schemaStatus = root.querySelector("[data-cms-v2-schema-status]");
-  var titleLength = root.querySelector("[data-cms-v2-title-length]");
-  var metaLength = root.querySelector("[data-cms-v2-meta-length]");
-  var slugQuality = root.querySelector("[data-cms-v2-slug-quality]");
-  var h1Match = root.querySelector("[data-cms-v2-h1-match]");
+  var reviewOpenButtons = Array.prototype.slice.call(root.querySelectorAll("[data-cms-v2-review-queue]"));
+  var reviewCloseButton = root.querySelector("[data-cms-v2-close-review]");
+  var newDraftButtons = Array.prototype.slice.call(root.querySelectorAll("[data-cms-v2-new-draft]"));
+  var publishButtons = Array.prototype.slice.call(root.querySelectorAll("[data-cms-v2-publish]"));
+  var copyButtons = Array.prototype.slice.call(root.querySelectorAll("[data-cms-v2-copy-markdown]"));
+  var clearButtons = Array.prototype.slice.call(root.querySelectorAll("[data-cms-v2-clear-draft]"));
+  var copyrightNote = root.querySelector("[data-cms-v2-shortcut-note]");
 
-  var requiredChecks = {
-    external: root.querySelector("[data-cms-v2-check='external'] strong"),
-    internal: root.querySelector("[data-cms-v2-check='internal'] strong"),
-    copyright: root.querySelector("[data-cms-v2-check='copyright'] strong"),
-    editorial: root.querySelector("[data-cms-v2-check='editorial'] strong"),
+  var state = {
+    user: null,
+    authError: "",
+    authenticated: false,
+    provider: "",
+    dirty: false,
+    lastAutosaveAt: "",
+    lastPublishAt: "",
+    lastPublishCommit: "",
+    lastPublishUrl: "",
+    lastPublishPath: "",
+    lastPublishTitle: "",
+    history: [],
+    categories: [],
   };
 
   function setHidden(el, hidden) {
@@ -80,19 +131,75 @@
     el.setAttribute("aria-hidden", hidden ? "true" : "false");
   }
 
-  function isAdminUser(user) {
-    return !!user && (
-      user.is_super === true ||
-      user.is_admin === true ||
-      user.role === "superadmin" ||
-      user.role === "admin" ||
-      user.account_type === "admin"
-    );
+  function norm(value) {
+    return (value || "").toString().trim();
   }
 
-  function setRootAuthState(isAuthenticated) {
-    root.classList.toggle("is-authenticated", !!isAuthenticated);
-    root.classList.toggle("is-guest", !isAuthenticated);
+  function escapeHtml(value) {
+    return norm(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function tomlEscape(value) {
+    return norm(value)
+      .replace(/\\/g, "\\\\")
+      .replace(/"/g, '\\"')
+      .replace(/\r?\n/g, " ")
+      .replace(/\t/g, " ");
+  }
+
+  function tomlQuoted(value) {
+    return '"' + tomlEscape(value) + '"';
+  }
+
+  function setText(el, value) {
+    if (el) el.textContent = value == null ? "" : String(value);
+  }
+
+  function todayIso() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  function todayDisplay() {
+    try {
+      return new Intl.DateTimeFormat("vi-VN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        timeZone: "Asia/Ho_Chi_Minh",
+      }).format(new Date());
+    } catch (e) {
+      return todayIso();
+    }
+  }
+
+  function slugify(value) {
+    return norm(value)
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "d")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 90);
+  }
+
+  function splitCommaList(raw) {
+    return norm(raw)
+      .split(",")
+      .map(function (item) { return norm(item); })
+      .filter(Boolean);
+  }
+
+  function splitMultiline(raw) {
+    return norm(raw)
+      .split(/\r?\n/)
+      .map(function (item) { return norm(item); })
+      .filter(Boolean);
   }
 
   function getSid() {
@@ -100,6 +207,12 @@
       return localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) || "";
     } catch (e) {}
     return "";
+  }
+
+  function saveSid(sid) {
+    if (!sid) return;
+    try { sessionStorage.setItem(SESSION_KEY, sid); } catch (e) {}
+    try { localStorage.setItem(SESSION_KEY, sid); } catch (e) {}
   }
 
   function clearSid() {
@@ -115,16 +228,29 @@
 
   function consumeAuthParams() {
     var params = new URLSearchParams(location.search);
-    var authError = params.get("auth_error") || "";
     var sid = readHashSid();
-    var hadAuthParams = params.has("auth") || params.has("auth_error") || !!sid;
-    params.delete("auth");
-    params.delete("auth_error");
-    if (hadAuthParams) {
+    var authError = params.get("auth_error") || "";
+    var changed = false;
+
+    if (sid) {
+      saveSid(sid);
+      changed = true;
+    }
+
+    if (params.has("auth") || params.has("auth_error") || sid) {
+      params.delete("auth");
+      params.delete("auth_error");
       try {
         history.replaceState(null, "", location.pathname + (params.toString() ? "?" + params.toString() : ""));
       } catch (e) {}
     }
+
+    if (location.hash && sid) {
+      try {
+        history.replaceState(null, "", location.pathname + location.search);
+      } catch (e) {}
+    }
+
     return authError;
   }
 
@@ -138,6 +264,34 @@
     if (event) event.preventDefault();
     if (!AUTH_API) return;
     window.location.assign(buildLoginUrl());
+  }
+
+  function normalizeUser(user) {
+    if (!user || typeof user !== "object") return null;
+    return {
+      authenticated: user.authenticated !== false,
+      provider: user.provider || "",
+      email: user.email || "",
+      username: user.username || "",
+      name: user.name || user.username || "",
+      avatar: user.avatar_url || user.avatar || "",
+      avatar_url: user.avatar_url || user.avatar || "",
+      role: user.role || "",
+      is_admin: user.is_admin === true,
+      is_super: user.is_super === true,
+      account_type: user.account_type || "",
+      comment_role: user.comment_role || "",
+    };
+  }
+
+  function isAdminUser(user) {
+    return !!user && (
+      user.is_super === true ||
+      user.is_admin === true ||
+      user.role === "superadmin" ||
+      user.role === "admin" ||
+      user.account_type === "admin"
+    );
   }
 
   async function meRequest() {
@@ -173,67 +327,495 @@
     return null;
   }
 
-  function normalizeUser(user) {
-    if (!user || typeof user !== "object") return null;
+  function authProviderLabel(user) {
+    if (!user) return "GitHub";
+    if (user.provider === "google") return "Google";
+    return "GitHub";
+  }
+
+  function updatePublishButtons() {
+    var disabled = !state.authenticated || !state.user || state.user.provider !== "github";
+    publishButtons.forEach(function (btn) {
+      btn.disabled = disabled;
+      btn.title = disabled ? "Cần session GitHub admin để publish lên repo." : "Publish bài lên GitHub";
+    });
+  }
+
+  function renderHistory() {
+    if (!reviewHistory) return;
+    if (!state.history.length) {
+      reviewHistory.innerHTML = '<p class="cms-v2__card-note">Chưa có publish nào trong phiên này.</p>';
+      return;
+    }
+    reviewHistory.innerHTML = state.history.slice(0, 5).map(function (item) {
+      var commitLink = item.commitUrl
+        ? '<a href="' + escapeHtml(item.commitUrl) + '" target="_blank" rel="noopener">Xem commit</a>'
+        : '';
+      return (
+        '<div class="cms-v2__review-item">' +
+          '<strong>' + escapeHtml(item.title || item.slug || "Untitled") + '</strong>' +
+          '<span>' + escapeHtml(item.path || "") + '</span>' +
+          '<span>' + escapeHtml(item.at || "") + commitLink + '</span>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function loadHistory() {
+    try {
+      var raw = localStorage.getItem(HISTORY_KEY) || "";
+      if (!raw) return [];
+      var data = JSON.parse(raw);
+      return Array.isArray(data) ? data : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveHistory() {
+    try {
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(state.history.slice(0, 8)));
+    } catch (e) {}
+  }
+
+  function loadDraft() {
+    try {
+      var raw = localStorage.getItem(DRAFT_KEY) || "";
+      if (!raw) return null;
+      var data = JSON.parse(raw);
+      return data && typeof data === "object" ? data : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function serializeDraft() {
+    var data = {};
+    Object.keys(fields).forEach(function (key) {
+      var el = fields[key];
+      if (el) data[key] = el.value || "";
+    });
+    data.lastAutosaveAt = state.lastAutosaveAt;
+    data.lastPublishAt = state.lastPublishAt;
+    data.lastPublishCommit = state.lastPublishCommit;
+    data.lastPublishUrl = state.lastPublishUrl;
+    data.lastPublishPath = state.lastPublishPath;
+    data.lastPublishTitle = state.lastPublishTitle;
+    return data;
+  }
+
+  function saveDraft() {
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(serializeDraft()));
+    } catch (e) {}
+  }
+
+  function applyDraft(data) {
+    if (!data) return false;
+    Object.keys(fields).forEach(function (key) {
+      var el = fields[key];
+      if (el && typeof data[key] !== "undefined") {
+        el.value = data[key];
+      }
+    });
+    if (fields.slug) {
+      fields.slug.dataset.cmsV2Touched = norm(data.slug) ? "true" : "";
+    }
+    if (data.lastAutosaveAt) state.lastAutosaveAt = data.lastAutosaveAt;
+    if (data.lastPublishAt) state.lastPublishAt = data.lastPublishAt;
+    if (data.lastPublishCommit) state.lastPublishCommit = data.lastPublishCommit;
+    if (data.lastPublishUrl) state.lastPublishUrl = data.lastPublishUrl;
+    if (data.lastPublishPath) state.lastPublishPath = data.lastPublishPath;
+    if (data.lastPublishTitle) state.lastPublishTitle = data.lastPublishTitle;
+    return true;
+  }
+
+  function resetFields() {
+    var authorDefault = (fields.author && (fields.author.getAttribute("value") || fields.author.getAttribute("placeholder"))) || "SEOMONEY";
+    Object.keys(fields).forEach(function (key) {
+      var el = fields[key];
+      if (!el) return;
+      if (key === "author") {
+        el.value = authorDefault;
+      } else if (key === "section") {
+        el.value = "posting";
+      } else if (key === "category") {
+        el.value = "Công nghệ";
+      } else if (key === "heroMode") {
+        el.value = "fallback";
+      } else if (key === "series") {
+        el.value = "";
+      } else {
+        el.value = "";
+      }
+    });
+    if (fields.slug) {
+      fields.slug.dataset.cmsV2Touched = "";
+    }
+    state.dirty = false;
+    state.lastAutosaveAt = "";
+    updateCanonical();
+    updatePreview();
+    updateQA();
+    updateCommandPanel();
+    saveDraft();
+  }
+
+  function clearDraft() {
+    if (!window.confirm("Xoá draft local trên trình duyệt này?")) return;
+    try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+    resetFields();
+    state.lastAutosaveAt = "";
+    state.dirty = false;
+    setCommandState("Draft", "Local draft cleared");
+  }
+
+  function newDraft() {
+    if (!window.confirm("Tạo draft mới và bỏ nội dung hiện tại?")) return;
+    resetFields();
+    state.dirty = false;
+    setCommandState("Draft", "New blank draft ready");
+  }
+
+  function setCommandState(kind, message) {
+    if (kind === "Auth") setText(authState, message);
+    else if (kind === "Session") setText(sessionState, message);
+    else if (kind === "Draft") setText(draftState, message);
+    else if (kind === "Publish") setText(publishState, message);
+
+    if (reviewAuth) setText(reviewAuth, authState ? authState.textContent : "");
+    if (reviewDraft) setText(reviewDraft, draftState ? draftState.textContent : "");
+    if (reviewPublish) setText(reviewPublish, publishState ? publishState.textContent : "");
+  }
+
+  function buildReferenceItems(raw, isInternal) {
+    var lines = splitMultiline(raw);
+    return lines.map(function (line) {
+      var title = "";
+      var url = "";
+      if (line.indexOf("|") !== -1) {
+        var parts = line.split("|").map(function (part) { return part.trim(); }).filter(Boolean);
+        if (parts.length >= 2) {
+          title = parts[0];
+          url = parts.slice(1).join(" | ");
+        }
+      }
+      if (!url) {
+        url = line;
+      }
+      if (!title) {
+        if (isInternal) {
+          title = url.replace(/^https?:\/\/[^/]+/i, "").replace(/^\/+/, "") || url;
+        } else {
+          try {
+            title = new URL(url, location.origin).hostname.replace(/^www\./, "");
+          } catch (e) {
+            title = url;
+          }
+        }
+      }
+      return {
+        title: title.trim() || url,
+        url: url.trim(),
+      };
+    }).filter(function (item) {
+      return !!item.url;
+    });
+  }
+
+  function buildFaqItems(raw) {
+    var lines = splitMultiline(raw);
+    var items = [];
+    var current = null;
+
+    function pushCurrent() {
+      if (current && current.q && current.a) items.push(current);
+      current = null;
+    }
+
+    lines.forEach(function (line) {
+      var qMatch = line.match(/^(?:-\s*)?Q:\s*(.+)$/i);
+      var aMatch = line.match(/^A:\s*(.+)$/i);
+      if (qMatch) {
+        pushCurrent();
+        current = { q: qMatch[1].trim(), a: "" };
+        return;
+      }
+      if (aMatch && current) {
+        current.a = aMatch[1].trim();
+        return;
+      }
+      if (current && line) {
+        current.a = current.a ? current.a + " " + line : line;
+      }
+    });
+    pushCurrent();
+    return items;
+  }
+
+  function renderFaqSnippet(items) {
+    if (!items.length) return "Waiting for body and FAQ content.";
+    return "FAQ ready: " + items.length + " block(s)";
+  }
+
+  function buildFrontmatter() {
+    var title = norm(fields.title && fields.title.value) || "Bài viết mới";
+    var slug = norm(fields.slug && fields.slug.value) || slugify(title);
+    var section = norm(fields.section && fields.section.value) || "posting";
+    var category = norm(fields.category && fields.category.value) || "Công nghệ";
+    var author = norm(fields.author && fields.author.value) || (fields.author && (fields.author.getAttribute("placeholder") || fields.author.value)) || "SEOMONEY";
+    var seoTitle = norm(fields.seoTitle && fields.seoTitle.value) || title;
+    var description = norm(fields.description && fields.description.value) || norm(fields.metaDescription && fields.metaDescription.value);
+    var metaDescription = norm(fields.metaDescription && fields.metaDescription.value) || description;
+    var heroImage = norm(fields.heroImage && fields.heroImage.value);
+    var heroMode = norm(fields.heroMode && fields.heroMode.value) || "fallback";
+    var tags = splitCommaList(fields.tags && fields.tags.value);
+    var series = norm(fields.series && fields.series.value);
+    var body = norm(fields.body && fields.body.value);
+    var referencesExternal = buildReferenceItems(fields.externalSources && fields.externalSources.value, false);
+    var referencesInternal = buildReferenceItems(fields.internalLinks && fields.internalLinks.value, true);
+    var faqItems = buildFaqItems(fields.faq && fields.faq.value);
+    var copyright = norm(fields.copyright && fields.copyright.value);
+    var editorialNote = norm(fields.editorialNote && fields.editorialNote.value);
+    var related = splitCommaList(fields.related && fields.related.value);
+    var today = todayIso();
+    var lines = [
+      "+++",
+      'title = ' + tomlQuoted(title),
+      'description = ' + tomlQuoted(description || metaDescription || ""),
+      "date = " + today,
+      "updated = " + today,
+    ];
+
+    if (heroImage && heroMode === "image") {
+      lines.push('thumbnail = ' + tomlQuoted(heroImage));
+    }
+    if (series) {
+      lines.push('series = ' + tomlQuoted(series));
+    }
+    if (related.length) {
+      lines.push('related = [' + related.map(tomlQuoted).join(", ") + ']');
+    }
+
+    lines.push("");
+    lines.push("[taxonomies]");
+    lines.push("categories = [" + [category].map(tomlQuoted).join(", ") + "]");
+    lines.push("tags = [" + tags.map(tomlQuoted).join(", ") + "]");
+    lines.push("");
+    lines.push("[extra]");
+    lines.push('excerpt = ' + tomlQuoted(description || metaDescription || ""));
+    lines.push('slug = ' + tomlQuoted(slug));
+    lines.push('seo_title = ' + tomlQuoted(seoTitle));
+    lines.push('seo_description = ' + tomlQuoted(metaDescription));
+    lines.push('author = ' + tomlQuoted(author));
+    lines.push('hero_mode = ' + tomlQuoted(heroMode));
+    if (heroImage) lines.push('hero_image = ' + tomlQuoted(heroImage));
+    if (copyright) lines.push('references_copyright = ' + tomlQuoted(copyright));
+    if (editorialNote) lines.push('editorial_note = ' + tomlQuoted(editorialNote));
+    if (!referencesExternal.length && !referencesInternal.length) {
+      lines.push('references_skip = false');
+    }
+    referencesExternal.forEach(function (item) {
+      lines.push("");
+      lines.push("[[extra.references_external]]");
+      lines.push('title = ' + tomlQuoted(item.title));
+      lines.push('url = ' + tomlQuoted(item.url));
+    });
+    referencesInternal.forEach(function (item) {
+      lines.push("");
+      lines.push("[[extra.references_internal]]");
+      lines.push('title = ' + tomlQuoted(item.title));
+      lines.push('url = ' + tomlQuoted(item.url));
+    });
+    faqItems.forEach(function (item) {
+      lines.push("");
+      lines.push("[[extra.faq]]");
+      lines.push('q = ' + tomlQuoted(item.q));
+      lines.push('a = ' + tomlQuoted(item.a));
+    });
+    lines.push("+++");
+    lines.push("");
+    lines.push(body || "<!-- Viết nội dung bài tại đây -->");
     return {
-      authenticated: user.authenticated !== false,
-      provider: user.provider || "",
-      email: user.email || "",
-      username: user.username || "",
-      name: user.name || user.username || "",
-      avatar: user.avatar_url || user.avatar || "",
-      avatar_url: user.avatar_url || user.avatar || "",
-      role: user.role || "",
-      is_admin: user.is_admin === true,
-      is_super: user.is_super === true,
-      account_type: user.account_type || "",
-      comment_role: user.comment_role || "",
+      slug: slug,
+      section: section,
+      category: category,
+      author: author,
+      seoTitle: seoTitle,
+      description: description || metaDescription,
+      metaDescription: metaDescription,
+      body: body,
+      faqItems: faqItems,
+      referencesExternal: referencesExternal,
+      referencesInternal: referencesInternal,
+      content: lines.join("\n"),
+      title: title,
     };
   }
 
-  var AUTH_ERROR_MESSAGES = {
-    access_denied: "Tài khoản GitHub này không có quyền quản trị CMS-V2.",
-    invalid_state: "Phiên đăng nhập GitHub đã hết hạn. Vui lòng thử lại.",
-    missing_params: "GitHub callback thiếu tham số. Vui lòng thử lại.",
-    token_exchange_failed: "Không thể hoàn tất xác thực GitHub. Vui lòng thử lại.",
-    github_unreachable: "Không thể kết nối GitHub. Vui lòng thử lại sau.",
-    github_profile_fetch_failed: "Không thể đọc hồ sơ GitHub. Vui lòng thử lại.",
-    github_disabled: "Đăng nhập GitHub hiện chưa khả dụng.",
-  };
-
-  function showShell() {
-    setRootAuthState(true);
-    setHidden(gate, true);
-    setHidden(shell, false);
-    setHidden(loginButton, true);
-    if (loginButton) loginButton.disabled = true;
+  function plainTextLength(body) {
+    return (body || "")
+      .replace(/```[\s\S]*?```/g, "")
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+      .replace(/\[[^\]]*\]\([^)]*\)/g, "")
+      .replace(/https?:\/\/\S+/g, "")
+      .replace(/[#*_>`\-+|]/g, "")
+      .replace(/\s+/g, " ")
+      .trim().length;
   }
 
-  function showGate(msg) {
-    setRootAuthState(false);
-    setHidden(gate, false);
-    setHidden(shell, true);
-    setHidden(loginButton, false);
-    if (loginButton) loginButton.disabled = false;
-    if (status && msg) status.textContent = msg;
-    setHidden(userCard, true);
-    setHidden(logoutButton, true);
+  function updateCanonical() {
+    var section = norm(fields.section && fields.section.value) || "posting";
+    var slug = norm(fields.slug && fields.slug.value);
+    var base = root.dataset.baseUrl || location.origin;
+    var url = base.replace(/\/$/, "") + "/" + section + "/" + (slug ? slug + "/" : "");
+    if (canonical) canonical.textContent = url;
   }
 
-  function setAuthState(me) {
-    setRootAuthState(true);
-    populateUserCard(me);
-    if (status) status.textContent = "Đã đăng nhập bằng GitHub admin.";
-    showShell();
+  function renderPreview() {
+    var data = buildFrontmatter();
+    var title = norm(fields.title && fields.title.value) || "CMS-V2 workspace draft";
+    var excerpt = norm(fields.description && fields.description.value) || norm(fields.metaDescription && fields.metaDescription.value) || "Excerpt preview will reflect the draft summary and metadata flow.";
+    if (preview.category) preview.category.textContent = data.category || "SEOMONEY";
+    if (preview.date) preview.date.textContent = todayDisplay();
+    if (preview.author) preview.author.textContent = data.author || "SEOMONEY";
+    if (preview.title) preview.title.textContent = title;
+    if (preview.excerpt) preview.excerpt.textContent = excerpt;
+    if (preview.body) {
+      var md = data.body || "# Draft body\n\nLive markdown source will appear here.";
+      if (MARKED && typeof MARKED.parse === "function") {
+        try {
+          preview.body.innerHTML = MARKED.parse(md);
+        } catch (e) {
+          preview.body.textContent = md;
+        }
+      } else {
+        preview.body.textContent = md;
+      }
+    }
+  }
+
+  function updatePreview() {
+    renderPreview();
+  }
+
+  function analyzeMarkdown() {
+    var body = norm(fields.body && fields.body.value);
+    var lines = body.split(/\r?\n/).map(function (line) { return line.trim(); });
+    var title = norm(fields.title && fields.title.value);
+    var seoTitle = norm(fields.seoTitle && fields.seoTitle.value) || title;
+    var metaDesc = norm(fields.metaDescription && fields.metaDescription.value);
+    var slug = norm(fields.slug && fields.slug.value);
+    var faqItems = buildFaqItems(fields.faq && fields.faq.value);
+    var referencesExternal = buildReferenceItems(fields.externalSources && fields.externalSources.value, false);
+    var referencesInternal = buildReferenceItems(fields.internalLinks && fields.internalLinks.value, true);
+    var copyright = norm(fields.copyright && fields.copyright.value);
+    var editorialNote = norm(fields.editorialNote && fields.editorialNote.value);
+
+    function hasHeading(text) {
+      return lines.some(function (line) { return line === text; });
+    }
+
+    function setCheck(name, ok) {
+      var el = qa.checks[name];
+      if (!el) return;
+      el.textContent = ok ? "Passed" : "Missing";
+      el.parentElement.classList.toggle("is-ok", !!ok);
+      el.parentElement.classList.toggle("is-missing", !ok);
+    }
+
+    var checks = {
+      external: referencesExternal.length > 0,
+      internal: referencesInternal.length > 0,
+      copyright: !!copyright,
+      editorial: !!editorialNote,
+    };
+
+    Object.keys(checks).forEach(function (key) {
+      setCheck(key, checks[key]);
+    });
+
+    if (qa.titleLength) {
+      var titleOk = title.length >= 30 && title.length <= 70;
+      qa.titleLength.textContent = titleOk ? "Title: good" : "Title: needs work";
+    }
+
+    if (qa.metaLength) {
+      var metaOk = metaDesc.length >= 120 && metaDesc.length <= 160;
+      if (!metaDesc.length) {
+        qa.metaLength.textContent = "Meta: pending";
+      } else {
+        qa.metaLength.textContent = metaOk ? "Meta: good" : "Meta: needs work";
+      }
+    }
+
+    if (qa.slugQuality) {
+      var slugOk = /^[a-z0-9][a-z0-9-]{1,79}$/.test(slug);
+      qa.slugQuality.textContent = slugOk ? "Slug: good" : "Slug: needs work";
+    }
+
+    if (qa.h1Match) {
+      var h1Same = !!title && (!!seoTitle ? seoTitle === title : true);
+      qa.h1Match.textContent = h1Same ? "H1 match: good" : "H1 match: review";
+    }
+
+    if (qa.schemaStatus) {
+      var schemaReady = faqItems.length > 0 || hasHeading("## FAQ") || hasHeading("## Câu hỏi thường gặp");
+      if (schemaReady) {
+        qa.schemaStatus.textContent = "Schema: FAQ ready";
+      } else if (body || referencesExternal.length || referencesInternal.length) {
+        qa.schemaStatus.textContent = renderFaqSnippet(faqItems);
+      } else {
+        qa.schemaStatus.textContent = "Waiting for body and FAQ content.";
+      }
+    }
+
+    return checks;
+  }
+
+  function updateCommandPanel() {
+    var provider = authProviderLabel(state.user);
+    var sessionLabel = state.authenticated
+      ? provider + " session active"
+      : "No active session";
+    var draftLabel = state.dirty
+      ? "Unsaved changes since " + (state.lastAutosaveAt || "latest input")
+      : (state.lastAutosaveAt ? "Autosaved " + state.lastAutosaveAt : "Local draft idle");
+    var publishLabel = state.lastPublishAt
+      ? "Published " + state.lastPublishAt + (state.lastPublishCommit ? " · " + state.lastPublishCommit.slice(0, 7) : "")
+      : "Not published yet";
+
+    if (topbarPill) topbarPill.textContent = provider + " connected";
+    if (rolePill) {
+      rolePill.textContent = state.user ? ("User role / " + (state.user.role || (state.user.is_super ? "superadmin" : "admin"))) : "User role / guest";
+    }
+    setCommandState("Auth", state.authenticated ? provider + " admin connected" : "Waiting for login");
+    setCommandState("Session", sessionLabel);
+    setCommandState("Draft", draftLabel);
+    setCommandState("Publish", publishLabel);
+
+    if (reviewAuth) setText(reviewAuth, state.authenticated ? provider + " admin ready" : "Waiting");
+    if (reviewDraft) setText(reviewDraft, state.dirty ? "Draft has unsaved changes" : "Blank / autosaved");
+    if (reviewQa) setText(reviewQa, renderFaqSnippet(buildFaqItems(fields.faq && fields.faq.value)));
+    if (reviewPublish) setText(reviewPublish, publishLabel);
+
+    updatePublishButtons();
+    renderHistory();
   }
 
   function setGuestState(message) {
-    showGate(message);
-  }
-
-  function clearLegacyAuthState() {
-    clearSid();
-    try { window.localStorage.removeItem("zola-cms-auth-state"); } catch (e) {}
+    setHidden(gate, false);
+    setHidden(shell, true);
+    setHidden(reviewModal, true);
+    setHidden(loginButton, false);
+    if (loginButton) loginButton.disabled = false;
+    if (status) status.textContent = message || "Đăng nhập GitHub bằng tài khoản admin để mở CMS-V2.";
+    setHidden(userCard, true);
+    setHidden(logoutButton, true);
+    state.authenticated = false;
+    state.user = null;
+    state.provider = "";
+    updateCommandPanel();
   }
 
   function populateUserCard(user) {
@@ -250,7 +832,23 @@
     if (userName) userName.textContent = user.name || user.username || "GitHub user";
     if (userEmail) userEmail.textContent = user.email || "";
     setHidden(logoutButton, false);
-    if (status) status.textContent = "Đã đăng nhập bằng GitHub.";
+  }
+
+  function showShell() {
+    setHidden(gate, true);
+    setHidden(shell, false);
+    setHidden(loginButton, true);
+    if (loginButton) loginButton.disabled = true;
+  }
+
+  function setAuthState(me) {
+    state.user = me;
+    state.authenticated = true;
+    state.provider = me.provider || "github";
+    populateUserCard(me);
+    if (status) status.textContent = "Đã đăng nhập bằng GitHub admin.";
+    showShell();
+    updateCommandPanel();
   }
 
   async function logout() {
@@ -261,130 +859,126 @@
         cache: "no-store",
       });
     } catch (e) {}
-    clearLegacyAuthState();
-    showGate("Đã đăng xuất. Vui lòng đăng nhập GitHub để vào CMS-V2.");
-  }
-
-  function setActiveTab(name) {
-    tabs.forEach(function (tab) {
-      var active = tab.getAttribute("data-cms-v2-tab") === name;
-      tab.classList.toggle("is-active", active);
-      tab.setAttribute("aria-selected", active ? "true" : "false");
-    });
-    panels.forEach(function (panel) {
-      var active = panel.getAttribute("data-cms-v2-panel") === name;
-      panel.hidden = !active;
-      panel.classList.toggle("is-active", active);
-    });
-  }
-
-  function updateCanonical() {
-    var section = fields.section && fields.section.value ? fields.section.value.trim() : "posting";
-    var slug = fields.slug && fields.slug.value ? fields.slug.value.trim() : "";
-    var base = root.dataset.baseUrl || location.origin;
-    var url = base.replace(/\/$/, "") + "/" + section + "/" + (slug ? slug + "/" : "");
-    if (canonical) canonical.textContent = url;
-  }
-
-  function analyzeMarkdown(text) {
-    var body = (text || "").trim();
-    var lines = body.split(/\r?\n/).map(function (line) { return line.trim(); });
-    function hasHeading(h) {
-      return lines.some(function (line) { return line === h; });
-    }
-    function hasAnyKeyword(k) {
-      return body.toLowerCase().indexOf(k) !== -1;
-    }
-
-    var checks = {
-      external: hasHeading("## Liên kết bên ngoài được sử dụng trong bài viết"),
-      internal: hasHeading("## Liên kết nội bộ liên quan"),
-      copyright: hasHeading("## Tuyên bố bản quyền"),
-      editorial: hasHeading("## Ghi chú biên tập"),
-    };
-
-    Object.keys(requiredChecks).forEach(function (key) {
-      var el = requiredChecks[key];
-      if (!el) return;
-      el.textContent = checks[key] ? "Passed" : "Missing";
-      el.parentElement.classList.toggle("is-ok", !!checks[key]);
-      el.parentElement.classList.toggle("is-missing", !checks[key]);
-    });
-
-    var title = fields.title ? fields.title.value.trim() : "";
-    var slug = fields.slug ? fields.slug.value.trim() : "";
-    var seoTitle = fields.seoTitle ? fields.seoTitle.value.trim() : "";
-    var metaDesc = fields.metaDescription ? fields.metaDescription.value.trim() : "";
-    var h1Same = !!title && (!!seoTitle ? seoTitle === title : true);
-    var titleOk = title.length >= 30 && title.length <= 70;
-    var metaOk = metaDesc.length >= 120 && metaDesc.length <= 160;
-    var slugOk = /^[a-z0-9][a-z0-9-]{1,79}$/.test(slug);
-
-    if (titleLength) titleLength.textContent = titleOk ? "Title: good" : "Title: needs work";
-    if (metaLength) metaLength.textContent = metaOk ? "Meta: good" : "Meta: needs work";
-    if (slugQuality) slugQuality.textContent = slugOk ? "Slug: good" : "Slug: needs work";
-    if (h1Match) h1Match.textContent = h1Same ? "H1 match: good" : "H1 match: review";
-
-    if (schemaStatus) {
-      var faqOk = !!(fields.faq && fields.faq.value.trim());
-      var internalOk = !!(fields.internalLinks && fields.internalLinks.value.trim());
-      var extOk = !!(fields.externalSources && fields.externalSources.value.trim());
-      schemaStatus.textContent = faqOk || extOk || internalOk ? "Schema: ready to validate" : "Schema: waiting for content";
-    }
-
-    if (fields.description && fields.metaDescription) {
-      var source = fields.description.value.trim() || fields.metaDescription.value.trim();
-      if (source.length > 0 && source.length < 120) {
-        metaLength.textContent = "Meta: short";
-      }
-    }
-
-    if (fields.heroMode && fields.heroImage) {
-      var heroMode = fields.heroMode.value;
-      if (heroMode === "fallback") {
-        // No-op: preview uses internal fallback card.
-      }
-    }
-
-    if (fields.body) {
-      var hasFaq = hasAnyKeyword("faq") || hasHeading("## FAQ");
-      if (schemaStatus && hasFaq) {
-        schemaStatus.textContent = "Schema: FAQ detected";
-      }
-    }
-
-    return checks;
-  }
-
-  function bindComposer() {
-    Object.keys(fields).forEach(function (key) {
-      var el = fields[key];
-      if (!el) return;
-      el.addEventListener("input", function () {
-        updateCanonical();
-        analyzeMarkdown(fields.body ? fields.body.value : "");
-      });
-      el.addEventListener("change", function () {
-        updateCanonical();
-        analyzeMarkdown(fields.body ? fields.body.value : "");
-      });
-    });
-    updateCanonical();
-    analyzeMarkdown(fields.body ? fields.body.value : "");
+    clearSid();
+    setGuestState("Đã đăng xuất. Vui lòng đăng nhập GitHub để vào CMS-V2.");
   }
 
   function bindTabs() {
     tabs.forEach(function (tab) {
       tab.addEventListener("click", function () {
-        setActiveTab(tab.getAttribute("data-cms-v2-tab"));
+        var name = tab.getAttribute("data-cms-v2-tab");
+        tabs.forEach(function (node) {
+          var active = node === tab;
+          node.classList.toggle("is-active", active);
+          node.setAttribute("aria-selected", active ? "true" : "false");
+        });
+        panels.forEach(function (panel) {
+          var active = panel.getAttribute("data-cms-v2-panel") === name;
+          panel.hidden = !active;
+          panel.classList.toggle("is-active", active);
+        });
       });
     });
   }
 
-  async function boot() {
-    var authError = consumeAuthParams();
-    bindTabs();
-    bindComposer();
+  function populateCategories() {
+    var select = fields.category;
+    if (!select) return;
+    var current = select.value || "Công nghệ";
+    var baseOptions = Array.prototype.slice.call(select.options).map(function (opt) {
+      return opt.value;
+    }).filter(Boolean);
+    var merged = [];
+
+    function pushUnique(value) {
+      if (!value) return;
+      if (merged.indexOf(value) === -1) merged.push(value);
+    }
+
+    state.categories.forEach(pushUnique);
+    baseOptions.forEach(pushUnique);
+    if (!merged.length) merged = ["Công nghệ", "Ngân hàng", "Đời sống", "Du lịch", "Thể thao", "Báo chí"];
+
+    select.innerHTML = merged.map(function (item) {
+      return '<option value="' + escapeHtml(item) + '"' + (item === current ? ' selected' : '') + '>' + escapeHtml(item) + '</option>';
+    }).join("");
+    select.value = current;
+  }
+
+  async function loadCategories() {
+    var sid = getSid();
+    if (!AUTH_API || !sid) return;
+    try {
+      var res = await fetch(AUTH_API + "/api/categories/list", {
+        method: "GET",
+        headers: { Authorization: "Bearer " + sid },
+        credentials: "include",
+        cache: "no-store",
+      });
+      if (res.status === 401) {
+        clearSid();
+        return;
+      }
+      if (!res.ok) return;
+      var data = await res.json();
+      if (Array.isArray(data.categories)) {
+        state.categories = data.categories.slice();
+        if (state.categories.indexOf("Posting") === -1) state.categories.unshift("Posting");
+        populateCategories();
+      }
+    } catch (e) {}
+  }
+
+  function updateCanonicalAndState() {
+    updateCanonical();
+    updatePreview();
+    analyzeMarkdown();
+    state.lastAutosaveAt = todayDisplay();
+    state.dirty = true;
+    setCommandState("Draft", "Unsaved changes since " + state.lastAutosaveAt);
+    saveDraft();
+    updateCommandPanel();
+  }
+
+  function wireField(el) {
+    if (!el) return;
+    el.addEventListener("input", updateCanonicalAndState);
+    el.addEventListener("change", updateCanonicalAndState);
+  }
+
+  function bindComposer() {
+    Object.keys(fields).forEach(function (key) {
+      wireField(fields[key]);
+    });
+
+    if (fields.slug) {
+      fields.slug.addEventListener("input", function () {
+        fields.slug.dataset.cmsV2Touched = "true";
+      });
+    }
+
+    if (fields.title && fields.slug) {
+      fields.title.addEventListener("input", function () {
+        if (fields.slug.dataset.cmsV2Touched === "true") return;
+        fields.slug.value = slugify(fields.title.value);
+        updateCanonicalAndState();
+      });
+    }
+
+    if (fields.body) {
+      fields.body.addEventListener("input", function () {
+        updatePreview();
+        analyzeMarkdown();
+        state.lastAutosaveAt = todayDisplay();
+        state.dirty = true;
+        setCommandState("Draft", "Unsaved changes since " + state.lastAutosaveAt);
+        saveDraft();
+        updateCommandPanel();
+      });
+    }
+  }
+
+  function bindActions() {
     if (loginButton) {
       loginButton.addEventListener("click", startOAuth);
     }
@@ -395,241 +989,256 @@
       });
     }
 
-    var me = await fetchMe();
-    if (me && me.__error === "backend_unreachable") {
-      showGate("Không thể kiểm tra phiên GitHub lúc này. Vui lòng thử lại sau.");
-      return;
-    }
-    if (!me || me.authenticated === false || !isAdminUser(me)) {
-      clearLegacyAuthState();
-      if (authError) {
-        setGuestState(AUTH_ERROR_MESSAGES[authError] || "Đăng nhập GitHub không thành công. Vui lòng thử lại.");
-        return;
-      }
-      setGuestState("Đăng nhập GitHub bằng tài khoản admin để mở CMS-V2.");
-      return;
-    }
-
-    clearLegacyAuthState();
-    setAuthState(me);
-  }
-
-  boot();
-})();
-
-/* CMS-V2 Quick Usable Layer — draft autosave, preview, copy markdown */
-(function () {
-  "use strict";
-
-  var DRAFT_KEY = "seomoney.cmsv2.quickDraft.v1";
-
-  function ready(fn) {
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", fn);
-    } else {
-      fn();
-    }
-  }
-
-  function norm(s) {
-    return (s || "").toString().trim();
-  }
-
-  function slugify(value) {
-    return norm(value)
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/đ/g, "d")
-      .replace(/Đ/g, "d")
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "")
-      .slice(0, 90);
-  }
-
-  function esc(value) {
-    return norm(value)
-      .replace(/\\/g, "\\\\")
-      .replace(/"/g, '\\"')
-      .replace(/\n/g, " ");
-  }
-
-  function findField(names) {
-    var selectors = [];
-    names.forEach(function (name) {
-      selectors.push("[name='" + name + "']");
-      selectors.push("#" + name);
-      selectors.push("[data-field='" + name + "']");
-      selectors.push("[data-cms-v2-field='" + name + "']");
+    reviewOpenButtons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        setHidden(reviewModal, false);
+        updateCommandPanel();
+      });
     });
-    return document.querySelector(selectors.join(","));
-  }
 
-  function valueOf(el) {
-    return el ? norm(el.value) : "";
-  }
+    if (reviewCloseButton) {
+      reviewCloseButton.addEventListener("click", function () {
+        setHidden(reviewModal, true);
+      });
+    }
 
-  function setValue(el, value) {
-    if (el && typeof el.value !== "undefined") el.value = value || "";
-  }
+    if (reviewModal) {
+      reviewModal.addEventListener("click", function (event) {
+        if (event.target === reviewModal) setHidden(reviewModal, true);
+      });
+    }
 
-  function collectFields() {
-    return {
-      title: findField(["title", "post-title", "cms-title", "cms-v2-title"]),
-      slug: findField(["slug", "post-slug", "cms-slug", "cms-v2-slug"]),
-      category: findField(["category", "categories", "post-category", "cms-category"]),
-      tags: findField(["tags", "post-tags", "cms-tags"]),
-      seoTitle: findField(["seo_title", "seo-title", "seoTitle", "cms-seo-title"]),
-      seoDescription: findField(["seo_description", "seo-description", "seoDescription", "cms-seo-description"]),
-      excerpt: findField(["excerpt", "summary", "post-excerpt"]),
-      body: findField(["body", "content", "markdown", "post-body", "cms-body", "article-body"]),
-      notes: findField(["notes", "editor_notes", "editor-notes"])
-    };
-  }
-
-  function splitTags(raw) {
-    return norm(raw)
-      .split(",")
-      .map(function (x) { return norm(x); })
-      .filter(Boolean);
-  }
-
-  function markdown(fields) {
-    var title = valueOf(fields.title);
-    var slug = valueOf(fields.slug) || slugify(title);
-    var category = valueOf(fields.category) || "Công nghệ";
-    var tags = splitTags(valueOf(fields.tags));
-    var seoTitle = valueOf(fields.seoTitle) || title;
-    var seoDescription = valueOf(fields.seoDescription);
-    var excerpt = valueOf(fields.excerpt);
-    var body = valueOf(fields.body) || "<!-- Viết nội dung bài tại đây -->";
-    var today = new Date().toISOString().slice(0, 10);
-
-    return [
-      "+++",
-      'title = "' + esc(title || "Bài viết mới") + '"',
-      'date = ' + today,
-      'updated = ' + today,
-      "",
-      "[taxonomies]",
-      'categories = ["' + esc(category) + '"]',
-      "tags = [" + tags.map(function (tag) { return '"' + esc(tag) + '"'; }).join(", ") + "]",
-      "",
-      "[extra]",
-      'slug = "' + esc(slug) + '"',
-      'seo_title = "' + esc(seoTitle) + '"',
-      'seo_description = "' + esc(seoDescription) + '"',
-      'excerpt = "' + esc(excerpt) + '"',
-      "+++",
-      "",
-      body
-    ].join("\n");
-  }
-
-  function saveDraft(fields) {
-    var data = {};
-    Object.keys(fields).forEach(function (key) {
-      if (fields[key]) data[key] = fields[key].value || "";
+    newDraftButtons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        newDraft();
+      });
     });
-    try {
-      localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
-    } catch (e) {}
-  }
 
-  function restoreDraft(fields) {
-    var raw = "";
-    try {
-      raw = localStorage.getItem(DRAFT_KEY) || "";
-    } catch (e) {}
-    if (!raw) return false;
+    clearButtons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        clearDraft();
+      });
+    });
 
-    try {
-      var data = JSON.parse(raw);
-      Object.keys(fields).forEach(function (key) {
-        if (fields[key] && typeof data[key] !== "undefined" && !fields[key].value) {
-          fields[key].value = data[key];
+    publishButtons.forEach(function (btn) {
+      btn.addEventListener("click", function (event) {
+        event.preventDefault();
+        publishDraft();
+      });
+    });
+
+    copyButtons.forEach(function (btn) {
+      btn.addEventListener("click", function (event) {
+        event.preventDefault();
+        copyMarkdown(btn);
+      });
+    });
+
+    if (fields.body) {
+      fields.body.addEventListener("keydown", function (event) {
+        var key = event.key.toLowerCase();
+        if ((event.metaKey || event.ctrlKey) && event.shiftKey && key === "c") {
+          event.preventDefault();
+          copyMarkdown();
+        }
+        if ((event.metaKey || event.ctrlKey) && key === "enter") {
+          event.preventDefault();
+          publishDraft();
         }
       });
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  function update(fields) {
-    if (fields.title && fields.slug && !fields.slug.dataset.cmsV2Touched) {
-      fields.slug.value = slugify(fields.title.value);
     }
 
-    var preview = document.querySelector("[data-cms-v2-markdown-preview]");
-    if (preview) preview.textContent = markdown(fields);
-
-    var counters = document.querySelector("[data-cms-v2-counters]");
-    if (counters) {
-      counters.innerHTML = [
-        "<span>Title: " + valueOf(fields.title).length + "</span>",
-        "<span>SEO title: " + valueOf(fields.seoTitle).length + "/60</span>",
-        "<span>SEO desc: " + valueOf(fields.seoDescription).length + "/160</span>",
-        "<span>Excerpt: " + valueOf(fields.excerpt).length + "</span>",
-        "<span>Body: " + valueOf(fields.body).split(/\s+/).filter(Boolean).length + " words</span>"
-      ].join("");
-    }
-
-    saveDraft(fields);
-  }
-
-  function disableFakePublish() {
-    Array.prototype.forEach.call(document.querySelectorAll("button, a"), function (el) {
-      var txt = norm(el.textContent).toLowerCase();
-      if (txt.indexOf("publish") >= 0 || txt.indexOf("xuất bản") >= 0) {
-        el.setAttribute("aria-disabled", "true");
-        if (el.tagName === "BUTTON") el.disabled = true;
-        el.title = "Publish trực tiếp chưa bật — dùng Copy Markdown hoặc mở Editor cũ.";
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && reviewModal && !reviewModal.hidden) {
+        setHidden(reviewModal, true);
       }
     });
   }
 
-  ready(function () {
-    var fields = collectFields();
-    restoreDraft(fields);
+  function validateBeforePublish() {
+    var data = buildFrontmatter();
+    if (!data.title || !data.slug) {
+      window.alert("Thiếu tiêu đề hoặc slug.");
+      return null;
+    }
+    if (!data.body || plainTextLength(data.body) < 50) {
+      window.alert("Nội dung quá ngắn (cần >= 50 ký tự text).");
+      return null;
+    }
+    if (!state.user || state.user.provider !== "github") {
+      window.alert("Cần session GitHub admin để publish lên repo.");
+      return null;
+    }
+    return data;
+  }
+
+  async function publishDraft() {
+    var data = validateBeforePublish();
+    if (!data) return;
+    var sid = getSid();
+    if (!sid) {
+      window.alert("Phiên hết hạn. Vui lòng đăng nhập lại.");
+      setGuestState("Phiên hết hạn. Vui lòng đăng nhập GitHub để vào CMS-V2.");
+      return;
+    }
+
+    var content = data.content;
+    var message = "CMS-V2: " + data.title;
+    setCommandState("Publish", "Publishing to GitHub...");
+    updateCommandPanel();
+
+    try {
+      var headers = {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sid,
+      };
+      var res = await fetch(AUTH_API + "/cms/save-post", {
+        method: "POST",
+        headers: headers,
+        credentials: "include",
+        body: JSON.stringify({
+          slug: data.slug,
+          section: data.section,
+          content: content,
+          message: message,
+        }),
+      });
+
+      if (res.status === 401) {
+        clearSid();
+        setGuestState("Phiên hết hạn. Vui lòng đăng nhập GitHub để vào CMS-V2.");
+        return;
+      }
+      var payload = await res.json().catch(function () { return {}; });
+      if (!res.ok) {
+        setCommandState("Publish", "Publish failed");
+        updateCommandPanel();
+        window.alert(payload.detail || "Không thể publish bài.");
+        return;
+      }
+
+      state.dirty = false;
+      state.lastAutosaveAt = todayDisplay();
+      state.lastPublishAt = todayDisplay();
+      state.lastPublishCommit = payload.commit_sha || "";
+      state.lastPublishUrl = payload.commit_url || "";
+      state.lastPublishPath = payload.path || "";
+      state.lastPublishTitle = data.title;
+      state.history.unshift({
+        title: data.title,
+        slug: data.slug,
+        path: payload.path || "",
+        commitUrl: payload.commit_url || "",
+        at: state.lastPublishAt,
+      });
+      state.history = state.history.slice(0, 8);
+      saveHistory();
+      saveDraft();
+      setCommandState("Draft", "Autosaved " + state.lastAutosaveAt);
+      setCommandState("Publish", "Published " + (payload.commit_sha ? payload.commit_sha.slice(0, 7) : data.slug));
+      renderHistory();
+      updateCommandPanel();
+      if (reviewModal && !reviewModal.hidden) {
+        setHidden(reviewModal, false);
+      }
+    } catch (err) {
+      setCommandState("Publish", "Publish error");
+      updateCommandPanel();
+      window.alert("Không thể publish bài. " + err.message);
+    }
+  }
+
+  function copyMarkdown(button) {
+    var data = buildFrontmatter();
+    var text = data.content;
+    var done = function () {
+      if (button) {
+        var label = button.textContent;
+        button.textContent = "Copied Markdown";
+        setTimeout(function () { button.textContent = label; }, 1400);
+      }
+      setCommandState("Draft", state.dirty ? "Unsaved changes since " + state.lastAutosaveAt : "Markdown copied");
+      updateCommandPanel();
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () {
+        window.prompt("Copy Markdown:", text);
+      });
+      return;
+    }
+    window.prompt("Copy Markdown:", text);
+    done();
+  }
+
+  function maybeRestoreState() {
+    var draft = loadDraft();
+    if (draft) {
+      applyDraft(draft);
+    }
+    state.history = loadHistory();
+    updateCommandPanel();
+    renderHistory();
+  }
+
+  function boot() {
+    state.authError = consumeAuthParams();
+    bindTabs();
+    bindComposer();
+    bindActions();
+    maybeRestoreState();
+    setGuestState("Đang kiểm tra phiên GitHub…");
+    updateCanonical();
+    renderPreview();
+    analyzeMarkdown();
+    populateCategories();
+
+    if (copyrightNote) {
+      setText(copyrightNote, "Shortcut: Ctrl/Cmd + Shift + C để copy Markdown nhanh.");
+    }
 
     if (fields.slug) {
       fields.slug.addEventListener("input", function () {
-        fields.slug.dataset.cmsV2Touched = "true";
+        if (fields.slug.value) fields.slug.dataset.cmsV2Touched = "true";
       });
     }
 
-    Object.keys(fields).forEach(function (key) {
-      var el = fields[key];
-      if (!el) return;
-      el.addEventListener("input", function () { update(fields); });
-      el.addEventListener("change", function () { update(fields); });
+    var authPromise = fetchMe();
+    authPromise.then(function (me) {
+      if (me && me.__error === "backend_unreachable") {
+        setGuestState("Không thể kiểm tra phiên GitHub lúc này. Vui lòng thử lại sau.");
+        return;
+      }
+      if (!me || me.authenticated === false || !isAdminUser(me)) {
+        clearSid();
+        if (state.authError) {
+          var authErrors = {
+            access_denied: "Tài khoản GitHub này không có quyền quản trị CMS-V2.",
+            invalid_state: "Phiên đăng nhập GitHub đã hết hạn. Vui lòng thử lại.",
+            missing_params: "GitHub callback thiếu tham số. Vui lòng thử lại.",
+            token_exchange_failed: "Không thể hoàn tất xác thực GitHub. Vui lòng thử lại.",
+            github_unreachable: "Không thể kết nối GitHub. Vui lòng thử lại sau.",
+            github_profile_fetch_failed: "Không thể đọc hồ sơ GitHub. Vui lòng thử lại.",
+            github_disabled: "Đăng nhập GitHub hiện chưa khả dụng.",
+          };
+          setGuestState(authErrors[state.authError] || "Đăng nhập GitHub không thành công. Vui lòng thử lại.");
+          return;
+        }
+        setGuestState("Đăng nhập GitHub bằng tài khoản admin để mở CMS-V2.");
+        return;
+      }
+
+      setAuthState(me);
+      loadCategories();
+      updateCommandPanel();
     });
 
-    var copy = document.querySelector("[data-cms-v2-copy-markdown]");
-    if (copy) {
-      copy.addEventListener("click", function () {
-        var text = markdown(fields);
-        navigator.clipboard.writeText(text).then(function () {
-          copy.textContent = "Copied Markdown";
-          setTimeout(function () { copy.textContent = "Copy Markdown"; }, 1400);
-        }).catch(function () {
-          window.prompt("Copy Markdown:", text);
-        });
-      });
+    if (fields.description && !fields.description.value && fields.metaDescription && fields.metaDescription.value) {
+      fields.description.value = fields.metaDescription.value;
     }
 
-    var clear = document.querySelector("[data-cms-v2-clear-draft]");
-    if (clear) {
-      clear.addEventListener("click", function () {
-        if (!window.confirm("Xoá draft local trên trình duyệt này?")) return;
-        try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
-        Object.keys(fields).forEach(function (key) { setValue(fields[key], ""); });
-        update(fields);
-      });
-    }
+    updateCommandPanel();
+  }
 
-    disableFakePublish();
-    update(fields);
-  });
+  boot();
 })();
