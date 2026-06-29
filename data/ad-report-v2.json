@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "report_number": 7,
-  "generated_at": "2026-06-28T10:08:59Z",
-  "monetization_score": 84,
+  "report_number": 8,
+  "generated_at": "2026-06-29T14:37:10Z",
+  "monetization_score": 85,
   "ad_density": {
     "verdict": "optimal",
     "slots": 4,
@@ -21,17 +21,17 @@
       {
         "area": "Core Web Vitals",
         "level": "warn",
-        "text": "Mobile performance 55/100 — LCP 9.2 s, CLS 0. Ưu tiên font/CSS trim trước khi bật ads."
+        "text": "Mobile performance 59/100 — LCP 8.9 s, CLS 0. Ưu tiên font/CSS trim trước khi bật ads."
       },
       {
         "area": "Compliance",
         "level": "ok",
-        "text": "Compliance score 95.7/100."
+        "text": "Compliance score 91.3/100."
       },
       {
         "area": "Content depth",
         "level": "ok",
-        "text": "Trung bình 1394 từ/bài — đủ depth cho RPM."
+        "text": "Trung bình 1409 từ/bài — đủ depth cho RPM."
       },
       {
         "area": "SEO UX",
@@ -59,7 +59,7 @@
     "top_categories": [
       {
         "category": "Ngân hàng",
-        "post_count": 54,
+        "post_count": 60,
         "avg_rpm_potential": 95.0,
         "max_rpm_potential": 95
       },
@@ -88,6 +88,12 @@
         "max_rpm_potential": 78
       },
       {
+        "category": "Series",
+        "post_count": 6,
+        "avg_rpm_potential": 78.0,
+        "max_rpm_potential": 78
+      },
+      {
         "category": "Kiến thức",
         "post_count": 4,
         "avg_rpm_potential": 78.0,
@@ -112,22 +118,16 @@
         "max_rpm_potential": 78
       },
       {
-        "category": "Đời sống",
+        "category": "World cup 2026",
         "post_count": 1,
         "avg_rpm_potential": 78.0,
         "max_rpm_potential": 78
       },
       {
-        "category": "Công nghệ",
-        "post_count": 71,
-        "avg_rpm_potential": 77.1,
-        "max_rpm_potential": 95
-      },
-      {
-        "category": "Du lịch",
-        "post_count": 15,
-        "avg_rpm_potential": 76.6,
-        "max_rpm_potential": 95
+        "category": "Đời sống",
+        "post_count": 1,
+        "avg_rpm_potential": 78.0,
+        "max_rpm_potential": 78
       }
     ],
     "priority_posts": [
@@ -163,6 +163,25 @@
         "title": "V-Plus & V-Advance VietinBank: gói tiện ích mới là gì?",
         "url": "https://seomoney.org/posting/vietinbank-v-plus-v-advance-la-gi/",
         "score": 100,
+        "rpm_topics": [
+          "Finance/Banking",
+          "SEO/MarTech"
+        ]
+      },
+      {
+        "title": "Ai nên sử dụng Tiết kiệm tự động Liobank? Kinh nghiệm tối ưu",
+        "url": "https://seomoney.org/posting/ai-nen-su-dung-tiet-kiem-tu-dong-liobank/",
+        "score": 95,
+        "rpm_topics": [
+          "Finance/Banking",
+          "AI",
+          "SEO/MarTech"
+        ]
+      },
+      {
+        "title": "Tiết kiệm tự động Liobank là gì? Cách hoạt động chi tiết",
+        "url": "https://seomoney.org/posting/tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong/",
+        "score": 94,
         "rpm_topics": [
           "Finance/Banking",
           "SEO/MarTech"
@@ -295,31 +314,13 @@
           "SEO/MarTech",
           "Technology"
         ]
-      },
-      {
-        "title": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
-        "url": "https://seomoney.org/posting/bao-lau-de-thay-ket-qua-seo/",
-        "score": 93,
-        "rpm_topics": [
-          "SEO/MarTech",
-          "Technology"
-        ]
-      },
-      {
-        "title": "Điện hạt nhân khác vũ khí hạt nhân ở điểm nào?",
-        "url": "https://seomoney.org/posting/dien-hat-nhan-khac-vu-khi-hat-nhan/",
-        "score": 93,
-        "rpm_topics": [
-          "SEO/MarTech",
-          "Education"
-        ]
       }
     ]
   },
   "high_value_keywords": [
     {
       "topic": "Finance/Banking",
-      "mentions": 65,
+      "mentions": 69,
       "sample_keywords": [
         "ngân hàng số",
         "vietinbank",
@@ -337,7 +338,7 @@
     },
     {
       "topic": "SEO/MarTech",
-      "mentions": 27,
+      "mentions": 29,
       "sample_keywords": [
         "google adsense",
         "seo"
@@ -417,6 +418,35 @@
         "Ngân hàng"
       ],
       "score": 100,
+      "rpm_topics": [
+        "Finance/Banking",
+        "SEO/MarTech"
+      ]
+    },
+    {
+      "title": "Ai nên sử dụng Tiết kiệm tự động Liobank? Kinh nghiệm tối ưu",
+      "url": "https://seomoney.org/posting/ai-nen-su-dung-tiet-kiem-tu-dong-liobank/",
+      "category": "Ngân hàng",
+      "categories": [
+        "Tất cả",
+        "Ngân hàng"
+      ],
+      "score": 95,
+      "rpm_topics": [
+        "Finance/Banking",
+        "AI",
+        "SEO/MarTech"
+      ]
+    },
+    {
+      "title": "Tiết kiệm tự động Liobank là gì? Cách hoạt động chi tiết",
+      "url": "https://seomoney.org/posting/tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong/",
+      "category": "Ngân hàng",
+      "categories": [
+        "Tất cả",
+        "Ngân hàng"
+      ],
+      "score": 94,
       "rpm_topics": [
         "Finance/Banking",
         "SEO/MarTech"
@@ -829,6 +859,34 @@
       ]
     },
     {
+      "title": "So sánh Tiết kiệm tự động Liobank với các hình thức khác",
+      "url": "https://seomoney.org/posting/so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac/",
+      "category": "Ngân hàng",
+      "categories": [
+        "Tất cả",
+        "Ngân hàng"
+      ],
+      "score": 91,
+      "rpm_topics": [
+        "Finance/Banking",
+        "SEO/MarTech"
+      ]
+    },
+    {
+      "title": "Lãi suất Tiết kiệm tự động Liobank có hấp dẫn không?",
+      "url": "https://seomoney.org/posting/lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong/",
+      "category": "Ngân hàng",
+      "categories": [
+        "Tất cả",
+        "Ngân hàng"
+      ],
+      "score": 91,
+      "rpm_topics": [
+        "Finance/Banking",
+        "SEO/MarTech"
+      ]
+    },
+    {
       "title": "Tương lai VietinBank trong làn sóng ngân hàng số",
       "url": "https://seomoney.org/posting/tuong-lai-ngan-hang-so-va-vi-the-vietinbank/",
       "category": "Ngân hàng",
@@ -870,6 +928,21 @@
       "rpm_topics": [
         "Finance/Banking",
         "SEO/MarTech"
+      ]
+    },
+    {
+      "title": "Hướng dẫn bật Tiết kiệm tự động trên Liobank từng bước",
+      "url": "https://seomoney.org/posting/huong-dan-bat-tiet-kiem-tu-dong-tren-liobank/",
+      "category": "Ngân hàng",
+      "categories": [
+        "Tất cả",
+        "Ngân hàng"
+      ],
+      "score": 90,
+      "rpm_topics": [
+        "Finance/Banking",
+        "SEO/MarTech",
+        "Education"
       ]
     },
     {
@@ -947,6 +1020,21 @@
       ]
     },
     {
+      "title": "Brave Origin — khi người dùng trả tiền để giữ một trình duyệt riêng tư, tối giản và không bị làm phiền",
+      "url": "https://seomoney.org/posting/brave-origin-trinh-duyet-rieng-tu-toi-gian/",
+      "category": "Công nghệ",
+      "categories": [
+        "Tất cả",
+        "Công nghệ",
+        "Series"
+      ],
+      "score": 88,
+      "rpm_topics": [
+        "SEO/MarTech",
+        "Lifestyle"
+      ]
+    },
+    {
       "title": "Google AdSense là gì? Chính sách Program policies",
       "url": "https://seomoney.org/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/",
       "category": "Công nghệ",
@@ -985,92 +1073,6 @@
       "score": 86,
       "rpm_topics": [
         "SEO/MarTech"
-      ]
-    },
-    {
-      "title": "Thẻ Techcombank Eco Digital: mở online miễn phí thật",
-      "url": "https://seomoney.org/ngan-hang/mo-the-techcombank-eco-digital-mien-phi/",
-      "category": "Ngân hàng",
-      "categories": [
-        "Tất cả",
-        "Ngân hàng"
-      ],
-      "score": 85,
-      "rpm_topics": [
-        "Finance/Banking",
-        "SEO/MarTech",
-        "Lifestyle"
-      ]
-    },
-    {
-      "title": "So sánh Cake vs Liobank: nên chọn ngân hàng số nào?",
-      "url": "https://seomoney.org/posting/so-sanh-cake-vs-liobank/",
-      "category": "Ngân hàng",
-      "categories": [
-        "Tất cả",
-        "Ngân hàng"
-      ],
-      "score": 85,
-      "rpm_topics": [
-        "Finance/Banking",
-        "SEO/MarTech"
-      ]
-    },
-    {
-      "title": "Ngân hàng số cho sinh viên: chọn app nào tốt nhất?",
-      "url": "https://seomoney.org/posting/ngan-hang-so-cho-sinh-vien/",
-      "category": "Ngân hàng",
-      "categories": [
-        "Tất cả",
-        "Ngân hàng"
-      ],
-      "score": 85,
-      "rpm_topics": [
-        "Finance/Banking",
-        "SEO/MarTech"
-      ]
-    },
-    {
-      "title": "Ngân hàng số cho người kinh doanh online tốt nhất",
-      "url": "https://seomoney.org/posting/ngan-hang-so-cho-kinh-doanh-online/",
-      "category": "Ngân hàng",
-      "categories": [
-        "Tất cả",
-        "Ngân hàng"
-      ],
-      "score": 85,
-      "rpm_topics": [
-        "Finance/Banking",
-        "SEO/MarTech"
-      ]
-    },
-    {
-      "title": "Ngân hàng số cho freelancer: quản lý thu nhập tự do",
-      "url": "https://seomoney.org/posting/ngan-hang-so-cho-freelancer/",
-      "category": "Ngân hàng",
-      "categories": [
-        "Tất cả",
-        "Ngân hàng"
-      ],
-      "score": 85,
-      "rpm_topics": [
-        "Finance/Banking",
-        "SEO/MarTech"
-      ]
-    },
-    {
-      "title": "GitHub Actions Deploy Queue: cách đọc và trigger đúng cách",
-      "url": "https://seomoney.org/posting/github-actions-deploy-queue-production/",
-      "category": "Công nghệ",
-      "categories": [
-        "Tất cả",
-        "Công nghệ"
-      ],
-      "score": 85,
-      "rpm_topics": [
-        "SEO/MarTech",
-        "Technology",
-        "Education"
       ]
     }
   ],
@@ -1126,6 +1128,35 @@
         "Ngân hàng"
       ],
       "monetization_score": 100,
+      "rpm_score": 95,
+      "rpm_topics": [
+        "Finance/Banking",
+        "SEO/MarTech"
+      ]
+    },
+    {
+      "title": "Ai nên sử dụng Tiết kiệm tự động Liobank? Kinh nghiệm tối ưu",
+      "url": "https://seomoney.org/posting/ai-nen-su-dung-tiet-kiem-tu-dong-liobank/",
+      "categories": [
+        "Tất cả",
+        "Ngân hàng"
+      ],
+      "monetization_score": 95,
+      "rpm_score": 95,
+      "rpm_topics": [
+        "Finance/Banking",
+        "AI",
+        "SEO/MarTech"
+      ]
+    },
+    {
+      "title": "Tiết kiệm tự động Liobank là gì? Cách hoạt động chi tiết",
+      "url": "https://seomoney.org/posting/tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong/",
+      "categories": [
+        "Tất cả",
+        "Ngân hàng"
+      ],
+      "monetization_score": 94,
       "rpm_score": 95,
       "rpm_topics": [
         "Finance/Banking",
@@ -1329,34 +1360,6 @@
         "SEO/MarTech",
         "Technology"
       ]
-    },
-    {
-      "title": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
-      "url": "https://seomoney.org/posting/bao-lau-de-thay-ket-qua-seo/",
-      "categories": [
-        "Tất cả",
-        "Công nghệ"
-      ],
-      "monetization_score": 93,
-      "rpm_score": 78,
-      "rpm_topics": [
-        "SEO/MarTech",
-        "Technology"
-      ]
-    },
-    {
-      "title": "Điện hạt nhân khác vũ khí hạt nhân ở điểm nào?",
-      "url": "https://seomoney.org/posting/dien-hat-nhan-khac-vu-khi-hat-nhan/",
-      "categories": [
-        "Tất cả",
-        "Khoa học"
-      ],
-      "monetization_score": 93,
-      "rpm_score": 78,
-      "rpm_topics": [
-        "SEO/MarTech",
-        "Education"
-      ]
     }
   ],
   "action_suggestions": {
@@ -1364,7 +1367,7 @@
       {
         "priority": "P0",
         "action": "Optimize Core Web Vitals",
-        "detail": "Mobile LCP 9.2 ss — trim CSS + font subsetting trước khi bật ads (tránh layout shift)."
+        "detail": "Mobile LCP 8.9 ss — trim CSS + font subsetting trước khi bật ads (tránh layout shift)."
       },
       {
         "priority": "P1",
@@ -1407,6 +1410,13 @@
         "reason": "Thiếu FAQ schema — tăng featured snippet potential"
       },
       {
+        "title": "Ai nên sử dụng Tiết kiệm tự động Liobank? Kinh nghiệm tối ưu",
+        "url": "https://seomoney.org/posting/ai-nen-su-dung-tiet-kiem-tu-dong-liobank/",
+        "category": "Ngân hàng",
+        "score": 95,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
         "title": "Bảo mật VietinBank: ngân hàng số an toàn ra sao?",
         "url": "https://seomoney.org/posting/bao-mat-ngan-hang-so-vietinbank/",
         "category": "Ngân hàng",
@@ -1416,6 +1426,13 @@
       {
         "title": "Chuyển đổi số VietinBank: chiến lược và kết quả",
         "url": "https://seomoney.org/posting/chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua/",
+        "category": "Ngân hàng",
+        "score": 94,
+        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
+      },
+      {
+        "title": "Tiết kiệm tự động Liobank là gì? Cách hoạt động chi tiết",
+        "url": "https://seomoney.org/posting/tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong/",
         "category": "Ngân hàng",
         "score": 94,
         "reason": "Thiếu FAQ schema — tăng featured snippet potential"
@@ -1433,20 +1450,6 @@
         "category": "Công nghệ",
         "score": 93,
         "reason": "Thiếu FAQ schema — tăng featured snippet potential"
-      },
-      {
-        "title": "Chặn trang khỏi Google Search khi cần (noindex, robots)",
-        "url": "https://seomoney.org/posting/chan-trang-khoi-google-search/",
-        "category": "Công nghệ",
-        "score": 93,
-        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
-      },
-      {
-        "title": "Lịch sử VietinBank: những cột mốc phát triển đáng nhớ",
-        "url": "https://seomoney.org/posting/cot-moc-lich-su-phat-trien-vietinbank/",
-        "category": "Ngân hàng",
-        "score": 93,
-        "reason": "Thiếu FAQ schema — tăng featured snippet potential"
       }
     ],
     "topics_to_write": [
@@ -1455,6 +1458,13 @@
         "current_posts": 9,
         "max_rpm": 95,
         "suggested_expansion": "Add 6 posts (6–12 post cluster = hub-spoke model)",
+        "rationale": "Đủ thứ hạng seed — mở rộng để capture topic depth + cross-link bonus"
+      },
+      {
+        "category": "Series",
+        "current_posts": 6,
+        "max_rpm": 78,
+        "suggested_expansion": "Add 9 posts (6–12 post cluster = hub-spoke model)",
         "rationale": "Đủ thứ hạng seed — mở rộng để capture topic depth + cross-link bonus"
       },
       {
@@ -1587,18 +1597,25 @@
       "monetization_score": 84,
       "ad_density_verdict": "optimal",
       "ui_grade": "B+"
+    },
+    {
+      "report_number": 8,
+      "generated_at": "2026-06-29T14:37:10Z",
+      "monetization_score": 85,
+      "ad_density_verdict": "optimal",
+      "ui_grade": "B+"
     }
   ],
   "scan_stats": {
-    "total_posts": 203,
+    "total_posts": 218,
     "incremental": false,
     "pages_scanned": 223,
     "site_seo_score": 99.8
   },
   "pagespeed_snapshot": {
-    "mobile_performance": 55,
-    "lcp": "9.2 s",
+    "mobile_performance": 59,
+    "lcp": "8.9 s",
     "cls": "0"
   },
-  "latest_report_path": "reports/ad-report-v2/report-007-20260628.md"
+  "latest_report_path": "reports/ad-report-v2/report-008-20260629.md"
 }
