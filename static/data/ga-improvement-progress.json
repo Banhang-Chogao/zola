@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-28T22:42:18Z",
+  "updated_at": "2026-06-29T14:37:10Z",
   "tasks": [
     {
       "id": "seo",
@@ -24,9 +24,9 @@
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 60/100 · LCP 7.0 s · needs work",
+      "detail": "Mobile 59/100 · LCP 8.9 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-28T19:58:42+00:00"
+      "updated_at": "2026-06-29T00:18:30+00:00"
     },
     {
       "id": "schema",
@@ -51,9 +51,9 @@
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "done",
-      "detail": "1126 links OK · IndexNow on publish",
+      "detail": "1148 links OK · IndexNow on publish",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-28T20:42:45Z"
+      "updated_at": "2026-06-29T14:00:32Z"
     },
     {
       "id": "image_opt",
@@ -69,9 +69,9 @@
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 60/100 vs desktop 75/100 (Δ15) · 885/885 ready",
+      "detail": "Mobile 59/100 vs desktop 90/100 (Δ31) · 885/885 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-28T19:58:42+00:00"
+      "updated_at": "2026-06-29T00:18:30+00:00"
     }
   ],
   "summary": {
