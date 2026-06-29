@@ -121,20 +121,20 @@
     </section>
 
     <section class="cms-v2__shell" data-cms-v2-shell hidden>
-        <header class="cms-v2__hero">
-            <div class="cms-v2__hero-copy">
-                <p class="cms-v2__eyebrow">SEOMONEY editorial operating system</p>
-                <h1 class="cms-v2__title">CMS-V2</h1>
+        <header class="cms-v2__topbar">
+            <div class="cms-v2__topbar-copy">
+                <p class="cms-v2__eyebrow">SEOMONEY CMS-V2</p>
+                <h1 class="cms-v2__topbar-title">Editorial Operating System</h1>
                 <p class="cms-v2__lede">
-                    Lớp điều phối biên tập riêng: draft workflow, sticky/featured control, homepage preview,
-                    ad map, SEO lab, internal links và publish queue.
+                    Newsroom-grade workspace for SEOMONEY. Draft, review, and prepare articles.
+                    Publish will be enabled later.
                 </p>
             </div>
-            <div class="cms-v2__hero-note">
+            <div class="cms-v2__topbar-state">
                 <div class="cms-v2__note-card">
-                    <span class="cms-v2__note-label">Auth</span>
-                    <strong>GitHub OAuth</strong>
-                    <span>Reuses the existing admin guard used by /editor/.</span>
+                    <span class="cms-v2__note-label">GitHub</span>
+                    <strong>Connected</strong>
+                    <span>Admin session mirrors the existing /editor/ gate.</span>
                 </div>
                 <div class="cms-v2__note-card cms-v2__user-card" data-cms-v2-usercard hidden>
                     <span class="cms-v2__note-label">Signed in</span>
@@ -149,17 +149,6 @@
                         Đăng xuất
                     </button>
                 </div>
-                <div class="cms-v2__note-card">
-                    <span class="cms-v2__note-label">Ordering policy</span>
-                    <strong>Production timestamp aware</strong>
-                    <span>
-                        {% if prod_snapshot and prod_snapshot.deploy and prod_snapshot.deploy.deployed_at_display %}
-                        Production deploy: {{ prod_snapshot.deploy.deployed_at_display }}.
-                        {% else %}
-                        fallback to frontmatter date because production deploy timestamp is unavailable.
-                        {% endif %}
-                    </span>
-                </div>
             </div>
         </header>
 
@@ -173,198 +162,46 @@
             <button type="button" class="cms-v2__tab" data-cms-v2-tab="queue" aria-selected="false">Publish Queue</button>
         </nav>
 
-        <div class="cms-v2__layout">
-            <aside class="cms-v2__rail">
-                <section class="cms-v2__summary">
-                    <h2 class="cms-v2__section-title">Editorial status</h2>
-                    <div class="cms-v2__metric-grid">
-                        <article class="cms-v2__metric">
-                            <span class="cms-v2__metric-label">Drafts</span>
-                            <strong class="cms-v2__metric-value">{{ draft_count }}</strong>
-                        </article>
-                        <article class="cms-v2__metric">
-                            <span class="cms-v2__metric-label">Review queue</span>
-                            <strong class="cms-v2__metric-value">{{ review_count }}</strong>
-                        </article>
-                        <article class="cms-v2__metric">
-                            <span class="cms-v2__metric-label">Ready to publish</span>
-                            <strong class="cms-v2__metric-value">{{ ready_count }}</strong>
-                        </article>
-                        <article class="cms-v2__metric">
-                            <span class="cms-v2__metric-label">Published</span>
-                            <strong class="cms-v2__metric-value">{{ published_count }}</strong>
-                        </article>
-                    </div>
-                </section>
-
-                <section class="cms-v2__summary">
-                    <h2 class="cms-v2__section-title">Sticky / Featured</h2>
-                    <div class="cms-v2__status-stack">
-                        <div class="cms-v2__status-row">
-                            <span>Sticky article</span>
-                            <strong>{% if sticky_title != "" %}{{ sticky_title }}{% else %}None detected{% endif %}</strong>
+        <section class="cms-v2__panel is-active" data-cms-v2-panel="dashboard" data-cms-v2-quick-panel="true">
+            <div class="cms-v2__workspace">
+                <div class="cms-v2__workspace-col cms-v2__workspace-col--left">
+                    <section class="cms-v2__desk">
+                        <div class="cms-v2__panel-head">
+                            <div>
+                                <p class="cms-v2__eyebrow">Editorial Desk</p>
+                                <h2 class="cms-v2__panel-title">CMS-V2</h2>
+                            </div>
+                            <p class="cms-v2__panel-copy">Newsroom-grade workspace for SEOMONEY. Draft, review, prepare articles. Publish will be enabled later.</p>
                         </div>
-                        <div class="cms-v2__status-row">
-                            <span>Featured posts</span>
-                            <strong>{{ featured_count }}</strong>
+                        <div class="cms-v2__desk-actions">
+                            <button type="button" class="cms-v2__button cms-v2__button--primary" data-cms-v2-tab="composer">New draft</button>
+                            <button type="button" class="cms-v2__button" data-cms-v2-tab="queue">Review queue</button>
+                            <span class="cms-v2__desk-note">Copy Markdown lives in the composer footer.</span>
                         </div>
-                        <div class="cms-v2__status-row">
-                            <span>Latest feed anchor</span>
-                            <strong>{% if latest_title != "" %}{{ latest_title }}{% else %}No posts{% endif %}</strong>
+                        <div class="cms-v2__status-stack cms-v2__desk-stack">
+                            <div class="cms-v2__status-row">
+                                <span>Workspace</span>
+                                <strong>Desktop editorial mode</strong>
+                            </div>
+                            <div class="cms-v2__status-row">
+                                <span>Publish</span>
+                                <strong>Publish sẽ được bật ở bước CMS-V2 Quick Publish.</strong>
+                            </div>
+                            <div class="cms-v2__status-row">
+                                <span>Queue</span>
+                                <strong>{{ review_count }} items in review</strong>
+                            </div>
                         </div>
-                    </div>
-                    <div class="cms-v2__warning-list">
-                        <p class="cms-v2__warning{% if not sticky_latest_collision %} is-quiet{% endif %}">
-                            {% if sticky_latest_collision %}
-                            Warning: Sticky collides with Latest.
-                            {% else %}
-                            Sticky vs Latest collision: none.
-                            {% endif %}
-                        </p>
-                        <p class="cms-v2__warning{% if not featured_latest_collision %} is-quiet{% endif %}">
-                            {% if featured_latest_collision %}
-                            Warning: Featured collides with Latest.
-                            {% else %}
-                            Featured vs Latest collision: none.
-                            {% endif %}
-                        </p>
-                    </div>
-                </section>
+                    </section>
 
-                <section class="cms-v2__summary">
-                    <h2 class="cms-v2__section-title">Deploy / QA</h2>
-                    <div class="cms-v2__status-stack">
-                        <div class="cms-v2__status-row">
-                            <span>Production</span>
-                            <strong>
-                                {% if prod_snapshot and prod_snapshot.deploy and prod_snapshot.deploy.status_line %}
-                                    {{ prod_snapshot.deploy.status_line }}
-                                {% else %}
-                                    unavailable
-                                {% endif %}
-                            </strong>
+                    <section class="cms-v2__composer">
+                        <div class="cms-v2__panel-head">
+                            <div>
+                                <p class="cms-v2__eyebrow">Composer</p>
+                                <h2 class="cms-v2__panel-title">Build the article</h2>
+                            </div>
+                            <p class="cms-v2__panel-copy">Keep the draft narrow, structured, and ready for editorial review.</p>
                         </div>
-                        <div class="cms-v2__status-row">
-                            <span>Build</span>
-                            <strong>
-                                {% if build_data and build_data.latest_by_workflow and build_data.latest_by_workflow["deploy.yml"] %}
-                                    {{ build_data.latest_by_workflow["deploy.yml"].status_vi }}
-                                {% else %}
-                                    unavailable
-                                {% endif %}
-                            </strong>
-                        </div>
-                        <div class="cms-v2__status-row">
-                            <span>Deploy monitor</span>
-                            <strong>
-                                {% if deploy_monitor and deploy_monitor.summary and deploy_monitor.summary.status_line %}
-                                    {{ deploy_monitor.summary.status_line }}
-                                {% else %}
-                                    unavailable
-                                {% endif %}
-                            </strong>
-                        </div>
-                    </div>
-                </section>
-            </aside>
-
-            <main class="cms-v2__main">
-                <section class="cms-v2__panel is-active" data-cms-v2-panel="dashboard">
-                    <div class="cms-v2__panel-head">
-                        <h2 class="cms-v2__panel-title">Dashboard</h2>
-                        <p class="cms-v2__panel-copy">Editorial command center with live counts and collision warnings.</p>
-                    </div>
-
-                    <div class="cms-v2__card-grid">
-                        <article class="cms-v2__card">
-                            <span class="cms-v2__card-label">Homepage health</span>
-                            <strong class="cms-v2__card-value">
-                                {% if sticky_latest_collision or featured_latest_collision %}
-                                    Yellow
-                                {% elif prod_snapshot and prod_snapshot.drift and prod_snapshot.drift.status_vi %}
-                                    {{ prod_snapshot.drift.status_vi }}
-                                {% else %}
-                                    Unknown
-                                {% endif %}
-                            </strong>
-                            <p class="cms-v2__card-note">
-                                {% if sticky_latest_collision or featured_latest_collision %}
-                                Duplicate editorial ownership detected.
-                                {% else %}
-                                No sticky/featured/latest collision detected from the current dataset.
-                                {% endif %}
-                            </p>
-                        </article>
-                        <article class="cms-v2__card">
-                            <span class="cms-v2__card-label">SEO/QA status</span>
-                            <strong class="cms-v2__card-value">{{ ready_count }} ready</strong>
-                            <p class="cms-v2__card-note">Backed by the SEO QA manifest and publish-state counters.</p>
-                        </article>
-                        <article class="cms-v2__card">
-                            <span class="cms-v2__card-label">Build status</span>
-                            <strong class="cms-v2__card-value">
-                                {% if build_data and build_data.latest_by_workflow and build_data.latest_by_workflow["deploy.yml"] %}
-                                    {{ build_data.latest_by_workflow["deploy.yml"].status_vi }}
-                                {% else %}
-                                    unavailable
-                                {% endif %}
-                            </strong>
-                            <p class="cms-v2__card-note">
-                                {% if build_data and build_data.latest_by_workflow and build_data.latest_by_workflow["deploy.yml"] %}
-                                {{ build_data.latest_by_workflow["deploy.yml"].summary_vi }}
-                                {% else %}
-                                Build data not present.
-                                {% endif %}
-                            </p>
-                        </article>
-                        <article class="cms-v2__card">
-                            <span class="cms-v2__card-label">Deploy timestamp</span>
-                            <strong class="cms-v2__card-value">
-                                {% if prod_snapshot and prod_snapshot.deploy and prod_snapshot.deploy.deployed_at_display %}
-                                    {{ prod_snapshot.deploy.deployed_at_display }}
-                                {% else %}
-                                    Fallback to frontmatter date
-                                {% endif %}
-                            </strong>
-                            <p class="cms-v2__card-note">
-                                {% if prod_snapshot and prod_snapshot.deploy and prod_snapshot.deploy.deployed_at_display %}
-                                Production deploy timestamp is available.
-                                {% else %}
-                                fallback to frontmatter date because production deploy timestamp is unavailable.
-                                {% endif %}
-                            </p>
-                        </article>
-                    </div>
-
-                    <div class="cms-v2__list-group">
-                        <h3 class="cms-v2__subhead">Recently published posts</h3>
-                        <div class="cms-v2__post-list">
-                            {% if posting and posting.pages %}
-                                {% for page in posting.pages | slice(start=0, end=5) %}
-                                    <article class="cms-v2__post-row">
-                                        <div>
-                                            <strong><a href="{{ page.permalink }}">{{ page.title }}</a></strong>
-                                            <p>{{ page.slug }}</p>
-                                        </div>
-                                        <span class="cms-v2__post-date">
-                                            {{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}
-                                        </span>
-                                    </article>
-                                {% endfor %}
-                            {% else %}
-                                <p class="cms-v2__empty">No publishing data available.</p>
-                            {% endif %}
-                        </div>
-                    </div>
-                </section>
-
-                <section class="cms-v2__panel" data-cms-v2-panel="composer" hidden>
-                    <div class="cms-v2__panel-head">
-                        <h2 class="cms-v2__panel-title">Article Composer</h2>
-                        <p class="cms-v2__panel-copy">Read-only first version. Writing and publish actions stay pending until a safe backend path exists.</p>
-                    </div>
-
-                    <div class="cms-v2__composer">
                         <form class="cms-v2__form" data-cms-v2-form>
                             <div class="cms-v2__field-grid">
                                 <label class="cms-v2__field">
@@ -404,129 +241,215 @@
                                     </select>
                                 </label>
                                 <label class="cms-v2__field">
-                                    <span class="cms-v2__label">Author</span>
-                                    <input type="text" class="cms-v2__input" name="author" data-cms-v2-author value="{{ config.extra.author }}" placeholder="{{ config.extra.author }}">
-                                </label>
-                                <label class="cms-v2__field">
-                                    <span class="cms-v2__label">SEO title</span>
-                                    <input type="text" class="cms-v2__input" name="seo_title" data-cms-v2-seo-title placeholder="SEO title">
-                                </label>
-                            </div>
-
-                            <div class="cms-v2__field-grid cms-v2__field-grid--split">
-                                <label class="cms-v2__field">
-                                    <span class="cms-v2__label">Description / excerpt</span>
-                                    <textarea class="cms-v2__textarea" rows="4" data-cms-v2-description placeholder="Short editorial summary"></textarea>
-                                </label>
-                                <label class="cms-v2__field">
-                                    <span class="cms-v2__label">Meta description</span>
-                                    <textarea class="cms-v2__textarea" rows="4" data-cms-v2-meta-description placeholder="SEO meta description"></textarea>
-                                </label>
-                            </div>
-
-                            <div class="cms-v2__field-grid cms-v2__field-grid--split">
-                                <label class="cms-v2__field">
-                                    <span class="cms-v2__label">Hero image URL</span>
-                                    <input type="url" class="cms-v2__input" data-cms-v2-hero-image placeholder="https://seomoney.org/img/...">
-                                </label>
-                                <label class="cms-v2__field cms-v2__field--toggle">
-                                    <span class="cms-v2__label">Hero mode</span>
-                                    <select class="cms-v2__input" data-cms-v2-hero-mode>
-                                        <option value="image">Image</option>
-                                        <option value="fallback" selected>Internal S-DNA fallback card</option>
-                                    </select>
-                                </label>
-                            </div>
-
-                            <div class="cms-v2__field-grid cms-v2__field-grid--split">
-                                <label class="cms-v2__field">
                                     <span class="cms-v2__label">Tags</span>
-                                    <input type="text" class="cms-v2__input" data-cms-v2-tags placeholder="tag-one, tag-two, tag-three">
+                                    <input type="text" class="cms-v2__input" name="tags" data-cms-v2-tags placeholder="tag-one, tag-two, tag-three">
                                 </label>
                                 <label class="cms-v2__field">
-                                    <span class="cms-v2__label">Canonical preview</span>
-                                    <output class="cms-v2__output" data-cms-v2-canonical>https://seomoney.org/posting/</output>
+                                    <span class="cms-v2__label">Series</span>
+                                    <input type="text" class="cms-v2__input" name="series" placeholder="Editorial series">
+                                </label>
+                                <label class="cms-v2__field">
+                                    <span class="cms-v2__label">Excerpt</span>
+                                    <textarea class="cms-v2__textarea" rows="4" name="excerpt" data-cms-v2-description placeholder="Short editorial summary"></textarea>
                                 </label>
                             </div>
 
                             <label class="cms-v2__field">
-                                <span class="cms-v2__label">Body markdown</span>
-                                <textarea class="cms-v2__textarea cms-v2__textarea--large" rows="10" data-cms-v2-body placeholder="Markdown body..."></textarea>
+                                <span class="cms-v2__label">Markdown body</span>
+                                <textarea class="cms-v2__textarea cms-v2__textarea--large" rows="12" name="body" data-cms-v2-body placeholder="Markdown body..."></textarea>
                             </label>
 
-                            <div class="cms-v2__field-grid cms-v2__field-grid--split">
-                                <label class="cms-v2__field">
-                                    <span class="cms-v2__label">FAQ blocks</span>
-                                    <textarea class="cms-v2__textarea" rows="6" data-cms-v2-faq placeholder="- Q: ...&#10;  A: ..."></textarea>
-                                </label>
-                                <label class="cms-v2__field">
-                                    <span class="cms-v2__label">Related posts</span>
-                                    <textarea class="cms-v2__textarea" rows="6" data-cms-v2-related placeholder="slug-one, slug-two"></textarea>
-                                </label>
+                            <div class="cms-v2__composer-actions">
+                                <button type="button" class="cms-v2__button cms-v2__button--primary" data-cms-v2-copy-markdown>Copy Markdown</button>
+                                <button type="button" class="cms-v2__button cms-v2__button--ghost" data-cms-v2-clear-draft>Clear Draft</button>
                             </div>
 
-                            <div class="cms-v2__field-grid cms-v2__field-grid--split">
-                                <label class="cms-v2__field">
-                                    <span class="cms-v2__label">Internal links</span>
-                                    <textarea class="cms-v2__textarea" rows="6" data-cms-v2-internal-links placeholder="https://seomoney.org/posting/..."></textarea>
-                                </label>
-                                <label class="cms-v2__field">
-                                    <span class="cms-v2__label">External sources used</span>
-                                    <textarea class="cms-v2__textarea" rows="6" data-cms-v2-external-sources placeholder="List only real external sources used in the draft"></textarea>
-                                </label>
-                            </div>
-
-                            <div class="cms-v2__field-grid cms-v2__field-grid--split">
-                                <label class="cms-v2__field">
-                                    <span class="cms-v2__label">Copyright note</span>
-                                    <textarea class="cms-v2__textarea" rows="4" data-cms-v2-copyright placeholder="Tuyên bố bản quyền"></textarea>
-                                </label>
-                                <label class="cms-v2__field">
-                                    <span class="cms-v2__label">Editorial note</span>
-                                    <textarea class="cms-v2__textarea" rows="4" data-cms-v2-editorial-note placeholder="Ghi chú biên tập"></textarea>
-                                </label>
-                            </div>
-
-                            <div class="cms-v2__checker" data-cms-v2-checker>
-                                <div class="cms-v2__checker-head">
-                                    <h3>Required ending sections checker</h3>
-                                    <p>Every new blog post must end with the four required sections.</p>
-                                </div>
-                                <ul class="cms-v2__checklist">
-                                    <li data-cms-v2-check="external">
-                                        <span class="cms-v2__check-label">Liên kết bên ngoài được sử dụng trong bài viết</span>
-                                        <strong>Pending</strong>
-                                    </li>
-                                    <li data-cms-v2-check="internal">
-                                        <span class="cms-v2__check-label">Liên kết nội bộ liên quan</span>
-                                        <strong>Pending</strong>
-                                    </li>
-                                    <li data-cms-v2-check="copyright">
-                                        <span class="cms-v2__check-label">Tuyên bố bản quyền</span>
-                                        <strong>Pending</strong>
-                                    </li>
-                                    <li data-cms-v2-check="editorial">
-                                        <span class="cms-v2__check-label">Ghi chú biên tập</span>
-                                        <strong>Pending</strong>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="cms-v2__checker cms-v2__checker--inline">
-                                <div class="cms-v2__checker-head">
-                                    <h3>Schema status</h3>
-                                    <p data-cms-v2-schema-status>Waiting for body and FAQ content.</p>
-                                </div>
-                                <div class="cms-v2__checker-stats">
-                                    <span data-cms-v2-title-length>Title: pending</span>
-                                    <span data-cms-v2-meta-length>Meta: pending</span>
-                                    <span data-cms-v2-slug-quality>Slug: pending</span>
-                                    <span data-cms-v2-h1-match>H1 match: pending</span>
-                                </div>
-                            </div>
+                            <div class="cms-v2__metrics" data-cms-v2-counters></div>
                         </form>
-                    </div>
-                </section>
+                    </section>
+                </div>
+
+                <div class="cms-v2__workspace-col cms-v2__workspace-col--right">
+                    <section class="cms-v2__command">
+                        <div class="cms-v2__panel-head">
+                            <div>
+                                <p class="cms-v2__eyebrow">Command Panel</p>
+                                <h2 class="cms-v2__panel-title">Auth and session</h2>
+                            </div>
+                            <p class="cms-v2__panel-copy">Quiet control surface for the authenticated editorial session.</p>
+                        </div>
+                        <div class="cms-v2__command-grid">
+                            <article class="cms-v2__command-stat">
+                                <span class="cms-v2__card-label">Auth</span>
+                                <strong>GitHub connected</strong>
+                                <p>Superadmin session OK.</p>
+                            </article>
+                            <article class="cms-v2__command-stat">
+                                <span class="cms-v2__card-label">Session</span>
+                                <strong>{{ config.extra.author }} · superadmin</strong>
+                                <p>Uses the existing OAuth gate and logout flow.</p>
+                            </article>
+                            <article class="cms-v2__command-stat">
+                                <span class="cms-v2__card-label">Draft</span>
+                                <strong>{{ draft_count }} drafts</strong>
+                                <p>{{ review_count }} in review, {{ ready_count }} ready.</p>
+                            </article>
+                            <article class="cms-v2__command-stat">
+                                <span class="cms-v2__card-label">Publish</span>
+                                <strong>Not enabled yet</strong>
+                                <p>Publish sẽ được bật ở bước CMS-V2 Quick Publish.</p>
+                            </article>
+                        </div>
+                    </section>
+
+                    <section class="cms-v2__preview">
+                        <div class="cms-v2__panel-head">
+                            <div>
+                                <p class="cms-v2__eyebrow">Article Preview</p>
+                                <h2 class="cms-v2__panel-title">Read as a story</h2>
+                            </div>
+                            <p class="cms-v2__panel-copy">The live markdown preview stays open and editorial, not admin-like.</p>
+                        </div>
+                        <article class="cms-v2__preview-stage">
+                            <p class="cms-v2__preview-kicker">Category · Date · Author</p>
+                            <h3 class="cms-v2__preview-headline">Headline preview</h3>
+                            <p class="cms-v2__preview-excerpt">Excerpt preview</p>
+                            <pre class="cms-v2__preview-body" data-cms-v2-markdown-preview></pre>
+                        </article>
+                    </section>
+
+                    <section class="cms-v2__qa">
+                        <div class="cms-v2__panel-head">
+                            <div>
+                                <p class="cms-v2__eyebrow">Editorial QA</p>
+                                <h2 class="cms-v2__panel-title">SEO and compliance</h2>
+                            </div>
+                            <p class="cms-v2__panel-copy">Keep the metadata and required ending sections visible in one quiet rail.</p>
+                        </div>
+
+                        <div class="cms-v2__qa-cards">
+                            <article class="cms-v2__card">
+                                <span class="cms-v2__card-label">SEO title</span>
+                                <strong class="cms-v2__card-value" data-cms-v2-title-length>Pending</strong>
+                                <p class="cms-v2__card-note">Aim for a concise, descriptive title.</p>
+                            </article>
+                            <article class="cms-v2__card">
+                                <span class="cms-v2__card-label">Meta description</span>
+                                <strong class="cms-v2__card-value" data-cms-v2-meta-length>Pending</strong>
+                                <p class="cms-v2__card-note">Meta description presence and length.</p>
+                            </article>
+                            <article class="cms-v2__card">
+                                <span class="cms-v2__card-label">Slug quality</span>
+                                <strong class="cms-v2__card-value" data-cms-v2-slug-quality>Pending</strong>
+                                <p class="cms-v2__card-note">Lowercase, dash-separated, no spaces or illegal chars.</p>
+                            </article>
+                            <article class="cms-v2__card">
+                                <span class="cms-v2__card-label">Schema status</span>
+                                <strong class="cms-v2__card-value" data-cms-v2-schema-status>Waiting for body and FAQ content.</strong>
+                                <p class="cms-v2__card-note">Schema readiness updates live while drafting.</p>
+                            </article>
+                        </div>
+
+                        <div class="cms-v2__field-grid cms-v2__field-grid--split">
+                            <label class="cms-v2__field">
+                                <span class="cms-v2__label">SEO title</span>
+                                <input type="text" class="cms-v2__input" name="seo_title" data-cms-v2-seo-title placeholder="SEO title">
+                            </label>
+                            <label class="cms-v2__field">
+                                <span class="cms-v2__label">Meta description</span>
+                                <textarea class="cms-v2__textarea" rows="4" name="seo_description" data-cms-v2-meta-description placeholder="SEO meta description"></textarea>
+                            </label>
+                        </div>
+
+                        <div class="cms-v2__field-grid cms-v2__field-grid--split">
+                            <label class="cms-v2__field">
+                                <span class="cms-v2__label">Hero image URL</span>
+                                <input type="url" class="cms-v2__input" name="hero_image" data-cms-v2-hero-image placeholder="https://seomoney.org/img/...">
+                            </label>
+                            <label class="cms-v2__field cms-v2__field--toggle">
+                                <span class="cms-v2__label">Hero mode</span>
+                                <select class="cms-v2__input" name="hero_mode" data-cms-v2-hero-mode>
+                                    <option value="image">Image</option>
+                                    <option value="fallback" selected>Internal S-DNA fallback card</option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <div class="cms-v2__field-grid cms-v2__field-grid--split">
+                            <label class="cms-v2__field">
+                                <span class="cms-v2__label">FAQ blocks</span>
+                                <textarea class="cms-v2__textarea" rows="5" name="faq" data-cms-v2-faq placeholder="- Q: ...&#10;  A: ..."></textarea>
+                            </label>
+                            <label class="cms-v2__field">
+                                <span class="cms-v2__label">Related posts</span>
+                                <textarea class="cms-v2__textarea" rows="5" name="related" data-cms-v2-related placeholder="slug-one, slug-two"></textarea>
+                            </label>
+                        </div>
+
+                        <div class="cms-v2__field-grid cms-v2__field-grid--split">
+                            <label class="cms-v2__field">
+                                <span class="cms-v2__label">Internal links</span>
+                                <textarea class="cms-v2__textarea" rows="5" name="internal_links" data-cms-v2-internal-links placeholder="https://seomoney.org/posting/..."></textarea>
+                            </label>
+                            <label class="cms-v2__field">
+                                <span class="cms-v2__label">External sources used</span>
+                                <textarea class="cms-v2__textarea" rows="5" name="external_sources" data-cms-v2-external-sources placeholder="List only real external sources used in the draft"></textarea>
+                            </label>
+                        </div>
+
+                        <div class="cms-v2__field-grid cms-v2__field-grid--split">
+                            <label class="cms-v2__field">
+                                <span class="cms-v2__label">Copyright note</span>
+                                <textarea class="cms-v2__textarea" rows="4" name="copyright" data-cms-v2-copyright placeholder="Tuyên bố bản quyền"></textarea>
+                            </label>
+                            <label class="cms-v2__field">
+                                <span class="cms-v2__label">Editorial note</span>
+                                <textarea class="cms-v2__textarea" rows="4" name="editorial_note" data-cms-v2-editorial-note placeholder="Ghi chú biên tập"></textarea>
+                            </label>
+                        </div>
+
+                        <div class="cms-v2__checker" data-cms-v2-checker>
+                            <div class="cms-v2__checker-head">
+                                <h3>Required ending sections checker</h3>
+                                <p>Every new blog post must end with the four required sections.</p>
+                            </div>
+                            <ul class="cms-v2__checklist">
+                                <li data-cms-v2-check="external">
+                                    <span class="cms-v2__check-label">Liên kết bên ngoài được sử dụng trong bài viết</span>
+                                    <strong>Pending</strong>
+                                </li>
+                                <li data-cms-v2-check="internal">
+                                    <span class="cms-v2__check-label">Liên kết nội bộ liên quan</span>
+                                    <strong>Pending</strong>
+                                </li>
+                                <li data-cms-v2-check="copyright">
+                                    <span class="cms-v2__check-label">Tuyên bố bản quyền</span>
+                                    <strong>Pending</strong>
+                                </li>
+                                <li data-cms-v2-check="editorial">
+                                    <span class="cms-v2__check-label">Ghi chú biên tập</span>
+                                    <strong>Pending</strong>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="cms-v2__checker cms-v2__checker--inline">
+                            <div class="cms-v2__checker-head">
+                                <h3>Live checks</h3>
+                                <p>Quick status indicators stay visible while drafting.</p>
+                            </div>
+                            <div class="cms-v2__checker-stats">
+                                <span class="cms-v2__qa-chip">Title: pending</span>
+                                <span class="cms-v2__qa-chip">Meta: pending</span>
+                                <span class="cms-v2__qa-chip">Slug: pending</span>
+                                <span data-cms-v2-h1-match>H1 match: pending</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+
 
                 <section class="cms-v2__panel" data-cms-v2-panel="homepage" hidden>
                     <div class="cms-v2__panel-head">
@@ -696,17 +619,17 @@
                     <div class="cms-v2__card-grid">
                         <article class="cms-v2__card">
                             <span class="cms-v2__card-label">Title length</span>
-                            <strong class="cms-v2__card-value" data-cms-v2-title-length>Pending</strong>
+                            <strong class="cms-v2__card-value">Pending</strong>
                             <p class="cms-v2__card-note">Aim for a concise, descriptive title.</p>
                         </article>
                         <article class="cms-v2__card">
                             <span class="cms-v2__card-label">Meta description</span>
-                            <strong class="cms-v2__card-value" data-cms-v2-meta-length>Pending</strong>
+                            <strong class="cms-v2__card-value">Pending</strong>
                             <p class="cms-v2__card-note">Meta description presence and length.</p>
                         </article>
                         <article class="cms-v2__card">
                             <span class="cms-v2__card-label">Slug quality</span>
-                            <strong class="cms-v2__card-value" data-cms-v2-slug-quality>Pending</strong>
+                            <strong class="cms-v2__card-value">Pending</strong>
                             <p class="cms-v2__card-note">Lowercase, dash-separated, no spaces or illegal chars.</p>
                         </article>
                         <article class="cms-v2__card">
