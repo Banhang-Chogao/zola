@@ -1,22 +1,22 @@
 {
-  "generated_at": "2026-06-29T14:40:10.960111+00:00",
-  "generated_at_display": "21:40 29/06/2026",
+  "generated_at": "2026-06-29T20:58:53.455646+00:00",
+  "generated_at_display": "03:58 30/06/2026",
   "source": "build_prod_snapshot.py",
   "shortcut": "??",
   "main": {
-    "sha": "af6cf1a6610a23036b6bae9582e781ce986a3149",
-    "sha_short": "af6cf1a",
-    "title": "main @ af6cf1a",
-    "url": "https://github.com/Banhang-Chogao/zola/commit/af6cf1a6610a23036b6bae9582e781ce986a3149"
+    "sha": "cae93811547d1ceee7c6944de1a28739f6b222a2",
+    "sha_short": "cae9381",
+    "title": "main @ cae9381",
+    "url": "https://github.com/Banhang-Chogao/zola/commit/cae93811547d1ceee7c6944de1a28739f6b222a2"
   },
   "deploy": {
-    "sha": "ee973319d51126e43892fd037ad2767d4571e9c6",
-    "sha_short": "ee97331",
+    "sha": "09257a73bfb626c7bce5c826e7bfa394a4f50e6e",
+    "sha_short": "09257a7",
     "status": "green",
-    "deployed_at": "2026-06-29T13:35:32Z",
-    "deployed_at_display": "20:35 29/06/2026",
-    "run_number": 1471,
-    "status_line": "✅ last success #1471",
+    "deployed_at": "2026-06-29T19:33:16Z",
+    "deployed_at_display": "02:33 30/06/2026",
+    "run_number": 1486,
+    "status_line": "✅ last success #1486",
     "deploying": false
   },
   "backend": {
@@ -29,9 +29,9 @@
     "hint": "Code đã merge nhưng GitHub Pages chưa ship bản mới — đợi deploy hoặc dispatch deploy.yml.",
     "main_ahead_of_deploy": true,
     "backend_behind_main": false,
-    "status_line": "main af6cf1a · deploy ee97331"
+    "status_line": "main cae9381 · deploy 09257a7"
   },
-  "open_prs_count": 1,
+  "open_prs_count": 2,
   "deploy_monitor_stale": false,
   "deploy_monitor_ok": true
 }
