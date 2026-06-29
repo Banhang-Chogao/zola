@@ -487,34 +487,6 @@
     };
   }
 
-  function makePanel() {
-    var shell = document.querySelector(".cms-v2__shell, .cms-v2, main, body");
-    if (!shell || document.querySelector("[data-cms-v2-quick-panel]")) return;
-
-    var panel = document.createElement("section");
-    panel.className = "cms-v2__panel cms-v2__quick-panel";
-    panel.setAttribute("data-cms-v2-quick-panel", "true");
-    panel.innerHTML =
-      '<div class="cms-v2__panel-head">' +
-        '<div>' +
-          '<p class="cms-v2__eyebrow">Quick usable mode</p>' +
-          '<h2>Composer preview & export</h2>' +
-        '</div>' +
-        '<div class="cms-v2__actions">' +
-          '<button type="button" class="cms-v2__button" data-cms-v2-copy-markdown>Copy Markdown</button>' +
-          '<button type="button" class="cms-v2__button cms-v2__button--ghost" data-cms-v2-clear-draft>Clear draft</button>' +
-        '</div>' +
-      '</div>' +
-      '<div class="cms-v2__metrics" data-cms-v2-counters></div>' +
-      '<p class="cms-v2__notice">Publish trực tiếp chưa bật — dùng Copy Markdown hoặc mở Editor cũ.</p>' +
-      '<div class="cms-v2__preview-copy">' +
-        '<h3>Markdown preview</h3>' +
-        '<pre class="cms-v2__markdown" data-cms-v2-markdown-preview></pre>' +
-      '</div>';
-
-    shell.appendChild(panel);
-  }
-
   function splitTags(raw) {
     return norm(raw)
       .split(",")
@@ -618,8 +590,6 @@
   }
 
   ready(function () {
-    makePanel();
-
     var fields = collectFields();
     restoreDraft(fields);
 
