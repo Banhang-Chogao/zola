@@ -23,6 +23,7 @@
 
   var SESSION_KEY = "zola-cms-session-id";
   var CMS_RETURN_TO = "https://seomoney.org/cms-v2/";
+  var AUTH_TIMEOUT_MS = 10000;
   var root = document.querySelector("[data-cms-v2]");
   if (!root) return;
 
@@ -30,6 +31,11 @@
   var shell = root.querySelector("[data-cms-v2-shell]");
   var status = root.querySelector("[data-cms-v2-auth-status]");
   var loginButton = root.querySelector("[data-cms-v2-login]");
+  var logoutButton = root.querySelector("[data-cms-v2-logout]");
+  var userCard = root.querySelector("[data-cms-v2-usercard]");
+  var userAvatar = root.querySelector("[data-cms-v2-user-avatar]");
+  var userName = root.querySelector("[data-cms-v2-user-name]");
+  var userEmail = root.querySelector("[data-cms-v2-user-email]");
   var tabs = Array.prototype.slice.call(root.querySelectorAll("[data-cms-v2-tab]"));
   var panels = Array.prototype.slice.call(root.querySelectorAll("[data-cms-v2-panel]"));
 
@@ -70,23 +76,9 @@
 
   function getSid() {
     try {
-      var sid = localStorage.getItem(SESSION_KEY) || "";
-      if (!sid) {
-        var legacySid = sessionStorage.getItem(SESSION_KEY) || "";
-        if (legacySid) {
-          localStorage.setItem(SESSION_KEY, legacySid);
-          sessionStorage.removeItem(SESSION_KEY);
-          sid = legacySid;
-        }
-      }
-      return sid;
+      return localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) || "";
     } catch (e) {}
     return "";
-  }
-
-  function setSid(sid) {
-    try { localStorage.setItem(SESSION_KEY, sid); } catch (e) {}
-    try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
   }
 
   function clearSid() {
@@ -101,10 +93,9 @@
   }
 
   function consumeAuthParams() {
-    var sid = readHashSid();
-    if (sid) setSid(sid);
     var params = new URLSearchParams(location.search);
     var authError = params.get("auth_error") || "";
+    var sid = readHashSid();
     var hadAuthParams = params.has("auth") || params.has("auth_error") || !!sid;
     params.delete("auth");
     params.delete("auth_error");
@@ -122,33 +113,28 @@
     return url.toString();
   }
 
-  function startOAuth() {
+  function startOAuth(event) {
+    if (event) event.preventDefault();
     if (!AUTH_API) return;
     window.location.assign(buildLoginUrl());
   }
 
-  async function meRequest(useBearer) {
-    var headers = {};
-    if (useBearer) {
-      var sid = getSid();
-      if (!sid) return { status: 0 };
-      headers.Authorization = "Bearer " + sid;
-    }
-
+  async function meRequest() {
     var controller = new AbortController();
-    var timer = setTimeout(function () { controller.abort(); }, 10000);
+    var timer = setTimeout(function () { controller.abort(); }, AUTH_TIMEOUT_MS);
     try {
       var res = await fetch(AUTH_API + "/auth/me", {
         method: "GET",
-        headers: headers,
         credentials: "include",
         cache: "no-store",
         signal: controller.signal,
       });
-      if (!res.ok) return { status: res.status };
-      return { status: 200, user: await res.json() };
+      if (res.status === 401 || res.status === 403) return { status: res.status, user: null };
+      if (!res.ok) return { status: res.status, user: null, error: true };
+      var user = await res.json();
+      return { status: 200, user: user };
     } catch (e) {
-      return { status: -1 };
+      return { status: -1, user: null, error: true };
     } finally {
       clearTimeout(timer);
     }
@@ -156,19 +142,32 @@
 
   async function fetchMe() {
     if (!AUTH_API) return null;
-    var sid = getSid();
-    var bearer = sid ? await meRequest(true) : { status: 0 };
-    if (bearer.status === 200) return bearer.user;
-
-    // The HttpOnly cookie is the durable session source. Cookie-only retry also
-    // recovers when an old Bearer sid exists in localStorage.
-    var cookie = await meRequest(false);
-    if (cookie.status === 200) return cookie.user;
-    if (cookie.status === 401 && sid) clearSid();
-    if (bearer.status === -1 || cookie.status === -1) {
-      return { __error: "backend_unreachable" };
+    var res = await meRequest();
+    if (res.status === 200 && res.user) return normalizeUser(res.user);
+    if (res.status === 401 || res.status === 403) {
+      clearSid();
+      return null;
     }
+    if (res.status === -1) return { __error: "backend_unreachable" };
     return null;
+  }
+
+  function normalizeUser(user) {
+    if (!user || typeof user !== "object") return null;
+    return {
+      authenticated: user.authenticated !== false,
+      provider: user.provider || "",
+      email: user.email || "",
+      username: user.username || "",
+      name: user.name || user.username || "",
+      avatar: user.avatar_url || user.avatar || "",
+      avatar_url: user.avatar_url || user.avatar || "",
+      role: user.role || "",
+      is_admin: user.is_admin === true,
+      is_super: user.is_super === true,
+      account_type: user.account_type || "",
+      comment_role: user.comment_role || "",
+    };
   }
 
   var AUTH_ERROR_MESSAGES = {
@@ -190,6 +189,42 @@
     if (gate) gate.hidden = false;
     if (shell) shell.hidden = true;
     if (status && msg) status.textContent = msg;
+    if (userCard) userCard.hidden = true;
+    if (logoutButton) logoutButton.hidden = true;
+  }
+
+  function clearLegacyAuthState() {
+    clearSid();
+    try { window.localStorage.removeItem("zola-cms-auth-state"); } catch (e) {}
+  }
+
+  function populateUserCard(user) {
+    if (userCard) userCard.hidden = false;
+    if (userAvatar) {
+      if (user.avatar) {
+        userAvatar.src = user.avatar;
+        userAvatar.alt = user.username || user.name || "GitHub avatar";
+        userAvatar.hidden = false;
+      } else {
+        userAvatar.hidden = true;
+      }
+    }
+    if (userName) userName.textContent = user.name || user.username || "GitHub user";
+    if (userEmail) userEmail.textContent = user.email || "";
+    if (logoutButton) logoutButton.hidden = false;
+    if (status) status.textContent = "Đã đăng nhập bằng GitHub.";
+  }
+
+  async function logout() {
+    try {
+      await fetch(AUTH_API + "/auth/logout", {
+        method: "POST",
+        credentials: "include",
+        cache: "no-store",
+      });
+    } catch (e) {}
+    clearLegacyAuthState();
+    showGate("Đã đăng xuất. Vui lòng đăng nhập GitHub để vào CMS-V2.");
   }
 
   function setActiveTab(name) {
@@ -313,9 +348,12 @@
     bindTabs();
     bindComposer();
     if (loginButton) {
-      loginButton.addEventListener("click", function (event) {
+      loginButton.addEventListener("click", startOAuth);
+    }
+    if (logoutButton) {
+      logoutButton.addEventListener("click", async function (event) {
         event.preventDefault();
-        startOAuth();
+        await logout();
       });
     }
 
@@ -324,7 +362,8 @@
       showGate("Không thể kiểm tra phiên GitHub lúc này. Vui lòng thử lại sau.");
       return;
     }
-    if (!me || me.provider !== "github" || !(me.is_admin || me.is_super)) {
+    if (!me || me.authenticated === false || me.provider !== "github" || !(me.is_admin || me.is_super)) {
+      clearLegacyAuthState();
       if (authError) {
         showGate(AUTH_ERROR_MESSAGES[authError] || "Đăng nhập GitHub không thành công. Vui lòng thử lại.");
         return;
@@ -333,6 +372,8 @@
       return;
     }
 
+    clearLegacyAuthState();
+    populateUserCard(me);
     showShell();
   }
 
