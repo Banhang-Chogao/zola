@@ -22,6 +22,7 @@ BASE_URL = "https://seomoney.org"
 CONTENT_DIRS = (
     ROOT / "content" / "posting",
     ROOT / "content" / "baochi",
+    ROOT / "content" / "du-lich",
     ROOT / "content" / "pages",
 )
 
