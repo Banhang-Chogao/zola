@@ -18,6 +18,14 @@
   background: transparent;
 }
 
+main.container:has(.home-editorial) .layout-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+main.container:has(.home-editorial) .main-column {
+  grid-column: 1 / -1;
+}
+
 .home-editorial a { color: inherit; }
 
 .home-editorial__masthead,
