@@ -18,7 +18,7 @@
   var AUTH_API = (function () {
     var meta = document.querySelector('meta[name="zola-cms-auth-api"]');
     if (meta && meta.content) return meta.content.replace(/\/$/, "");
-    return "https://blog-vipzone-api.onrender.com";
+    return "https://api.seomoney.org";
   })();
 
   var SESSION_KEY = "zola-cms-session-id";

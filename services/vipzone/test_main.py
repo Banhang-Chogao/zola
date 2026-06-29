@@ -123,9 +123,57 @@ class VipzoneApiTests(unittest.TestCase):
         finally:
             auth_mod.GH_CLIENT_ID, auth_mod.GH_CLIENT_SECRET = old_id, old_secret
 
+    def test_github_callback_success_return_to(self) -> None:
+        from cms_auth import github_success_return_to
+
+        self.assertEqual(
+            github_success_return_to("https://seomoney.org/cms-v2/"),
+            "https://seomoney.org/cms-v2/?success=1",
+        )
+        self.assertEqual(
+            github_success_return_to("https://seomoney.org/cms-v2/?draft=1"),
+            "https://seomoney.org/cms-v2/?draft=1&success=1",
+        )
+        self.assertNotIn(
+            "/cms-v2/&",
+            github_success_return_to("https://seomoney.org/cms-v2/"),
+        )
+
+    def test_github_return_to_rejects_non_cms_paths_and_hosts(self) -> None:
+        from cms_auth import normalize_github_return_to
+
+        for unsafe in (
+            "https://evil.example/cms-v2/",
+            "https://seomoney.org/editor/",
+            "https://seomoney.org.evil.example/cms-v2/",
+            "https://seomoney.org:443/cms-v2/",
+        ):
+            with self.subTest(return_to=unsafe):
+                self.assertEqual(
+                    normalize_github_return_to(unsafe),
+                    "https://seomoney.org/cms-v2/",
+                )
+
     def test_auth_me_requires_token(self) -> None:
         res = self.client.get("/auth/me")
         self.assertEqual(res.status_code, 401)
+        self.assertIsInstance(res.json(), dict)
+        self.assertIn("detail", res.json())
+
+    def test_auth_me_allows_credentialed_cms_origin(self) -> None:
+        res = self.client.options(
+            "/auth/me",
+            headers={
+                "Origin": "https://seomoney.org",
+                "Access-Control-Request-Method": "GET",
+            },
+        )
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(
+            res.headers["access-control-allow-origin"],
+            "https://seomoney.org",
+        )
+        self.assertEqual(res.headers["access-control-allow-credentials"], "true")
 
     def test_auth_me_superadmin_role(self) -> None:
         db = get_db()
