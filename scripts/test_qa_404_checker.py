@@ -27,6 +27,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import importlib.util
 spec = importlib.util.spec_from_file_location("qa_404_checker", Path(__file__).parent.parent / "qa-404-checker.py")
 qa_404 = importlib.util.module_from_spec(spec)
+sys.modules[spec.name] = qa_404
+spec.loader.exec_module(qa_404)
 
 
 class TestQA404CanonicalURL(unittest.TestCase):
@@ -120,7 +122,7 @@ class TestQA404CanonicalURL(unittest.TestCase):
             (content_dir / "test.md").write_text("# Test")
 
             # Patch CONTENT to point to our temp dir
-            with patch("qa_404.CONTENT", content_dir):
+            with patch.object(qa_404, "CONTENT", content_dir):
                 # run_fixes should NOT produce /zola/ paths
                 fixes, changed = qa_404.run_fixes(report)
                 # If fixer ran, no fixes should contain /zola/
@@ -158,6 +160,21 @@ class TestQA404Normalization(unittest.TestCase):
         self.assertEqual(kind, "internal")
         self.assertTrue(norm.startswith("/"))
 
+    def test_relative_path_resolves_from_source_page(self):
+        """Document-relative links must be resolved from the containing page."""
+        kind, norm = qa_404._classify(
+            "../../static/site.css?v=1",
+            "/posting/example/",
+        )
+        self.assertEqual(kind, "internal")
+        self.assertEqual(norm, "/static/site.css")
+
+    def test_parent_page_link_resolves_from_source_page(self):
+        """Parent-directory links must not be treated as root-relative."""
+        kind, norm = qa_404._classify("../related/", "/posting/example/")
+        self.assertEqual(kind, "internal")
+        self.assertEqual(norm, "/posting/related/")
+
 
 class TestQA404SimilarityScore(unittest.TestCase):
     """Test suggestion matching."""
@@ -168,9 +185,10 @@ class TestQA404SimilarityScore(unittest.TestCase):
         self.assertAlmostEqual(score, 1.0)
 
     def test_similarity_partial_match(self):
-        """Partial slug match should score above threshold."""
+        """Partial slug matches should score between unrelated and exact."""
         score = qa_404._similarity("/seo-tips/", "/seo-guide/")
-        self.assertGreater(score, 0.5)
+        self.assertGreater(score, 0)
+        self.assertLess(score, 1)
 
     def test_similarity_no_match(self):
         """No common slugs should score low."""

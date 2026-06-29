@@ -146,13 +146,17 @@ def _public_paths() -> set[str]:
     return paths
 
 
-def _classify(href: str) -> tuple[str, str | None]:
+def _classify(href: str, source_path: str = "/") -> tuple[str, str | None]:
     """Return (kind, normalized).
 
     kind ∈ {"internal", "external", "skip"}.
     For internal: normalized is the site-relative path (no /zola prefix).
     For external: normalized is the absolute http(s) URL.
     For skip: normalized is None.
+
+    Relative URLs are resolved against ``source_path``. Without this, a link
+    such as ``../images/logo.png`` on ``/posting/article/`` was incorrectly
+    checked as ``/images/logo.png`` or even ``/../images/logo.png``.
     """
     href = (href or "").strip()
     if not href or href.startswith(_SKIP_SCHEMES):
@@ -173,7 +177,12 @@ def _classify(href: str) -> tuple[str, str | None]:
         if href.startswith("//"):
             return "external", "https:" + href
 
-    # Internal site path.
+    # Internal site path. Resolve document-relative URLs against the page that
+    # contains them before normalizing query strings and trailing slashes.
+    if not href.startswith("/"):
+        base = source_path if source_path.startswith("/") else "/" + source_path
+        href = urljoin(base, href)
+
     parsed = urlparse(href)
     path = parsed.path or "/"
     if not path.startswith("/"):
@@ -381,7 +390,7 @@ def scan(check_external: bool, ext_cap: int) -> dict:
         source_file = _page_source(rel)
 
         for href in parser.links:
-            kind, norm = _classify(href)
+            kind, norm = _classify(href, rel)
             if kind == "skip" or not norm:
                 continue
             if kind == "internal":
