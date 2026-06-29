@@ -5,7 +5,7 @@ from __future__ import annotations
 import os
 import secrets
 from typing import Any, Literal
-from urllib.parse import urlencode, urlparse
+from urllib.parse import parse_qsl, urlencode, urlparse, urlsplit, urlunsplit
 
 import httpx
 from fastapi import APIRouter, Cookie, Depends, Header, HTTPException, Response
@@ -21,9 +21,19 @@ CMS_V2_RETURN_TO = "https://seomoney.org/cms-v2/"
 CMS_RETURN_TO_HOST = "seomoney.org"
 
 BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://seomoney.org").rstrip("/")
-BACKEND_URL = os.getenv(
-    "VIPZONE_BACKEND_URL",
-    os.getenv("BACKEND_URL", "https://blog-vipzone-api.onrender.com"),
+_IS_PRODUCTION = os.getenv("ENVIRONMENT", "").strip().lower() == "production" or bool(
+    os.getenv("RENDER")
+)
+BACKEND_URL = (
+    os.getenv("PUBLIC_API_BASE")
+    or os.getenv("AUTH_PUBLIC_BASE")
+    or os.getenv("VIPZONE_BACKEND_URL")
+    or os.getenv("BACKEND_URL")
+    or (
+        "https://api.seomoney.org"
+        if _IS_PRODUCTION
+        else "https://blog-vipzone-api.onrender.com"
+    )
 ).rstrip("/")
 GH_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID") or os.getenv("GH_CLIENT_ID", "")
 GH_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET") or os.getenv("GH_CLIENT_SECRET", "")
@@ -237,7 +247,7 @@ def normalize_return_to(return_to: str) -> str:
 
 
 def normalize_github_return_to(return_to: str) -> str:
-    """Return an absolute, allowlisted URL for the GitHub OAuth round trip."""
+    """Return an absolute seomoney.org CMS-V2 URL for the OAuth round trip."""
     rt = (return_to or "").strip()
     if not rt:
         return CMS_V2_RETURN_TO
@@ -247,14 +257,27 @@ def normalize_github_return_to(return_to: str) -> str:
         parsed.scheme == "https"
         and parsed.netloc == CMS_RETURN_TO_HOST
         and parsed.hostname == CMS_RETURN_TO_HOST
+        and (parsed.path == "/cms-v2" or parsed.path.startswith("/cms-v2/"))
     ):
-        return rt
+        return parsed._replace(fragment="").geturl()
 
-    # Keep legacy callers using an internal path on the canonical site.
-    if rt.startswith("/") and not rt.startswith("//"):
+    if (
+        rt.startswith("/cms-v2")
+        and not rt.startswith("//")
+        and (parsed.path == "/cms-v2" or parsed.path.startswith("/cms-v2/"))
+    ):
         return f"https://{CMS_RETURN_TO_HOST}{rt}"
 
     return CMS_V2_RETURN_TO
+
+
+def github_success_return_to(return_to: str) -> str:
+    """Build the allowlisted callback target and append success as a query."""
+    safe_url = normalize_github_return_to(return_to)
+    parsed = urlsplit(safe_url)
+    query = parse_qsl(parsed.query, keep_blank_values=True)
+    query.append(("success", "1"))
+    return urlunsplit((parsed.scheme, parsed.netloc, parsed.path, urlencode(query), ""))
 
 
 def require_github_oauth_env() -> None:
@@ -298,24 +321,32 @@ def build_blog_url(
 
 
 def attach_session_cookie(response: Response, sid: str) -> None:
-    """Edge/Safari cross-site session — SameSite=None requires Secure + HttpOnly."""
+    """Set a secure same-site production cookie; retain cross-site dev fallback."""
+    api_host = (urlparse(BACKEND_URL).hostname or "").lower()
+    same_site_api = api_host == CMS_RETURN_TO_HOST or api_host.endswith(
+        f".{CMS_RETURN_TO_HOST}"
+    )
     response.set_cookie(
         key=SESSION_COOKIE_NAME,
         value=sid,
         max_age=SESSION_TTL,
         httponly=True,
-        secure=True,
-        samesite="none",
+        secure=_IS_PRODUCTION or BACKEND_URL.startswith("https://"),
+        samesite="lax" if same_site_api else "none",
         path="/",
     )
 
 
 def clear_session_cookie(response: Response) -> None:
+    api_host = (urlparse(BACKEND_URL).hostname or "").lower()
+    same_site_api = api_host == CMS_RETURN_TO_HOST or api_host.endswith(
+        f".{CMS_RETURN_TO_HOST}"
+    )
     response.delete_cookie(
         key=SESSION_COOKIE_NAME,
         path="/",
-        secure=True,
-        samesite="none",
+        secure=_IS_PRODUCTION or BACKEND_URL.startswith("https://"),
+        samesite="lax" if same_site_api else "none",
     )
 
 
@@ -548,7 +579,7 @@ async def auth_callback(code: str = "", state: str = "") -> RedirectResponse:
         },
         SESSION_TTL,
     )
-    response = RedirectResponse(return_to, status_code=302)
+    response = RedirectResponse(github_success_return_to(return_to), status_code=302)
     attach_session_cookie(response, sid)
     return response
 
