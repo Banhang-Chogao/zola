@@ -31,14 +31,42 @@ main.container:has(.cms-v2) {
   --cms-v2-warn: #d97706;
   --cms-v2-ok: #0f9d8c;
   --cms-v2-shadow: 0 16px 40px rgba(3, 14, 33, 0.08);
+  position: relative;
+  isolation: isolate;
   color: var(--c-text-body);
   font-family: $hilda-font-family;
   background:
-    radial-gradient(circle at top left, rgba(0, 55, 132, 0.08), transparent 34%),
-    radial-gradient(circle at top right, rgba(0, 166, 157, 0.08), transparent 28%),
-    linear-gradient(180deg, rgba(247, 250, 253, 0.9), rgba(241, 245, 249, 0.98)),
+    radial-gradient(circle at top left, rgba(0, 55, 132, 0.06), transparent 34%),
+    radial-gradient(circle at top right, rgba(255, 152, 0, 0.06), transparent 30%),
+    linear-gradient(180deg, rgba(247, 250, 253, 0.92), rgba(241, 245, 249, 0.98)),
     var(--c-bg-page);
   padding: clamp(0.85rem, 1.5vw, 1.5rem) 0 2rem;
+}
+
+.cms-v2::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(0, 55, 132, 0.5), transparent 34%),
+    radial-gradient(circle at 82% 14%, rgba(255, 152, 0, 0.5), transparent 30%),
+    linear-gradient(135deg, rgba(0, 55, 132, 0.5), rgba(0, 166, 157, 0.28) 54%, rgba(255, 152, 0, 0.5));
+  animation: cms-v2-workspace-fade-in 900ms ease-out forwards;
+}
+
+@keyframes cms-v2-workspace-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(1.015);
+  }
+
+  to {
+    opacity: 0.5;
+    transform: scale(1);
+  }
 }
 
 .cms-v2 a {
