@@ -41,7 +41,11 @@ jobs:
       - name: Build site
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: zola build
+        run: |
+          # Never let removed/renamed pages from a cached workspace enter the
+          # link index as if they belonged to the current commit.
+          rm -rf public
+          zola build
 
       - name: Run QA 404 checker (internal-only, offline — never hangs)
         run: python3 qa-404-checker.py --fix
