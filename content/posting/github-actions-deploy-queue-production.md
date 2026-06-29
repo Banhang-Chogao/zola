@@ -9,7 +9,7 @@ categories = ["Tất cả", "Công nghệ"]
 tags = ["ci-cd", "deploy", "devops", "github-actions", "github-pages", "kinh-nghiem", "workflow"]
 [extra]
 seo_keyword = "GitHub Actions deploy queue"
-thumbnail = "img/placeholder/placeholder.svg"
+thumbnail = "/img/placeholder/placeholder.svg"
 toc = true
 
 [[extra.faq]]

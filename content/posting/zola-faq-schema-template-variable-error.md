@@ -10,7 +10,7 @@ categories = ["Tất cả", "Công nghệ"]
 tags = ["bug-fix", "debug", "faq-schema", "frontmatter", "static-site", "template", "zola"]
 [extra]
 seo_keyword = "zola faq schema variable not found"
-thumbnail = "img/placeholder/placeholder.svg"
+thumbnail = "/img/placeholder/placeholder.svg"
 toc = true
 
 [[extra.faq]]

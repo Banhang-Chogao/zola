@@ -10,7 +10,7 @@ categories = ["Tất cả", "Công nghệ"]
 tags = ["automation", "ci-cd", "devops", "git", "merge-conflict"]
 [extra]
 seo_keyword = "giải quyết merge conflict"
-thumbnail = "img/placeholder/placeholder.svg"
+thumbnail = "/img/placeholder/placeholder.svg"
 toc = true
 
 [[extra.faq]]

@@ -10,7 +10,7 @@ categories = ["Tất cả", "Công nghệ"]
 tags = ["automation", "ci-cd", "devops", "github-actions", "qa", "workflow", "yaml"]
 [extra]
 seo_keyword = "lỗi YAML GitHub Actions workflow invalid"
-thumbnail = "img/placeholder/placeholder.svg"
+thumbnail = "/img/placeholder/placeholder.svg"
 toc = true
 
 [[extra.faq]]

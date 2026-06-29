@@ -11,7 +11,7 @@ tags = ["blog cá nhân", "GitHub Actions", "Zola", "AdSense", "Google OAuth", "
 
 [extra]
 seo_keyword = "vá blog cá nhân Google OAuth Editor CMS AdSense"
-thumbnail = "img/placeholder.svg"
+thumbnail = "/img/placeholder.svg"
 
 [[extra.faq]]
 q = "Tại sao Editor CMS chỉ nhìn thấy bài viết cũ?"
