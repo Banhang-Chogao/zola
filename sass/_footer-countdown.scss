@@ -167,9 +167,10 @@
     }
 
     &__dual {
-      flex-direction: column;
+      flex-direction: row;
       align-items: stretch;
-      gap: 0.55rem;
+      justify-content: center;
+      gap: 0.45rem 0.6rem;
       width: 100%;
     }
 
@@ -197,14 +198,20 @@
     }
 
     &__segment--rest {
-      flex-direction: column;
-      align-items: center;
-      gap: 0.35rem;
+      flex-direction: row;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.15rem 0.3rem;
     }
 
     &__title {
       white-space: normal;
       text-align: center;
+      max-width: 100%;
+    }
+
+    &__loading {
+      display: inline-block;
       max-width: 100%;
     }
   }

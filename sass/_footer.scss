@@ -3,7 +3,7 @@
      var(--c-text-heading) vì token này đảo màu ở dark-mode (#000 -> #fff)
      → nền footer thành trắng, chữ trắng biến mất. Màu cố định cho ổn định
      cả light & dark. (QA band con vẫn nền trắng #fff cố định riêng.) */
-  background: #0a0a0a;
+  background: linear-gradient(180deg, rgba(14, 74, 132, 0.96) 0%, rgba(10, 57, 104, 0.96) 100%);
   color: #9aa4b2;
   /* Home Indicator clearance: cộng safe-area-inset-bottom vào padding
      bottom → trên iPhone (X+) nội dung không dính sát Home Indicator. */

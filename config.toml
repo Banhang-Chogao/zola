@@ -75,6 +75,7 @@ menu = [
         { name = "Tài chính cá nhân", children = [ { url = "$BASE_URL/categories/ngan-hang", name = "Ngân hàng" }, { url = "$BASE_URL/categories/bao-hiem", name = "Bảo hiểm" } ] },
         { name = "Đặc biệt", children = [ { url = "$BASE_URL/categories/premium", name = "⭐ Premium" } ] },
     ] },
+    { name = "Series", url = "$BASE_URL/series/" },
     # "Công cụ" dùng MEGA MENU: 'groups' = các nhóm (mỗi nhóm có heading + children).
     # base.html render groups → mega menu (desktop) / accordion (mobile). KHÔNG xoá/
     # đổi URL tool nào — chỉ nhóm lại cho gọn. Mỗi group là 1 inline-table 1 dòng
