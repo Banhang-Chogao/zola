@@ -74,6 +74,27 @@
     editorial: root.querySelector("[data-cms-v2-check='editorial'] strong"),
   };
 
+  function setHidden(el, hidden) {
+    if (!el) return;
+    el.hidden = !!hidden;
+    el.setAttribute("aria-hidden", hidden ? "true" : "false");
+  }
+
+  function isAdminUser(user) {
+    return !!user && (
+      user.is_super === true ||
+      user.is_admin === true ||
+      user.role === "superadmin" ||
+      user.role === "admin" ||
+      user.account_type === "admin"
+    );
+  }
+
+  function setRootAuthState(isAuthenticated) {
+    root.classList.toggle("is-authenticated", !!isAuthenticated);
+    root.classList.toggle("is-guest", !isAuthenticated);
+  }
+
   function getSid() {
     try {
       return localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) || "";
@@ -181,16 +202,33 @@
   };
 
   function showShell() {
-    if (gate) gate.hidden = true;
-    if (shell) shell.hidden = false;
+    setRootAuthState(true);
+    setHidden(gate, true);
+    setHidden(shell, false);
+    setHidden(loginButton, true);
+    if (loginButton) loginButton.disabled = true;
   }
 
   function showGate(msg) {
-    if (gate) gate.hidden = false;
-    if (shell) shell.hidden = true;
+    setRootAuthState(false);
+    setHidden(gate, false);
+    setHidden(shell, true);
+    setHidden(loginButton, false);
+    if (loginButton) loginButton.disabled = false;
     if (status && msg) status.textContent = msg;
-    if (userCard) userCard.hidden = true;
-    if (logoutButton) logoutButton.hidden = true;
+    setHidden(userCard, true);
+    setHidden(logoutButton, true);
+  }
+
+  function setAuthState(me) {
+    setRootAuthState(true);
+    populateUserCard(me);
+    if (status) status.textContent = "Đã đăng nhập bằng GitHub admin.";
+    showShell();
+  }
+
+  function setGuestState(message) {
+    showGate(message);
   }
 
   function clearLegacyAuthState() {
@@ -199,19 +237,19 @@
   }
 
   function populateUserCard(user) {
-    if (userCard) userCard.hidden = false;
+    setHidden(userCard, false);
     if (userAvatar) {
       if (user.avatar) {
         userAvatar.src = user.avatar;
         userAvatar.alt = user.username || user.name || "GitHub avatar";
-        userAvatar.hidden = false;
+        setHidden(userAvatar, false);
       } else {
-        userAvatar.hidden = true;
+        setHidden(userAvatar, true);
       }
     }
     if (userName) userName.textContent = user.name || user.username || "GitHub user";
     if (userEmail) userEmail.textContent = user.email || "";
-    if (logoutButton) logoutButton.hidden = false;
+    setHidden(logoutButton, false);
     if (status) status.textContent = "Đã đăng nhập bằng GitHub.";
   }
 
@@ -362,19 +400,18 @@
       showGate("Không thể kiểm tra phiên GitHub lúc này. Vui lòng thử lại sau.");
       return;
     }
-    if (!me || me.authenticated === false || me.provider !== "github" || !(me.is_admin || me.is_super)) {
+    if (!me || me.authenticated === false || !isAdminUser(me)) {
       clearLegacyAuthState();
       if (authError) {
-        showGate(AUTH_ERROR_MESSAGES[authError] || "Đăng nhập GitHub không thành công. Vui lòng thử lại.");
+        setGuestState(AUTH_ERROR_MESSAGES[authError] || "Đăng nhập GitHub không thành công. Vui lòng thử lại.");
         return;
       }
-      showGate("Đăng nhập GitHub bằng tài khoản admin để mở CMS-V2.");
+      setGuestState("Đăng nhập GitHub bằng tài khoản admin để mở CMS-V2.");
       return;
     }
 
     clearLegacyAuthState();
-    populateUserCard(me);
-    showShell();
+    setAuthState(me);
   }
 
   boot();

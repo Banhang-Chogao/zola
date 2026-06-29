@@ -33,6 +33,24 @@
   text-underline-offset: 0.15em;
 }
 
+.cms-v2 [hidden] {
+  display: none !important;
+}
+
+.cms-v2.is-authenticated [data-cms-v2-gate],
+.cms-v2.is-guest [data-cms-v2-shell],
+.cms-v2.is-authenticated [data-cms-v2-login] {
+  display: none !important;
+}
+
+.cms-v2.is-authenticated [data-cms-v2-shell] {
+  display: block !important;
+}
+
+.cms-v2.is-guest [data-cms-v2-gate] {
+  display: grid !important;
+}
+
 .cms-v2__gate,
 .cms-v2__shell {
   max-width: 1520px;
