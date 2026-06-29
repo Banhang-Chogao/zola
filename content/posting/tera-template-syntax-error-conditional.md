@@ -10,7 +10,7 @@ categories = ["Tất cả", "Công nghệ"]
 tags = ["debug", "static-site", "syntax-error", "template", "tera", "web-development", "zola"]
 [extra]
 seo_keyword = "tera template syntax error"
-thumbnail = "img/placeholder/placeholder.svg"
+thumbnail = "/img/placeholder/placeholder.svg"
 toc = true
 
 [[extra.faq]]

@@ -7,8 +7,8 @@ updated = 2026-06-29T10:06:00Z
 categories = ["Tất cả", "Công nghệ", "Series"]
 tags = ["Brave Browser", "Brave Origin", "Privacy", "Web Browser", "Chromium", "Ad Block", "Open Source"]
 [extra]
-thumbnail = "https://seomoney.org/img/Brave-Premium-la-gi.png"
-og_image = "https://seomoney.org/img/Brave-Premium-la-gi.png"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+og_image = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_title = "Brave Origin review: trình duyệt riêng tư tối giản"
 seo_keyword = "Brave Origin"
 keywords = ["Brave Origin", "Brave Origin review", "trình duyệt riêng tư", "Brave Premium", "Brave Shields"]
@@ -45,7 +45,7 @@ a = "Không. Brave cho biết phiên bản thông thường vẫn miễn phí, k
 
 Brave Origin là phiên bản trả phí của Brave Browser dành cho người không cần toàn bộ tính năng giúp Brave vận hành như một doanh nghiệp, nhưng vẫn muốn giữ điều quan trọng nhất: quyền riêng tư mà Brave mang lại.
 
-![Brave Origin](/img/Brave-Premium-la-gi.png "Giao diện giới thiệu Brave Origin trên Brave")
+![Brave Origin](/img/placeholder/placeholder.svg "Giao diện giới thiệu Brave Origin trên Brave")
 
 *Giao diện giới thiệu Brave Origin trên Brave.*
 
@@ -65,7 +65,7 @@ Brave công bố Origin trên desktop và mobile từ phiên bản 1.91.x trở 
 
 Một điểm đáng chú ý là Brave Origin sử dụng hình thức mua một lần. Theo tài liệu Brave, purchase ID có thể kích hoạt trên các thiết bị của người mua, ở chế độ standalone hoặc upgrade, với giới hạn tần suất kích hoạt để chống lạm dụng. Đây là cách tiếp cận dễ chịu hơn thuê bao lặp lại hằng tháng.
 
-![Thanh toán Brave Origin](/img/Brave-Premium-la-gi-payment-link-redacted.png "Quy trình xác nhận email khi đăng ký Brave Origin")
+![Thanh toán Brave Origin](/img/placeholder/placeholder.svg "Quy trình xác nhận email khi đăng ký Brave Origin")
 
 *Quy trình xác nhận email khi đăng ký Brave Origin. Liên kết xác nhận riêng tư đã được che hoàn toàn.*
 
