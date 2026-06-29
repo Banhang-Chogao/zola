@@ -1,46 +1,28 @@
 {
-  "generated_at": "2026-06-28T18:55:13.645760+00:00",
+  "generated_at": "2026-06-29T21:11:02.011794+00:00",
   "timezone_note": "Scheduled 22:00 Asia/Ho_Chi_Minh (15:00 UTC)",
   "fixed_applied": true,
   "summary": {
-    "total_posts": 174,
+    "total_posts": 181,
     "before": {
-      "high": 106,
-      "mid": 54,
-      "low": 12
-    },
-    "after": {
-      "high": 108,
-      "mid": 56,
+      "high": 113,
+      "mid": 58,
       "low": 10
     },
-    "fixed_count": 18,
-    "still_orange": 56,
+    "after": {
+      "high": 113,
+      "mid": 58,
+      "low": 10
+    },
+    "fixed_count": 0,
+    "still_orange": 58,
     "still_red": 10,
-    "green_count": 108
+    "green_count": 113
   },
-  "fixed_slugs": [
-    "cong-nghe-blog-duy-nguyen",
-    "dang-ky-v-plus-v-advance-tren-ipay",
-    "debug-zola-series-navigation-links",
-    "fix-internal-links-checker-ci-failure",
-    "google-analytics-la-gi-lo-trinh-10-ngay",
-    "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
-    "lam-theme-log-sua-menu-cong-cu",
-    "lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick",
-    "loi-nhieu-the-h1-sua-seo-toan-site",
-    "nguon-traffic-organic-direct-referral-social-paid",
-    "phan-trang-trang-chu-zola-archive",
-    "qa-gatekeeper-tu-fix-loi-blog",
-    "sentence-transformers-sbert-deep-dive",
-    "so-do-thi-dau-fifa-world-cup-2026",
-    "tao-blog-voi-zola",
-    "vietinbank-v-plus-chi-tiet-quyen-loi",
-    "zola-responsive-layout-context-detection",
-    "zola-vs-hugo"
-  ],
+  "fixed_slugs": [],
   "still_orange_slugs": [
     "an-khuya-sai-gon",
+    "brave-origin-trinh-duyet-rieng-tu-toi-gian",
     "cach-mo-tai-khoan-ngan-hang-so-online",
     "codeql-api-rate-limit-giai-phap",
     "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien",
@@ -61,6 +43,7 @@
     "kha-nang-kinh-nghiem-tieng-han",
     "kiem-tra-trang-thai-pr-sau-khi-merge",
     "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
+    "kinh-nghiem-xay-cms-v2-cho-blog-zola",
     "lam-theme-log-sua-menu-cong-cu",
     "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
     "loi-nhieu-the-h1-sua-seo-toan-site",
@@ -2431,6 +2414,64 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "quang-cao-truyen-thong-den-bat",
+      "section": "posting",
+      "title": "Từ quảng cáo truyền thống đến BAT — Brave viết lại cách kiếm tiền trên Internet",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.8765,
+      "score_after": 0.8765,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.988,
+          "slug": "tuong-lai-brave-va-bat"
+        },
+        {
+          "score": 0.9848,
+          "slug": "brave-browser-quang-cao-khong-theo-doi"
+        },
+        {
+          "score": 0.9153,
+          "slug": "bat-la-gi-su-chu-y-tai-san"
+        },
+        {
+          "score": 0.8523,
+          "slug": "brave-rewards-partner-program"
+        },
+        {
+          "score": 0.6419,
+          "slug": "brave-origin-trinh-duyet-rieng-tu-toi-gian"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tuong-lai-brave-va-bat",
+          "score": 0.988
+        },
+        {
+          "slug": "brave-browser-quang-cao-khong-theo-doi",
+          "score": 0.9848
+        },
+        {
+          "slug": "bat-la-gi-su-chu-y-tai-san",
+          "score": 0.9153
+        },
+        {
+          "slug": "brave-rewards-partner-program",
+          "score": 0.8523
+        },
+        {
+          "slug": "brave-origin-trinh-duyet-rieng-tu-toi-gian",
+          "score": 0.6419
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "toan-canh-chuyen-doi-so-vietinbank",
       "section": "posting",
       "title": "Toàn cảnh chuyển đổi số VietinBank từ 1988 đến nay",
@@ -2541,6 +2582,64 @@
         {
           "slug": "git-stash-cherry-pick-reflog-nang-cao",
           "score": 0.8033
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "tuong-lai-brave-va-bat",
+      "section": "posting",
+      "title": "Tương lai của Brave và BAT — từ trình duyệt riêng tư đến kinh tế chú ý",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.8728,
+      "score_after": 0.8728,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.988,
+          "slug": "quang-cao-truyen-thong-den-bat"
+        },
+        {
+          "score": 0.9247,
+          "slug": "brave-browser-quang-cao-khong-theo-doi"
+        },
+        {
+          "score": 0.9089,
+          "slug": "bat-la-gi-su-chu-y-tai-san"
+        },
+        {
+          "score": 0.9041,
+          "slug": "brave-rewards-partner-program"
+        },
+        {
+          "score": 0.6385,
+          "slug": "brave-origin-trinh-duyet-rieng-tu-toi-gian"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "quang-cao-truyen-thong-den-bat",
+          "score": 0.988
+        },
+        {
+          "slug": "brave-browser-quang-cao-khong-theo-doi",
+          "score": 0.9247
+        },
+        {
+          "slug": "bat-la-gi-su-chu-y-tai-san",
+          "score": 0.9089
+        },
+        {
+          "slug": "brave-rewards-partner-program",
+          "score": 0.9041
+        },
+        {
+          "slug": "brave-origin-trinh-duyet-rieng-tu-toi-gian",
+          "score": 0.6385
         }
       ],
       "action": "unchanged",
@@ -3301,6 +3400,64 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "brave-browser-quang-cao-khong-theo-doi",
+      "section": "posting",
+      "title": "Brave Browser: quảng cáo không theo dõi người dùng có sống được không?",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.8371,
+      "score_after": 0.8371,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.9848,
+          "slug": "quang-cao-truyen-thong-den-bat"
+        },
+        {
+          "score": 0.9247,
+          "slug": "tuong-lai-brave-va-bat"
+        },
+        {
+          "score": 0.8421,
+          "slug": "brave-rewards-partner-program"
+        },
+        {
+          "score": 0.7201,
+          "slug": "bat-la-gi-su-chu-y-tai-san"
+        },
+        {
+          "score": 0.7139,
+          "slug": "brave-origin-trinh-duyet-rieng-tu-toi-gian"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "quang-cao-truyen-thong-den-bat",
+          "score": 0.9848
+        },
+        {
+          "slug": "tuong-lai-brave-va-bat",
+          "score": 0.9247
+        },
+        {
+          "slug": "brave-rewards-partner-program",
+          "score": 0.8421
+        },
+        {
+          "slug": "bat-la-gi-su-chu-y-tai-san",
+          "score": 0.7201
+        },
+        {
+          "slug": "brave-origin-trinh-duyet-rieng-tu-toi-gian",
+          "score": 0.7139
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "vai-tro-vietinbank-he-thong-ngan-hang-viet-nam",
       "section": "posting",
       "title": "Vai trò VietinBank trong hệ thống ngân hàng Việt Nam",
@@ -3518,7 +3675,7 @@
         },
         {
           "slug": "dang-ky-v-plus-v-advance-tren-ipay",
-          "score": 0.771
+          "score": 0.7709
         },
         {
           "slug": "so-sanh-v-plus-va-v-advance-chon-goi-nao",
@@ -3529,7 +3686,7 @@
           "score": 0.7375
         }
       ],
-      "action": "fixed",
+      "action": "unchanged",
       "cannot_green_reason": null
     },
     {
@@ -3541,8 +3698,8 @@
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8264,
-      "score_after": 0.8265,
-      "delta": 0.0001,
+      "score_after": 0.8264,
+      "delta": 0.0,
       "related_before": [
         {
           "score": 0.8951,
@@ -3580,14 +3737,14 @@
         },
         {
           "slug": "vietinbank-v-plus-chi-tiet-quyen-loi",
-          "score": 0.771
+          "score": 0.7709
         },
         {
           "slug": "tien-ich-so-vietinbank-chua-tan-dung-het",
           "score": 0.7322
         }
       ],
-      "action": "fixed",
+      "action": "unchanged",
       "cannot_green_reason": null
     },
     {
@@ -3823,6 +3980,122 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "tao-blog-voi-zola",
+      "section": "posting",
+      "title": "Tạo blog với Zola từ A–Z: deploy GitHub Pages",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.809,
+      "score_after": 0.809,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.9282,
+          "slug": "tu-dong-deploy-zola-github-actions"
+        },
+        {
+          "score": 0.8646,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.8391,
+          "slug": "phan-trang-trang-chu-zola-archive"
+        },
+        {
+          "score": 0.745,
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
+        },
+        {
+          "score": 0.6681,
+          "slug": "zola-vs-hugo"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tu-dong-deploy-zola-github-actions",
+          "score": 0.9282
+        },
+        {
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.8646
+        },
+        {
+          "slug": "phan-trang-trang-chu-zola-archive",
+          "score": 0.8391
+        },
+        {
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola",
+          "score": 0.745
+        },
+        {
+          "slug": "zola-vs-hugo",
+          "score": 0.6681
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "brave-rewards-partner-program",
+      "section": "posting",
+      "title": "Brave Rewards Partner Program — khi BAT bước vào đời sống Web3",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.8062,
+      "score_after": 0.8062,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.9041,
+          "slug": "tuong-lai-brave-va-bat"
+        },
+        {
+          "score": 0.8523,
+          "slug": "quang-cao-truyen-thong-den-bat"
+        },
+        {
+          "score": 0.8421,
+          "slug": "brave-browser-quang-cao-khong-theo-doi"
+        },
+        {
+          "score": 0.7987,
+          "slug": "bat-la-gi-su-chu-y-tai-san"
+        },
+        {
+          "score": 0.634,
+          "slug": "brave-origin-trinh-duyet-rieng-tu-toi-gian"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tuong-lai-brave-va-bat",
+          "score": 0.9041
+        },
+        {
+          "slug": "quang-cao-truyen-thong-den-bat",
+          "score": 0.8523
+        },
+        {
+          "slug": "brave-browser-quang-cao-khong-theo-doi",
+          "score": 0.8421
+        },
+        {
+          "slug": "bat-la-gi-su-chu-y-tai-san",
+          "score": 0.7987
+        },
+        {
+          "slug": "brave-origin-trinh-duyet-rieng-tu-toi-gian",
+          "score": 0.634
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank",
       "section": "posting",
       "title": "Ai nên sử dụng Tiết kiệm tự động Liobank? Kinh nghiệm tối ưu",
@@ -3830,51 +4103,51 @@
       "cluster_label": "Tài chính & Ngân hàng",
       "tier_before": "high",
       "tier_after": "high",
-      "score_before": 0.8071,
-      "score_after": 0.8071,
+      "score_before": 0.806,
+      "score_after": 0.806,
       "delta": 0.0,
       "related_before": [
         {
-          "score": 0.8944,
+          "score": 0.9006,
           "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac"
         },
         {
-          "score": 0.8731,
+          "score": 0.8704,
           "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong"
         },
         {
-          "score": 0.8475,
+          "score": 0.8392,
           "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong"
         },
         {
-          "score": 0.7183,
+          "score": 0.7153,
           "slug": "review-liobank-by-ocb"
         },
         {
-          "score": 0.7023,
+          "score": 0.7043,
           "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank"
         }
       ],
       "related_after": [
         {
           "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac",
-          "score": 0.8944
+          "score": 0.9006
         },
         {
           "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong",
-          "score": 0.8731
+          "score": 0.8704
         },
         {
           "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong",
-          "score": 0.8475
+          "score": 0.8392
         },
         {
           "slug": "review-liobank-by-ocb",
-          "score": 0.7183
+          "score": 0.7153
         },
         {
           "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank",
-          "score": 0.7023
+          "score": 0.7043
         }
       ],
       "action": "unchanged",
@@ -4120,112 +4393,112 @@
       "cluster_label": "Tài chính & Ngân hàng",
       "tier_before": "high",
       "tier_after": "high",
-      "score_before": 0.7856,
-      "score_after": 0.7856,
+      "score_before": 0.7871,
+      "score_after": 0.7871,
       "delta": 0.0,
       "related_before": [
         {
-          "score": 0.8731,
+          "score": 0.8704,
           "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank"
         },
         {
-          "score": 0.8493,
+          "score": 0.8549,
           "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac"
         },
         {
-          "score": 0.8228,
+          "score": 0.816,
           "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong"
         },
         {
-          "score": 0.725,
+          "score": 0.7298,
           "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank"
         },
         {
-          "score": 0.6576,
+          "score": 0.6646,
           "slug": "review-liobank-by-ocb"
         }
       ],
       "related_after": [
         {
           "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank",
-          "score": 0.8731
+          "score": 0.8704
         },
         {
           "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac",
-          "score": 0.8493
+          "score": 0.8549
         },
         {
           "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong",
-          "score": 0.8228
+          "score": 0.816
         },
         {
           "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank",
-          "score": 0.725
+          "score": 0.7298
         },
         {
           "slug": "review-liobank-by-ocb",
-          "score": 0.6576
+          "score": 0.6646
         }
       ],
       "action": "unchanged",
       "cannot_green_reason": null
     },
     {
-      "slug": "tao-blog-voi-zola",
+      "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac",
       "section": "posting",
-      "title": "Tạo blog với Zola từ A–Z: deploy GitHub Pages",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "title": "So sánh Tiết kiệm tự động Liobank với các hình thức khác",
+      "cluster": "tai-chinh",
+      "cluster_label": "Tài chính & Ngân hàng",
       "tier_before": "high",
       "tier_after": "high",
-      "score_before": 0.7775,
-      "score_after": 0.7836,
-      "delta": 0.0061,
+      "score_before": 0.7853,
+      "score_after": 0.7853,
+      "delta": 0.0,
       "related_before": [
         {
-          "score": 0.9282,
-          "slug": "tu-dong-deploy-zola-github-actions"
+          "score": 0.9006,
+          "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank"
         },
         {
-          "score": 0.8646,
-          "slug": "cong-nghe-blog-duy-nguyen"
+          "score": 0.8606,
+          "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong"
         },
         {
-          "score": 0.8391,
-          "slug": "phan-trang-trang-chu-zola-archive"
+          "score": 0.8549,
+          "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong"
         },
         {
-          "score": 0.6681,
-          "slug": "zola-vs-hugo"
+          "score": 0.665,
+          "slug": "so-sanh-cake-vs-liobank"
         },
         {
-          "score": 0.5877,
-          "slug": "qa-gatekeeper-tu-fix-loi-blog"
+          "score": 0.6455,
+          "slug": "ngan-hang-so-hoan-tien-nhieu-nhat"
         }
       ],
       "related_after": [
         {
-          "slug": "tu-dong-deploy-zola-github-actions",
-          "score": 0.9282
+          "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank",
+          "score": 0.9006
         },
         {
-          "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.8646
+          "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong",
+          "score": 0.8606
         },
         {
-          "slug": "phan-trang-trang-chu-zola-archive",
-          "score": 0.8391
+          "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong",
+          "score": 0.8549
         },
         {
-          "slug": "zola-vs-hugo",
-          "score": 0.6681
+          "slug": "so-sanh-cake-vs-liobank",
+          "score": 0.665
         },
         {
-          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
-          "score": 0.6178
+          "slug": "ngan-hang-so-hoan-tien-nhieu-nhat",
+          "score": 0.6455
         }
       ],
-      "action": "fixed",
+      "action": "unchanged",
       "cannot_green_reason": null
     },
     {
@@ -4287,64 +4560,6 @@
       "cannot_green_reason": null
     },
     {
-      "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac",
-      "section": "posting",
-      "title": "So sánh Tiết kiệm tự động Liobank với các hình thức khác",
-      "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
-      "tier_before": "high",
-      "tier_after": "high",
-      "score_before": 0.7818,
-      "score_after": 0.7818,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.8944,
-          "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank"
-        },
-        {
-          "score": 0.8615,
-          "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong"
-        },
-        {
-          "score": 0.8493,
-          "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong"
-        },
-        {
-          "score": 0.659,
-          "slug": "so-sanh-cake-vs-liobank"
-        },
-        {
-          "score": 0.6446,
-          "slug": "ngan-hang-so-hoan-tien-nhieu-nhat"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank",
-          "score": 0.8944
-        },
-        {
-          "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong",
-          "score": 0.8615
-        },
-        {
-          "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong",
-          "score": 0.8493
-        },
-        {
-          "slug": "so-sanh-cake-vs-liobank",
-          "score": 0.659
-        },
-        {
-          "slug": "ngan-hang-so-hoan-tien-nhieu-nhat",
-          "score": 0.6446
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": null
-    },
-    {
       "slug": "pull-request-quy-trinh-cong-tac-github",
       "section": "posting",
       "title": "Pull Request và quy trình cộng tác trên GitHub",
@@ -4397,6 +4612,64 @@
         {
           "slug": "bao-mat-best-practices-git-github",
           "score": 0.7331
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "tu-dong-deploy-zola-github-actions",
+      "section": "posting",
+      "title": "Deploy blog Zola lên GitHub Pages tự động",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7809,
+      "score_after": 0.7809,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.9282,
+          "slug": "tao-blog-voi-zola"
+        },
+        {
+          "score": 0.8025,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.7647,
+          "slug": "phan-trang-trang-chu-zola-archive"
+        },
+        {
+          "score": 0.7315,
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
+        },
+        {
+          "score": 0.6774,
+          "slug": "gh-run-list-monitor-deploy"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tao-blog-voi-zola",
+          "score": 0.9282
+        },
+        {
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.8025
+        },
+        {
+          "slug": "phan-trang-trang-chu-zola-archive",
+          "score": 0.7647
+        },
+        {
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola",
+          "score": 0.7315
+        },
+        {
+          "slug": "gh-run-list-monitor-deploy",
+          "score": 0.6774
         }
       ],
       "action": "unchanged",
@@ -4562,7 +4835,7 @@
         },
         {
           "slug": "nguon-traffic-organic-direct-referral-social-paid",
-          "score": 0.7729
+          "score": 0.773
         },
         {
           "slug": "engagement-rate-bounce-rate-google-analytics",
@@ -4571,64 +4844,6 @@
         {
           "slug": "bao-lau-de-thay-ket-qua-seo",
           "score": 0.6475
-        }
-      ],
-      "action": "fixed",
-      "cannot_green_reason": null
-    },
-    {
-      "slug": "tu-dong-deploy-zola-github-actions",
-      "section": "posting",
-      "title": "Deploy blog Zola lên GitHub Pages tự động",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "high",
-      "tier_after": "high",
-      "score_before": 0.7672,
-      "score_after": 0.7672,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.9282,
-          "slug": "tao-blog-voi-zola"
-        },
-        {
-          "score": 0.8025,
-          "slug": "cong-nghe-blog-duy-nguyen"
-        },
-        {
-          "score": 0.7647,
-          "slug": "phan-trang-trang-chu-zola-archive"
-        },
-        {
-          "score": 0.6774,
-          "slug": "gh-run-list-monitor-deploy"
-        },
-        {
-          "score": 0.6633,
-          "slug": "kiem-tra-trang-thai-pr-sau-khi-merge"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "tao-blog-voi-zola",
-          "score": 0.9282
-        },
-        {
-          "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.8025
-        },
-        {
-          "slug": "phan-trang-trang-chu-zola-archive",
-          "score": 0.7647
-        },
-        {
-          "slug": "gh-run-list-monitor-deploy",
-          "score": 0.6774
-        },
-        {
-          "slug": "kiem-tra-trang-thai-pr-sau-khi-merge",
-          "score": 0.6633
         }
       ],
       "action": "unchanged",
@@ -4687,64 +4902,6 @@
         {
           "slug": "tau-con-thoi-atlantis",
           "score": 0.2225
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": null
-    },
-    {
-      "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong",
-      "section": "posting",
-      "title": "Lãi suất Tiết kiệm tự động Liobank có hấp dẫn không?",
-      "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
-      "tier_before": "high",
-      "tier_after": "high",
-      "score_before": 0.766,
-      "score_after": 0.766,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.8615,
-          "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac"
-        },
-        {
-          "score": 0.8475,
-          "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank"
-        },
-        {
-          "score": 0.8228,
-          "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong"
-        },
-        {
-          "score": 0.653,
-          "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank"
-        },
-        {
-          "score": 0.6454,
-          "slug": "review-liobank-by-ocb"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac",
-          "score": 0.8615
-        },
-        {
-          "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank",
-          "score": 0.8475
-        },
-        {
-          "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong",
-          "score": 0.8228
-        },
-        {
-          "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank",
-          "score": 0.653
-        },
-        {
-          "slug": "review-liobank-by-ocb",
-          "score": 0.6454
         }
       ],
       "action": "unchanged",
@@ -4867,6 +5024,64 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong",
+      "section": "posting",
+      "title": "Lãi suất Tiết kiệm tự động Liobank có hấp dẫn không?",
+      "cluster": "tai-chinh",
+      "cluster_label": "Tài chính & Ngân hàng",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7602,
+      "score_after": 0.7602,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.8606,
+          "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac"
+        },
+        {
+          "score": 0.8392,
+          "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank"
+        },
+        {
+          "score": 0.816,
+          "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong"
+        },
+        {
+          "score": 0.6445,
+          "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank"
+        },
+        {
+          "score": 0.6406,
+          "slug": "review-liobank-by-ocb"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac",
+          "score": 0.8606
+        },
+        {
+          "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank",
+          "score": 0.8392
+        },
+        {
+          "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong",
+          "score": 0.816
+        },
+        {
+          "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank",
+          "score": 0.6445
+        },
+        {
+          "slug": "review-liobank-by-ocb",
+          "score": 0.6406
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "the-vietinbank-lich-su-va-cac-dong-the",
       "section": "posting",
       "title": "Thẻ VietinBank: lịch sử và các dòng thẻ nổi bật",
@@ -4983,6 +5198,64 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "bat-la-gi-su-chu-y-tai-san",
+      "section": "posting",
+      "title": "BAT là gì và vì sao Brave biến sự chú ý thành một loại tài sản?",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7582,
+      "score_after": 0.7582,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.9153,
+          "slug": "quang-cao-truyen-thong-den-bat"
+        },
+        {
+          "score": 0.9089,
+          "slug": "tuong-lai-brave-va-bat"
+        },
+        {
+          "score": 0.7987,
+          "slug": "brave-rewards-partner-program"
+        },
+        {
+          "score": 0.7201,
+          "slug": "brave-browser-quang-cao-khong-theo-doi"
+        },
+        {
+          "score": 0.4479,
+          "slug": "brave-origin-trinh-duyet-rieng-tu-toi-gian"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "quang-cao-truyen-thong-den-bat",
+          "score": 0.9153
+        },
+        {
+          "slug": "tuong-lai-brave-va-bat",
+          "score": 0.9089
+        },
+        {
+          "slug": "brave-rewards-partner-program",
+          "score": 0.7987
+        },
+        {
+          "slug": "brave-browser-quang-cao-khong-theo-doi",
+          "score": 0.7201
+        },
+        {
+          "slug": "brave-origin-trinh-duyet-rieng-tu-toi-gian",
+          "score": 0.4479
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "chan-trang-khoi-google-search",
       "section": "posting",
       "title": "Chặn trang khỏi Google Search khi cần (noindex, robots)",
@@ -5041,24 +5314,113 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "cong-nghe-blog-duy-nguyen",
+      "section": "posting",
+      "title": "Tự xây blog cá nhân $0/tháng với Zola + GitHub Pages",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.756,
+      "score_after": 0.756,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.8646,
+          "slug": "tao-blog-voi-zola"
+        },
+        {
+          "score": 0.8025,
+          "slug": "tu-dong-deploy-zola-github-actions"
+        },
+        {
+          "score": 0.7469,
+          "slug": "phan-trang-trang-chu-zola-archive"
+        },
+        {
+          "score": 0.7114,
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
+        },
+        {
+          "score": 0.6544,
+          "slug": "qa-gatekeeper-tu-fix-loi-blog"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tao-blog-voi-zola",
+          "score": 0.8646
+        },
+        {
+          "slug": "tu-dong-deploy-zola-github-actions",
+          "score": 0.8025
+        },
+        {
+          "slug": "phan-trang-trang-chu-zola-archive",
+          "score": 0.7469
+        },
+        {
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola",
+          "score": 0.7114
+        },
+        {
+          "slug": "qa-gatekeeper-tu-fix-loi-blog",
+          "score": 0.6544
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick",
       "section": "posting",
       "title": "Lịch thi đấu World Cup 2026 giờ VN: Messi hat-trick",
       "cluster": "the-gioi",
       "cluster_label": "Thế giới",
-      "tier_before": "low",
+      "tier_before": "high",
       "tier_after": "high",
-      "score_before": 0.0,
-      "score_after": 0.7516,
-      "delta": 0.7516,
-      "related_before": [],
+      "score_before": 0.7531,
+      "score_after": 0.7531,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7531,
+          "slug": "so-do-thi-dau-fifa-world-cup-2026"
+        }
+      ],
       "related_after": [
         {
           "slug": "so-do-thi-dau-fifa-world-cup-2026",
-          "score": 0.7516
+          "score": 0.7531
         }
       ],
-      "action": "fixed",
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "so-do-thi-dau-fifa-world-cup-2026",
+      "section": "posting",
+      "title": "Sơ đồ thi đấu FIFA World Cup 2026: bracket vòng 32 đội, nhánh đấu và lịch knock-out",
+      "cluster": "the-gioi",
+      "cluster_label": "Thế giới",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7531,
+      "score_after": 0.7531,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7531,
+          "slug": "lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick",
+          "score": 0.7531
+        }
+      ],
+      "action": "unchanged",
       "cannot_green_reason": null
     },
     {
@@ -5117,27 +5479,6 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": null
-    },
-    {
-      "slug": "so-do-thi-dau-fifa-world-cup-2026",
-      "section": "posting",
-      "title": "Sơ đồ thi đấu FIFA World Cup 2026: bracket vòng 32 đội, nhánh đấu và lịch knock-out",
-      "cluster": "the-gioi",
-      "cluster_label": "Thế giới",
-      "tier_before": "low",
-      "tier_after": "high",
-      "score_before": 0.0,
-      "score_after": 0.7516,
-      "delta": 0.7516,
-      "related_before": [],
-      "related_after": [
-        {
-          "slug": "lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick",
-          "score": 0.7516
-        }
-      ],
-      "action": "fixed",
       "cannot_green_reason": null
     },
     {
@@ -5373,64 +5714,6 @@
       "cannot_green_reason": null
     },
     {
-      "slug": "phan-trang-trang-chu-zola-archive",
-      "section": "posting",
-      "title": "Phân trang trang chủ Zola: khi blog tưởng như mất bài",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "high",
-      "tier_after": "high",
-      "score_before": 0.718,
-      "score_after": 0.741,
-      "delta": 0.023,
-      "related_before": [
-        {
-          "score": 0.8391,
-          "slug": "tao-blog-voi-zola"
-        },
-        {
-          "score": 0.7647,
-          "slug": "tu-dong-deploy-zola-github-actions"
-        },
-        {
-          "score": 0.7469,
-          "slug": "cong-nghe-blog-duy-nguyen"
-        },
-        {
-          "score": 0.628,
-          "slug": "zola-vs-hugo"
-        },
-        {
-          "score": 0.6115,
-          "slug": "lam-theme-log-sua-menu-cong-cu"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "tao-blog-voi-zola",
-          "score": 0.8391
-        },
-        {
-          "slug": "tu-dong-deploy-zola-github-actions",
-          "score": 0.7647
-        },
-        {
-          "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.7469
-        },
-        {
-          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
-          "score": 0.7265
-        },
-        {
-          "slug": "zola-vs-hugo",
-          "score": 0.628
-        }
-      ],
-      "action": "fixed",
-      "cannot_green_reason": null
-    },
-    {
       "slug": "github-actions-ci-cd-cho-nguoi-moi",
       "section": "posting",
       "title": "GitHub Actions: CI/CD tự động hóa cho người mới",
@@ -5547,61 +5830,61 @@
       "cannot_green_reason": null
     },
     {
-      "slug": "cong-nghe-blog-duy-nguyen",
+      "slug": "phan-trang-trang-chu-zola-archive",
       "section": "posting",
-      "title": "Tự xây blog cá nhân $0/tháng với Zola + GitHub Pages",
+      "title": "Phân trang trang chủ Zola: khi blog tưởng như mất bài",
       "cluster": "cong-nghe",
       "cluster_label": "Công nghệ",
       "tier_before": "high",
       "tier_after": "high",
-      "score_before": 0.7344,
-      "score_after": 0.7349,
-      "delta": 0.0005,
+      "score_before": 0.7337,
+      "score_after": 0.7337,
+      "delta": 0.0,
       "related_before": [
         {
-          "score": 0.8646,
+          "score": 0.8391,
           "slug": "tao-blog-voi-zola"
         },
         {
-          "score": 0.8025,
+          "score": 0.7647,
           "slug": "tu-dong-deploy-zola-github-actions"
         },
         {
           "score": 0.7469,
-          "slug": "phan-trang-trang-chu-zola-archive"
+          "slug": "cong-nghe-blog-duy-nguyen"
         },
         {
-          "score": 0.6544,
-          "slug": "qa-gatekeeper-tu-fix-loi-blog"
+          "score": 0.6897,
+          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
         },
         {
-          "score": 0.6038,
+          "score": 0.628,
           "slug": "zola-vs-hugo"
         }
       ],
       "related_after": [
         {
           "slug": "tao-blog-voi-zola",
-          "score": 0.8646
+          "score": 0.8391
         },
         {
           "slug": "tu-dong-deploy-zola-github-actions",
-          "score": 0.8025
+          "score": 0.7647
         },
         {
-          "slug": "phan-trang-trang-chu-zola-archive",
+          "slug": "cong-nghe-blog-duy-nguyen",
           "score": 0.7469
         },
         {
-          "slug": "qa-gatekeeper-tu-fix-loi-blog",
-          "score": 0.6544
+          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
+          "score": 0.6897
         },
         {
-          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
-          "score": 0.6059
+          "slug": "zola-vs-hugo",
+          "score": 0.628
         }
       ],
-      "action": "fixed",
+      "action": "unchanged",
       "cannot_green_reason": null
     },
     {
@@ -5903,8 +6186,8 @@
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7089,
-      "score_after": 0.7088,
-      "delta": -0.0001,
+      "score_after": 0.7089,
+      "delta": 0.0,
       "related_before": [
         {
           "score": 0.773,
@@ -5930,7 +6213,7 @@
       "related_after": [
         {
           "slug": "google-analytics-la-gi-lo-trinh-10-ngay",
-          "score": 0.7729
+          "score": 0.773
         },
         {
           "slug": "users-new-users-sessions-google-analytics",
@@ -5949,7 +6232,7 @@
           "score": 0.6551
         }
       ],
-      "action": "fixed",
+      "action": "unchanged",
       "cannot_green_reason": null
     },
     {
@@ -6533,6 +6816,64 @@
       "cannot_green_reason": "Trung bình top-5 = 0.69 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
+      "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola",
+      "section": "posting",
+      "title": "Kinh nghiệm xây CMS-V2 cho blog Zola: một đêm từ PR sạch đến deploy sống",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6844,
+      "score_after": 0.6844,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.745,
+          "slug": "tao-blog-voi-zola"
+        },
+        {
+          "score": 0.7315,
+          "slug": "tu-dong-deploy-zola-github-actions"
+        },
+        {
+          "score": 0.7114,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.6366,
+          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
+        },
+        {
+          "score": 0.5973,
+          "slug": "phan-trang-trang-chu-zola-archive"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tao-blog-voi-zola",
+          "score": 0.745
+        },
+        {
+          "slug": "tu-dong-deploy-zola-github-actions",
+          "score": 0.7315
+        },
+        {
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.7114
+        },
+        {
+          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
+          "score": 0.6366
+        },
+        {
+          "slug": "phan-trang-trang-chu-zola-archive",
+          "score": 0.5973
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.68 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
       "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
       "section": "posting",
       "title": "Busan tự túc 3 ngày 2 đêm: điểm đến & chi phí 2026",
@@ -6656,51 +6997,51 @@
       "cluster_label": "Tài chính & Ngân hàng",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.6612,
-      "score_after": 0.6612,
+      "score_before": 0.6649,
+      "score_after": 0.6649,
       "delta": 0.0,
       "related_before": [
         {
-          "score": 0.7183,
+          "score": 0.7153,
           "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank"
+        },
+        {
+          "score": 0.6646,
+          "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong"
         },
         {
           "score": 0.6589,
           "slug": "faq-toan-tap-ngan-hang-so"
         },
         {
-          "score": 0.6576,
-          "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong"
-        },
-        {
-          "score": 0.6454,
-          "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong"
-        },
-        {
-          "score": 0.6257,
+          "score": 0.6449,
           "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac"
+        },
+        {
+          "score": 0.6406,
+          "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong"
         }
       ],
       "related_after": [
         {
           "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank",
-          "score": 0.7183
+          "score": 0.7153
+        },
+        {
+          "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong",
+          "score": 0.6646
         },
         {
           "slug": "faq-toan-tap-ngan-hang-so",
           "score": 0.6589
         },
         {
-          "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong",
-          "score": 0.6576
+          "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac",
+          "score": 0.6449
         },
         {
           "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong",
-          "score": 0.6454
-        },
-        {
-          "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac",
-          "score": 0.6257
+          "score": 0.6406
         }
       ],
       "action": "unchanged",
@@ -6714,8 +7055,8 @@
       "cluster_label": "Tài chính & Ngân hàng",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.658,
-      "score_after": 0.658,
+      "score_before": 0.6592,
+      "score_after": 0.6592,
       "delta": 0.0,
       "related_before": [
         {
@@ -6727,7 +7068,7 @@
           "slug": "top-ngan-hang-so-tot-nhat-viet-nam-2026"
         },
         {
-          "score": 0.659,
+          "score": 0.665,
           "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac"
         },
         {
@@ -6750,7 +7091,7 @@
         },
         {
           "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac",
-          "score": 0.659
+          "score": 0.665
         },
         {
           "slug": "ngan-hang-so-hoan-tien-nhieu-nhat",
@@ -6830,8 +7171,8 @@
       "cluster_label": "Tài chính & Ngân hàng",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.6515,
-      "score_after": 0.6515,
+      "score_before": 0.6508,
+      "score_after": 0.6508,
       "delta": 0.0,
       "related_before": [
         {
@@ -6851,7 +7192,7 @@
           "slug": "ngan-hang-so-cho-sinh-vien"
         },
         {
-          "score": 0.5509,
+          "score": 0.5476,
           "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank"
         }
       ],
@@ -6874,7 +7215,7 @@
         },
         {
           "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank",
-          "score": 0.5509
+          "score": 0.5476
         }
       ],
       "action": "unchanged",
@@ -6946,51 +7287,51 @@
       "cluster_label": "Tài chính & Ngân hàng",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.6462,
-      "score_after": 0.6462,
+      "score_before": 0.6456,
+      "score_after": 0.6456,
       "delta": 0.0,
       "related_before": [
         {
-          "score": 0.725,
+          "score": 0.7298,
           "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong"
         },
         {
-          "score": 0.7023,
+          "score": 0.7043,
           "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank"
         },
         {
-          "score": 0.653,
+          "score": 0.6445,
           "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong"
         },
         {
-          "score": 0.5999,
+          "score": 0.6019,
           "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac"
         },
         {
-          "score": 0.5509,
+          "score": 0.5476,
           "slug": "cach-mo-tai-khoan-ngan-hang-so-online"
         }
       ],
       "related_after": [
         {
           "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong",
-          "score": 0.725
+          "score": 0.7298
         },
         {
           "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank",
-          "score": 0.7023
+          "score": 0.7043
         },
         {
           "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong",
-          "score": 0.653
+          "score": 0.6445
         },
         {
           "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac",
-          "score": 0.5999
+          "score": 0.6019
         },
         {
           "slug": "cach-mo-tai-khoan-ngan-hang-so-online",
-          "score": 0.5509
+          "score": 0.5476
         }
       ],
       "action": "unchanged",
@@ -7055,40 +7396,61 @@
       "cannot_green_reason": "Trung bình top-5 = 0.64 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
-      "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
+      "slug": "qa-gatekeeper-tu-fix-loi-blog",
       "section": "posting",
-      "title": "Kinh nghiệm refactor homepage Zola: khi code đúng nhưng chưa nên push",
+      "title": "QA Gatekeeper: blog tự fix lỗi 24/7 GitHub Actions",
       "cluster": "cong-nghe",
       "cluster_label": "Công nghệ",
-      "tier_before": "low",
+      "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.0,
-      "score_after": 0.6302,
-      "delta": 0.6302,
-      "related_before": [],
+      "score_before": 0.6305,
+      "score_after": 0.6305,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.6587,
+          "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
+        },
+        {
+          "score": 0.6544,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.6531,
+          "slug": "tu-dong-deploy-zola-github-actions"
+        },
+        {
+          "score": 0.5984,
+          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
+        },
+        {
+          "score": 0.5877,
+          "slug": "tao-blog-voi-zola"
+        }
+      ],
       "related_after": [
         {
-          "slug": "phan-trang-trang-chu-zola-archive",
-          "score": 0.7265
-        },
-        {
-          "slug": "tu-dong-deploy-zola-github-actions",
-          "score": 0.6218
-        },
-        {
-          "slug": "tao-blog-voi-zola",
-          "score": 0.6178
+          "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola",
+          "score": 0.6587
         },
         {
           "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.6059
+          "score": 0.6544
         },
         {
-          "slug": "fix-internal-links-checker-ci-failure",
-          "score": 0.5789
+          "slug": "tu-dong-deploy-zola-github-actions",
+          "score": 0.6531
+        },
+        {
+          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
+          "score": 0.5984
+        },
+        {
+          "slug": "tao-blog-voi-zola",
+          "score": 0.5877
         }
       ],
-      "action": "fixed",
+      "action": "unchanged",
       "cannot_green_reason": "Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
@@ -7266,62 +7628,120 @@
       "cannot_green_reason": "Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
-      "slug": "qa-gatekeeper-tu-fix-loi-blog",
+      "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
       "section": "posting",
-      "title": "QA Gatekeeper: blog tự fix lỗi 24/7 GitHub Actions",
+      "title": "Kinh nghiệm refactor homepage Zola: khi code đúng nhưng chưa nên push",
       "cluster": "cong-nghe",
       "cluster_label": "Công nghệ",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.619,
-      "score_after": 0.6263,
-      "delta": 0.0073,
+      "score_before": 0.6247,
+      "score_after": 0.6247,
+      "delta": 0.0,
       "related_before": [
         {
-          "score": 0.6587,
-          "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
+          "score": 0.6897,
+          "slug": "phan-trang-trang-chu-zola-archive"
         },
         {
-          "score": 0.6544,
-          "slug": "cong-nghe-blog-duy-nguyen"
+          "score": 0.6366,
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
         },
         {
-          "score": 0.6531,
+          "score": 0.6055,
           "slug": "tu-dong-deploy-zola-github-actions"
         },
         {
-          "score": 0.5877,
-          "slug": "tao-blog-voi-zola"
+          "score": 0.5984,
+          "slug": "qa-gatekeeper-tu-fix-loi-blog"
         },
         {
-          "score": 0.5413,
-          "slug": "github-actions-secrets-setup-guide"
+          "score": 0.5931,
+          "slug": "cong-nghe-blog-duy-nguyen"
         }
       ],
       "related_after": [
         {
-          "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola",
-          "score": 0.6587
+          "slug": "phan-trang-trang-chu-zola-archive",
+          "score": 0.6897
         },
         {
-          "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.6544
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola",
+          "score": 0.6366
         },
         {
           "slug": "tu-dong-deploy-zola-github-actions",
-          "score": 0.6531
+          "score": 0.6055
         },
         {
-          "slug": "tao-blog-voi-zola",
-          "score": 0.5877
+          "slug": "qa-gatekeeper-tu-fix-loi-blog",
+          "score": 0.5984
         },
         {
-          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
-          "score": 0.5774
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.5931
         }
       ],
-      "action": "fixed",
-      "cannot_green_reason": "Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.62 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "brave-origin-trinh-duyet-rieng-tu-toi-gian",
+      "section": "posting",
+      "title": "Brave Origin — khi người dùng trả tiền để giữ một trình duyệt riêng tư, tối giản và không bị làm phiền",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6152,
+      "score_after": 0.6152,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7139,
+          "slug": "brave-browser-quang-cao-khong-theo-doi"
+        },
+        {
+          "score": 0.6419,
+          "slug": "quang-cao-truyen-thong-den-bat"
+        },
+        {
+          "score": 0.6385,
+          "slug": "tuong-lai-brave-va-bat"
+        },
+        {
+          "score": 0.634,
+          "slug": "brave-rewards-partner-program"
+        },
+        {
+          "score": 0.4479,
+          "slug": "bat-la-gi-su-chu-y-tai-san"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "brave-browser-quang-cao-khong-theo-doi",
+          "score": 0.7139
+        },
+        {
+          "slug": "quang-cao-truyen-thong-den-bat",
+          "score": 0.6419
+        },
+        {
+          "slug": "tuong-lai-brave-va-bat",
+          "score": 0.6385
+        },
+        {
+          "slug": "brave-rewards-partner-program",
+          "score": 0.634
+        },
+        {
+          "slug": "bat-la-gi-su-chu-y-tai-san",
+          "score": 0.4479
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.62 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
       "slug": "zola-responsive-layout-context-detection",
@@ -7332,8 +7752,8 @@
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6136,
-      "score_after": 0.6137,
-      "delta": 0.0001,
+      "score_after": 0.6136,
+      "delta": 0.0,
       "related_before": [
         {
           "score": 0.6767,
@@ -7374,11 +7794,11 @@
           "score": 0.5845
         },
         {
-          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
-          "score": 0.5712
+          "slug": "tao-blog-voi-zola",
+          "score": 0.5706
         }
       ],
-      "action": "fixed",
+      "action": "unchanged",
       "cannot_green_reason": "Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
@@ -7492,6 +7912,64 @@
         {
           "slug": "google-search-hoat-dong-the-nao",
           "score": 0.4921
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "zola-vs-hugo",
+      "section": "posting",
+      "title": "Zola vs Hugo: chọn SSG nào cho blog cá nhân?",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6086,
+      "score_after": 0.6086,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.6681,
+          "slug": "tao-blog-voi-zola"
+        },
+        {
+          "score": 0.628,
+          "slug": "phan-trang-trang-chu-zola-archive"
+        },
+        {
+          "score": 0.6038,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.5743,
+          "slug": "tu-dong-deploy-zola-github-actions"
+        },
+        {
+          "score": 0.569,
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tao-blog-voi-zola",
+          "score": 0.6681
+        },
+        {
+          "slug": "phan-trang-trang-chu-zola-archive",
+          "score": 0.628
+        },
+        {
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.6038
+        },
+        {
+          "slug": "tu-dong-deploy-zola-github-actions",
+          "score": 0.5743
+        },
+        {
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola",
+          "score": 0.569
         }
       ],
       "action": "unchanged",
@@ -7672,64 +8150,6 @@
       "cannot_green_reason": "Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
-      "slug": "debug-zola-series-navigation-links",
-      "section": "posting",
-      "title": "Debug Lỗi Zola Series Navigation: Từ 11 Broken Links Đến Fix",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.593,
-      "score_after": 0.5991,
-      "delta": 0.0061,
-      "related_before": [
-        {
-          "score": 0.6752,
-          "slug": "zola-faq-schema-template-variable-error"
-        },
-        {
-          "score": 0.5971,
-          "slug": "phan-trang-trang-chu-zola-archive"
-        },
-        {
-          "score": 0.5845,
-          "slug": "zola-responsive-layout-context-detection"
-        },
-        {
-          "score": 0.5838,
-          "slug": "fix-internal-links-checker-ci-failure"
-        },
-        {
-          "score": 0.5245,
-          "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "zola-faq-schema-template-variable-error",
-          "score": 0.6752
-        },
-        {
-          "slug": "phan-trang-trang-chu-zola-archive",
-          "score": 0.5971
-        },
-        {
-          "slug": "zola-responsive-layout-context-detection",
-          "score": 0.5845
-        },
-        {
-          "slug": "fix-internal-links-checker-ci-failure",
-          "score": 0.5838
-        },
-        {
-          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
-          "score": 0.5548
-        }
-      ],
-      "action": "fixed",
-      "cannot_green_reason": "Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
       "slug": "review-tnex-chi-tiet",
       "section": "posting",
       "title": "Review TNEX chi tiết: ngân hàng số miễn phí của MSB",
@@ -7785,64 +8205,6 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "zola-vs-hugo",
-      "section": "posting",
-      "title": "Zola vs Hugo: chọn SSG nào cho blog cá nhân?",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.5831,
-      "score_after": 0.5977,
-      "delta": 0.0146,
-      "related_before": [
-        {
-          "score": 0.6681,
-          "slug": "tao-blog-voi-zola"
-        },
-        {
-          "score": 0.628,
-          "slug": "phan-trang-trang-chu-zola-archive"
-        },
-        {
-          "score": 0.6038,
-          "slug": "cong-nghe-blog-duy-nguyen"
-        },
-        {
-          "score": 0.5743,
-          "slug": "tu-dong-deploy-zola-github-actions"
-        },
-        {
-          "score": 0.4411,
-          "slug": "seo-la-gi-huong-dan-co-ban-google-search"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "tao-blog-voi-zola",
-          "score": 0.6681
-        },
-        {
-          "slug": "phan-trang-trang-chu-zola-archive",
-          "score": 0.628
-        },
-        {
-          "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.6038
-        },
-        {
-          "slug": "tu-dong-deploy-zola-github-actions",
-          "score": 0.5743
-        },
-        {
-          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
-          "score": 0.5142
-        }
-      ],
-      "action": "fixed",
       "cannot_green_reason": "Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
@@ -7902,6 +8264,64 @@
       ],
       "action": "unchanged",
       "cannot_green_reason": "Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "debug-zola-series-navigation-links",
+      "section": "posting",
+      "title": "Debug Lỗi Zola Series Navigation: Từ 11 Broken Links Đến Fix",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.5933,
+      "score_after": 0.5933,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.6752,
+          "slug": "zola-faq-schema-template-variable-error"
+        },
+        {
+          "score": 0.5971,
+          "slug": "phan-trang-trang-chu-zola-archive"
+        },
+        {
+          "score": 0.5845,
+          "slug": "zola-responsive-layout-context-detection"
+        },
+        {
+          "score": 0.5838,
+          "slug": "fix-internal-links-checker-ci-failure"
+        },
+        {
+          "score": 0.5259,
+          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "zola-faq-schema-template-variable-error",
+          "score": 0.6752
+        },
+        {
+          "slug": "phan-trang-trang-chu-zola-archive",
+          "score": 0.5971
+        },
+        {
+          "slug": "zola-responsive-layout-context-detection",
+          "score": 0.5845
+        },
+        {
+          "slug": "fix-internal-links-checker-ci-failure",
+          "score": 0.5838
+        },
+        {
+          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
+          "score": 0.5259
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.59 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
       "slug": "ngan-hang-so-cho-freelancer",
@@ -8027,9 +8447,9 @@
       "cluster_label": "Công nghệ",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.5662,
-      "score_after": 0.5742,
-      "delta": 0.008,
+      "score_before": 0.5746,
+      "score_after": 0.5746,
+      "delta": 0.0,
       "related_before": [
         {
           "score": 0.6138,
@@ -8040,16 +8460,16 @@
           "slug": "debug-zola-series-navigation-links"
         },
         {
+          "score": 0.5805,
+          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
+        },
+        {
           "score": 0.5556,
           "slug": "github-actions-ci-cd-build-failure-vipzone-token"
         },
         {
           "score": 0.5391,
           "slug": "zola-faq-schema-template-variable-error"
-        },
-        {
-          "score": 0.5387,
-          "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
         }
       ],
       "related_after": [
@@ -8063,7 +8483,7 @@
         },
         {
           "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
-          "score": 0.5789
+          "score": 0.5805
         },
         {
           "slug": "github-actions-ci-cd-build-failure-vipzone-token",
@@ -8074,7 +8494,65 @@
           "score": 0.5391
         }
       ],
-      "action": "fixed",
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.57 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "lam-theme-log-sua-menu-cong-cu",
+      "section": "posting",
+      "title": "Theme log rollback: an toàn cho blog tĩnh",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.5741,
+      "score_after": 0.5741,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.6115,
+          "slug": "phan-trang-trang-chu-zola-archive"
+        },
+        {
+          "score": 0.5852,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.5831,
+          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
+        },
+        {
+          "score": 0.5537,
+          "slug": "tu-dong-deploy-zola-github-actions"
+        },
+        {
+          "score": 0.537,
+          "slug": "tao-blog-voi-zola"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "phan-trang-trang-chu-zola-archive",
+          "score": 0.6115
+        },
+        {
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.5852
+        },
+        {
+          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
+          "score": 0.5831
+        },
+        {
+          "slug": "tu-dong-deploy-zola-github-actions",
+          "score": 0.5537
+        },
+        {
+          "slug": "tao-blog-voi-zola",
+          "score": 0.537
+        }
+      ],
+      "action": "unchanged",
       "cannot_green_reason": "Trung bình top-5 = 0.57 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
@@ -8191,64 +8669,6 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.57 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "lam-theme-log-sua-menu-cong-cu",
-      "section": "posting",
-      "title": "Theme log rollback: an toàn cho blog tĩnh",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.5571,
-      "score_after": 0.5684,
-      "delta": 0.0113,
-      "related_before": [
-        {
-          "score": 0.6115,
-          "slug": "phan-trang-trang-chu-zola-archive"
-        },
-        {
-          "score": 0.5852,
-          "slug": "cong-nghe-blog-duy-nguyen"
-        },
-        {
-          "score": 0.5537,
-          "slug": "tu-dong-deploy-zola-github-actions"
-        },
-        {
-          "score": 0.537,
-          "slug": "tao-blog-voi-zola"
-        },
-        {
-          "score": 0.4982,
-          "slug": "qa-gatekeeper-tu-fix-loi-blog"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "phan-trang-trang-chu-zola-archive",
-          "score": 0.6115
-        },
-        {
-          "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.5852
-        },
-        {
-          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
-          "score": 0.5547
-        },
-        {
-          "slug": "tu-dong-deploy-zola-github-actions",
-          "score": 0.5537
-        },
-        {
-          "slug": "tao-blog-voi-zola",
-          "score": 0.537
-        }
-      ],
-      "action": "fixed",
       "cannot_green_reason": "Trung bình top-5 = 0.57 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
@@ -8433,9 +8853,9 @@
       "cluster_label": "Công nghệ",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.5348,
-      "score_after": 0.5453,
-      "delta": 0.0105,
+      "score_before": 0.5486,
+      "score_after": 0.5486,
+      "delta": 0.0,
       "related_before": [
         {
           "score": 0.6044,
@@ -8446,16 +8866,16 @@
           "slug": "cong-nghe-blog-duy-nguyen"
         },
         {
+          "score": 0.5579,
+          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
+        },
+        {
           "score": 0.5091,
           "slug": "tao-blog-voi-zola"
         },
         {
           "score": 0.4908,
           "slug": "fix-internal-links-checker-ci-failure"
-        },
-        {
-          "score": 0.4886,
-          "slug": "lam-theme-log-sua-menu-cong-cu"
         }
       ],
       "related_after": [
@@ -8469,7 +8889,7 @@
         },
         {
           "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
-          "score": 0.5413
+          "score": 0.5579
         },
         {
           "slug": "tao-blog-voi-zola",
@@ -8480,7 +8900,7 @@
           "score": 0.4908
         }
       ],
-      "action": "fixed",
+      "action": "unchanged",
       "cannot_green_reason": "Trung bình top-5 = 0.55 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
@@ -8674,7 +9094,7 @@
           "slug": "ngan-hang-so-cho-sinh-vien"
         },
         {
-          "score": 0.495,
+          "score": 0.4946,
           "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank"
         },
         {
@@ -8697,7 +9117,7 @@
         },
         {
           "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank",
-          "score": 0.495
+          "score": 0.4946
         },
         {
           "slug": "ngan-hang-so-cho-kinh-doanh-online",
@@ -8774,6 +9194,64 @@
       "cannot_green_reason": "Top semantic score thấp (0.54) — nội dung quá khác biệt trong cluster."
     },
     {
+      "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien",
+      "section": "posting",
+      "title": "CodeQL: Công cụ phân tích code tự động tìm lỗ hổng bảo mật",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.4848,
+      "score_after": 0.4848,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7579,
+          "slug": "codeql-api-rate-limit-giai-phap"
+        },
+        {
+          "score": 0.4309,
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
+        },
+        {
+          "score": 0.4198,
+          "slug": "github-actions-secrets-setup-guide"
+        },
+        {
+          "score": 0.418,
+          "slug": "sentence-transformers-sbert-deep-dive"
+        },
+        {
+          "score": 0.3976,
+          "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "codeql-api-rate-limit-giai-phap",
+          "score": 0.7579
+        },
+        {
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola",
+          "score": 0.4309
+        },
+        {
+          "slug": "github-actions-secrets-setup-guide",
+          "score": 0.4198
+        },
+        {
+          "slug": "sentence-transformers-sbert-deep-dive",
+          "score": 0.418
+        },
+        {
+          "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd",
+          "score": 0.3976
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.48 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
       "slug": "mcc-future-dynamic-ai-codes",
       "section": "posting",
       "title": "The Future of MCCs: Dynamic Codes and AI-Powered Categorization",
@@ -8826,64 +9304,6 @@
         {
           "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
           "score": 0.364
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.48 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien",
-      "section": "posting",
-      "title": "CodeQL: Công cụ phân tích code tự động tìm lỗ hổng bảo mật",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.478,
-      "score_after": 0.478,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.7579,
-          "slug": "codeql-api-rate-limit-giai-phap"
-        },
-        {
-          "score": 0.4198,
-          "slug": "github-actions-secrets-setup-guide"
-        },
-        {
-          "score": 0.418,
-          "slug": "sentence-transformers-sbert-deep-dive"
-        },
-        {
-          "score": 0.3976,
-          "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
-        },
-        {
-          "score": 0.3969,
-          "slug": "bao-mat-best-practices-git-github"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "codeql-api-rate-limit-giai-phap",
-          "score": 0.7579
-        },
-        {
-          "slug": "github-actions-secrets-setup-guide",
-          "score": 0.4198
-        },
-        {
-          "slug": "sentence-transformers-sbert-deep-dive",
-          "score": 0.418
-        },
-        {
-          "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd",
-          "score": 0.3976
-        },
-        {
-          "slug": "bao-mat-best-practices-git-github",
-          "score": 0.3969
         }
       ],
       "action": "unchanged",
@@ -9417,11 +9837,11 @@
       "title": "Sentence Transformers (SBERT) là gì? Kiến trúc",
       "cluster": "cong-nghe",
       "cluster_label": "Công nghệ",
-      "tier_before": "low",
+      "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.3952,
-      "score_after": 0.4071,
-      "delta": 0.0119,
+      "score_before": 0.4072,
+      "score_after": 0.4072,
+      "delta": 0.0,
       "related_before": [
         {
           "score": 0.4875,
@@ -9432,16 +9852,16 @@
           "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
         },
         {
+          "score": 0.3924,
+          "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push"
+        },
+        {
           "score": 0.3825,
           "slug": "tera-template-syntax-error-conditional"
         },
         {
-          "score": 0.3445,
-          "slug": "debug-zola-series-navigation-links"
-        },
-        {
-          "score": 0.3435,
-          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude"
+          "score": 0.3558,
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
         }
       ],
       "related_after": [
@@ -9455,18 +9875,18 @@
         },
         {
           "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
-          "score": 0.403
+          "score": 0.3924
         },
         {
           "slug": "tera-template-syntax-error-conditional",
           "score": 0.3825
         },
         {
-          "slug": "debug-zola-series-navigation-links",
-          "score": 0.3445
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola",
+          "score": 0.3558
         }
       ],
-      "action": "fixed",
+      "action": "unchanged",
       "cannot_green_reason": "Top semantic score thấp (0.49) — nội dung quá khác biệt trong cluster."
     },
     {
@@ -9730,8 +10150,8 @@
           "slug": "cai-dat-git-cau-hinh-lan-dau"
         },
         {
-          "score": 0.279,
-          "slug": "github-actions-secrets-setup-guide"
+          "score": 0.2792,
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
         }
       ],
       "related_after": [
@@ -9752,8 +10172,8 @@
           "score": 0.2915
         },
         {
-          "slug": "github-actions-secrets-setup-guide",
-          "score": 0.279
+          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola",
+          "score": 0.2792
         }
       ],
       "action": "unchanged",
