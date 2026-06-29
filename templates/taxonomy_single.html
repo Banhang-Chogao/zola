@@ -5,10 +5,24 @@
 
 {% block title %}{{ term.name }} | {{ config.title }}{% endblock %}
 
+{% block robots %}
+    {% if taxonomy.name == "categories" and term.name | lower == "series" %}
+        noindex, follow
+    {% else %}
+        index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1
+    {% endif %}
+{% endblock %}
+
 {% block main %}
     <header class="section-header">
         <h1 class="section-header__title">{{ taxonomy.name | upper }}: {{ term.name | upper }}</h1>
     </header>
+
+    {% if taxonomy.name == "categories" and term.name | lower == "series" %}
+        <p class="section-subtitle">
+            Series hub đã chuyển sang <a href="{{ get_url(path='@/series/_index.md') }}">/series/</a>.
+        </p>
+    {% endif %}
 
     <div class="post-list">
         {% for page in paginator.pages %}

@@ -2,8 +2,7 @@
 {% import "macros/placement.html" as placement %}
 {% import "macros/img.html" as img %}
 {% import "macros/premium.html" as premium %}
-{% import "macros/hot-search.html" as hot_search %}
-{% import "macros/google-rank.html" as google_rank %}
+{% import "macros/datetime.html" as dt %}
 
 {% block title %}{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân{% endblock %}
 
@@ -11,7 +10,7 @@
     {{ super() }}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
 {% endblock extra_head %}
 
 {% block sidebar %}{% endblock %}
@@ -116,33 +115,32 @@
         {% endfor %}
     {% endif %}
 
+    {% set_global hero_compact = [] %}
+    {% set_global latest_rows = [] %}
+    {% set_global popular_posts = [] %}
+    {% for page in feed %}
+        {% if hero_compact | length < 3 %}
+            {% set_global hero_compact = hero_compact | concat(with=[page]) %}
+        {% elif latest_rows | length < 8 %}
+            {% set_global latest_rows = latest_rows | concat(with=[page]) %}
+        {% endif %}
+        {% if popular_posts | length < 5 %}
+            {% set_global popular_posts = popular_posts | concat(with=[page]) %}
+        {% endif %}
+    {% endfor %}
+
     <div class="home-editorial" id="home-editorial" data-home-editorial>
-        <header class="home-editorial__hero">
-            <div class="home-editorial__hero-copy">
+        <header class="home-editorial__masthead">
+            <div class="home-editorial__masthead-copy">
                 <p class="home-editorial__eyebrow">{{ config.title }}</p>
-                <h2 class="home-editorial__title">Báo chí editorial cho SEO, AI WebOps và tài chính</h2>
+                <h2 class="home-editorial__title">SEOMONEY — SEO, AI WebOps &amp; Tài chính cá nhân</h2>
                 <p class="home-editorial__lede">
-                    Giao diện desktop-first theo tinh thần newsroom: whitespace rộng, chữ đậm,
-                    đường kẻ mảnh và các khối nội dung sắp xếp để đọc nhanh hơn.
+                    Tòa soạn số tối giản cho bài viết chuyên sâu, dữ liệu rõ ràng và trải nghiệm đọc nhanh trên web.
                 </p>
             </div>
-            <div class="home-editorial__hero-stats" aria-label="Trạng thái nội dung">
-                <div class="home-editorial__stat">
-                    <span class="home-editorial__stat-label">Bài viết</span>
-                    <strong class="home-editorial__stat-value">{{ feed | length }}</strong>
-                </div>
-                <div class="home-editorial__stat">
-                    <span class="home-editorial__stat-label">Chuyên mục</span>
-                    <strong class="home-editorial__stat-value">{% if homepage_categories %}{{ homepage_categories.total_categories }}{% else %}0{% endif %}</strong>
-                </div>
-                <div class="home-editorial__stat">
-                    <span class="home-editorial__stat-label">QA tốt</span>
-                    <strong class="home-editorial__stat-value">{{ qa_ready }}</strong>
-                </div>
-                <div class="home-editorial__stat">
-                    <span class="home-editorial__stat-label">Xu hướng</span>
-                    <strong class="home-editorial__stat-value">{% if trends_data and trends_data.items %}{{ trends_data.items | length }}{% else %}0{% endif %}</strong>
-                </div>
+            <div class="home-editorial__masthead-note" aria-label="Định hướng biên tập">
+                <p>Economist-inspired hierarchy</p>
+                <p>Static-first, no dashboard noise</p>
             </div>
         </header>
 
@@ -153,21 +151,27 @@
             <a class="is-active" href="#editorial-top">Tất cả</a>
             <a href="#topic-seo-ai">SEO</a>
             <a href="#topic-seo-ai">AI WebOps</a>
-            <a href="#topic-tech">Công nghệ</a>
             <a href="#topic-finance">Tài chính</a>
+            <a href="#topic-tech">Công nghệ</a>
             <a href="#topic-life">Đời sống</a>
-            <a href="#series">Series</a>
+            <a href="{{ get_url(path='@/series/_index.md') }}">Series</a>
         </nav>
 
         {# Content placement hook: home_top_banner_below. #}
         {{ placement::render(id="home_top_banner_below", page=page | default(value=false), section=section | default(value=false)) }}
+
+        <aside class="home-editorial__ad-slot home-editorial__ad-slot--top" aria-label="Quảng cáo">
+            <span class="home-editorial__ad-label">Quảng cáo</span>
+            <strong>Top responsive slot</strong>
+            <p>Không sticky, không chen sát menu</p>
+        </aside>
 
         <section class="home-editorial__front-grid" id="editorial-top" aria-label="Câu chuyện hôm nay">
             {% if sticky %}
                 <article class="home-editorial__story home-editorial__story--pick">
                     <a class="home-editorial__story-media" href="{{ sticky.permalink }}">
                         <img src="{{ img::cover_src(page=sticky) }}" alt="{{ img::cover_alt(page=sticky) }}"
-                             width="900" height="675" loading="lazy" decoding="async">
+                             width="900" height="675" loading="eager" fetchpriority="high" decoding="async">
                     </a>
                     <div class="home-editorial__story-body">
                         <span class="home-editorial__story-kicker">Editor's Pick</span>
@@ -192,39 +196,129 @@
                 </article>
             {% endif %}
 
-            {% if latest_story %}
-                <article class="home-editorial__story home-editorial__story--lead">
-                    <a class="home-editorial__story-media" href="{{ latest_story.permalink }}">
-                        <img src="{{ img::cover_src(page=latest_story) }}" alt="{{ img::cover_alt(page=latest_story) }}"
-                             width="1200" height="675" loading="eager" fetchpriority="high" decoding="async">
-                    </a>
-                    <div class="home-editorial__story-body">
-                        <span class="home-editorial__story-kicker">Latest Main Story</span>
-                        {% set_global lead_cat = "" %}
-                        {% for c in latest_story.taxonomies.categories | default(value=[]) %}
-                            {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and lead_cat == "" %}
-                                {% set_global lead_cat = c %}
+            <div class="home-editorial__compact-column">
+                <div class="home-editorial__section-head home-editorial__section-head--compact">
+                    <div>
+                        <p class="home-editorial__section-kicker">LATEST COMPACT</p>
+                        <h3 class="home-editorial__section-title">2–3 bài mới cần đọc ngay</h3>
+                    </div>
+                </div>
+
+                <div class="home-editorial__compact-list">
+                    {% if hero_compact | length > 0 %}
+                        {% for page in hero_compact %}
+                            {% set_global compact_cat = "" %}
+                            {% for c in page.taxonomies.categories | default(value=[]) %}
+                                {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and compact_cat == "" %}
+                                    {% set_global compact_cat = c %}
+                                {% endif %}
+                            {% endfor %}
+                            <article class="home-editorial__compact-item">
+                                <div class="home-editorial__compact-meta">
+                                    {% if page.extra.premium %}
+                                        {{ premium::badge() }}
+                                    {% elif compact_cat %}
+                                        <span class="home-editorial__story-cat">{{ compact_cat }}</span>
+                                    {% endif %}
+                                    <time datetime="{{ page.date }}">{{ dt::display_datetime(value=page.date) }}</time>
+                                </div>
+                                <h4 class="home-editorial__compact-title"><a href="{{ page.permalink }}">{{ page.title }}</a></h4>
+                                <p class="home-editorial__compact-excerpt">{{ page.description | default(value=page.summary | default(value="") | safe | striptags | truncate(length=110)) }}</p>
+                            </article>
+                        {% endfor %}
+                    {% else %}
+                        <article class="home-editorial__compact-item home-editorial__compact-item--empty">
+                            <span class="home-editorial__story-cat">Đang cập nhật</span>
+                            <h4 class="home-editorial__compact-title">Chưa có bài mới</h4>
+                            <p class="home-editorial__compact-excerpt">Bố cục vẫn ổn định và sẽ tự lấp đầy khi có dữ liệu bài viết.</p>
+                        </article>
+                    {% endif %}
+                </div>
+            </div>
+
+            <aside class="home-editorial__rail" aria-label="Thanh bên nổi bật">
+                {% if featured %}
+                    <section class="home-editorial__rail-card home-editorial__rail-card--featured">
+                        <p class="home-editorial__rail-kicker">FEATURED</p>
+                        <a class="home-editorial__rail-media" href="{{ featured.permalink }}">
+                            <img src="{{ img::cover_src(page=featured) }}" alt="{{ img::cover_alt(page=featured) }}"
+                                 width="640" height="400" loading="lazy" decoding="async">
+                        </a>
+                        {% set_global rail_cat = "" %}
+                        {% for c in featured.taxonomies.categories | default(value=[]) %}
+                            {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and rail_cat == "" %}
+                                {% set_global rail_cat = c %}
                             {% endif %}
                         {% endfor %}
-                        {% if latest_story.extra.premium %}
+                        {% if featured.extra.premium %}
                             {{ premium::badge() }}
-                        {% elif lead_cat %}
-                            <span class="home-editorial__story-cat">{{ lead_cat }}</span>
+                        {% elif rail_cat %}
+                            <span class="home-editorial__story-cat">{{ rail_cat }}</span>
                         {% endif %}
-                        <h3 class="home-editorial__story-title home-editorial__story-title--lead"><a href="{{ latest_story.permalink }}">{{ latest_story.title }}</a></h3>
-                        <p class="home-editorial__story-excerpt">{{ latest_story.description | default(value=latest_story.summary | default(value="") | safe | striptags | truncate(length=240)) }}</p>
-                        <div class="home-editorial__story-meta">
-                            <time datetime="{{ latest_story.date }}">{{ latest_story.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                            {% if latest_story.reading_time %}<span>{{ latest_story.reading_time }} phút đọc</span>{% endif %}
+                        <h4 class="home-editorial__rail-title"><a href="{{ featured.permalink }}">{{ featured.title }}</a></h4>
+                        <div class="home-editorial__rail-meta">
+                            <span>{{ config.extra.author }}</span>
+                            <time datetime="{{ featured.date }}">{{ dt::display_datetime(value=featured.date) }}</time>
                         </div>
-                    </div>
-                </article>
-            {% endif %}
+                    </section>
+                {% endif %}
 
-            <aside class="home-editorial__ad-slot" aria-label="Quảng cáo">
-                <span class="home-editorial__ad-label">Quảng cáo</span>
-                <strong>300 × 250</strong>
-                <p>Sidebar ad</p>
+                <section class="home-editorial__rail-card">
+                    <p class="home-editorial__rail-kicker">SERIES</p>
+                    <ul class="home-editorial__rail-links home-editorial__rail-links--series">
+                        {% if seo_series and seo_series.title_vi %}
+                            <li>
+                                <a href="{{ config.base_url }}/posting/{{ seo_series.pillar_slug }}/">{{ seo_series.title_vi }}</a>
+                                <span>{{ seo_series.total_parts }} phần</span>
+                            </li>
+                        {% endif %}
+                        {% if nganhang_series and nganhang_series.title_vi %}
+                            <li>
+                                <a href="{{ config.base_url }}/posting/{{ nganhang_series.pillar_slug }}/">{{ nganhang_series.title_vi }}</a>
+                                <span>{{ nganhang_series.total_parts }} phần</span>
+                            </li>
+                        {% endif %}
+                        {% if korean_series and korean_series.title_vi %}
+                            <li>
+                                <a href="{{ config.base_url }}/posting/{{ korean_series.pillar_slug }}/">{{ korean_series.title_vi }}</a>
+                                <span>{{ korean_series.total_parts }} phần</span>
+                            </li>
+                        {% endif %}
+                        <li>
+                            <a href="{{ config.base_url }}/series/">Series hub</a>
+                            <span>Danh mục chung</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="home-editorial__rail-card">
+                    <p class="home-editorial__rail-kicker">TOOLS</p>
+                    <ul class="home-editorial__rail-links">
+                        <li><a href="{{ config.base_url }}/tools/theme-log/">Theme log</a></li>
+                        <li><a href="{{ config.base_url }}/seo-bang-vang/">SEO board</a></li>
+                        <li><a href="{{ config.base_url }}/tools/content-creator/">Content creator</a></li>
+                        <li><a href="{{ config.base_url }}/tools/calendar/">Calendar</a></li>
+                        <li><a href="{{ config.base_url }}/editor/">Editor</a></li>
+                    </ul>
+                </section>
+
+                <section class="home-editorial__rail-card">
+                    <p class="home-editorial__rail-kicker">NEWSLETTER</p>
+                    <h4 class="home-editorial__rail-title">Đăng ký nhận bài mới</h4>
+                    <p class="home-editorial__rail-note">
+                        Giao diện UI-only. Kết nối newsletter thực tế có thể gắn sau qua form backend hoặc email tool.
+                    </p>
+                    <div class="home-editorial__newsletter-form">
+                        <input type="email" placeholder="Email của bạn" aria-label="Email">
+                        <button type="button">Đăng ký</button>
+                    </div>
+                </section>
+
+                <aside class="home-editorial__inline-ad home-editorial__inline-ad--small" aria-label="Quảng cáo">
+                    <span class="home-editorial__ad-label">Quảng cáo</span>
+                    <strong>Small rail slot</strong>
+                    <p>Đặt cách xa menu và CTA</p>
+                </aside>
             </aside>
         </section>
 
@@ -240,8 +334,8 @@
                     </div>
 
                     <div class="home-editorial__latest-list">
-                        {% if feed | length > 0 %}
-                            {% for page in feed | slice(end=8) %}
+                        {% if latest_rows | length > 0 %}
+                            {% for page in latest_rows %}
                                 {% set_global item_cat = "" %}
                                 {% for c in page.taxonomies.categories | default(value=[]) %}
                                     {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and item_cat == "" %}
@@ -262,7 +356,7 @@
                                         <h4 class="home-editorial__latest-title"><a href="{{ page.permalink }}">{{ page.title }}</a></h4>
                                         <p class="home-editorial__latest-excerpt">{{ page.description | default(value=page.summary | default(value="") | safe | striptags | truncate(length=110)) }}</p>
                                         <div class="home-editorial__latest-meta">
-                                            <time datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
+                                            <time datetime="{{ page.date }}">{{ dt::display_datetime(value=page.date) }}</time>
                                             {% if page.reading_time %}<span>{{ page.reading_time }} phút</span>{% endif %}
                                         </div>
                                     </div>
@@ -306,7 +400,7 @@
                                     {% for page in topic_seo_ai %}
                                         <li>
                                             <a href="{{ page.permalink }}">{{ page.title }}</a>
-                                            <span>{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                                            <span>{{ dt::display_date(value=page.date) }}</span>
                                         </li>
                                     {% endfor %}
                                 {% else %}
@@ -327,7 +421,7 @@
                                     {% for page in topic_tech %}
                                         <li>
                                             <a href="{{ page.permalink }}">{{ page.title }}</a>
-                                            <span>{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                                            <span>{{ dt::display_date(value=page.date) }}</span>
                                         </li>
                                     {% endfor %}
                                 {% else %}
@@ -340,7 +434,7 @@
 
                         <article class="home-editorial__topic-card" id="topic-finance">
                             <div class="home-editorial__topic-head">
-                                <p class="home-editorial__topic-kicker">Tài chính</p>
+                                <p class="home-editorial__topic-kicker">Tài chính cá nhân</p>
                                 <a href="{{ config.base_url }}/categories/tai-chinh/">Xem tất cả</a>
                             </div>
                             <ul class="home-editorial__topic-list">
@@ -348,12 +442,39 @@
                                     {% for page in topic_finance %}
                                         <li>
                                             <a href="{{ page.permalink }}">{{ page.title }}</a>
-                                            <span>{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                                            <span>{{ dt::display_date(value=page.date) }}</span>
                                         </li>
                                     {% endfor %}
                                 {% else %}
                                     <li class="home-editorial__topic-empty">
                                         <a href="{{ config.base_url }}/archive/">Chưa có bài Tài chính phù hợp, xem danh mục khác</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </article>
+
+                        <article class="home-editorial__topic-card" id="topic-series">
+                            <div class="home-editorial__topic-head">
+                                <p class="home-editorial__topic-kicker">Series</p>
+                                <a href="{{ config.base_url }}/series/">Xem tất cả</a>
+                            </div>
+                            <ul class="home-editorial__topic-list">
+                                {% if seo_series and seo_series.title_vi %}
+                                    <li>
+                                        <a href="{{ config.base_url }}/posting/{{ seo_series.pillar_slug }}/">{{ seo_series.title_vi }}</a>
+                                        <span>{{ seo_series.total_parts }} phần</span>
+                                    </li>
+                                {% endif %}
+                                {% if nganhang_series and nganhang_series.title_vi %}
+                                    <li>
+                                        <a href="{{ config.base_url }}/posting/{{ nganhang_series.pillar_slug }}/">{{ nganhang_series.title_vi }}</a>
+                                        <span>{{ nganhang_series.total_parts }} phần</span>
+                                    </li>
+                                {% endif %}
+                                {% if korean_series and korean_series.title_vi %}
+                                    <li>
+                                        <a href="{{ config.base_url }}/posting/{{ korean_series.pillar_slug }}/">{{ korean_series.title_vi }}</a>
+                                        <span>{{ korean_series.total_parts }} phần</span>
                                     </li>
                                 {% endif %}
                             </ul>
@@ -416,45 +537,6 @@
                     </div>
                 </section>
 
-                <section class="home-editorial__section" id="series">
-                    <div class="home-editorial__section-head">
-                        <div>
-                            <p class="home-editorial__section-kicker">SERIES</p>
-                            <h3 class="home-editorial__section-title">Bài được chọn theo series</h3>
-                        </div>
-                    </div>
-
-                    <div class="home-editorial__series-grid">
-                        {% if seo_series and seo_series.title_vi %}
-                            <article class="home-editorial__series-card">
-                                <p class="home-editorial__series-label">SEO</p>
-                                <h4 class="home-editorial__series-title">
-                                    <a href="{{ config.base_url }}/posting/{{ seo_series.pillar_slug }}/">{{ seo_series.title_vi }}</a>
-                                </h4>
-                                <p class="home-editorial__series-meta">{{ seo_series.total_parts }} phần</p>
-                            </article>
-                        {% endif %}
-                        {% if nganhang_series and nganhang_series.title_vi %}
-                            <article class="home-editorial__series-card">
-                                <p class="home-editorial__series-label">Tài chính</p>
-                                <h4 class="home-editorial__series-title">
-                                    <a href="{{ config.base_url }}/posting/{{ nganhang_series.pillar_slug }}/">{{ nganhang_series.title_vi }}</a>
-                                </h4>
-                                <p class="home-editorial__series-meta">{{ nganhang_series.total_parts }} phần</p>
-                            </article>
-                        {% endif %}
-                        {% if korean_series and korean_series.title_vi %}
-                            <article class="home-editorial__series-card">
-                                <p class="home-editorial__series-label">Lifestyle</p>
-                                <h4 class="home-editorial__series-title">
-                                    <a href="{{ config.base_url }}/posting/{{ korean_series.pillar_slug }}/">{{ korean_series.title_vi }}</a>
-                                </h4>
-                                <p class="home-editorial__series-meta">{{ korean_series.total_parts }} phần</p>
-                            </article>
-                        {% endif %}
-                    </div>
-                </section>
-
                 <section class="home-editorial__ad-slot home-editorial__ad-slot--wide" aria-label="Quảng cáo">
                     <span class="home-editorial__ad-label">Quảng cáo</span>
                     <strong>Multiplex / Recommended</strong>
@@ -462,89 +544,15 @@
                 </section>
             </div>
 
-            <aside class="home-editorial__sidebar" aria-label="Thanh bên phải">
-                {% if featured %}
-                    <section class="home-editorial__rail-card home-editorial__rail-card--featured">
-                        <p class="home-editorial__rail-kicker">FEATURED POST</p>
-                        <a class="home-editorial__rail-media" href="{{ featured.permalink }}">
-                            <img src="{{ img::cover_src(page=featured) }}" alt="{{ img::cover_alt(page=featured) }}"
-                                 width="640" height="400" loading="lazy" decoding="async">
-                        </a>
-                        {% set_global rail_cat = "" %}
-                        {% for c in featured.taxonomies.categories | default(value=[]) %}
-                            {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and rail_cat == "" %}
-                                {% set_global rail_cat = c %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if featured.extra.premium %}
-                            {{ premium::badge() }}
-                        {% elif rail_cat %}
-                            <span class="home-editorial__story-cat">{{ rail_cat }}</span>
-                        {% endif %}
-                        <h4 class="home-editorial__rail-title"><a href="{{ featured.permalink }}">{{ featured.title }}</a></h4>
-                        <div class="home-editorial__rail-meta">
-                            <span>{{ config.extra.author }}</span>
-                            <time datetime="{{ featured.date }}">{{ featured.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                        </div>
-                    </section>
-                {% endif %}
-
+            <aside class="home-editorial__sidebar" aria-label="Sidebar continuation">
                 <section class="home-editorial__rail-card">
-                    <p class="home-editorial__rail-kicker">TOOLS</p>
-                    <ul class="home-editorial__rail-links">
-                        <li><a href="{{ config.base_url }}/tools/theme-log/">Theme log</a></li>
-                        <li><a href="{{ config.base_url }}/seo-board/">SEO board</a></li>
-                        <li><a href="{{ config.base_url }}/tools/content-creator/">Content creator</a></li>
-                        <li><a href="{{ config.base_url }}/tools/calendar/">Calendar</a></li>
-                        <li><a href="{{ config.base_url }}/editor/">Editor</a></li>
-                    </ul>
-                </section>
-
-                {{ google_rank::widget() }}
-
-                <section class="home-editorial__rail-card">
-                    <p class="home-editorial__rail-kicker">QA</p>
-                    <div class="home-editorial__qa-grid">
-                        <div class="home-editorial__qa-stat">
-                            <span>SEO tracked</span>
-                            <strong>{% if seo_data and seo_data.posts %}{{ seo_data.posts | length }}{% else %}0{% endif %}</strong>
-                        </div>
-                        <div class="home-editorial__qa-stat">
-                            <span>Ready</span>
-                            <strong>{{ qa_ready }}</strong>
-                        </div>
-                        <div class="home-editorial__qa-stat">
-                            <span>Review</span>
-                            <strong>{{ qa_review }}</strong>
-                        </div>
-                        <div class="home-editorial__qa-stat">
-                            <span>Builds</span>
-                            <strong>{% if build_data and build_data.stats %}{{ build_data.stats.total | default(value=0) }}{% else %}0{% endif %}</strong>
-                        </div>
-                    </div>
-                    <p class="home-editorial__rail-note">
-                        {% if production_data and production_data.latest_deployed_short %}
-                            Live SHA: {{ production_data.latest_deployed_short }}.
-                        {% else %}
-                            Production snapshot unavailable.
-                        {% endif %}
-                    </p>
-                </section>
-
-                {{ hot_search::widget() }}
-
-                <section class="home-editorial__rail-card">
-                    <p class="home-editorial__rail-kicker">RANDOM POSTS</p>
-                    <ul class="home-editorial__rail-posts">
-                        {% for page in feed | slice(end=5) %}
-                            <li class="home-editorial__rail-post">
-                                <a class="home-editorial__rail-post-image" href="{{ page.permalink }}">
-                                    <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
-                                         width="100" height="100" loading="lazy" decoding="async">
-                                </a>
+                    <p class="home-editorial__rail-kicker">POPULAR</p>
+                    <ul class="home-editorial__rail-posts home-editorial__rail-posts--text">
+                        {% for page in popular_posts %}
+                            <li class="home-editorial__rail-post home-editorial__rail-post--text">
                                 <div>
                                     <h5><a href="{{ page.permalink }}">{{ page.title }}</a></h5>
-                                    <time datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
+                                    <time datetime="{{ page.date }}">{{ dt::display_datetime(value=page.date) }}</time>
                                 </div>
                             </li>
                         {% endfor %}
@@ -552,15 +560,25 @@
                 </section>
 
                 <section class="home-editorial__rail-card">
-                    <p class="home-editorial__rail-kicker">NEWSLETTER</p>
-                    <h4 class="home-editorial__rail-title">Đăng ký nhận bài mới</h4>
-                    <p class="home-editorial__rail-note">
-                        Giao diện UI-only. Kết nối newsletter thực tế có thể gắn sau qua form backend hoặc email tool.
-                    </p>
-                    <div class="home-editorial__newsletter-form">
-                        <input type="email" placeholder="Email của bạn" aria-label="Email">
-                        <button type="button">Đăng ký</button>
-                    </div>
+                    <p class="home-editorial__rail-kicker">INTERNAL LINKS</p>
+                    <ul class="home-editorial__rail-links">
+                        <li><a href="{{ config.base_url }}/archive/">Archive</a></li>
+                        <li><a href="{{ config.base_url }}/categories/">Categories</a></li>
+                        <li><a href="{{ config.base_url }}/series/">Series</a></li>
+                        <li><a href="{{ config.base_url }}/tools/">Public tools</a></li>
+                        <li><a href="{{ config.base_url }}/editor/">Editor</a></li>
+                    </ul>
+                </section>
+
+                <section class="home-editorial__rail-card">
+                    <p class="home-editorial__rail-kicker">PUBLIC TOOLS</p>
+                    <ul class="home-editorial__rail-links">
+                        <li><a href="{{ config.base_url }}/tools/theme-log/">Theme log</a></li>
+                        <li><a href="{{ config.base_url }}/seo-bang-vang/">SEO board</a></li>
+                        <li><a href="{{ config.base_url }}/tools/content-creator/">Content creator</a></li>
+                        <li><a href="{{ config.base_url }}/tools/calendar/">Calendar</a></li>
+                        <li><a href="{{ config.base_url }}/editor/">Editor</a></li>
+                    </ul>
                 </section>
             </aside>
         </section>

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% import "macros/series-listing.html" as series_listing %}
+
+{% block title %}{{ section.title }} | {{ config.title }}{% endblock %}
+
+{% block main %}
+    <header class="section-header">
+        <h1 class="section-header__title">{{ section.title | upper }}</h1>
+    </header>
+
+    {% if section.description %}
+        <p class="section-subtitle">{{ section.description }}</p>
+    {% endif %}
+
+    {% set posting = get_section(path="posting/_index.md") %}
+    {% set baochi = get_section(path="baochi/_index.md") %}
+    {% set_global all_series_pages = [] %}
+    {% for page in posting.pages | concat(with=baochi.pages) %}
+        {% if page.extra.series is defined and not page.extra.feed_anchor %}
+            {% set_global all_series_pages = all_series_pages | concat(with=[page]) %}
+        {% endif %}
+    {% endfor %}
+
+    {% if all_series_pages | length > 0 %}
+        {{ series_listing::section(pages=all_series_pages) }}
+    {% else %}
+        <section class="series-empty" aria-label="Series">
+            <p>Chưa có bài nào gắn series.</p>
+        </section>
+    {% endif %}
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
