@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-28T18:59:49Z",
+  "updated_at": "2026-06-29T16:45:40Z",
   "score": 91.3,
   "grade": "A",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "840/885 in range"
+          "detail": "856/908 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "884/885 complete"
+          "detail": "907/908 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "885/885 set"
+          "detail": "908/908 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "882/885 single H1"
+          "detail": "903/908 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "885/885 with lang"
+          "detail": "908/908 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "885/885 ready"
+          "detail": "908/908 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "885/885 pages"
+          "detail": "908/908 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "883/885 pages covered"
+          "detail": "905/908 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "179/179 articles"
+          "detail": "186/186 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "179/179 tagged"
+          "detail": "186/186 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "179/179 substantive"
+          "detail": "186/186 substantive"
         },
         {
           "label": "Unique titles",
@@ -171,7 +171,7 @@
         {
           "label": "GitHub Pages base path",
           "status": "fail",
-          "detail": "158 href(s) missing /zola/"
+          "detail": "163 href(s) missing /zola/"
         }
       ]
     },
@@ -186,7 +186,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "881/885 pages"
+          "detail": "904/908 pages"
         },
         {
           "label": "Skip navigation",
@@ -222,8 +222,8 @@
       "text": "Metadata: Canonical URLs"
     }
   ],
-  "pages_scanned": 885,
-  "articles_scanned": 186,
+  "pages_scanned": 908,
+  "articles_scanned": 193,
   "fix_log": [
     {
       "category": "Media",
@@ -231,7 +231,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (2 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-28T18:59:49Z"
+      "at": "2026-06-29T16:45:40Z"
     },
     {
       "category": "Media",
@@ -239,15 +239,15 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 heavy PNG/GIF). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-28T18:59:49Z"
+      "at": "2026-06-29T16:45:40Z"
     },
     {
       "category": "Links",
       "label": "GitHub Pages base path",
       "check_status": "fail",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (158 href(s) missing /zola/). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-28T18:59:49Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (163 href(s) missing /zola/). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-29T16:45:40Z"
     }
   ],
   "fix_summary": {
