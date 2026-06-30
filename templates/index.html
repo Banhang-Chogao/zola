@@ -140,7 +140,9 @@
                         {% if hero.extra.premium %}
                             {{ premium::badge() }}
                         {% elif hero_cat %}
-                            <a class="home-editorial__hero-cat" href="{{ get_url(path='categories/' ~ (hero_cat | slugify) ~ '/') }}">{{ hero_cat }}</a>
+                            {% set cat_slug = hero_cat | slugify %}
+                            {% set cat_path = "categories/" ~ cat_slug ~ "/" %}
+                            <a class="home-editorial__hero-cat" href="{{ get_url(path=cat_path) }}">{{ hero_cat }}</a>
                         {% endif %}
                         <h3 class="home-editorial__hero-title"><a href="{{ hero.permalink }}">{{ hero.title }}</a></h3>
                         <p class="home-editorial__hero-excerpt">{{ hero.description | default(value=hero.summary | default(value="") | safe | striptags | truncate(length=220)) }}</p>
@@ -166,7 +168,9 @@
                             {% if page.extra.premium %}
                                 {{ premium::badge() }}
                             {% elif page_cat %}
-                                <a class="home-editorial__grid-cat" href="{{ get_url(path='categories/' ~ page_cat | slugify ~ '/') }}">{{ page_cat }}</a>
+                                {% set grid_cat_slug = page_cat | slugify %}
+                                {% set grid_cat_path = "categories/" ~ grid_cat_slug ~ "/" %}
+                                <a class="home-editorial__grid-cat" href="{{ get_url(path=grid_cat_path) }}">{{ page_cat }}</a>
                             {% endif %}
                             <h4 class="home-editorial__grid-title"><a href="{{ page.permalink }}">{{ page.title }}</a></h4>
                             <p class="home-editorial__grid-excerpt">{{ page.description | default(value=page.summary | default(value="") | safe | striptags | truncate(length=120)) }}</p>
