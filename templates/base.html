@@ -178,9 +178,9 @@
     {% set canonical_url = config.base_url %}
     {% if current_url %}{% set_global canonical_url = current_url %}{% endif %}
 
-    {# OG image: priority chain (local/R2/CDN only — no hotlink/external).
+    {# OG image: priority chain (local only — no hotlink/external).
        1) page.extra fields (og_image/image/cover/thumbnail) — validate local domain
-       2) cover_src macro (owned covers, category placeholders, og-default.webp)
+       2) cover_src macro (owned covers, 20 OG fallback templates)
        3) section.extra.thumbnail for section pages
        Rule: external/hotlink URLs MUST NOT be used as og:image.
        SVGs use .og.webp twin for social preview compatibility. #}

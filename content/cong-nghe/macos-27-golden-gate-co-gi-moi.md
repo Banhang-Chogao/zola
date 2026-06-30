@@ -10,7 +10,7 @@ tags = ["công nghệ", "apple", "macos", "macos 27", "wwdc 2026", "apple intell
 [extra]
 source = "bb"
 content_origin = "baochi"
-thumbnail = "https://seomoney.org/img/og-default.webp"
+
 seo_keyword = "macOS 27 Golden Gate"
 featured = false
 
