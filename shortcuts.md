@@ -48,6 +48,21 @@ tạo workflow mới, Claude phải tự đánh giá:
 
 ## 2. Phím tắt (Shortcuts)
 
+### Global content rules (BẮT BUỘC cho mọi shortcut viết bài)
+
+Mọi shortcut tạo, rewrite hoặc nâng cấp nội dung phải kế thừa theo thứ tự:
+
+1. [`global-rule-og.md`](global-rule-og.md)
+2. [`global-rule-writing.md`](global-rule-writing.md)
+3. Rule riêng của shortcut/template
+4. Yêu cầu riêng của bài do user chỉ định
+
+Rule riêng chỉ được bổ sung, không được làm yếu/override hai global rule; yêu cầu
+riêng cũng không được vi phạm bản quyền hoặc AdSense safety. Shortcut lấy nội
+dung từ báo/nguồn tin tuyệt đối không copy ảnh báo, Google Images, watermark hay
+ảnh chưa xác minh license. Trước publish phải hoàn tất checklist trong hai file
+global, gồm OG/fallback, alt-text, nguồn ảnh và bốn section cuối bài.
+
 ### `phimtat` — Slash command `/phimtat` liệt kê tất cả phím tắt active
 
 Slash command `.claude/commands/phimtat.md` — khi user gõ `/phimtat` trong

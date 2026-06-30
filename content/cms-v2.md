@@ -13,3 +13,9 @@ toc = false
 
 CMS-V2 là lớp điều phối biên tập riêng cho SEOMONEY. Trang này chỉ dùng để
 soát workflow editorial, không chạm vào homepage production hiện tại.
+
+Mọi draft phải tuân thủ `global-rule-og.md` và `global-rule-writing.md`. Field ảnh
+chuẩn UI xuất là `[extra].thumbnail`; resolver cũng nhận `image`, `cover` và
+`image_alt`. Nếu ảnh không rõ nguồn/license hoặc không AdSense-safe, chọn internal
+fallback. Trước publish phải kiểm tra alt tiếng Việt, nguồn/license ảnh và đủ bốn
+section kết bài bắt buộc.
