@@ -1,4 +1,4 @@
-name: Auto-update changelog.json
+name: Auto-update static changelog history
 
 # Trigger khi push lên main. Ghi changelog → push thẳng main (không PR).
 
@@ -64,7 +64,7 @@ jobs:
               exit 0
             fi
             gh pr view "$NUM" --repo "${GITHUB_REPOSITORY}" \
-              --json title,body,additions,deletions,mergedAt,labels \
+              --json title,body,additions,deletions,mergedAt,labels,mergeCommit,mergedBy,author \
               > meta.json
             echo "mode=pr" >> "$GITHUB_OUTPUT"
             echo "skip=false" >> "$GITHUB_OUTPUT"
@@ -79,6 +79,8 @@ jobs:
             echo "deletions=$(jq -r '.deletions' meta.json)" >> "$GITHUB_OUTPUT"
             echo "merged_at=$(jq -r '.mergedAt' meta.json)" >> "$GITHUB_OUTPUT"
             echo "labels=$(jq -c '.labels' meta.json)" >> "$GITHUB_OUTPUT"
+            echo "sha=$(jq -r '.mergeCommit.oid // ""' meta.json)" >> "$GITHUB_OUTPUT"
+            echo "author=$(jq -r '.mergedBy.login // .author.login // ""' meta.json)" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -90,7 +92,7 @@ jobs:
           fi
 
           STATS=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}" \
-            --jq '{additions: .stats.additions, deletions: .stats.deletions, date: .commit.committer.date}')
+            --jq '{additions: .stats.additions, deletions: .stats.deletions, date: .commit.committer.date, author: (.author.login // .commit.author.name // "")}')
           echo "mode=commit" >> "$GITHUB_OUTPUT"
           echo "skip=false" >> "$GITHUB_OUTPUT"
           echo "sha=${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
@@ -101,6 +103,7 @@ jobs:
           echo "deletions=$(echo "$STATS" | jq -r '.deletions // 0')" >> "$GITHUB_OUTPUT"
           echo "merged_at=$(echo "$STATS" | jq -r '.date // ""')" >> "$GITHUB_OUTPUT"
           echo "labels=[]" >> "$GITHUB_OUTPUT"
+          echo "author=$(echo "$STATS" | jq -r '.author')" >> "$GITHUB_OUTPUT"
 
       - name: Skip — nothing to log
         if: steps.meta.outputs.skip == 'true'
@@ -131,11 +134,16 @@ jobs:
           PR_DELETIONS: ${{ steps.meta.outputs.deletions }}
           PR_MERGED_AT: ${{ steps.meta.outputs.merged_at }}
           PR_LABELS: ${{ steps.meta.outputs.labels }}
+          REPOSITORY: ${{ github.repository }}
+          AUTHOR: ${{ steps.meta.outputs.author }}
+          RUN_NUMBER: ${{ github.run_number }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          BUILD_STATUS: success
         run: python3 .github/scripts/update_changelog.py
 
-      - name: Commit and push changelog.json
+      - name: Commit and push changelog history
         if: steps.changelog.outcome == 'success'
         id: push
         env:
           PUSH_MSG: "Cập nhật: changelog entry [skip changelog]"
-        run: bash .github/scripts/push_to_main.sh "$PUSH_MSG" changelog.json
+        run: bash .github/scripts/push_to_main.sh "$PUSH_MSG" static/data/changelog.json
