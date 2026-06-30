@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1270",
+      "pr_number": 1270,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1270",
+      "title": "feat(brand): đổi blog name thành Duy Nguyen, focus SEO & Affiliate",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T22:16:23Z",
+      "merge_commit_sha": "6eee6badc493",
+      "stats": {
+        "additions": 4799,
+        "deletions": 94
+      },
+      "highlights": [
+        "Blog name: SEOMONEY → Duy Nguyen",
+        "Tagline: → Mô Hình Kiếm Tiền Từ Blog - SEO & Affiliate",
+        "Meta description trang chủ: viết lại tập trung SEO & affiliate",
+        "Author box: name = Duy Nguyen, bio = Chuyên gia SEO & Content Marketing",
+        "Thêm jobTitle: Chuyên gia SEO & Content Marketing vào Person schema"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1269",
       "pr_number": 1269,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1269",
