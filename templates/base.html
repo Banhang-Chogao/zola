@@ -296,6 +296,8 @@
             {% set m = load_data(path="data/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb-series.json", required=false) %}
         {% elif page.extra.series == "tiet-kiem-tu-dong-cua-ngan-hang-liobank-bd55c9" %}
             {% set m = load_data(path="data/tiet-kiem-tu-dong-cua-ngan-hang-liobank-bd55c9-series.json", required=false) %}
+        {% elif page.extra.series == "xgboost-model-la-gi" %}
+            {% set m = load_data(path="data/xgboost-model-la-gi-series.json", required=false) %}
         {% else %}
             {% set m = false %}
         {% endif %}
@@ -690,9 +692,9 @@
             </div>
         </section>
     </div>
-    {% set search_posting = get_section(path="posting/_index.md") %}
-    {% set search_baochi = get_section(path="baochi/_index.md") %}
-    {% set search_pages = search_posting.pages | concat(with=search_baochi.pages) | sort(attribute="date") | reverse %}
+    {% set _search_posting = get_section(path="posting/_index.md") %}
+    {% set _search_baochi = get_section(path="baochi/_index.md") %}
+    {% set search_pages = _search_posting.pages | concat(with=_search_baochi.pages) | sort(attribute="date") | reverse %}
     <script type="application/json" id="site-search-data">
     [
     {%- for page in search_pages -%}
@@ -721,9 +723,9 @@
                 {# HOTFIX: gộp bài từ mọi section (posting/, baochi/, …) + sort ngày
                    giảm dần → sidebar (featured/random/JSON) phản ánh đúng MỌI bài,
                    đồng bộ với trang chủ. #}
-                {% set s_posting = get_section(path="posting/_index.md") %}
-                {% set s_baochi = get_section(path="baochi/_index.md") %}
-                {% set root_pages = s_posting.pages | concat(with=s_baochi.pages) | sort(attribute="date") | reverse %}
+                {% set _p = get_section(path="posting/_index.md") %}
+                {% set _b = get_section(path="baochi/_index.md") %}
+                {% set root_pages = _p.pages | concat(with=_b.pages) | sort(attribute="date") | reverse %}
 
                 {#
                     Inject toàn bộ metadata bài viết vào JSON inline để JS pick featured/random

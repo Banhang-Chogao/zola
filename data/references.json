@@ -91,30 +91,6 @@
     "external_count": 4,
     "internal_count": 6
   },
-  "content/posting/an-khuya-sai-gon.md": {
-    "external": [
-      {
-        "title": "ẩm thực Việt Nam trên Wikipedia",
-        "url": "https://vi.wikipedia.org/wiki/%E1%BA%A8m_th%E1%BB%B1c_Vi%E1%BB%87t_Nam",
-        "kind": "external"
-      }
-    ],
-    "internal": [
-      {
-        "title": "tối nay ở Sài Gòn ăn gì",
-        "url": "https://seomoney.org/posting/toi-nay-sai-gon-an-gi/",
-        "kind": "internal"
-      },
-      {
-        "title": "trời mưa Sài Gòn ăn gì",
-        "url": "https://seomoney.org/posting/troi-mua-sai-gon-an-gi/",
-        "kind": "internal"
-      }
-    ],
-    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ ẩm thực Việt Nam trên Wikipedia. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
-    "external_count": 1,
-    "internal_count": 2
-  },
   "content/posting/bao-lau-de-thay-ket-qua-seo.md": {
     "external": [
       {
@@ -2764,6 +2740,70 @@
     "external_count": 1,
     "internal_count": 2
   },
+  "content/posting/hoc-xgboost-tu-dau-lo-trinh-thuc-hanh.md": {
+    "external": [
+      {
+        "title": "Kaggle XGBoost Tutorials",
+        "url": "https://www.kaggle.com/learn/xgboost",
+        "kind": "external"
+      },
+      {
+        "title": "Machine Learning Coursera — Andrew Ng",
+        "url": "https://www.coursera.org/learn/machine-learning",
+        "kind": "external"
+      },
+      {
+        "title": "XGBoost Documentation",
+        "url": "https://xgboost.readthedocs.io/",
+        "kind": "external"
+      },
+      {
+        "title": "XGBoost Python API Documentation",
+        "url": "https://xgboost.readthedocs.io/en/stable/python/python_api.html",
+        "kind": "external"
+      },
+      {
+        "title": "XGBoost Tutorials trên Kaggle",
+        "url": "https://www.kaggle.com/learn",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "XGBoost model là gì?",
+        "url": "https://seomoney.org/posting/xgboost-model-la-gi/",
+        "kind": "internal"
+      },
+      {
+        "title": "XGBoost hoạt động như thế nào?",
+        "url": "https://seomoney.org/posting/xgboost-hoat-dong-nhu-the-nao/",
+        "kind": "internal"
+      },
+      {
+        "title": "Ứng dụng XGBoost trong cuộc sống",
+        "url": "https://seomoney.org/posting/ung-dung-xgboost-trong-cuoc-song/",
+        "kind": "internal"
+      },
+      {
+        "title": "XGBoost so với Random Forest, LightGBM, CatBoost",
+        "url": "https://seomoney.org/posting/xgboost-so-voi-random-forest-lightgbm-catboost/",
+        "kind": "internal"
+      },
+      {
+        "title": "Lộ trình tự học AI Coding miễn phí với OpenCode",
+        "url": "https://seomoney.org/posting/lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github/",
+        "kind": "internal"
+      },
+      {
+        "title": "Khám phá tất cả series hữu ích →",
+        "url": "https://seomoney.org/series/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Kaggle XGBoost Tutorials, Machine Learning Coursera — Andrew Ng, XGBoost Documentation, XGBoost Python API Documentation và XGBoost Tutorials trên Kaggle. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 5,
+    "internal_count": 6
+  },
   "content/posting/huong-dan-bat-tiet-kiem-tu-dong-tren-liobank.md": {
     "external": [],
     "internal": [
@@ -5412,6 +5452,50 @@
     "external_count": 1,
     "internal_count": 4
   },
+  "content/posting/ung-dung-xgboost-trong-cuoc-song.md": {
+    "external": [
+      {
+        "title": "XGBoost Use Cases in Industry (GitHub Wiki)",
+        "url": "https://github.com/dmlc/xgboost/wiki/Use-Cases",
+        "kind": "external"
+      },
+      {
+        "title": "Predicting Heart Disease with XGBoost — PubMed Study",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/33285530",
+        "kind": "external"
+      },
+      {
+        "title": "XGBoost Applications in Finance (Towards Data Science)",
+        "url": "https://towardsdatascience.com/xgboost-applications-in-finance-1b8f406e9b7f",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "XGBoost model là gì? Giải thích dễ hiểu",
+        "url": "https://seomoney.org/posting/xgboost-model-la-gi/",
+        "kind": "internal"
+      },
+      {
+        "title": "XGBoost hoạt động như thế nào?",
+        "url": "https://seomoney.org/posting/xgboost-hoat-dong-nhu-the-nao/",
+        "kind": "internal"
+      },
+      {
+        "title": "XGBoost so với Random Forest, LightGBM, CatBoost →",
+        "url": "https://seomoney.org/posting/xgboost-so-voi-random-forest-lightgbm-catboost/",
+        "kind": "internal"
+      },
+      {
+        "title": "Khám phá tất cả series hữu ích →",
+        "url": "https://seomoney.org/series/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ XGBoost Use Cases in Industry (GitHub Wiki), Predicting Heart Disease with XGBoost — PubMed Study và XGBoost Applications in Finance (Towards Data Science). Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
+    "internal_count": 4
+  },
   "content/posting/ung-ho-du-an-ai-ten-mien-ai.md": {
     "external": [
       {
@@ -6195,6 +6279,143 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Copilot plans, GitHub Docs về pull request, Repository OpenCode và Tài liệu agent OpenCode. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 4,
     "internal_count": 7
+  },
+  "content/posting/xgboost-hoat-dong-nhu-the-nao.md": {
+    "external": [
+      {
+        "title": "A Gentle Introduction to Gradient Boosting (Machine Learning Mastery)",
+        "url": "https://machinelearningmastery.com/gentle-introduction-gradient-boosting-algorithm-machine-learning",
+        "kind": "external"
+      },
+      {
+        "title": "Gradient Boosting — scikit-learn",
+        "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+        "kind": "external"
+      },
+      {
+        "title": "XGBoost Parameters Documentation",
+        "url": "https://xgboost.readthedocs.io/en/stable/parameter.html",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "XGBoost model là gì? Giải thích dễ hiểu",
+        "url": "https://seomoney.org/posting/xgboost-model-la-gi/",
+        "kind": "internal"
+      },
+      {
+        "title": "Ứng dụng XGBoost trong cuộc sống →",
+        "url": "https://seomoney.org/posting/ung-dung-xgboost-trong-cuoc-song/",
+        "kind": "internal"
+      },
+      {
+        "title": "Sentence Transformers (SBERT) — kiến trúc bi-encoder trong NLP",
+        "url": "https://seomoney.org/posting/sentence-transformers-sbert-deep-dive/",
+        "kind": "internal"
+      },
+      {
+        "title": "CodeQL: phân tích code tự động cho lập trình viên",
+        "url": "https://seomoney.org/posting/codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ A Gentle Introduction to Gradient Boosting (Machine Learning Mastery), Gradient Boosting — scikit-learn và XGBoost Parameters Documentation. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
+    "internal_count": 4
+  },
+  "content/posting/xgboost-model-la-gi.md": {
+    "external": [
+      {
+        "title": "Bài báo gốc: XGBoost — A Scalable Tree Boosting System (Chen & Guestrin, 2016)",
+        "url": "https://arxiv.org/abs/1603.02754",
+        "kind": "external"
+      },
+      {
+        "title": "Hướng dẫn XGBoost trên scikit-learn",
+        "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+        "kind": "external"
+      },
+      {
+        "title": "Tài liệu chính thức XGBoost",
+        "url": "https://xgboost.readthedocs.io/",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "XGBoost hoạt động như thế nào? Từ Decision Tree đến Gradient Boosting →",
+        "url": "https://seomoney.org/posting/xgboost-hoat-dong-nhu-the-nao/",
+        "kind": "internal"
+      },
+      {
+        "title": "Sentence Transformers (SBERT) là gì? Kiến trúc bi-encoder và ứng dụng NLP",
+        "url": "https://seomoney.org/posting/sentence-transformers-sbert-deep-dive/",
+        "kind": "internal"
+      },
+      {
+        "title": "Khám phá tất cả series hữu ích →",
+        "url": "https://seomoney.org/series/",
+        "kind": "internal"
+      },
+      {
+        "title": "Lộ trình tự học AI coding miễn phí với OpenCode",
+        "url": "https://seomoney.org/posting/lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Bài báo gốc: XGBoost — A Scalable Tree Boosting System (Chen & Guestrin, 2016), Hướng dẫn XGBoost trên scikit-learn và Tài liệu chính thức XGBoost. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
+    "internal_count": 4
+  },
+  "content/posting/xgboost-so-voi-random-forest-lightgbm-catboost.md": {
+    "external": [
+      {
+        "title": "CatBoost vs LightGBM vs XGBoost — Towards Data Science",
+        "url": "https://towardsdatascience.com/catboost-vs-lightgbm-vs-xgboost-c80f40662924",
+        "kind": "external"
+      },
+      {
+        "title": "Grinsztajn et al. (2022): Why do tree-based models still outperform deep learning on tabular data?",
+        "url": "https://arxiv.org/abs/2207.08815",
+        "kind": "external"
+      },
+      {
+        "title": "LightGBM Documentation",
+        "url": "https://lightgbm.readthedocs.io/",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "XGBoost model là gì? Giải thích dễ hiểu",
+        "url": "https://seomoney.org/posting/xgboost-model-la-gi/",
+        "kind": "internal"
+      },
+      {
+        "title": "XGBoost hoạt động như thế nào?",
+        "url": "https://seomoney.org/posting/xgboost-hoat-dong-nhu-the-nao/",
+        "kind": "internal"
+      },
+      {
+        "title": "Ứng dụng XGBoost trong cuộc sống",
+        "url": "https://seomoney.org/posting/ung-dung-xgboost-trong-cuoc-song/",
+        "kind": "internal"
+      },
+      {
+        "title": "Học XGBoost từ đâu? Lộ trình thực hành →",
+        "url": "https://seomoney.org/posting/hoc-xgboost-tu-dau-lo-trinh-thuc-hanh/",
+        "kind": "internal"
+      },
+      {
+        "title": "Lộ trình tự học AI Coding miễn phí với OpenCode",
+        "url": "https://seomoney.org/posting/lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ CatBoost vs LightGBM vs XGBoost — Towards Data Science, Grinsztajn et al. (2022): Why do tree-based models still outperform deep learning on tabular data? và LightGBM Documentation. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
+    "internal_count": 5
   },
   "content/posting/xu-ly-pr-revert-sai-base.md": {
     "external": [

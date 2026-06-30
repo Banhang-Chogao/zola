@@ -287,9 +287,10 @@
         {% endfor %}
         {# HOTFIX: related lấy từ MỌI section (posting/, baochi/, …) để bài ở
            section nào cũng có thể xuất hiện như bài liên quan. #}
-        {% set rp_posting = get_section(path="posting/_index.md") %}
-        {% set rp_baochi = get_section(path="baochi/_index.md") %}
-        {% set root_pages = rp_posting.pages | concat(with=rp_baochi.pages) | sort(attribute="date") | reverse %}
+        {% set _rp_p = get_section(path="posting/_index.md") %}
+        {% set _rp_b = get_section(path="baochi/_index.md") %}
+        {% set _rp_a = get_section(path="am-thuc/_index.md") %}
+        {% set root_pages = _rp_p.pages | concat(with=_rp_b.pages) | concat(with=_rp_a.pages) | sort(attribute="date") | reverse %}
         {% set_global related = [] %}
 
         {# Hub series (bài báo gốc): ưu tiên toàn bộ series khoa học. #}
@@ -337,6 +338,8 @@
                 {% set series_manifest = load_data(path="data/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb-series.json", required=false) %}
             {% elif page.extra.series == "opencode-ai-viet-code-mien-phi" %}
                 {% set series_manifest = load_data(path="data/opencode-ai-viet-code-mien-phi-series.json", required=false) %}
+            {% elif page.extra.series == "xgboost-model-la-gi" %}
+                {% set series_manifest = load_data(path="data/xgboost-model-la-gi-series.json", required=false) %}
             {% endif %}
             {% if series_manifest and page.extra.series == series_manifest.id %}
                 {% for item in series_manifest.parts %}

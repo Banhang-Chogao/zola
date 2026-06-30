@@ -4,10 +4,10 @@
 {% block title %}{{ section.title }} | {{ config.title }}{% endblock %}
 
 {% block main %}
-    {% set posting = get_section(path="posting/_index.md") %}
-    {% set baochi = get_section(path="baochi/_index.md") %}
+    {% set _s_p = get_section(path="posting/_index.md") %}
+    {% set _s_b = get_section(path="baochi/_index.md") %}
     {% set_global all_series_pages = [] %}
-    {% for page in posting.pages | concat(with=baochi.pages) %}
+    {% for page in _s_p.pages | concat(with=_s_b.pages) %}
         {% if page.extra.series is defined and not page.extra.feed_anchor %}
             {% set_global all_series_pages = all_series_pages | concat(with=[page]) %}
         {% endif %}
@@ -24,6 +24,7 @@
     {% set m9 = load_data(path="data/vietinbank-series.json", required=false) %}
     {% set m10 = load_data(path="data/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb-series.json", required=false) %}
     {% set m11 = load_data(path="data/tiet-kiem-tu-dong-cua-ngan-hang-liobank-bd55c9-series.json", required=false) %}
+    {% set m12 = load_data(path="data/xgboost-model-la-gi-series.json", required=false) %}
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -37,17 +38,18 @@
             "url": "{{ config.base_url | safe }}/"
         },
         "hasPart": [
-            {% if m1 and m1.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m1.section }}/{{ m1.pillar_slug }}/","name":"{{ m1.title_vi | default(value=m1.title) }}"}{% if m2 and m2.pillar_slug or m3 and m3.pillar_slug or m4 and m4.pillar_slug or m5 and m5.pillar_slug or m6 and m6.pillar_slug or m7 and m7.pillar_slug or m8 and m8.pillar_slug or m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug %},{% endif %}{% endif %}
-            {% if m2 and m2.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m2.section }}/{{ m2.pillar_slug }}/","name":"{{ m2.title_vi | default(value=m2.title) }}"}{% if m3 and m3.pillar_slug or m4 and m4.pillar_slug or m5 and m5.pillar_slug or m6 and m6.pillar_slug or m7 and m7.pillar_slug or m8 and m8.pillar_slug or m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug %},{% endif %}{% endif %}
-            {% if m3 and m3.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m3.section }}/{{ m3.pillar_slug }}/","name":"{{ m3.title_vi | default(value=m3.title) }}"}{% if m4 and m4.pillar_slug or m5 and m5.pillar_slug or m6 and m6.pillar_slug or m7 and m7.pillar_slug or m8 and m8.pillar_slug or m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug %},{% endif %}{% endif %}
-            {% if m4 and m4.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m4.section }}/{{ m4.pillar_slug }}/","name":"{{ m4.title_vi | default(value=m4.title) }}"}{% if m5 and m5.pillar_slug or m6 and m6.pillar_slug or m7 and m7.pillar_slug or m8 and m8.pillar_slug or m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug %},{% endif %}{% endif %}
-            {% if m5 and m5.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m5.section }}/{{ m5.pillar_slug }}/","name":"{{ m5.title_vi | default(value=m5.title) }}"}{% if m6 and m6.pillar_slug or m7 and m7.pillar_slug or m8 and m8.pillar_slug or m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug %},{% endif %}{% endif %}
-            {% if m6 and m6.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m6.section }}/{{ m6.pillar_slug }}/","name":"{{ m6.title_vi | default(value=m6.title) }}"}{% if m7 and m7.pillar_slug or m8 and m8.pillar_slug or m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug %},{% endif %}{% endif %}
-            {% if m7 and m7.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m7.section }}/{{ m7.pillar_slug }}/","name":"{{ m7.title_vi | default(value=m7.title) }}"}{% if m8 and m8.pillar_slug or m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug %},{% endif %}{% endif %}
-            {% if m8 and m8.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m8.section }}/{{ m8.pillar_slug }}/","name":"{{ m8.title_vi | default(value=m8.title) }}"}{% if m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug %},{% endif %}{% endif %}
-            {% if m9 and m9.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m9.section }}/{{ m9.pillar_slug }}/","name":"{{ m9.title_vi | default(value=m9.title) }}"}{% if m10 and m10.pillar_slug or m11 and m11.pillar_slug %},{% endif %}{% endif %}
-            {% if m10 and m10.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m10.section }}/{{ m10.pillar_slug }}/","name":"{{ m10.title_vi | default(value=m10.title) }}"}{% if m11 and m11.pillar_slug %},{% endif %}{% endif %}
-            {% if m11 and m11.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m11.section }}/{{ m11.pillar_slug }}/","name":"{{ m11.title_vi | default(value=m11.title) }}"}{% endif %}
+            {% if m1 and m1.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m1.section }}/{{ m1.pillar_slug }}/","name":"{{ m1.title_vi | default(value=m1.title) }}"}{% if m2 and m2.pillar_slug or m3 and m3.pillar_slug or m4 and m4.pillar_slug or m5 and m5.pillar_slug or m6 and m6.pillar_slug or m7 and m7.pillar_slug or m8 and m8.pillar_slug or m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug or m12 and m12.pillar_slug %},{% endif %}{% endif %}
+            {% if m2 and m2.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m2.section }}/{{ m2.pillar_slug }}/","name":"{{ m2.title_vi | default(value=m2.title) }}"}{% if m3 and m3.pillar_slug or m4 and m4.pillar_slug or m5 and m5.pillar_slug or m6 and m6.pillar_slug or m7 and m7.pillar_slug or m8 and m8.pillar_slug or m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug or m12 and m12.pillar_slug %},{% endif %}{% endif %}
+            {% if m3 and m3.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m3.section }}/{{ m3.pillar_slug }}/","name":"{{ m3.title_vi | default(value=m3.title) }}"}{% if m4 and m4.pillar_slug or m5 and m5.pillar_slug or m6 and m6.pillar_slug or m7 and m7.pillar_slug or m8 and m8.pillar_slug or m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug or m12 and m12.pillar_slug %},{% endif %}{% endif %}
+            {% if m4 and m4.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m4.section }}/{{ m4.pillar_slug }}/","name":"{{ m4.title_vi | default(value=m4.title) }}"}{% if m5 and m5.pillar_slug or m6 and m6.pillar_slug or m7 and m7.pillar_slug or m8 and m8.pillar_slug or m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug or m12 and m12.pillar_slug %},{% endif %}{% endif %}
+            {% if m5 and m5.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m5.section }}/{{ m5.pillar_slug }}/","name":"{{ m5.title_vi | default(value=m5.title) }}"}{% if m6 and m6.pillar_slug or m7 and m7.pillar_slug or m8 and m8.pillar_slug or m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug or m12 and m12.pillar_slug %},{% endif %}{% endif %}
+            {% if m6 and m6.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m6.section }}/{{ m6.pillar_slug }}/","name":"{{ m6.title_vi | default(value=m6.title) }}"}{% if m7 and m7.pillar_slug or m8 and m8.pillar_slug or m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug or m12 and m12.pillar_slug %},{% endif %}{% endif %}
+            {% if m7 and m7.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m7.section }}/{{ m7.pillar_slug }}/","name":"{{ m7.title_vi | default(value=m7.title) }}"}{% if m8 and m8.pillar_slug or m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug or m12 and m12.pillar_slug %},{% endif %}{% endif %}
+            {% if m8 and m8.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m8.section }}/{{ m8.pillar_slug }}/","name":"{{ m8.title_vi | default(value=m8.title) }}"}{% if m9 and m9.pillar_slug or m10 and m10.pillar_slug or m11 and m11.pillar_slug or m12 and m12.pillar_slug %},{% endif %}{% endif %}
+            {% if m9 and m9.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m9.section }}/{{ m9.pillar_slug }}/","name":"{{ m9.title_vi | default(value=m9.title) }}"}{% if m10 and m10.pillar_slug or m11 and m11.pillar_slug or m12 and m12.pillar_slug %},{% endif %}{% endif %}
+            {% if m10 and m10.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m10.section }}/{{ m10.pillar_slug }}/","name":"{{ m10.title_vi | default(value=m10.title) }}"}{% if m11 and m11.pillar_slug or m12 and m12.pillar_slug %},{% endif %}{% endif %}
+            {% if m11 and m11.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m11.section }}/{{ m11.pillar_slug }}/","name":"{{ m11.title_vi | default(value=m11.title) }}"}{% if m12 and m12.pillar_slug %},{% endif %}{% endif %}
+            {% if m12 and m12.pillar_slug %}{"@type":"CreativeWorkSeries","url":"{{ config.base_url | safe }}/{{ m12.section }}/{{ m12.pillar_slug }}/","name":"{{ m12.title_vi | default(value=m12.title) }}"}{% endif %}
         ]
     }
     </script>
