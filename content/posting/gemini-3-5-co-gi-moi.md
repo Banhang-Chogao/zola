@@ -105,10 +105,10 @@ Nếu bạn muốn dùng thử, Gemini 3.5 Flash đã có trên Google AI Studio
 
 ## Liên kết nội bộ
 
-- [Gemini 3: Thế hệ AI đa phương thức mới của Google](/posting/gemini-3-multimodal-ai/)
-- [Google DeepMind Nano Banana: Gia đình mô hình tạo ảnh AI mới nhất 2026](/posting/deepmind-nano-banana/)
-- [Nano Banana 2 Lite và Gemini Omni Flash: Tạo ảnh siêu nhanh, video hội thoại](/posting/nano-banana-2-lite-gemini-omni-flash/)
-- [Các mô hình AI tốt nhất 2026](/cong-nghe/cac-mo-hinh-ai-tot-nhat-2026/)
+- [Google DeepMind là gì? Câu chuyện về phòng thí nghiệm AI hàng đầu thế giới](/cong-nghe/google-deepmind-la-gi/)
+- [OpenCode là gì? AI Coding Agent miễn phí cho mọi lập trình viên](/cong-nghe/opencode-la-gi-ai-coding-agent/)
+- [Lộ trình 14 ngày tự học AI coding miễn phí với OpenCode](/cong-nghe/lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github/)
+- [Sentence Transformers SBERT: Mô hình AI xử lý ngôn ngữ tự nhiên](/cong-nghe/sentence-transformers-sbert-deep-dive/)
 
 ## Liên kết bên ngoài
 
