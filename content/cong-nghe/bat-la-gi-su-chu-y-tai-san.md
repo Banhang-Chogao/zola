@@ -1,6 +1,6 @@
 +++
-title = "BAT là gì và vì sao Brave biến sự chú ý thành một loại tài sản?"
-description = "BAT là token trung tâm của Brave Rewards, kết nối người dùng, nhà quảng cáo và creator trong mô hình quảng cáo dựa trên sự đồng ý."
+title = "BAT là gì và vì sao Brave biến sự chú ý thành một loại tài sản? - Duy Nguyen"
+description = "Duy Nguyen giải thích BAT là token trung tâm của Brave Rewards, kết nối người dùng, nhà quảng cáo và creator. Nội dung SEO về Web3, affiliate trình duyệt và content marketing công nghệ."
 date = 2026-06-29T10:02:00Z
 aliases = ["/bat-la-gi-su-chu-y-tai-san/",
   "/posting/bat-la-gi-su-chu-y-tai-san/"

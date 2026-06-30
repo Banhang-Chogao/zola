@@ -323,7 +323,8 @@
         {% if page.updated %}"dateModified": "{{ page.updated | date(format='%Y-%m-%dT%H:%M:%S%:z') }}",{% elif page.date %}"dateModified": "{{ page.date | date(format='%Y-%m-%dT%H:%M:%S%:z') }}",{% endif %}
         "author": {
             "@type": "Person",
-            "name": {{ config.extra.author | json_encode | safe }}{% if config.extra.author_url %},
+            "name": {{ config.extra.author | json_encode | safe }},
+            "jobTitle": "Chuyên gia SEO & Content Marketing"{% if config.extra.author_url %},
             "url": {{ config.extra.author_url | json_encode | safe }}{% endif %}
         },
         "publisher": {

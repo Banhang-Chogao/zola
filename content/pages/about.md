@@ -1,43 +1,37 @@
 +++
-title = "Giới thiệu"
-description = "Giới thiệu về blog Duy Nguyen: dự án viết bằng Zola, mã nguồn mở trên GitHub và tự động deploy qua GitHub Actions mỗi khi có commit mới."
+title = "Giới thiệu - Duy Nguyen"
+description = "Tìm hiểu về Duy Nguyen - Chuyên gia SEO & người sáng lập blog Mô Hình Kiếm Tiền Từ Blog."
 path = "about"
 template = "about.html"
 +++
 
 ## Xin chào, mình là Duy Nguyen 👋
 
-Mình là một **developer người Việt** mê khám phá điểm chung giữa công nghệ và
-những chuyến đi. Hơn vài năm làm phần mềm, mình quen với guồng quay từ những
-dòng code đầu tiên, qua các đêm debug căng não, đến lúc bấm deploy lên
-production. Blog này là nơi mình ghi lại những trải nghiệm đó một cách thành
-thật — không tô vẽ, không "content công nghiệp".
+Mình là một **Chuyên gia SEO & Content Marketing** với hơn 5 năm kinh nghiệm trong lĩnh vực digital marketing. Blog này là nơi mình chia sẻ toàn bộ hành trình xây dựng mô hình kiếm tiền từ blog — từ những ngày đầu tiên bỡ ngỡ với SEO, qua những lần thử nghiệm affiliate marketing, đến khi xây dựng được nguồn thu nhập thụ động ổn định từ nội dung số.
 
 ## Blog này viết về gì?
 
-Mình viết quanh những thứ mình thực sự trải qua và tìm hiểu kỹ:
+Mình viết những gì mình trải nghiệm và đã kiểm chứng thành công:
 
-- **Công nghệ & lập trình**: xây dựng sản phẩm, static site, tự động hoá, SEO.
-- **Tài chính & ngân hàng số**: trải nghiệm app, thẻ, mẹo quản lý chi tiêu —
-  viết từ góc nhìn người dùng thật, kèm cảnh báo an toàn.
-- **Du lịch & ẩm thực**: lịch trình, chi phí, quán ăn mình đã thử.
+- **SEO thực chiến**: chiến lược SEO on-page, off-page, kỹ thuật, và công cụ SEO mình dùng hàng ngày.
+- **Affiliate Marketing**: chương trình liên kết hiệu quả, cách tối ưu tỷ lệ chuyển đổi, và các nền tảng affiliate uy tín.
+- **Xây dựng nội dung số**: chiến lược content marketing, viết bài chuẩn SEO, tối ưu trải nghiệm người dùng.
+- **Kiếm tiền từ blog**: mô hình kinh doanh blog bền vững, đa dạng hóa nguồn thu, tự động hóa quy trình.
 
-Với các bài tài chính, mình luôn cố gắng đối chiếu thông tin chính thức và nói
-rõ đâu là quan điểm cá nhân. Nội dung chỉ mang tính tham khảo — chi tiết ở trang
-[Điều khoản & Miễn trừ](/terms/).
+## Giá trị cốt lõi
 
-## Cam kết nội dung
+- **Kiến thức thực chiến**: mọi chia sẻ đều dựa trên trải nghiệm thật, không lý thuyết suông.
+- **Minh bạch**: bài viết có affiliate link đều được ghi rõ, giữ uy tín với độc giả.
+- **Cập nhật liên tục**: SEO và marketing thay đổi mỗi ngày — mình luôn cập nhật nội dung mới nhất.
 
-- **Viết từ trải nghiệm thật**, nghiên cứu kỹ, không sao chép.
-- **Minh bạch**: bài nào có liên kết giới thiệu/affiliate mình đều nói rõ.
-- **Cập nhật & sửa sai**: thấy thông tin lỗi thời, mình sửa hoặc gỡ.
+## Dành cho ai?
 
-## Kết nối
+Nếu bạn là người mới bắt đầu muốn xây dựng blog kiếm tiền, hoặc đã có blog nhưng chưa tối ưu được thu nhập — bạn đã đến đúng nơi. Mình sẽ đồng hành cùng bạn từng bước trên hành trình này.
 
-- 📧 Email: **292648126+Banhang-Chogao@users.noreply.github.com** — hoặc qua trang [Liên hệ](https://seomoney.org/contact/)
+## Kết nối với mình
+
+- 📧 Email: **292648126+Banhang-Chogao@users.noreply.github.com** — hoặc qua trang [Liên hệ](/contact/)
 - 💻 Mã nguồn blog: [github.com/Banhang-Chogao/zola](https://github.com/Banhang-Chogao/zola)
-- 🔒 [Chính sách bảo mật](/privacy/) · 📄 [Điều khoản & Miễn trừ](/terms/) · © [Tuyên bố bản quyền](/copyright/)
+- 🔒 [Chính sách bảo mật](/privacy/) · 📄 [Điều khoản & Miễn trừ](/terms/)
 
-*Về kỹ thuật: blog xây bằng [Zola](https://www.getzola.org/) (Rust static site
-generator), deploy tự động qua GitHub Actions lên GitHub Pages mỗi khi có commit
-mới trên nhánh `main`.*
+*Về kỹ thuật: blog xây bằng Zola (Rust static site generator), deploy tự động qua GitHub Actions lên GitHub Pages.*

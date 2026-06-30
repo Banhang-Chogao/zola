@@ -1,6 +1,6 @@
 +++
-title = "AI viết code miễn phí với GitHub và OpenCode từ số 0"
-description = "Hướng dẫn bắt đầu AI viết code miễn phí GitHub bằng OpenCode, Copilot Free và repo cá nhân, có giới hạn rõ ràng và quy trình an toàn."
+title = "AI viết code miễn phí với GitHub và OpenCode từ số 0 - Duy Nguyen"
+description = "Duy Nguyen hướng dẫn bắt đầu AI viết code miễn phí với OpenCode, Copilot Free và GitHub — nội dung SEO cho lập trình viên tự học và affiliate công cụ developer."
 date = 2026-06-30T13:00:00+07:00
 updated = 2026-06-30T13:00:00+07:00
 draft = false

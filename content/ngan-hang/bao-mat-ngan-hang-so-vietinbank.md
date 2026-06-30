@@ -1,6 +1,6 @@
 +++
-title = "Bảo mật VietinBank: ngân hàng số an toàn ra sao?"
-description = "Bảo mật VietinBank dựa trên OTP, sinh trắc học, mã hóa và xác thực hai lớp. Mình giải thích cơ chế hoạt động và phần trách nhiệm của chính người dùng."
+title = "Bảo mật VietinBank: ngân hàng số an toàn ra sao? - Duy Nguyen"
+description = "Duy Nguyen giải thích bảo mật VietinBank qua OTP, sinh trắc học, mã hóa và xác thực hai lớp. Nội dung SEO ngân hàng số kết hợp affiliate và content marketing tài chính."
 date = 2026-06-18
 aliases = ["/bao-mat-ngan-hang-so-vietinbank/",
   "/posting/bao-mat-ngan-hang-so-vietinbank/"

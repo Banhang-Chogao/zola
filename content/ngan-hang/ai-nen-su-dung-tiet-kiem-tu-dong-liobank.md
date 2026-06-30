@@ -1,6 +1,6 @@
 +++
-title = "Ai nên sử dụng Tiết kiệm tự động Liobank? Kinh nghiệm tối ưu"
-description = "Phân tích đối tượng phù hợp với Tiết kiệm tự động Liobank và kinh nghiệm thực tế để tối ưu lợi nhuận: cài đặt, theo dõi, kết hợp với các sản phẩm khác."
+title = "Ai nên sử dụng Tiết kiệm tự động Liobank? Kinh nghiệm tối ưu - Duy Nguyen"
+description = "Duy Nguyen phân tích đối tượng phù hợp với Tiết kiệm tự động Liobank và chia sẻ kinh nghiệm thực tế tối ưu lợi nhuận: cài đặt, theo dõi, kết hợp sản phẩm — dành cho content marketing tài chính cá nhân và affiliate ngân hàng số."
 date = 2026-06-28
 aliases = ["/ai-nen-su-dung-tiet-kiem-tu-dong-liobank/",
   "/posting/ai-nen-su-dung-tiet-kiem-tu-dong-liobank/"

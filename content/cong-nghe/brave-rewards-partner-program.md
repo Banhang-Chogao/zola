@@ -1,6 +1,6 @@
 +++
-title = "Brave Rewards Partner Program — khi BAT bước vào đời sống Web3"
-description = "Brave Rewards 3.0 Partner Program mở rộng tiện ích BAT qua game, danh tính số, creator, thương mại và các trải nghiệm Web3."
+title = "Brave Rewards Partner Program — khi BAT bước vào đời sống Web3 - Duy Nguyen"
+description = "Duy Nguyen phân tích Brave Rewards Partner Program 3.0 — cách BAT mở rộng hệ sinh thái Web3 và cơ hội affiliate cho blogger công nghệ."
 date = 2026-06-29T10:03:00Z
 aliases = ["/brave-rewards-partner-program/",
   "/posting/brave-rewards-partner-program/"
