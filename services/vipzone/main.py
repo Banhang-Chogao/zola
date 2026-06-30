@@ -225,21 +225,6 @@ except Exception as exc:  # pragma: no cover - defensive: keep the rest of the A
     print(f"[vipzone] CMS repo router not mounted: {exc!r}")
 
 
-# ============= Private Calendar + 3M Whiteboard routes =============
-# Personal/private tool at /tools/calendar/ — durable, owner-scoped storage behind
-# the SAME GitHub OAuth admin guard the editor uses. Mounted like cms_repo so the
-# db getter is injected without a circular import.
-try:
-    import personal_data
-
-    personal_data.configure(get_db=get_db)
-    app.include_router(personal_data.router)
-    PERSONAL_MOUNTED = True
-except Exception as exc:  # pragma: no cover - defensive: keep the rest of the API up
-    PERSONAL_MOUNTED = False
-    print(f"[vipzone] personal_data router not mounted: {exc!r}")
-
-
 # ============= Native comments (Google-auth, moderated) =============
 # Replaces GitHub-only Giscus with a Google-authenticated, AdSense-safe comment
 # system. Public read of approved comments + authenticated submit + admin
@@ -744,42 +729,4 @@ except ImportError:
 
 app.include_router(wd_heartbeat_router)
 
-# ============= AI Blog Writer (content-creator /write-blog) =============
-try:
-    import ai_writer
-
-    async def _ai_writer_get_token(authorization: str, cookie_sid: str | None = None) -> str:
-        from main import get_db
-
-        return await github_token_from_session(
-            get_db(), authorization or "", cookie_sid=cookie_sid
-        )
-
-    ai_writer.configure(get_token=_ai_writer_get_token)
-    app.include_router(ai_writer.router)
-    AI_WRITER_MOUNTED = True
-except Exception as exc:
-    AI_WRITER_MOUNTED = False
-    print(f"[vipzone] AI writer router not mounted: {exc!r}")
-
-# ============= AI Writer Dispatch (repository_dispatch proxy) =============
-# Lightweight endpoint that proxies content-creator write requests to GitHub
-# repository_dispatch so the browser never handles a GitHub token. The actual AI
-# work runs in a GitHub Actions workflow.
-try:
-    import ai_writer_dispatch
-
-    async def _ai_dispatch_get_token(authorization: str, cookie_sid: str | None = None) -> str:
-        from main import get_db
-
-        return await github_token_from_session(
-            get_db(), authorization or "", cookie_sid=cookie_sid
-        )
-
-    ai_writer_dispatch.configure(get_token=_ai_dispatch_get_token)
-    app.include_router(ai_writer_dispatch.router)
-    AI_WRITER_DISPATCH_MOUNTED = True
-except Exception as exc:
-    AI_WRITER_DISPATCH_MOUNTED = False
-    print(f"[vipzone] AI writer dispatch router not mounted: {exc!r}")
 

@@ -111,7 +111,6 @@
     {% endif %}
     {% if cms_auth %}
     <meta name="zola-cms-auth-api" content="{{ cms_auth | safe }}">
-    {# Alias đọc bởi private-auth.js (Lịch & Bảng ghi chú riêng tư). Cùng backend VIPZone. #}
     <meta name="vipzone-auth-api" content="{{ cms_auth | safe }}">
     {% endif %}
     <meta name="zola-base-url" content="{{ config.base_url | safe }}">
