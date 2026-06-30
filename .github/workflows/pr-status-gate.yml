@@ -1,0 +1,73 @@
+name: PR Status Gate (kt9 auto-check)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      fix_mode:
+        description: 'Auto-fix safe issues (--fix)'
+        type: boolean
+        default: false
+
+concurrency:
+  group: pr-status-gate-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  status-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Pre-flight — check gh CLI
+        run: |
+          which gh || (echo "gh not found" && exit 1)
+          gh --version
+
+      - name: Run PR Status Check (kt9)
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ARGS=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.fix_mode }}" = "true" ]; then
+            ARGS="--fix"
+          fi
+          python3 scripts/pr_status_check.py $ARGS 2>&1 | tee /tmp/pr-status-report.md
+
+      - name: Comment report on PR
+        if: github.event_name == 'pull_request' || github.event_name == 'pull_request_target'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REPORT=$(cat /tmp/pr-status-report.md)
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body "## 🔍 Kt9 PR Status Check
+
+$REPORT" || echo "Comment failed (may be first time)"
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-status-report
+          path: /tmp/pr-status-report.md
+
+      - name: Gate — fail if CI issues detected
+        if: failure()
+        run: |
+          echo "❌ PR Status Gate phát hiện vấn đề. Xem report ở trên để biết chi tiết."
+          exit 1
