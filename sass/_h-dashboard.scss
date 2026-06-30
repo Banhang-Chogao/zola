@@ -929,12 +929,12 @@
   }
 
   .dash-geo__callout-name {
-    font: 700 10px/1 "Ericsson Hilda", Manrope, system-ui, sans-serif;
+    font: 700 10px/1 $font-ui;
     fill: #0f1b2d;
   }
 
   .dash-geo__callout-val {
-    font: 600 9px/1 "Ericsson Hilda", Manrope, system-ui, sans-serif;
+    font: 600 9px/1 $font-ui;
     fill: #5b6573;
   }
 
@@ -945,7 +945,7 @@
   }
 
   .dash-geo__rank-num {
-    font: 800 9px/1 "Ericsson Hilda", Manrope, system-ui, sans-serif;
+    font: 800 9px/1 $font-ui;
     fill: #007d76;
     text-anchor: middle;
   }
