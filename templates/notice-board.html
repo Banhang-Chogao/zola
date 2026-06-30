@@ -9,7 +9,15 @@
       <span class="notice-auth__lock" aria-hidden="true">🔐</span>
       <h1 data-nb-auth-title>Đang kiểm tra quyền quản trị…</h1>
       <p data-nb-auth-message>Notice Board chỉ mở sau khi xác thực admin qua backend dùng chung với CMS.</p>
-      <button class="notice-btn notice-btn--primary" type="button" data-nb-login hidden>Đăng nhập Admin</button>
+      <div class="notice-auth__quickstart">
+        <strong>Cách dùng nhanh</strong>
+        <ol>
+          <li>Bấm <span>Đăng nhập admin</span>.</li>
+          <li>Xác thực bằng tài khoản quản trị CMS.</li>
+          <li>Quay lại trang này và dùng ngay bảng placement, UTM, báo cáo.</li>
+        </ol>
+      </div>
+      <button class="notice-btn notice-btn--primary" type="button" data-nb-login hidden>Mở Notice Board</button>
       <button class="notice-btn" type="button" data-nb-retry hidden>Thử lại</button>
     </div>
   </section>
@@ -28,6 +36,10 @@
     </header>
 
     <div class="notice-board__admin-banner">🔐 Admin Only Area · Đăng nhập qua backend CMS để mở dashboard; dữ liệu hiện vẫn đồng bộ cục bộ trong trình duyệt admin.</div>
+    <div class="notice-board__quick-hint">
+      <strong>Bắt đầu nhanh:</strong>
+      <span>Nhấn “Thêm vị trí” để tạo placement, mở tab “Quản lý UTM” để sinh link tracking, và vào “Báo cáo” để xem hiệu suất.</span>
+    </div>
 
     <section class="notice-kpis" data-nb-kpis aria-label="Tổng quan KPI"></section>
 
