@@ -25,6 +25,8 @@
     {% set manifest = load_data(path="data/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb-series.json", required=false) %}
 {% elif page.extra and page.extra.series is defined and page.extra.series == "tiet-kiem-tu-dong-cua-ngan-hang-liobank-bd55c9" %}
     {% set manifest = load_data(path="data/tiet-kiem-tu-dong-cua-ngan-hang-liobank-bd55c9-series.json", required=false) %}
+{% elif page.extra and page.extra.series is defined and page.extra.series == "opencode-ai-viet-code-mien-phi" %}
+    {% set manifest = load_data(path="data/opencode-ai-viet-code-mien-phi-series.json", required=false) %}
 {% endif %}
 {% if manifest and page.extra and page.extra.series is defined and page.extra.series == manifest.id %}
     {% set current_part = page.extra.series_part | default(value=0) %}
