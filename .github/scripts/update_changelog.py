@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Append PR entry vào changelog.json. Idempotent — skip nếu PR đã có.
+Append PR entry vào static/data/changelog.json. Idempotent — skip nếu PR đã có.
 
 Đầu vào từ env (set bởi changelog-update.yml):
   PR_NUMBER, PR_TITLE, PR_BODY, PR_ADDITIONS, PR_DELETIONS,
@@ -22,7 +22,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-CHANGELOG = REPO_ROOT / "changelog.json"
+CHANGELOG = REPO_ROOT / "static" / "data" / "changelog.json"
 
 # Label name (lowercase) → tag value
 LABEL_TAG_MAP = {
@@ -210,6 +210,11 @@ def main() -> int:
         pr_labels = json.loads(os.environ.get("PR_LABELS", "[]") or "[]")
         pr_number = int(os.environ["PR_NUMBER"]) if mode == "pr" else 0
         commit_sha = os.environ.get("COMMIT_SHA", "").strip()
+        repository = os.environ.get("REPOSITORY", "Banhang-Chogao/zola").strip()
+        author = os.environ.get("AUTHOR", "").strip()
+        run_number = int(os.environ.get("RUN_NUMBER", "0"))
+        run_url = os.environ.get("RUN_URL", "").strip()
+        status = os.environ.get("BUILD_STATUS", "success").strip().lower()
     except (KeyError, ValueError) as e:
         print(f"✗ Env config sai: {e}", file=sys.stderr)
         return 1
@@ -222,19 +227,28 @@ def main() -> int:
         return 1
 
     date = pr_merged_at.split("T")[0] if pr_merged_at else ""
+    highlights = [mask_secrets(h) for h in extract_highlights(pr_body)]
 
     entry = {
         "date": date,
+        "merged_at": pr_merged_at,
         "title": mask_secrets(clean_title(pr_title)),
         "tag": infer_tag(pr_title, pr_labels),
+        "summary": highlights[0] if highlights else mask_secrets(clean_title(pr_title)),
+        "status": status,
+        "repository": repository,
+        "author": author,
+        "run_number": run_number,
+        "run_url": run_url,
         "lines_added": pr_additions,
         "lines_removed": pr_deletions,
-        "highlights": [mask_secrets(h) for h in extract_highlights(pr_body)],
+        "highlights": highlights,
     }
     if mode == "commit":
         entry["commit"] = commit_sha[:12]
         entry["pr"] = 0
     else:
+        entry["commit"] = commit_sha[:12]
         entry["pr"] = pr_number
 
     if not CHANGELOG.exists():
@@ -273,9 +287,9 @@ def main() -> int:
     write_github_output(commit_message, changed=True)
 
     if mode == "commit":
-        print(f"✓ Added commit {commit_sha[:12]} ({entry['tag']}) to changelog.json")
+        print(f"✓ Added commit {commit_sha[:12]} ({entry['tag']}) to static/data/changelog.json")
     else:
-        print(f"✓ Added PR #{pr_number} ({entry['tag']}) to changelog.json")
+        print(f"✓ Added PR #{pr_number} ({entry['tag']}) to static/data/changelog.json")
     print(f"  Commit message: {commit_message}")
     return 0
 
