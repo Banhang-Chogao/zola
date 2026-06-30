@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1267",
+      "pr_number": 1267,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1267",
+      "title": "feat(font): Inter (body) + IBM Plex Sans (headings) — chuẩn hóa font stack",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T20:40:09Z",
+      "merge_commit_sha": "52e4c756e7e4",
+      "stats": {
+        "additions": 238,
+        "deletions": 64
+      },
+      "highlights": [
+        "Body/UI/meta: Inter → Be Vietnam Pro → system-ui",
+        "Headings h1-h6: IBM Plex Sans → Inter → Be Vietnam Pro → system-ui",
+        "Code: JetBrains Mono → Fira Code → monospace",
+        "Google Fonts: chỉ Inter 400-700 + IBM Plex Sans 400-700 (bỏ Be Vietnam Pro khỏi web font, giữ làm fallback)",
+        "Xóa Playfair Display khỏi index.html (homepage dùng chung stack)"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1268",
       "pr_number": 1268,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1268",
