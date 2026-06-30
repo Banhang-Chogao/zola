@@ -19,7 +19,7 @@ ROOT_STATIC_PAGES = {
     "bao-cao-tong-ket.md",
     "branding-guideline.md",
     "font.md",
-    "prompt-support.md",
+
     "scoring.md",
     "seo-bang-vang.md",
     "timer.md",

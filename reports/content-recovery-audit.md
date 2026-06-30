@@ -82,7 +82,6 @@ All 144 posts in the posting section have valid frontmatter with:
 - Korean Language (grammar, vocabulary, TOPIK exam prep)
 - Finance & Banking (VietinBank, LioBank, digital banking)
 - Google Preferred Sources (6-part series)
-- MCC (Merchant Category Code) (10-part educational series)
 - Adsense Policies & Best Practices
 - SEO Fundamentals
 - Zola Static Site Generator
