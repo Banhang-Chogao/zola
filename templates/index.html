@@ -6,13 +6,6 @@
 
 {% block title %}{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân{% endblock %}
 
-{% block extra_head %}
-    {{ super() }}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
-{% endblock extra_head %}
-
 {% block sidebar %}{% endblock %}
 
 {% block main %}
@@ -121,12 +114,10 @@
     {% for page in feed %}
         {% if hero_compact | length < 3 %}
             {% set_global hero_compact = hero_compact | concat(with=[page]) %}
-        {% elif latest_rows | length < 8 %}
+        {% else %}
             {% set_global latest_rows = latest_rows | concat(with=[page]) %}
         {% endif %}
-        {% if popular_posts | length < 5 %}
-            {% set_global popular_posts = popular_posts | concat(with=[page]) %}
-        {% endif %}
+        {% set_global popular_posts = popular_posts | concat(with=[page]) %}
     {% endfor %}
 
     <div class="home-editorial" id="home-editorial" data-home-editorial>
@@ -167,6 +158,7 @@
         </aside>
 
         <section class="home-editorial__front-grid" id="editorial-top" aria-label="Câu chuyện hôm nay">
+            <div class="home-editorial__lead-column">
             {% if sticky %}
                 <article class="home-editorial__story home-editorial__story--pick">
                     <a class="home-editorial__story-media" href="{{ sticky.permalink }}">
@@ -195,6 +187,24 @@
                     </div>
                 </article>
             {% endif %}
+
+                <section class="home-editorial__section home-editorial__popular" aria-labelledby="home-popular-title">
+                    <div class="home-editorial__section-head">
+                        <div><p class="home-editorial__section-kicker">POPULAR</p><h3 class="home-editorial__section-title" id="home-popular-title">Bài viết được đọc nhiều</h3></div>
+                    </div>
+                    <div class="home-editorial__popular-card" data-home-pager data-page-size="6">
+                        <ol class="home-editorial__popular-list" data-page-items>
+                            {% for page in popular_posts %}
+                            <li class="home-editorial__popular-item" data-page-item>
+                                <span class="home-editorial__rail-index" aria-hidden="true">{{ loop.index }}</span>
+                                <div class="home-editorial__rail-copy"><h4><a href="{{ page.permalink }}">{{ page.title }}</a></h4><time datetime="{{ page.date }}">{{ dt::display_datetime(value=page.date) }}</time></div>
+                            </li>
+                            {% endfor %}
+                        </ol>
+                        <nav class="home-editorial__module-pagination" data-page-nav aria-label="Phân trang bài viết được đọc nhiều"></nav>
+                    </div>
+                </section>
+            </div>
 
             <div class="home-editorial__compact-column">
                 <div class="home-editorial__section-head home-editorial__section-head--compact">
@@ -299,30 +309,8 @@
             </aside>
         </section>
 
-        <section class="home-editorial__body" aria-label="Nội dung chính">
+        <section class="home-editorial__body home-editorial__body--single" aria-label="Nội dung chính">
             <div class="home-editorial__main">
-                <section class="home-editorial__section home-editorial__popular" aria-labelledby="home-popular-title">
-                    <div class="home-editorial__section-head">
-                        <div>
-                            <p class="home-editorial__section-kicker">POPULAR</p>
-                            <h3 class="home-editorial__section-title" id="home-popular-title">Bài viết được đọc nhiều</h3>
-                        </div>
-                    </div>
-                    <div class="home-editorial__popular-card">
-                        <ol class="home-editorial__popular-list">
-                            {% for page in popular_posts %}
-                                <li class="home-editorial__popular-item">
-                                    <span class="home-editorial__rail-index" aria-hidden="true">{{ loop.index }}</span>
-                                    <div class="home-editorial__rail-copy">
-                                        <h4><a href="{{ page.permalink }}">{{ page.title }}</a></h4>
-                                        <time datetime="{{ page.date }}">{{ dt::display_datetime(value=page.date) }}</time>
-                                    </div>
-                                </li>
-                            {% endfor %}
-                        </ol>
-                    </div>
-                </section>
-
                 <section class="home-editorial__section" id="latest">
                     <div class="home-editorial__section-head">
                         <div>
@@ -332,7 +320,8 @@
                         <a class="home-editorial__section-link" href="{{ config.base_url }}/archive/">Xem thêm</a>
                     </div>
 
-                    <div class="home-editorial__latest-list">
+                    <div class="home-editorial__latest-shell" data-home-pager data-page-size="4">
+                    <div class="home-editorial__latest-list" data-page-items>
                         {% if latest_rows | length > 0 %}
                             {% for page in latest_rows %}
                                 {% set_global item_cat = "" %}
@@ -341,9 +330,9 @@
                                         {% set_global item_cat = c %}
                                     {% endif %}
                                 {% endfor %}
-                                <article class="home-editorial__latest-item" data-category="{{ item_cat }}">
+                                <article class="home-editorial__latest-item" data-category="{{ item_cat }}" data-page-item>
                                     <a class="home-editorial__latest-media" href="{{ page.permalink }}">
-                                        <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
+                                        <img src="{{ img::feed_thumb_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
                                              width="320" height="180" loading="lazy" decoding="async">
                                     </a>
                                     <div class="home-editorial__latest-body">
@@ -360,13 +349,6 @@
                                         </div>
                                     </div>
                                 </article>
-                                {% if loop.index == 4 %}
-                                    <aside class="home-editorial__inline-ad">
-                                        <span class="home-editorial__ad-label">Quảng cáo</span>
-                                        <strong>In-feed ad</strong>
-                                        <p>Đặt sau bài thứ 3 hoặc 4</p>
-                                    </aside>
-                                {% endif %}
                             {% endfor %}
                         {% else %}
                             <article class="home-editorial__latest-item home-editorial__latest-item--empty">
@@ -377,6 +359,8 @@
                                 </div>
                             </article>
                         {% endif %}
+                    </div>
+                    <nav class="home-editorial__module-pagination home-editorial__module-pagination--right" data-page-nav aria-label="Phân trang bài viết mới nhất"></nav>
                     </div>
                 </section>
 
@@ -543,23 +527,11 @@
                 </section>
             </div>
 
-            <aside class="home-editorial__sidebar" aria-label="Sidebar continuation">
-                <section class="home-editorial__rail-card">
-                    <p class="home-editorial__rail-kicker">INTERNAL LINKS</p>
-                    <ul class="home-editorial__rail-links">
-                        <li><a href="{{ config.base_url }}/archive/">Archive</a></li>
-                        <li><a href="{{ config.base_url }}/categories/">Categories</a></li>
-                        <li><a href="{{ config.base_url }}/series/">Series</a></li>
-                        <li><a href="{{ config.base_url }}/tools/">Public tools</a></li>
-                        <li><a href="{{ config.base_url }}/editor/">Editor</a></li>
-                    </ul>
-                </section>
-
-            </aside>
         </section>
     </div>
 {% endblock main %}
 
 {% block extra_scripts %}
     {{ super() }}
+    <script src="{{ get_url(path='js/home-magazine.js') }}" defer></script>
 {% endblock extra_scripts %}

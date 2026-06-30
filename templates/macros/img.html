@@ -97,6 +97,16 @@
 {%- endif -%}
 {%- endmacro cover_alt %}
 
+{% macro feed_thumb_src(page) -%}
+{%- set data = load_data(path="data/owned-covers.json") -%}
+{%- set slug = page.slug -%}
+{%- if slug in data.covers and data.covers[slug].image_source == "local-upload" -%}
+{{- get_url(path=data.covers[slug].image) -}}
+{%- else -%}
+{{- self::cover_src(page=page) -}}
+{%- endif -%}
+{%- endmacro feed_thumb_src %}
+
 {% macro thumb_src(thumb="") -%}
 {%- if thumb -%}
 {%- if thumb is ending_with(".jpg") or thumb is ending_with(".jpeg") -%}
