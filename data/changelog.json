@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1265",
+      "pr_number": 1265,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1265",
+      "title": "feat(images): 20 OG fallback templates + gradient expansion",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T12:53:32Z",
+      "merge_commit_sha": "03be02f10528",
+      "stats": {
+        "additions": 1589,
+        "deletions": 847
+      },
+      "highlights": [
+        "Expand GRADIENTS from 6 to 20 diverse color pairs for per-article covers",
+        "Add 20 OG fallback SVG templates at static/img/og-fallbacks/ (selected by slug length mod 20; each post gets a unique one)",
+        "cover_alt() returns page title (no more verbose descriptions)",
+        "cover_src() uses 20 fallbacks instead of 5 category if/elif chain",
+        "Remove og-default.webp (single image for all posts)"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1264",
       "pr_number": 1264,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1264",
