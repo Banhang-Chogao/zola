@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1262",
+      "pr_number": 1262,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1262",
+      "title": "refactor(meta): nâng cấp post-meta và post-stats lên chip/pill design",
+      "tag": "refactor",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T12:11:17Z",
+      "merge_commit_sha": "e0cb31655a80",
+      "stats": {
+        "additions": 1099,
+        "deletions": 401
+      },
+      "highlights": [
+        "templates/page.html: Restructure .post-meta — mỗi metadata item (author, published, updated) là chip độc lập",
+        "Published + Updated giờ nằm cùng hàng ngang — không còn stacked vertical",
+        "sass/_post.scss: Chip base .post-meta__chip — border-radius: 999px, white-space: nowrap",
+        "--author: blue accent (var(--c-accent-soft) bg)",
+        "--date: teal/success (var(--c-success) via color-mix())"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1260",
       "pr_number": 1260,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1260",
