@@ -1,25 +1,32 @@
 {
-  "generated_at": "2026-06-29T21:11:02.011794+00:00",
+  "generated_at": "2026-06-30T11:48:20.438397+00:00",
   "timezone_note": "Scheduled 22:00 Asia/Ho_Chi_Minh (15:00 UTC)",
   "fixed_applied": true,
   "summary": {
     "total_posts": 181,
     "before": {
-      "high": 113,
-      "mid": 58,
-      "low": 10
+      "high": 121,
+      "mid": 61,
+      "low": 9
     },
     "after": {
-      "high": 113,
-      "mid": 58,
-      "low": 10
+      "high": 121,
+      "mid": 52,
+      "low": 8
     },
-    "fixed_count": 0,
-    "still_orange": 58,
-    "still_red": 10,
-    "green_count": 113
+    "fixed_count": 6,
+    "still_orange": 52,
+    "still_red": 8,
+    "green_count": 121
   },
-  "fixed_slugs": [],
+  "fixed_slugs": [
+    "bao-lau-de-thay-ket-qua-seo",
+    "google-analytics-la-gi-lo-trinh-10-ngay",
+    "google-nhin-trang-giong-nguoi-dung",
+    "nguon-traffic-organic-direct-referral-social-paid",
+    "top-10-cong-cu-terminal-cho-mac-2026",
+    "ung-ho-du-an-ai-ten-mien-ai"
+  ],
   "still_orange_slugs": [
     "an-khuya-sai-gon",
     "brave-origin-trinh-duyet-rieng-tu-toi-gian",
@@ -39,6 +46,7 @@
     "google-preferred-sources-3-huong-dan-thiet-lap-ky-thuat",
     "google-preferred-sources-5-analytics-va-toi-uu-hoa",
     "google-preferred-sources-6-tuong-lai-seo",
+    "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
     "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank",
     "kha-nang-kinh-nghiem-tieng-han",
     "kiem-tra-trang-thai-pr-sau-khi-merge",
@@ -49,16 +57,8 @@
     "loi-nhieu-the-h1-sua-seo-toan-site",
     "loi-yaml-github-actions-workflow-invalid-case-study",
     "lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam",
-    "mcc-decoded-international-spending",
-    "mcc-cross-border-fees-interchange",
-    "mcc-rewards-cashback-international",
-    "mcc-fraud-blocks-international",
-    "mcc-corporate-compliance-expenses",
-    "mcc-travelers-cheat-sheet",
-    "mcc-merchant-choosing-code",
-    "mcc-dispute-process-template",
-    "mcc-future-dynamic-ai-codes",
     "ngan-hang-so-cho-freelancer",
+    "opencode-mien-phi-kiem-tien-nhu-the-nao",
     "phu-am-cang-bat-hoi-tieng-han",
     "premium-fintech-paywall-demo",
     "qa-gatekeeper-tu-fix-loi-blog",
@@ -75,6 +75,7 @@
     "toi-nay-sai-gon-an-gi",
     "troi-mua-sai-gon-an-gi",
     "users-new-users-sessions-google-analytics",
+    "workflow-30-phut-moi-ngay-opencode",
     "xu-ly-pr-revert-sai-base",
     "zola-faq-schema-template-variable-error",
     "zola-responsive-layout-context-detection",
@@ -83,8 +84,6 @@
   "still_red_slugs": [
     "facebook-shopee-affiliate-la-gi",
     "google-preferred-sources-4-chien-luoc-noi-dung",
-    "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
-    "mcc-masterclass-personal-strategy",
     "nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat",
     "top-10-cong-cu-terminal-cho-mac-2026",
     "ung-ho-du-an-ai-ten-mien-ai",
@@ -96,9 +95,9 @@
     {
       "slug": "cau-menh-lenh-ru-re-tieng-han",
       "section": "posting",
-      "title": "Ngày 19 — Mệnh lệnh & rủ rê 으세요, ㅂ시다, 을까요 tiếng Hàn",
+      "title": "Ng\u00e0y 19 \u2014 M\u1ec7nh l\u1ec7nh & r\u1ee7 r\u00ea \uc73c\uc138\uc694, \u3142\uc2dc\ub2e4, \uc744\uae4c\uc694 ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 1.0246,
@@ -154,9 +153,9 @@
     {
       "slug": "phu-dinh-an-mot-tieng-han",
       "section": "posting",
-      "title": "Ngày 18 — Phủ định 안 / 못 & -지 않다 trong tiếng Hàn",
+      "title": "Ng\u00e0y 18 \u2014 Ph\u1ee7 \u0111\u1ecbnh \uc548 / \ubabb & -\uc9c0 \uc54a\ub2e4 trong ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 1.0245,
@@ -212,9 +211,9 @@
     {
       "slug": "thi-tuong-lai-y-dinh-tieng-han",
       "section": "posting",
-      "title": "Ngày 17 — Thì tương lai & ý định ㄹ 거예요, 겠 tiếng Hàn",
+      "title": "Ng\u00e0y 17 \u2014 Th\u00ec t\u01b0\u01a1ng lai & \u00fd \u0111\u1ecbnh \u3139 \uac70\uc608\uc694, \uaca0 ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 1.0132,
@@ -270,9 +269,9 @@
     {
       "slug": "tro-tu-eun-neun-i-ga-tieng-han",
       "section": "posting",
-      "title": "Ngày 11: Trợ từ 은/는 và 이/가 trong tiếng Hàn",
+      "title": "Ng\u00e0y 11: Tr\u1ee3 t\u1eeb \uc740/\ub294 v\u00e0 \uc774/\uac00 trong ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 1.0128,
@@ -328,9 +327,9 @@
     {
       "slug": "thi-qua-khu-asseoyo-tieng-han",
       "section": "posting",
-      "title": "Ngày 16 — Thì quá khứ 았/었어요 trong tiếng Hàn",
+      "title": "Ng\u00e0y 16 \u2014 Th\u00ec qu\u00e1 kh\u1ee9 \uc558/\uc5c8\uc5b4\uc694 trong ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 1.0125,
@@ -386,9 +385,9 @@
     {
       "slug": "kinh-ngu-nopimmal-tieng-han",
       "section": "posting",
-      "title": "Ngày 26 — Kính ngữ (높임말) trong tiếng Hàn",
+      "title": "Ng\u00e0y 26 \u2014 K\u00ednh ng\u1eef (\ub192\uc784\ub9d0) trong ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 1.0105,
@@ -444,9 +443,9 @@
     {
       "slug": "trich-dan-gian-tiep-tieng-han",
       "section": "posting",
-      "title": "Ngày 28 — Trích dẫn gián tiếp (간접화법) tiếng Hàn",
+      "title": "Ng\u00e0y 28 \u2014 Tr\u00edch d\u1eabn gi\u00e1n ti\u1ebfp (\uac04\uc811\ud654\ubc95) ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 1.0049,
@@ -502,9 +501,9 @@
     {
       "slug": "itda-eopda-vi-tri-tieng-han",
       "section": "posting",
-      "title": "Ngày 10: 있다/없다 & diễn đạt vị trí tiếng Hàn",
+      "title": "Ng\u00e0y 10: \uc788\ub2e4/\uc5c6\ub2e4 & di\u1ec5n \u0111\u1ea1t v\u1ecb tr\u00ed ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 1.0044,
@@ -560,9 +559,9 @@
     {
       "slug": "dong-tu-tinh-tu-duoi-ayo-eoyo-tieng-han",
       "section": "posting",
-      "title": "Ngày 15 — Động từ + đuôi 아요/어요 (hiện tại) tiếng Hàn",
+      "title": "Ng\u00e0y 15 \u2014 \u0110\u1ed9ng t\u1eeb + \u0111u\u00f4i \uc544\uc694/\uc5b4\uc694 (hi\u1ec7n t\u1ea1i) ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 1.0007,
@@ -618,9 +617,9 @@
     {
       "slug": "hoc-tieng-han-bang-chu-hangul-nguyen-am",
       "section": "posting",
-      "title": "Học tiếng Hàn ngày 1: Bảng chữ Hangul & nguyên âm",
+      "title": "H\u1ecdc ti\u1ebfng H\u00e0n ng\u00e0y 1: B\u1ea3ng ch\u1eef Hangul & nguy\u00ean \u00e2m",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9933,
@@ -676,9 +675,9 @@
     {
       "slug": "so-dem-tieng-han-han-han-thuan-han",
       "section": "posting",
-      "title": "Ngày 13: Số đếm tiếng Hàn Hán-Hàn & thuần Hàn",
+      "title": "Ng\u00e0y 13: S\u1ed1 \u0111\u1ebfm ti\u1ebfng H\u00e0n H\u00e1n-H\u00e0n & thu\u1ea7n H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9875,
@@ -734,9 +733,9 @@
     {
       "slug": "mong-muon-y-dinh-tieng-han",
       "section": "posting",
-      "title": "Ngày 24 — Mong muốn & ý định tiếng Hàn: 고 싶다, 려고 하다",
+      "title": "Ng\u00e0y 24 \u2014 Mong mu\u1ed1n & \u00fd \u0111\u1ecbnh ti\u1ebfng H\u00e0n: \uace0 \uc2f6\ub2e4, \ub824\uace0 \ud558\ub2e4",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9869,
@@ -792,9 +791,9 @@
     {
       "slug": "on-tap-tuan-3-ke-chuyen-mot-ngay-tieng-han",
       "section": "posting",
-      "title": "Ngày 21 — Ôn tập tuần 3 & kể chuyện một ngày tiếng Hàn",
+      "title": "Ng\u00e0y 21 \u2014 \u00d4n t\u1eadp tu\u1ea7n 3 & k\u1ec3 chuy\u1ec7n m\u1ed9t ng\u00e0y ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9849,
@@ -850,9 +849,9 @@
     {
       "slug": "dai-tu-chi-dinh-tieng-han",
       "section": "posting",
-      "title": "Ngày 9: Đại từ & chỉ định 이/그/저 trong tiếng Hàn",
+      "title": "Ng\u00e0y 9: \u0110\u1ea1i t\u1eeb & ch\u1ec9 \u0111\u1ecbnh \uc774/\uadf8/\uc800 trong ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9839,
@@ -908,9 +907,9 @@
     {
       "slug": "cau-truc-ipnida-gioi-thieu-ban-than-tieng-han",
       "section": "posting",
-      "title": "Ngày 8: 이다/입니다 & giới thiệu bản thân tiếng Hàn",
+      "title": "Ng\u00e0y 8: \uc774\ub2e4/\uc785\ub2c8\ub2e4 & gi\u1edbi thi\u1ec7u b\u1ea3n th\u00e2n ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9799,
@@ -966,9 +965,9 @@
     {
       "slug": "tro-tu-eul-reul-e-eseo-tieng-han",
       "section": "posting",
-      "title": "Ngày 12: Trợ từ 을/를, 에, 에서 trong tiếng Hàn",
+      "title": "Ng\u00e0y 12: Tr\u1ee3 t\u1eeb \uc744/\ub97c, \uc5d0, \uc5d0\uc11c trong ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9763,
@@ -1024,9 +1023,9 @@
     {
       "slug": "dinh-ngu-quan-hinh-tu-tieng-han",
       "section": "posting",
-      "title": "Ngày 22 — Định ngữ tiếng Hàn (관형사형): -는, -은, -을",
+      "title": "Ng\u00e0y 22 \u2014 \u0110\u1ecbnh ng\u1eef ti\u1ebfng H\u00e0n (\uad00\ud615\uc0ac\ud615): -\ub294, -\uc740, -\uc744",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9755,
@@ -1082,9 +1081,9 @@
     {
       "slug": "on-tap-tuan-2-hoi-thoai-mua-sam-tieng-han",
       "section": "posting",
-      "title": "Ngày 14 — Ôn tập tuần 2 & hội thoại mua sắm tiếng Hàn",
+      "title": "Ng\u00e0y 14 \u2014 \u00d4n t\u1eadp tu\u1ea7n 2 & h\u1ed9i tho\u1ea1i mua s\u1eafm ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9752,
@@ -1140,9 +1139,9 @@
     {
       "slug": "lien-tu-cau-tieng-han",
       "section": "posting",
-      "title": "Ngày 20 — Liên từ nối câu: 그래서, 하지만, -아서, -고",
+      "title": "Ng\u00e0y 20 \u2014 Li\u00ean t\u1eeb n\u1ed1i c\u00e2u: \uadf8\ub798\uc11c, \ud558\uc9c0\ub9cc, -\uc544\uc11c, -\uace0",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9733,
@@ -1198,9 +1197,9 @@
     {
       "slug": "nguyen-am-doi-tieng-han",
       "section": "posting",
-      "title": "Học tiếng Hàn ngày 4: Nguyên âm đôi & nguyên âm ghép",
+      "title": "H\u1ecdc ti\u1ebfng H\u00e0n ng\u00e0y 4: Nguy\u00ean \u00e2m \u0111\u00f4i & nguy\u00ean \u00e2m gh\u00e9p",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9712,
@@ -1256,9 +1255,9 @@
     {
       "slug": "tong-on-chien-luoc-thi-topik-tieng-han",
       "section": "posting",
-      "title": "Ngày 30 — Tổng ôn & chiến lược thi TOPIK I tiếng Hàn",
+      "title": "Ng\u00e0y 30 \u2014 T\u1ed5ng \u00f4n & chi\u1ebfn l\u01b0\u1ee3c thi TOPIK I ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9671,
@@ -1314,9 +1313,9 @@
     {
       "slug": "phu-am-co-ban-hangul-ghep-am-tiet",
       "section": "posting",
-      "title": "Học tiếng Hàn ngày 2: Phụ âm cơ bản & ghép âm tiết",
+      "title": "H\u1ecdc ti\u1ebfng H\u00e0n ng\u00e0y 2: Ph\u1ee5 \u00e2m c\u01a1 b\u1ea3n & gh\u00e9p \u00e2m ti\u1ebft",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9667,
@@ -1372,9 +1371,9 @@
     {
       "slug": "ngu-phap-nang-cao-topik-tieng-han",
       "section": "posting",
-      "title": "Ngày 29 — Ngữ pháp nâng cao tiếng Hàn cho TOPIK",
+      "title": "Ng\u00e0y 29 \u2014 Ng\u1eef ph\u00e1p n\u00e2ng cao ti\u1ebfng H\u00e0n cho TOPIK",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9598,
@@ -1430,9 +1429,9 @@
     {
       "slug": "google-publisher-policies-noi-dung-bi-cam",
       "section": "posting",
-      "title": "Google Publisher Policies — nội dung bị cấm hiển thị quảng cáo",
+      "title": "Google Publisher Policies \u2014 n\u1ed9i dung b\u1ecb c\u1ea5m hi\u1ec3n th\u1ecb qu\u1ea3ng c\u00e1o",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9513,
@@ -1488,9 +1487,9 @@
     {
       "slug": "cau-dieu-kien-gia-dinh-tieng-han",
       "section": "posting",
-      "title": "Ngày 27 — Câu điều kiện & nghĩa vụ tiếng Hàn",
+      "title": "Ng\u00e0y 27 \u2014 C\u00e2u \u0111i\u1ec1u ki\u1ec7n & ngh\u0129a v\u1ee5 ti\u1ebfng H\u00e0n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9501,
@@ -1546,9 +1545,9 @@
     {
       "slug": "dong-tu-bat-quy-tac-tieng-han",
       "section": "posting",
-      "title": "Ngày 25 — Động từ bất quy tắc tiếng Hàn (불규칙)",
+      "title": "Ng\u00e0y 25 \u2014 \u0110\u1ed9ng t\u1eeb b\u1ea5t quy t\u1eafc ti\u1ebfng H\u00e0n (\ubd88\uaddc\uce59)",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9483,
@@ -1604,9 +1603,9 @@
     {
       "slug": "on-tap-tuan-1-chao-hoi-tieng-han",
       "section": "posting",
-      "title": "Học tiếng Hàn ngày 7: Ôn tập tuần 1 & chào hỏi cơ bản",
+      "title": "H\u1ecdc ti\u1ebfng H\u00e0n ng\u00e0y 7: \u00d4n t\u1eadp tu\u1ea7n 1 & ch\u00e0o h\u1ecfi c\u01a1 b\u1ea3n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9483,
@@ -1662,9 +1661,9 @@
     {
       "slug": "phan-biet-policies-va-restrictions-adsense",
       "section": "posting",
-      "title": "Phân biệt Policies và Restrictions trong AdSense",
+      "title": "Ph\u00e2n bi\u1ec7t Policies v\u00e0 Restrictions trong AdSense",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9369,
@@ -1720,9 +1719,9 @@
     {
       "slug": "bao-lau-de-thay-ket-qua-seo",
       "section": "posting",
-      "title": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
+      "title": "Bao l\u00e2u \u0111\u1ec3 th\u1ea5y k\u1ebft qu\u1ea3 SEO sau khi ch\u1ec9nh s\u1eeda?",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9221,
@@ -1753,7 +1752,7 @@
       "related_after": [
         {
           "slug": "google-nhin-trang-giong-nguoi-dung",
-          "score": 1.0007
+          "score": 1.0008
         },
         {
           "slug": "giup-google-tim-noi-dung-site",
@@ -1772,15 +1771,15 @@
           "score": 0.7619
         }
       ],
-      "action": "unchanged",
+      "action": "fixed",
       "cannot_green_reason": null
     },
     {
       "slug": "lenh-git-co-ban-init-add-commit-status",
       "section": "posting",
-      "title": "Lệnh Git cơ bản: init, add, commit, status, log",
+      "title": "L\u1ec7nh Git c\u01a1 b\u1ea3n: init, add, commit, status, log",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9214,
@@ -1836,9 +1835,9 @@
     {
       "slug": "google-publisher-restrictions-noi-dung-han-che",
       "section": "posting",
-      "title": "Google Publisher Restrictions — nội dung có giới hạn quảng cáo",
+      "title": "Google Publisher Restrictions \u2014 n\u1ed9i dung c\u00f3 gi\u1edbi h\u1ea1n qu\u1ea3ng c\u00e1o",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9213,
@@ -1894,9 +1893,9 @@
     {
       "slug": "dieu-kien-du-tu-cach-adsense",
       "section": "posting",
-      "title": "Điều kiện đủ tư cách tham gia AdSense",
+      "title": "\u0110i\u1ec1u ki\u1ec7n \u0111\u1ee7 t\u01b0 c\u00e1ch tham gia AdSense",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.921,
@@ -1952,9 +1951,9 @@
     {
       "slug": "git-branch-lam-viec-voi-nhanh",
       "section": "posting",
-      "title": "Git branch: làm việc với nhánh trong Git",
+      "title": "Git branch: l\u00e0m vi\u1ec7c v\u1edbi nh\u00e1nh trong Git",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9171,
@@ -2010,9 +2009,9 @@
     {
       "slug": "google-nhin-trang-giong-nguoi-dung",
       "section": "posting",
-      "title": "Google có nhìn thấy trang giống người dùng không?",
+      "title": "Google c\u00f3 nh\u00ecn th\u1ea5y trang gi\u1ed1ng ng\u01b0\u1eddi d\u00f9ng kh\u00f4ng?",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9113,
@@ -2043,7 +2042,7 @@
       "related_after": [
         {
           "slug": "bao-lau-de-thay-ket-qua-seo",
-          "score": 1.0007
+          "score": 1.0008
         },
         {
           "slug": "giup-google-tim-noi-dung-site",
@@ -2062,15 +2061,15 @@
           "score": 0.7974
         }
       ],
-      "action": "unchanged",
+      "action": "fixed",
       "cannot_green_reason": null
     },
     {
       "slug": "google-adsense-la-gi-chinh-sach-chuong-trinh",
       "section": "posting",
-      "title": "Google AdSense là gì? Chính sách Program policies",
+      "title": "Google AdSense l\u00e0 g\u00ec? Ch\u00ednh s\u00e1ch Program policies",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9017,
@@ -2126,9 +2125,9 @@
     {
       "slug": "git-la-gi-version-control-cho-nguoi-moi",
       "section": "posting",
-      "title": "Git là gì? Version control cho người mới bắt đầu",
+      "title": "Git l\u00e0 g\u00ec? Version control cho ng\u01b0\u1eddi m\u1edbi b\u1eaft \u0111\u1ea7u",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.9003,
@@ -2184,9 +2183,9 @@
     {
       "slug": "git-rebase-lam-sach-lich-su-commit",
       "section": "posting",
-      "title": "Git rebase: làm sạch lịch sử commit (nâng cao)",
+      "title": "Git rebase: l\u00e0m s\u1ea1ch l\u1ecbch s\u1eed commit (n\u00e2ng cao)",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8997,
@@ -2242,9 +2241,9 @@
     {
       "slug": "git-stash-cherry-pick-reflog-nang-cao",
       "section": "posting",
-      "title": "Git stash, cherry-pick và reflog (nâng cao)",
+      "title": "Git stash, cherry-pick v\u00e0 reflog (n\u00e2ng cao)",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8996,
@@ -2300,9 +2299,9 @@
     {
       "slug": "giup-google-tim-noi-dung-site",
       "section": "posting",
-      "title": "Giúp Google tìm nội dung: site: operator, liên kết và sitemap",
+      "title": "Gi\u00fap Google t\u00ecm n\u1ed9i dung: site: operator, li\u00ean k\u1ebft v\u00e0 sitemap",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8988,
@@ -2358,9 +2357,9 @@
     {
       "slug": "vietinbank-v-plus-v-advance-la-gi",
       "section": "posting",
-      "title": "V-Plus & V-Advance VietinBank: gói tiện ích mới là gì?",
+      "title": "V-Plus & V-Advance VietinBank: g\u00f3i ti\u1ec7n \u00edch m\u1edbi l\u00e0 g\u00ec?",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8784,
@@ -2416,9 +2415,9 @@
     {
       "slug": "quang-cao-truyen-thong-den-bat",
       "section": "posting",
-      "title": "Từ quảng cáo truyền thống đến BAT — Brave viết lại cách kiếm tiền trên Internet",
+      "title": "T\u1eeb qu\u1ea3ng c\u00e1o truy\u1ec1n th\u1ed1ng \u0111\u1ebfn BAT \u2014 Brave vi\u1ebft l\u1ea1i c\u00e1ch ki\u1ebfm ti\u1ec1n tr\u00ean Internet",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8765,
@@ -2474,9 +2473,9 @@
     {
       "slug": "toan-canh-chuyen-doi-so-vietinbank",
       "section": "posting",
-      "title": "Toàn cảnh chuyển đổi số VietinBank từ 1988 đến nay",
+      "title": "To\u00e0n c\u1ea3nh chuy\u1ec3n \u0111\u1ed5i s\u1ed1 VietinBank t\u1eeb 1988 \u0111\u1ebfn nay",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.875,
@@ -2532,9 +2531,9 @@
     {
       "slug": "cai-dat-git-cau-hinh-lan-dau",
       "section": "posting",
-      "title": "Cài đặt Git và cấu hình lần đầu (Windows, macOS, Linux)",
+      "title": "C\u00e0i \u0111\u1eb7t Git v\u00e0 c\u1ea5u h\u00ecnh l\u1ea7n \u0111\u1ea7u (Windows, macOS, Linux)",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8736,
@@ -2590,9 +2589,9 @@
     {
       "slug": "tuong-lai-brave-va-bat",
       "section": "posting",
-      "title": "Tương lai của Brave và BAT — từ trình duyệt riêng tư đến kinh tế chú ý",
+      "title": "T\u01b0\u01a1ng lai c\u1ee7a Brave v\u00e0 BAT \u2014 t\u1eeb tr\u00ecnh duy\u1ec7t ri\u00eang t\u01b0 \u0111\u1ebfn kinh t\u1ebf ch\u00fa \u00fd",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8728,
@@ -2648,9 +2647,9 @@
     {
       "slug": "git-workflow-chuyen-nghiep-gitflow-github-flow",
       "section": "posting",
-      "title": "Git workflow chuyên nghiệp: Git Flow và GitHub Flow",
+      "title": "Git workflow chuy\u00ean nghi\u1ec7p: Git Flow v\u00e0 GitHub Flow",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8629,
@@ -2706,9 +2705,9 @@
     {
       "slug": "git-merge-va-xu-ly-conflict",
       "section": "posting",
-      "title": "Git merge và cách xử lý conflict khi gộp nhánh",
+      "title": "Git merge v\u00e0 c\u00e1ch x\u1eed l\u00fd conflict khi g\u1ed9p nh\u00e1nh",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8622,
@@ -2764,9 +2763,9 @@
     {
       "slug": "patchim-phu-am-cuoi-tieng-han",
       "section": "posting",
-      "title": "Học tiếng Hàn ngày 5: Patchim (받침) & 7 âm đại diện",
+      "title": "H\u1ecdc ti\u1ebfng H\u00e0n ng\u00e0y 5: Patchim (\ubc1b\uce68) & 7 \u00e2m \u0111\u1ea1i di\u1ec7n",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8587,
@@ -2822,9 +2821,9 @@
     {
       "slug": "vietinbank-tu-giao-dich-quay-den-ngan-hang-so",
       "section": "posting",
-      "title": "Ngân hàng số VietinBank: từ giao dịch quầy đến app",
+      "title": "Ng\u00e2n h\u00e0ng s\u1ed1 VietinBank: t\u1eeb giao d\u1ecbch qu\u1ea7y \u0111\u1ebfn app",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8566,
@@ -2880,9 +2879,9 @@
     {
       "slug": "chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua",
       "section": "posting",
-      "title": "Chuyển đổi số VietinBank: chiến lược và kết quả",
+      "title": "Chuy\u1ec3n \u0111\u1ed5i s\u1ed1 VietinBank: chi\u1ebfn l\u01b0\u1ee3c v\u00e0 k\u1ebft qu\u1ea3",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8547,
@@ -2938,9 +2937,9 @@
     {
       "slug": "seo-la-gi-huong-dan-co-ban-google-search",
       "section": "posting",
-      "title": "SEO là gì? Hướng dẫn cơ bản từ Google Search Central",
+      "title": "SEO l\u00e0 g\u00ec? H\u01b0\u1edbng d\u1eabn c\u01a1 b\u1ea3n t\u1eeb Google Search Central",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.854,
@@ -2996,9 +2995,9 @@
     {
       "slug": "git-reset-revert-khoi-phuc-su-co",
       "section": "posting",
-      "title": "Git reset, revert và khôi phục sự cố (nâng cao)",
+      "title": "Git reset, revert v\u00e0 kh\u00f4i ph\u1ee5c s\u1ef1 c\u1ed1 (n\u00e2ng cao)",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8504,
@@ -3054,9 +3053,9 @@
     {
       "slug": "push-pull-fetch-dong-bo-voi-github",
       "section": "posting",
-      "title": "Push, pull, fetch: đồng bộ code với GitHub",
+      "title": "Push, pull, fetch: \u0111\u1ed3ng b\u1ed9 code v\u1edbi GitHub",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8476,
@@ -3112,9 +3111,9 @@
     {
       "slug": "vietinbank-ipay-internet-banking-qua-cac-thoi-ky",
       "section": "posting",
-      "title": "VietinBank iPay: Internet Banking qua các thời kỳ",
+      "title": "VietinBank iPay: Internet Banking qua c\u00e1c th\u1eddi k\u1ef3",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.847,
@@ -3170,9 +3169,9 @@
     {
       "slug": "vietinbank-v-advance-nang-tam-trai-nghiem",
       "section": "posting",
-      "title": "V-Advance VietinBank: đặc quyền Tài chính–Lifestyle",
+      "title": "V-Advance VietinBank: \u0111\u1eb7c quy\u1ec1n T\u00e0i ch\u00ednh\u2013Lifestyle",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8454,
@@ -3228,9 +3227,9 @@
     {
       "slug": "website-san-sang-cho-adsense",
       "section": "posting",
-      "title": "Website sẵn sàng cho AdSense: nội dung, navigation, UX",
+      "title": "Website s\u1eb5n s\u00e0ng cho AdSense: n\u1ed9i dung, navigation, UX",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8454,
@@ -3286,9 +3285,9 @@
     {
       "slug": "bao-mat-best-practices-git-github",
       "section": "posting",
-      "title": "Bảo mật và best practices với Git/GitHub",
+      "title": "B\u1ea3o m\u1eadt v\u00e0 best practices v\u1edbi Git/GitHub",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8391,
@@ -3344,9 +3343,9 @@
     {
       "slug": "cot-moc-lich-su-phat-trien-vietinbank",
       "section": "posting",
-      "title": "Lịch sử VietinBank: những cột mốc phát triển đáng nhớ",
+      "title": "L\u1ecbch s\u1eed VietinBank: nh\u1eefng c\u1ed9t m\u1ed1c ph\u00e1t tri\u1ec3n \u0111\u00e1ng nh\u1edb",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8383,
@@ -3402,9 +3401,9 @@
     {
       "slug": "brave-browser-quang-cao-khong-theo-doi",
       "section": "posting",
-      "title": "Brave Browser: quảng cáo không theo dõi người dùng có sống được không?",
+      "title": "Brave Browser: qu\u1ea3ng c\u00e1o kh\u00f4ng theo d\u00f5i ng\u01b0\u1eddi d\u00f9ng c\u00f3 s\u1ed1ng \u0111\u01b0\u1ee3c kh\u00f4ng?",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8371,
@@ -3460,9 +3459,9 @@
     {
       "slug": "vai-tro-vietinbank-he-thong-ngan-hang-viet-nam",
       "section": "posting",
-      "title": "Vai trò VietinBank trong hệ thống ngân hàng Việt Nam",
+      "title": "Vai tr\u00f2 VietinBank trong h\u1ec7 th\u1ed1ng ng\u00e2n h\u00e0ng Vi\u1ec7t Nam",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8371,
@@ -3518,9 +3517,9 @@
     {
       "slug": "vietinbank-la-ai-hanh-trinh-hinh-thanh",
       "section": "posting",
-      "title": "VietinBank là ai? Hành trình hình thành từ ngày đầu",
+      "title": "VietinBank l\u00e0 ai? H\u00e0nh tr\u00ecnh h\u00ecnh th\u00e0nh t\u1eeb ng\u00e0y \u0111\u1ea7u",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8293,
@@ -3576,9 +3575,9 @@
     {
       "slug": "vietinbank-cuoc-dua-ngan-hang-so-big4",
       "section": "posting",
-      "title": "Ngân hàng số VietinBank trong cuộc đua Big 4",
+      "title": "Ng\u00e2n h\u00e0ng s\u1ed1 VietinBank trong cu\u1ed9c \u0111ua Big 4",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8292,
@@ -3634,9 +3633,9 @@
     {
       "slug": "vietinbank-v-plus-chi-tiet-quyen-loi",
       "section": "posting",
-      "title": "V-Plus VietinBank: quyền lợi chi tiết chỉ 20.000đ/tháng",
+      "title": "V-Plus VietinBank: quy\u1ec1n l\u1ee3i chi ti\u1ebft ch\u1ec9 20.000\u0111/th\u00e1ng",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8287,
@@ -3692,9 +3691,9 @@
     {
       "slug": "dang-ky-v-plus-v-advance-tren-ipay",
       "section": "posting",
-      "title": "Đăng ký V-Plus & V-Advance trên iPay: hướng dẫn",
+      "title": "\u0110\u0103ng k\u00fd V-Plus & V-Advance tr\u00ean iPay: h\u01b0\u1edbng d\u1eabn",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8264,
@@ -3750,9 +3749,9 @@
     {
       "slug": "github-la-gi-tao-repository-dau-tien",
       "section": "posting",
-      "title": "GitHub là gì? Tạo tài khoản và repository đầu tiên",
+      "title": "GitHub l\u00e0 g\u00ec? T\u1ea1o t\u00e0i kho\u1ea3n v\u00e0 repository \u0111\u1ea7u ti\u00ean",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8251,
@@ -3808,9 +3807,9 @@
     {
       "slug": "google-search-hoat-dong-the-nao",
       "section": "posting",
-      "title": "Google Search hoạt động thế nào? Crawl, index và xếp hạng",
+      "title": "Google Search ho\u1ea1t \u0111\u1ed9ng th\u1ebf n\u00e0o? Crawl, index v\u00e0 x\u1ebfp h\u1ea1ng",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8236,
@@ -3866,9 +3865,9 @@
     {
       "slug": "tuong-lai-ngan-hang-so-va-vi-the-vietinbank",
       "section": "posting",
-      "title": "Tương lai VietinBank trong làn sóng ngân hàng số",
+      "title": "T\u01b0\u01a1ng lai VietinBank trong l\u00e0n s\u00f3ng ng\u00e2n h\u00e0ng s\u1ed1",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8232,
@@ -3924,9 +3923,9 @@
     {
       "slug": "git-remote-lam-viec-voi-repository-tu-xa",
       "section": "posting",
-      "title": "Git remote: làm việc với repository từ xa",
+      "title": "Git remote: l\u00e0m vi\u1ec7c v\u1edbi repository t\u1eeb xa",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8143,
@@ -3980,11 +3979,69 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "cai-opencode-trong-github-codespaces",
+      "section": "posting",
+      "title": "C\u00e0i OpenCode trong GitHub Codespaces \u0111\u1ec3 vi\u1ebft code b\u1eb1ng AI",
+      "cluster": "cong-nghe",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.8122,
+      "score_after": 0.8122,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.8656,
+          "slug": "opencode-la-gi-ai-coding-agent"
+        },
+        {
+          "score": 0.8646,
+          "slug": "ai-viet-code-mien-phi-github-opencode"
+        },
+        {
+          "score": 0.7996,
+          "slug": "dung-opencode-an-toan-khong-lo-token"
+        },
+        {
+          "score": 0.7823,
+          "slug": "opencode-so-voi-cursor-claude-code-copilot"
+        },
+        {
+          "score": 0.7487,
+          "slug": "lich-su-opencode-ai-coding-open-source"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "opencode-la-gi-ai-coding-agent",
+          "score": 0.8656
+        },
+        {
+          "slug": "ai-viet-code-mien-phi-github-opencode",
+          "score": 0.8646
+        },
+        {
+          "slug": "dung-opencode-an-toan-khong-lo-token",
+          "score": 0.7996
+        },
+        {
+          "slug": "opencode-so-voi-cursor-claude-code-copilot",
+          "score": 0.7823
+        },
+        {
+          "slug": "lich-su-opencode-ai-coding-open-source",
+          "score": 0.7487
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "tao-blog-voi-zola",
       "section": "posting",
-      "title": "Tạo blog với Zola từ A–Z: deploy GitHub Pages",
+      "title": "T\u1ea1o blog v\u1edbi Zola t\u1eeb A\u2013Z: deploy GitHub Pages",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.809,
@@ -4040,9 +4097,9 @@
     {
       "slug": "brave-rewards-partner-program",
       "section": "posting",
-      "title": "Brave Rewards Partner Program — khi BAT bước vào đời sống Web3",
+      "title": "Brave Rewards Partner Program \u2014 khi BAT b\u01b0\u1edbc v\u00e0o \u0111\u1eddi s\u1ed1ng Web3",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8062,
@@ -4098,9 +4155,9 @@
     {
       "slug": "ai-nen-su-dung-tiet-kiem-tu-dong-liobank",
       "section": "posting",
-      "title": "Ai nên sử dụng Tiết kiệm tự động Liobank? Kinh nghiệm tối ưu",
+      "title": "Ai n\u00ean s\u1eed d\u1ee5ng Ti\u1ebft ki\u1ec7m t\u1ef1 \u0111\u1ed9ng Liobank? Kinh nghi\u1ec7m t\u1ed1i \u01b0u",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.806,
@@ -4154,11 +4211,69 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "opencode-la-gi-ai-coding-agent",
+      "section": "posting",
+      "title": "OpenCode l\u00e0 g\u00ec? AI coding agent open-source cho ng\u01b0\u1eddi m\u1edbi",
+      "cluster": "cong-nghe",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.8042,
+      "score_after": 0.8042,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.8843,
+          "slug": "lich-su-opencode-ai-coding-open-source"
+        },
+        {
+          "score": 0.8656,
+          "slug": "cai-opencode-trong-github-codespaces"
+        },
+        {
+          "score": 0.7809,
+          "slug": "ai-viet-code-mien-phi-github-opencode"
+        },
+        {
+          "score": 0.7456,
+          "slug": "dung-opencode-an-toan-khong-lo-token"
+        },
+        {
+          "score": 0.7445,
+          "slug": "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "lich-su-opencode-ai-coding-open-source",
+          "score": 0.8843
+        },
+        {
+          "slug": "cai-opencode-trong-github-codespaces",
+          "score": 0.8656
+        },
+        {
+          "slug": "ai-viet-code-mien-phi-github-opencode",
+          "score": 0.7809
+        },
+        {
+          "slug": "dung-opencode-an-toan-khong-lo-token",
+          "score": 0.7456
+        },
+        {
+          "slug": "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github",
+          "score": 0.7445
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "vietinbank-cong-nghe-trai-nghiem-khach-hang",
       "section": "posting",
-      "title": "Công nghệ VietinBank thay đổi trải nghiệm khách hàng",
+      "title": "C\u00f4ng ngh\u1ec7 VietinBank thay \u0111\u1ed5i tr\u1ea3i nghi\u1ec7m kh\u00e1ch h\u00e0ng",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8025,
@@ -4214,9 +4329,9 @@
     {
       "slug": "summer-korea-4-diem-dung-mua-he",
       "section": "posting",
-      "title": "Du lịch Hàn Quốc mùa hè: Seoul, Busan, Jeju",
+      "title": "Du l\u1ecbch H\u00e0n Qu\u1ed1c m\u00f9a h\u00e8: Seoul, Busan, Jeju",
       "cluster": "du-lich",
-      "cluster_label": "Du lịch",
+      "cluster_label": "Du l\u1ecbch",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.802,
@@ -4272,9 +4387,9 @@
     {
       "slug": "so-sanh-v-plus-va-v-advance-chon-goi-nao",
       "section": "posting",
-      "title": "V-Plus hay V-Advance: chọn gói VietinBank nào?",
+      "title": "V-Plus hay V-Advance: ch\u1ecdn g\u00f3i VietinBank n\u00e0o?",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7947,
@@ -4330,9 +4445,9 @@
     {
       "slug": "he-sinh-thai-san-pham-vietinbank",
       "section": "posting",
-      "title": "Sản phẩm VietinBank: bức tranh hệ sinh thái hiện nay",
+      "title": "S\u1ea3n ph\u1ea9m VietinBank: b\u1ee9c tranh h\u1ec7 sinh th\u00e1i hi\u1ec7n nay",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7884,
@@ -4386,11 +4501,69 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "ai-viet-code-mien-phi-github-opencode",
+      "section": "posting",
+      "title": "AI vi\u1ebft code mi\u1ec5n ph\u00ed v\u1edbi GitHub v\u00e0 OpenCode t\u1eeb s\u1ed1 0",
+      "cluster": "cong-nghe",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7873,
+      "score_after": 0.7873,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.8646,
+          "slug": "cai-opencode-trong-github-codespaces"
+        },
+        {
+          "score": 0.7904,
+          "slug": "github-copilot-free-opencode-han-muc"
+        },
+        {
+          "score": 0.7874,
+          "slug": "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github"
+        },
+        {
+          "score": 0.7809,
+          "slug": "opencode-la-gi-ai-coding-agent"
+        },
+        {
+          "score": 0.7131,
+          "slug": "dung-opencode-an-toan-khong-lo-token"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "cai-opencode-trong-github-codespaces",
+          "score": 0.8646
+        },
+        {
+          "slug": "github-copilot-free-opencode-han-muc",
+          "score": 0.7904
+        },
+        {
+          "slug": "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github",
+          "score": 0.7874
+        },
+        {
+          "slug": "opencode-la-gi-ai-coding-agent",
+          "score": 0.7809
+        },
+        {
+          "slug": "dung-opencode-an-toan-khong-lo-token",
+          "score": 0.7131
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "tiet-kiem-tu-dong-liobank-la-gi-cach-hoat-dong",
       "section": "posting",
-      "title": "Tiết kiệm tự động Liobank là gì? Cách hoạt động chi tiết",
+      "title": "Ti\u1ebft ki\u1ec7m t\u1ef1 \u0111\u1ed9ng Liobank l\u00e0 g\u00ec? C\u00e1ch ho\u1ea1t \u0111\u1ed9ng chi ti\u1ebft",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7871,
@@ -4446,9 +4619,9 @@
     {
       "slug": "so-sanh-tiet-kiem-tu-dong-liobank-voi-cac-hinh-thuc-khac",
       "section": "posting",
-      "title": "So sánh Tiết kiệm tự động Liobank với các hình thức khác",
+      "title": "So s\u00e1nh Ti\u1ebft ki\u1ec7m t\u1ef1 \u0111\u1ed9ng Liobank v\u1edbi c\u00e1c h\u00ecnh th\u1ee9c kh\u00e1c",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7853,
@@ -4504,9 +4677,9 @@
     {
       "slug": "tien-ich-so-vietinbank-chua-tan-dung-het",
       "section": "posting",
-      "title": "Tiện ích số VietinBank nhiều người chưa dùng hết",
+      "title": "Ti\u1ec7n \u00edch s\u1ed1 VietinBank nhi\u1ec1u ng\u01b0\u1eddi ch\u01b0a d\u00f9ng h\u1ebft",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7821,
@@ -4562,9 +4735,9 @@
     {
       "slug": "pull-request-quy-trinh-cong-tac-github",
       "section": "posting",
-      "title": "Pull Request và quy trình cộng tác trên GitHub",
+      "title": "Pull Request v\u00e0 quy tr\u00ecnh c\u1ed9ng t\u00e1c tr\u00ean GitHub",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7812,
@@ -4620,9 +4793,9 @@
     {
       "slug": "tu-dong-deploy-zola-github-actions",
       "section": "posting",
-      "title": "Deploy blog Zola lên GitHub Pages tự động",
+      "title": "Deploy blog Zola l\u00ean GitHub Pages t\u1ef1 \u0111\u1ed9ng",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7809,
@@ -4676,11 +4849,69 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github",
+      "section": "posting",
+      "title": "L\u1ed9 tr\u00ecnh 14 ng\u00e0y t\u1ef1 h\u1ecdc AI coding mi\u1ec5n ph\u00ed v\u1edbi OpenCode",
+      "cluster": "cong-nghe",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7753,
+      "score_after": 0.7753,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.8183,
+          "slug": "github-copilot-free-opencode-han-muc"
+        },
+        {
+          "score": 0.7942,
+          "slug": "workflow-30-phut-moi-ngay-opencode"
+        },
+        {
+          "score": 0.7874,
+          "slug": "ai-viet-code-mien-phi-github-opencode"
+        },
+        {
+          "score": 0.7445,
+          "slug": "opencode-la-gi-ai-coding-agent"
+        },
+        {
+          "score": 0.7322,
+          "slug": "cai-opencode-trong-github-codespaces"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "github-copilot-free-opencode-han-muc",
+          "score": 0.8183
+        },
+        {
+          "slug": "workflow-30-phut-moi-ngay-opencode",
+          "score": 0.7942
+        },
+        {
+          "slug": "ai-viet-code-mien-phi-github-opencode",
+          "score": 0.7874
+        },
+        {
+          "slug": "opencode-la-gi-ai-coding-agent",
+          "score": 0.7445
+        },
+        {
+          "slug": "cai-opencode-trong-github-codespaces",
+          "score": 0.7322
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "uranium-lam-giau-la-gi",
       "section": "posting",
-      "title": "Uranium làm giàu là gì? Các mức độ 0,7% đến 90%",
+      "title": "Uranium l\u00e0m gi\u00e0u l\u00e0 g\u00ec? C\u00e1c m\u1ee9c \u0111\u1ed9 0,7% \u0111\u1ebfn 90%",
       "cluster": "khoa-hoc",
-      "cluster_label": "Khoa học",
+      "cluster_label": "Khoa h\u1ecdc",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7727,
@@ -4736,9 +4967,9 @@
     {
       "slug": "uranium-la-gi-tai-sao-quan-trong",
       "section": "posting",
-      "title": "Uranium là gì? Vì sao nguyên tố này quan trọng",
+      "title": "Uranium l\u00e0 g\u00ec? V\u00ec sao nguy\u00ean t\u1ed1 n\u00e0y quan tr\u1ecdng",
       "cluster": "khoa-hoc",
-      "cluster_label": "Khoa học",
+      "cluster_label": "Khoa h\u1ecdc",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7718,
@@ -4794,9 +5025,9 @@
     {
       "slug": "google-analytics-la-gi-lo-trinh-10-ngay",
       "section": "posting",
-      "title": "Google Analytics là gì? Lộ trình 10 ngày đọc hiểu dữ liệu",
+      "title": "Google Analytics l\u00e0 g\u00ec? L\u1ed9 tr\u00ecnh 10 ng\u00e0y \u0111\u1ecdc hi\u1ec3u d\u1eef li\u1ec7u",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7699,
@@ -4835,7 +5066,7 @@
         },
         {
           "slug": "nguon-traffic-organic-direct-referral-social-paid",
-          "score": 0.773
+          "score": 0.7729
         },
         {
           "slug": "engagement-rate-bounce-rate-google-analytics",
@@ -4846,15 +5077,15 @@
           "score": 0.6475
         }
       ],
-      "action": "unchanged",
+      "action": "fixed",
       "cannot_green_reason": null
     },
     {
       "slug": "dien-hat-nhan-khac-vu-khi-hat-nhan",
       "section": "posting",
-      "title": "Điện hạt nhân khác vũ khí hạt nhân ở điểm nào?",
+      "title": "\u0110i\u1ec7n h\u1ea1t nh\u00e2n kh\u00e1c v\u0169 kh\u00ed h\u1ea1t nh\u00e2n \u1edf \u0111i\u1ec3m n\u00e0o?",
       "cluster": "khoa-hoc",
-      "cluster_label": "Khoa học",
+      "cluster_label": "Khoa h\u1ecdc",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.766,
@@ -4910,9 +5141,9 @@
     {
       "slug": "vietinbank-hien-dai-hoa-core-banking",
       "section": "posting",
-      "title": "Core banking VietinBank: hành trình hiện đại hóa lõi",
+      "title": "Core banking VietinBank: h\u00e0nh tr\u00ecnh hi\u1ec7n \u0111\u1ea1i h\u00f3a l\u00f5i",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7654,
@@ -4968,9 +5199,9 @@
     {
       "slug": "bao-mat-ngan-hang-so-vietinbank",
       "section": "posting",
-      "title": "Bảo mật VietinBank: ngân hàng số an toàn ra sao?",
+      "title": "B\u1ea3o m\u1eadt VietinBank: ng\u00e2n h\u00e0ng s\u1ed1 an to\u00e0n ra sao?",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7636,
@@ -5024,11 +5255,69 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "lich-su-opencode-ai-coding-open-source",
+      "section": "posting",
+      "title": "L\u1ecbch s\u1eed OpenCode: t\u1eeb AI coding open-source \u0111\u1ebfn h\u1ec7 sinh th\u00e1i",
+      "cluster": "cong-nghe",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.763,
+      "score_after": 0.763,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.8843,
+          "slug": "opencode-la-gi-ai-coding-agent"
+        },
+        {
+          "score": 0.7487,
+          "slug": "cai-opencode-trong-github-codespaces"
+        },
+        {
+          "score": 0.746,
+          "slug": "opencode-mien-phi-kiem-tien-nhu-the-nao"
+        },
+        {
+          "score": 0.7213,
+          "slug": "dung-opencode-an-toan-khong-lo-token"
+        },
+        {
+          "score": 0.7149,
+          "slug": "opencode-so-voi-cursor-claude-code-copilot"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "opencode-la-gi-ai-coding-agent",
+          "score": 0.8843
+        },
+        {
+          "slug": "cai-opencode-trong-github-codespaces",
+          "score": 0.7487
+        },
+        {
+          "slug": "opencode-mien-phi-kiem-tien-nhu-the-nao",
+          "score": 0.746
+        },
+        {
+          "slug": "dung-opencode-an-toan-khong-lo-token",
+          "score": 0.7213
+        },
+        {
+          "slug": "opencode-so-voi-cursor-claude-code-copilot",
+          "score": 0.7149
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "lai-suat-tiet-kiem-tu-dong-liobank-co-hap-dan-khong",
       "section": "posting",
-      "title": "Lãi suất Tiết kiệm tự động Liobank có hấp dẫn không?",
+      "title": "L\u00e3i su\u1ea5t Ti\u1ebft ki\u1ec7m t\u1ef1 \u0111\u1ed9ng Liobank c\u00f3 h\u1ea5p d\u1eabn kh\u00f4ng?",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7602,
@@ -5084,9 +5373,9 @@
     {
       "slug": "the-vietinbank-lich-su-va-cac-dong-the",
       "section": "posting",
-      "title": "Thẻ VietinBank: lịch sử và các dòng thẻ nổi bật",
+      "title": "Th\u1ebb VietinBank: l\u1ecbch s\u1eed v\u00e0 c\u00e1c d\u00f2ng th\u1ebb n\u1ed5i b\u1eadt",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7593,
@@ -5142,9 +5431,9 @@
     {
       "slug": "di-han-het-bao-nhieu-tien",
       "section": "posting",
-      "title": "Đi Hàn hết bao nhiêu tiền? Seoul–Busan 6 ngày",
+      "title": "\u0110i H\u00e0n h\u1ebft bao nhi\u00eau ti\u1ec1n? Seoul\u2013Busan 6 ng\u00e0y",
       "cluster": "du-lich",
-      "cluster_label": "Du lịch",
+      "cluster_label": "Du l\u1ecbch",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7586,
@@ -5200,9 +5489,9 @@
     {
       "slug": "bat-la-gi-su-chu-y-tai-san",
       "section": "posting",
-      "title": "BAT là gì và vì sao Brave biến sự chú ý thành một loại tài sản?",
+      "title": "BAT l\u00e0 g\u00ec v\u00e0 v\u00ec sao Brave bi\u1ebfn s\u1ef1 ch\u00fa \u00fd th\u00e0nh m\u1ed9t lo\u1ea1i t\u00e0i s\u1ea3n?",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7582,
@@ -5258,9 +5547,9 @@
     {
       "slug": "chan-trang-khoi-google-search",
       "section": "posting",
-      "title": "Chặn trang khỏi Google Search khi cần (noindex, robots)",
+      "title": "Ch\u1eb7n trang kh\u1ecfi Google Search khi c\u1ea7n (noindex, robots)",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7564,
@@ -5316,9 +5605,9 @@
     {
       "slug": "cong-nghe-blog-duy-nguyen",
       "section": "posting",
-      "title": "Tự xây blog cá nhân $0/tháng với Zola + GitHub Pages",
+      "title": "T\u1ef1 x\u00e2y blog c\u00e1 nh\u00e2n $0/th\u00e1ng v\u1edbi Zola + GitHub Pages",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.756,
@@ -5372,11 +5661,69 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "github-copilot-free-opencode-han-muc",
+      "section": "posting",
+      "title": "D\u00f9ng GitHub Copilot Free v\u1edbi OpenCode: hi\u1ec3u \u0111\u00fang h\u1ea1n m\u1ee9c",
+      "cluster": "cong-nghe",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7552,
+      "score_after": 0.7552,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.8183,
+          "slug": "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github"
+        },
+        {
+          "score": 0.7904,
+          "slug": "ai-viet-code-mien-phi-github-opencode"
+        },
+        {
+          "score": 0.7678,
+          "slug": "workflow-30-phut-moi-ngay-opencode"
+        },
+        {
+          "score": 0.7319,
+          "slug": "cai-opencode-trong-github-codespaces"
+        },
+        {
+          "score": 0.6676,
+          "slug": "opencode-so-voi-cursor-claude-code-copilot"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github",
+          "score": 0.8183
+        },
+        {
+          "slug": "ai-viet-code-mien-phi-github-opencode",
+          "score": 0.7904
+        },
+        {
+          "slug": "workflow-30-phut-moi-ngay-opencode",
+          "score": 0.7678
+        },
+        {
+          "slug": "cai-opencode-trong-github-codespaces",
+          "score": 0.7319
+        },
+        {
+          "slug": "opencode-so-voi-cursor-claude-code-copilot",
+          "score": 0.6676
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick",
       "section": "posting",
-      "title": "Lịch thi đấu World Cup 2026 giờ VN: Messi hat-trick",
+      "title": "L\u1ecbch thi \u0111\u1ea5u World Cup 2026 gi\u1edd VN: Messi hat-trick",
       "cluster": "the-gioi",
-      "cluster_label": "Thế giới",
+      "cluster_label": "Th\u1ebf gi\u1edbi",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7531,
@@ -5400,9 +5747,9 @@
     {
       "slug": "so-do-thi-dau-fifa-world-cup-2026",
       "section": "posting",
-      "title": "Sơ đồ thi đấu FIFA World Cup 2026: bracket vòng 32 đội, nhánh đấu và lịch knock-out",
+      "title": "S\u01a1 \u0111\u1ed3 thi \u0111\u1ea5u FIFA World Cup 2026: bracket v\u00f2ng 32 \u0111\u1ed9i, nh\u00e1nh \u0111\u1ea5u v\u00e0 l\u1ecbch knock-out",
       "cluster": "the-gioi",
-      "cluster_label": "Thế giới",
+      "cluster_label": "Th\u1ebf gi\u1edbi",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7531,
@@ -5426,9 +5773,9 @@
     {
       "slug": "nha-may-lam-giau-uranium-hoat-dong-the-nao",
       "section": "posting",
-      "title": "Nhà máy làm giàu uranium hoạt động như thế nào?",
+      "title": "Nh\u00e0 m\u00e1y l\u00e0m gi\u00e0u uranium ho\u1ea1t \u0111\u1ed9ng nh\u01b0 th\u1ebf n\u00e0o?",
       "cluster": "khoa-hoc",
-      "cluster_label": "Khoa học",
+      "cluster_label": "Khoa h\u1ecdc",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7516,
@@ -5484,9 +5831,9 @@
     {
       "slug": "tuong-lai-ngan-hang-so-viet-nam",
       "section": "posting",
-      "title": "Tương lai ngân hàng số tại Việt Nam: xu hướng 2026+",
+      "title": "T\u01b0\u01a1ng lai ng\u00e2n h\u00e0ng s\u1ed1 t\u1ea1i Vi\u1ec7t Nam: xu h\u01b0\u1edbng 2026+",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7497,
@@ -5542,9 +5889,9 @@
     {
       "slug": "thang-6-di-han-an-gi-lam-gi",
       "section": "posting",
-      "title": "Du lịch Hàn Quốc tháng 6: ăn gì, làm gì?",
+      "title": "Du l\u1ecbch H\u00e0n Qu\u1ed1c th\u00e1ng 6: \u0103n g\u00ec, l\u00e0m g\u00ec?",
       "cluster": "du-lich",
-      "cluster_label": "Du lịch",
+      "cluster_label": "Du l\u1ecbch",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.745,
@@ -5600,9 +5947,9 @@
     {
       "slug": "faq-toan-tap-ngan-hang-so",
       "section": "posting",
-      "title": "FAQ toàn tập về ngân hàng số: giải đáp mọi thắc mắc",
+      "title": "FAQ to\u00e0n t\u1eadp v\u1ec1 ng\u00e2n h\u00e0ng s\u1ed1: gi\u1ea3i \u0111\u00e1p m\u1ecdi th\u1eafc m\u1eafc",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7442,
@@ -5658,9 +6005,9 @@
     {
       "slug": "pha-huy-co-so-hat-nhan-dieu-gi-xay-ra",
       "section": "posting",
-      "title": "Phá hủy cơ sở hạt nhân và tiêu hủy uranium: điều gì xảy ra?",
+      "title": "Ph\u00e1 h\u1ee7y c\u01a1 s\u1edf h\u1ea1t nh\u00e2n v\u00e0 ti\u00eau h\u1ee7y uranium: \u0111i\u1ec1u g\u00ec x\u1ea3y ra?",
       "cluster": "khoa-hoc",
-      "cluster_label": "Khoa học",
+      "cluster_label": "Khoa h\u1ecdc",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7428,
@@ -5716,9 +6063,9 @@
     {
       "slug": "github-actions-ci-cd-cho-nguoi-moi",
       "section": "posting",
-      "title": "GitHub Actions: CI/CD tự động hóa cho người mới",
+      "title": "GitHub Actions: CI/CD t\u1ef1 \u0111\u1ed9ng h\u00f3a cho ng\u01b0\u1eddi m\u1edbi",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7384,
@@ -5774,9 +6121,9 @@
     {
       "slug": "ngan-hang-so-cho-sinh-vien",
       "section": "posting",
-      "title": "Ngân hàng số cho sinh viên: chọn app nào tốt nhất?",
+      "title": "Ng\u00e2n h\u00e0ng s\u1ed1 cho sinh vi\u00ean: ch\u1ecdn app n\u00e0o t\u1ed1t nh\u1ea5t?",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7373,
@@ -5832,9 +6179,9 @@
     {
       "slug": "phan-trang-trang-chu-zola-archive",
       "section": "posting",
-      "title": "Phân trang trang chủ Zola: khi blog tưởng như mất bài",
+      "title": "Ph\u00e2n trang trang ch\u1ee7 Zola: khi blog t\u01b0\u1edfng nh\u01b0 m\u1ea5t b\u00e0i",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7337,
@@ -5890,9 +6237,9 @@
     {
       "slug": "ngan-hang-so-cho-kinh-doanh-online",
       "section": "posting",
-      "title": "Ngân hàng số cho người kinh doanh online tốt nhất",
+      "title": "Ng\u00e2n h\u00e0ng s\u1ed1 cho ng\u01b0\u1eddi kinh doanh online t\u1ed1t nh\u1ea5t",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7315,
@@ -5946,11 +6293,69 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "dung-opencode-an-toan-khong-lo-token",
+      "section": "posting",
+      "title": "D\u00f9ng OpenCode an to\u00e0n: kh\u00f4ng \u0111\u1ec3 AI ph\u00e1 repo ho\u1eb7c l\u1ed9 token",
+      "cluster": "cong-nghe",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7304,
+      "score_after": 0.7304,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7996,
+          "slug": "cai-opencode-trong-github-codespaces"
+        },
+        {
+          "score": 0.7456,
+          "slug": "opencode-la-gi-ai-coding-agent"
+        },
+        {
+          "score": 0.7213,
+          "slug": "lich-su-opencode-ai-coding-open-source"
+        },
+        {
+          "score": 0.7131,
+          "slug": "ai-viet-code-mien-phi-github-opencode"
+        },
+        {
+          "score": 0.6723,
+          "slug": "opencode-so-voi-cursor-claude-code-copilot"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "cai-opencode-trong-github-codespaces",
+          "score": 0.7996
+        },
+        {
+          "slug": "opencode-la-gi-ai-coding-agent",
+          "score": 0.7456
+        },
+        {
+          "slug": "lich-su-opencode-ai-coding-open-source",
+          "score": 0.7213
+        },
+        {
+          "slug": "ai-viet-code-mien-phi-github-opencode",
+          "score": 0.7131
+        },
+        {
+          "slug": "opencode-so-voi-cursor-claude-code-copilot",
+          "score": 0.6723
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "top-ngan-hang-so-tot-nhat-viet-nam-2026",
       "section": "posting",
-      "title": "Top ngân hàng số tốt nhất Việt Nam năm 2026",
+      "title": "Top ng\u00e2n h\u00e0ng s\u1ed1 t\u1ed1t nh\u1ea5t Vi\u1ec7t Nam n\u0103m 2026",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7271,
@@ -6006,9 +6411,9 @@
     {
       "slug": "github-actions-deploy-queue-production",
       "section": "posting",
-      "title": "GitHub Actions Deploy Queue: cách đọc và trigger đúng cách",
+      "title": "GitHub Actions Deploy Queue: c\u00e1ch \u0111\u1ecdc v\u00e0 trigger \u0111\u00fang c\u00e1ch",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7256,
@@ -6064,9 +6469,9 @@
     {
       "slug": "di-han-mua-nao-re-nhat",
       "section": "posting",
-      "title": "Đi Hàn mùa nào rẻ nhất? 12 tháng theo giá",
+      "title": "\u0110i H\u00e0n m\u00f9a n\u00e0o r\u1ebb nh\u1ea5t? 12 th\u00e1ng theo gi\u00e1",
       "cluster": "du-lich",
-      "cluster_label": "Du lịch",
+      "cluster_label": "Du l\u1ecbch",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7197,
@@ -6120,11 +6525,69 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "opencode-so-voi-cursor-claude-code-copilot",
+      "section": "posting",
+      "title": "OpenCode so v\u1edbi Cursor, Claude Code v\u00e0 GitHub Copilot",
+      "cluster": "cong-nghe",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.719,
+      "score_after": 0.719,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7823,
+          "slug": "cai-opencode-trong-github-codespaces"
+        },
+        {
+          "score": 0.7398,
+          "slug": "opencode-la-gi-ai-coding-agent"
+        },
+        {
+          "score": 0.7149,
+          "slug": "lich-su-opencode-ai-coding-open-source"
+        },
+        {
+          "score": 0.6858,
+          "slug": "ai-viet-code-mien-phi-github-opencode"
+        },
+        {
+          "score": 0.6723,
+          "slug": "dung-opencode-an-toan-khong-lo-token"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "cai-opencode-trong-github-codespaces",
+          "score": 0.7823
+        },
+        {
+          "slug": "opencode-la-gi-ai-coding-agent",
+          "score": 0.7398
+        },
+        {
+          "slug": "lich-su-opencode-ai-coding-open-source",
+          "score": 0.7149
+        },
+        {
+          "slug": "ai-viet-code-mien-phi-github-opencode",
+          "score": 0.6858
+        },
+        {
+          "slug": "dung-opencode-an-toan-khong-lo-token",
+          "score": 0.6723
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "ngan-hang-so-hoan-tien-nhieu-nhat",
       "section": "posting",
-      "title": "Ngân hàng số nào có nhiều ưu đãi hoàn tiền nhất?",
+      "title": "Ng\u00e2n h\u00e0ng s\u1ed1 n\u00e0o c\u00f3 nhi\u1ec1u \u01b0u \u0111\u00e3i ho\u00e0n ti\u1ec1n nh\u1ea5t?",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7103,
@@ -6180,14 +6643,14 @@
     {
       "slug": "nguon-traffic-organic-direct-referral-social-paid",
       "section": "posting",
-      "title": "Nguồn traffic GA4: Organic, Direct, Referral, Social, Paid",
+      "title": "Ngu\u1ed3n traffic GA4: Organic, Direct, Referral, Social, Paid",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7089,
-      "score_after": 0.7089,
-      "delta": 0.0,
+      "score_after": 0.7088,
+      "delta": -0.0001,
       "related_before": [
         {
           "score": 0.773,
@@ -6213,7 +6676,7 @@
       "related_after": [
         {
           "slug": "google-analytics-la-gi-lo-trinh-10-ngay",
-          "score": 0.773
+          "score": 0.7729
         },
         {
           "slug": "users-new-users-sessions-google-analytics",
@@ -6232,15 +6695,15 @@
           "score": 0.6551
         }
       ],
-      "action": "unchanged",
+      "action": "fixed",
       "cannot_green_reason": null
     },
     {
       "slug": "ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat",
       "section": "posting",
-      "title": "Ngân hàng số nào miễn phí chuyển khoản tốt nhất?",
+      "title": "Ng\u00e2n h\u00e0ng s\u1ed1 n\u00e0o mi\u1ec5n ph\u00ed chuy\u1ec3n kho\u1ea3n t\u1ed1t nh\u1ea5t?",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7087,
@@ -6298,7 +6761,7 @@
       "section": "posting",
       "title": "GitHub Actions Secrets Setup & Management Guide",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7066,
@@ -6354,9 +6817,9 @@
     {
       "slug": "git-ra-doi-tu-bitkeeper",
       "section": "posting",
-      "title": "Git ra đời từ BitKeeper: ngọn lửa sinh ra 'kẻ vô danh'",
+      "title": "Git ra \u0111\u1eddi t\u1eeb BitKeeper: ng\u1ecdn l\u1eeda sinh ra 'k\u1ebb v\u00f4 danh'",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7056,
@@ -6412,9 +6875,9 @@
     {
       "slug": "mua-nao-di-han-la-dep-nhat",
       "section": "posting",
-      "title": "Đi Hàn mùa nào đẹp nhất? So sánh 4 mùa (2026)",
+      "title": "\u0110i H\u00e0n m\u00f9a n\u00e0o \u0111\u1eb9p nh\u1ea5t? So s\u00e1nh 4 m\u00f9a (2026)",
       "cluster": "du-lich",
-      "cluster_label": "Du lịch",
+      "cluster_label": "Du l\u1ecbch",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7042,
@@ -6470,9 +6933,9 @@
     {
       "slug": "quy-tac-phat-am-tieng-han",
       "section": "posting",
-      "title": "Học tiếng Hàn ngày 6: Quy tắc phát âm nối âm & đồng hóa",
+      "title": "H\u1ecdc ti\u1ebfng H\u00e0n ng\u00e0y 6: Quy t\u1eafc ph\u00e1t \u00e2m n\u1ed1i \u00e2m & \u0111\u1ed3ng h\u00f3a",
       "cluster": "am-thuc",
-      "cluster_label": "Ẩm thực",
+      "cluster_label": "\u1ea8m th\u1ef1c",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.702,
@@ -6528,9 +6991,9 @@
     {
       "slug": "doc-bao-cao-google-analytics-15-phut-moi-ngay",
       "section": "posting",
-      "title": "Đọc báo cáo Google Analytics 15 phút mỗi ngày",
+      "title": "\u0110\u1ecdc b\u00e1o c\u00e1o Google Analytics 15 ph\u00fat m\u1ed7i ng\u00e0y",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7011,
@@ -6586,9 +7049,9 @@
     {
       "slug": "gh-run-list-monitor-deploy",
       "section": "posting",
-      "title": "Một câu lệnh nhỏ giúp theo dõi deploy GitHub Pages rõ ràng hơn",
+      "title": "M\u1ed9t c\u00e2u l\u1ec7nh nh\u1ecf gi\u00fap theo d\u00f5i deploy GitHub Pages r\u00f5 r\u00e0ng h\u01a1n",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6989,
@@ -6639,14 +7102,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.70 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.70 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "kiem-tra-trang-thai-pr-sau-khi-merge",
       "section": "posting",
-      "title": "Kiểm tra tình trạng PR sau merge: merged ≠ live",
+      "title": "Ki\u1ec3m tra t\u00ecnh tr\u1ea1ng PR sau merge: merged \u2260 live",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6979,
@@ -6697,14 +7160,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.70 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.70 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "rui-ro-khi-su-dung-ngan-hang-so",
       "section": "posting",
-      "title": "Các rủi ro khi sử dụng ngân hàng số và cách phòng tránh",
+      "title": "C\u00e1c r\u1ee7i ro khi s\u1eed d\u1ee5ng ng\u00e2n h\u00e0ng s\u1ed1 v\u00e0 c\u00e1ch ph\u00f2ng tr\u00e1nh",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6942,
@@ -6755,14 +7218,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.69 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.69 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "users-new-users-sessions-google-analytics",
       "section": "posting",
-      "title": "Users, New Users và Sessions trong Google Analytics",
+      "title": "Users, New Users v\u00e0 Sessions trong Google Analytics",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6886,
@@ -6813,14 +7276,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.69 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.69 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola",
       "section": "posting",
-      "title": "Kinh nghiệm xây CMS-V2 cho blog Zola: một đêm từ PR sạch đến deploy sống",
+      "title": "Kinh nghi\u1ec7m x\u00e2y CMS-V2 cho blog Zola: m\u1ed9t \u0111\u00eam t\u1eeb PR s\u1ea1ch \u0111\u1ebfn deploy s\u1ed1ng",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6844,
@@ -6871,14 +7334,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.68 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.68 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
       "section": "posting",
-      "title": "Busan tự túc 3 ngày 2 đêm: điểm đến & chi phí 2026",
+      "title": "Busan t\u1ef1 t\u00fac 3 ng\u00e0y 2 \u0111\u00eam: \u0111i\u1ec3m \u0111\u1ebfn & chi ph\u00ed 2026",
       "cluster": "du-lich",
-      "cluster_label": "Du lịch",
+      "cluster_label": "Du l\u1ecbch",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6814,
@@ -6929,14 +7392,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.68 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.68 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "git-stale-branch-root-cause-analysis-va-giai-phap",
       "section": "posting",
-      "title": "Git Stale Branch & Merge-Base CI Fail: Phòng Ngừa",
+      "title": "Git Stale Branch & Merge-Base CI Fail: Ph\u00f2ng Ng\u1eeba",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6702,
@@ -6987,14 +7450,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.67 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.67 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "review-liobank-by-ocb",
       "section": "posting",
-      "title": "Review Liobank by OCB chi tiết: ưu nhược điểm, phí, hoàn tiền",
+      "title": "Review Liobank by OCB chi ti\u1ebft: \u01b0u nh\u01b0\u1ee3c \u0111i\u1ec3m, ph\u00ed, ho\u00e0n ti\u1ec1n",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6649,
@@ -7045,14 +7508,72 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.66 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.66 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
+    },
+    {
+      "slug": "opencode-mien-phi-kiem-tien-nhu-the-nao",
+      "section": "posting",
+      "title": "V\u00ec sao OpenCode mi\u1ec5n ph\u00ed nh\u01b0ng v\u1eabn c\u00f3 th\u1ec3 ki\u1ebfm ti\u1ec1n?",
+      "cluster": "cong-nghe",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6624,
+      "score_after": 0.6624,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.746,
+          "slug": "lich-su-opencode-ai-coding-open-source"
+        },
+        {
+          "score": 0.7316,
+          "slug": "opencode-la-gi-ai-coding-agent"
+        },
+        {
+          "score": 0.6139,
+          "slug": "cai-opencode-trong-github-codespaces"
+        },
+        {
+          "score": 0.6114,
+          "slug": "dung-opencode-an-toan-khong-lo-token"
+        },
+        {
+          "score": 0.6092,
+          "slug": "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "lich-su-opencode-ai-coding-open-source",
+          "score": 0.746
+        },
+        {
+          "slug": "opencode-la-gi-ai-coding-agent",
+          "score": 0.7316
+        },
+        {
+          "slug": "cai-opencode-trong-github-codespaces",
+          "score": 0.6139
+        },
+        {
+          "slug": "dung-opencode-an-toan-khong-lo-token",
+          "score": 0.6114
+        },
+        {
+          "slug": "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github",
+          "score": 0.6092
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.66 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "so-sanh-cake-vs-liobank",
       "section": "posting",
-      "title": "So sánh Cake vs Liobank: nên chọn ngân hàng số nào?",
+      "title": "So s\u00e1nh Cake vs Liobank: n\u00ean ch\u1ecdn ng\u00e2n h\u00e0ng s\u1ed1 n\u00e0o?",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6592,
@@ -7103,14 +7624,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.66 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.66 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "phu-am-cang-bat-hoi-tieng-han",
       "section": "posting",
-      "title": "Học tiếng Hàn ngày 3: Phụ âm căng & phụ âm bật hơi",
+      "title": "H\u1ecdc ti\u1ebfng H\u00e0n ng\u00e0y 3: Ph\u1ee5 \u00e2m c\u0103ng & ph\u1ee5 \u00e2m b\u1eadt h\u01a1i",
       "cluster": "am-thuc",
-      "cluster_label": "Ẩm thực",
+      "cluster_label": "\u1ea8m th\u1ef1c",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.654,
@@ -7161,14 +7682,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.65 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "cach-mo-tai-khoan-ngan-hang-so-online",
       "section": "posting",
-      "title": "Cách mở tài khoản ngân hàng số online từ A đến Z",
+      "title": "C\u00e1ch m\u1edf t\u00e0i kho\u1ea3n ng\u00e2n h\u00e0ng s\u1ed1 online t\u1eeb A \u0111\u1ebfn Z",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6508,
@@ -7219,14 +7740,72 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.65 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
+    },
+    {
+      "slug": "workflow-30-phut-moi-ngay-opencode",
+      "section": "posting",
+      "title": "Workflow 30 ph\u00fat m\u1ed7i ng\u00e0y: s\u1eeda bug v\u00e0 t\u1ea1o PR v\u1edbi OpenCode",
+      "cluster": "cong-nghe",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6493,
+      "score_after": 0.6493,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7942,
+          "slug": "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github"
+        },
+        {
+          "score": 0.7678,
+          "slug": "github-copilot-free-opencode-han-muc"
+        },
+        {
+          "score": 0.5777,
+          "slug": "cai-opencode-trong-github-codespaces"
+        },
+        {
+          "score": 0.5542,
+          "slug": "github-actions-deploy-queue-production"
+        },
+        {
+          "score": 0.5526,
+          "slug": "gh-run-list-monitor-deploy"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github",
+          "score": 0.7942
+        },
+        {
+          "slug": "github-copilot-free-opencode-han-muc",
+          "score": 0.7678
+        },
+        {
+          "slug": "cai-opencode-trong-github-codespaces",
+          "score": 0.5777
+        },
+        {
+          "slug": "github-actions-deploy-queue-production",
+          "score": 0.5542
+        },
+        {
+          "slug": "gh-run-list-monitor-deploy",
+          "score": 0.5526
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.65 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "github-actions-ci-cd-build-failure-vipzone-token",
       "section": "posting",
       "title": "Troubleshooting GitHub Actions Workflow Build Failure",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6477,
@@ -7277,14 +7856,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.65 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "huong-dan-bat-tiet-kiem-tu-dong-tren-liobank",
       "section": "posting",
-      "title": "Hướng dẫn bật Tiết kiệm tự động trên Liobank từng bước",
+      "title": "H\u01b0\u1edbng d\u1eabn b\u1eadt Ti\u1ebft ki\u1ec7m t\u1ef1 \u0111\u1ed9ng tr\u00ean Liobank t\u1eebng b\u01b0\u1edbc",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6456,
@@ -7335,14 +7914,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.65 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "zola-faq-schema-template-variable-error",
       "section": "posting",
-      "title": "Fix 'Variable not found' lỗi FAQ schema trong Zola",
+      "title": "Fix 'Variable not found' l\u1ed7i FAQ schema trong Zola",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.635,
@@ -7393,14 +7972,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.64 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.64 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "qa-gatekeeper-tu-fix-loi-blog",
       "section": "posting",
-      "title": "QA Gatekeeper: blog tự fix lỗi 24/7 GitHub Actions",
+      "title": "QA Gatekeeper: blog t\u1ef1 fix l\u1ed7i 24/7 GitHub Actions",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6305,
@@ -7451,14 +8030,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.63 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "kha-nang-kinh-nghiem-tieng-han",
       "section": "posting",
-      "title": "Ngày 23 — Khả năng & kinh nghiệm tiếng Hàn: 수 있다, 적이 있다",
+      "title": "Ng\u00e0y 23 \u2014 Kh\u1ea3 n\u0103ng & kinh nghi\u1ec7m ti\u1ebfng H\u00e0n: \uc218 \uc788\ub2e4, \uc801\uc774 \uc788\ub2e4",
       "cluster": "am-thuc",
-      "cluster_label": "Ẩm thực",
+      "cluster_label": "\u1ea8m th\u1ef1c",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6271,
@@ -7509,14 +8088,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.63 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "xu-ly-pr-revert-sai-base",
       "section": "posting",
-      "title": "Xử lý PR revert sai base: case study 3135 commits và 1112 files",
+      "title": "X\u1eed l\u00fd PR revert sai base: case study 3135 commits v\u00e0 1112 files",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6266,
@@ -7567,14 +8146,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.63 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola",
       "section": "posting",
-      "title": "Fix QA Gatekeeper GitHub Actions: bài học từ nút Countdown bị mất",
+      "title": "Fix QA Gatekeeper GitHub Actions: b\u00e0i h\u1ecdc t\u1eeb n\u00fat Countdown b\u1ecb m\u1ea5t",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6265,
@@ -7625,14 +8204,72 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.63 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
+    },
+    {
+      "slug": "codeql-api-rate-limit-giai-phap",
+      "section": "posting",
+      "title": "CodeQL API Rate Limit: Gi\u1ea3i Ph\u00e1p Chi Ti\u1ebft Cho GitHub Actions",
+      "cluster": "cong-nghe",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6256,
+      "score_after": 0.6256,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7579,
+          "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
+        },
+        {
+          "score": 0.6491,
+          "slug": "github-copilot-free-opencode-han-muc"
+        },
+        {
+          "score": 0.5958,
+          "slug": "cai-opencode-trong-github-codespaces"
+        },
+        {
+          "score": 0.5631,
+          "slug": "opencode-so-voi-cursor-claude-code-copilot"
+        },
+        {
+          "score": 0.5622,
+          "slug": "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien",
+          "score": 0.7579
+        },
+        {
+          "slug": "github-copilot-free-opencode-han-muc",
+          "score": 0.6491
+        },
+        {
+          "slug": "cai-opencode-trong-github-codespaces",
+          "score": 0.5958
+        },
+        {
+          "slug": "opencode-so-voi-cursor-claude-code-copilot",
+          "score": 0.5631
+        },
+        {
+          "slug": "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github",
+          "score": 0.5622
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.63 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push",
       "section": "posting",
-      "title": "Kinh nghiệm refactor homepage Zola: khi code đúng nhưng chưa nên push",
+      "title": "Kinh nghi\u1ec7m refactor homepage Zola: khi code \u0111\u00fang nh\u01b0ng ch\u01b0a n\u00ean push",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6247,
@@ -7683,14 +8320,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.62 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.62 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "brave-origin-trinh-duyet-rieng-tu-toi-gian",
       "section": "posting",
-      "title": "Brave Origin — khi người dùng trả tiền để giữ một trình duyệt riêng tư, tối giản và không bị làm phiền",
+      "title": "Brave Origin \u2014 khi ng\u01b0\u1eddi d\u00f9ng tr\u1ea3 ti\u1ec1n \u0111\u1ec3 gi\u1eef m\u1ed9t tr\u00ecnh duy\u1ec7t ri\u00eang t\u01b0, t\u1ed1i gi\u1ea3n v\u00e0 kh\u00f4ng b\u1ecb l\u00e0m phi\u1ec1n",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6152,
@@ -7741,14 +8378,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.62 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.62 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "zola-responsive-layout-context-detection",
       "section": "posting",
       "title": "Zola responsive layout context detection Tera template",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6136,
@@ -7799,14 +8436,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.61 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "timo-la-gi-co-nen-dung",
       "section": "posting",
-      "title": "Timo là gì? Có nên dùng ngân hàng số Timo không?",
+      "title": "Timo l\u00e0 g\u00ec? C\u00f3 n\u00ean d\u00f9ng ng\u00e2n h\u00e0ng s\u1ed1 Timo kh\u00f4ng?",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6111,
@@ -7857,14 +8494,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.61 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "engagement-rate-bounce-rate-google-analytics",
       "section": "posting",
-      "title": "Engagement Rate và Bounce Rate trong Google Analytics",
+      "title": "Engagement Rate v\u00e0 Bounce Rate trong Google Analytics",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6088,
@@ -7915,14 +8552,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.61 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "zola-vs-hugo",
       "section": "posting",
-      "title": "Zola vs Hugo: chọn SSG nào cho blog cá nhân?",
+      "title": "Zola vs Hugo: ch\u1ecdn SSG n\u00e0o cho blog c\u00e1 nh\u00e2n?",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6086,
@@ -7973,14 +8610,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.61 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd",
       "section": "posting",
-      "title": "Giải Quyết Merge Conflict Tự Động: Case Study CI/CD Thực Tế",
+      "title": "Gi\u1ea3i Quy\u1ebft Merge Conflict T\u1ef1 \u0110\u1ed9ng: Case Study CI/CD Th\u1ef1c T\u1ebf",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6057,
@@ -8031,14 +8668,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.61 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "so-sanh-timo-vs-tnex",
       "section": "posting",
-      "title": "So sánh Timo vs TNEX: chọn ngân hàng số nào?",
+      "title": "So s\u00e1nh Timo vs TNEX: ch\u1ecdn ng\u00e2n h\u00e0ng s\u1ed1 n\u00e0o?",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6044,
@@ -8089,14 +8726,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.60 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "google-preferred-sources-6-tuong-lai-seo",
       "section": "posting",
-      "title": "Tương lai Preferred Sources & SEO Evolution",
+      "title": "T\u01b0\u01a1ng lai Preferred Sources & SEO Evolution",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6017,
@@ -8147,14 +8784,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.60 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "review-tnex-chi-tiet",
       "section": "posting",
-      "title": "Review TNEX chi tiết: ngân hàng số miễn phí của MSB",
+      "title": "Review TNEX chi ti\u1ebft: ng\u00e2n h\u00e0ng s\u1ed1 mi\u1ec5n ph\u00ed c\u1ee7a MSB",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.5988,
@@ -8205,14 +8842,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.60 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "an-khuya-sai-gon",
       "section": "posting",
-      "title": "Ăn khuya Sài Gòn: 10 món mở sau 11h",
+      "title": "\u0102n khuya S\u00e0i G\u00f2n: 10 m\u00f3n m\u1edf sau 11h",
       "cluster": "am-thuc",
-      "cluster_label": "Ẩm thực",
+      "cluster_label": "\u1ea8m th\u1ef1c",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.5963,
@@ -8263,14 +8900,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.60 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "debug-zola-series-navigation-links",
       "section": "posting",
-      "title": "Debug Lỗi Zola Series Navigation: Từ 11 Broken Links Đến Fix",
+      "title": "Debug L\u1ed7i Zola Series Navigation: T\u1eeb 11 Broken Links \u0110\u1ebfn Fix",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.5933,
@@ -8321,14 +8958,72 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.59 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.59 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
+    },
+    {
+      "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien",
+      "section": "posting",
+      "title": "CodeQL: C\u00f4ng c\u1ee5 ph\u00e2n t\u00edch code t\u1ef1 \u0111\u1ed9ng t\u00ecm l\u1ed7 h\u1ed5ng b\u1ea3o m\u1eadt",
+      "cluster": "cong-nghe",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.5926,
+      "score_after": 0.5926,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7579,
+          "slug": "codeql-api-rate-limit-giai-phap"
+        },
+        {
+          "score": 0.5729,
+          "slug": "cai-opencode-trong-github-codespaces"
+        },
+        {
+          "score": 0.5547,
+          "slug": "opencode-so-voi-cursor-claude-code-copilot"
+        },
+        {
+          "score": 0.5394,
+          "slug": "dung-opencode-an-toan-khong-lo-token"
+        },
+        {
+          "score": 0.5382,
+          "slug": "lich-su-opencode-ai-coding-open-source"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "codeql-api-rate-limit-giai-phap",
+          "score": 0.7579
+        },
+        {
+          "slug": "cai-opencode-trong-github-codespaces",
+          "score": 0.5729
+        },
+        {
+          "slug": "opencode-so-voi-cursor-claude-code-copilot",
+          "score": 0.5547
+        },
+        {
+          "slug": "dung-opencode-an-toan-khong-lo-token",
+          "score": 0.5394
+        },
+        {
+          "slug": "lich-su-opencode-ai-coding-open-source",
+          "score": 0.5382
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.59 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "ngan-hang-so-cho-freelancer",
       "section": "posting",
-      "title": "Ngân hàng số cho freelancer: quản lý thu nhập tự do",
+      "title": "Ng\u00e2n h\u00e0ng s\u1ed1 cho freelancer: qu\u1ea3n l\u00fd thu nh\u1eadp t\u1ef1 do",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.5902,
@@ -8379,14 +9074,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.59 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.59 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "google-preferred-sources-1-tu-thuat-toi-giao-dien-tim-kiem",
       "section": "posting",
-      "title": "Google Preferred Sources: Từ thuật toán sang tùy chọn của người dùng",
+      "title": "Google Preferred Sources: T\u1eeb thu\u1eadt to\u00e1n sang t\u00f9y ch\u1ecdn c\u1ee7a ng\u01b0\u1eddi d\u00f9ng",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.589,
@@ -8437,14 +9132,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.59 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.59 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "fix-internal-links-checker-ci-failure",
       "section": "posting",
-      "title": "Sửa Lỗi Internal Links Checker CI Fail — Pattern vs File",
+      "title": "S\u1eeda L\u1ed7i Internal Links Checker CI Fail \u2014 Pattern vs File",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.5746,
@@ -8495,14 +9190,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.57 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.57 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "lam-theme-log-sua-menu-cong-cu",
       "section": "posting",
-      "title": "Theme log rollback: an toàn cho blog tĩnh",
+      "title": "Theme log rollback: an to\u00e0n cho blog t\u0129nh",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.5741,
@@ -8553,14 +9248,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.57 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.57 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "loi-yaml-github-actions-workflow-invalid-case-study",
       "section": "posting",
-      "title": "2 lỗi YAML ẩn khiến GitHub Actions workflow invalid",
+      "title": "2 l\u1ed7i YAML \u1ea9n khi\u1ebfn GitHub Actions workflow invalid",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.5741,
@@ -8611,14 +9306,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.57 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.57 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong",
       "section": "posting",
-      "title": "Preferred Sources: Điều kiện sử dụng & Cách hoạt động",
+      "title": "Preferred Sources: \u0110i\u1ec1u ki\u1ec7n s\u1eed d\u1ee5ng & C\u00e1ch ho\u1ea1t \u0111\u1ed9ng",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.5694,
@@ -8669,14 +9364,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.57 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.57 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "troi-mua-sai-gon-an-gi",
       "section": "posting",
-      "title": "Trời mưa Sài Gòn ăn gì? 8 món ấm bụng",
+      "title": "Tr\u1eddi m\u01b0a S\u00e0i G\u00f2n \u0103n g\u00ec? 8 m\u00f3n \u1ea5m b\u1ee5ng",
       "cluster": "am-thuc",
-      "cluster_label": "Ẩm thực",
+      "cluster_label": "\u1ea8m th\u1ef1c",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.563,
@@ -8727,14 +9422,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.56 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.56 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "tera-template-syntax-error-conditional",
       "section": "posting",
-      "title": "Lỗi Tera Template Syntax Error: Cách khắc phục",
+      "title": "L\u1ed7i Tera Template Syntax Error: C\u00e1ch kh\u1eafc ph\u1ee5c",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.5596,
@@ -8785,72 +9480,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.56 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "codeql-api-rate-limit-giai-phap",
-      "section": "posting",
-      "title": "CodeQL API Rate Limit: Giải Pháp Chi Tiết Cho GitHub Actions",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.5587,
-      "score_after": 0.5587,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.7579,
-          "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
-        },
-        {
-          "score": 0.5489,
-          "slug": "github-actions-secrets-setup-guide"
-        },
-        {
-          "score": 0.5184,
-          "slug": "bao-mat-best-practices-git-github"
-        },
-        {
-          "score": 0.486,
-          "slug": "kiem-tra-trang-thai-pr-sau-khi-merge"
-        },
-        {
-          "score": 0.4825,
-          "slug": "git-workflow-chuyen-nghiep-gitflow-github-flow"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien",
-          "score": 0.7579
-        },
-        {
-          "slug": "github-actions-secrets-setup-guide",
-          "score": 0.5489
-        },
-        {
-          "slug": "bao-mat-best-practices-git-github",
-          "score": 0.5184
-        },
-        {
-          "slug": "kiem-tra-trang-thai-pr-sau-khi-merge",
-          "score": 0.486
-        },
-        {
-          "slug": "git-workflow-chuyen-nghiep-gitflow-github-flow",
-          "score": 0.4825
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.56 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.56 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "loi-nhieu-the-h1-sua-seo-toan-site",
       "section": "posting",
-      "title": "Lỗi nhiều thẻ H1: chẩn đoán và sửa SEO toàn site",
+      "title": "L\u1ed7i nhi\u1ec1u th\u1ebb H1: ch\u1ea9n \u0111o\u00e1n v\u00e0 s\u1eeda SEO to\u00e0n site",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.5486,
@@ -8901,14 +9538,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.55 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.55 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "google-preferred-sources-5-analytics-va-toi-uu-hoa",
       "section": "posting",
-      "title": "Analytics & Tối ưu hóa Preferred Sources",
+      "title": "Analytics & T\u1ed1i \u01b0u h\u00f3a Preferred Sources",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.5367,
@@ -8959,14 +9596,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.54 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.54 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "review-cake-by-vpbank",
       "section": "posting",
-      "title": "Review Cake by VPBank chi tiết: ưu nhược điểm, phí, tính năng",
+      "title": "Review Cake by VPBank chi ti\u1ebft: \u01b0u nh\u01b0\u1ee3c \u0111i\u1ec3m, ph\u00ed, t\u00ednh n\u0103ng",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.5175,
@@ -9017,14 +9654,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.52 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.52 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "tet-doan-ngo-han-viet-trung",
       "section": "posting",
-      "title": "Tết Đoan Ngọ ở Hàn, Việt, Trung khác gì nhau?",
+      "title": "T\u1ebft \u0110oan Ng\u1ecd \u1edf H\u00e0n, Vi\u1ec7t, Trung kh\u00e1c g\u00ec nhau?",
       "cluster": "du-lich",
-      "cluster_label": "Du lịch",
+      "cluster_label": "Du l\u1ecbch",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.5021,
@@ -9075,14 +9712,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.50 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.50 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam",
       "section": "posting",
-      "title": "LPBank Plus ra mắt: Chạm Lộc Phát, Trọn An tâm",
+      "title": "LPBank Plus ra m\u1eaft: Ch\u1ea1m L\u1ed9c Ph\u00e1t, Tr\u1ecdn An t\u00e2m",
       "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "cluster_label": "T\u00e0i ch\u00ednh & Ng\u00e2n h\u00e0ng",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.4925,
@@ -9133,14 +9770,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.53) — nội dung quá khác biệt trong cluster."
+      "cannot_green_reason": "Top semantic score th\u1ea5p (0.53) \u2014 n\u1ed9i dung qu\u00e1 kh\u00e1c bi\u1ec7t trong cluster."
     },
     {
       "slug": "google-preferred-sources-3-huong-dan-thiet-lap-ky-thuat",
       "section": "posting",
-      "title": "Setup Guide: Hướng dẫn kỹ thuật Preferred Sources",
+      "title": "Setup Guide: H\u01b0\u1edbng d\u1eabn k\u1ef9 thu\u1eadt Preferred Sources",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.4911,
@@ -9191,188 +9828,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.54) — nội dung quá khác biệt trong cluster."
-    },
-    {
-      "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien",
-      "section": "posting",
-      "title": "CodeQL: Công cụ phân tích code tự động tìm lỗ hổng bảo mật",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.4848,
-      "score_after": 0.4848,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.7579,
-          "slug": "codeql-api-rate-limit-giai-phap"
-        },
-        {
-          "score": 0.4309,
-          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola"
-        },
-        {
-          "score": 0.4198,
-          "slug": "github-actions-secrets-setup-guide"
-        },
-        {
-          "score": 0.418,
-          "slug": "sentence-transformers-sbert-deep-dive"
-        },
-        {
-          "score": 0.3976,
-          "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "codeql-api-rate-limit-giai-phap",
-          "score": 0.7579
-        },
-        {
-          "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola",
-          "score": 0.4309
-        },
-        {
-          "slug": "github-actions-secrets-setup-guide",
-          "score": 0.4198
-        },
-        {
-          "slug": "sentence-transformers-sbert-deep-dive",
-          "score": 0.418
-        },
-        {
-          "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd",
-          "score": 0.3976
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.48 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "mcc-future-dynamic-ai-codes",
-      "section": "posting",
-      "title": "The Future of MCCs: Dynamic Codes and AI-Powered Categorization",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.4836,
-      "score_after": 0.4836,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.6827,
-          "slug": "mcc-merchant-choosing-code"
-        },
-        {
-          "score": 0.5952,
-          "slug": "mcc-corporate-compliance-expenses"
-        },
-        {
-          "score": 0.4091,
-          "slug": "codeql-api-rate-limit-giai-phap"
-        },
-        {
-          "score": 0.3672,
-          "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
-        },
-        {
-          "score": 0.364,
-          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "mcc-merchant-choosing-code",
-          "score": 0.6827
-        },
-        {
-          "slug": "mcc-corporate-compliance-expenses",
-          "score": 0.5952
-        },
-        {
-          "slug": "codeql-api-rate-limit-giai-phap",
-          "score": 0.4091
-        },
-        {
-          "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien",
-          "score": 0.3672
-        },
-        {
-          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
-          "score": 0.364
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.48 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "mcc-rewards-cashback-international",
-      "section": "posting",
-      "title": "Credit Card Rewards and MCC: Maximize Your International Cashback",
-      "cluster": "misc",
-      "cluster_label": "Khác",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.4651,
-      "score_after": 0.4651,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.7028,
-          "slug": "mcc-fraud-blocks-international"
-        },
-        {
-          "score": 0.6258,
-          "slug": "mcc-cross-border-fees-interchange"
-        },
-        {
-          "score": 0.552,
-          "slug": "mcc-dispute-process-template"
-        },
-        {
-          "score": 0.2284,
-          "slug": "tong-on-chien-luoc-thi-topik-tieng-han"
-        },
-        {
-          "score": 0.2167,
-          "slug": "ngu-phap-nang-cao-topik-tieng-han"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "mcc-fraud-blocks-international",
-          "score": 0.7028
-        },
-        {
-          "slug": "mcc-cross-border-fees-interchange",
-          "score": 0.6258
-        },
-        {
-          "slug": "mcc-dispute-process-template",
-          "score": 0.552
-        },
-        {
-          "slug": "tong-on-chien-luoc-thi-topik-tieng-han",
-          "score": 0.2284
-        },
-        {
-          "slug": "ngu-phap-nang-cao-topik-tieng-han",
-          "score": 0.2167
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.47 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Top semantic score th\u1ea5p (0.54) \u2014 n\u1ed9i dung qu\u00e1 kh\u00e1c bi\u1ec7t trong cluster."
     },
     {
       "slug": "premium-fintech-paywall-demo",
       "section": "posting",
-      "title": "Fintech 2026: Paywall premium trên blog cá nhân",
+      "title": "Fintech 2026: Paywall premium tr\u00ean blog c\u00e1 nh\u00e2n",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.4565,
@@ -9423,72 +9886,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.46 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "mcc-travelers-cheat-sheet",
-      "section": "posting",
-      "title": "MCC Cheat Sheet: 50+ Codes Every Traveler Should Know",
-      "cluster": "du-lich",
-      "cluster_label": "Du lịch",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.4499,
-      "score_after": 0.4499,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.8276,
-          "slug": "mcc-decoded-international-spending"
-        },
-        {
-          "score": 0.6082,
-          "slug": "mcc-masterclass-personal-strategy"
-        },
-        {
-          "score": 0.3384,
-          "slug": "di-han-mua-nao-re-nhat"
-        },
-        {
-          "score": 0.2718,
-          "slug": "di-han-het-bao-nhieu-tien"
-        },
-        {
-          "score": 0.2033,
-          "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "mcc-decoded-international-spending",
-          "score": 0.8276
-        },
-        {
-          "slug": "mcc-masterclass-personal-strategy",
-          "score": 0.6082
-        },
-        {
-          "slug": "di-han-mua-nao-re-nhat",
-          "score": 0.3384
-        },
-        {
-          "slug": "di-han-het-bao-nhieu-tien",
-          "score": 0.2718
-        },
-        {
-          "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
-          "score": 0.2033
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.45 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.46 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
       "slug": "toi-nay-sai-gon-an-gi",
       "section": "posting",
-      "title": "Tối nay Sài Gòn ăn gì? 12 quán ăn tối & khuya",
+      "title": "T\u1ed1i nay S\u00e0i G\u00f2n \u0103n g\u00ec? 12 qu\u00e1n \u0103n t\u1ed1i & khuya",
       "cluster": "du-lich",
-      "cluster_label": "Du lịch",
+      "cluster_label": "Du l\u1ecbch",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.4499,
@@ -9539,304 +9944,72 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.45 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung b\u00ecnh top-5 = 0.45 < 0.70 \u2014 c\u1ea7n th\u00eam b\u00e0i c\u00f9ng intent ho\u1eb7c l\u00e0m s\u00e2u n\u1ed9i dung cluster."
     },
     {
-      "slug": "mcc-fraud-blocks-international",
+      "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
       "section": "posting",
-      "title": "MCC Fraud Flags: Why Your Card Gets Blocked Abroad",
-      "cluster": "misc",
-      "cluster_label": "Khác",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.4493,
-      "score_after": 0.4493,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.7028,
-          "slug": "mcc-rewards-cashback-international"
-        },
-        {
-          "score": 0.6671,
-          "slug": "mcc-dispute-process-template"
-        },
-        {
-          "score": 0.5807,
-          "slug": "mcc-cross-border-fees-interchange"
-        },
-        {
-          "score": 0.1483,
-          "slug": "google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong"
-        },
-        {
-          "score": 0.1474,
-          "slug": "ngu-phap-nang-cao-topik-tieng-han"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "mcc-rewards-cashback-international",
-          "score": 0.7028
-        },
-        {
-          "slug": "mcc-dispute-process-template",
-          "score": 0.6671
-        },
-        {
-          "slug": "mcc-cross-border-fees-interchange",
-          "score": 0.5807
-        },
-        {
-          "slug": "google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong",
-          "score": 0.1483
-        },
-        {
-          "slug": "ngu-phap-nang-cao-topik-tieng-han",
-          "score": 0.1474
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.45 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "mcc-dispute-process-template",
-      "section": "posting",
-      "title": "Disputing a Wrong MCC: Your Rights as an International Cardholder",
-      "cluster": "misc",
-      "cluster_label": "Khác",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.4356,
-      "score_after": 0.4356,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.6671,
-          "slug": "mcc-fraud-blocks-international"
-        },
-        {
-          "score": 0.552,
-          "slug": "mcc-rewards-cashback-international"
-        },
-        {
-          "score": 0.4914,
-          "slug": "mcc-cross-border-fees-interchange"
-        },
-        {
-          "score": 0.2375,
-          "slug": "cau-dieu-kien-gia-dinh-tieng-han"
-        },
-        {
-          "score": 0.2302,
-          "slug": "ngu-phap-nang-cao-topik-tieng-han"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "mcc-fraud-blocks-international",
-          "score": 0.6671
-        },
-        {
-          "slug": "mcc-rewards-cashback-international",
-          "score": 0.552
-        },
-        {
-          "slug": "mcc-cross-border-fees-interchange",
-          "score": 0.4914
-        },
-        {
-          "slug": "cau-dieu-kien-gia-dinh-tieng-han",
-          "score": 0.2375
-        },
-        {
-          "slug": "ngu-phap-nang-cao-topik-tieng-han",
-          "score": 0.2302
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.44 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "mcc-corporate-compliance-expenses",
-      "section": "posting",
-      "title": "MCC for Finance Teams: Corporate Expense Automation and Tax Rules",
+      "title": "Gi\u1edbi h\u1ea1n s\u1eed d\u1ee5ng v\u00e0 \u0111\u1ed9 d\u00e0i tr\u00ean Claude AI",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.4326,
-      "score_after": 0.4326,
+      "score_before": 0.4226,
+      "score_after": 0.4226,
       "delta": 0.0,
       "related_before": [
         {
-          "score": 0.6266,
-          "slug": "mcc-merchant-choosing-code"
+          "score": 0.4913,
+          "slug": "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github"
         },
         {
-          "score": 0.5952,
-          "slug": "mcc-future-dynamic-ai-codes"
+          "score": 0.4392,
+          "slug": "opencode-so-voi-cursor-claude-code-copilot"
         },
         {
-          "score": 0.3229,
-          "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd"
-        },
-        {
-          "score": 0.3147,
-          "slug": "top-10-cong-cu-terminal-cho-mac-2026"
-        },
-        {
-          "score": 0.3036,
-          "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "mcc-merchant-choosing-code",
-          "score": 0.6266
-        },
-        {
-          "slug": "mcc-future-dynamic-ai-codes",
-          "score": 0.5952
-        },
-        {
-          "slug": "giai-quyet-merge-conflict-tu-dong-ci-cd",
-          "score": 0.3229
-        },
-        {
-          "slug": "top-10-cong-cu-terminal-cho-mac-2026",
-          "score": 0.3147
-        },
-        {
-          "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien",
-          "score": 0.3036
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.43 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "mcc-merchant-choosing-code",
-      "section": "posting",
-      "title": "MCC for Merchants: Choosing the Right Code for International Sales",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.4196,
-      "score_after": 0.4196,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.6827,
-          "slug": "mcc-future-dynamic-ai-codes"
-        },
-        {
-          "score": 0.6266,
-          "slug": "mcc-corporate-compliance-expenses"
-        },
-        {
-          "score": 0.2757,
-          "slug": "premium-fintech-paywall-demo"
-        },
-        {
-          "score": 0.265,
+          "score": 0.4132,
           "slug": "codeql-api-rate-limit-giai-phap"
         },
         {
-          "score": 0.2479,
-          "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
+          "score": 0.3907,
+          "slug": "opencode-mien-phi-kiem-tien-nhu-the-nao"
+        },
+        {
+          "score": 0.3787,
+          "slug": "opencode-la-gi-ai-coding-agent"
         }
       ],
       "related_after": [
         {
-          "slug": "mcc-future-dynamic-ai-codes",
-          "score": 0.6827
+          "slug": "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github",
+          "score": 0.4913
         },
         {
-          "slug": "mcc-corporate-compliance-expenses",
-          "score": 0.6266
-        },
-        {
-          "slug": "premium-fintech-paywall-demo",
-          "score": 0.2757
+          "slug": "opencode-so-voi-cursor-claude-code-copilot",
+          "score": 0.4392
         },
         {
           "slug": "codeql-api-rate-limit-giai-phap",
-          "score": 0.265
+          "score": 0.4132
         },
         {
-          "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien",
-          "score": 0.2479
+          "slug": "opencode-mien-phi-kiem-tien-nhu-the-nao",
+          "score": 0.3907
+        },
+        {
+          "slug": "opencode-la-gi-ai-coding-agent",
+          "score": 0.3787
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.42 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "mcc-decoded-international-spending",
-      "section": "posting",
-      "title": "MCC Decoded: What International Travelers Need to Know",
-      "cluster": "du-lich",
-      "cluster_label": "Du lịch",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.4169,
-      "score_after": 0.4169,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.8276,
-          "slug": "mcc-travelers-cheat-sheet"
-        },
-        {
-          "score": 0.6066,
-          "slug": "mcc-masterclass-personal-strategy"
-        },
-        {
-          "score": 0.248,
-          "slug": "di-han-mua-nao-re-nhat"
-        },
-        {
-          "score": 0.2016,
-          "slug": "toi-nay-sai-gon-an-gi"
-        },
-        {
-          "score": 0.2005,
-          "slug": "di-han-het-bao-nhieu-tien"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "mcc-travelers-cheat-sheet",
-          "score": 0.8276
-        },
-        {
-          "slug": "mcc-masterclass-personal-strategy",
-          "score": 0.6066
-        },
-        {
-          "slug": "di-han-mua-nao-re-nhat",
-          "score": 0.248
-        },
-        {
-          "slug": "toi-nay-sai-gon-an-gi",
-          "score": 0.2016
-        },
-        {
-          "slug": "di-han-het-bao-nhieu-tien",
-          "score": 0.2005
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.42 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Top semantic score th\u1ea5p (0.49) \u2014 n\u1ed9i dung qu\u00e1 kh\u00e1c bi\u1ec7t trong cluster."
     },
     {
       "slug": "sentence-transformers-sbert-deep-dive",
       "section": "posting",
-      "title": "Sentence Transformers (SBERT) là gì? Kiến trúc",
+      "title": "Sentence Transformers (SBERT) l\u00e0 g\u00ec? Ki\u1ebfn tr\u00fac",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.4072,
@@ -9887,130 +10060,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.49) — nội dung quá khác biệt trong cluster."
-    },
-    {
-      "slug": "mcc-cross-border-fees-interchange",
-      "section": "posting",
-      "title": "MCC and Cross-Border Fees: Why Hotels Cost More Than Casinos",
-      "cluster": "misc",
-      "cluster_label": "Khác",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.4017,
-      "score_after": 0.4017,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.6258,
-          "slug": "mcc-rewards-cashback-international"
-        },
-        {
-          "score": 0.5807,
-          "slug": "mcc-fraud-blocks-international"
-        },
-        {
-          "score": 0.4914,
-          "slug": "mcc-dispute-process-template"
-        },
-        {
-          "score": 0.1649,
-          "slug": "on-tap-tuan-2-hoi-thoai-mua-sam-tieng-han"
-        },
-        {
-          "score": 0.1459,
-          "slug": "ngu-phap-nang-cao-topik-tieng-han"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "mcc-rewards-cashback-international",
-          "score": 0.6258
-        },
-        {
-          "slug": "mcc-fraud-blocks-international",
-          "score": 0.5807
-        },
-        {
-          "slug": "mcc-dispute-process-template",
-          "score": 0.4914
-        },
-        {
-          "slug": "on-tap-tuan-2-hoi-thoai-mua-sam-tieng-han",
-          "score": 0.1649
-        },
-        {
-          "slug": "ngu-phap-nang-cao-topik-tieng-han",
-          "score": 0.1459
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.40 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "mcc-masterclass-personal-strategy",
-      "section": "posting",
-      "title": "MCC Masterclass: Build Your Personal International Spending Strategy",
-      "cluster": "du-lich",
-      "cluster_label": "Du lịch",
-      "tier_before": "low",
-      "tier_after": "low",
-      "score_before": 0.3846,
-      "score_after": 0.3846,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.6082,
-          "slug": "mcc-travelers-cheat-sheet"
-        },
-        {
-          "score": 0.6066,
-          "slug": "mcc-decoded-international-spending"
-        },
-        {
-          "score": 0.2765,
-          "slug": "di-han-mua-nao-re-nhat"
-        },
-        {
-          "score": 0.2303,
-          "slug": "di-han-het-bao-nhieu-tien"
-        },
-        {
-          "score": 0.2012,
-          "slug": "mua-nao-di-han-la-dep-nhat"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "mcc-travelers-cheat-sheet",
-          "score": 0.6082
-        },
-        {
-          "slug": "mcc-decoded-international-spending",
-          "score": 0.6066
-        },
-        {
-          "slug": "di-han-mua-nao-re-nhat",
-          "score": 0.2765
-        },
-        {
-          "slug": "di-han-het-bao-nhieu-tien",
-          "score": 0.2303
-        },
-        {
-          "slug": "mua-nao-di-han-la-dep-nhat",
-          "score": 0.2012
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.38 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Top semantic score th\u1ea5p (0.49) \u2014 n\u1ed9i dung qu\u00e1 kh\u00e1c bi\u1ec7t trong cluster."
     },
     {
       "slug": "facebook-shopee-affiliate-la-gi",
       "section": "posting",
-      "title": "Facebook Shopee Affiliate là gì? Hướng dẫn người mới",
+      "title": "Facebook Shopee Affiliate l\u00e0 g\u00ec? H\u01b0\u1edbng d\u1eabn ng\u01b0\u1eddi m\u1edbi",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "low",
       "tier_after": "low",
       "score_before": 0.3736,
@@ -10061,86 +10118,20 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.40) — nội dung quá khác biệt trong cluster."
-    },
-    {
-      "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
-      "section": "posting",
-      "title": "Giới hạn sử dụng và độ dài trên Claude AI",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "low",
-      "tier_after": "low",
-      "score_before": 0.3581,
-      "score_after": 0.3581,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.4132,
-          "slug": "codeql-api-rate-limit-giai-phap"
-        },
-        {
-          "score": 0.364,
-          "slug": "mcc-future-dynamic-ai-codes"
-        },
-        {
-          "score": 0.3435,
-          "slug": "sentence-transformers-sbert-deep-dive"
-        },
-        {
-          "score": 0.3362,
-          "slug": "git-stale-branch-root-cause-analysis-va-giai-phap"
-        },
-        {
-          "score": 0.3337,
-          "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "codeql-api-rate-limit-giai-phap",
-          "score": 0.4132
-        },
-        {
-          "slug": "mcc-future-dynamic-ai-codes",
-          "score": 0.364
-        },
-        {
-          "slug": "sentence-transformers-sbert-deep-dive",
-          "score": 0.3435
-        },
-        {
-          "slug": "git-stale-branch-root-cause-analysis-va-giai-phap",
-          "score": 0.3362
-        },
-        {
-          "slug": "codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien",
-          "score": 0.3337
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.41) — nội dung quá khác biệt trong cluster."
+      "cannot_green_reason": "Top semantic score th\u1ea5p (0.40) \u2014 n\u1ed9i dung qu\u00e1 kh\u00e1c bi\u1ec7t trong cluster."
     },
     {
       "slug": "top-10-cong-cu-terminal-cho-mac-2026",
       "section": "posting",
-      "title": "Top 10 công cụ terminal cho Mac 2026: dev toolkit",
+      "title": "Top 10 c\u00f4ng c\u1ee5 terminal cho Mac 2026: dev toolkit",
       "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "cluster_label": "C\u00f4ng ngh\u1ec7",
       "tier_before": "low",
       "tier_after": "low",
       "score_before": 0.3058,
-      "score_after": 0.3058,
-      "delta": 0.0,
+      "score_after": 0.2815,
+      "delta": -0.0243,
       "related_before": [
-        {
-          "score": 0.3501,
-          "slug": "mcc-future-dynamic-ai-codes"
-        },
-        {
-          "score": 0.3147,
-          "slug": "mcc-corporate-compliance-expenses"
-        },
         {
           "score": 0.2937,
           "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
@@ -10156,14 +10147,6 @@
       ],
       "related_after": [
         {
-          "slug": "mcc-future-dynamic-ai-codes",
-          "score": 0.3501
-        },
-        {
-          "slug": "mcc-corporate-compliance-expenses",
-          "score": 0.3147
-        },
-        {
           "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola",
           "score": 0.2937
         },
@@ -10174,22 +10157,30 @@
         {
           "slug": "kinh-nghiem-xay-cms-v2-cho-blog-zola",
           "score": 0.2792
+        },
+        {
+          "slug": "github-actions-secrets-setup-guide",
+          "score": 0.279
+        },
+        {
+          "slug": "kiem-tra-trang-thai-pr-sau-khi-merge",
+          "score": 0.2643
         }
       ],
-      "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.35) — nội dung quá khác biệt trong cluster."
+      "action": "fixed",
+      "cannot_green_reason": "Top semantic score th\u1ea5p (0.29) \u2014 n\u1ed9i dung qu\u00e1 kh\u00e1c bi\u1ec7t trong cluster."
     },
     {
       "slug": "ung-ho-du-an-ai-ten-mien-ai",
       "section": "posting",
-      "title": "Ủng Hộ Dự Án AI: Vì Sao Website Cần Tên Miền .AI?",
+      "title": "\u1ee6ng H\u1ed9 D\u1ef1 \u00c1n AI: V\u00ec Sao Website C\u1ea7n T\u00ean Mi\u1ec1n .AI?",
       "cluster": "misc",
-      "cluster_label": "Khác",
+      "cluster_label": "Kh\u00e1c",
       "tier_before": "low",
       "tier_after": "low",
       "score_before": 0.2623,
-      "score_after": 0.2623,
-      "delta": 0.0,
+      "score_after": 0.2645,
+      "delta": 0.0022,
       "related_before": [
         {
           "score": 0.3167,
@@ -10206,10 +10197,6 @@
         {
           "score": 0.2328,
           "slug": "google-preferred-sources-5-analytics-va-toi-uu-hoa"
-        },
-        {
-          "score": 0.1753,
-          "slug": "mcc-rewards-cashback-international"
         }
       ],
       "related_after": [
@@ -10230,19 +10217,19 @@
           "score": 0.2328
         },
         {
-          "slug": "mcc-rewards-cashback-international",
-          "score": 0.1753
+          "slug": "ai-viet-code-mien-phi-github-opencode",
+          "score": 0.1863
         }
       ],
-      "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.32) — nội dung quá khác biệt trong cluster."
+      "action": "fixed",
+      "cannot_green_reason": "Top semantic score th\u1ea5p (0.32) \u2014 n\u1ed9i dung qu\u00e1 kh\u00e1c bi\u1ec7t trong cluster."
     },
     {
       "slug": "tau-con-thoi-atlantis",
       "section": "baochi",
-      "title": "Tàu con thoi Atlantis: huyền thoại vũ trụ của NASA",
+      "title": "T\u00e0u con thoi Atlantis: huy\u1ec1n tho\u1ea1i v\u0169 tr\u1ee5 c\u1ee7a NASA",
       "cluster": "khoa-hoc",
-      "cluster_label": "Khoa học",
+      "cluster_label": "Khoa h\u1ecdc",
       "tier_before": "low",
       "tier_after": "low",
       "score_before": 0.2565,
@@ -10293,14 +10280,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.44) — nội dung quá khác biệt trong cluster."
+      "cannot_green_reason": "Top semantic score th\u1ea5p (0.44) \u2014 n\u1ed9i dung qu\u00e1 kh\u00e1c bi\u1ec7t trong cluster."
     },
     {
       "slug": "kinh-hubble-mat-ma-vu-tru",
       "section": "baochi",
-      "title": "Kính Hubble: Cửa sổ vào bí ẩn của vũ trụ",
+      "title": "K\u00ednh Hubble: C\u1eeda s\u1ed5 v\u00e0o b\u00ed \u1ea9n c\u1ee7a v\u0169 tr\u1ee5",
       "cluster": "khoa-hoc",
-      "cluster_label": "Khoa học",
+      "cluster_label": "Khoa h\u1ecdc",
       "tier_before": "low",
       "tier_after": "low",
       "score_before": 0.228,
@@ -10351,14 +10338,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.44) — nội dung quá khác biệt trong cluster."
+      "cannot_green_reason": "Top semantic score th\u1ea5p (0.44) \u2014 n\u1ed9i dung qu\u00e1 kh\u00e1c bi\u1ec7t trong cluster."
     },
     {
       "slug": "nha-tranh",
       "section": "baochi",
-      "title": "Nhà tranh — Biểu tượng mộc mạc của làng quê Việt Nam",
+      "title": "Nh\u00e0 tranh \u2014 Bi\u1ec3u t\u01b0\u1ee3ng m\u1ed9c m\u1ea1c c\u1ee7a l\u00e0ng qu\u00ea Vi\u1ec7t Nam",
       "cluster": "am-thuc",
-      "cluster_label": "Ẩm thực",
+      "cluster_label": "\u1ea8m th\u1ef1c",
       "tier_before": "low",
       "tier_after": "low",
       "score_before": 0.2241,
@@ -10409,14 +10396,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.30) — nội dung quá khác biệt trong cluster."
+      "cannot_green_reason": "Top semantic score th\u1ea5p (0.30) \u2014 n\u1ed9i dung qu\u00e1 kh\u00e1c bi\u1ec7t trong cluster."
     },
     {
       "slug": "nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat",
       "section": "posting",
-      "title": "Những Quy Định Cấm Từ Shopee Affiliate 2026 Mới Nhất",
+      "title": "Nh\u1eefng Quy \u0110\u1ecbnh C\u1ea5m T\u1eeb Shopee Affiliate 2026 M\u1edbi Nh\u1ea5t",
       "cluster": "khuyen-mai",
-      "cluster_label": "Khuyến mãi & Affiliate",
+      "cluster_label": "Khuy\u1ebfn m\u00e3i & Affiliate",
       "tier_before": "low",
       "tier_after": "low",
       "score_before": 0.202,
@@ -10459,14 +10446,14 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Chỉ có 1 bài trong cluster 'Khuyến mãi & Affiliate' — không đủ neighbor cùng chủ đề."
+      "cannot_green_reason": "Ch\u1ec9 c\u00f3 1 b\u00e0i trong cluster 'Khuy\u1ebfn m\u00e3i & Affiliate' \u2014 kh\u00f4ng \u0111\u1ee7 neighbor c\u00f9ng ch\u1ee7 \u0111\u1ec1."
     },
     {
       "slug": "google-preferred-sources-4-chien-luoc-noi-dung",
       "section": "posting",
-      "title": "Chiến lược nội dung để tăng Preferred Sources",
+      "title": "Chi\u1ebfn l\u01b0\u1ee3c n\u1ed9i dung \u0111\u1ec3 t\u0103ng Preferred Sources",
       "cluster": "am-thuc",
-      "cluster_label": "Ẩm thực",
+      "cluster_label": "\u1ea8m th\u1ef1c",
       "tier_before": "low",
       "tier_after": "low",
       "score_before": 0.1587,
@@ -10517,7 +10504,7 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.19) — nội dung quá khác biệt trong cluster."
+      "cannot_green_reason": "Top semantic score th\u1ea5p (0.19) \u2014 n\u1ed9i dung qu\u00e1 kh\u00e1c bi\u1ec7t trong cluster."
     }
   ]
 }

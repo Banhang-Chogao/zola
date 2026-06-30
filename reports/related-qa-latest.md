@@ -1,21 +1,26 @@
 # Related Posts QA Report
 
-Generated: `2026-06-29T21:11:02.011794+00:00`
+Generated: `2026-06-30T11:48:20.438397+00:00`
 
 ## Summary
 
 - Total posts: **181**
-- Green (≥70): **113**
-- Orange (40–69): **58**
-- Red (<40): **10**
-- Fixed this run: **0**
+- Green (≥70): **121**
+- Orange (40–69): **52**
+- Red (<40): **8**
+- Fixed this run: **6**
 
-- Before: green 113, orange 58, red 10
-- After: green 113, orange 58, red 10
+- Before: green 121, orange 61, red 9
+- After: green 121, orange 52, red 8
 
 ## Fixed posts
 
-- (none)
+- `bao-lau-de-thay-ket-qua-seo`: 0.92 → **0.92** (high → high)
+- `google-analytics-la-gi-lo-trinh-10-ngay`: 0.77 → **0.77** (high → high)
+- `google-nhin-trang-giong-nguoi-dung`: 0.91 → **0.91** (high → high)
+- `nguon-traffic-organic-direct-referral-social-paid`: 0.71 → **0.71** (high → high)
+- `top-10-cong-cu-terminal-cho-mac-2026`: 0.31 → **0.28** (low → low)
+- `ung-ho-du-an-ai-ten-mien-ai`: 0.26 → **0.26** (low → low)
 
 ## Still orange/red
 
@@ -27,9 +32,11 @@ Generated: `2026-06-29T21:11:02.011794+00:00`
 - `lich-trinh-busan-tu-tuc-3-ngay-2-dem` [mid] score=0.68 — Trung bình top-5 = 0.68 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `git-stale-branch-root-cause-analysis-va-giai-phap` [mid] score=0.67 — Trung bình top-5 = 0.67 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `review-liobank-by-ocb` [mid] score=0.66 — Trung bình top-5 = 0.66 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `opencode-mien-phi-kiem-tien-nhu-the-nao` [mid] score=0.66 — Trung bình top-5 = 0.66 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `so-sanh-cake-vs-liobank` [mid] score=0.66 — Trung bình top-5 = 0.66 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `phu-am-cang-bat-hoi-tieng-han` [mid] score=0.65 — Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `cach-mo-tai-khoan-ngan-hang-so-online` [mid] score=0.65 — Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `workflow-30-phut-moi-ngay-opencode` [mid] score=0.65 — Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `github-actions-ci-cd-build-failure-vipzone-token` [mid] score=0.65 — Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `huong-dan-bat-tiet-kiem-tu-dong-tren-liobank` [mid] score=0.65 — Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `zola-faq-schema-template-variable-error` [mid] score=0.64 — Trung bình top-5 = 0.64 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
@@ -37,6 +44,7 @@ Generated: `2026-06-29T21:11:02.011794+00:00`
 - `kha-nang-kinh-nghiem-tieng-han` [mid] score=0.63 — Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `xu-ly-pr-revert-sai-base` [mid] score=0.63 — Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `fix-qa-gatekeeper-github-actions-merge-conflict-zola` [mid] score=0.63 — Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `codeql-api-rate-limit-giai-phap` [mid] score=0.63 — Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `kinh-nghiem-refactor-homepage-zola-khi-code-dung-nhung-chua-nen-push` [mid] score=0.62 — Trung bình top-5 = 0.62 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `brave-origin-trinh-duyet-rieng-tu-toi-gian` [mid] score=0.62 — Trung bình top-5 = 0.62 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `zola-responsive-layout-context-detection` [mid] score=0.61 — Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
@@ -49,6 +57,7 @@ Generated: `2026-06-29T21:11:02.011794+00:00`
 - `review-tnex-chi-tiet` [mid] score=0.60 — Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `an-khuya-sai-gon` [mid] score=0.60 — Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `debug-zola-series-navigation-links` [mid] score=0.59 — Trung bình top-5 = 0.59 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien` [mid] score=0.59 — Trung bình top-5 = 0.59 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `ngan-hang-so-cho-freelancer` [mid] score=0.59 — Trung bình top-5 = 0.59 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `google-preferred-sources-1-tu-thuat-toi-giao-dien-tim-kiem` [mid] score=0.59 — Trung bình top-5 = 0.59 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `fix-internal-links-checker-ci-failure` [mid] score=0.57 — Trung bình top-5 = 0.57 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
@@ -57,30 +66,18 @@ Generated: `2026-06-29T21:11:02.011794+00:00`
 - `google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong` [mid] score=0.57 — Trung bình top-5 = 0.57 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `troi-mua-sai-gon-an-gi` [mid] score=0.56 — Trung bình top-5 = 0.56 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `tera-template-syntax-error-conditional` [mid] score=0.56 — Trung bình top-5 = 0.56 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `codeql-api-rate-limit-giai-phap` [mid] score=0.56 — Trung bình top-5 = 0.56 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `loi-nhieu-the-h1-sua-seo-toan-site` [mid] score=0.55 — Trung bình top-5 = 0.55 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `google-preferred-sources-5-analytics-va-toi-uu-hoa` [mid] score=0.54 — Trung bình top-5 = 0.54 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `review-cake-by-vpbank` [mid] score=0.52 — Trung bình top-5 = 0.52 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `tet-doan-ngo-han-viet-trung` [mid] score=0.50 — Trung bình top-5 = 0.50 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam` [mid] score=0.49 — Top semantic score thấp (0.53) — nội dung quá khác biệt trong cluster.
 - `google-preferred-sources-3-huong-dan-thiet-lap-ky-thuat` [mid] score=0.49 — Top semantic score thấp (0.54) — nội dung quá khác biệt trong cluster.
-- `codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien` [mid] score=0.48 — Trung bình top-5 = 0.48 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `mcc-future-dynamic-ai-codes` [mid] score=0.48 — Trung bình top-5 = 0.48 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `mcc-rewards-cashback-international` [mid] score=0.47 — Trung bình top-5 = 0.47 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `premium-fintech-paywall-demo` [mid] score=0.46 — Trung bình top-5 = 0.46 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `mcc-travelers-cheat-sheet` [mid] score=0.45 — Trung bình top-5 = 0.45 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `toi-nay-sai-gon-an-gi` [mid] score=0.45 — Trung bình top-5 = 0.45 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `mcc-fraud-blocks-international` [mid] score=0.45 — Trung bình top-5 = 0.45 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `mcc-dispute-process-template` [mid] score=0.44 — Trung bình top-5 = 0.44 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `mcc-corporate-compliance-expenses` [mid] score=0.43 — Trung bình top-5 = 0.43 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `mcc-merchant-choosing-code` [mid] score=0.42 — Trung bình top-5 = 0.42 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `mcc-decoded-international-spending` [mid] score=0.42 — Trung bình top-5 = 0.42 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude` [mid] score=0.42 — Top semantic score thấp (0.49) — nội dung quá khác biệt trong cluster.
 - `sentence-transformers-sbert-deep-dive` [mid] score=0.41 — Top semantic score thấp (0.49) — nội dung quá khác biệt trong cluster.
-- `mcc-cross-border-fees-interchange` [mid] score=0.40 — Trung bình top-5 = 0.40 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `mcc-masterclass-personal-strategy` [low] score=0.38 — Trung bình top-5 = 0.38 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `facebook-shopee-affiliate-la-gi` [low] score=0.37 — Top semantic score thấp (0.40) — nội dung quá khác biệt trong cluster.
-- `hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude` [low] score=0.36 — Top semantic score thấp (0.41) — nội dung quá khác biệt trong cluster.
-- `top-10-cong-cu-terminal-cho-mac-2026` [low] score=0.31 — Top semantic score thấp (0.35) — nội dung quá khác biệt trong cluster.
+- `top-10-cong-cu-terminal-cho-mac-2026` [low] score=0.28 — Top semantic score thấp (0.29) — nội dung quá khác biệt trong cluster.
 - `ung-ho-du-an-ai-ten-mien-ai` [low] score=0.26 — Top semantic score thấp (0.32) — nội dung quá khác biệt trong cluster.
 - `tau-con-thoi-atlantis` [low] score=0.26 — Top semantic score thấp (0.44) — nội dung quá khác biệt trong cluster.
 - `kinh-hubble-mat-ma-vu-tru` [low] score=0.23 — Top semantic score thấp (0.44) — nội dung quá khác biệt trong cluster.
