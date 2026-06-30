@@ -1741,8 +1741,9 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
   KHÔNG render SVG. `scripts/build_og_images.py` rasterize mỗi `static/img/**/*.svg`
   → twin `*.og.webp` (1200×630, cairosvg+Pillow). `base.html` khi `thumbnail` là
   `.svg` thì og:image dùng twin (`.svg` → `.og.webp`) → social hiện đúng ảnh COVER
-  của bài thay vì banner chung. `img/og-default.webp` giờ CHỈ là fallback cho bài
-  **không khai báo thumbnail**. Script idempotent, không vỡ build khi thiếu dep
+  của bài thay vì banner chung. Bộ 20 OG fallback template (`img/og-fallbacks/og-fallback-{0..19}.svg`)
+  thay thế `og-default.webp` cũ — mỗi bài không có thumbnail nhận 1 template khác nhau
+  (chọn theo `page.slug | length % 20`). Script idempotent, không vỡ build khi thiếu dep
   (dùng `.og.webp` đã commit); chạy trong `deploy.yml` trước `zola build`; thêm cover
   SVG mới → chạy `python3 scripts/build_og_images.py` (hoặc CI tự sinh) + commit twin.
 - **Fallback runtime (ảnh CÓ src nhưng load lỗi/404):** `base.html` có 1 listener
@@ -1766,8 +1767,7 @@ Thứ tự ưu tiên (resolver `img::cover_src(page=...)` + `img::cover_alt(page
 3. Cover editorial SEOMONEY tự sinh: `/generated/covers/<slug>.svg` (tiêu đề + chuyên
    mục + wordmark SEOMONEY + icon S-DNA ◈ + gradient editorial). Deterministic theo
    slug/title/category → rebuild KHÔNG tạo diff nhiễu.
-4. Placeholder theo chuyên mục: `/img/placeholders/category-{tech,finance,seo,ai,default}.svg`.
-5. Fallback site-level: `/img/og-default.webp` (giữ làm OG cuối cùng).
+4. 20 OG fallback template: `/img/og-fallbacks/og-fallback-{0..19}.svg` (chọn theo `slug length % 20`, gradient + hoạ tiết riêng cho mỗi template).
 
 - **Engine:** `scripts/build_owned_covers.py` — sinh cover + category placeholder +
   manifest `data/owned-covers.json` (key = slug). Chạy `python3 scripts/build_owned_covers.py`
@@ -1775,7 +1775,7 @@ Thứ tự ưu tiên (resolver `img::cover_src(page=...)` + `img::cover_alt(page
   `python3 -m unittest scripts.test_build_owned_covers`.
 - **OG/JSON-LD (`base.html`):** chỉ dùng ảnh **raster** local (social không render SVG):
   `extra.og_image`/`image`/`cover`/`thumbnail`(non-placeholder) → twin `.og.webp`; bài
-  cover-sinh giữ `og-default.webp` → KHÔNG bao giờ broken/hotlink ngoài. Card/hero
+  không có thumbnail nhận 1 trong 20 OG fallback → KHÔNG bao giờ broken/hotlink ngoài. Card/hero
   on-site hiện cover SVG branded.
 - **SEO metadata frontmatter (tuỳ chọn):** `image`, `image_alt` (alt mô tả tiếng Việt
   theo tiêu đề/chuyên mục), `image_source` (`seomoney-generated` | `local-upload`),

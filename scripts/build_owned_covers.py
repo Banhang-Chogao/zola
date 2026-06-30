@@ -13,7 +13,7 @@ Thứ tự ưu tiên ảnh (resolve cho mỗi bài) — khớp macro `img::cover
   2. Ảnh local đầu tiên trong nội dung markdown, CHỈ khi nằm dưới /uploads/.
   3. Ảnh cover editorial SEOMONEY tự sinh: /generated/covers/<slug>.svg
   4. Ảnh placeholder theo chuyên mục: /img/placeholders/category-<topic>.svg
-  5. Fallback cuối site-level: /img/og-default.webp
+   5. Fallback cuối site-level: 20 OG fallback template (chọn theo slug length % 20)
 
 Script này lo bước 2–4 cho các bài CHƯA có ảnh thật:
   - dò ảnh inline /uploads/ (bước 2),
@@ -47,6 +47,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CONTENT_DIRS = [ROOT / "content" / "posting", ROOT / "content" / "baochi"]
 COVERS_DIR = ROOT / "static" / "generated" / "covers"
 PLACEHOLDER_DIR = ROOT / "static" / "img" / "placeholders"
+OG_FALLBACK_DIR = ROOT / "static" / "img" / "og-fallbacks"
 MANIFEST = ROOT / "data" / "owned-covers.json"
 
 # Đường dẫn ảnh được coi là "placeholder chung" (KHÔNG phải ảnh thật của bài).
@@ -54,17 +55,32 @@ GENERIC_PLACEHOLDER_HINT = "/img/placeholder/"
 # Ảnh local hợp lệ cho bước 2 phải nằm dưới các path own này.
 UPLOAD_PREFIXES = ("/uploads/", "/img/uploads/")
 
-SITE_OG_FALLBACK = "img/og-default.webp"
+SITE_OG_FALLBACK_DIR = "img/og-fallbacks/"
 
-# ---- Palette editorial (calm enterprise, KHÔNG neon) — chọn theo hash slug ----
-# Mỗi cặp: (from, to, accent). Bám design DNA: slate / blue / teal / muted purple.
+# ---- Palette editorial (calm enterprise, KHÔNG neon) — 20 mẫu đa dạng ----
+# Mỗi cặp: (from, to, accent). Chọn theo hash slug → deterministic.
+# Đủ 20 gradient để mỗi bài fallback có nền/màu riêng biệt.
 GRADIENTS = [
-    ("#0f2c4d", "#1d4ed8", "#38bdf8"),  # deep navy → blue, sky accent
-    ("#0b3a45", "#0e7490", "#22d3ee"),  # teal deep → cyan
-    ("#1e1b4b", "#4338ca", "#818cf8"),  # indigo muted
-    ("#0f3d3a", "#0f766e", "#2dd4bf"),  # emerald-teal
-    ("#1f2937", "#334155", "#94a3b8"),  # slate neutral
-    ("#3b2f63", "#6d28d9", "#a78bfa"),  # muted purple
+    ("#0f2c4d", "#1d4ed8", "#38bdf8"),  # 00: deep navy → blue, sky accent
+    ("#0b3a45", "#0e7490", "#22d3ee"),  # 01: teal deep → cyan
+    ("#1e1b4b", "#4338ca", "#818cf8"),  # 02: indigo muted
+    ("#0f3d3a", "#0f766e", "#2dd4bf"),  # 03: emerald-teal
+    ("#1f2937", "#334155", "#94a3b8"),  # 04: slate neutral
+    ("#3b2f63", "#6d28d9", "#a78bfa"),  # 05: muted purple
+    ("#4c1d1d", "#b91c1c", "#ef4444"),  # 06: maroon → red
+    ("#3b1f0b", "#c2410c", "#fb923c"),  # 07: brown → orange
+    ("#2d1f0e", "#a16207", "#fbbf24"),  # 08: olive → amber
+    ("#3b1f1a", "#9d174d", "#f472b6"),  # 09: rose → pink
+    ("#1c1917", "#44403c", "#a8a29e"),  # 10: charcoal → warm gray
+    ("#022c22", "#065f46", "#34d399"),  # 11: dark green → emerald
+    ("#1a0633", "#5b21b6", "#8b5cf6"),  # 12: midnight → violet
+    ("#0c0a3e", "#312e81", "#6366f1"),  # 13: deep indigo → indigo
+    ("#271302", "#92400e", "#f59e0b"),  # 14: dark amber → amber
+    ("#03183a", "#1d4ed8", "#3b82f6"),  # 15: deep blue → blue
+    ("#300e1f", "#831843", "#f472b6"),  # 16: dark pink → pink
+    ("#111827", "#1e293b", "#64748b"),  # 17: near black → slate
+    ("#0f172a", "#334155", "#94a3b8"),  # 18: dark navy → light slate
+    ("#1e0f2e", "#4c1d95", "#c084fc"),  # 19: dark violet → purple
 ]
 
 # Map chuyên mục blog → topic placeholder + nhãn hiển thị.
@@ -203,6 +219,36 @@ def build_category_placeholder(topic: str) -> str:
 """
 
 
+def build_og_fallback_svg(index: int) -> str:
+    """Sinh 1 trong 20 OG fallback SVG (branded, KHÔNG title — chỉ SEOMONEY +
+    gradient toàn màn hình + hoạ tiết). Dùng cho bài không có cover riêng."""
+    g_from, g_to, accent = GRADIENTS[index]
+    seed = _hash_int(f"og-fallback-{index}")
+    gid = f"ogf{index}"
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{CW}" height="{CH}" viewBox="0 0 {CW} {CH}" role="img">
+  <defs>
+    <linearGradient id="{gid}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="{g_from}"/>
+      <stop offset="1" stop-color="{g_to}"/>
+    </linearGradient>
+  </defs>
+  <rect width="{CW}" height="{CH}" fill="url(#{gid})"/>
+  {_pattern(seed, accent)}
+  <!-- fallback badge -->
+  <rect x="80" y="84" rx="20" ry="20" width="280" height="48" fill="{accent}" opacity="0.22"/>
+  <text x="104" y="116" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="26" font-weight="600" fill="#e2e8f0" letter-spacing="1">SEOMONEY</text>
+  <!-- content hint -->
+  <text x="50%" y="46%" text-anchor="middle" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="40" fill="{accent}">&#9672;</text>
+  <text x="50%" y="56%" text-anchor="middle" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="56" font-weight="800" fill="#f8fafc" letter-spacing="1">{_esc(f"SEOMONEY #{index:02d}")}</text>
+  <text x="50%" y="64%" text-anchor="middle" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="26" fill="#cbd5e1" letter-spacing="3">seomoney.org</text>
+  <!-- footer wordmark -->
+  <text x="80" y="{CH - 70}" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="40" fill="{accent}">&#9672;</text>
+  <text x="128" y="{CH - 72}" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="34" font-weight="800" fill="#f8fafc" letter-spacing="2">SEOMONEY</text>
+  <text x="128" y="{CH - 42}" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="20" fill="#cbd5e1" opacity="0.85">seomoney.org</text>
+</svg>
+"""
+
+
 def parse_frontmatter(text: str) -> tuple[dict, str]:
     """Tách +++ TOML frontmatter + body."""
     if not text.startswith("+++"):
@@ -252,10 +298,7 @@ def slug_for(path: Path, fm: dict) -> str:
 
 
 def alt_for(title: str, category: str | None) -> str:
-    cat = (category or "").strip()
-    if cat and cat.lower() != "tất cả":
-        return f"Ảnh minh hoạ bài viết {title} — chuyên mục {cat} trên SEOMONEY"
-    return f"Ảnh minh hoạ bài viết {title} trên SEOMONEY"
+    return title
 
 
 def primary_category(fm: dict) -> str | None:
@@ -284,7 +327,16 @@ def build(check: bool = False) -> int:
             if not check:
                 path.write_text(content, encoding="utf-8")
 
-    # 1) Category placeholders (bước 4)
+    # 1) 20 OG fallback SVGs (bộ 20 mẫu nền + màu ngẫu nhiên cho bài không có cover)
+    OG_FALLBACK_DIR.mkdir(parents=True, exist_ok=True)
+    og_fallback_list: list[str] = []
+    for i in range(20):
+        name = f"og-fallback-{i}.svg"
+        out = OG_FALLBACK_DIR / name
+        _write(out, build_og_fallback_svg(i))
+        og_fallback_list.append(f"img/og-fallbacks/{name}")
+
+    # 2) Category placeholders (bước 4)
     cat_map: dict[str, str] = {}
     for topic in TOPIC_COLORS:
         out = PLACEHOLDER_DIR / f"category-{topic}.svg"
@@ -344,12 +396,31 @@ def build(check: bool = False) -> int:
                 "category": category or "",
             }
 
+    # Build slug → fallback index mapping (cho template pick đúng 1 trong 20)
+    slug_fallback: dict[str, int] = {}
+    for cdir in CONTENT_DIRS:
+        if not cdir.exists():
+            continue
+        for md in sorted(cdir.glob("*.md")):
+            if md.name.startswith("_") or md.name.startswith("feed-anchor-"):
+                continue
+            text = md.read_text(encoding="utf-8")
+            fm, _ = parse_frontmatter(text)
+            if not fm:
+                continue
+            slug = slug_for(md, fm)
+            slug_fallback[slug] = _hash_int(slug) % 20
+
     manifest = {
         "_comment": "Owned-image fallback manifest (SEOMONEY). KHÔNG ảnh ngoài. "
                     "Sinh bởi scripts/build_owned_covers.py — deterministic.",
-        "site_og_fallback": SITE_OG_FALLBACK,
+        "site_og_fallback_dir": SITE_OG_FALLBACK_DIR,
         "default_placeholder": "img/placeholders/category-default.svg",
+        "og_fallbacks_count": len(og_fallback_list),
+        "og_fallback_list": og_fallback_list,
+        "og_fallback_dir": "img/og-fallbacks/",
         "category_map": dict(sorted(cat_map.items())),
+        "slug_fallback_index": dict(sorted(slug_fallback.items())),
         "covers": dict(sorted(covers.items())),
     }
     manifest_text = json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=False) + "\n"
@@ -364,9 +435,11 @@ def build(check: bool = False) -> int:
         print("build_owned_covers: OK, không có thay đổi.")
         return 0
 
+    gen = sum(1 for v in covers.values() if v['image_source'] == 'seomoney-generated')
     print(f"build_owned_covers: {len(covers)} bài resolve · "
-          f"{sum(1 for v in covers.values() if v['image_source'] == 'seomoney-generated')} cover sinh · "
-          f"{len(TOPIC_COLORS)} category placeholder.")
+          f"{gen} cover sinh · "
+          f"{len(TOPIC_COLORS)} category placeholder · "
+          f"{len(og_fallback_list)} OG fallback templates.")
     if changed:
         print(f"  cập nhật {len(changed)} file.")
     return 0

@@ -25,8 +25,7 @@
      1. extra.image / extra.cover / extra.thumbnail (placeholder chung KHÔNG tính)
      2. Ảnh local /uploads/ trong bài  ─┐ (manifest data/owned-covers.json)
      3. Cover editorial SEOMONEY tự sinh ┘
-     4. Placeholder theo chuyên mục
-     5. Fallback site-level og-default.webp
+     4. 20 OG fallback template (chọn theo slug length % 20)
    Dùng: {{ img::cover_src(page=page) }} cho card/hero; {{ img::cover_alt(page=page) }} cho alt.
    ============================================================================ #}
 {% macro cover_src(page) -%}
@@ -70,18 +69,11 @@
 {%- if slug in data.covers -%}
 {{- get_url(path=data.covers[slug].image) -}}
 {%- else -%}
-{# Bài CHƯA có trong manifest (vd feed-anchor, bài mới chưa chạy script) →
-   placeholder owned theo chuyên mục (if/elif, KHÔNG index map động — Tera lỗi
-   với key non-ASCII có dấu cách). Chạy build_owned_covers.py để có cover riêng. #}
-{%- set cat = page.taxonomies.categories | default(value=[]) -%}
-{%- set primary = "" -%}
-{%- for c in cat -%}{%- if c != "Tất cả" and not primary -%}{%- set_global primary = c -%}{%- endif -%}{%- endfor -%}
-{%- if primary == "Công nghệ" -%}{{- get_url(path="img/placeholders/category-tech.svg") -}}
-{%- elif primary == "Ngân hàng" or primary == "Bảo hiểm" -%}{{- get_url(path="img/placeholders/category-finance.svg") -}}
-{%- elif primary == "Khoa học" -%}{{- get_url(path="img/placeholders/category-ai.svg") -}}
-{%- elif primary == "làm affiliate" -%}{{- get_url(path="img/placeholders/category-seo.svg") -}}
-{%- else -%}{{- get_url(path="img/placeholders/category-default.svg") -}}
-{%- endif -%}
+{# Bài CHƯA có trong manifest → pick 1 trong 20 OG fallback template theo slug #}
+{%- set slug_len = page.slug | length -%}
+{%- set idx = slug_len % 20 -%}
+{%- set fbpath = "img/og-fallbacks/og-fallback-" ~ idx ~ ".svg" -%}
+{{- get_url(path=fbpath) -}}
 {%- endif -%}
 {%- endif -%}
 {%- endmacro cover_src %}
@@ -89,11 +81,7 @@
 {% macro cover_alt(page) -%}
 {%- set alt = page.extra.image_alt | default(value="") -%}
 {%- if alt -%}{{- alt -}}
-{%- else -%}
-{%- set data = load_data(path="data/owned-covers.json") -%}
-{%- set slug = page.slug -%}
-{%- if slug in data.covers -%}{{- data.covers[slug].image_alt -}}
-{%- else -%}{{- page.title -}}{%- endif -%}
+{%- else -%}{{- page.title -}}
 {%- endif -%}
 {%- endmacro cover_alt %}
 

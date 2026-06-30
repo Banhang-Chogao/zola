@@ -114,7 +114,7 @@ BROKEN_LINK_REWRITES: dict[str, str] = {
     "/pages/contact/": f"{SITE_PREFIX}/contact/",
 }
 
-DEFAULT_OG = f"{BASE_URL}/img/og-default.webp"
+DEFAULT_OG = f"{BASE_URL}/img/og-fallbacks/og-fallback-0.svg"
 
 
 def _now_vn() -> str:

@@ -5,7 +5,7 @@ Vì sao cần script này
 ---------------------
 Mạng xã hội (Facebook, Threads, X, Zalo, LinkedIn…) **không render được SVG**
 làm og:image. Blog dùng cover SVG tự sinh cho phần lớn bài viết, nên khi share
-link, social bỏ qua SVG và rơi về banner chung `img/og-default.webp` — không phản
+link, social bỏ qua SVG và rơi về OG fallback chung — không phản
 ánh đúng nội dung bài. (Xem CLAUDE.md — "Quy tắc Ảnh".)
 
 Giải pháp: rasterize mỗi cover `static/img/**/*.svg` thành twin `*.og.webp`
