@@ -1,35 +1,29 @@
 {
-  "updated_at": "2026-06-29T21:01:14+00:00",
-  "today_users": 0,
-  "today_pageviews": 0,
-  "week_users": 117,
-  "week_pageviews": 145,
-  "month_users": 150,
-  "month_pageviews": 183,
-  "month_sessions": 159,
-  "month_new_users": 149,
-  "month_bounce_rate_pct": 87,
-  "month_avg_session_duration_str": "33s",
-  "month_engagement_rate_pct": 13,
+  "updated_at": "2026-06-30T10:42:05+00:00",
+  "today_users": 9,
+  "today_pageviews": 15,
+  "week_users": 125,
+  "week_pageviews": 170,
+  "month_users": 158,
+  "month_pageviews": 208,
+  "month_sessions": 171,
+  "month_new_users": 159,
+  "month_bounce_rate_pct": 80,
+  "month_avg_session_duration_str": "18s",
+  "month_engagement_rate_pct": 20,
   "top_country": "United States",
   "top_device": "desktop",
   "channels": [
     {
       "channel": "Direct",
-      "sessions": 117,
-      "users": 112,
-      "percent": 64
-    },
-    {
-      "channel": "Unassigned",
-      "sessions": 29,
-      "users": 25,
-      "percent": 16
+      "sessions": 132,
+      "users": 121,
+      "percent": 74
     },
     {
       "channel": "Organic Search",
-      "sessions": 16,
-      "users": 16,
+      "sessions": 17,
+      "users": 17,
       "percent": 9
     },
     {
@@ -42,12 +36,18 @@
       "channel": "Referral",
       "sessions": 10,
       "users": 9,
+      "percent": 6
+    },
+    {
+      "channel": "Unassigned",
+      "sessions": 9,
+      "users": 5,
       "percent": 5
     }
   ],
   "organic": {
-    "sessions": 16,
-    "users": 16,
+    "sessions": 17,
+    "users": 17,
     "percent": 9
   }
 }
