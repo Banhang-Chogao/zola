@@ -1,6 +1,27 @@
 {
   "items": [
     {
+      "id": "pr-1268",
+      "pr_number": 1268,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1268",
+      "title": "feat(ui): font showcase section below footer",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T20:39:51Z",
+      "merge_commit_sha": "09f7f8919266",
+      "stats": {
+        "additions": 190,
+        "deletions": 14
+      },
+      "highlights": [
+        "3 card màu: tím (IBM Plex Sans), xanh dương (Inter), cam (JetBrains Mono)",
+        "Sample text render bằng font thật",
+        "Hover lift effect, responsive 1 cột mobile",
+        "Nền gradient tối, border mảnh màu theo từng card"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1266",
       "pr_number": 1266,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1266",
