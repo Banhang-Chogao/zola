@@ -291,29 +291,6 @@
                     </ul>
                 </section>
 
-                <section class="home-editorial__rail-card">
-                    <p class="home-editorial__rail-kicker">TOOLS</p>
-                    <ul class="home-editorial__rail-links">
-                        <li><a href="{{ config.base_url }}/tools/theme-log/">Theme log</a></li>
-                        <li><a href="{{ config.base_url }}/seo-bang-vang/">SEO board</a></li>
-                        <li><a href="{{ config.base_url }}/tools/content-creator/">Content creator</a></li>
-                        <li><a href="{{ config.base_url }}/tools/calendar/">Calendar</a></li>
-                        <li><a href="{{ config.base_url }}/editor/">Editor</a></li>
-                    </ul>
-                </section>
-
-                <section class="home-editorial__rail-card">
-                    <p class="home-editorial__rail-kicker">NEWSLETTER</p>
-                    <h4 class="home-editorial__rail-title">Đăng ký nhận bài mới</h4>
-                    <p class="home-editorial__rail-note">
-                        Giao diện UI-only. Kết nối newsletter thực tế có thể gắn sau qua form backend hoặc email tool.
-                    </p>
-                    <div class="home-editorial__newsletter-form">
-                        <input type="email" placeholder="Email của bạn" aria-label="Email">
-                        <button type="button">Đăng ký</button>
-                    </div>
-                </section>
-
                 <aside class="home-editorial__inline-ad home-editorial__inline-ad--small" aria-label="Quảng cáo">
                     <span class="home-editorial__ad-label">Quảng cáo</span>
                     <strong>Small rail slot</strong>
@@ -324,6 +301,28 @@
 
         <section class="home-editorial__body" aria-label="Nội dung chính">
             <div class="home-editorial__main">
+                <section class="home-editorial__section home-editorial__popular" aria-labelledby="home-popular-title">
+                    <div class="home-editorial__section-head">
+                        <div>
+                            <p class="home-editorial__section-kicker">POPULAR</p>
+                            <h3 class="home-editorial__section-title" id="home-popular-title">Bài viết được đọc nhiều</h3>
+                        </div>
+                    </div>
+                    <div class="home-editorial__popular-card">
+                        <ol class="home-editorial__popular-list">
+                            {% for page in popular_posts %}
+                                <li class="home-editorial__popular-item">
+                                    <span class="home-editorial__rail-index" aria-hidden="true">{{ loop.index }}</span>
+                                    <div class="home-editorial__rail-copy">
+                                        <h4><a href="{{ page.permalink }}">{{ page.title }}</a></h4>
+                                        <time datetime="{{ page.date }}">{{ dt::display_datetime(value=page.date) }}</time>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                </section>
+
                 <section class="home-editorial__section" id="latest">
                     <div class="home-editorial__section-head">
                         <div>
@@ -546,21 +545,6 @@
 
             <aside class="home-editorial__sidebar" aria-label="Sidebar continuation">
                 <section class="home-editorial__rail-card">
-                    <p class="home-editorial__rail-kicker">POPULAR</p>
-                    <ul class="home-editorial__rail-posts home-editorial__rail-posts--text">
-                        {% for page in popular_posts %}
-                            <li class="home-editorial__rail-post home-editorial__rail-post--text">
-                                <span class="home-editorial__rail-index" aria-hidden="true">{{ loop.index }}</span>
-                                <div class="home-editorial__rail-copy">
-                                    <h5><a href="{{ page.permalink }}">{{ page.title }}</a></h5>
-                                    <time datetime="{{ page.date }}">{{ dt::display_datetime(value=page.date) }}</time>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </section>
-
-                <section class="home-editorial__rail-card">
                     <p class="home-editorial__rail-kicker">INTERNAL LINKS</p>
                     <ul class="home-editorial__rail-links">
                         <li><a href="{{ config.base_url }}/archive/">Archive</a></li>
@@ -571,16 +555,6 @@
                     </ul>
                 </section>
 
-                <section class="home-editorial__rail-card">
-                    <p class="home-editorial__rail-kicker">PUBLIC TOOLS</p>
-                    <ul class="home-editorial__rail-links">
-                        <li><a href="{{ config.base_url }}/tools/theme-log/">Theme log</a></li>
-                        <li><a href="{{ config.base_url }}/seo-bang-vang/">SEO board</a></li>
-                        <li><a href="{{ config.base_url }}/tools/content-creator/">Content creator</a></li>
-                        <li><a href="{{ config.base_url }}/tools/calendar/">Calendar</a></li>
-                        <li><a href="{{ config.base_url }}/editor/">Editor</a></li>
-                    </ul>
-                </section>
             </aside>
         </section>
     </div>
