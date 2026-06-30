@@ -143,11 +143,11 @@ Nano Banana đang được sử dụng rộng rãi trong nhiều lĩnh vực:
 ## Liên kết nội bộ
 
 Bạn có thể quan tâm các bài viết khác về AI và công nghệ trên blog:
-- [Gemma 4: Mô hình mở mới nhất của Google DeepMind](/gemma-4-open-models-ai/)
-- [Gemini 3: Thế hệ AI đa phương thức mới của Google](/gemini-3-multimodal-ai/)
-- [Các mô hình AI tạo ảnh tốt nhất 2026](/cac-mo-hinh-ai-tao-anh-tot-nhat/)
-- [Công nghệ SynthID và tương lai của watermark AI](/synthid-ai-watermark/)
-- [Google AI Studio: Hướng dẫn từ cơ bản đến nâng cao](/google-ai-studio-guide/)
+- [OpenCode: AI Coding Agent miễn phí cho mọi lập trình viên](/cong-nghe/opencode-la-gi-ai-coding-agent/)
+- [Sentence Transformers SBERT: Mô hình AI xử lý ngôn ngữ tự nhiên](/cong-nghe/sentence-transformers-sbert-deep-dive/)
+- [Tạo blog tĩnh với Zola — Hướng dẫn từ A đến Z](/cong-nghe/tao-blog-voi-zola/)
+- [SEO là gì? Hướng dẫn SEO Google từ cơ bản](/cong-nghe/seo-la-gi-huong-dan-co-ban-google-search/)
+- [GitHub Actions CI/CD cho người mới bắt đầu](/cong-nghe/github-actions-ci-cd-cho-nguoi-moi/)
 
 ## Liên kết bên ngoài
 
