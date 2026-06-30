@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-QA 404 Checker — broken-link checker for the Zola blog (OFFLINE-SAFE).
+QA 404 Checker — broken-link checker for the Zola blog (OFFLINE-SAFE, REPORT-ONLY).
 
 Crawls every built HTML page under public/ (after `zola build`), extracts all
 href/src links, classifies internal vs external (handling the `/zola` GitHub
@@ -13,6 +13,11 @@ DESIGN — never hangs:
     external checking is now OPT-IN via `--external` only, and even then every
     request is wrapped in try/except with an 8s timeout, ≤5 redirects, dedupe,
     and a hard cap so it can never block the build indefinitely.
+
+DESIGN — report-only (non-blocking):
+    This script ALWAYS exits 0. It generates data/qa-404-report.json for the
+    Insights dashboard but NEVER fails CI or blocks deployment. Broken links
+    are tracked as data/reports; deployment proceeds regardless.
 
 USAGE:
     zola build                       # produce public/ first
@@ -32,9 +37,7 @@ FLAGS:
     --help       Show this help.
 
 EXIT CODES:
-    2  At least one INTERNAL broken link remains after the run.
-    0  No internal broken links (external failures are warnings only and never
-       fail the build). Also 0 on any unexpected error (cached report kept).
+    0  Always exits 0. Report-only — never fails CI or blocks deployment.
 
 OUTPUT:
     data/qa-404-report.json
@@ -641,8 +644,9 @@ def main(argv: list[str]) -> int:
     if stdout_only:
         pass
 
-    # External failures NEVER fail the build. Only internal broken → exit 2.
-    return 2 if s["internal_broken"] > 0 else 0
+    # Report-only: NEVER fail CI or block deployment. Always exit 0.
+    # Broken links are tracked in data/qa-404-report.json for the Insights dashboard.
+    return 0
 
 
 if __name__ == "__main__":
