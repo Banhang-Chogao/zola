@@ -332,7 +332,7 @@
                                 {% endfor %}
                                 <article class="home-editorial__latest-item" data-category="{{ item_cat }}" data-page-item>
                                     <a class="home-editorial__latest-media" href="{{ page.permalink }}">
-                                        <img src="{{ img::feed_thumb_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
+                                        <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
                                              width="320" height="180" loading="lazy" decoding="async">
                                     </a>
                                     <div class="home-editorial__latest-body">
