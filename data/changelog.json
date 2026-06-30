@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1266",
+      "pr_number": 1266,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1266",
+      "title": "feat(home): Economist-style homepage",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T14:08:16Z",
+      "merge_commit_sha": "5719f30ae3e4",
+      "stats": {
+        "additions": 14724,
+        "deletions": 28435
+      },
+      "highlights": [
+        "Top nav strip với categories (Công nghệ, Ngân hàng, Học tiếng Hàn, Du lịch + Weekly Edition)",
+        "Breaking content banner (featured hero)",
+        "Hero 2-column layout (featured + supporting)",
+        "Timeline 3+1 card grid",
+        "Categories 3-column section"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1265",
       "pr_number": 1265,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1265",
