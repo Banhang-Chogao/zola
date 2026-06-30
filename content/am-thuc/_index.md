@@ -1,5 +1,5 @@
 +++
-title = "Thể thao"
+title = "Ẩm thực"
 sort_by = "date"
 paginate_by = 10
 template = "section.html"

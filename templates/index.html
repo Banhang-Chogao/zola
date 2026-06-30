@@ -19,10 +19,11 @@
 {% block main %}
 <h1 class="visually-hidden">{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân</h1>
 
-{% set posting = get_section(path="posting/_index.md") %}
-{% set baochi = get_section(path="baochi/_index.md") %}
+{% set _idx_posting = get_section(path="posting/_index.md") %}
+{% set _idx_baochi = get_section(path="baochi/_index.md") %}
+{% set _idx_amthuc = get_section(path="am-thuc/_index.md") %}
 {% set_global all_pages = [] %}
-{% for page in posting.pages | concat(with=baochi.pages) %}
+{% for page in _idx_posting.pages | concat(with=_idx_baochi.pages) | concat(with=_idx_amthuc.pages) %}
     {% if not page.extra.feed_anchor %}
         {% set_global all_pages = all_pages | concat(with=[page]) %}
     {% endif %}

@@ -1,0 +1,25 @@
+{% macro get_all_pages() %}
+    {% set s_posting = get_section(path="posting/_index.md") %}
+    {% set s_baochi = get_section(path="baochi/_index.md") %}
+    {% set s_am_thuc = get_section(path="am-thuc/_index.md") %}
+    {% set s_hoc_tieng_han = get_section(path="hoc-tieng-han/_index.md") %}
+    {% set s_seo = get_section(path="seo/_index.md") %}
+    {% set s_world_cup = get_section(path="world-cup-2026/_index.md") %}
+    {% set s_cong_nghe = get_section(path="cong-nghe/_index.md") %}
+    {% set s_ngan_hang = get_section(path="ngan-hang/_index.md") %}
+    {% set s_du_lich = get_section(path="du-lich/_index.md") %}
+    {% set s_khoa_hoc = get_section(path="khoa-hoc/_index.md") %}
+    {% set s_the_thao = get_section(path="the-thao/_index.md") %}
+    {% set s_bao_hiem = get_section(path="bao-hiem/_index.md") %}
+    {% set s_the_gioi = get_section(path="the-gioi/_index.md") %}
+    {% set s_doi_song = get_section(path="doi-song/_index.md") %}
+    {% set s_dien_anh = get_section(path="dien-anh/_index.md") %}
+    {% set_global all_pages = [] %}
+    {% for page in s_posting.pages | concat(with=s_baochi.pages) | concat(with=s_am_thuc.pages) | concat(with=s_hoc_tieng_han.pages) | concat(with=s_seo.pages) | concat(with=s_world_cup.pages) | concat(with=s_cong_nghe.pages) | concat(with=s_ngan_hang.pages) | concat(with=s_du_lich.pages) | concat(with=s_khoa_hoc.pages) | concat(with=s_the_thao.pages) | concat(with=s_bao_hiem.pages) | concat(with=s_the_gioi.pages) | concat(with=s_doi_song.pages) | concat(with=s_dien_anh.pages) %}
+        {% if not page.extra.feed_anchor %}
+            {% set_global all_pages = all_pages | concat(with=[page]) %}
+        {% endif %}
+    {% endfor %}
+    {% set all_pages = all_pages | sort(attribute="date") | reverse %}
+    {{ all_pages | json_encode | safe }}
+{% endmacro get_all_pages %}

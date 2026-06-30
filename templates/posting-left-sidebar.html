@@ -37,9 +37,15 @@
 
             <!-- WIDGET: Sticky Post Widget (section context only) -->
             {% if is_section and current_page_index == 1 %}
-                {% set posting = get_section(path="posting/_index.md") %}
+                {% set _ls_posting = get_section(path="posting/_index.md") %}
+                {% set _ls_baochi = get_section(path="baochi/_index.md") %}
+                {% set _ls_amthuc = get_section(path="am-thuc/_index.md") %}
+                {% set_global _ls_all = [] %}
+                {% for p in _ls_posting.pages | concat(with=_ls_baochi.pages) | concat(with=_ls_amthuc.pages) %}
+                    {% if not p.extra.feed_anchor %}{% set_global _ls_all = _ls_all | concat(with=[p]) %}{% endif %}
+                {% endfor %}
                 {% set sticky_post = none %}
-                {% for p in posting.pages %}
+                {% for p in _ls_all %}
                     {% if not sticky_post and p.extra.sticky %}
                         {% set sticky_post = p %}
                     {% endif %}
@@ -149,9 +155,8 @@
 
             <!-- FEATURED POST (section context, page 1 only) -->
             {% if is_section and current_page_index == 1 %}
-                {% set posting = get_section(path="posting/_index.md") %}
                 {% set featured_post = none %}
-                {% for p in posting.pages %}
+                {% for p in _ls_all %}
                     {% if not featured_post and (not sticky_post or p.slug != sticky_post.slug) %}
                         {% set featured_post = p %}
                     {% endif %}

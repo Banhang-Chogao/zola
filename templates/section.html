@@ -22,8 +22,9 @@
     {% if is_blog_listing %}
         {% set s_posting = get_section(path="posting/_index.md") %}
         {% set s_baochi = get_section(path="baochi/_index.md") %}
+        {% set s_amthuc = get_section(path="am-thuc/_index.md") %}
         {% set_global all_merged = [] %}
-        {% for page in s_posting.pages | concat(with=s_baochi.pages) %}
+        {% for page in s_posting.pages | concat(with=s_baochi.pages) | concat(with=s_amthuc.pages) %}
             {% if not page.extra.feed_anchor %}
                 {% set_global all_merged = all_merged | concat(with=[page]) %}
             {% endif %}

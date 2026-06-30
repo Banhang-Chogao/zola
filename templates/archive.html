@@ -10,10 +10,11 @@
        Gộp posting/ + baochi/ (loại feed_anchor), sort ngày giảm dần, nhóm theo
        NĂM để dễ quét. Filter danh mục client-side (nhẹ, không lib ngoài).
        Mục tiêu: MỌI bài hợp lệ đều truy cập được từ 1 trang — chống "ẩn bài". #}
-    {% set posting = get_section(path="posting/_index.md") %}
-    {% set baochi = get_section(path="baochi/_index.md") %}
+    {% set _ar_posting = get_section(path="posting/_index.md") %}
+    {% set _ar_baochi = get_section(path="baochi/_index.md") %}
+    {% set _ar_amthuc = get_section(path="am-thuc/_index.md") %}
     {% set_global all_pages = [] %}
-    {% for page in posting.pages | concat(with=baochi.pages) %}
+    {% for page in _ar_posting.pages | concat(with=_ar_baochi.pages) | concat(with=_ar_amthuc.pages) %}
         {% if not page.extra.feed_anchor %}
             {% set_global all_pages = all_pages | concat(with=[page]) %}
         {% endif %}
