@@ -1,22 +1,22 @@
 {
-  "generated_at": "2026-06-30T16:38:18.780790+00:00",
-  "generated_at_display": "23:38 30/06/2026",
+  "generated_at": "2026-06-30T22:02:28.143007+00:00",
+  "generated_at_display": "05:02 01/07/2026",
   "source": "build_prod_snapshot.py",
   "shortcut": "??",
   "main": {
-    "sha": "5b36282b954a2b554fd114809d64ba6b2ccefbd0",
-    "sha_short": "5b36282",
-    "title": "main @ 5b36282",
-    "url": "https://github.com/Banhang-Chogao/zola/commit/5b36282b954a2b554fd114809d64ba6b2ccefbd0"
+    "sha": "ca8c952c16b7dea5e8df509c6617f7a92badcd76",
+    "sha_short": "ca8c952",
+    "title": "main @ ca8c952",
+    "url": "https://github.com/Banhang-Chogao/zola/commit/ca8c952c16b7dea5e8df509c6617f7a92badcd76"
   },
   "deploy": {
-    "sha": "5b36282b954a2b554fd114809d64ba6b2ccefbd0",
-    "sha_short": "5b36282",
+    "sha": "06e214eab8e211cf9fcd97ba465c6d1a40625609",
+    "sha_short": "06e214e",
     "status": "green",
-    "deployed_at": "2026-06-30T14:39:47Z",
-    "deployed_at_display": "21:39 30/06/2026",
-    "run_number": 1540,
-    "status_line": "✅ last success #1540",
+    "deployed_at": "2026-06-30T21:27:45Z",
+    "deployed_at_display": "04:27 01/07/2026",
+    "run_number": 1548,
+    "status_line": "✅ last success #1548",
     "deploying": false
   },
   "backend": {
@@ -24,14 +24,14 @@
     "error": "HTTPError"
   },
   "drift": {
-    "status": "green",
-    "status_vi": "Đồng bộ",
-    "hint": "Main, deploy và backend khớp (hoặc chỉ lệch bot data không ảnh hưởng UI).",
-    "main_ahead_of_deploy": false,
+    "status": "yellow",
+    "status_vi": "Main mới hơn production",
+    "hint": "Code đã merge nhưng GitHub Pages chưa ship bản mới — đợi deploy hoặc dispatch deploy.yml.",
+    "main_ahead_of_deploy": true,
     "backend_behind_main": false,
-    "status_line": "main 5b36282 · deploy 5b36282"
+    "status_line": "main ca8c952 · deploy 06e214e"
   },
-  "open_prs_count": 0,
+  "open_prs_count": 1,
   "deploy_monitor_stale": false,
   "deploy_monitor_ok": true
 }
