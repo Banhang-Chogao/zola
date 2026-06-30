@@ -1,6 +1,6 @@
 +++
-title = "Ăn khuya Sài Gòn: 10 món mở sau 11h"
-description = "Ăn khuya Sài Gòn: 10 món và khu dân cú đêm nổi tiếng mở sau 11h — phố ốc, chợ Lớn, bún đêm và quán mở khuya cho dân Sài Gòn."
+title = "Ăn khuya Sài Gòn: 10 món mở sau 11h - Duy Nguyen"
+description = "Duy Nguyen gợi ý 10 món ăn khuya Sài Gòn mở sau 11h — phố ốc, chợ Lớn, bún đêm. Nội dung du lịch ẩm thực chuẩn SEO, kết hợp affiliate đặt bàn và trải nghiệm cá nhân."
 date = 2026-06-16
 aliases = ["/an-khuya-sai-gon/", "/posting/an-khuya-sai-gon/"]
 
