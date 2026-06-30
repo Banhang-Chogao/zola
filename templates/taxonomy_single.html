@@ -6,11 +6,7 @@
 {% block title %}{{ term.name }} | {{ config.title }}{% endblock %}
 
 {% block robots %}
-    {% if taxonomy.name == "categories" and term.name | lower == "series" %}
-        noindex, follow
-    {% else %}
-        index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1
-    {% endif %}
+    noindex, follow
 {% endblock %}
 
 {% block main %}

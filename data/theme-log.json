@@ -18,6 +18,34 @@
   },
   "milestones": [
     {
+      "id": "milestone-20260629-cms-v2-stable-github-login-qui-946b39",
+      "type": "hotfix",
+      "title": "CMS-V2 Stable GitHub Login + Quick Panel Removed",
+      "summary": "Stable rollback point for /cms-v2/ after restoring the PR #1224 GitHub login baseline and removing the auto-injected quick panel that broke footer/layout.",
+      "commit": "8b40d06c",
+      "merge_commit": "",
+      "pr": "#1229",
+      "branch": "",
+      "date": "2026-06-29T23:17:15+07:00",
+      "status": "rollback-target",
+      "scope": "CMS-V2, GitHub login, quick panel removal",
+      "routes": [
+        "/cms-v2/"
+      ],
+      "files": [
+        "static/js/cms-v2.js"
+      ],
+      "restore_mode": "cherry-pick-files",
+      "restore_hint": "If CMS-V2 breaks again, restore the PR #1224 baseline at ee973319, then keep the 8b40d06c quick-panel removal so the auto-injected panel does not return.",
+      "qa": {
+        "zola_build": "unknown",
+        "qa_check": "unknown",
+        "qa_404": "unknown"
+      },
+      "risk": "low",
+      "notes": "Rollback label: CMS_V2_STABLE_LOGIN_NO_QUICK_PANEL. Quick panel source removed completely: makePanel() removed, makePanel() call removed, data-cms-v2-quick-panel references removed, Quick usable mode removed, Composer preview & export removed. Auth/login, homepage/theme, backend, content/generated/public/workflows remain untouched."
+    },
+    {
       "id": "milestone-20260628-core-web-vitals-performance-op-494cb7",
       "type": "feature",
       "title": "Core Web Vitals Performance Optimization",

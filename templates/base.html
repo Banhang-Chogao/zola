@@ -268,8 +268,48 @@
     <meta name="twitter:description" content="{{ page_description }}">
     <meta name="twitter:image" content="{{ og_image | safe }}">
 
+    {# ===== Series manifest loader (reused by Article schema + BreadcrumbList) =====
+       Tải manifest cho series nếu page có extra.series. Dùng global để chia sẻ
+       giữa Article JSON-LD (isPartOf) và BreadcrumbList bên dưới. #}
+    {% set_global page_series_manifest = false %}
+    {% set_global page_series_name = "" %}
+    {% set_global page_series_pillar_url = "" %}
+    {% if page and page.extra and page.extra.series is defined %}
+        {% if page.extra.series == "seo-foundation" %}
+            {% set m = load_data(path="data/seo-foundation-series.json", required=false) %}
+        {% elif page.extra.series == "adsense-foundation" %}
+            {% set m = load_data(path="data/adsense-foundation-series.json", required=false) %}
+        {% elif page.extra.series == "science-uranium" %}
+            {% set m = load_data(path="data/science-uranium-series.json", required=false) %}
+        {% elif page.extra.series == "ngan-hang-so" %}
+            {% set m = load_data(path="data/ngan-hang-so-series.json", required=false) %}
+        {% elif page.extra.series == "git-github" %}
+            {% set m = load_data(path="data/git-github-series.json", required=false) %}
+        {% elif page.extra.series == "korean-30day" %}
+            {% set m = load_data(path="data/korean-30day-series.json", required=false) %}
+        {% elif page.extra.series == "google-analytics" %}
+            {% set m = load_data(path="data/google-analytics-series.json", required=false) %}
+        {% elif page.extra.series == "google-preferred-sources" %}
+            {% set m = load_data(path="data/google-preferred-sources-series.json", required=false) %}
+        {% elif page.extra.series == "vietinbank" %}
+            {% set m = load_data(path="data/vietinbank-series.json", required=false) %}
+        {% elif page.extra.series == "nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb" %}
+            {% set m = load_data(path="data/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb-series.json", required=false) %}
+        {% elif page.extra.series == "tiet-kiem-tu-dong-cua-ngan-hang-liobank-bd55c9" %}
+            {% set m = load_data(path="data/tiet-kiem-tu-dong-cua-ngan-hang-liobank-bd55c9-series.json", required=false) %}
+        {% else %}
+            {% set m = false %}
+        {% endif %}
+        {% if m and m.id and page.extra.series == m.id %}
+            {% set_global page_series_manifest = m %}
+            {% set_global page_series_name = m.title_vi | default(value=m.title) %}
+            {% set_global page_series_pillar_url = config.base_url ~ "/" ~ m.section ~ "/" ~ m.pillar_slug ~ "/" %}
+        {% endif %}
+    {% endif %}
+
     {# ===== JSON-LD structured data (rich snippet schema.org) =====
-       Page (article) → Article schema với headline, image, datePublished.
+       Page (article) → Article schema với headline, image, datePublished,
+       và isPartOf (CreativeWorkSeries) nếu thuộc series.
        Section/Index → WebSite schema với SearchAction potential. #}
     <script type="application/ld+json">
     {
@@ -299,6 +339,13 @@
             "@id": "{{ canonical_url | safe }}"
         },
         "description": {{ page_description | json_encode | safe }}
+        {% if page_series_manifest %},
+        "isPartOf": {
+            "@type": "CreativeWorkSeries",
+            "name": {{ page_series_name | json_encode | safe }},
+            "url": {{ page_series_pillar_url | json_encode | safe }}
+        }
+        {% endif %}
         {% else %}
         "@type": "WebSite",
         "name": {{ config.title | json_encode | safe }},
@@ -312,38 +359,20 @@
     }
     </script>
 
-    {# ===== BreadcrumbList schema (Trang chủ → Section → Bài) =====
-       Giúp Google hiển thị breadcrumb trong kết quả + hiểu cấu trúc site. #}
+    {# ===== BreadcrumbList schema (Trang chủ → Section → Series → Bài) =====
+       Dùng page_series_manifest đã load ở trên cho mọi series (11 manifest).
+       Giúp Google hiểu cấu trúc site + hiển thị breadcrumb rich result. #}
     {% if page and page.components | length > 0 %}
     {% set sec_slug = page.components | first %}
     {% if sec_slug == "posting" %}{% set sec_name = "Bài viết" %}
     {% elif sec_slug == "baochi" %}{% set sec_name = "Báo chí" %}
     {% else %}{% set sec_name = sec_slug | capitalize %}{% endif %}
-    {% set series_manifest = false %}
-    {% if page.extra and page.extra.series is defined and page.extra.series == "seo-foundation" %}
-        {% set series_manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
-    {% elif page.extra and page.extra.series is defined and page.extra.series == "adsense-foundation" %}
-        {% set series_manifest = load_data(path="data/adsense-foundation-series.json", required=false) %}
-    {% elif page.extra and page.extra.series is defined and page.extra.series == "science-uranium" %}
-        {% set series_manifest = load_data(path="data/science-uranium-series.json", required=false) %}
-    {% elif page.extra and page.extra.series is defined and page.extra.series == "ngan-hang-so" %}
-        {% set series_manifest = load_data(path="data/ngan-hang-so-series.json", required=false) %}
-    {% elif page.extra and page.extra.series is defined and page.extra.series == "git-github" %}
-        {% set series_manifest = load_data(path="data/git-github-series.json", required=false) %}
-    {% elif page.extra and page.extra.series is defined and page.extra.series == "korean-30day" %}
-        {% set series_manifest = load_data(path="data/korean-30day-series.json", required=false) %}
-    {% elif page.extra and page.extra.series is defined and page.extra.series == "google-analytics" %}
-        {% set series_manifest = load_data(path="data/google-analytics-series.json", required=false) %}
-    {% elif page.extra and page.extra.series is defined and page.extra.series == "nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb" %}
-        {% set series_manifest = load_data(path="data/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb-series.json", required=false) %}
-    {% elif page.extra and page.extra.series is defined and page.extra.series == "opencode-ai-viet-code-mien-phi" %}
-        {% set series_manifest = load_data(path="data/opencode-ai-viet-code-mien-phi-series.json", required=false) %}
-    {% endif %}
+
     {% set in_series = false %}
     {% set series_pillar_url = "" %}
-    {% if series_manifest and page.extra and page.extra.series is defined and page.extra.series == series_manifest.id %}
+    {% if page_series_manifest %}
         {% set_global in_series = true %}
-        {% set_global series_pillar_url = config.base_url ~ "/" ~ series_manifest.section ~ "/" ~ series_manifest.pillar_slug ~ "/" %}
+        {% set_global series_pillar_url = page_series_pillar_url %}
     {% endif %}
     <script type="application/ld+json">
     {
@@ -365,7 +394,7 @@
             {
                 "@type": "ListItem",
                 "position": 3,
-                "name": {{ series_manifest.title_vi | json_encode | safe }},
+                "name": {{ page_series_name | json_encode | safe }},
                 "item": "{{ series_pillar_url | safe }}"
             },
             {

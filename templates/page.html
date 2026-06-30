@@ -61,35 +61,35 @@
             </nav>
             <h1 class="post-single__title">{{ page.title }}</h1>
             <div class="post-meta">
-                <span class="post-meta__author">
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span class="post-meta__chip post-meta__chip--author">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     {{ config.extra.author }}{{ v::badge() }}
                 </span>
-                <span class="post-meta__date">
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    <span class="post-meta__date-times">
-                        {# Thời gian đăng = thời gian THỰC TẾ. Chỉ hiện giờ khi frontmatter
-                           `date` có thành phần giờ (ISO8601 có "T", vd 2026-06-27T14:30:00+07:00).
-                           Bài cũ chỉ có ngày (date-only) → KHÔNG hiện "00:00" giả, chỉ hiện ngày. #}
-                        {% set pub_date = page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") %}
-                        {% if page.date and page.date is containing("T") %}
-                            {% set pub_time = page.date | date(format="%H:%M", timezone="Asia/Ho_Chi_Minh") %}
-                            <span class="post-meta__published">Đăng: {{ pub_time }}, {{ pub_date }}</span>
-                        {% else %}
-                            <span class="post-meta__published">Đăng: {{ pub_date }}</span>
-                        {% endif %}
-                        {% if page.updated or page.extra.updated_at %}
-                            {% set upd_raw = page.updated | default(value=page.extra.updated_at) %}
-                            {% set upd_date = upd_raw | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") %}
-                            {% if upd_raw is containing("T") %}
-                                {% set upd_time = upd_raw | date(format="%H:%M", timezone="Asia/Ho_Chi_Minh") %}
-                                <span class="post-meta__updated">Cập nhật: {{ upd_time }}, {{ upd_date }}</span>
-                            {% else %}
-                                <span class="post-meta__updated">Cập nhật: {{ upd_date }}</span>
-                            {% endif %}
-                        {% endif %}
-                    </span>
-                </span>
+
+                {% set pub_date = page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") %}
+                {% if page.date and page.date is containing("T") %}
+                    {% set pub_time = page.date | date(format="%H:%M", timezone="Asia/Ho_Chi_Minh") %}
+                    <span class="post-meta__chip post-meta__chip--date">Đăng: {{ pub_time }}, {{ pub_date }}</span>
+                {% else %}
+                    <span class="post-meta__chip post-meta__chip--date">Đăng: {{ pub_date }}</span>
+                {% endif %}
+
+                {% if page.updated or page.extra.updated_at %}
+                    {% set upd_raw = page.updated | default(value=page.extra.updated_at) %}
+                    {% set upd_date = upd_raw | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") %}
+                    {% if upd_raw is containing("T") %}
+                        {% set upd_time = upd_raw | date(format="%H:%M", timezone="Asia/Ho_Chi_Minh") %}
+                        <span class="post-meta__chip post-meta__chip--updated">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            Cập nhật: {{ upd_time }}, {{ upd_date }}
+                        </span>
+                    {% else %}
+                        <span class="post-meta__chip post-meta__chip--updated">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            Cập nhật: {{ upd_date }}
+                        </span>
+                    {% endif %}
+                {% endif %}
             </div>
 
             {# Stats badge — SEO score render từ DB build-time, reading stats do JS bổ sung. #}
@@ -169,6 +169,12 @@
         {{ series_hub::callout(page=page) }}
 
         {{ series::nav(page=page) }}
+
+        {% if page.extra and page.extra.series is defined %}
+        <div class="series-hub-backlink">
+            <a href="{{ get_url(path='@/series/_index.md') }}">← Quay lại trang tổng hợp series</a>
+        </div>
+        {% endif %}
 
         {{ references::section(page=page) }}
 
