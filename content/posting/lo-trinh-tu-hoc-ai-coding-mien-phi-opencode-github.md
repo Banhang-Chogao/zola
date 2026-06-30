@@ -8,7 +8,7 @@ slug = "lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github"
 aliases = ["/lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github/"]
 [taxonomies]
 categories = ["Tất cả", "Series", "Công nghệ"]
-tags = ["AI", "OpenCode", "GitHub", "lộ trình học", "AI coding"]
+tags = ["ai", "ai coding", "github", "lộ trình học", "opencode"]
 [extra]
 author = "Duy Nguyen"
 seo_keyword = "AI coding miễn phí với OpenCode"

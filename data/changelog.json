@@ -1,6 +1,47 @@
 {
   "items": [
     {
+      "id": "pr-1260",
+      "pr_number": 1260,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1260",
+      "title": "feat(series): register OpenCode AI Coding series (10 bài)",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T11:33:31Z",
+      "merge_commit_sha": "5e1996455e7f",
+      "stats": {
+        "additions": 85,
+        "deletions": 1
+      },
+      "highlights": [
+        "Tạo manifest: data/opencode-ai-viet-code-mien-phi-series.json — 10 bài đã published",
+        "4 template elif chains: series-listing.html, series-nav.html, page.html (related), base.html (breadcrumb schema)",
+        "Trang /series/ hiển thị series qua fallback (tự động thay '-' bằng space, không có title_vi/description)",
+        "Bài viết không có prev/next navigation trong series",
+        "Related articles không ưu tiên bài cùng series"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1259",
+      "pr_number": 1259,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1259",
+      "title": "fix(changelog): repair template path + add GH_TOKEN to push step",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T11:29:56Z",
+      "merge_commit_sha": "c0e90359e4e5",
+      "stats": {
+        "additions": 2,
+        "deletions": 1
+      },
+      "highlights": [
+        "templates/changelog.html: changelog.json → data/changelog.json",
+        ".github/workflows/changelog-update.yml: thêm GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} vào env của push step"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1039",
       "pr_number": 1039,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1039",

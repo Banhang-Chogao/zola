@@ -8,7 +8,7 @@ slug = "opencode-so-voi-cursor-claude-code-copilot"
 aliases = ["/opencode-so-voi-cursor-claude-code-copilot/"]
 [taxonomies]
 categories = ["Tất cả", "Series", "Công nghệ"]
-tags = ["AI", "OpenCode", "Cursor", "Claude Code", "GitHub Copilot"]
+tags = ["ai", "claude code", "cursor", "github copilot", "opencode"]
 [extra]
 author = "Duy Nguyen"
 seo_keyword = "OpenCode so với Cursor Claude Code Copilot"

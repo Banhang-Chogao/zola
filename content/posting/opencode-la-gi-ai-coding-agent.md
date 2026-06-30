@@ -9,8 +9,7 @@ aliases = ["/opencode-la-gi-ai-coding-agent/"]
 
 [taxonomies]
 categories = ["Tất cả", "Series", "Công nghệ"]
-tags = ["AI", "GitHub", "OpenCode", "open source", "coding agent"]
-
+tags = ["ai", "coding agent", "github", "open source", "opencode"]
 [extra]
 author = "Duy Nguyen"
 seo_keyword = "OpenCode là gì"

@@ -8,7 +8,7 @@ slug = "opencode-mien-phi-kiem-tien-nhu-the-nao"
 aliases = ["/opencode-mien-phi-kiem-tien-nhu-the-nao/"]
 [taxonomies]
 categories = ["Tất cả", "Series", "Công nghệ"]
-tags = ["AI", "OpenCode", "open source", "business model", "SaaS"]
+tags = ["ai", "business model", "open source", "opencode", "saas"]
 [extra]
 author = "Duy Nguyen"
 seo_keyword = "OpenCode miễn phí"

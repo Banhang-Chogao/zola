@@ -8,7 +8,7 @@ slug = "dung-opencode-an-toan-khong-lo-token"
 aliases = ["/dung-opencode-an-toan-khong-lo-token/"]
 [taxonomies]
 categories = ["Tất cả", "Series", "Công nghệ"]
-tags = ["AI", "OpenCode", "GitHub", "bảo mật", "token"]
+tags = ["ai", "bảo mật", "github", "opencode", "token"]
 [extra]
 author = "Duy Nguyen"
 seo_keyword = "dùng OpenCode an toàn"

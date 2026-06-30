@@ -367,6 +367,7 @@
     {% if sec_slug == "posting" %}{% set sec_name = "Bài viết" %}
     {% elif sec_slug == "baochi" %}{% set sec_name = "Báo chí" %}
     {% else %}{% set sec_name = sec_slug | capitalize %}{% endif %}
+
     {% set in_series = false %}
     {% set series_pillar_url = "" %}
     {% if page_series_manifest %}

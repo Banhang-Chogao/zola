@@ -9,8 +9,7 @@ aliases = ["/ai-viet-code-mien-phi-github-opencode/"]
 
 [taxonomies]
 categories = ["Tất cả", "Series", "Công nghệ"]
-tags = ["AI", "GitHub", "OpenCode", "GitHub Copilot", "AI coding"]
-
+tags = ["ai", "ai coding", "github", "github copilot", "opencode"]
 [extra]
 author = "Duy Nguyen"
 seo_keyword = "AI viết code miễn phí GitHub"
