@@ -9,8 +9,7 @@ aliases = ["/cai-opencode-trong-github-codespaces/"]
 
 [taxonomies]
 categories = ["Tất cả", "Series", "Công nghệ"]
-tags = ["AI", "GitHub", "OpenCode", "Codespaces", "hướng dẫn"]
-
+tags = ["ai", "codespaces", "github", "hướng dẫn", "opencode"]
 [extra]
 author = "Duy Nguyen"
 seo_keyword = "OpenCode trong GitHub Codespaces"

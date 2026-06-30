@@ -8,7 +8,7 @@ slug = "workflow-30-phut-moi-ngay-opencode"
 aliases = ["/workflow-30-phut-moi-ngay-opencode/"]
 [taxonomies]
 categories = ["Tất cả", "Series", "Công nghệ"]
-tags = ["AI", "GitHub", "OpenCode", "pull request", "workflow"]
+tags = ["ai", "github", "opencode", "pull request", "workflow"]
 [extra]
 author = "Duy Nguyen"
 seo_keyword = "workflow OpenCode 30 phút mỗi ngày"

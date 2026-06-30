@@ -8,7 +8,7 @@ slug = "github-copilot-free-opencode-han-muc"
 aliases = ["/github-copilot-free-opencode-han-muc/"]
 [taxonomies]
 categories = ["Tất cả", "Series", "Công nghệ"]
-tags = ["AI", "GitHub", "OpenCode", "GitHub Copilot Free", "quota"]
+tags = ["ai", "github", "github copilot free", "opencode", "quota"]
 [extra]
 author = "Duy Nguyen"
 seo_keyword = "GitHub Copilot Free với OpenCode"

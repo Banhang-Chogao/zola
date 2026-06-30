@@ -8,7 +8,7 @@ slug = "lich-su-opencode-ai-coding-open-source"
 aliases = ["/lich-su-opencode-ai-coding-open-source/"]
 [taxonomies]
 categories = ["Tất cả", "Series", "Công nghệ"]
-tags = ["AI", "OpenCode", "open source", "Anomaly", "lịch sử công nghệ"]
+tags = ["ai", "anomaly", "lịch sử công nghệ", "open source", "opencode"]
 [extra]
 author = "Duy Nguyen"
 seo_keyword = "lịch sử OpenCode AI coding open-source"
