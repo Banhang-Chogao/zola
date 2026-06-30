@@ -3,7 +3,7 @@
 {% block title %}Changelog | {{ config.title }}{% endblock %}
 
 {% block main %}
-    {% set changelog_data = load_data(path="changelog.json", required=false) %}
+    {% set changelog_data = load_data(path="data/changelog.json", required=false) %}
     {% set items = changelog_data.items | default(value=[]) %}
 
     <section class="changelog">
