@@ -93,7 +93,7 @@
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.google.com https://cse.google.com;
         font-src 'self' https://fonts.gstatic.com;
         img-src 'self' https: data:;
-        connect-src 'self' https://api.seomoney.org https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://cse.google.com https://*.googleapis.com https://*.onrender.com https://*.railway.app https://cdn.jsdelivr.net https://tessdata.projectnaptha.com;
+        connect-src 'self' https://api.seomoney.org https://api.allorigins.win https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://cse.google.com https://*.googleapis.com https://*.onrender.com https://*.railway.app https://cdn.jsdelivr.net https://tessdata.projectnaptha.com;
         worker-src 'self' blob: https://cdn.jsdelivr.net;
         frame-src https://giscus.app https://www.google.com;
         frame-ancestors 'none';
@@ -415,11 +415,11 @@
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
 
-    {# Typography stack: Manrope (primary body + heading) + Inter (UI/menu)
-       + Be Vietnam Pro (meta/diacritics tiếng Việt). 1 request gộp font-family
+    {# Typography stack: Inter (body, heading, UI) + Be Vietnam Pro fallback.
+       Một request Google Fonts dùng chung cho toàn site
        Google Fonts. Load non-blocking qua media=print swap → cải thiện FCP/LCP.
        display=swap → text hiện ngay với system fallback, swap khi font ready. #}
-    {% set google_fonts = "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Be+Vietnam+Pro:wght@400;500&display=swap" %}
+    {% set google_fonts = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" %}
     <link rel="preload" as="style" href="{{ google_fonts }}">
     <link rel="stylesheet" href="{{ google_fonts }}" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="{{ google_fonts }}"></noscript>
@@ -835,6 +835,8 @@
         </div>
     </footer>
 
+    {% include "partials/gcf-stock-widget.html" %}
+
     {# Cloudflare DISCONNECTED — Turnstile not loaded (no challenges.cloudflare.com).
        Re-enable: uncomment the include below. Partial kept at partials/turnstile_footer.html.
        {% include "partials/turnstile_footer.html" %}
@@ -845,6 +847,7 @@
     <script src="{{ get_url(path='js/google-rank.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/auth.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/gcf-stock-widget.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/ga-improvement-progress.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/staging-queue.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/navbar-mobile.js') }}?v={{ asset_version }}" defer></script>

@@ -4,10 +4,6 @@
   const root = document.getElementById("notice-board-app");
   if (!root) return;
 
-  const AUTH_API = ((document.querySelector('meta[name="zola-cms-auth-api"]') || {}).content ||
-    "https://blog-vipzone-api.onrender.com").replace(/\/$/, "");
-  const SESSION_KEY = "zola-cms-session-id";
-  const STORAGE_KEY = "zola-notice-board-v1";
   const PAGE_SIZE = 10;
   const REQUIRED_UTM = ["utm_source", "utm_medium", "utm_campaign"];
   const TOKEN_NAMES = ["SOURCE", "MEDIUM", "CAMPAIGN_NAME", "CAMPAIGN_ID", "PLACEMENT", "AD_ID", "KEYWORD"];
@@ -18,96 +14,14 @@
   let activePlacement = null;
 
   const content = root.querySelector("[data-nb-content]");
-  const auth = root.querySelector("[data-nb-auth]");
-  const placementDialog = root.querySelector("[data-nb-placement-dialog]");
-  const placementForm = root.querySelector("[data-nb-placement-form]");
   const utmDialog = root.querySelector("[data-nb-utm-dialog]");
   const utmForm = root.querySelector("[data-nb-utm-form]");
 
-  function getSid() {
-    try { return localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) || ""; }
-    catch (_) { return ""; }
-  }
-
-  function consumeSid() {
-    const match = location.hash.match(/(?:^|[#&])sid=([A-Za-z0-9_-]+)/);
-    if (!match) return;
-    try { localStorage.setItem(SESSION_KEY, match[1]); } catch (_) {}
-    history.replaceState(null, "", location.pathname + location.search);
-  }
-
-  function setAuthView(view, message) {
-    auth.dataset.nbAuth = view;
-    auth.querySelector("[data-nb-auth-title]").textContent = {
-      checking: "Đang kiểm tra quyền quản trị…",
-      guest: "Đăng nhập để mở Notice Board",
-      denied: "Không có quyền truy cập",
-      error: "Không thể xác minh quyền truy cập",
-    }[view];
-    auth.querySelector("[data-nb-auth-message]").textContent = message || {
-      checking: "Notice Board chỉ dành cho admin.",
-      guest: "Vui lòng đăng nhập bằng tài khoản nằm trong admin allowlist.",
-      denied: "Tài khoản hiện tại không có quyền Admin.",
-      error: "Backend xác thực chưa phản hồi. Không mở dữ liệu quản trị khi chưa xác minh.",
-    }[view];
-    root.querySelector("[data-nb-login]").hidden = view !== "guest" && view !== "denied";
-    root.querySelector("[data-nb-retry]").hidden = view !== "error";
-    auth.hidden = false;
-    content.hidden = true;
-  }
-
-  async function authenticate() {
-    setAuthView("checking");
-    const sid = getSid();
-    if (!sid) return setAuthView("guest");
-    const controller = new AbortController();
-    const timer = setTimeout(function () { controller.abort(); }, 9000);
-    try {
-      const response = await fetch(AUTH_API + "/auth/me", {
-        headers: { Authorization: "Bearer " + sid },
-        credentials: "include",
-        cache: "no-store",
-        signal: controller.signal,
-      });
-      if (response.status === 401) return setAuthView("guest");
-      if (!response.ok) return setAuthView("error");
-      const user = await response.json();
-      if (user.is_admin !== true && user.is_super !== true) return setAuthView("denied");
-      auth.hidden = true;
-      content.hidden = false;
-      await loadData();
-    } catch (_) {
-      setAuthView("error");
-    } finally {
-      clearTimeout(timer);
-    }
-  }
-
-  function login() {
-    location.href = AUTH_API + "/auth/google/start?return_to=" + encodeURIComponent(location.pathname);
-  }
-
   async function loadData() {
-    const saved = readLocal();
-    if (saved) {
-      state = saved;
-    } else {
-      const response = await fetch(root.dataset.source, { cache: "no-store" });
-      if (!response.ok) throw new Error("Cannot load Notice Board data");
-      state = await response.json();
-    }
+    const response = await fetch(root.dataset.source, { cache: "no-store" });
+    if (!response.ok) throw new Error("Cannot load Notice Board demo data");
+    state = await response.json();
     renderAll();
-  }
-
-  function readLocal() {
-    try {
-      const value = JSON.parse(localStorage.getItem(STORAGE_KEY));
-      return value && Array.isArray(value.placements) ? value : null;
-    } catch (_) { return null; }
-  }
-
-  function saveLocal() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }
 
   function totals(item) {
@@ -213,10 +127,7 @@
 
   function actions(item) {
     return '<button data-nb-row-action="utm" data-id="' + item.id + '">🔗 UTM</button>' +
-      '<button data-nb-row-action="report" data-id="' + item.id + '">📊 Stats</button>' +
-      '<button data-nb-row-action="edit" data-id="' + item.id + '">✏️ Sửa</button>' +
-      '<button data-nb-row-action="toggle" data-id="' + item.id + '">' + (item.status === "active" ? "⏸️" : "▶️") + "</button>" +
-      '<button data-nb-row-action="delete" data-id="' + item.id + '">🗑️</button>';
+      '<button data-nb-row-action="report" data-id="' + item.id + '">📊 Stats</button>';
   }
 
   function renderPagination(pages) {
@@ -224,27 +135,6 @@
     for (let i = 1; i <= pages; i += 1) html += '<button data-page="' + i + '" class="' + (i === page ? "is-active" : "") + '">' + i + "</button>";
     html += '<button data-page="' + (page + 1) + '" ' + (page === pages ? "disabled" : "") + ">▶</button><span>Trang " + page + "/" + pages + "</span>";
     root.querySelector("[data-nb-pagination]").innerHTML = html;
-  }
-
-  function openPlacement(item) {
-    placementForm.reset();
-    root.querySelector("[data-nb-placement-form-title]").textContent = item ? "Sửa vị trí" : "Thêm vị trí";
-    ["id", "name", "site", "type", "size", "zone", "device", "status", "targetUrl", "targeting", "startDate", "endDate", "adCode"].forEach(function (key) {
-      if (item && placementForm.elements[key]) placementForm.elements[key].value = item[key] || "";
-    });
-    placementDialog.showModal();
-  }
-
-  function savePlacement() {
-    if (!placementForm.reportValidity()) return;
-    const values = Object.fromEntries(new FormData(placementForm).entries());
-    let item = state.placements.find(function (x) { return x.id === values.id; });
-    if (!item) {
-      item = { id: "placement_" + Date.now(), daily: [], cost: 0, utmTemplate: "", tokens: {} };
-      state.placements.unshift(item);
-    }
-    Object.assign(item, values, { id: item.id });
-    saveLocal(); placementDialog.close(); renderAll();
   }
 
   function openUtm(item) {
@@ -297,15 +187,6 @@
     validation.className = "notice-validation " + (errors.length ? "is-error" : "is-valid");
     validation.textContent = errors.length ? errors.join(" · ") : "✓ UTM hợp lệ";
     root.querySelector("[data-nb-open-preview]").href = errors.length ? "#" : preview;
-  }
-
-  function saveUtm() {
-    refreshPreview();
-    if (validateUtm(buildPreview()).length) return;
-    activePlacement.utmTemplate = utmForm.elements.utmTemplate.value.trim();
-    activePlacement.tokens = {};
-    TOKEN_NAMES.forEach(function (name) { activePlacement.tokens[name] = utmForm.elements["token_" + name].value.trim(); });
-    saveLocal(); utmDialog.close(); renderAll();
   }
 
   function renderUtmPerformance(item) {
@@ -427,19 +308,11 @@
       if (!item) return;
       if (rowAction.dataset.nbRowAction === "utm") return openUtm(item);
       if (rowAction.dataset.nbRowAction === "report") { selectTab("reports"); return; }
-      if (rowAction.dataset.nbRowAction === "edit") return openPlacement(item);
-      if (rowAction.dataset.nbRowAction === "toggle") {
-        item.status = item.status === "active" ? "inactive" : "active"; saveLocal(); return renderAll();
-      }
-      if (rowAction.dataset.nbRowAction === "delete" && confirm("Xoá placement " + item.name + "?")) {
-        state.placements = state.placements.filter(function (x) { return x.id !== item.id; }); saveLocal(); renderAll();
-      }
     }
     const pageButton = event.target.closest("[data-page]");
     if (pageButton && !pageButton.disabled) { page = Number(pageButton.dataset.page); renderPlacementList(); renderPagination(Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))); }
     const action = event.target.closest("[data-nb-action]");
     if (action) {
-      if (action.dataset.nbAction === "new") openPlacement(null);
       if (action.dataset.nbAction === "search") root.querySelector("[data-nb-search]").focus();
       if (action.dataset.nbAction === "first-utm" && state.placements[0]) openUtm(state.placements[0]);
     }
@@ -454,10 +327,6 @@
 
   root.querySelector("[data-nb-search]").addEventListener("input", function () { page = 1; applyFilters(); });
   root.querySelectorAll("[data-nb-filter]").forEach(function (select) { select.addEventListener("change", function () { page = 1; applyFilters(); }); });
-  root.querySelector("[data-nb-login]").addEventListener("click", login);
-  root.querySelector("[data-nb-retry]").addEventListener("click", authenticate);
-  root.querySelector("[data-nb-save-placement]").addEventListener("click", function (event) { event.preventDefault(); savePlacement(); });
-  root.querySelector("[data-nb-save-utm]").addEventListener("click", function (event) { event.preventDefault(); saveUtm(); });
   root.querySelector("[data-nb-refresh-preview]").addEventListener("click", refreshPreview);
   root.querySelector("[data-nb-copy-template]").addEventListener("click", function () { navigator.clipboard.writeText(utmForm.elements.utmTemplate.value); });
   root.querySelector("[data-nb-template-select]").addEventListener("change", function (event) {
@@ -475,6 +344,7 @@
     });
   }
 
-  consumeSid();
-  authenticate();
+  loadData().catch(function () {
+    content.innerHTML = '<div class="notice-load-error" role="alert">Không thể tải dữ liệu demo. Vui lòng thử lại sau.</div>';
+  });
 }());

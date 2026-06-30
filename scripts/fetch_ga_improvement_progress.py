@@ -449,7 +449,7 @@ def build_payload() -> dict[str, Any]:
     pagespeed = _load(data / "pagespeed.json")
     perf_audit = _load(data / "performance-audit-snapshot.json")
     compliance = _load(data / "compliance-score.json")
-    changelog_raw = _load(ROOT / "changelog.json")
+    changelog_raw = _load(ROOT / "data" / "changelog.json")
     changelog_list = changelog_raw if isinstance(changelog_raw, list) else (changelog_raw or {}).get("items") or []
 
     tasks = [

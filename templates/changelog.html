@@ -3,16 +3,16 @@
 {% block title %}Changelog | {{ config.title }}{% endblock %}
 
 {% block main %}
+    {% set changelog_data = load_data(path="changelog.json", required=false) %}
+    {% set items = changelog_data.items | default(value=[]) %}
 
     <section class="changelog">
         <header class="changelog__header">
             <h1 class="changelog__title-main">Changelog</h1>
-            <p class="changelog__sub">Lịch sử cập nhật & PR của blog · gần đây nhất ở trên</p>
+            <p class="changelog__sub">Lịch sử cập nhật & PR của blog · gần đây nhất ở trên · <strong>{{ items | length }}</strong> cập nhật</p>
         </header>
 
-        {# ===== STAGING QUEUE WIDGET =====
-           Hydrate qua static/js/staging-queue.js (GitHub API + sessionStorage 60s).
-           Empty-state mặc định nếu fetch fail / chưa load — không phá UX. #}
+        {# ===== STAGING QUEUE WIDGET ===== #}
         <aside class="staging-queue" data-staging-queue hidden>
             <header class="staging-queue__header">
                 <h2 class="staging-queue__title">
@@ -27,7 +27,6 @@
             </header>
 
             <ol class="staging-queue__list" data-staging-list></ol>
-
             <p class="staging-queue__empty" data-staging-empty hidden>Không có PR đang chờ deploy.</p>
 
             <template data-staging-template>
@@ -55,19 +54,87 @@
                 <p>Các PR và commit đã được đưa vào <code>main</code>.</p>
             </header>
 
-            <ol
-                class="changelog__list"
-                data-changelog-list
-                data-source="{{ get_url(path='data/changelog.json') }}"
-                data-page-size="15"
-            ></ol>
+            {% if items | length == 0 %}
+                <p class="changelog__empty">Chưa có cập nhật nào trong lịch sử.</p>
+            {% else %}
+                <ol class="changelog__list" data-changelog-list data-page-size="15">
+                    {% for item in items %}
+                    <li class="changelog__item changelog__item--success" data-changelog-item>
+                        <div class="changelog__badge" aria-label="Meta Verified" title="Meta Verified">
+                            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="v-badge-{{ loop.index }}" x1="0" y1="0" x2="36" y2="36">
+                                        <stop offset="0%" stop-color="#2563eb"/>
+                                        <stop offset="100%" stop-color="#06b6d4"/>
+                                    </linearGradient>
+                                </defs>
+                                <circle cx="18" cy="18" r="17" fill="url(#v-badge-{{ loop.index }})" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                                <path d="M14 19l3 3 5-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                            </svg>
+                        </div>
 
-            <nav class="changelog__pagination" data-changelog-pagination hidden aria-label="Phân trang changelog">
-                <button type="button" data-page-prev>Trang trước</button>
-                <span data-page-numbers></span>
-                <button type="button" data-page-next>Trang sau</button>
-                <span data-page-status aria-live="polite"></span>
-            </nav>
+                        <article class="changelog__content">
+                            <div class="changelog__head">
+                                <h3 class="changelog__item-title">
+                                    {% if item.pr_number and item.pr_number > 0 %}
+                                        <a href="{{ item.pr_url }}" target="_blank" rel="noopener" class="changelog__title-link">{{ item.title }}</a>
+                                        <span class="changelog__pr-ref">#{{ item.pr_number }}</span>
+                                    {% else %}
+                                        {{ item.title }}
+                                    {% endif %}
+                                </h3>
+                                {% if item.tag %}
+                                <span class="changelog__tag changelog__tag--{{ item.tag | lower }}">{{ item.tag }}</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="changelog__technical">
+                                {% if item.merge_commit_sha %}
+                                <code class="changelog__sha">{{ item.merge_commit_sha }}</code>
+                                {% endif %}
+                                <span class="changelog__stats">
+                                    {% set add = item.stats.additions | default(value=0) %}
+                                    {% set rem = item.stats.deletions | default(value=0) %}
+                                    <span class="changelog__stats-add">+{{ add }}</span>
+                                    <span class="changelog__stats-dot">·</span>
+                                    <span class="changelog__stats-rem">−{{ rem }}</span>
+                                </span>
+                            </div>
+
+                            {% if item.highlights | length > 0 %}
+                            <ul class="changelog__highlights">
+                                {% for hl in item.highlights %}
+                                <li>{{ hl }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+
+                            <div class="changelog__meta">
+                                {% if item.merged_at %}
+                                <time class="changelog__date" datetime="{{ item.merged_at }}">
+                                    {{ item.merged_at | date(format="%H:%M %d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}
+                                </time>
+                                {% endif %}
+                                <span class="changelog__dot">·</span>
+                                {% if item.pr_number and item.pr_number > 0 %}
+                                <a href="{{ item.pr_url }}" class="changelog__pr-link" target="_blank" rel="noopener">PR #{{ item.pr_number }}</a>
+                                {% endif %}
+                                {% if item.author %}
+                                <span class="changelog__author">@{{ item.author }}</span>
+                                {% endif %}
+                            </div>
+                        </article>
+                    </li>
+                    {% endfor %}
+                </ol>
+
+                <nav class="changelog__pagination" data-changelog-pagination hidden aria-label="Phân trang changelog">
+                    <button type="button" data-page-prev disabled>Trang trước</button>
+                    <span data-page-numbers></span>
+                    <button type="button" data-page-next disabled>Trang sau</button>
+                    <span data-page-status aria-live="polite"></span>
+                </nav>
+            {% endif %}
         </section>
 
         <footer class="changelog__footer">
@@ -78,7 +145,7 @@
 
 {% block sidebar %}{% endblock %}
 
-{% block scripts %}
+{% block extra_scripts %}
 {{ super() }}
 <script src="{{ get_url(path='js/changelog.js') }}" defer></script>
-{% endblock scripts %}
+{% endblock extra_scripts %}

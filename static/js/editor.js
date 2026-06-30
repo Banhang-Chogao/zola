@@ -2503,7 +2503,7 @@ tags = ${tagsStr}
     italic:    { type: "inline", prefix: "*",     suffix: "*",      placeholder: "nghiêng" },
     code:      { type: "inline", prefix: "`",     suffix: "`",      placeholder: "code" },
     link:      { type: "inline", prefix: "[",     suffix: "](url)", placeholder: "text" },
-    image:     { type: "inline", prefix: "![",    suffix: "](url)", placeholder: "alt" },
+    image:     { type: "inline", prefix: "![",    suffix: "](url)", placeholder: "mô tả ảnh bằng tiếng Việt" },
     codeblock: { type: "inline", prefix: "```\n", suffix: "\n```",  placeholder: "code" },
     heading:   { type: "prefix", prefix: "## " },  // legacy alias cho toolbar button
     h1:        { type: "prefix", prefix: "# " },
@@ -2821,7 +2821,7 @@ tags = ${tagsStr}
     { keys: ["codeblock", "code-block", "cb"], label: "Code block", icon: "{}", action: "codeblock", hint: "```" },
     { keys: ["list", "ul", "bullet", "danh-sach"], label: "Bullet list", icon: "•", action: "ul",  hint: "-" },
     { keys: ["numbered", "ol", "ordered", "so-thu-tu"], label: "Numbered list", icon: "1.", action: "ol", hint: "1." },
-    { keys: ["image", "img", "anh", "hinh"], label: "Image",      icon: "🖼",  action: "image",     hint: "![]()" },
+    { keys: ["image", "img", "anh", "hinh"], label: "Image",      icon: "🖼",  action: "image",     hint: "![alt tiếng Việt](url)" },
     { keys: ["link", "url"],              label: "Link",          icon: "🔗",  action: "link",      hint: "[]()" },
     { keys: ["bold", "b", "dam"],         label: "Bold",          icon: "B",   action: "bold",      hint: "**" },
     { keys: ["italic", "i", "nghieng"],   label: "Italic",        icon: "I",   action: "italic",    hint: "*" },

@@ -18,7 +18,12 @@
   --wcm-shadow: 0 8px 24px rgba(124, 92, 255, 0.1);
   --wcm-grad: linear-gradient(135deg, #c084fc, #ff8a9b);
 
-  font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+  font-family: $font-body;
+
+  /* Keep every textual control on the global brand stack. */
+  *:not(code):not(pre):not(kbd):not(samp) {
+    font-family: inherit;
+  }
   color: var(--wcm-ink);
   background: var(--wcm-bg);
   border-radius: 22px;
@@ -26,7 +31,7 @@
   margin: -0.5rem 0 1rem;
 
   * { box-sizing: border-box; }
-  h1, h2, h3, h4, h5 { font-family: 'Baloo 2', 'Be Vietnam Pro', sans-serif; margin: 0; line-height: 1.2; }
+  h1, h2, h3, h4, h5 { font-family: $font-heading; margin: 0; line-height: 1.2; }
 
   /* ===== Header ===== */
   &__head {

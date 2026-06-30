@@ -48,6 +48,21 @@ tạo workflow mới, Claude phải tự đánh giá:
 
 ## 2. Phím tắt (Shortcuts)
 
+### Global content rules (BẮT BUỘC cho mọi shortcut viết bài)
+
+Mọi shortcut tạo, rewrite hoặc nâng cấp nội dung phải kế thừa theo thứ tự:
+
+1. [`global-rule-og.md`](global-rule-og.md)
+2. [`global-rule-writing.md`](global-rule-writing.md)
+3. Rule riêng của shortcut/template
+4. Yêu cầu riêng của bài do user chỉ định
+
+Rule riêng chỉ được bổ sung, không được làm yếu/override hai global rule; yêu cầu
+riêng cũng không được vi phạm bản quyền hoặc AdSense safety. Shortcut lấy nội
+dung từ báo/nguồn tin tuyệt đối không copy ảnh báo, Google Images, watermark hay
+ảnh chưa xác minh license. Trước publish phải hoàn tất checklist trong hai file
+global, gồm OG/fallback, alt-text, nguồn ảnh và bốn section cuối bài.
+
 ### `phimtat` — Slash command `/phimtat` liệt kê tất cả phím tắt active
 
 Slash command `.claude/commands/phimtat.md` — khi user gõ `/phimtat` trong
@@ -194,8 +209,24 @@ Hành động:
 2. Với mỗi PR chưa merge:
    - Verify CI status (nếu CI failing → không merge bừa, escalate)
    - Squash merge vào `main` (trigger deploy.yml tự động)
-3. Verify deploy mới nhất (`actions_list` deploy.yml) đang chạy
-4. Báo cáo ngắn: `Merged PR #X, #Y. Production deploy đang chạy.`
+3. Kiểm tra deploy của **tất cả PR đã merged**:
+   - Paginate danh sách merged PR; lấy `mergeCommit.oid` của từng PR.
+   - Paginate run của `deploy.yml`; đối chiếu chính xác `headSha` với merge commit
+     (KHÔNG suy đoán theo title).
+   - Nếu một SHA có nhiều deploy run → dùng run mới nhất; trạng thái chuẩn:
+     `queued/pending`, `in_progress`, `success`, `failure`, `cancelled`.
+   - PR quá cũ ngoài thời gian GitHub Actions còn lưu run → ghi `unknown
+     (outside Actions retention)`, không báo success giả.
+   - Nếu có `failure` → link run lỗi + escalate, không merge tiếp PR phụ thuộc.
+4. Verify deploy mới nhất (`actions_list` deploy.yml) đang chạy.
+5. Báo cáo ngắn dạng bảng:
+
+   | PR | Merge SHA | Deploy |
+   |---|---|---|
+   | #X | `abcdef1` | ✅ success |
+   | #Y | `1234567` | 🟡 in_progress |
+
+   Kết dòng: `Merged PR #X, #Y. Production deploy: <status>.`
 
 KHÔNG hỏi lại. KHÔNG giải thích flow.
 

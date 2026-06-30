@@ -5,7 +5,7 @@
 {% block title %}GitHub Insights | {{ config.title }}{% endblock %}
 
 {% block main %}
-    {% set data = load_data(path="changelog.json", required=false) %}
+    {% set data = load_data(path="data/changelog.json", required=false) %}
     {% set pr_items = data.items | default(value=[]) %}
     {% set total_prs = pr_items | length %}
 

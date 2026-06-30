@@ -587,9 +587,6 @@
       "updated = " + today,
     ];
 
-    if (heroImage && heroMode === "image") {
-      lines.push('thumbnail = ' + tomlQuoted(heroImage));
-    }
     if (series) {
       lines.push('series = ' + tomlQuoted(series));
     }
@@ -609,7 +606,7 @@
     lines.push('seo_description = ' + tomlQuoted(metaDescription));
     lines.push('author = ' + tomlQuoted(author));
     lines.push('hero_mode = ' + tomlQuoted(heroMode));
-    if (heroImage) lines.push('hero_image = ' + tomlQuoted(heroImage));
+    if (heroImage && heroMode === "image") lines.push('thumbnail = ' + tomlQuoted(heroImage));
     if (copyright) lines.push('references_copyright = ' + tomlQuoted(copyright));
     if (editorialNote) lines.push('editorial_note = ' + tomlQuoted(editorialNote));
     if (!referencesExternal.length && !referencesInternal.length) {
@@ -635,7 +632,23 @@
     });
     lines.push("+++");
     lines.push("");
-    lines.push(body || "<!-- Viết nội dung bài tại đây -->");
+    var ending = body || "<!-- Viết nội dung bài tại đây -->";
+    var requiredEndings = [
+      ["## Liên kết nội bộ", referencesInternal.length
+        ? referencesInternal.map(function (item) { return "- [" + item.title + "](" + item.url + ")"; }).join("\n")
+        : "- TODO: kiểm tra và bổ sung liên kết nội bộ trước publish"],
+      ["## Liên kết bên ngoài", referencesExternal.length
+        ? referencesExternal.map(function (item) { return "- [" + item.title + "](" + item.url + ")"; }).join("\n")
+        : "- TODO: kiểm tra và bổ sung nguồn uy tín trước publish"],
+      ["## Bản quyền và ghi nguồn", copyright || "TODO: ghi rõ bản quyền, nguồn nội dung và nguồn/license ảnh trước publish"],
+      ["## FAQ - Câu hỏi thường gặp", faqItems.length >= 3
+        ? faqItems.map(function (item) { return "### " + item.q + "\n\n" + item.a; }).join("\n\n")
+        : "TODO: bổ sung ít nhất 3 câu hỏi-trả lời tự nhiên trước publish"],
+    ];
+    requiredEndings.forEach(function (section) {
+      if (ending.indexOf(section[0]) === -1) ending += "\n\n" + section[0] + "\n\n" + section[1];
+    });
+    lines.push(ending);
     return {
       slug: slug,
       section: section,
