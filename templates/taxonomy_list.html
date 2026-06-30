@@ -2,6 +2,8 @@
 
 {% block title %}{{ taxonomy.name | capitalize }} | {{ config.title }}{% endblock %}
 
+{% block robots %}noindex, follow{% endblock %}
+
 {% block main %}
     <header class="section-header">
         <h1 class="section-header__title">{{ taxonomy.name | upper }}</h1>
