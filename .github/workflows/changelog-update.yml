@@ -138,4 +138,5 @@ jobs:
         id: push
         env:
           PUSH_MSG: "Cập nhật: changelog entry [skip changelog]"
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bash .github/scripts/push_to_main.sh "$PUSH_MSG" data/changelog.json
