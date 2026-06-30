@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1264",
+      "pr_number": 1264,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1264",
+      "title": "deletion: xoá Calendar, Notice Board, Content Creator, Prompt Support + nav VIẾT & BIÊN TẬP",
+      "tag": "remove",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T12:17:46Z",
+      "merge_commit_sha": "e41ece174454",
+      "stats": {
+        "additions": 46823,
+        "deletions": 11405
+      },
+      "highlights": [
+        "content/tools/calendar.md, templates/calendar.html",
+        "content/tools/notice-board.md, templates/notice-board.html",
+        "content/tools/content-creator.md, templates/content-creator.html",
+        "content/prompt-support.md, templates/prompt-support.html",
+        "sass/_calendar.scss, sass/_notice-board.scss"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1262",
       "pr_number": 1262,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1262",
