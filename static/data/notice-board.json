@@ -1,0 +1,100 @@
+{
+  "placements": [
+    {
+      "id": "home_leaderboard",
+      "name": "Home_Leaderboard",
+      "site": "seomoney.org",
+      "type": "Display",
+      "size": "728x90",
+      "zone": "Above Hero",
+      "device": "Desktop",
+      "status": "active",
+      "targetUrl": "https://seomoney.org/",
+      "utmTemplate": "{lpurl}?utm_source={{SOURCE}}&utm_medium={{MEDIUM}}&utm_campaign={{CAMPAIGN_NAME}}&utm_id={{CAMPAIGN_ID}}&utm_content={{PLACEMENT}}&utm_term={{KEYWORD}}",
+      "tokens": {"SOURCE":"google","MEDIUM":"cpc","CAMPAIGN_NAME":"summer_2026","CAMPAIGN_ID":"12345","PLACEMENT":"leaderboard","KEYWORD":"seo"},
+      "cost": 375,
+      "daily": [
+        {"date":"2026-06-30","impressions":4200,"clicks":88,"revenue":42,"conversions":4},
+        {"date":"2026-06-29","impressions":3800,"clicks":72,"revenue":35.5,"conversions":3},
+        {"date":"2026-06-28","impressions":4100,"clicks":95,"revenue":48.2,"conversions":5},
+        {"date":"2026-06-27","impressions":3500,"clicks":60,"revenue":28,"conversions":2},
+        {"date":"2026-06-26","impressions":3900,"clicks":82,"revenue":39.8,"conversions":4},
+        {"date":"2026-06-25","impressions":3600,"clicks":70,"revenue":33.5,"conversions":3},
+        {"date":"2026-06-24","impressions":4000,"clicks":85,"revenue":41,"conversions":4}
+      ]
+    },
+    {
+      "id": "home_sidebar_1",
+      "name": "Home_Sidebar_1",
+      "site": "seomoney.org",
+      "type": "Display",
+      "size": "300x600",
+      "zone": "Right Sidebar",
+      "device": "Desktop",
+      "status": "active",
+      "targetUrl": "https://seomoney.org/",
+      "utmTemplate": "{lpurl}?utm_source={{SOURCE}}&utm_medium={{MEDIUM}}&utm_campaign={{CAMPAIGN_NAME}}&utm_content={{PLACEMENT}}",
+      "tokens": {"SOURCE":"facebook","MEDIUM":"paid_social","CAMPAIGN_NAME":"always_on","PLACEMENT":"sidebar_1"},
+      "cost": 290,
+      "daily": [
+        {"date":"2026-06-30","impressions":3200,"clicks":58,"revenue":31,"conversions":3},
+        {"date":"2026-06-29","impressions":3100,"clicks":55,"revenue":30,"conversions":2},
+        {"date":"2026-06-28","impressions":3300,"clicks":62,"revenue":34,"conversions":3},
+        {"date":"2026-06-27","impressions":2900,"clicks":49,"revenue":26,"conversions":2},
+        {"date":"2026-06-26","impressions":3000,"clicks":52,"revenue":28,"conversions":2},
+        {"date":"2026-06-25","impressions":2800,"clicks":47,"revenue":24,"conversions":2},
+        {"date":"2026-06-24","impressions":3050,"clicks":54,"revenue":29,"conversions":3}
+      ]
+    },
+    {
+      "id": "home_mobile_bottom",
+      "name": "Home_Mobile_Bottom",
+      "site": "seomoney.org",
+      "type": "Display",
+      "size": "320x50",
+      "zone": "Bottom Sticky",
+      "device": "Mobile",
+      "status": "pending",
+      "targetUrl": "https://seomoney.org/",
+      "utmTemplate": "{lpurl}?utm_source={{SOURCE}}&utm_medium={{MEDIUM}}&utm_campaign={{CAMPAIGN_NAME}}&utm_content={{PLACEMENT}}",
+      "tokens": {"SOURCE":"tiktok","MEDIUM":"paid_social","CAMPAIGN_NAME":"mobile_launch","PLACEMENT":"mobile_bottom"},
+      "cost": 180,
+      "daily": [
+        {"date":"2026-06-30","impressions":2800,"clicks":42,"revenue":22,"conversions":2},
+        {"date":"2026-06-29","impressions":2700,"clicks":39,"revenue":20,"conversions":1},
+        {"date":"2026-06-28","impressions":2900,"clicks":46,"revenue":25,"conversions":2}
+      ]
+    },
+    {
+      "id": "blog_leaderboard",
+      "name": "Blog_Leaderboard",
+      "site": "blog.seomoney.org",
+      "type": "Display",
+      "size": "728x90",
+      "zone": "Below Header",
+      "device": "Desktop",
+      "status": "active",
+      "targetUrl": "https://seomoney.org/categories/tat-ca/",
+      "utmTemplate": "{lpurl}?utm_source={{SOURCE}}&utm_medium={{MEDIUM}}&utm_campaign={{CAMPAIGN_NAME}}&utm_content={{PLACEMENT}}",
+      "tokens": {"SOURCE":"google","MEDIUM":"display","CAMPAIGN_NAME":"blog_awareness","PLACEMENT":"blog_header"},
+      "cost": 120,
+      "daily": [
+        {"date":"2026-06-30","impressions":1700,"clicks":21,"revenue":15,"conversions":1},
+        {"date":"2026-06-29","impressions":1650,"clicks":19,"revenue":13,"conversions":1},
+        {"date":"2026-06-28","impressions":1800,"clicks":23,"revenue":17,"conversions":2}
+      ]
+    }
+  ],
+  "utmTemplates": [
+    {
+      "id": "google-cpc",
+      "name": "Google Ads CPC",
+      "value": "{lpurl}?utm_source=google&utm_medium=cpc&utm_campaign={{CAMPAIGN_NAME}}&utm_id={{CAMPAIGN_ID}}&utm_content={{PLACEMENT}}&utm_term={{KEYWORD}}"
+    },
+    {
+      "id": "paid-social",
+      "name": "Paid Social",
+      "value": "{lpurl}?utm_source={{SOURCE}}&utm_medium=paid_social&utm_campaign={{CAMPAIGN_NAME}}&utm_content={{PLACEMENT}}&utm_id={{AD_ID}}"
+    }
+  ]
+}

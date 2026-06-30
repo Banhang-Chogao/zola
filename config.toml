@@ -96,6 +96,7 @@ menu = [
         { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" },
         { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
         { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" },
+        { url = "$BASE_URL/tools/notice-board", name = "Notice Board" },
     ] },
     # "Tiện ích" — top-level riêng (đổi tên từ nhóm cũ 'Công cụ phụ' cho gọn navbar +
     # mobile). Dropdown đơn (children). KHÔNG đổi URL tool.
