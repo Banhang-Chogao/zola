@@ -28,6 +28,60 @@
   p { color: #57606a; }
 }
 
+.notice-auth__quickstart,
+.notice-board__quick-hint {
+  margin: 1rem 0;
+  padding: .9rem 1rem;
+  border: 1px solid #d8dee4;
+  border-radius: 10px;
+  background: #f6f8fa;
+  text-align: left;
+  color: #24292f;
+
+  strong {
+    display: block;
+    margin-bottom: .45rem;
+    font-size: .85rem;
+    letter-spacing: .02em;
+  }
+
+  ol {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+
+  li {
+    margin: .25rem 0;
+    color: #57606a;
+    line-height: 1.45;
+  }
+
+  span {
+    color: #24292f;
+    font-weight: 600;
+  }
+}
+
+.notice-board__quick-hint {
+  display: flex;
+  gap: .5rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  background: #fff8c5;
+  border-color: #bf8700;
+
+  strong {
+    margin-bottom: 0;
+    white-space: nowrap;
+    color: #633c01;
+  }
+
+  span {
+    color: #633c01;
+    font-weight: 500;
+  }
+}
+
 .notice-auth__lock { font-size: 2rem; }
 
 .notice-board__header,
