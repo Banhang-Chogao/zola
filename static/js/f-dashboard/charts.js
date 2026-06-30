@@ -21,7 +21,7 @@
   }
 
   function baseFont() {
-    return { family: "Ericsson Hilda, Manrope, sans-serif", size: 11 };
+    return { family: "Inter, Be Vietnam Pro, sans-serif", size: 11 };
   }
 
   function renderDonut(canvas, data) {
@@ -265,11 +265,11 @@
           afterDraw(chart) {
             const { ctx: c, chartArea } = chart;
             c.save();
-            c.font = "bold 28px Ericsson Hilda, Manrope, sans-serif";
+            c.font = "bold 28px Inter, Be Vietnam Pro, sans-serif";
             c.fillStyle = "#000";
             c.textAlign = "center";
             c.fillText(String(score), (chartArea.left + chartArea.right) / 2, chartArea.bottom - 18);
-            c.font = "12px Ericsson Hilda, Manrope, sans-serif";
+            c.font = "12px Inter, Be Vietnam Pro, sans-serif";
             c.fillStyle = "#666";
             c.fillText(data.label, (chartArea.left + chartArea.right) / 2, chartArea.bottom + 4);
             c.restore();

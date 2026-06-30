@@ -447,11 +447,11 @@
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
 
-    {# Typography stack: Inter (body, heading, UI) + Be Vietnam Pro fallback.
-       Một request Google Fonts dùng chung cho toàn site
-       Google Fonts. Load non-blocking qua media=print swap → cải thiện FCP/LCP.
+    {# Typography stack: Inter (body) + IBM Plex Sans (headings).
+       Một request Google Fonts dùng chung cho toàn site.
+       Load non-blocking qua media=print swap → cải thiện FCP/LCP.
        display=swap → text hiện ngay với system fallback, swap khi font ready. #}
-    {% set google_fonts = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" %}
+    {% set google_fonts = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" %}
     <link rel="preload" as="style" href="{{ google_fonts }}">
     <link rel="stylesheet" href="{{ google_fonts }}" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="{{ google_fonts }}"></noscript>
