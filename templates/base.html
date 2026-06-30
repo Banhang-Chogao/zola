@@ -929,10 +929,8 @@
 
     {% include "partials/gcf-stock-widget.html" %}
 
-    {# Cloudflare DISCONNECTED — Turnstile not loaded (no challenges.cloudflare.com).
-       Re-enable: uncomment the include below. Partial kept at partials/turnstile_footer.html.
-       {% include "partials/turnstile_footer.html" %}
-    #}
+    {# Cloudflare Turnstile — chống spam bình luận. #}
+    {% include "partials/turnstile_footer.html" %}
 
     <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/sidebar.js') }}?v={{ asset_version }}" defer></script>

@@ -394,6 +394,29 @@
     show(els.notice);
   }
 
+  function verifyTurnstile() {
+    var token = (window._turnstileToken || "").trim();
+    if (!token) {
+      return Promise.reject("Vui lòng xác thực Turnstile.");
+    }
+    var verifyUrl =
+      window._turnstileVerifyUrl ||
+      "https://turnstile-siteverify-seomoney.duynguyenlog.workers.dev";
+    return fetch(verifyUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: token }),
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data.success) {
+          turnstile.reset();
+          window._turnstileToken = "";
+          throw new Error("Xác thực Turnstile thất bại.");
+        }
+      });
+  }
+
   function submitComment(e) {
     e.preventDefault();
     var text = (els.input.value || "").trim();
@@ -406,16 +429,21 @@
       return;
     }
     els.submit.disabled = true;
-    setNotice("Đang gửi…", "info");
-    fetch(API + "/comments", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + getSid(),
-      },
-      credentials: "omit",
-      body: JSON.stringify({ path: PATH, body: text }),
-    })
+    setNotice("Đang kiểm tra bảo mật…", "info");
+
+    verifyTurnstile()
+      .then(function () {
+        setNotice("Đang gửi…", "info");
+        return fetch(API + "/comments", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + getSid(),
+          },
+          credentials: "omit",
+          body: JSON.stringify({ path: PATH, body: text }),
+        });
+      })
       .then(function (r) {
         return r.json().then(function (j) {
           return { ok: r.ok, status: r.status, data: j };
@@ -440,6 +468,8 @@
         }
         els.input.value = "";
         updateCounter();
+        turnstile.reset();
+        window._turnstileToken = "";
         if (res.data.pending) {
           setNotice("Bình luận của bạn đang chờ duyệt.", "success");
         } else {
@@ -447,9 +477,11 @@
           loadComments();
         }
       })
-      .catch(function () {
+      .catch(function (err) {
         els.submit.disabled = false;
-        setNotice("Lỗi mạng. Vui lòng thử lại.", "error");
+        turnstile.reset();
+        window._turnstileToken = "";
+        setNotice(err && err.message ? err.message : "Lỗi mạng. Vui lòng thử lại.", "error");
       });
   }
 

@@ -140,6 +140,10 @@ paywall_default_price = 100000
 enable_premium_lock = false
 premium_hidden = false
 momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
+# Turnstile siteverify Worker URL — dùng để xác thực token chống spam bình luận.
+# Worker được deploy tự động qua services/turnstile-siteverify/
+turnstile_verify_url = "https://turnstile-siteverify-seomoney.tamsudev-com.workers.dev"
+
 # Link MoMo cho DONATE (ủng hộ tự nguyện) — key RIÊNG để donate có thể đổi độc
 # lập với paywall sau này. Hiện trỏ cùng tài khoản nhận tiền với momo_payment_link
 # ở trên. DonatePremiumCard (shortcode donate_card) chỉ đọc key này. Trống = ẩn nút.
