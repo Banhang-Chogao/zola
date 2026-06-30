@@ -6,8 +6,20 @@
 {% block main %}
     {% set _s_p = get_section(path="posting/_index.md") %}
     {% set _s_b = get_section(path="baochi/_index.md") %}
+    {% set _s_at = get_section(path="am-thuc/_index.md") %}
+    {% set _s_cn = get_section(path="cong-nghe/_index.md") %}
+    {% set _s_hh = get_section(path="hoc-tieng-han/_index.md") %}
+    {% set _s_kh = get_section(path="khoa-hoc/_index.md") %}
+    {% set _s_dl = get_section(path="du-lich/_index.md") %}
+    {% set _s_nh = get_section(path="ngan-hang/_index.md") %}
+    {% set _s_se = get_section(path="seo/_index.md") %}
+    {% set _s_tt = get_section(path="the-thao/_index.md") %}
+    {% set _s_wc = get_section(path="world-cup-2026/_index.md") %}
+    {% set _s_ds = get_section(path="doi-song/_index.md") %}
+    {% set _s_bh = get_section(path="bao-hiem/_index.md") %}
+    {% set _s_tg = get_section(path="the-gioi/_index.md") %}
     {% set_global all_series_pages = [] %}
-    {% for page in _s_p.pages | concat(with=_s_b.pages) %}
+    {% for page in _s_p.pages | concat(with=_s_b.pages) | concat(with=_s_at.pages) | concat(with=_s_cn.pages) | concat(with=_s_hh.pages) | concat(with=_s_kh.pages) | concat(with=_s_dl.pages) | concat(with=_s_nh.pages) | concat(with=_s_se.pages) | concat(with=_s_tt.pages) | concat(with=_s_wc.pages) | concat(with=_s_ds.pages) | concat(with=_s_bh.pages) | concat(with=_s_tg.pages) %}
         {% if page.extra.series is defined and not page.extra.feed_anchor %}
             {% set_global all_series_pages = all_series_pages | concat(with=[page]) %}
         {% endif %}

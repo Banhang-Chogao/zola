@@ -83,7 +83,7 @@ Mình thường khuyên:
 - Kèm **sao kê lương 3–6 tháng** (hoặc báo cáo thuế nếu tự kinh doanh).
 - Nếu người thân tài trợ, cần **giấy cam kết bảo lãnh** + chứng minh quan hệ + tài chính người bảo lãnh — không chỉ chuyển tiền vào tài khoản con.
 
-Sau khi có visa, lên kế hoạch chi tiêu chuyến đi giúp bạn ước lượng số tiền thực tế cần — mình có bóc tách trong bài [Đi Hàn hết bao nhiêu tiền?](@/posting/di-han-het-bao-nhieu-tien.md). Biết trước ngân sách Seoul–Busan 6 ngày cũng giúp khai lịch trình và tài chính **nhất quán** hơn.
+Sau khi có visa, lên kế hoạch chi tiêu chuyến đi giúp bạn ước lượng số tiền thực tế cần — mình có bóc tách trong bài [Đi Hàn hết bao nhiêu tiền?](@/du-lich/di-han-het-bao-nhieu-tien.md). Biết trước ngân sách Seoul–Busan 6 ngày cũng giúp khai lịch trình và tài chính **nhất quán** hơn.
 
 ## Lịch sử du lịch — “vé vàng” nhưng không phải vé duy nhất
 
@@ -95,7 +95,7 @@ Chưa có lịch sử? Vẫn có đường:
 - Tránh xin visa nhiều nước cùng lúc rồi bị từ chối loạt — hồ sơ xấu lan sang lần sau.
 - Lần đầu có thể chấp nhận visa **single hoặc 1 năm**, xây “track record” rồi xin lại.
 
-Khi đã sang Hàn, chọn mùa và lịch trình hợp lý giúp chuyến đi trơn tru — tham khảo [Du lịch Hàn Quốc tháng 6: ăn gì, làm gì?](@/posting/thang-6-di-han-an-gi-lam-gi.md) hoặc [đi Hàn mùa nào rẻ nhất](@/posting/di-han-mua-nao-re-nhat.md) để lên plan khớp với tờ khai.
+Khi đã sang Hàn, chọn mùa và lịch trình hợp lý giúp chuyến đi trơn tru — tham khảo [Du lịch Hàn Quốc tháng 6: ăn gì, làm gì?](@/du-lich/thang-6-di-han-an-gi-lam-gi.md) hoặc [đi Hàn mùa nào rẻ nhất](@/du-lich/di-han-mua-nao-re-nhat.md) để lên plan khớp với tờ khai.
 
 ## Lịch trình và mục đích — đừng viết chung chung
 
@@ -105,7 +105,7 @@ Khi đã sang Hàn, chọn mùa và lịch trình hợp lý giúp chuyến đi t
 - **Khách sạn đặt trước** (booking có thể hủy) hoặc ít nhất tên khách sạn + địa chỉ.
 - Mục đích rõ: du lịch, tham dự concert, hội nghị (kèm thư mời nếu có).
 
-Nếu bạn định kết hợp Seoul và biển, [lịch trình Busan tự túc 3 ngày 2 đêm](@/posting/lich-trinh-busan-tu-tuc-3-ngay-2-dem.md) là khung tham khảo tốt để đưa vào đơn — thể hiện bạn **có kế hoạch thật**, không phải nộp hồ sơ cho có.
+Nếu bạn định kết hợp Seoul và biển, [lịch trình Busan tự túc 3 ngày 2 đêm](@/du-lich/lich-trinh-busan-tu-tuc-3-ngay-2-dem.md) là khung tham khảo tốt để đưa vào đơn — thể hiện bạn **có kế hoạch thật**, không phải nộp hồ sơ cho có.
 
 ## Phỏng vấn và những lỗi khiến hồ sơ “rớt oan”
 

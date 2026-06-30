@@ -290,7 +290,18 @@
         {% set _rp_p = get_section(path="posting/_index.md") %}
         {% set _rp_b = get_section(path="baochi/_index.md") %}
         {% set _rp_a = get_section(path="am-thuc/_index.md") %}
-        {% set root_pages = _rp_p.pages | concat(with=_rp_b.pages) | concat(with=_rp_a.pages) | sort(attribute="date") | reverse %}
+        {% set _rp_cn = get_section(path="cong-nghe/_index.md") %}
+        {% set _rp_hh = get_section(path="hoc-tieng-han/_index.md") %}
+        {% set _rp_kh = get_section(path="khoa-hoc/_index.md") %}
+        {% set _rp_dl = get_section(path="du-lich/_index.md") %}
+        {% set _rp_nh = get_section(path="ngan-hang/_index.md") %}
+        {% set _rp_se = get_section(path="seo/_index.md") %}
+        {% set _rp_tt = get_section(path="the-thao/_index.md") %}
+        {% set _rp_wc = get_section(path="world-cup-2026/_index.md") %}
+        {% set _rp_ds = get_section(path="doi-song/_index.md") %}
+        {% set _rp_bh = get_section(path="bao-hiem/_index.md") %}
+        {% set _rp_tg = get_section(path="the-gioi/_index.md") %}
+        {% set root_pages = _rp_p.pages | concat(with=_rp_b.pages) | concat(with=_rp_a.pages) | concat(with=_rp_cn.pages) | concat(with=_rp_hh.pages) | concat(with=_rp_kh.pages) | concat(with=_rp_dl.pages) | concat(with=_rp_nh.pages) | concat(with=_rp_se.pages) | concat(with=_rp_tt.pages) | concat(with=_rp_wc.pages) | concat(with=_rp_ds.pages) | concat(with=_rp_bh.pages) | concat(with=_rp_tg.pages) | sort(attribute="date") | reverse %}
         {% set_global related = [] %}
 
         {# Hub series (bài báo gốc): ưu tiên toàn bộ series khoa học. #}

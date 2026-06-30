@@ -22,8 +22,19 @@
 {% set _idx_posting = get_section(path="posting/_index.md") %}
 {% set _idx_baochi = get_section(path="baochi/_index.md") %}
 {% set _idx_amthuc = get_section(path="am-thuc/_index.md") %}
+{% set _idx_congnghe = get_section(path="cong-nghe/_index.md") %}
+{% set _idx_hoctienghan = get_section(path="hoc-tieng-han/_index.md") %}
+{% set _idx_khoahoc = get_section(path="khoa-hoc/_index.md") %}
+{% set _idx_dulich = get_section(path="du-lich/_index.md") %}
+{% set _idx_nganhang = get_section(path="ngan-hang/_index.md") %}
+{% set _idx_seo = get_section(path="seo/_index.md") %}
+{% set _idx_thethao = get_section(path="the-thao/_index.md") %}
+{% set _idx_worldcup = get_section(path="world-cup-2026/_index.md") %}
+{% set _idx_doisong = get_section(path="doi-song/_index.md") %}
+{% set _idx_baohiem = get_section(path="bao-hiem/_index.md") %}
+{% set _idx_thegioi = get_section(path="the-gioi/_index.md") %}
 {% set_global all_pages = [] %}
-{% for page in _idx_posting.pages | concat(with=_idx_baochi.pages) | concat(with=_idx_amthuc.pages) %}
+{% for page in _idx_posting.pages | concat(with=_idx_baochi.pages) | concat(with=_idx_amthuc.pages) | concat(with=_idx_congnghe.pages) | concat(with=_idx_hoctienghan.pages) | concat(with=_idx_khoahoc.pages) | concat(with=_idx_dulich.pages) | concat(with=_idx_nganhang.pages) | concat(with=_idx_seo.pages) | concat(with=_idx_thethao.pages) | concat(with=_idx_worldcup.pages) | concat(with=_idx_doisong.pages) | concat(with=_idx_baohiem.pages) | concat(with=_idx_thegioi.pages) %}
     {% if not page.extra.feed_anchor %}
         {% set_global all_pages = all_pages | concat(with=[page]) %}
     {% endif %}
@@ -387,7 +398,7 @@
             </div>
             <div class="eco-weekly__series-cards">
                 {% if seo_series and seo_series.title_vi %}
-                <a class="eco-weekly__series-card" href="{{ config.base_url }}/posting/{{ seo_series.pillar_slug }}/">
+                <a class="eco-weekly__series-card" href="{{ get_url(path='@/' ~ seo_series.section ~ '/' ~ seo_series.pillar_slug ~ '.md') }}">
                     <span class="eco-weekly__series-label">SEO</span>
                     <div class="eco-weekly__series-info">
                         <h4 class="eco-weekly__series-title">{{ seo_series.title_vi }}</h4>
@@ -396,7 +407,7 @@
                 </a>
                 {% endif %}
                 {% if nganhang_series and nganhang_series.title_vi %}
-                <a class="eco-weekly__series-card" href="{{ config.base_url }}/posting/{{ nganhang_series.pillar_slug }}/">
+                <a class="eco-weekly__series-card" href="{{ get_url(path='@/' ~ nganhang_series.section ~ '/' ~ nganhang_series.pillar_slug ~ '.md') }}">
                     <span class="eco-weekly__series-label">Tài chính</span>
                     <div class="eco-weekly__series-info">
                         <h4 class="eco-weekly__series-title">{{ nganhang_series.title_vi }}</h4>
@@ -405,7 +416,7 @@
                 </a>
                 {% endif %}
                 {% if korean_series and korean_series.title_vi %}
-                <a class="eco-weekly__series-card" href="{{ config.base_url }}/posting/{{ korean_series.pillar_slug }}/">
+                <a class="eco-weekly__series-card" href="{{ get_url(path='@/' ~ korean_series.section ~ '/' ~ korean_series.pillar_slug ~ '.md') }}">
                     <span class="eco-weekly__series-label">Hàn Quốc</span>
                     <div class="eco-weekly__series-info">
                         <h4 class="eco-weekly__series-title">{{ korean_series.title_vi }}</h4>

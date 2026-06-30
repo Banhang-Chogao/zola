@@ -47,7 +47,7 @@ MSB Digital Bank được giới thiệu như cột mốc trong chiến lược 
 - **Bshield** — giải pháp "bọc giáp" cho ứng dụng di động trên iOS và Android, chống việc app bị can thiệp, dịch ngược hay chạy trên thiết bị đã bị bẻ khoá.
 - **eKYC** phối hợp cùng ePay, Trusting Social và kết nối dữ liệu từ Bộ Công an để đối chiếu danh tính. Cơ chế này rút ngắn thời gian định danh và tăng khả năng chặn các hành vi mạo danh.
 
-Cái mình tâm đắc là tinh thần **"phòng thủ nhiều lớp" (defense in depth)** — một kẻ tấn công phải vượt qua tất cả các lớp mới làm được gì, thay vì chỉ cần phá một điểm. Mình từng áp đúng tư duy này ở quy mô tí hon cho [chính cái blog đang đọc đây](@/posting/cong-nghe-blog-duy-nguyen.md): Content-Security-Policy, tách quyền, build-time thay vì client-side. Thấy một ngân hàng làm bài bản tinh thần đó ở quy mô triệu người dùng thì… yên tâm hơn hẳn.
+Cái mình tâm đắc là tinh thần **"phòng thủ nhiều lớp" (defense in depth)** — một kẻ tấn công phải vượt qua tất cả các lớp mới làm được gì, thay vì chỉ cần phá một điểm. Mình từng áp đúng tư duy này ở quy mô tí hon cho [chính cái blog đang đọc đây](@/cong-nghe/cong-nghe-blog-duy-nguyen.md): Content-Security-Policy, tách quyền, build-time thay vì client-side. Thấy một ngân hàng làm bài bản tinh thần đó ở quy mô triệu người dùng thì… yên tâm hơn hẳn.
 
 ## Cá nhân hoá theo hành vi — con dao hai lưỡi
 
