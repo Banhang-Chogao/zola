@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1275",
+      "pr_number": 1275,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1275",
+      "title": "Bài viết: Gemini 3.5 có gì mới - Frontier intelligence với action",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T22:56:16Z",
+      "merge_commit_sha": "3d528be798cf",
+      "stats": {
+        "additions": 145,
+        "deletions": 0
+      },
+      "highlights": [
+        "4 năng lực chính: agentic coding, multimodal, long horizon tasks, multi-step problem-solving",
+        "Bảng benchmark so sánh với GPT-5.5, Claude Opus 4.7, Gemini 3 Flash",
+        "Agentic coding (MCP Atlas 83.6%, OSWorld 78.4%, Terminal-bench 76.2%)",
+        "Multimodal (MMMU-Pro 83.6%, CharXiv 84.2%)",
+        "Long context và reasoning"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1273",
       "pr_number": 1273,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1273",
