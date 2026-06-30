@@ -8,7 +8,7 @@ làm og:image. Blog dùng cover SVG tự sinh cho phần lớn bài viết, nên
 link, social bỏ qua SVG và rơi về OG fallback chung — không phản
 ánh đúng nội dung bài. (Xem CLAUDE.md — "Quy tắc Ảnh".)
 
-Giải pháp: rasterize mỗi cover `static/img/**/*.svg` thành twin `*.og.webp`
+Giải pháp: rasterize mỗi cover `static/img/**/*.svg` + `static/generated/**/*.svg` thành twin `*.og.webp`
 (kích thước chuẩn OG **1200×630**). Template `base.html` sẽ ưu tiên twin này khi
 `thumbnail` là `.svg`, nên social hiển thị đúng ảnh cover của từng bài.
 
@@ -33,7 +33,10 @@ import sys
 from pathlib import Path
 
 # Thư mục chứa SVG cần rasterize (cover bài + placeholder thương hiệu).
-IMG_ROOT = Path(__file__).resolve().parent.parent / "static" / "img"
+IMG_ROOTS = [
+    Path(__file__).resolve().parent.parent / "static" / "img",
+    Path(__file__).resolve().parent.parent / "static" / "generated",
+]
 
 # Kích thước chuẩn Open Graph / Twitter summary_large_image.
 OG_WIDTH = 1200
@@ -43,8 +46,12 @@ OG_SUFFIX = ".og.webp"
 
 
 def find_svgs() -> list[Path]:
-    """Mọi SVG dưới static/img (cover + placeholder)."""
-    return sorted(p for p in IMG_ROOT.rglob("*.svg"))
+    """Mọi SVG dưới static/img và static/generated (cover + placeholder)."""
+    result: list[Path] = []
+    for root in IMG_ROOTS:
+        if root.exists():
+            result.extend(sorted(p for p in root.rglob("*.svg")))
+    return result
 
 
 def target_for(svg: Path) -> Path:
@@ -84,7 +91,7 @@ def main() -> int:
 
     svgs = find_svgs()
     if not svgs:
-        print("build_og_images: không tìm thấy SVG nào trong static/img — bỏ qua.")
+        print("build_og_images: không tìm thấy SVG nào — bỏ qua.")
         return 0
 
     stale = [s for s in svgs if args.force or is_stale(s, target_for(s))]
@@ -94,7 +101,7 @@ def main() -> int:
         if missing:
             print(f"build_og_images --check: {len(missing)} twin .og.webp thiếu/cũ:")
             for s in missing:
-                print(f"  - {target_for(s).relative_to(IMG_ROOT.parent.parent)}")
+                print(f"  - {target_for(s).relative_to(IMG_ROOTS[0].parent.parent)}")
             return 2
         print(f"build_og_images --check: OK — {len(svgs)} cover đều có twin .og.webp.")
         return 0
@@ -122,7 +129,7 @@ def main() -> int:
         try:
             render(svg, target)
             ok += 1
-            print(f"  ✓ {target.relative_to(IMG_ROOT.parent.parent)}")
+            print(f"  ✓ {target.relative_to(IMG_ROOTS[0].parent.parent)}")
         except Exception as exc:  # 1 file lỗi không được kéo sập cả build
             failed += 1
             print(f"  ✗ {svg.name}: {exc!r}")
