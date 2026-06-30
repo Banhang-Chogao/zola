@@ -105,7 +105,7 @@ TOPIC_COLORS = {
     "finance": ("#0f3d3a", "#0f766e", "#2dd4bf", "Tài chính"),
     "seo":     ("#3b2f63", "#6d28d9", "#a78bfa", "SEO & Marketing"),
     "ai":      ("#0b3a45", "#0e7490", "#22d3ee", "Khoa học & AI"),
-    "default": ("#1f2937", "#334155", "#94a3b8", "SEOMONEY"),
+    "default": ("#1f2937", "#334155", "#94a3b8", "Bài viết"),
 }
 
 CW, CH = 1200, 800  # cover 3:2
@@ -159,13 +159,11 @@ def _pattern(seed: int, accent: str) -> str:
 
 
 def build_cover_svg(slug: str, title: str, category: str | None) -> str:
-    """Sinh SVG cover editorial SEOMONEY — deterministic theo slug/title/category."""
+    """Sinh SVG cover fallback — chỉ tiêu đề bài viết trên gradient."""
     seed = _hash_int(slug)
     g_from, g_to, accent = GRADIENTS[seed % len(GRADIENTS)]
-    cat_label = (category or "SEOMONEY").strip()
     lines = _wrap(title, width=22, max_lines=4)
 
-    # Tiêu đề: khối text căn trái, lớn dần để lấp khoảng — font-size cố định để ổn định.
     fs = 64 if len(lines) <= 3 else 56
     line_h = int(fs * 1.18)
     block_h = line_h * len(lines)
@@ -185,21 +183,13 @@ def build_cover_svg(slug: str, title: str, category: str | None) -> str:
   </defs>
   <rect width="{CW}" height="{CH}" fill="url(#{gid})"/>
   {_pattern(seed, accent)}
-  <!-- category chip -->
-  <rect x="80" y="84" rx="20" ry="20" width="{min(560, 60 + len(cat_label) * 22)}" height="48" fill="{accent}" opacity="0.22"/>
-  <text x="104" y="116" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="26" font-weight="600" fill="#e2e8f0" letter-spacing="1">{_esc(cat_label.upper())}</text>
-  <!-- title -->
   <text font-family="'Segoe UI',Roboto,Arial,sans-serif" font-weight="800" fill="#f8fafc" letter-spacing="0.5" font-size="{fs}">{tspans}</text>
-  <!-- footer: S-DNA mark + wordmark -->
-  <text x="80" y="{CH - 70}" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="40" fill="{accent}">&#9672;</text>
-  <text x="128" y="{CH - 72}" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="34" font-weight="800" fill="#f8fafc" letter-spacing="2">SEOMONEY</text>
-  <text x="128" y="{CH - 42}" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="20" fill="#cbd5e1" opacity="0.85">seomoney.org</text>
 </svg>
 """
 
 
 def build_category_placeholder(topic: str) -> str:
-    """Placeholder editorial cho 1 chuyên mục (KHÔNG tiêu đề bài, dùng cho fallback chung)."""
+    """Placeholder cho 1 chuyên mục — chỉ label trên gradient."""
     g_from, g_to, accent, label = TOPIC_COLORS[topic]
     seed = _hash_int(f"category-{topic}")
     gid = f"cat{topic}"
@@ -212,16 +202,13 @@ def build_category_placeholder(topic: str) -> str:
   </defs>
   <rect width="{CW}" height="{CH}" fill="url(#{gid})"/>
   {_pattern(seed, accent)}
-  <text x="50%" y="46%" text-anchor="middle" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="40" fill="{accent}">&#9672;</text>
-  <text x="50%" y="56%" text-anchor="middle" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="56" font-weight="800" fill="#f8fafc" letter-spacing="1">{_esc(label)}</text>
-  <text x="50%" y="64%" text-anchor="middle" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="26" fill="#cbd5e1" letter-spacing="3">SEOMONEY</text>
+  <text x="50%" y="54%" text-anchor="middle" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="56" font-weight="800" fill="#f8fafc" letter-spacing="1">{_esc(label)}</text>
 </svg>
 """
 
 
 def build_og_fallback_svg(index: int) -> str:
-    """Sinh 1 trong 20 OG fallback SVG (branded, KHÔNG title — chỉ SEOMONEY +
-    gradient toàn màn hình + hoạ tiết). Dùng cho bài không có cover riêng."""
+    """Sinh 1 trong 20 OG fallback SVG — chỉ gradient + hoạ tiết, không text."""
     g_from, g_to, accent = GRADIENTS[index]
     seed = _hash_int(f"og-fallback-{index}")
     gid = f"ogf{index}"
@@ -234,17 +221,6 @@ def build_og_fallback_svg(index: int) -> str:
   </defs>
   <rect width="{CW}" height="{CH}" fill="url(#{gid})"/>
   {_pattern(seed, accent)}
-  <!-- fallback badge -->
-  <rect x="80" y="84" rx="20" ry="20" width="280" height="48" fill="{accent}" opacity="0.22"/>
-  <text x="104" y="116" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="26" font-weight="600" fill="#e2e8f0" letter-spacing="1">SEOMONEY</text>
-  <!-- content hint -->
-  <text x="50%" y="46%" text-anchor="middle" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="40" fill="{accent}">&#9672;</text>
-  <text x="50%" y="56%" text-anchor="middle" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="56" font-weight="800" fill="#f8fafc" letter-spacing="1">{_esc(f"SEOMONEY #{index:02d}")}</text>
-  <text x="50%" y="64%" text-anchor="middle" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="26" fill="#cbd5e1" letter-spacing="3">seomoney.org</text>
-  <!-- footer wordmark -->
-  <text x="80" y="{CH - 70}" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="40" fill="{accent}">&#9672;</text>
-  <text x="128" y="{CH - 72}" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="34" font-weight="800" fill="#f8fafc" letter-spacing="2">SEOMONEY</text>
-  <text x="128" y="{CH - 42}" font-family="'Segoe UI',Roboto,Arial,sans-serif" font-size="20" fill="#cbd5e1" opacity="0.85">seomoney.org</text>
 </svg>
 """
 
