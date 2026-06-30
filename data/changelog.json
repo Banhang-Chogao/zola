@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1269",
+      "pr_number": 1269,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1269",
+      "title": "refactor(fallback): remove all branding from fallback images",
+      "tag": "remove",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T20:55:54Z",
+      "merge_commit_sha": "09aba1512707",
+      "stats": {
+        "additions": 24,
+        "deletions": 1892
+      },
+      "highlights": [
+        "build_owned_covers.py:",
+        "build_cover_svg(): chỉ giữ title + gradient, xoá category chip, S-DNA, SEOMONEY, URL",
+        "build_og_fallback_svg(): chỉ giữ gradient + hoạ tiết, xoá toàn bộ text",
+        "build_category_placeholder(): chỉ giữ category label, xoá S-DNA, SEOMONEY",
+        "TOPIC_COLORS default: 'SEOMONEY' → 'Bài viết'"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1267",
       "pr_number": 1267,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1267",
