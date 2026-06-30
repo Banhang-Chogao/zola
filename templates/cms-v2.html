@@ -14,6 +14,7 @@
     class="cms-v2"
     data-cms-v2
     data-base-url="{{ config.base_url | safe }}"
+    data-cms-v2-author-default="{{ author_name }}"
 >
     <section class="cms-v2__gate" data-cms-v2-gate>
         <div class="cms-v2__gate-card">
@@ -117,19 +118,31 @@
                         <div class="cms-v2__status-stack">
                             <div class="cms-v2__status-row">
                                 <span>Auth</span>
-                                <strong data-cms-v2-auth-state>Waiting for login</strong>
+                                <span class="cms-v2__status-value">
+                                    <span class="cms-v2__status-dot cms-v2__status-dot--idle" data-cms-v2-auth-dot aria-hidden="true"></span>
+                                    <strong data-cms-v2-auth-state>Waiting for login</strong>
+                                </span>
                             </div>
                             <div class="cms-v2__status-row">
                                 <span>Session</span>
-                                <strong data-cms-v2-session-state>No active session</strong>
+                                <span class="cms-v2__status-value">
+                                    <span class="cms-v2__status-dot cms-v2__status-dot--idle" data-cms-v2-session-dot aria-hidden="true"></span>
+                                    <strong data-cms-v2-session-state data-cms-v2-session-status>No active session</strong>
+                                </span>
                             </div>
                             <div class="cms-v2__status-row">
                                 <span>Draft</span>
-                                <strong data-cms-v2-draft-state>Local draft idle</strong>
+                                <span class="cms-v2__status-value">
+                                    <span class="cms-v2__status-dot cms-v2__status-dot--idle" data-cms-v2-draft-dot aria-hidden="true"></span>
+                                    <strong data-cms-v2-draft-state>Local draft idle</strong>
+                                </span>
                             </div>
                             <div class="cms-v2__status-row">
                                 <span>Publish</span>
-                                <strong data-cms-v2-publish-state>Not published yet</strong>
+                                <span class="cms-v2__status-value">
+                                    <span class="cms-v2__status-dot cms-v2__status-dot--idle" data-cms-v2-publish-dot aria-hidden="true"></span>
+                                    <strong data-cms-v2-publish-state>Not published yet</strong>
+                                </span>
                             </div>
                         </div>
                     </article>
@@ -200,13 +213,21 @@
 
                         <label class="cms-v2__field">
                             <span class="cms-v2__label">Series</span>
-                            <input
-                                type="text"
-                                class="cms-v2__input"
-                                name="series"
-                                data-cms-v2-series
-                                placeholder="Editorial series / collection"
-                            >
+                            <div class="cms-v2__series-control">
+                                <div class="cms-v2__series-toggle" role="group" aria-label="Series toggle">
+                                    <button type="button" class="cms-v2__series-btn is-active" data-cms-v2-series-toggle="no">N</button>
+                                    <button type="button" class="cms-v2__series-btn" data-cms-v2-series-toggle="yes">Y</button>
+                                </div>
+                                <input
+                                    type="text"
+                                    class="cms-v2__input"
+                                    name="series"
+                                    data-cms-v2-series
+                                    data-cms-v2-series-input
+                                    placeholder="Chọn Y để kích hoạt Series"
+                                    disabled
+                                >
+                            </div>
                         </label>
                     </div>
 
@@ -268,22 +289,29 @@
                                     <span class="cms-v2__label">SEO title</span>
                                     <input
                                         type="text"
-                                        class="cms-v2__input"
+                                        class="cms-v2__input cms-v2__input--generated"
                                         name="seo_title"
                                         data-cms-v2-seo-title
-                                        placeholder="SEO title"
+                                        readonly
+                                        aria-readonly="true"
+                                        placeholder="AI-generated SEO title"
                                     >
+                                    <small class="cms-v2__ai-badge">🤖 AI Generated</small>
                                 </label>
 
                                 <label class="cms-v2__field">
                                     <span class="cms-v2__label">Meta description</span>
                                     <textarea
-                                        class="cms-v2__textarea"
+                                        class="cms-v2__textarea cms-v2__textarea--generated"
                                         name="seo_description"
                                         rows="4"
                                         data-cms-v2-meta-description
-                                        placeholder="SEO meta description"
+                                        data-cms-v2-meta-desc
+                                        readonly
+                                        aria-readonly="true"
+                                        placeholder="AI-generated meta description"
                                     ></textarea>
+                                    <small class="cms-v2__ai-badge">🤖 AI Generated</small>
                                 </label>
 
                                 <label class="cms-v2__field">
@@ -307,41 +335,53 @@
                                 <label class="cms-v2__field">
                                     <span class="cms-v2__label">FAQ blocks</span>
                                     <textarea
-                                        class="cms-v2__textarea"
+                                        class="cms-v2__textarea cms-v2__textarea--generated"
                                         rows="5"
                                         data-cms-v2-faq
-                                        placeholder="- Q: ...&#10;  A: ..."
+                                        readonly
+                                        aria-readonly="true"
+                                        placeholder="Auto-generated FAQ blocks"
                                     ></textarea>
+                                    <small class="cms-v2__ai-badge">🤖 Auto-generated from content</small>
                                 </label>
 
                                 <label class="cms-v2__field">
                                     <span class="cms-v2__label">Related posts</span>
                                     <textarea
-                                        class="cms-v2__textarea"
+                                        class="cms-v2__textarea cms-v2__textarea--generated"
                                         rows="5"
                                         data-cms-v2-related
-                                        placeholder="slug-one, slug-two"
+                                        readonly
+                                        aria-readonly="true"
+                                        placeholder="Auto-selected related posts"
                                     ></textarea>
+                                    <small class="cms-v2__ai-badge">🤖 Auto-selected via scoring</small>
                                 </label>
 
                                 <label class="cms-v2__field">
                                     <span class="cms-v2__label">Internal links</span>
                                     <textarea
-                                        class="cms-v2__textarea"
+                                        class="cms-v2__textarea cms-v2__textarea--generated"
                                         rows="5"
                                         data-cms-v2-internal-links
-                                        placeholder="https://seomoney.org/posting/..."
+                                        readonly
+                                        aria-readonly="true"
+                                        placeholder="Auto-detected internal links"
                                     ></textarea>
+                                    <small class="cms-v2__ai-badge">🤖 Auto-detected from content</small>
                                 </label>
 
                                 <label class="cms-v2__field">
                                     <span class="cms-v2__label">External sources used</span>
                                     <textarea
-                                        class="cms-v2__textarea"
+                                        class="cms-v2__textarea cms-v2__textarea--generated"
                                         rows="5"
                                         data-cms-v2-external-sources
-                                        placeholder="List only real external sources used in the draft"
+                                        readonly
+                                        aria-readonly="true"
+                                        placeholder="Auto-detected external sources"
                                     ></textarea>
+                                    <small class="cms-v2__ai-badge">🤖 Auto-detected from content</small>
                                 </label>
 
                             </div>
@@ -359,8 +399,9 @@
                     </div>
 
                     <div class="cms-v2__composer-actions">
-                        <button type="submit" class="cms-v2__button cms-v2__button--primary" data-cms-v2-publish>
-                            Publish to GitHub
+                        <button type="submit" class="cms-v2__button cms-v2__button--primary" data-cms-v2-publish data-cms-v2-check-auth="true" data-cms-v2-publish-action="github">
+                            <span class="cms-v2__publish-text">Publish to GitHub</span>
+                            <span class="cms-v2__publish-loading" hidden>Publishing...</span>
                         </button>
                         <button type="button" class="cms-v2__button cms-v2__button--ghost" data-cms-v2-copy-markdown>
                             Copy Markdown
@@ -480,23 +521,29 @@
                             <label class="cms-v2__field">
                                 <span class="cms-v2__label">Copyright</span>
                                 <textarea
-                                    class="cms-v2__textarea"
+                                    class="cms-v2__textarea cms-v2__textarea--generated"
                                     rows="4"
                                     form="cms-v2-composer-form"
                                     data-cms-v2-copyright
-                                    placeholder="Tuyên bố bản quyền"
+                                    readonly
+                                    aria-readonly="true"
+                                    placeholder="Auto-generated copyright"
                                 ></textarea>
+                                <small class="cms-v2__ai-badge">🤖 Auto-generated</small>
                             </label>
 
                             <label class="cms-v2__field">
                                 <span class="cms-v2__label">Editorial note</span>
                                 <textarea
-                                    class="cms-v2__textarea"
+                                    class="cms-v2__textarea cms-v2__textarea--generated"
                                     rows="4"
                                     form="cms-v2-composer-form"
                                     data-cms-v2-editorial-note
-                                    placeholder="Ghi chú biên tập"
+                                    readonly
+                                    aria-readonly="true"
+                                    placeholder="Auto-generated editorial note"
                                 ></textarea>
+                                <small class="cms-v2__ai-badge">🤖 Auto-generated</small>
                             </label>
                         </div>
                     </article>
@@ -551,14 +598,33 @@
                 </div>
 
                 <div class="cms-v2__review-actions">
-                    <button type="button" class="cms-v2__button cms-v2__button--primary" data-cms-v2-publish>
-                        Publish to GitHub
+                    <button type="button" class="cms-v2__button cms-v2__button--primary" data-cms-v2-publish data-cms-v2-check-auth="true" data-cms-v2-publish-action="github">
+                        <span class="cms-v2__publish-text">Publish to GitHub</span>
+                        <span class="cms-v2__publish-loading" hidden>Publishing...</span>
                     </button>
                     <button type="button" class="cms-v2__button cms-v2__button--ghost" data-cms-v2-copy-markdown>
                         Copy Markdown
                     </button>
                     <button type="button" class="cms-v2__button cms-v2__button--ghost" data-cms-v2-new-draft>
                         New Draft
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="cms-v2__auth-modal" data-cms-v2-auth-modal hidden>
+            <div class="cms-v2__auth-modal-card" role="dialog" aria-modal="true" aria-labelledby="cms-v2-auth-modal-title">
+                <p class="cms-v2__eyebrow">Authentication</p>
+                <h2 class="cms-v2__panel-title" id="cms-v2-auth-modal-title">Publish requires a valid GitHub session</h2>
+                <p class="cms-v2__panel-copy" data-cms-v2-auth-modal-message>
+                    Phiên đăng nhập đã hết hạn hoặc GitHub chưa kết nối. Vui lòng đăng nhập lại để tiếp tục publish.
+                </p>
+                <div class="cms-v2__auth-modal-actions">
+                    <button type="button" class="cms-v2__button cms-v2__button--primary" data-cms-v2-auth-modal-login>
+                        Đăng nhập GitHub
+                    </button>
+                    <button type="button" class="cms-v2__button cms-v2__button--ghost" data-cms-v2-auth-modal-close>
+                        Đóng
                     </button>
                 </div>
             </div>
@@ -570,4 +636,5 @@
 {% block extra_scripts %}
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
     <script src="{{ get_url(path='js/cms-v2.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/cms-v2-extensions.js') }}?v={{ asset_version }}" defer></script>
 {% endblock %}
