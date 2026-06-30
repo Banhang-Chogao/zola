@@ -107,10 +107,10 @@ Nếu bạn muốn dùng thử, Google AI Studio là điểm khởi đầu nhanh
 
 ## Liên kết nội bộ
 
-- [Google DeepMind Nano Banana: Gia đình mô hình tạo ảnh AI mới nhất 2026](/posting/deepmind-nano-banana/)
-- [Gemini 3: Thế hệ AI đa phương thức mới của Google](/posting/gemini-3-multimodal-ai/)
-- [Các mô hình AI tạo ảnh tốt nhất 2026](/cong-nghe/cac-mo-hinh-ai-tao-anh-tot-nhat/)
-- [Google AI Studio: Hướng dẫn từ cơ bản đến nâng cao](/cong-nghe/google-ai-studio-guide/)
+- [Google DeepMind là gì? Câu chuyện về phòng thí nghiệm AI hàng đầu thế giới](/cong-nghe/google-deepmind-la-gi/)
+- [OpenCode là gì? AI Coding Agent miễn phí cho mọi lập trình viên](/cong-nghe/opencode-la-gi-ai-coding-agent/)
+- [Sentence Transformers SBERT: Mô hình AI xử lý ngôn ngữ tự nhiên](/cong-nghe/sentence-transformers-sbert-deep-dive/)
+- [Tên miền .AI và hòn đảo 16.000 dân hốt bạc nhờ AI](/cong-nghe/ten-mien-ai-hon-dao-anguilla-hot-bac/)
 
 ## Liên kết bên ngoài
 
