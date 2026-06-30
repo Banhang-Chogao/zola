@@ -1,19 +1,19 @@
 {
   "trigger": "schedule",
-  "run_id": "28318843124",
-  "started_at": "2026-06-28T17:09:02.517436+07:00",
-  "finished_at": "2026-06-28T17:12:25.667760+07:00",
-  "last_run": "2026-06-28T17:12:25.667760+07:00",
-  "next_scheduled_run": "2026-06-29T06:00:00+07:00",
+  "run_id": "28380042500",
+  "started_at": "2026-06-29T21:37:37.455611+07:00",
+  "finished_at": "2026-06-29T21:41:25.952476+07:00",
+  "last_run": "2026-06-29T21:41:25.952476+07:00",
+  "next_scheduled_run": "2026-06-30T06:00:00+07:00",
   "vaccine_library_count": 25,
   "steps": [
     {
       "vaccine": "V-logs",
       "name": "CI log diagnosis",
-      "matched": false,
+      "matched": true,
       "fixed": false,
       "changed": false,
-      "detail": "no known signature in latest CI logs"
+      "detail": "log signatures: V1, V5"
     },
     {
       "vaccine": "V1",
@@ -53,7 +53,7 @@
       "matched": false,
       "fixed": false,
       "changed": true,
-      "detail": "Wrote data/references.json: 136 posts with references"
+      "detail": "Wrote data/references.json: 149 posts with references"
     },
     {
       "vaccine": "V-rules",
@@ -66,6 +66,12 @@
   ],
   "matched_vaccines": [
     {
+      "code": "V-logs",
+      "name": "CI log diagnosis",
+      "fixed": false,
+      "detail": "log signatures: V1, V5"
+    },
+    {
       "code": "V19",
       "name": "Stale /zola/ internal links",
       "fixed": false,
@@ -77,7 +83,7 @@
   "qa_result": {
     "name": "qa_check.py",
     "passed": true,
-    "detail": "✓ All QA checks passed"
+    "detail": "Summary: 0 error(s), 4 warning(s)"
   },
   "build_result": {
     "name": "zola build",
@@ -87,7 +93,7 @@
   "production_status": "up-to-date",
   "status": "ok",
   "vaccine_scanned": 25,
-  "issues_detected": 1,
+  "issues_detected": 2,
   "issues_fixed": 0,
   "issues_prs_created": 0,
   "errors": [],
@@ -135,15 +141,26 @@
       "issues_fixed": 0,
       "issues_prs_created": 0,
       "errors": []
+    },
+    {
+      "run_id": "28380042500",
+      "trigger": "schedule",
+      "last_run": "2026-06-29T21:41:25.952476+07:00",
+      "status": "ok",
+      "vaccine_scanned": 25,
+      "issues_detected": 2,
+      "issues_fixed": 0,
+      "issues_prs_created": 0,
+      "errors": []
     }
   ],
   "latest": {
-    "run_id": "28318843124",
+    "run_id": "28380042500",
     "trigger": "schedule",
-    "last_run": "2026-06-28T17:12:25.667760+07:00",
+    "last_run": "2026-06-29T21:41:25.952476+07:00",
     "status": "ok",
     "vaccine_scanned": 25,
-    "issues_detected": 1,
+    "issues_detected": 2,
     "issues_fixed": 0,
     "issues_prs_created": 0,
     "errors": []
