@@ -1,7 +1,5 @@
 name: Auto-update static changelog history
 
-# Trigger khi push lên main. Ghi changelog → push thẳng main (không PR).
-
 on:
   push:
     branches: [main]
@@ -36,7 +34,7 @@ jobs:
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Resolve commit metadata
+      - name: Resolve PR metadata
         id: meta
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -64,7 +62,7 @@ jobs:
               exit 0
             fi
             gh pr view "$NUM" --repo "${GITHUB_REPOSITORY}" \
-              --json title,body,additions,deletions,mergedAt,labels,mergeCommit,mergedBy,author \
+              --json title,body,additions,deletions,mergedAt,labels,mergeCommit,mergedBy,author,url \
               > meta.json
             echo "mode=pr" >> "$GITHUB_OUTPUT"
             echo "skip=false" >> "$GITHUB_OUTPUT"
@@ -81,6 +79,7 @@ jobs:
             echo "labels=$(jq -c '.labels' meta.json)" >> "$GITHUB_OUTPUT"
             echo "sha=$(jq -r '.mergeCommit.oid // ""' meta.json)" >> "$GITHUB_OUTPUT"
             echo "author=$(jq -r '.mergedBy.login // .author.login // ""' meta.json)" >> "$GITHUB_OUTPUT"
+            echo "url=$(jq -r '.url // ""' meta.json)" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -104,16 +103,11 @@ jobs:
           echo "merged_at=$(echo "$STATS" | jq -r '.date // ""')" >> "$GITHUB_OUTPUT"
           echo "labels=[]" >> "$GITHUB_OUTPUT"
           echo "author=$(echo "$STATS" | jq -r '.author')" >> "$GITHUB_OUTPUT"
+          echo "url=" >> "$GITHUB_OUTPUT"
 
       - name: Skip — nothing to log
         if: steps.meta.outputs.skip == 'true'
         run: echo "Changelog update skipped."
-
-      - name: Setup Node.js 24
-        if: steps.meta.outputs.skip != 'true'
-        uses: actions/setup-node@v6
-        with:
-          node-version: '24'
 
       - name: Set up Python
         if: steps.meta.outputs.skip != 'true'
@@ -121,7 +115,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Append changelog entry (file-based)
+      - name: Append changelog entry
         if: steps.meta.outputs.skip != 'true'
         id: changelog
         env:
@@ -136,14 +130,12 @@ jobs:
           PR_LABELS: ${{ steps.meta.outputs.labels }}
           REPOSITORY: ${{ github.repository }}
           AUTHOR: ${{ steps.meta.outputs.author }}
-          RUN_NUMBER: ${{ github.run_number }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          BUILD_STATUS: success
-        run: python3 .github/scripts/update_changelog.py
+          PR_URL: ${{ steps.meta.outputs.url }}
+        run: python3 scripts/update_changelog.py
 
       - name: Commit and push changelog history
         if: steps.changelog.outcome == 'success'
         id: push
         env:
           PUSH_MSG: "Cập nhật: changelog entry [skip changelog]"
-        run: bash .github/scripts/push_to_main.sh "$PUSH_MSG" static/data/changelog.json
+        run: bash .github/scripts/push_to_main.sh "$PUSH_MSG" data/changelog.json
