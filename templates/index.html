@@ -3,6 +3,7 @@
 {% import "macros/premium.html" as premium %}
 {% import "macros/hot-search.html" as hot_search %}
 {% import "macros/google-rank.html" as google_rank %}
+{% import "macros/placement.html" as placement %}
 
 {% block title %}{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân{% endblock %}
 
@@ -16,566 +17,418 @@
 {% block sidebar %}{% endblock %}
 
 {% block main %}
-    <h1 class="visually-hidden">{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân</h1>
+<h1 class="visually-hidden">{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân</h1>
 
-    {% set posting = get_section(path="posting/_index.md") %}
-    {% set baochi = get_section(path="baochi/_index.md") %}
-    {% set_global all_pages = [] %}
-    {% for page in posting.pages | concat(with=baochi.pages) %}
-        {% if not page.extra.feed_anchor %}
-            {% set_global all_pages = all_pages | concat(with=[page]) %}
-        {% endif %}
-    {% endfor %}
-    {% set all_pages = all_pages | sort(attribute="date") | reverse %}
+{% set _idx_posting = get_section(path="posting/_index.md") %}
+{% set _idx_baochi = get_section(path="baochi/_index.md") %}
+{% set _idx_amthuc = get_section(path="am-thuc/_index.md") %}
+{% set _idx_congnghe = get_section(path="cong-nghe/_index.md") %}
+{% set _idx_hoctienghan = get_section(path="hoc-tieng-han/_index.md") %}
+{% set _idx_khoahoc = get_section(path="khoa-hoc/_index.md") %}
+{% set _idx_dulich = get_section(path="du-lich/_index.md") %}
+{% set _idx_nganhang = get_section(path="ngan-hang/_index.md") %}
+{% set _idx_seo = get_section(path="seo/_index.md") %}
+{% set _idx_thethao = get_section(path="the-thao/_index.md") %}
+{% set _idx_worldcup = get_section(path="world-cup-2026/_index.md") %}
+{% set _idx_doisong = get_section(path="doi-song/_index.md") %}
+{% set _idx_baohiem = get_section(path="bao-hiem/_index.md") %}
+{% set _idx_thegioi = get_section(path="the-gioi/_index.md") %}
+{% set_global all_pages = [] %}
+{% for page in _idx_posting.pages | concat(with=_idx_baochi.pages) | concat(with=_idx_amthuc.pages) | concat(with=_idx_congnghe.pages) | concat(with=_idx_hoctienghan.pages) | concat(with=_idx_khoahoc.pages) | concat(with=_idx_dulich.pages) | concat(with=_idx_nganhang.pages) | concat(with=_idx_seo.pages) | concat(with=_idx_thethao.pages) | concat(with=_idx_worldcup.pages) | concat(with=_idx_doisong.pages) | concat(with=_idx_baohiem.pages) | concat(with=_idx_thegioi.pages) %}
+    {% if not page.extra.feed_anchor %}
+        {% set_global all_pages = all_pages | concat(with=[page]) %}
+    {% endif %}
+{% endfor %}
+{% set all_pages = all_pages | sort(attribute="date") | reverse %}
 
-    {% set_global featured = false %}
-    {% set_global sticky = false %}
+{% set_global featured_post = false %}
+{% set_global sticky_post = false %}
+{% for page in all_pages %}
+    {% if page.extra.sticky and not sticky_post %}{% set_global sticky_post = page %}{% endif %}
+    {% if page.extra.featured and not featured_post %}{% set_global featured_post = page %}{% endif %}
+{% endfor %}
+{% if not featured_post %}
     {% for page in all_pages %}
-        {% if page.extra.sticky and not sticky %}{% set_global sticky = page %}{% endif %}
-        {% if page.extra.featured and not featured %}{% set_global featured = page %}{% endif %}
+        {% if not featured_post and not page.extra.unfeatured %}{% set_global featured_post = page %}{% endif %}
     {% endfor %}
-    {% if not featured %}
-        {% for page in all_pages %}
-            {% if not featured and not page.extra.unfeatured %}{% set_global featured = page %}{% endif %}
-        {% endfor %}
-    {% endif %}
-    {% if not featured %}{% set_global featured = all_pages | first %}{% endif %}
-    {% if not sticky %}
-        {% for page in all_pages %}
-            {% if page.slug != featured.slug and not sticky %}{% set_global sticky = page %}{% endif %}
-        {% endfor %}
-    {% endif %}
-
-    {% set_global feed = [] %}
+{% endif %}
+{% if not featured_post %}{% set_global featured_post = all_pages | first %}{% endif %}
+{% if not sticky_post %}
     {% for page in all_pages %}
-        {% if page.slug != sticky.slug and page.slug != featured.slug %}
-            {% set_global feed = feed | concat(with=[page]) %}
+        {% if page.slug != featured_post.slug and not sticky_post %}{% set_global sticky_post = page %}{% endif %}
+    {% endfor %}
+{% endif %}
+
+{% set_global feed = [] %}
+{% for page in all_pages %}
+    {% if page.slug != sticky_post.slug and page.slug != featured_post.slug %}
+        {% set_global feed = feed | concat(with=[page]) %}
+    {% endif %}
+{% endfor %}
+
+{% set_global category_tech = [] %}
+{% set_global category_bank = [] %}
+{% set_global category_korean = [] %}
+{% set_global category_travel = [] %}
+{% for page in all_pages %}
+    {% for c in page.taxonomies.categories | default(value=[]) %}
+        {% if c == "Công nghệ" %}
+            {% set_global category_tech = category_tech | concat(with=[page]) %}
+        {% elif c == "Ngân hàng" %}
+            {% set_global category_bank = category_bank | concat(with=[page]) %}
+        {% elif c == "Học tiếng Hàn" %}
+            {% set_global category_korean = category_korean | concat(with=[page]) %}
+        {% elif c == "Du lịch" %}
+            {% set_global category_travel = category_travel | concat(with=[page]) %}
         {% endif %}
     {% endfor %}
+{% endfor %}
 
-    {% set latest_story = false %}
-    {% if feed | length > 0 %}
-        {% set_global latest_story = feed | first %}
+{% set seo_series = load_data(path="data/seo-foundation-series.json", required=false) %}
+{% set nganhang_series = load_data(path="data/ngan-hang-so-series.json", required=false) %}
+{% set korean_series = load_data(path="data/korean-30day-series.json", required=false) %}
+
+<div class="home-economist" id="home-economist" data-home-economist>
+    {# ========================================================================
+       TOP NAV — Economist-style category strip
+       ======================================================================== #}
+    <nav class="eco-top-nav" aria-label="Chuyên mục">
+        <div class="eco-container">
+            <a class="eco-top-nav__logo" href="{{ config.base_url }}/">{{ config.title }}</a>
+            <a class="eco-top-nav__link" href="{{ config.base_url }}/categories/cong-nghe/">💻 Công nghệ</a>
+            <a class="eco-top-nav__link" href="{{ config.base_url }}/categories/ngan-hang/">🏦 Ngân hàng</a>
+            <a class="eco-top-nav__link" href="{{ config.base_url }}/categories/hoc-tieng-han/">🇰🇷 Học tiếng Hàn</a>
+            <a class="eco-top-nav__link" href="{{ config.base_url }}/categories/du-lich/">✈️ Du lịch</a>
+            <a class="eco-top-nav__link" href="{{ config.base_url }}/categories/tai-chinh/">📊 Tài chính</a>
+            <a class="eco-top-nav__link" href="{{ config.base_url }}/categories/khoa-hoc/">🔬 Khoa học</a>
+            <span class="eco-top-nav__spacer"></span>
+            <a class="eco-top-nav__search" href="{{ config.base_url }}/search/" aria-label="Tìm kiếm">🔍</a>
+            <a class="eco-top-nav__subscribe" href="{{ config.base_url }}/archive/">📋 Bài viết</a>
+        </div>
+    </nav>
+
+    {# ========================================================================
+       BREAKING NEWS BANNER
+       ======================================================================== #}
+    {% if sticky_post %}
+    <section class="eco-breaking" aria-label="Tin mới nhất">
+        <div class="eco-container">
+            <a class="eco-breaking__card" href="{{ sticky_post.permalink }}">
+                <div class="eco-breaking__img">
+                    <img src="{{ img::cover_src(page=sticky_post) }}" alt="{{ img::cover_alt(page=sticky_post) }}"
+                         width="900" height="506" loading="eager" fetchpriority="high" decoding="async">
+                </div>
+                <div class="eco-breaking__body">
+                    <span class="eco-breaking__label">🔥 Mới nhất</span>
+                    {% set_global break_cat = "" %}
+                    {% for c in sticky_post.taxonomies.categories | default(value=[]) %}
+                        {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and break_cat == "" %}
+                            {% set_global break_cat = c %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if break_cat %}<span class="eco-breaking__cat">{{ break_cat }}</span>{% endif %}
+                    <h2 class="eco-breaking__title">{{ sticky_post.title }}</h2>
+                    <p class="eco-breaking__excerpt">{{ sticky_post.description | default(value=sticky_post.summary | default(value="") | safe | striptags | truncate(length=180)) }}</p>
+                    <div class="eco-breaking__meta">
+                        <time datetime="{{ sticky_post.date }}">{{ sticky_post.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
+                        {% if sticky_post.reading_time %}<span>{{ sticky_post.reading_time }} phút đọc</span>{% endif %}
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
     {% endif %}
 
-    {% set_global topic_seo_ai = [] %}
-    {% set_global topic_tech = [] %}
-    {% set_global topic_finance = [] %}
-    {% set_global topic_life = [] %}
-    {% for page in all_pages %}
-        {% set_global page_cat = "" %}
-        {% for c in page.taxonomies.categories | default(value=[]) %}
-            {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and page_cat == "" %}
-                {% set_global page_cat = c %}
-            {% endif %}
-        {% endfor %}
-        {% if page_cat == "SEO" or page_cat == "Khoa học" %}
-            {% set_global topic_seo_ai = topic_seo_ai | concat(with=[page]) %}
-        {% endif %}
-        {% if page_cat == "Công nghệ" %}
-            {% set_global topic_tech = topic_tech | concat(with=[page]) %}
-        {% endif %}
-        {% if page_cat == "Tài chính" or page_cat == "Ngân hàng" %}
-            {% set_global topic_finance = topic_finance | concat(with=[page]) %}
-        {% endif %}
-        {% if page_cat == "Đời sống" or page_cat == "Du lịch" %}
-            {% set_global topic_life = topic_life | concat(with=[page]) %}
-        {% endif %}
-    {% endfor %}
-
-    {% set seo_series = load_data(path="data/seo-foundation-series.json", required=false) %}
-    {% set nganhang_series = load_data(path="data/ngan-hang-so-series.json", required=false) %}
-    {% set korean_series = load_data(path="data/korean-30day-series.json", required=false) %}
-    {% set trends_data = load_data(path="data/google-trends-vn.json", required=false) %}
-    {% set build_data = load_data(path="data/build-dashboard.json", required=false) %}
-    {% set production_data = load_data(path="data/production-dashboard.json", required=false) %}
-    {% set seo_data = load_data(path="data/seo-qa-scores.json", required=false) %}
-    {% set homepage_categories = load_data(path="data/homepage-categories.json", required=false) %}
-
-    {% set_global qa_total = 0 %}
-    {% set_global qa_review = 0 %}
-    {% set_global qa_ready = 0 %}
-    {% if seo_data and seo_data.posts %}
-        {% for path, item in seo_data.posts %}
-            {% set_global qa_total = qa_total + 1 %}
-            {% set issues_count = item.issues | default(value=[]) | length %}
-            {% set score = item.score | default(value=0) %}
-            {% if issues_count == 0 and score >= 90 %}
-                {% set_global qa_ready = qa_ready + 1 %}
-            {% endif %}
-            {% if issues_count > 0 or score < 85 %}
-                {% set_global qa_review = qa_review + 1 %}
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-
-    <div class="home-editorial home-magazine" id="home-magazine" data-home-magazine>
-        <header class="home-editorial__hero">
-            <div class="home-editorial__hero-copy">
-                <p class="home-editorial__eyebrow">{{ config.title }}</p>
-                <h2 class="home-editorial__title">Báo chí editorial cho SEO, AI WebOps và tài chính</h2>
-                <p class="home-editorial__lede">
-                    Giao diện ưu tiên đọc, xếp nội dung theo cấu trúc newsroom, giữ sidebar module hiện tại
-                    và tối ưu hiển thị cho desktop trước.
-                </p>
+    {# ========================================================================
+       AD SLOT 1 — Native In-Feed
+       ======================================================================== #}
+    {{ placement::render(id="home_hero_after", page=page | default(value=false), section=section | default(value=false)) }}
+    {{ placement::render(id="home_top_banner_below", page=page | default(value=false), section=section | default(value=false)) }}
+    {% if not config.extra.ads or config.extra.ads.enabled == false %}
+    <div class="eco-ad-slot eco-ad-slot--native" aria-label="Quảng cáo">
+        <div class="eco-container">
+            <div class="eco-ad-slot__inner">
+                <strong>Bài viết tài trợ</strong>
+                <span>Quảng cáo native — AdSense Auto Ad</span>
             </div>
-            <div class="home-editorial__hero-stats" aria-label="Trạng thái nội dung">
-                <div class="home-editorial__stat">
-                    <span class="home-editorial__stat-label">Bài viết</span>
-                    <strong class="home-editorial__stat-value">{{ feed | length }}</strong>
-                </div>
-                <div class="home-editorial__stat">
-                    <span class="home-editorial__stat-label">Chuyên mục</span>
-                    <strong class="home-editorial__stat-value">{% if homepage_categories %}{{ homepage_categories.total_categories }}{% else %}0{% endif %}</strong>
-                </div>
-                <div class="home-editorial__stat">
-                    <span class="home-editorial__stat-label">QA tốt</span>
-                    <strong class="home-editorial__stat-value">{{ qa_ready }}</strong>
-                </div>
-                <div class="home-editorial__stat">
-                    <span class="home-editorial__stat-label">Xu hướng</span>
-                    <strong class="home-editorial__stat-value">{% if trends_data and trends_data.items %}{{ trends_data.items | length }}{% else %}0{% endif %}</strong>
-                </div>
-            </div>
-        </header>
-
-        {{ placement::render(id="home_hero_after", page=page | default(value=false), section=section | default(value=false)) }}
-
-        <nav class="home-editorial__category-nav" aria-label="Chuyên mục nổi bật">
-            <a class="is-active" href="#editorial-top">Tất cả</a>
-            <a href="#topic-seo-ai">SEO</a>
-            <a href="#topic-seo-ai">AI WebOps</a>
-            <a href="#topic-tech">Công nghệ</a>
-            <a href="#topic-finance">Tài chính</a>
-            <a href="#topic-life">Đời sống</a>
-            <a href="#series">Series</a>
-        </nav>
-
-        {{ placement::render(id="home_top_banner_below", page=page | default(value=false), section=section | default(value=false)) }}
-
-        <section class="home-editorial__front-grid" id="editorial-top" aria-label="Câu chuyện hôm nay">
-            {% if sticky %}
-                <article class="home-editorial__story home-editorial__story--pick">
-                    <a class="home-editorial__story-media" href="{{ sticky.permalink }}">
-                        <img src="{{ img::cover_src(page=sticky) }}" alt="{{ img::cover_alt(page=sticky) }}"
-                             width="900" height="900" loading="lazy" decoding="async">
-                    </a>
-                    <div class="home-editorial__story-body">
-                        <span class="home-editorial__story-kicker">Editor's Pick</span>
-                        {% set_global sticky_cat = "" %}
-                        {% for c in sticky.taxonomies.categories | default(value=[]) %}
-                            {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and sticky_cat == "" %}
-                                {% set_global sticky_cat = c %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if sticky.extra.premium %}
-                            {{ premium::badge() }}
-                        {% elif sticky_cat %}
-                            <span class="home-editorial__story-cat">{{ sticky_cat }}</span>
-                        {% endif %}
-                        <h3 class="home-editorial__story-title"><a href="{{ sticky.permalink }}">{{ sticky.title }}</a></h3>
-                        <p class="home-editorial__story-excerpt">{{ sticky.description | default(value=sticky.summary | default(value="") | safe | striptags | truncate(length=200)) }}</p>
-                        <div class="home-editorial__story-meta">
-                            <time datetime="{{ sticky.date }}">{{ sticky.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                            {% if sticky.reading_time %}<span>{{ sticky.reading_time }} phút đọc</span>{% endif %}
-                        </div>
-                    </div>
-                </article>
-            {% endif %}
-
-            {% if latest_story %}
-                <article class="home-editorial__story home-editorial__story--lead">
-                    <a class="home-editorial__story-media" href="{{ latest_story.permalink }}">
-                        <img src="{{ img::cover_src(page=latest_story) }}" alt="{{ img::cover_alt(page=latest_story) }}"
-                             width="1200" height="675" loading="eager" fetchpriority="high" decoding="async">
-                    </a>
-                    <div class="home-editorial__story-body">
-                        <span class="home-editorial__story-kicker">Latest Main Story</span>
-                        {% set_global lead_cat = "" %}
-                        {% for c in latest_story.taxonomies.categories | default(value=[]) %}
-                            {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and lead_cat == "" %}
-                                {% set_global lead_cat = c %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if latest_story.extra.premium %}
-                            {{ premium::badge() }}
-                        {% elif lead_cat %}
-                            <span class="home-editorial__story-cat">{{ lead_cat }}</span>
-                        {% endif %}
-                        <h3 class="home-editorial__story-title home-editorial__story-title--lead"><a href="{{ latest_story.permalink }}">{{ latest_story.title }}</a></h3>
-                        <p class="home-editorial__story-excerpt">{{ latest_story.description | default(value=latest_story.summary | default(value="") | safe | striptags | truncate(length=240)) }}</p>
-                        <div class="home-editorial__story-meta">
-                            <time datetime="{{ latest_story.date }}">{{ latest_story.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                            {% if latest_story.reading_time %}<span>{{ latest_story.reading_time }} phút đọc</span>{% endif %}
-                        </div>
-                    </div>
-                </article>
-            {% endif %}
-
-            <aside class="home-editorial__ad-slot" aria-label="Quảng cáo">
-                <span class="home-editorial__ad-label">Quảng cáo</span>
-                <strong>300 × 250</strong>
-                <p>Sidebar ad</p>
-            </aside>
-        </section>
-
-        <section class="home-editorial__body" aria-label="Nội dung chính">
-            <div class="home-editorial__main">
-                <section class="home-editorial__section home-editorial__section--latest" id="latest">
-                    <div class="home-editorial__section-head">
-                        <div>
-                            <p class="home-editorial__section-kicker">MỚI NHẤT</p>
-                            <h3 class="home-editorial__section-title">Bài viết mới nhất</h3>
-                        </div>
-                        <a class="home-editorial__section-link" href="{{ config.base_url }}/archive/">Xem thêm</a>
-                    </div>
-
-                    <div class="home-editorial__latest-list">
-                        {% for page in feed | slice(end=8) %}
-                            {% set_global item_cat = "" %}
-                            {% for c in page.taxonomies.categories | default(value=[]) %}
-                                {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and item_cat == "" %}
-                                    {% set_global item_cat = c %}
-                                {% endif %}
-                            {% endfor %}
-                            <article class="home-editorial__latest-item" data-category="{{ item_cat }}">
-                                <a class="home-editorial__latest-media" href="{{ page.permalink }}">
-                                    <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
-                                         width="320" height="180" loading="lazy" decoding="async">
-                                </a>
-                                <div class="home-editorial__latest-body">
-                                    {% if page.extra.premium %}
-                                        {{ premium::badge() }}
-                                    {% elif item_cat %}
-                                        <span class="home-editorial__story-cat">{{ item_cat }}</span>
-                                    {% endif %}
-                                    <h4 class="home-editorial__latest-title"><a href="{{ page.permalink }}">{{ page.title }}</a></h4>
-                                    <p class="home-editorial__latest-excerpt">{{ page.description | default(value=page.summary | default(value="") | safe | striptags | truncate(length=110)) }}</p>
-                                    <div class="home-editorial__latest-meta">
-                                        <time datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                                        {% if page.reading_time %}<span>{{ page.reading_time }} phút</span>{% endif %}
-                                    </div>
-                                </div>
-                            </article>
-                            {% if loop.index == 4 %}
-                                <aside class="home-editorial__inline-ad">
-                                    <span class="home-editorial__ad-label">Quảng cáo</span>
-                                    <strong>In-feed ad</strong>
-                                    <p>Đặt sau bài thứ 3 hoặc 4</p>
-                                </aside>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </section>
-
-                <section class="home-editorial__section" id="topic-blocks">
-                    <div class="home-editorial__section-head">
-                        <div>
-                            <p class="home-editorial__section-kicker">CHUYÊN MỤC</p>
-                            <h3 class="home-editorial__section-title">Chuyên mục nổi bật</h3>
-                        </div>
-                    </div>
-
-                    <div class="home-editorial__topic-blocks">
-                        <section class="home-editorial__topic-block" id="topic-seo-ai" data-home-pager data-page-size="6">
-                            <div class="home-editorial__topic-block-head">
-                                <p class="home-editorial__topic-block-kicker">SEO / AI WebOps</p>
-                                <nav class="home-editorial__topic-pager" data-page-nav aria-label="Phân trang SEO / AI WebOps"></nav>
-                                <a class="home-editorial__section-link" href="{{ config.base_url }}/archive/">Xem tất cả &rarr;</a>
-                            </div>
-                            <div class="home-editorial__topic-card-grid">
-                                {% for page in topic_seo_ai %}
-                                <article class="home-editorial__topic-card" data-page-item>
-                                    <a class="home-editorial__topic-media" href="{{ page.permalink }}" tabindex="-1">
-                                        <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
-                                             width="400" height="225" loading="lazy" decoding="async">
-                                    </a>
-                                    <div class="home-editorial__topic-body">
-                                        <h4 class="home-editorial__topic-title">
-                                            <a href="{{ page.permalink }}">{{ page.title }}</a>
-                                        </h4>
-                                        <div class="home-editorial__topic-meta">
-                                            <time datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                                            {% if page.reading_time %}<span>{{ page.reading_time }} ph</span>{% endif %}
-                                        </div>
-                                    </div>
-                                </article>
-                                {% endfor %}
-                            </div>
-                        </section>
-
-                        <section class="home-editorial__topic-block" id="topic-tech" data-home-pager data-page-size="6">
-                            <div class="home-editorial__topic-block-head">
-                                <p class="home-editorial__topic-block-kicker">Công nghệ</p>
-                                <nav class="home-editorial__topic-pager" data-page-nav aria-label="Phân trang Công nghệ"></nav>
-                                <a class="home-editorial__section-link" href="{{ config.base_url }}/categories/cong-nghe/">Xem tất cả &rarr;</a>
-                            </div>
-                            <div class="home-editorial__topic-card-grid">
-                                {% for page in topic_tech %}
-                                <article class="home-editorial__topic-card" data-page-item>
-                                    <a class="home-editorial__topic-media" href="{{ page.permalink }}" tabindex="-1">
-                                        <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
-                                             width="400" height="225" loading="lazy" decoding="async">
-                                    </a>
-                                    <div class="home-editorial__topic-body">
-                                        <h4 class="home-editorial__topic-title">
-                                            <a href="{{ page.permalink }}">{{ page.title }}</a>
-                                        </h4>
-                                        <div class="home-editorial__topic-meta">
-                                            <time datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                                            {% if page.reading_time %}<span>{{ page.reading_time }} ph</span>{% endif %}
-                                        </div>
-                                    </div>
-                                </article>
-                                {% endfor %}
-                            </div>
-                        </section>
-
-                        <section class="home-editorial__topic-block" id="topic-finance" data-home-pager data-page-size="6">
-                            <div class="home-editorial__topic-block-head">
-                                <p class="home-editorial__topic-block-kicker">Tài chính &amp; Ngân hàng</p>
-                                <nav class="home-editorial__topic-pager" data-page-nav aria-label="Phân trang Tài chính"></nav>
-                                <a class="home-editorial__section-link" href="{{ config.base_url }}/categories/tai-chinh/">Xem tất cả &rarr;</a>
-                            </div>
-                            <div class="home-editorial__topic-card-grid">
-                                {% for page in topic_finance %}
-                                <article class="home-editorial__topic-card" data-page-item>
-                                    <a class="home-editorial__topic-media" href="{{ page.permalink }}" tabindex="-1">
-                                        <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
-                                             width="400" height="225" loading="lazy" decoding="async">
-                                    </a>
-                                    <div class="home-editorial__topic-body">
-                                        <h4 class="home-editorial__topic-title">
-                                            <a href="{{ page.permalink }}">{{ page.title }}</a>
-                                        </h4>
-                                        <div class="home-editorial__topic-meta">
-                                            <time datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                                            {% if page.reading_time %}<span>{{ page.reading_time }} ph</span>{% endif %}
-                                        </div>
-                                    </div>
-                                </article>
-                                {% endfor %}
-                            </div>
-                        </section>
-                    </div>
-                </section>
-
-                {% if topic_life | length > 0 %}
-                <section class="home-editorial__section" id="topic-life" data-home-pager data-page-size="6">
-                    <div class="home-editorial__section-head">
-                        <div>
-                            <p class="home-editorial__section-kicker">ĐỜI SỐNG</p>
-                            <h3 class="home-editorial__section-title">Nhịp sống, du lịch và bài đọc nhẹ</h3>
-                        </div>
-                        <nav class="home-editorial__topic-pager" data-page-nav aria-label="Phân trang Đời sống"></nav>
-                        <a class="home-editorial__section-link" href="{{ config.base_url }}/archive/">Xem tất cả &rarr;</a>
-                    </div>
-                    <div class="home-editorial__topic-card-grid">
-                        {% for page in topic_life %}
-                        <article class="home-editorial__topic-card" data-page-item>
-                            <a class="home-editorial__topic-media" href="{{ page.permalink }}" tabindex="-1">
-                                <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
-                                     width="400" height="225" loading="lazy" decoding="async">
-                            </a>
-                            <div class="home-editorial__topic-body">
-                                <h4 class="home-editorial__topic-title">
-                                    <a href="{{ page.permalink }}">{{ page.title }}</a>
-                                </h4>
-                                <div class="home-editorial__topic-meta">
-                                    <time datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                                    {% if page.reading_time %}<span>{{ page.reading_time }} ph</span>{% endif %}
-                                </div>
-                            </div>
-                        </article>
-                        {% endfor %}
-                    </div>
-                </section>
-                {% endif %}
-
-                <section class="home-editorial__section" id="featured-posts">
-                    <div class="home-editorial__section-head">
-                        <div>
-                            <p class="home-editorial__section-kicker">BÀI ĐƯỢC CHỌN</p>
-                            <h3 class="home-editorial__section-title">Featured posts</h3>
-                        </div>
-                    </div>
-
-                    <div class="home-editorial__featured-grid">
-                        {% for page in feed | slice(end=3) %}
-                            {% set_global feat_cat = "" %}
-                            {% for c in page.taxonomies.categories | default(value=[]) %}
-                                {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and feat_cat == "" %}
-                                    {% set_global feat_cat = c %}
-                                {% endif %}
-                            {% endfor %}
-                            <article class="home-editorial__featured-card">
-                                <a class="home-editorial__featured-media" href="{{ page.permalink }}">
-                                    <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
-                                         width="900" height="506" loading="lazy" decoding="async">
-                                </a>
-                                <div class="home-editorial__featured-body">
-                                    {% if page.extra.premium %}
-                                        {{ premium::badge() }}
-                                    {% elif feat_cat %}
-                                        <span class="home-editorial__story-cat">{{ feat_cat }}</span>
-                                    {% endif %}
-                                    <h4 class="home-editorial__featured-title"><a href="{{ page.permalink }}">{{ page.title }}</a></h4>
-                                    <p class="home-editorial__featured-excerpt">{{ page.description | default(value=page.summary | default(value="") | safe | striptags | truncate(length=120)) }}</p>
-                                </div>
-                            </article>
-                        {% endfor %}
-                    </div>
-                </section>
-
-                <section class="home-editorial__section" id="series">
-                    <div class="home-editorial__section-head">
-                        <div>
-                            <p class="home-editorial__section-kicker">SERIES</p>
-                            <h3 class="home-editorial__section-title">Bài được chọn theo series</h3>
-                        </div>
-                    </div>
-
-                    <div class="home-editorial__series-grid">
-                        {% if seo_series and seo_series.title_vi %}
-                            <article class="home-editorial__series-card">
-                                <p class="home-editorial__series-label">SEO</p>
-                                <h4 class="home-editorial__series-title">
-                                    <a href="{{ config.base_url }}/posting/{{ seo_series.pillar_slug }}/">{{ seo_series.title_vi }}</a>
-                                </h4>
-                                <p class="home-editorial__series-meta">{{ seo_series.total_parts }} phần</p>
-                            </article>
-                        {% endif %}
-                        {% if nganhang_series and nganhang_series.title_vi %}
-                            <article class="home-editorial__series-card">
-                                <p class="home-editorial__series-label">Tài chính</p>
-                                <h4 class="home-editorial__series-title">
-                                    <a href="{{ config.base_url }}/posting/{{ nganhang_series.pillar_slug }}/">{{ nganhang_series.title_vi }}</a>
-                                </h4>
-                                <p class="home-editorial__series-meta">{{ nganhang_series.total_parts }} phần</p>
-                            </article>
-                        {% endif %}
-                        {% if korean_series and korean_series.title_vi %}
-                            <article class="home-editorial__series-card">
-                                <p class="home-editorial__series-label">Lifestyle</p>
-                                <h4 class="home-editorial__series-title">
-                                    <a href="{{ config.base_url }}/posting/{{ korean_series.pillar_slug }}/">{{ korean_series.title_vi }}</a>
-                                </h4>
-                                <p class="home-editorial__series-meta">{{ korean_series.total_parts }} phần</p>
-                            </article>
-                        {% endif %}
-                    </div>
-                </section>
-
-                <section class="home-editorial__ad-slot home-editorial__ad-slot--wide" aria-label="Quảng cáo">
-                    <span class="home-editorial__ad-label">Quảng cáo</span>
-                    <strong>Multiplex / Recommended</strong>
-                    <p>Banner ngang hoặc phần đề xuất bài viết</p>
-                </section>
-            </div>
-
-            <aside class="home-editorial__sidebar" aria-label="Thanh bên phải">
-                {% if featured %}
-                    <section class="home-editorial__rail-card home-editorial__rail-card--featured">
-                        <p class="home-editorial__rail-kicker">FEATURED POST</p>
-                        <a class="home-editorial__rail-media" href="{{ featured.permalink }}">
-                            <img src="{{ img::cover_src(page=featured) }}" alt="{{ img::cover_alt(page=featured) }}"
-                                 width="640" height="400" loading="lazy" decoding="async">
-                        </a>
-                        {% set_global rail_cat = "" %}
-                        {% for c in featured.taxonomies.categories | default(value=[]) %}
-                            {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and rail_cat == "" %}
-                                {% set_global rail_cat = c %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if featured.extra.premium %}
-                            {{ premium::badge() }}
-                        {% elif rail_cat %}
-                            <span class="home-editorial__story-cat">{{ rail_cat }}</span>
-                        {% endif %}
-                        <h4 class="home-editorial__rail-title"><a href="{{ featured.permalink }}">{{ featured.title }}</a></h4>
-                        <div class="home-editorial__rail-meta">
-                            <span>{{ config.extra.author }}</span>
-                            <time datetime="{{ featured.date }}">{{ featured.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                        </div>
-                    </section>
-                {% endif %}
-
-                <section class="home-editorial__rail-card">
-                    <p class="home-editorial__rail-kicker">TOOLS</p>
-                    <ul class="home-editorial__rail-links">
-                        <li><a href="{{ config.base_url }}/tools/theme-log/">Theme log</a></li>
-                        <li><a href="{{ config.base_url }}/seo-board/">SEO board</a></li>
-                        <li><a href="{{ config.base_url }}/tools/content-creator/">Content creator</a></li>
-                        <li><a href="{{ config.base_url }}/tools/calendar/">Calendar</a></li>
-                        <li><a href="{{ config.base_url }}/editor/">Editor</a></li>
-                    </ul>
-                </section>
-
-                <section class="home-editorial__rail-card">
-                    <p class="home-editorial__rail-kicker">QA</p>
-                    <div class="home-editorial__qa-grid">
-                        <div class="home-editorial__qa-stat">
-                            <span>SEO tracked</span>
-                            <strong>{% if seo_data and seo_data.posts %}{{ seo_data.posts | length }}{% else %}0{% endif %}</strong>
-                        </div>
-                        <div class="home-editorial__qa-stat">
-                            <span>Ready</span>
-                            <strong>{{ qa_ready }}</strong>
-                        </div>
-                        <div class="home-editorial__qa-stat">
-                            <span>Review</span>
-                            <strong>{{ qa_review }}</strong>
-                        </div>
-                        <div class="home-editorial__qa-stat">
-                            <span>Builds</span>
-                            <strong>{% if build_data and build_data.stats %}{{ build_data.stats.total | default(value=0) }}{% else %}0{% endif %}</strong>
-                        </div>
-                    </div>
-                    <p class="home-editorial__rail-note">
-                        {% if production_data and production_data.latest_deployed_short %}
-                            Live SHA: {{ production_data.latest_deployed_short }}.
-                        {% else %}
-                            Production snapshot unavailable.
-                        {% endif %}
-                    </p>
-                </section>
-
-                <section class="home-editorial__rail-card">
-                    <p class="home-editorial__rail-kicker">NEWSLETTER</p>
-                    <h4 class="home-editorial__rail-title">Đăng ký nhận bài mới</h4>
-                    <p class="home-editorial__rail-note">
-                        Giao diện UI-only. Kết nối newsletter thực tế có thể gắn sau qua form backend hoặc email tool.
-                    </p>
-                    <div class="home-editorial__newsletter-form">
-                        <input type="email" placeholder="Email của bạn" aria-label="Email">
-                        <button type="button">Đăng ký</button>
-                    </div>
-                </section>
-
-                {{ hot_search::widget() }}
-
-                <section class="home-editorial__rail-card">
-                    <p class="home-editorial__rail-kicker">RANDOM POSTS</p>
-                    <ul class="home-editorial__rail-posts">
-                        {% for page in feed | slice(end=5) %}
-                            <li class="home-editorial__rail-post">
-                                <a class="home-editorial__rail-post-image" href="{{ page.permalink }}">
-                                    <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
-                                         width="100" height="100" loading="lazy" decoding="async">
-                                </a>
-                                <div>
-                                    <h5><a href="{{ page.permalink }}">{{ page.title }}</a></h5>
-                                    <time datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </section>
-
-                {{ google_rank::widget() }}
-            </aside>
-        </section>
+        </div>
     </div>
+    {% endif %}
+
+    {# ========================================================================
+       HERO 2-COLUMN
+       ======================================================================== #}
+    {% set hero_left = false %}
+    {% set hero_right = false %}
+    {% if feed | length > 0 %}
+        {% set_global hero_left = feed[0] %}
+    {% endif %}
+    {% if feed | length > 1 %}
+        {% set_global hero_right = feed[1] %}
+    {% endif %}
+
+    {% if hero_left %}
+    <section class="eco-hero-2col" aria-label="Bài viết nổi bật">
+        <div class="eco-container">
+            {# Left: latest story #}
+            {% if hero_left %}
+            <a class="eco-hero-2col__card" href="{{ hero_left.permalink }}">
+                <div class="eco-hero-2col__img">
+                    <img src="{{ img::cover_src(page=hero_left) }}" alt="{{ img::cover_alt(page=hero_left) }}"
+                         width="700" height="438" loading="lazy" decoding="async">
+                </div>
+                <div class="eco-hero-2col__body">
+                    {% set_global hero_left_cat = "" %}
+                    {% for c in hero_left.taxonomies.categories | default(value=[]) %}
+                        {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and hero_left_cat == "" %}
+                            {% set_global hero_left_cat = c %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if hero_left_cat %}<span class="eco-hero-2col__cat">{{ hero_left_cat }}</span>{% endif %}
+                    <h3 class="eco-hero-2col__title">{{ hero_left.title }}</h3>
+                    <p class="eco-hero-2col__excerpt">{{ hero_left.description | default(value=hero_left.summary | default(value="") | safe | striptags | truncate(length=140)) }}</p>
+                    <div class="eco-hero-2col__meta">
+                        <time datetime="{{ hero_left.date }}">{{ hero_left.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
+                    </div>
+                </div>
+            </a>
+            {% endif %}
+
+            {# Right: featured post or second latest #}
+            {% if hero_right %}
+            <a class="eco-hero-2col__card" href="{{ hero_right.permalink }}">
+                <div class="eco-hero-2col__img">
+                    <img src="{{ img::cover_src(page=hero_right) }}" alt="{{ img::cover_alt(page=hero_right) }}"
+                         width="700" height="438" loading="lazy" decoding="async">
+                </div>
+                <div class="eco-hero-2col__body">
+                    {% set_global hero_right_cat = "" %}
+                    {% for c in hero_right.taxonomies.categories | default(value=[]) %}
+                        {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and hero_right_cat == "" %}
+                            {% set_global hero_right_cat = c %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if hero_right_cat %}<span class="eco-hero-2col__cat">{{ hero_right_cat }}</span>{% endif %}
+                    {% if hero_right.extra.premium %}{{ premium::badge() }}{% endif %}
+                    <h3 class="eco-hero-2col__title">{{ hero_right.title }}</h3>
+                    <p class="eco-hero-2col__excerpt">{{ hero_right.description | default(value=hero_right.summary | default(value="") | safe | striptags | truncate(length=140)) }}</p>
+                    <div class="eco-hero-2col__meta">
+                        <time datetime="{{ hero_right.date }}">{{ hero_right.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
+                    </div>
+                </div>
+            </a>
+            {% endif %}
+        </div>
+    </section>
+    {% endif %}
+
+    {# ========================================================================
+       TIMELINE SECTION — 3-col posts + 1-col ad
+       ======================================================================== #}
+    {% set_global timeline_pool = feed | slice(start=2) %}
+    {% if timeline_pool | length > 0 %}
+    <section class="eco-timeline-section" aria-label="Bài viết mới">
+        <div class="eco-container">
+            <div class="eco-timeline-section__heading">
+                <h3>📰 Tin mới nhất</h3>
+                <a href="{{ config.base_url }}/archive/">Xem tất cả →</a>
+            </div>
+
+            {% set col1 = timeline_pool | slice(start=0, end=5) %}
+            {% set col2 = timeline_pool | slice(start=5, end=10) %}
+            {% set col3 = timeline_pool | slice(start=10, end=15) %}
+
+            {% if col1 | length > 0 %}
+            <div class="eco-timeline-section__col">
+                {% for page in col1 %}
+                {% set_global tl_cat = "" %}
+                {% for c in page.taxonomies.categories | default(value=[]) %}
+                    {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and tl_cat == "" %}
+                        {% set_global tl_cat = c %}
+                    {% endif %}
+                {% endfor %}
+                <a class="eco-timeline-section__item" href="{{ page.permalink }}">
+                    {% if tl_cat %}<span class="eco-timeline-section__item-cat">{{ tl_cat }}</span>{% endif %}
+                    <h4 class="eco-timeline-section__item-title">{{ page.title }}</h4>
+                    <span class="eco-timeline-section__time">{{ page.date | date(format="%H:%M %d/%m", timezone="Asia/Ho_Chi_Minh") }}</span>
+                </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if col2 | length > 0 %}
+            <div class="eco-timeline-section__col">
+                {% for page in col2 %}
+                {% set_global tl_cat = "" %}
+                {% for c in page.taxonomies.categories | default(value=[]) %}
+                    {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and tl_cat == "" %}
+                        {% set_global tl_cat = c %}
+                    {% endif %}
+                {% endfor %}
+                <a class="eco-timeline-section__item" href="{{ page.permalink }}">
+                    {% if tl_cat %}<span class="eco-timeline-section__item-cat">{{ tl_cat }}</span>{% endif %}
+                    <h4 class="eco-timeline-section__item-title">{{ page.title }}</h4>
+                    <span class="eco-timeline-section__time">{{ page.date | date(format="%H:%M %d/%m", timezone="Asia/Ho_Chi_Minh") }}</span>
+                </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if col3 | length > 0 %}
+            <div class="eco-timeline-section__col">
+                {% for page in col3 %}
+                {% set_global tl_cat = "" %}
+                {% for c in page.taxonomies.categories | default(value=[]) %}
+                    {% if c != "Tất cả" and c != "premium" and c != "Báo chí" and tl_cat == "" %}
+                        {% set_global tl_cat = c %}
+                    {% endif %}
+                {% endfor %}
+                <a class="eco-timeline-section__item" href="{{ page.permalink }}">
+                    {% if tl_cat %}<span class="eco-timeline-section__item-cat">{{ tl_cat }}</span>{% endif %}
+                    <h4 class="eco-timeline-section__item-title">{{ page.title }}</h4>
+                    <span class="eco-timeline-section__time">{{ page.date | date(format="%H:%M %d/%m", timezone="Asia/Ho_Chi_Minh") }}</span>
+                </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <aside class="eco-timeline-section__ad" aria-label="Quảng cáo">
+                <div class="eco-ad-slot__inner">
+                    <strong>Quảng cáo</strong>
+                    <span>160×600 hoặc 300×250</span>
+                </div>
+            </aside>
+        </div>
+    </section>
+    {% endif %}
+
+    {# ========================================================================
+       AD SLOT 2 — In-Article
+       ======================================================================== #}
+    {% if not config.extra.ads or config.extra.ads.enabled == false %}
+    <div class="eco-ad-slot eco-ad-slot--inarticle" aria-label="Quảng cáo">
+        <div class="eco-container">
+            <div class="eco-ad-slot__inner">
+                <strong>Bài viết tài trợ bởi [Brand]</strong>
+                <span>AdSense In-Article Ad — Nội dung quảng cáo tích hợp</span>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {# ========================================================================
+       CATEGORIES 3-COLUMN
+       ======================================================================== #}
+    <section class="eco-categories-3col" aria-label="Chuyên mục">
+        <div class="eco-container">
+            <h2 class="eco-categories-3col__heading">📂 Chuyên mục</h2>
+
+            {# Column 1: Công nghệ #}
+            <div class="eco-categories-3col__col">
+                <div class="eco-categories-3col__col-header">
+                    <a href="{{ config.base_url }}/categories/cong-nghe/">💻 Công nghệ</a>
+                    <span class="eco-categories-3col__count">{{ category_tech | length }}</span>
+                </div>
+                {% for page in category_tech | slice(end=4) %}
+                <a class="eco-categories-3col__item" href="{{ page.permalink }}">
+                    <span class="eco-categories-3col__item-meta">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                    <h4 class="eco-categories-3col__item-title">{{ page.title }}</h4>
+                </a>
+                {% endfor %}
+                <a class="eco-categories-3col__view-all" href="{{ config.base_url }}/categories/cong-nghe/">Xem tất cả →</a>
+            </div>
+
+            {# Column 2: Ngân hàng #}
+            <div class="eco-categories-3col__col">
+                <div class="eco-categories-3col__col-header">
+                    <a href="{{ config.base_url }}/categories/ngan-hang/">🏦 Ngân hàng</a>
+                    <span class="eco-categories-3col__count">{{ category_bank | length }}</span>
+                </div>
+                {% for page in category_bank | slice(end=4) %}
+                <a class="eco-categories-3col__item" href="{{ page.permalink }}">
+                    <span class="eco-categories-3col__item-meta">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                    <h4 class="eco-categories-3col__item-title">{{ page.title }}</h4>
+                </a>
+                {% endfor %}
+                <a class="eco-categories-3col__view-all" href="{{ config.base_url }}/categories/ngan-hang/">Xem tất cả →</a>
+            </div>
+
+            {# Column 3: Học tiếng Hàn #}
+            <div class="eco-categories-3col__col">
+                <div class="eco-categories-3col__col-header">
+                    <a href="{{ config.base_url }}/categories/hoc-tieng-han/">🇰🇷 Học tiếng Hàn</a>
+                    <span class="eco-categories-3col__count">{{ category_korean | length }}</span>
+                </div>
+                {% for page in category_korean | slice(end=4) %}
+                <a class="eco-categories-3col__item" href="{{ page.permalink }}">
+                    <span class="eco-categories-3col__item-meta">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                    <h4 class="eco-categories-3col__item-title">{{ page.title }}</h4>
+                </a>
+                {% endfor %}
+                <a class="eco-categories-3col__view-all" href="{{ config.base_url }}/categories/hoc-tieng-han/">Xem tất cả →</a>
+            </div>
+        </div>
+    </section>
+
+    {# ========================================================================
+       AD SLOT 3 — Full-Width Banner
+       ======================================================================== #}
+    {% if not config.extra.ads or config.extra.ads.enabled == false %}
+    <div class="eco-ad-slot eco-ad-slot--banner" aria-label="Quảng cáo">
+        <div class="eco-container">
+            <div class="eco-ad-slot__inner">
+                <strong>AdSense Banner 728×90</strong>
+                <span>Đặt trước chân trang</span>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {# ========================================================================
+       WEEKLY EDITION — Series highlight
+       ======================================================================== #}
+    {% if seo_series or nganhang_series or korean_series %}
+    <section class="eco-weekly" aria-label="Series bài viết">
+        <div class="eco-container">
+            <div class="eco-weekly__intro">
+                <p class="eco-weekly__label">⭐ Series nổi bật</p>
+                <h2 class="eco-weekly__title">Loạt bài chuyên sâu</h2>
+                <p class="eco-weekly__desc">Các series bài viết được biên soạn công phu, chia sẻ kiến thức từ cơ bản đến nâng cao.</p>
+                <a class="eco-weekly__cta" href="{{ config.base_url }}/series/">Xem tất cả series →</a>
+            </div>
+            <div class="eco-weekly__series-cards">
+                {% if seo_series and seo_series.title_vi %}
+                <a class="eco-weekly__series-card" href="{{ get_url(path='@/' ~ seo_series.section ~ '/' ~ seo_series.pillar_slug ~ '.md') }}">
+                    <span class="eco-weekly__series-label">SEO</span>
+                    <div class="eco-weekly__series-info">
+                        <h4 class="eco-weekly__series-title">{{ seo_series.title_vi }}</h4>
+                        <p class="eco-weekly__series-meta">{{ seo_series.total_parts }} phần</p>
+                    </div>
+                </a>
+                {% endif %}
+                {% if nganhang_series and nganhang_series.title_vi %}
+                <a class="eco-weekly__series-card" href="{{ get_url(path='@/' ~ nganhang_series.section ~ '/' ~ nganhang_series.pillar_slug ~ '.md') }}">
+                    <span class="eco-weekly__series-label">Tài chính</span>
+                    <div class="eco-weekly__series-info">
+                        <h4 class="eco-weekly__series-title">{{ nganhang_series.title_vi }}</h4>
+                        <p class="eco-weekly__series-meta">{{ nganhang_series.total_parts }} phần</p>
+                    </div>
+                </a>
+                {% endif %}
+                {% if korean_series and korean_series.title_vi %}
+                <a class="eco-weekly__series-card" href="{{ get_url(path='@/' ~ korean_series.section ~ '/' ~ korean_series.pillar_slug ~ '.md') }}">
+                    <span class="eco-weekly__series-label">Hàn Quốc</span>
+                    <div class="eco-weekly__series-info">
+                        <h4 class="eco-weekly__series-title">{{ korean_series.title_vi }}</h4>
+                        <p class="eco-weekly__series-meta">{{ korean_series.total_parts }} phần</p>
+                    </div>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+</div>
 {% endblock main %}
 
 {% block extra_scripts %}
@@ -585,18 +438,15 @@
             var navbar = document.getElementById("navbar");
             if (!navbar) return;
             var ticking = false;
-
             function update() {
                 navbar.classList.toggle("scrolled", window.scrollY > 100);
                 ticking = false;
             }
-
             function onScroll() {
                 if (ticking) return;
                 ticking = true;
                 window.requestAnimationFrame(update);
             }
-
             update();
             window.addEventListener("scroll", onScroll, { passive: true });
         })();

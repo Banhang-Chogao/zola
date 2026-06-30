@@ -31,7 +31,7 @@ q = "Vì sao nên kích hoạt thẻ vật lý sau khi nhận?"
 a = "Để dùng đầy đủ tính năng của thẻ, và nếu bạn đăng ký qua link giới thiệu thì việc kích hoạt thẻ vật lý thành công mới giúp người giới thiệu được tính thưởng."
 +++
 
-> 📚 **Series Liobank (Phần 2/5)** — Tiếp nối [Phần 1: Liobank là gì](/ngan-hang/liobank-la-gi-ngan-hang-so-noi-bat/), bài này tôi đi sâu vào bước thực tế đầu tiên: mở thẻ.
+> 📚 **Series Liobank (Phần 2/5)** — Tiếp nối [Phần 1: Liobank là gì](/baochi/liobank-la-gi-ngan-hang-so-noi-bat/), bài này tôi đi sâu vào bước thực tế đầu tiên: mở thẻ.
 
 Ở phần trước tôi đã giới thiệu tổng quan, còn bây giờ vào việc cụ thể: **mở thẻ tín dụng Liobank** thực ra mất bao lâu và làm thế nào cho trơn tru. Tôi từng nghĩ mở thẻ ngân hàng là phải nghỉ làm nửa buổi ra quầy, nhưng với Liobank thì câu chuyện khác hẳn — gần như làm xong trong lúc ngồi uống cà phê.
 
@@ -53,7 +53,7 @@ Liobank phát hành cả **thẻ phi vật lý** (dùng được ngay sau khi du
 - **Điện thoại** lắp SIM chính chủ để nhận OTP.
 - **Nơi đủ sáng** để camera quét khuôn mặt chính xác.
 
-Đây cũng là bộ "đồ nghề" chuẩn cho hầu hết thao tác eKYC ngân hàng số, không riêng Liobank — tôi đã nói kỹ trong bài [hướng dẫn xác thực CCCD trên MSB Digital Bank](/ngan-hang/huong-dan-xac-thuc-cccd-msb-digital-bank/), bạn có thể tham khảo thêm vì nguyên lý tương tự.
+Đây cũng là bộ "đồ nghề" chuẩn cho hầu hết thao tác eKYC ngân hàng số, không riêng Liobank — tôi đã nói kỹ trong bài [hướng dẫn xác thực CCCD trên MSB Digital Bank](/baochi/huong-dan-xac-thuc-cccd-msb-digital-bank/), bạn có thể tham khảo thêm vì nguyên lý tương tự.
 
 ## Các bước mở thẻ tín dụng Liobank online
 
@@ -82,4 +82,4 @@ Nếu bạn chưa có người giới thiệu, có thể dùng **link của tôi
 
 ## Tóm lại
 
-Mở thẻ tín dụng Liobank online nhanh gọn nhờ eKYC: chuẩn bị đủ CCCD và điện thoại, làm đúng năm bước là xong, lại có thẻ phi vật lý dùng ngay. Phần sau của series tôi sẽ nói về thứ khiến chiếc thẻ này "đáng tiêu": [ưu đãi hoàn tiền thẻ Liobank](/ngan-hang/uu-dai-hoan-tien-the-liobank/). Hẹn bạn ở Phần 3.
+Mở thẻ tín dụng Liobank online nhanh gọn nhờ eKYC: chuẩn bị đủ CCCD và điện thoại, làm đúng năm bước là xong, lại có thẻ phi vật lý dùng ngay. Phần sau của series tôi sẽ nói về thứ khiến chiếc thẻ này "đáng tiêu": [ưu đãi hoàn tiền thẻ Liobank](/baochi/uu-dai-hoan-tien-the-liobank/). Hẹn bạn ở Phần 3.

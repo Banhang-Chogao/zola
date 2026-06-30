@@ -22,8 +22,20 @@
     {% if is_blog_listing %}
         {% set s_posting = get_section(path="posting/_index.md") %}
         {% set s_baochi = get_section(path="baochi/_index.md") %}
+        {% set s_amthuc = get_section(path="am-thuc/_index.md") %}
+        {% set s_congnghe = get_section(path="cong-nghe/_index.md") %}
+        {% set s_hoctienghan = get_section(path="hoc-tieng-han/_index.md") %}
+        {% set s_khoahoc = get_section(path="khoa-hoc/_index.md") %}
+        {% set s_dulich = get_section(path="du-lich/_index.md") %}
+        {% set s_nganhang = get_section(path="ngan-hang/_index.md") %}
+        {% set s_seo = get_section(path="seo/_index.md") %}
+        {% set s_thethao = get_section(path="the-thao/_index.md") %}
+        {% set s_worldcup = get_section(path="world-cup-2026/_index.md") %}
+        {% set s_doisong = get_section(path="doi-song/_index.md") %}
+        {% set s_baohiem = get_section(path="bao-hiem/_index.md") %}
+        {% set s_thegioi = get_section(path="the-gioi/_index.md") %}
         {% set_global all_merged = [] %}
-        {% for page in s_posting.pages | concat(with=s_baochi.pages) %}
+        {% for page in s_posting.pages | concat(with=s_baochi.pages) | concat(with=s_amthuc.pages) | concat(with=s_congnghe.pages) | concat(with=s_hoctienghan.pages) | concat(with=s_khoahoc.pages) | concat(with=s_dulich.pages) | concat(with=s_nganhang.pages) | concat(with=s_seo.pages) | concat(with=s_thethao.pages) | concat(with=s_worldcup.pages) | concat(with=s_doisong.pages) | concat(with=s_baohiem.pages) | concat(with=s_thegioi.pages) %}
             {% if not page.extra.feed_anchor %}
                 {% set_global all_merged = all_merged | concat(with=[page]) %}
             {% endif %}

@@ -1,6 +1,5 @@
 +++
-
-title = "Doi Song"
+title = "Đời sống"
 sort_by = "date"
 paginate_by = 10
 template = "section.html"

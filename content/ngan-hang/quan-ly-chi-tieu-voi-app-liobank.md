@@ -27,7 +27,7 @@ q = "Có thói quen nào giúp kiểm soát chi tiêu tốt hơn?"
 a = "Xem lại giao dịch mỗi tối một phút, đặt hạn mức tự nhắc cho từng nhóm chi tiêu, tận dụng phân loại tự động của app, và luôn trả nợ đúng hạn."
 +++
 
-> 📚 **Series Liobank (Phần 5/5)** — Khép lại hành trình từ [Liobank là gì](/ngan-hang/liobank-la-gi-ngan-hang-so-noi-bat/), bài cuối nói về thứ giúp bạn dùng thẻ một cách bền vững: kỷ luật chi tiêu.
+> 📚 **Series Liobank (Phần 5/5)** — Khép lại hành trình từ [Liobank là gì](/baochi/liobank-la-gi-ngan-hang-so-noi-bat/), bài cuối nói về thứ giúp bạn dùng thẻ một cách bền vững: kỷ luật chi tiêu.
 
 Đi qua bốn phần — mở thẻ, hoàn tiền, bảo mật — tôi muốn khép series bằng điều quan trọng nhất với túi tiền của bạn: **quản lý chi tiêu Liobank** sao cho thẻ tín dụng là bạn đồng hành chứ không phải cái bẫy nợ. Vì nói cho cùng, công cụ tốt đến mấy cũng vô nghĩa nếu mình không kiểm soát được tay mình.
 
@@ -54,7 +54,7 @@ Công cụ chỉ là một nửa, nửa còn lại là thói quen. Đây là cá
 
 1. **Xem lại giao dịch mỗi tối** một phút — đủ để biết hôm nay tiêu gì, có khoản nào lạ không.
 2. **Đặt hạn mức tự nhắc cho từng nhóm**: ví dụ tháng này ăn ngoài không quá X đồng.
-3. **Luôn trả đủ dư nợ đúng hạn** để không dính lãi — như tôi đã nhấn mạnh ở Phần 3 về [ưu đãi hoàn tiền](/ngan-hang/uu-dai-hoan-tien-the-liobank/).
+3. **Luôn trả đủ dư nợ đúng hạn** để không dính lãi — như tôi đã nhấn mạnh ở Phần 3 về [ưu đãi hoàn tiền](/baochi/uu-dai-hoan-tien-the-liobank/).
 4. **Tận dụng phân loại tự động** để cuối tháng nhìn ra khoản nào cắt được.
 
 Làm đều vài tuần, bạn sẽ ngạc nhiên vì hóa ra mình tiêu nhiều nhất vào những thứ chẳng ngờ tới.
@@ -67,13 +67,13 @@ Tôi gặp nhiều người sợ thẻ tín dụng vì nghĩ nó là "tiêu trư
 
 Vậy là trọn bộ 5 phần về Liobank đã xong:
 
-- Phần 1: [Liobank là gì](/ngan-hang/liobank-la-gi-ngan-hang-so-noi-bat/)
-- Phần 2: [Mở thẻ online](/ngan-hang/mo-the-tin-dung-liobank-online-nhanh/)
-- Phần 3: [Ưu đãi hoàn tiền](/ngan-hang/uu-dai-hoan-tien-the-liobank/)
-- Phần 4: [Bảo mật an toàn](/ngan-hang/liobank-bao-mat-an-toan-the-nao/)
+- Phần 1: [Liobank là gì](/baochi/liobank-la-gi-ngan-hang-so-noi-bat/)
+- Phần 2: [Mở thẻ online](/baochi/mo-the-tin-dung-liobank-online-nhanh/)
+- Phần 3: [Ưu đãi hoàn tiền](/baochi/uu-dai-hoan-tien-the-liobank/)
+- Phần 4: [Bảo mật an toàn](/baochi/liobank-bao-mat-an-toan-the-nao/)
 - Phần 5: Quản lý chi tiêu (bài này)
 
-Nếu cả series đã thuyết phục được bạn, hãy thử trải nghiệm: đăng ký qua **link giới thiệu của tôi** [https://liobank.vn/rr/qyAJ](https://liobank.vn/rr/qyAJ) — sao chép link mở bằng trình duyệt, tải app và kích hoạt thẻ vật lý để nhận hoàn tiền. Đừng quên Liobank còn có [chương trình giới thiệu nhận thưởng tới 500.000đ](/ngan-hang/liobank-gioi-thieu-ban-be-nhan-thuong/) khi bạn mời thêm bạn bè. Thông tin chính thức luôn xem tại [website Liobank](https://liobank.vn/).
+Nếu cả series đã thuyết phục được bạn, hãy thử trải nghiệm: đăng ký qua **link giới thiệu của tôi** [https://liobank.vn/rr/qyAJ](https://liobank.vn/rr/qyAJ) — sao chép link mở bằng trình duyệt, tải app và kích hoạt thẻ vật lý để nhận hoàn tiền. Đừng quên Liobank còn có [chương trình giới thiệu nhận thưởng tới 500.000đ](/baochi/liobank-gioi-thieu-ban-be-nhan-thuong/) khi bạn mời thêm bạn bè. Thông tin chính thức luôn xem tại [website Liobank](https://liobank.vn/).
 
 ## Tóm lại
 

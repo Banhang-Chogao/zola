@@ -10,10 +10,22 @@
        Gộp posting/ + baochi/ (loại feed_anchor), sort ngày giảm dần, nhóm theo
        NĂM để dễ quét. Filter danh mục client-side (nhẹ, không lib ngoài).
        Mục tiêu: MỌI bài hợp lệ đều truy cập được từ 1 trang — chống "ẩn bài". #}
-    {% set posting = get_section(path="posting/_index.md") %}
-    {% set baochi = get_section(path="baochi/_index.md") %}
+    {% set _ar_posting = get_section(path="posting/_index.md") %}
+    {% set _ar_baochi = get_section(path="baochi/_index.md") %}
+    {% set _ar_amthuc = get_section(path="am-thuc/_index.md") %}
+    {% set _ar_congnghe = get_section(path="cong-nghe/_index.md") %}
+    {% set _ar_hoctienghan = get_section(path="hoc-tieng-han/_index.md") %}
+    {% set _ar_khoahoc = get_section(path="khoa-hoc/_index.md") %}
+    {% set _ar_dulich = get_section(path="du-lich/_index.md") %}
+    {% set _ar_nganhang = get_section(path="ngan-hang/_index.md") %}
+    {% set _ar_seo = get_section(path="seo/_index.md") %}
+    {% set _ar_thethao = get_section(path="the-thao/_index.md") %}
+    {% set _ar_worldcup = get_section(path="world-cup-2026/_index.md") %}
+    {% set _ar_doisong = get_section(path="doi-song/_index.md") %}
+    {% set _ar_baohiem = get_section(path="bao-hiem/_index.md") %}
+    {% set _ar_thegioi = get_section(path="the-gioi/_index.md") %}
     {% set_global all_pages = [] %}
-    {% for page in posting.pages | concat(with=baochi.pages) %}
+    {% for page in _ar_posting.pages | concat(with=_ar_baochi.pages) | concat(with=_ar_amthuc.pages) | concat(with=_ar_congnghe.pages) | concat(with=_ar_hoctienghan.pages) | concat(with=_ar_khoahoc.pages) | concat(with=_ar_dulich.pages) | concat(with=_ar_nganhang.pages) | concat(with=_ar_seo.pages) | concat(with=_ar_thethao.pages) | concat(with=_ar_worldcup.pages) | concat(with=_ar_doisong.pages) | concat(with=_ar_baohiem.pages) | concat(with=_ar_thegioi.pages) %}
         {% if not page.extra.feed_anchor %}
             {% set_global all_pages = all_pages | concat(with=[page]) %}
         {% endif %}

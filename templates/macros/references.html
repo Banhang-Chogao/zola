@@ -12,7 +12,21 @@
         {% for candidate in [
             "content/posting/" ~ page.slug ~ ".md",
             "content/baochi/" ~ page.slug ~ ".md",
-            "content/pages/" ~ page.slug ~ ".md"
+            "content/pages/" ~ page.slug ~ ".md",
+            "content/am-thuc/" ~ page.slug ~ ".md",
+            "content/hoc-tieng-han/" ~ page.slug ~ ".md",
+            "content/seo/" ~ page.slug ~ ".md",
+            "content/world-cup-2026/" ~ page.slug ~ ".md",
+            "content/cong-nghe/" ~ page.slug ~ ".md",
+            "content/ngan-hang/" ~ page.slug ~ ".md",
+            "content/du-lich/" ~ page.slug ~ ".md",
+            "content/khoa-hoc/" ~ page.slug ~ ".md",
+            "content/the-thao/" ~ page.slug ~ ".md",
+            "content/bao-hiem/" ~ page.slug ~ ".md",
+            "content/the-gioi/" ~ page.slug ~ ".md",
+            "content/doi-song/" ~ page.slug ~ ".md",
+            "content/dien-anh/" ~ page.slug ~ ".md",
+            "content/series/" ~ page.slug ~ ".md"
         ] %}
             {% if not refs and ref_data[candidate] %}
                 {% set_global refs = ref_data[candidate] %}

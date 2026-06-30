@@ -63,7 +63,7 @@ Câu mình tâm đắc nhất là lời anh Nghĩa: "Ngày xưa thị trường 
 
 Giống vải này về sau gắn liền với vùng Thanh Hà (Hải Dương cũ), trở thành đặc sản có chỉ dẫn địa lý mà đến giờ vẫn được nhắc tới với sự tự hào. Nếu bạn muốn tìm hiểu sâu hơn về lịch sử và đặc điểm của giống vải này, có thể tham khảo mục [vải thiều Thanh Hà](https://vi.wikipedia.org/wiki/V%E1%BA%A3i_thi%E1%BB%81u_Thanh_H%C3%A0) trên Wikipedia. Điều mình muốn nhấn mạnh ở đây là tính liên tục: từ một cây mẹ, người ta chiết cành, nhân giống, rồi mỗi cây con lại tiếp tục câu chuyện của riêng nó ở một mảnh vườn khác. Cây vải Phù Tinh chính là một mắt xích như thế.
 
-Câu chuyện này làm mình nhớ tới hành trình [Mùa quả chín xứ Đông](/du-lich/mua-qua-chin-xu-dong-hai-phong/) mà mình từng đọc — nơi vải thiều và du lịch nông nghiệp được kết nối thành một sản phẩm trải nghiệm. Một cây vải cổ thụ như ở Phù Tinh hoàn toàn có thể trở thành một "điểm dừng" giàu cảm xúc trong những hành trình kiểu đó.
+Câu chuyện này làm mình nhớ tới hành trình [Mùa quả chín xứ Đông](/baochi/mua-qua-chin-xu-dong-hai-phong/) mà mình từng đọc — nơi vải thiều và du lịch nông nghiệp được kết nối thành một sản phẩm trải nghiệm. Một cây vải cổ thụ như ở Phù Tinh hoàn toàn có thể trở thành một "điểm dừng" giàu cảm xúc trong những hành trình kiểu đó.
 
 ## Mùa vải năm nay và câu chuyện được mùa, mất mùa
 
@@ -81,7 +81,7 @@ Mong muốn của gia đình cũng rất giản dị: lan tỏa hình ảnh cây
 
 Câu chuyện cây vải cũng gắn với nhịp mùa rất Việt Nam. Tháng 5 Âm lịch — mùa vải chín rộ — cũng là dịp [Tết Đoan Ngọ](/posting/tet-doan-ngo-han-viet-trung/), khi nhà nhà bày mâm vải, mận để "giết sâu bọ". Những phong tục và sản vật cứ thế gắn bó với nhau, làm nên bản sắc mà mình nghĩ rất nên được kể lại cho thế hệ sau.
 
-Nếu bạn cũng thích kiểu nội dung đi sâu vào đặc sản, vùng đất và con người, mình mời bạn ghé qua chuyên mục [Du lịch](/categories/du-lich/) và [Ẩm thực](/categories/am-thuc/) trên blog — nơi mình gom những câu chuyện tương tự. Và nếu muốn theo dõi các bài tổng hợp tin tức được mình kể lại theo góc nhìn riêng, hãy xem thêm ở [tất cả bài viết](/categories/tat-ca/) trên blog.
+Nếu bạn cũng thích kiểu nội dung đi sâu vào đặc sản, vùng đất và con người, mình mời bạn ghé qua chuyên mục [Du lịch](/categories/du-lich/) và [Ẩm thực](/am-thuc/) trên blog — nơi mình gom những câu chuyện tương tự. Và nếu muốn theo dõi các bài tổng hợp tin tức được mình kể lại theo góc nhìn riêng, hãy xem thêm ở [tất cả bài viết](/categories/tat-ca/) trên blog.
 
 Còn bạn, bạn đã bao giờ thấy một cái cây nào ở quê mình sống lâu đến mức trở thành "nhân chứng" của cả dòng họ chưa? Nếu có, mình rất muốn nghe câu chuyện đó. Biết đâu đó lại là một di sản sống khác đang chờ được kể.
 

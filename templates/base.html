@@ -296,6 +296,8 @@
             {% set m = load_data(path="data/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb-series.json", required=false) %}
         {% elif page.extra.series == "tiet-kiem-tu-dong-cua-ngan-hang-liobank-bd55c9" %}
             {% set m = load_data(path="data/tiet-kiem-tu-dong-cua-ngan-hang-liobank-bd55c9-series.json", required=false) %}
+        {% elif page.extra.series == "xgboost-model-la-gi" %}
+            {% set m = load_data(path="data/xgboost-model-la-gi-series.json", required=false) %}
         {% else %}
             {% set m = false %}
         {% endif %}
@@ -690,9 +692,21 @@
             </div>
         </section>
     </div>
-    {% set search_posting = get_section(path="posting/_index.md") %}
-    {% set search_baochi = get_section(path="baochi/_index.md") %}
-    {% set search_pages = search_posting.pages | concat(with=search_baochi.pages) | sort(attribute="date") | reverse %}
+    {% set _search_posting = get_section(path="posting/_index.md") %}
+    {% set _search_baochi = get_section(path="baochi/_index.md") %}
+    {% set _search_amthuc = get_section(path="am-thuc/_index.md") %}
+    {% set _search_congnghe = get_section(path="cong-nghe/_index.md") %}
+    {% set _search_hoctienghan = get_section(path="hoc-tieng-han/_index.md") %}
+    {% set _search_khoahoc = get_section(path="khoa-hoc/_index.md") %}
+    {% set _search_dulich = get_section(path="du-lich/_index.md") %}
+    {% set _search_nganhang = get_section(path="ngan-hang/_index.md") %}
+    {% set _search_seo = get_section(path="seo/_index.md") %}
+    {% set _search_thethao = get_section(path="the-thao/_index.md") %}
+    {% set _search_worldcup = get_section(path="world-cup-2026/_index.md") %}
+    {% set _search_doisong = get_section(path="doi-song/_index.md") %}
+    {% set _search_baohiem = get_section(path="bao-hiem/_index.md") %}
+    {% set _search_thegioi = get_section(path="the-gioi/_index.md") %}
+    {% set search_pages = _search_posting.pages | concat(with=_search_baochi.pages) | concat(with=_search_amthuc.pages) | concat(with=_search_congnghe.pages) | concat(with=_search_hoctienghan.pages) | concat(with=_search_khoahoc.pages) | concat(with=_search_dulich.pages) | concat(with=_search_nganhang.pages) | concat(with=_search_seo.pages) | concat(with=_search_thethao.pages) | concat(with=_search_worldcup.pages) | concat(with=_search_doisong.pages) | concat(with=_search_baohiem.pages) | concat(with=_search_thegioi.pages) | sort(attribute="date") | reverse %}
     <script type="application/json" id="site-search-data">
     [
     {%- for page in search_pages -%}
@@ -721,9 +735,21 @@
                 {# HOTFIX: gộp bài từ mọi section (posting/, baochi/, …) + sort ngày
                    giảm dần → sidebar (featured/random/JSON) phản ánh đúng MỌI bài,
                    đồng bộ với trang chủ. #}
-                {% set s_posting = get_section(path="posting/_index.md") %}
-                {% set s_baochi = get_section(path="baochi/_index.md") %}
-                {% set root_pages = s_posting.pages | concat(with=s_baochi.pages) | sort(attribute="date") | reverse %}
+                {% set _p = get_section(path="posting/_index.md") %}
+                {% set _b = get_section(path="baochi/_index.md") %}
+                {% set _at = get_section(path="am-thuc/_index.md") %}
+                {% set _cn = get_section(path="cong-nghe/_index.md") %}
+                {% set _hh = get_section(path="hoc-tieng-han/_index.md") %}
+                {% set _kh = get_section(path="khoa-hoc/_index.md") %}
+                {% set _dl = get_section(path="du-lich/_index.md") %}
+                {% set _nh = get_section(path="ngan-hang/_index.md") %}
+                {% set _se = get_section(path="seo/_index.md") %}
+                {% set _tt = get_section(path="the-thao/_index.md") %}
+                {% set _wc = get_section(path="world-cup-2026/_index.md") %}
+                {% set _ds = get_section(path="doi-song/_index.md") %}
+                {% set _bh = get_section(path="bao-hiem/_index.md") %}
+                {% set _tg = get_section(path="the-gioi/_index.md") %}
+                {% set root_pages = _p.pages | concat(with=_b.pages) | concat(with=_at.pages) | concat(with=_cn.pages) | concat(with=_hh.pages) | concat(with=_kh.pages) | concat(with=_dl.pages) | concat(with=_nh.pages) | concat(with=_se.pages) | concat(with=_tt.pages) | concat(with=_wc.pages) | concat(with=_ds.pages) | concat(with=_bh.pages) | concat(with=_tg.pages) | sort(attribute="date") | reverse %}
 
                 {#
                     Inject toàn bộ metadata bài viết vào JSON inline để JS pick featured/random

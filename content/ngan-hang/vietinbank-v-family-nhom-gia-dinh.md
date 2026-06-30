@@ -47,7 +47,7 @@ Nói gọn, **VietinBank V-Family** (Nhóm gia đình) là tính năng cho phép
 
 Gói chính thức triển khai từ **06/06/2026**, còn chương trình ưu đãi áp dụng từ 02/06/2026 cho tới khi có thông báo mới. Ý tưởng cốt lõi rất đơn giản: tổng tiền gửi của cả nhóm càng lớn, hạng nhóm càng cao, và quyền lợi áp dụng cho **tất cả thành viên** càng hậu hĩnh.
 
-Đây thực ra là một biến thể của triết lý "ngân hàng trong túi quần" mà tôi từng phân tích khi viết về [Liobank — ngân hàng số đáng thử](/ngan-hang/liobank-la-gi-ngan-hang-so-noi-bat/) hay khi [MSB ra mắt MSB Digital Bank thay mBank](/ngan-hang/msb-digital-bank-ra-mat-thay-mbank/). Khác biệt là V-Family không bán "một chiếc thẻ cho một người", mà bán "một gói quyền lợi cho cả nhà".
+Đây thực ra là một biến thể của triết lý "ngân hàng trong túi quần" mà tôi từng phân tích khi viết về [Liobank — ngân hàng số đáng thử](/baochi/liobank-la-gi-ngan-hang-so-noi-bat/) hay khi [MSB ra mắt MSB Digital Bank thay mBank](/baochi/msb-digital-bank-ra-mat-thay-mbank/). Khác biệt là V-Family không bán "một chiếc thẻ cho một người", mà bán "một gói quyền lợi cho cả nhà".
 
 ## Tạo nhóm gia đình trên iPay Mobile dễ tới mức nào?
 
@@ -114,7 +114,7 @@ Cách tính số dư của từng thành viên cũng đáng chú ý, vì tiền 
 
 Theo quan sát của tôi, V-Family rõ ràng nhắm tới **gia đình có dòng tiền gửi lớn** hoặc nhóm nhiều thế hệ. Lý do: phần lớn ưu đãi chỉ "mở khóa" từ hạng Gold, tức nhóm cần số dư bình quân tối thiểu 2 tỷ đồng. Một gia đình ba thế hệ, gộp sổ tiết kiệm của ông bà, bố mẹ và con cái lại, hoàn toàn có thể chạm ngưỡng này.
 
-Ngược lại, nếu nhóm của bạn chỉ vài chục đến vài trăm triệu, hạng Standard gần như không có ưu đãi đáng kể. Khi đó, một chiếc thẻ tín dụng hoàn tiền đơn lẻ hoặc app quản lý chi tiêu cá nhân — kiểu như tôi từng nói trong bài [quản lý chi tiêu với app ngân hàng số](/ngan-hang/quan-ly-chi-tieu-voi-app-liobank/) — có khi còn thực tế hơn.
+Ngược lại, nếu nhóm của bạn chỉ vài chục đến vài trăm triệu, hạng Standard gần như không có ưu đãi đáng kể. Khi đó, một chiếc thẻ tín dụng hoàn tiền đơn lẻ hoặc app quản lý chi tiêu cá nhân — kiểu như tôi từng nói trong bài [quản lý chi tiêu với app ngân hàng số](/baochi/quan-ly-chi-tieu-voi-app-liobank/) — có khi còn thực tế hơn.
 
 ## Mình nghĩ gì về V-Family?
 

@@ -1,6 +1,5 @@
 +++
-
-title = "The Thao"
+title = "Thể thao"
 sort_by = "date"
 paginate_by = 10
 template = "section.html"
