@@ -137,5 +137,7 @@ jobs:
         if: steps.changelog.outcome == 'success'
         id: push
         env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUSH_MSG: "Cập nhật: changelog entry [skip changelog]"
         run: bash .github/scripts/push_to_main.sh "$PUSH_MSG" changelog.json
