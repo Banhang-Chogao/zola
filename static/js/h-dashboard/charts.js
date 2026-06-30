@@ -39,7 +39,7 @@
 
   function sciFont(size, weight) {
     return {
-      family: "Ericsson Hilda, Manrope, sans-serif",
+      family: "Inter, Be Vietnam Pro, sans-serif",
       size: size || 11,
       weight: weight || "500",
     };
@@ -141,7 +141,7 @@
           : formatter(val);
         const props = bar.getProps(["x", "y", "base"], true);
         ctx.save();
-        ctx.font = "700 10px Ericsson Hilda, Manrope, sans-serif";
+        ctx.font = "700 10px Inter, Be Vietnam Pro, sans-serif";
         ctx.fillStyle = THEME.ink;
         if (horizontal) {
           const edge = val >= 0 ? Math.max(props.x, props.base) : Math.min(props.x, props.base);
@@ -184,7 +184,7 @@
         ctx.strokeStyle = THEME.tealDark;
         ctx.lineWidth = 1;
         ctx.stroke();
-        ctx.font = "700 9px Ericsson Hilda, Manrope, sans-serif";
+        ctx.font = "700 9px Inter, Be Vietnam Pro, sans-serif";
         ctx.fillStyle = THEME.tealDark;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
@@ -231,7 +231,7 @@
         ctx.save();
         ctx.textAlign = "center";
         lines.forEach((line, i) => {
-          ctx.font = line.font || "600 12px Ericsson Hilda, Manrope, sans-serif";
+          ctx.font = line.font || "600 12px Inter, Be Vietnam Pro, sans-serif";
           ctx.fillStyle = line.color || THEME.ink;
           ctx.fillText(line.text, cx, cy + (line.offsetY || 0) + i * (line.lineHeight || 16));
         });
@@ -288,8 +288,8 @@
       },
       plugins: [
         centerTextPlugin([
-          { text: incomePct + "%", font: "800 26px Ericsson Hilda, Manrope, sans-serif", offsetY: -6 },
-          { text: "Thu / tổng", font: "500 11px Ericsson Hilda, Manrope, sans-serif", color: THEME.muted, offsetY: 8 },
+          { text: incomePct + "%", font: "800 26px Inter, Be Vietnam Pro, sans-serif", offsetY: -6 },
+          { text: "Thu / tổng", font: "500 11px Inter, Be Vietnam Pro, sans-serif", color: THEME.muted, offsetY: 8 },
         ]),
       ],
     });
@@ -535,9 +535,9 @@
       },
       plugins: [
         centerTextPlugin([
-          { text: String(score), font: "800 34px Ericsson Hilda, Manrope, sans-serif", offsetY: -4 },
-          { text: data.label || "Score", font: "600 12px Ericsson Hilda, Manrope, sans-serif", color: THEME.muted, offsetY: 14 },
-          { text: "/ 100", font: "500 10px Ericsson Hilda, Manrope, sans-serif", color: THEME.muted, offsetY: 30 },
+          { text: String(score), font: "800 34px Inter, Be Vietnam Pro, sans-serif", offsetY: -4 },
+          { text: data.label || "Score", font: "600 12px Inter, Be Vietnam Pro, sans-serif", color: THEME.muted, offsetY: 14 },
+          { text: "/ 100", font: "500 10px Inter, Be Vietnam Pro, sans-serif", color: THEME.muted, offsetY: 30 },
         ]),
       ],
     });

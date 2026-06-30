@@ -1,14 +1,22 @@
-/* ===== Typography stack (Inter-first) =====
-   Toàn site dùng cùng stack với trang chủ để giữ branding đồng nhất.
-   Be Vietnam Pro là web-font fallback có đầy đủ glyph tiếng Việt; sau đó là
-   system UI fonts để nội dung vẫn hiển thị ngay khi web fonts chưa khả dụng.
-   Mono: keep system (SF Mono / Consolas) — KHÔNG đổi, code luôn monospace.
-
-   Web fonts load qua một <link> Google Fonts dùng chung trong base.html,
-   với font-display:swap. */
+/* ===== Typography stack =====
+   Inter (body) + IBM Plex Sans (headings) + Be Vietnam Pro (Việt fallback).
+   Inter: x-height cao, trung tính → tối ưu đọc văn bản dài.
+   IBM Plex Sans: cá tính, mạnh mẽ → tạo điểm nhấn cho tiêu đề.
+   Web fonts load qua một <link> Google Fonts dùng chung trong base.html. */
 
 $font-body:    "Inter", "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-$font-heading: "Inter", "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$font-heading: "IBM Plex Sans", "Inter", "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 $font-ui:      "Inter", "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 $font-meta:    "Inter", "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-$font-mono:    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+$font-mono:    "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+:root {
+  --font-body: "Inter", "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-heading: "IBM Plex Sans", "Inter", "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", "Fira Code", Consolas, monospace;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+}

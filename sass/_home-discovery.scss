@@ -5,7 +5,7 @@
   margin-right: calc(-1 * max(12px, env(safe-area-inset-right, 0px)));
   width: calc(100% + max(12px, env(safe-area-inset-left, 0px)) + max(12px, env(safe-area-inset-right, 0px)));
 }
-.home-discovery, .home-discovery * { font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.home-discovery, .home-discovery * { font-family: "Inter", "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; } /* body */
 .home-discovery {
   --hd-blue: #0b4db3; --hd-teal: #00a6a6; --hd-mint: #e6faf5; --hd-coral: #ff6b4a;
   --hd-text: #111827; --hd-muted: #6b7280; --hd-page: #f6f8fb; --hd-surface: #fff; --hd-border: #e5e7eb;

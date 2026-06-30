@@ -3,9 +3,8 @@
 html, body { margin: 0; padding: 0; }
 
 /* ===== TYPOGRAPHY DESKTOP (global) =====
-   Manrope round + friendly → tăng size 17px (từ 16) + line-height 1.7
-   để dễ đọc nhưng vẫn cân đối. letter-spacing 0 vì Manrope đã round sẵn,
-   không cần expand. */
+   Inter + Be Vietnam Pro → tăng size 17px (từ 16) + line-height 1.7
+   để dễ đọc nhưng vẫn cân đối. letter-spacing 0. */
 .skip-link {
   position: absolute;
   left: -9999px;
@@ -46,8 +45,8 @@ a:hover { color: var(--c-accent); }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: $font-heading;
-  font-weight: 800;
-  /* Manrope display: hơi tighter để headings không bị thưa */
+  font-weight: 700;
+  /* IBM Plex Sans: hơi tighter để headings không bị thưa */
   letter-spacing: -0.015em;
   margin: 0;
   line-height: 1.2;
