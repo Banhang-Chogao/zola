@@ -4,25 +4,7 @@
 
 {% block main %}
 <div class="notice-board" id="notice-board-app" data-source="{{ get_url(path='data/notice-board.json') }}">
-  <section class="notice-auth" data-nb-auth="checking">
-    <div class="notice-auth__card">
-      <span class="notice-auth__lock" aria-hidden="true">🔐</span>
-      <h1 data-nb-auth-title>Đang kiểm tra quyền quản trị…</h1>
-      <p data-nb-auth-message>Notice Board chỉ mở sau khi xác thực admin qua backend dùng chung với CMS.</p>
-      <div class="notice-auth__quickstart">
-        <strong>Cách dùng nhanh</strong>
-        <ol>
-          <li>Bấm <span>Đăng nhập admin</span>.</li>
-          <li>Xác thực bằng tài khoản quản trị CMS.</li>
-          <li>Quay lại trang này và dùng ngay bảng placement, UTM, báo cáo.</li>
-        </ol>
-      </div>
-      <button class="notice-btn notice-btn--primary" type="button" data-nb-login hidden>Mở Notice Board</button>
-      <button class="notice-btn" type="button" data-nb-retry hidden>Thử lại</button>
-    </div>
-  </section>
-
-  <div class="notice-board__app" data-nb-content hidden>
+  <div class="notice-board__app" data-nb-content>
     <header class="notice-board__header">
       <div>
         <p class="notice-board__eyebrow">Dashboard / Notice Board</p>
@@ -31,14 +13,14 @@
       </div>
       <div class="notice-board__header-actions">
         <button class="notice-btn" type="button" data-nb-action="search">🔍 Tìm</button>
-        <button class="notice-btn notice-btn--primary" type="button" data-nb-action="new">+ Thêm vị trí</button>
+        <button class="notice-btn notice-btn--primary" type="button" disabled title="Bản demo không cho phép tạo dữ liệu">+ Thêm vị trí</button>
       </div>
     </header>
 
-    <div class="notice-board__admin-banner">🔐 Admin Only Area · Đăng nhập qua backend CMS để mở dashboard; dữ liệu hiện vẫn đồng bộ cục bộ trong trình duyệt admin.</div>
+    <div class="notice-board__demo-banner"><strong>Chế độ demo công khai</strong> · Mọi người đều có thể xem và thử các công cụ đọc. Dữ liệu mẫu không thể thêm, sửa, xoá hoặc lưu.</div>
     <div class="notice-board__quick-hint">
       <strong>Bắt đầu nhanh:</strong>
-      <span>Nhấn “Thêm vị trí” để tạo placement, mở tab “Quản lý UTM” để sinh link tracking, và vào “Báo cáo” để xem hiệu suất.</span>
+      <span>Dùng bộ lọc để khám phá placement, mở “Quản lý UTM” để thử sinh link tracking, và vào “Báo cáo” để xem hiệu suất mẫu.</span>
     </div>
 
     <section class="notice-kpis" data-nb-kpis aria-label="Tổng quan KPI"></section>
@@ -109,28 +91,6 @@
     <footer class="notice-board__footer">💡 Placement Above Hero (ATF) thường có visibility cao; luôn đánh giá cùng conversion và ROAS.</footer>
   </div>
 
-  <dialog class="notice-dialog" data-nb-placement-dialog>
-    <form method="dialog" data-nb-placement-form>
-      <header><h2 data-nb-placement-form-title>Thêm vị trí</h2><button value="cancel" aria-label="Đóng">×</button></header>
-      <input type="hidden" name="id">
-      <div class="notice-form-grid">
-        <label>Tên vị trí<input name="name" required></label>
-        <label>Site<input name="site" required value="seomoney.org"></label>
-        <label>Loại<select name="type"><option>Display</option><option>Text</option><option>Link</option></select></label>
-        <label>Kích thước<input name="size" placeholder="Responsive / 728x90" required></label>
-        <label>Zone<input name="zone" required></label>
-        <label>Device<select name="device"><option>Desktop</option><option>Mobile</option><option>All</option></select></label>
-        <label>Trạng thái<select name="status"><option value="active">Active</option><option value="inactive">Inactive</option><option value="pending">Pending</option></select></label>
-        <label>Target URL<input name="targetUrl" type="url" required></label>
-        <label>Site/Page Targeting<input name="targeting" placeholder="/, /categories/*"></label>
-        <label>Ngày bắt đầu<input name="startDate" type="date"></label>
-        <label>Ngày kết thúc<input name="endDate" type="date"></label>
-        <label>Mã quảng cáo<textarea name="adCode" rows="3" placeholder="Ad code / creative reference"></textarea></label>
-      </div>
-      <footer><button class="notice-btn" value="cancel">Huỷ</button><button class="notice-btn notice-btn--primary" value="default" data-nb-save-placement>Lưu vị trí</button></footer>
-    </form>
-  </dialog>
-
   <dialog class="notice-dialog notice-dialog--wide" data-nb-utm-dialog>
     <form method="dialog" data-nb-utm-form>
       <header><div><small>Quản lý UTM Parameters</small><h2 data-nb-utm-title></h2></div><button value="cancel" aria-label="Đóng">×</button></header>
@@ -148,7 +108,7 @@
       </div>
       <h3>Hiệu suất 7 ngày gần nhất</h3>
       <div class="notice-table-wrap"><table class="notice-table notice-table--compact"><thead><tr><th>Ngày</th><th>Impressions</th><th>Clicks</th><th>CTR</th><th>Revenue</th><th>ROAS</th></tr></thead><tbody data-nb-utm-performance></tbody></table></div>
-      <footer><button class="notice-btn" value="cancel">Huỷ</button><button class="notice-btn notice-btn--primary" value="default" data-nb-save-utm>💾 Lưu thay đổi</button></footer>
+      <footer><button class="notice-btn" value="cancel">Đóng</button><button class="notice-btn notice-btn--primary" type="button" disabled>💾 Lưu bị tắt trong bản demo</button></footer>
     </form>
   </dialog>
 </div>
