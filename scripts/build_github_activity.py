@@ -26,7 +26,7 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "data" / "github-activity.json"
-CHANGELOG = ROOT / "changelog.json"
+CHANGELOG = ROOT / "data" / "changelog.json"
 REPO = os.environ.get("GITHUB_REPOSITORY", "Banhang-Chogao/zola")
 REPO_URL = f"https://github.com/{REPO}"
 TOKEN = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN") or ""
