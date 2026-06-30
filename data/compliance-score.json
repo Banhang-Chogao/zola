@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-30T12:04:16Z",
+  "updated_at": "2026-06-30T21:26:04Z",
   "score": 91.3,
   "grade": "A",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "884/944 in range"
+          "detail": "858/916 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "943/944 complete"
+          "detail": "916/916 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "944/944 set"
+          "detail": "916/916 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "939/944 single H1"
+          "detail": "912/916 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "944/944 with lang"
+          "detail": "916/916 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "944/944 ready"
+          "detail": "916/916 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "944/944 pages"
+          "detail": "916/916 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "941/944 pages covered"
+          "detail": "914/916 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "197/197 articles"
+          "detail": "16/16 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "197/197 tagged"
+          "detail": "16/16 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "197/197 substantive"
+          "detail": "16/16 substantive"
         },
         {
           "label": "Unique titles",
@@ -171,7 +171,7 @@
         {
           "label": "GitHub Pages base path",
           "status": "fail",
-          "detail": "174 href(s) missing /zola/"
+          "detail": "178 href(s) missing /zola/"
         }
       ]
     },
@@ -186,7 +186,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "940/944 pages"
+          "detail": "912/916 pages"
         },
         {
           "label": "Skip navigation",
@@ -222,8 +222,8 @@
       "text": "Metadata: Canonical URLs"
     }
   ],
-  "pages_scanned": 944,
-  "articles_scanned": 204,
+  "pages_scanned": 916,
+  "articles_scanned": 23,
   "fix_log": [
     {
       "category": "Media",
@@ -231,7 +231,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (2 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-30T12:04:17Z"
+      "at": "2026-06-30T21:26:04Z"
     },
     {
       "category": "Media",
@@ -239,15 +239,15 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 heavy PNG/GIF). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-30T12:04:17Z"
+      "at": "2026-06-30T21:26:04Z"
     },
     {
       "category": "Links",
       "label": "GitHub Pages base path",
       "check_status": "fail",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (174 href(s) missing /zola/). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-30T12:04:17Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (178 href(s) missing /zola/). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-30T21:26:04Z"
     }
   ],
   "fix_summary": {
