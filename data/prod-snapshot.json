@@ -1,37 +1,41 @@
 {
-  "generated_at": "2026-06-29T20:58:53.455646+00:00",
-  "generated_at_display": "03:58 30/06/2026",
+  "generated_at": "2026-06-30T08:45:41.974569+00:00",
+  "generated_at_display": "15:45 30/06/2026",
   "source": "build_prod_snapshot.py",
   "shortcut": "??",
   "main": {
-    "sha": "cae93811547d1ceee7c6944de1a28739f6b222a2",
-    "sha_short": "cae9381",
-    "title": "main @ cae9381",
-    "url": "https://github.com/Banhang-Chogao/zola/commit/cae93811547d1ceee7c6944de1a28739f6b222a2"
+    "sha": "a8f1673298a04e3b17cf4744d387622534068584",
+    "sha_short": "a8f1673",
+    "title": "main @ a8f1673",
+    "url": "https://github.com/Banhang-Chogao/zola/commit/a8f1673298a04e3b17cf4744d387622534068584"
   },
   "deploy": {
-    "sha": "09257a73bfb626c7bce5c826e7bfa394a4f50e6e",
-    "sha_short": "09257a7",
+    "sha": "a8f1673298a04e3b17cf4744d387622534068584",
+    "sha_short": "a8f1673",
     "status": "green",
-    "deployed_at": "2026-06-29T19:33:16Z",
-    "deployed_at_display": "02:33 30/06/2026",
-    "run_number": 1486,
-    "status_line": "✅ last success #1486",
+    "deployed_at": "2026-06-30T08:40:31Z",
+    "deployed_at_display": "15:40 30/06/2026",
+    "run_number": 1520,
+    "status_line": "✅ last success #1520 · ❌ #1515/#1514/#1513 (đã superseded)",
     "deploying": false
   },
   "backend": {
-    "ok": false,
-    "error": "TimeoutError"
+    "ok": true,
+    "sha": "1752c1875c80fddc0d98417336f6036c57557f0d",
+    "sha_short": "1752c18",
+    "comments_mounted": true,
+    "oauth_configured": true,
+    "url": "https://blog-vipzone-api.onrender.com"
   },
   "drift": {
     "status": "yellow",
-    "status_vi": "Main mới hơn production",
-    "hint": "Code đã merge nhưng GitHub Pages chưa ship bản mới — đợi deploy hoặc dispatch deploy.yml.",
-    "main_ahead_of_deploy": true,
-    "backend_behind_main": false,
-    "status_line": "main cae9381 · deploy 09257a7"
+    "status_vi": "Backend tụt sau main",
+    "hint": "Static site đã cập nhật; Render backend cần Manual Sync nếu dùng API mới.",
+    "main_ahead_of_deploy": false,
+    "backend_behind_main": true,
+    "status_line": "main a8f1673 · deploy a8f1673 · backend 1752c18"
   },
-  "open_prs_count": 2,
+  "open_prs_count": 0,
   "deploy_monitor_stale": false,
   "deploy_monitor_ok": true
 }
