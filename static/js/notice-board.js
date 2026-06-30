@@ -11,6 +11,14 @@
   const PAGE_SIZE = 10;
   const REQUIRED_UTM = ["utm_source", "utm_medium", "utm_campaign"];
   const TOKEN_NAMES = ["SOURCE", "MEDIUM", "CAMPAIGN_NAME", "CAMPAIGN_ID", "PLACEMENT", "AD_ID", "KEYWORD"];
+  const AUTH_ERRORS = {
+    access_denied: "Truy cập bị từ chối: tài khoản không có quyền quản trị.",
+    invalid_state: "Phiên đăng nhập hết hạn. Vui lòng thử lại.",
+    missing_params: "Callback thiếu tham số. Vui lòng thử lại.",
+    token_exchange_failed: "Lỗi xác thực. Vui lòng thử lại sau.",
+    github_unreachable: "Không kết nối được tới GitHub. Kiểm tra mạng.",
+    github_profile_fetch_failed: "Không đọc được profile đăng nhập. Vui lòng thử lại.",
+  };
 
   let state = { placements: [], utmTemplates: [] };
   let filtered = [];
@@ -25,15 +33,35 @@
   const utmForm = root.querySelector("[data-nb-utm-form]");
 
   function getSid() {
-    try { return localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) || ""; }
+    try { return sessionStorage.getItem(SESSION_KEY) || localStorage.getItem(SESSION_KEY) || ""; }
     catch (_) { return ""; }
+  }
+
+  function setSid(sid) {
+    try { sessionStorage.setItem(SESSION_KEY, sid); } catch (_) {}
+    try { localStorage.setItem(SESSION_KEY, sid); } catch (_) {}
+  }
+
+  function clearSid() {
+    try { sessionStorage.removeItem(SESSION_KEY); } catch (_) {}
+    try { localStorage.removeItem(SESSION_KEY); } catch (_) {}
   }
 
   function consumeSid() {
     const match = location.hash.match(/(?:^|[#&])sid=([A-Za-z0-9_-]+)/);
     if (!match) return;
-    try { localStorage.setItem(SESSION_KEY, match[1]); } catch (_) {}
+    setSid(match[1]);
     history.replaceState(null, "", location.pathname + location.search);
+  }
+
+  function consumeAuthError() {
+    const params = new URLSearchParams(location.search);
+    const err = params.get("auth_error");
+    if (!err) return null;
+    params.delete("auth_error");
+    const qs = params.toString();
+    history.replaceState(null, "", location.pathname + (qs ? "?" + qs : ""));
+    return err;
   }
 
   function setAuthView(view, message) {
@@ -58,6 +86,11 @@
 
   async function authenticate() {
     setAuthView("checking");
+    const errCode = consumeAuthError();
+    if (errCode) {
+      setAuthView("denied", AUTH_ERRORS[errCode] || ("Lỗi xác thực: " + errCode));
+      return;
+    }
     const sid = getSid();
     if (!sid) return setAuthView("guest");
     const controller = new AbortController();
@@ -84,7 +117,11 @@
   }
 
   function login() {
-    location.href = AUTH_API + "/auth/google/start?return_to=" + encodeURIComponent(location.pathname);
+    if (!AUTH_API) return;
+    const params = new URLSearchParams(location.search);
+    params.delete("auth_error");
+    const returnTo = location.pathname + (params.toString() ? "?" + params.toString() : "");
+    location.href = AUTH_API + "/auth/login?return_to=" + encodeURIComponent(returnTo);
   }
 
   async function loadData() {
@@ -107,7 +144,9 @@
   }
 
   function saveLocal() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (_) {}
   }
 
   function totals(item) {
