@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Notice Board | Dashboard | {{ config.title }}{% endblock %}
+
+{% block main %}
+<div class="notice-board" id="notice-board-app" data-source="{{ get_url(path='data/notice-board.json') }}">
+  <section class="notice-auth" data-nb-auth="checking">
+    <div class="notice-auth__card">
+      <span class="notice-auth__lock" aria-hidden="true">🔐</span>
+      <h1 data-nb-auth-title>Đang kiểm tra quyền quản trị…</h1>
+      <p data-nb-auth-message>Notice Board chỉ dành cho admin.</p>
+      <button class="notice-btn notice-btn--primary" type="button" data-nb-login hidden>Đăng nhập Admin</button>
+      <button class="notice-btn" type="button" data-nb-retry hidden>Thử lại</button>
+    </div>
+  </section>
+
+  <div class="notice-board__app" data-nb-content hidden>
+    <header class="notice-board__header">
+      <div>
+        <p class="notice-board__eyebrow">Dashboard / Notice Board</p>
+        <h1>📍 Notice Placement Manager</h1>
+        <p>Quản lý placement, UTM tracking và hiệu suất quảng cáo.</p>
+      </div>
+      <div class="notice-board__header-actions">
+        <button class="notice-btn" type="button" data-nb-action="search">🔍 Tìm</button>
+        <button class="notice-btn notice-btn--primary" type="button" data-nb-action="new">+ Thêm vị trí</button>
+      </div>
+    </header>
+
+    <div class="notice-board__admin-banner">🔐 Admin Only Area · Mọi thay đổi được lưu cục bộ trên trình duyệt admin này.</div>
+
+    <section class="notice-kpis" data-nb-kpis aria-label="Tổng quan KPI"></section>
+
+    <nav class="notice-tabs" aria-label="Notice Board sections">
+      <button class="is-active" type="button" data-nb-tab="placements">📋 Danh sách</button>
+      <button type="button" data-nb-tab="utm">🔗 Quản lý UTM</button>
+      <button type="button" data-nb-tab="reports">📊 Báo cáo</button>
+      <button type="button" data-nb-tab="integrations">⚙️ Tích hợp</button>
+    </nav>
+
+    <section data-nb-panel="placements">
+      <div class="notice-toolbar">
+        <input type="search" placeholder="Tìm kiếm vị trí…" aria-label="Tìm kiếm vị trí" data-nb-search>
+        <select aria-label="Lọc theo site" data-nb-filter="site"><option value="">Tất cả site</option></select>
+        <select aria-label="Lọc theo trạng thái" data-nb-filter="status">
+          <option value="">Tất cả trạng thái</option><option value="active">Active</option>
+          <option value="inactive">Inactive</option><option value="pending">Pending</option><option value="issue">Issue</option>
+        </select>
+        <select aria-label="Lọc theo loại" data-nb-filter="type">
+          <option value="">Tất cả loại</option><option>Display</option><option>Text</option><option>Link</option>
+        </select>
+      </div>
+      <div class="notice-table-wrap">
+        <table class="notice-table">
+          <thead><tr><th>Tên vị trí</th><th>Type / Size</th><th>Zone</th><th>Status</th><th>Last 7 Days Performance</th><th>Thao tác</th></tr></thead>
+          <tbody data-nb-placement-list></tbody>
+        </table>
+      </div>
+      <div class="notice-mobile-list" data-nb-mobile-list></div>
+      <nav class="notice-pagination" data-nb-pagination aria-label="Phân trang placement"></nav>
+    </section>
+
+    <section data-nb-panel="utm" hidden>
+      <div class="notice-empty-panel">
+        <h2>Quản lý UTM Parameters</h2>
+        <p>Chọn “UTM” tại một placement để cấu hình template, dynamic tokens và xem trước URL.</p>
+        <button class="notice-btn notice-btn--primary" type="button" data-nb-action="first-utm">Mở placement đầu tiên</button>
+      </div>
+    </section>
+
+    <section data-nb-panel="reports" hidden>
+      <div class="notice-report-head">
+        <div><h2>Báo cáo tổng hợp</h2><p>Hiệu suất placement từ dữ liệu đã đồng bộ hoặc nhập cục bộ.</p></div>
+        <div class="notice-export-actions">
+          <button class="notice-btn" data-nb-export="csv">CSV</button>
+          <button class="notice-btn" data-nb-export="excel">Excel</button>
+          <button class="notice-btn" data-nb-export="pdf">PDF</button>
+        </div>
+      </div>
+      <div class="notice-chart-card">
+        <h3>Revenue &amp; Clicks theo ngày</h3>
+        <canvas data-nb-chart width="900" height="280" aria-label="Biểu đồ hiệu suất"></canvas>
+      </div>
+      <div class="notice-report-grid">
+        <article><h3>Top placements</h3><ol data-nb-top-list></ol></article>
+        <article><h3>So sánh Zone</h3><div data-nb-zone-report></div></article>
+        <article><h3>So sánh Device</h3><div data-nb-device-report></div></article>
+        <article><h3>Phân tích UTM Content</h3><div data-nb-utm-report></div></article>
+      </div>
+    </section>
+
+    <section data-nb-panel="integrations" hidden>
+      <div class="notice-integrations" data-nb-integrations></div>
+      <p class="notice-integration-note">API credentials phải được cấu hình ở backend. Trang này không lưu access token trong trình duyệt.</p>
+    </section>
+
+    <footer class="notice-board__footer">💡 Placement Above Hero (ATF) thường có visibility cao; luôn đánh giá cùng conversion và ROAS.</footer>
+  </div>
+
+  <dialog class="notice-dialog" data-nb-placement-dialog>
+    <form method="dialog" data-nb-placement-form>
+      <header><h2 data-nb-placement-form-title>Thêm vị trí</h2><button value="cancel" aria-label="Đóng">×</button></header>
+      <input type="hidden" name="id">
+      <div class="notice-form-grid">
+        <label>Tên vị trí<input name="name" required></label>
+        <label>Site<input name="site" required value="seomoney.org"></label>
+        <label>Loại<select name="type"><option>Display</option><option>Text</option><option>Link</option></select></label>
+        <label>Kích thước<input name="size" placeholder="Responsive / 728x90" required></label>
+        <label>Zone<input name="zone" required></label>
+        <label>Device<select name="device"><option>Desktop</option><option>Mobile</option><option>All</option></select></label>
+        <label>Trạng thái<select name="status"><option value="active">Active</option><option value="inactive">Inactive</option><option value="pending">Pending</option></select></label>
+        <label>Target URL<input name="targetUrl" type="url" required></label>
+        <label>Site/Page Targeting<input name="targeting" placeholder="/, /categories/*"></label>
+        <label>Ngày bắt đầu<input name="startDate" type="date"></label>
+        <label>Ngày kết thúc<input name="endDate" type="date"></label>
+        <label>Mã quảng cáo<textarea name="adCode" rows="3" placeholder="Ad code / creative reference"></textarea></label>
+      </div>
+      <footer><button class="notice-btn" value="cancel">Huỷ</button><button class="notice-btn notice-btn--primary" value="default" data-nb-save-placement>Lưu vị trí</button></footer>
+    </form>
+  </dialog>
+
+  <dialog class="notice-dialog notice-dialog--wide" data-nb-utm-dialog>
+    <form method="dialog" data-nb-utm-form>
+      <header><div><small>Quản lý UTM Parameters</small><h2 data-nb-utm-title></h2></div><button value="cancel" aria-label="Đóng">×</button></header>
+      <input type="hidden" name="placementId">
+      <label>Mẫu đã lưu<select data-nb-template-select><option value="">Chọn template…</option></select></label>
+      <label>UTM Template<textarea name="utmTemplate" rows="4" required></textarea></label>
+      <p class="notice-token-help">Tokens: <code>{lpurl}</code>, <code>&#123;&#123;SOURCE&#125;&#125;</code>, <code>&#123;&#123;MEDIUM&#125;&#125;</code>, <code>&#123;&#123;CAMPAIGN_NAME&#125;&#125;</code>, <code>&#123;&#123;CAMPAIGN_ID&#125;&#125;</code>, <code>&#123;&#123;PLACEMENT&#125;&#125;</code>, <code>&#123;&#123;AD_ID&#125;&#125;</code>, <code>&#123;&#123;KEYWORD&#125;&#125;</code></p>
+      <div class="notice-form-grid" data-nb-token-fields></div>
+      <div class="notice-validation" data-nb-validation></div>
+      <label>Preview URL<textarea data-nb-preview rows="3" readonly></textarea></label>
+      <div class="notice-dialog-actions">
+        <button class="notice-btn" type="button" data-nb-copy-template>📋 Copy Template</button>
+        <button class="notice-btn" type="button" data-nb-refresh-preview>🔄 Preview</button>
+        <a class="notice-btn" target="_blank" rel="noopener" data-nb-open-preview>🔗 Mở link</a>
+      </div>
+      <h3>Hiệu suất 7 ngày gần nhất</h3>
+      <div class="notice-table-wrap"><table class="notice-table notice-table--compact"><thead><tr><th>Ngày</th><th>Impressions</th><th>Clicks</th><th>CTR</th><th>Revenue</th><th>ROAS</th></tr></thead><tbody data-nb-utm-performance></tbody></table></div>
+      <footer><button class="notice-btn" value="cancel">Huỷ</button><button class="notice-btn notice-btn--primary" value="default" data-nb-save-utm>💾 Lưu thay đổi</button></footer>
+    </form>
+  </dialog>
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ get_url(path='js/notice-board.js') }}" defer></script>
+{% endblock scripts %}
