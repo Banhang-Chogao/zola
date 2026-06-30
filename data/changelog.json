@@ -1,6 +1,25 @@
 {
   "items": [
     {
+      "id": "pr-1259",
+      "pr_number": 1259,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1259",
+      "title": "fix(changelog): repair template path + add GH_TOKEN to push step",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T11:29:56Z",
+      "merge_commit_sha": "c0e90359e4e5",
+      "stats": {
+        "additions": 2,
+        "deletions": 1
+      },
+      "highlights": [
+        "templates/changelog.html: changelog.json → data/changelog.json",
+        ".github/workflows/changelog-update.yml: thêm GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} vào env của push step"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1039",
       "pr_number": 1039,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1039",
