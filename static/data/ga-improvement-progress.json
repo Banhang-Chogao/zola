@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-30T10:42:06Z",
+  "updated_at": "2026-06-30T17:30:09Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,45 +15,45 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "0 broken links · 10 weak related pairs",
+      "detail": "2744 broken links · 8 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-29T16:45:40Z"
+      "updated_at": "2026-06-30T12:04:16Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 59/100 · LCP 7.5 s · needs work",
+      "detail": "Mobile 58/100 · LCP 8.1 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-30T08:47:06+00:00"
+      "updated_at": "2026-06-30T17:10:52+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 908/908 pages",
+      "detail": "15 pages missing FAQ/schema · 944/944 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-29T16:45:40Z"
+      "updated_at": "2026-06-30T12:04:16Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: implement left-sidebar blog layout with AdSense-compatible a",
+      "detail": "Latest: feat(home): Economist-style homepage",
       "source": "changelog.json",
-      "updated_at": "2026-06-27"
+      "updated_at": "2026-06-30T14:08:16Z"
     },
     {
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
-      "status": "done",
-      "detail": "1150 links OK · IndexNow on publish",
+      "status": "running",
+      "detail": "2744 broken of 512 links",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-29T20:36:30Z"
+      "updated_at": "2026-06-30T13:51:23Z"
     },
     {
       "id": "image_opt",
@@ -62,22 +62,22 @@
       "status": "running",
       "detail": "2 large file(s)",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-29T16:45:40Z"
+      "updated_at": "2026-06-30T12:04:16Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 59/100 vs desktop 88/100 (Δ29) · 908/908 ready",
+      "detail": "Mobile 58/100 vs desktop 72/100 (Δ14) · 944/944 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-30T08:47:06+00:00"
+      "updated_at": "2026-06-30T17:10:52+00:00"
     }
   ],
   "summary": {
     "pending": 0,
-    "running": 6,
-    "done": 2
+    "running": 7,
+    "done": 1
   },
   "note": "Statuses from QA/SEO/PERF snapshots — informational, not GA metrics."
 }
