@@ -68,6 +68,8 @@
       "5. 3–8 FAQ ([[extra.faq]]) + CTA/next-step cuối bài, không để trang cụt.",
       "6. categories đặt \"Tất cả\" đầu mảng" + (isPaid ? " + premium." : ".") ,
       "7. Mỗi bài là 1 part: series_part / series_total = " + data.count + ".",
+      "8. Kế thừa global-rule-og.md: ảnh/OG local hoặc fallback SEOMONEY; mọi ảnh body có alt tiếng Việt; không dùng ảnh báo/Google Images/ảnh chưa rõ license.",
+      "9. Kế thừa global-rule-writing.md: kết bài đúng thứ tự Liên kết nội bộ, Liên kết bên ngoài, Bản quyền và ghi nguồn, FAQ - Câu hỏi thường gặp (ít nhất 3 Q&A).",
       "",
       "## Đầu ra",
       "- Mỗi bài = 1 file content/posting/<slug>.md với frontmatter hợp lệ.",

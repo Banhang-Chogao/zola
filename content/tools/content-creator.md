@@ -7,3 +7,6 @@ template = "content-creator.html"
 [extra]
 seo_keyword = "content creator tạo series bài viết tự động"
 +++
+
+Prompt và bài sinh từ Content Creator bắt buộc kế thừa `global-rule-og.md` và
+`global-rule-writing.md`; rule riêng của series chỉ được bổ sung.

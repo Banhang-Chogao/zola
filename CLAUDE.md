@@ -1441,6 +1441,15 @@ Reason:
 Áp dụng cho MỌI lần viết hoặc sửa bài viết trong `content/` (đuôi `.md`,
 không tính trang `_index`).
 
+Hai source-of-truth bắt buộc đi kèm rule này:
+
+- [`global-rule-og.md`](global-rule-og.md): OG/image, alt-text, license, nguồn và
+  fallback AdSense-safe.
+- [`global-rule-writing.md`](global-rule-writing.md): bốn section kết bài bắt buộc
+  và checklist pre-publish.
+
+Workflow/shortcut/template chỉ được bổ sung, không được làm yếu hai global rule.
+
 ### 1. Luôn tối ưu SEO khi viết bài
 
 Mỗi bài mới PHẢI có đủ tín hiệu SEO on-page trong front matter + nội dung:
