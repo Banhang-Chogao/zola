@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1260",
+      "pr_number": 1260,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1260",
+      "title": "feat(series): register OpenCode AI Coding series (10 bài)",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T11:33:31Z",
+      "merge_commit_sha": "5e1996455e7f",
+      "stats": {
+        "additions": 85,
+        "deletions": 1
+      },
+      "highlights": [
+        "Tạo manifest: data/opencode-ai-viet-code-mien-phi-series.json — 10 bài đã published",
+        "4 template elif chains: series-listing.html, series-nav.html, page.html (related), base.html (breadcrumb schema)",
+        "Trang /series/ hiển thị series qua fallback (tự động thay '-' bằng space, không có title_vi/description)",
+        "Bài viết không có prev/next navigation trong series",
+        "Related articles không ưu tiên bài cùng series"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1259",
       "pr_number": 1259,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1259",
