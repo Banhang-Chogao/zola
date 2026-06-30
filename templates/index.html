@@ -8,6 +8,17 @@
 
 {% block sidebar %}{% endblock %}
 
+{# Category helper macro — must be at template root level, not inside blocks #}
+{% macro first_cat(page) %}
+    {%- set_global cat = "" -%}
+    {%- for c in page.taxonomies.categories | default(value=[]) -%}
+        {%- if c != "Tất cả" and c != "premium" and c != "Báo chí" and cat == "" -%}
+            {%- set_global cat = c -%}
+        {%- endif -%}
+    {%- endfor -%}
+    {{- cat -}}
+{% endmacro first_cat %}
+
 {% block main %}
     <h1 class="visually-hidden">{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân</h1>
 
@@ -61,17 +72,6 @@
             {% set_global sidebar_latest = sidebar_latest | concat(with=[page]) %}
         {% endif %}
     {% endfor %}
-
-    {# Category helper macro #}
-    {% macro first_cat(page) %}
-        {%- set_global cat = "" -%}
-        {%- for c in page.taxonomies.categories | default(value=[]) -%}
-            {%- if c != "Tất cả" and c != "premium" and c != "Báo chí" and cat == "" -%}
-                {%- set_global cat = c -%}
-            {%- endif -%}
-        {%- endfor -%}
-        {{- cat -}}
-    {% endmacro %}
 
     {# Topic blocks: group by real categories #}
     {% set_global topic_seo_ai = [] %}
