@@ -78,7 +78,7 @@
 
 {% block sidebar %}{% endblock %}
 
-{% block scripts %}
+{% block extra_scripts %}
 {{ super() }}
 <script src="{{ get_url(path='js/changelog.js') }}" defer></script>
-{% endblock scripts %}
+{% endblock extra_scripts %}

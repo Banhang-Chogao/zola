@@ -429,6 +429,10 @@
   }
 }
 
+.changelog__pagination[hidden] {
+  display: none !important;
+}
+
 /* Meta Verified badge — scalloped circle + checkmark */
 .changelog__badge {
   flex-shrink: 0;
