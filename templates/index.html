@@ -140,7 +140,7 @@
                         {% if hero.extra.premium %}
                             {{ premium::badge() }}
                         {% elif hero_cat %}
-                            <a class="home-editorial__hero-cat" href="{{ get_url(path='categories/' ~ hero_cat | slugify ~ '/') }}">{{ hero_cat }}</a>
+                            <a class="home-editorial__hero-cat" href="{{ get_url(path='categories/' ~ (hero_cat | slugify) ~ '/') }}">{{ hero_cat }}</a>
                         {% endif %}
                         <h3 class="home-editorial__hero-title"><a href="{{ hero.permalink }}">{{ hero.title }}</a></h3>
                         <p class="home-editorial__hero-excerpt">{{ hero.description | default(value=hero.summary | default(value="") | safe | striptags | truncate(length=220)) }}</p>
