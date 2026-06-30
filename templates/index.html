@@ -131,6 +131,7 @@
        AD SLOT 1 — Native In-Feed
        ======================================================================== #}
     {{ placement::render(id="home_hero_after", page=page | default(value=false), section=section | default(value=false)) }}
+    {{ placement::render(id="home_top_banner_below", page=page | default(value=false), section=section | default(value=false)) }}
     {% if not config.extra.ads or config.extra.ads.enabled == false %}
     <div class="eco-ad-slot eco-ad-slot--native" aria-label="Quảng cáo">
         <div class="eco-container">
