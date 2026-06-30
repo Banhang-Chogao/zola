@@ -194,8 +194,24 @@ Hành động:
 2. Với mỗi PR chưa merge:
    - Verify CI status (nếu CI failing → không merge bừa, escalate)
    - Squash merge vào `main` (trigger deploy.yml tự động)
-3. Verify deploy mới nhất (`actions_list` deploy.yml) đang chạy
-4. Báo cáo ngắn: `Merged PR #X, #Y. Production deploy đang chạy.`
+3. Kiểm tra deploy của **tất cả PR đã merged**:
+   - Paginate danh sách merged PR; lấy `mergeCommit.oid` của từng PR.
+   - Paginate run của `deploy.yml`; đối chiếu chính xác `headSha` với merge commit
+     (KHÔNG suy đoán theo title).
+   - Nếu một SHA có nhiều deploy run → dùng run mới nhất; trạng thái chuẩn:
+     `queued/pending`, `in_progress`, `success`, `failure`, `cancelled`.
+   - PR quá cũ ngoài thời gian GitHub Actions còn lưu run → ghi `unknown
+     (outside Actions retention)`, không báo success giả.
+   - Nếu có `failure` → link run lỗi + escalate, không merge tiếp PR phụ thuộc.
+4. Verify deploy mới nhất (`actions_list` deploy.yml) đang chạy.
+5. Báo cáo ngắn dạng bảng:
+
+   | PR | Merge SHA | Deploy |
+   |---|---|---|
+   | #X | `abcdef1` | ✅ success |
+   | #Y | `1234567` | 🟡 in_progress |
+
+   Kết dòng: `Merged PR #X, #Y. Production deploy: <status>.`
 
 KHÔNG hỏi lại. KHÔNG giải thích flow.
 
