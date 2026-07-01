@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1293",
+      "pr_number": 1293,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1293",
+      "title": "[codex] add CMS-V5 UI prototype",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T09:06:46Z",
+      "merge_commit_sha": "8254be9ef02f",
+      "stats": {
+        "additions": 415,
+        "deletions": 1
+      },
+      "highlights": [
+        "add a standalone CMS-V5 UI prototype at /cms-v5/",
+        "add dashboard metrics, editorial queue, quick actions, and headless architecture overview",
+        "add UI-only Block Editor with article settings and mock publishing controls",
+        "add Media Library, taxonomy manager, and independent frontend preview screens",
+        "add responsive CMS-V5-scoped Sass for desktop, tablet, and mobile"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1292",
       "pr_number": 1292,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1292",
