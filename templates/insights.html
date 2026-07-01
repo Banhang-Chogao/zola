@@ -516,6 +516,166 @@
                     </div>
                 </div>
 
+                {# ===== DEPLOY PROGRESS DASHBOARD ===== #}
+                {% set build_total = build_success + build_failure + build_cancelled + build_skipped + build_in_progress %}
+                {% if build_total > 0 %}
+                {% set deploy_pct = (build_success / build_total * 100) | round | int %}
+                {% set pct_class = "high" %}
+                {% if deploy_pct < 34 %}{% set pct_class = "low" %}
+                {% elif deploy_pct < 67 %}{% set pct_class = "mid" %}
+                {% elif deploy_pct >= 100 %}{% set pct_class = "perfect" %}{% endif %}
+                {% set sorted_tracks = build_items %}
+                <div class="deploy-progress" data-deploy-progress>
+                  <div class="deploy-progress__header">
+                    <div class="deploy-progress__title">
+                      <span style="font-size:1.1rem;line-height:1;">🚀</span>
+                      <h3>Deploy Progress</h3>
+                      <span class="deploy-progress__live">
+                        <span class="deploy-progress__live-dot"></span>
+                        LIVE
+                      </span>
+                    </div>
+                    <div class="deploy-progress__badges">
+                      <span class="deploy-progress__badge deploy-progress__badge--running">🚀 {{ build_in_progress }}</span>
+                      <span class="deploy-progress__badge deploy-progress__badge--success">✅ {{ build_success }}</span>
+                      <span class="deploy-progress__badge deploy-progress__badge--failed">❌ {{ build_failure }}</span>
+                      <span class="deploy-progress__badge deploy-progress__badge--cancelled">⏸ {{ build_cancelled + build_skipped }}</span>
+                    </div>
+                  </div>
+
+                  <div class="deploy-progress__main">
+                    <div class="deploy-progress__bar-wrapper">
+                      <div class="deploy-progress__bar-fill deploy-progress__bar-fill--{{ pct_class }}" style="width:{{ deploy_pct }}%">
+                        <span class="deploy-progress__bar-percent">{{ deploy_pct }}%</span>
+                        <div class="deploy-progress__bar-dna"></div>
+                      </div>
+                    </div>
+                    <div class="deploy-progress__bar-label">
+                      <span class="deploy-progress__bar-count">Đã deploy {{ build_success }}/{{ build_total }} build</span>
+                      {% if build_updated %}
+                      <span class="deploy-progress__bar-updated">Cập nhật {{ dt::display_datetime(value=build_updated) }}</span>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <div class="deploy-progress__tracks" data-deploy-tracks>
+                    {% for track in sorted_tracks %}
+                    {% set norm = track.status_normalized | default(value=track.conclusion) %}
+                    {% if norm == "failure" %}{% set norm = "failed" %}{% endif %}
+                    {% if norm == "in_progress" %}{% set icon = "…" %}
+                    {% elif norm == "success" %}{% set icon = "✓" %}
+                    {% elif norm == "failed" %}{% set icon = "✗" %}
+                    {% elif norm == "cancelled" %}{% set icon = "⊘" %}
+                    {% elif norm == "skipped" %}{% set icon = "–" %}
+                    {% else %}{% set icon = "?" %}{% endif %}
+                    <div class="deploy-progress__track deploy-progress__track--{{ norm }}"
+                         data-track-status="{{ norm }}"
+                         data-track-commit="{{ track.commit_short | default(value='') }}"
+                         data-track-title="{{ track.summary_vi | default(value='') | striptags }}"
+                         data-track-branch="{{ track.branch | default(value='main') }}"
+                         data-track-time="{{ track.status_vi | default(value='') }}"
+                         data-track-run="#{{ track.run_number | default(value='') }}"
+                         onclick="window.open('{{ track.run_url | default(value='') }}', '_blank')"
+                         title="{{ track.status_vi | default(value='') }} · {{ track.summary_vi | default(value='') | striptags }}">
+                      <div class="deploy-progress__track-icon">{{ icon }}</div>
+                      <div class="deploy-progress__track-bar">
+                        <div class="deploy-progress__track-top">
+                          {% if track.commit_short %}
+                          <a class="deploy-progress__track-commit"
+                             href="{{ track.commit_url }}"
+                             target="_blank" rel="noopener"
+                             onclick="event.stopPropagation()"
+                             title="Commit {{ track.commit_id }}">
+                            {{ track.commit_short }}
+                          </a>
+                          {% endif %}
+                          <span class="deploy-progress__track-title">{{ track.summary_vi | default(value="") | striptags | truncate(length=60) }}</span>
+                        </div>
+                        <div class="deploy-progress__track-bottom">
+                          <div class="deploy-progress__track-fill-wrapper">
+                            <div class="deploy-progress__track-fill"></div>
+                          </div>
+                          <span class="deploy-progress__track-status">{{ track.status_vi | default(value=norm) }}</span>
+                          {% if track.run_number %}
+                          <span class="deploy-progress__track-run">#{{ track.run_number }}</span>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <script>
+                (function() {
+                  'use strict';
+
+                  var tracksContainer = document.querySelector('[data-deploy-tracks]');
+                  if (tracksContainer) {
+                    var tracks = Array.prototype.slice.call(tracksContainer.children);
+                    var sortOrder = { in_progress: 0, queued: 1, pending: 1, success: 2, failed: 3, cancelled: 4, skipped: 5 };
+                    tracks.sort(function(a, b) {
+                      var sa = sortOrder[a.getAttribute('data-track-status')] || 99;
+                      var sb = sortOrder[b.getAttribute('data-track-status')] || 99;
+                      return sa - sb;
+                    });
+                    tracks.forEach(function(t) { tracksContainer.appendChild(t); });
+                  }
+
+                  var allTracks = document.querySelectorAll('.deploy-progress__track');
+                  allTracks.forEach(function(t) {
+                    t.addEventListener('mouseenter', function() {
+                      var status = this.getAttribute('data-track-status');
+                      allTracks.forEach(function(tt) {
+                        if (tt.getAttribute('data-track-status') === status) {
+                          tt.style.opacity = '1';
+                          tt.style.transform = 'scale(1.02)';
+                        } else {
+                          tt.style.opacity = '0.45';
+                        }
+                      });
+                    });
+                    t.addEventListener('mouseleave', function() {
+                      allTracks.forEach(function(tt) {
+                        tt.style.opacity = '';
+                        tt.style.transform = '';
+                      });
+                    });
+                  });
+
+                  function burstConfetti(x, y) {
+                    var colors = ['#00b894', '#00cec9', '#fdcb6e', '#00d2ff', '#b721ff', '#ff6b6b', '#fff'];
+                    var container = document.createElement('div');
+                    container.className = 'deploy-progress__confetti-container';
+                    document.body.appendChild(container);
+                    for (var i = 0; i < 20; i++) {
+                      var piece = document.createElement('div');
+                      piece.className = 'deploy-confetti-piece';
+                      var color = colors[Math.floor(Math.random() * colors.length)];
+                      var size = 4 + Math.random() * 6;
+                      var angle = Math.random() * Math.PI * 2;
+                      var dist = 40 + Math.random() * 80;
+                      piece.style.cssText =
+                        'left:' + (x + Math.cos(angle) * dist) + 'px;' +
+                        'top:' + (y + Math.sin(angle) * dist) + 'px;' +
+                        'width:' + size + 'px;height:' + size + 'px;' +
+                        'background:' + color + ';' +
+                        'animation-duration:' + (0.6 + Math.random() * 0.6) + 's;' +
+                        'border-radius:' + (Math.random() > 0.5 ? '50%' : '2px') + ';';
+                      container.appendChild(piece);
+                    }
+                    setTimeout(function() { container.remove(); }, 1500);
+                  }
+
+                  document.querySelectorAll('.deploy-progress__track--success').forEach(function(t) {
+                    t.addEventListener('click', function(e) {
+                      burstConfetti(e.clientX, e.clientY);
+                    });
+                  });
+                })();
+                </script>
+                {% endif %}
+
                 {# ===== BUILD DASHBOARD (dưới Overview, cột phải) ===== #}
                 <div class="insights__build">
                     <header class="insights__build-head">
