@@ -1,6 +1,27 @@
 {
   "items": [
     {
+      "id": "pr-1292",
+      "pr_number": 1292,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1292",
+      "title": "[codex] update blog background image",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T07:54:49Z",
+      "merge_commit_sha": "4ef04e13cd2e",
+      "stats": {
+        "additions": 1,
+        "deletions": 1
+      },
+      "highlights": [
+        "replace the existing blog body background image with the requested Unsplash image",
+        "preserve the current cover sizing, repeat, and positioning behavior",
+        "git diff --check — PASS",
+        "full build intentionally skipped per request"
+      ],
+      "verified": true
+    },
+    {
       "id": "commit-68f9802e04d2",
       "pr_number": 0,
       "pr_url": "",
