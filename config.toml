@@ -186,3 +186,15 @@ max_length = 1500
 [extra.ads]
 enabled = false
 placeholders = true
+
+# ============= GOOGLE SNAPSHOT FOOTER WIDGET =============
+# Bật/tắt widget Google Snapshot ở footer.
+# enabled = false → không render widget (giữ nguyên source code & dữ liệu).
+[extra.google_snapshot]
+enabled = false
+
+# ============= EDITORIAL SLOTS (homepage curation) =============
+# Bật/tắt hệ thống editorial slots điều phối bài viết trang chủ.
+# enabled = false → homepage dùng cơ chế mechanical fallback (sticky/featured flags).
+[extra.editorial_slots]
+enabled = false
