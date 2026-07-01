@@ -1,6 +1,25 @@
 {
   "items": [
     {
+      "id": "pr-1304",
+      "pr_number": 1304,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1304",
+      "title": "fix(nav): remove duplicate CMS-V5 from Trang chủ",
+      "tag": "remove",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T13:37:55Z",
+      "merge_commit_sha": "ce74a803504b",
+      "stats": {
+        "additions": 768,
+        "deletions": 4
+      },
+      "highlights": [
+        "config.toml: collapsed Trang chủ to flat link (no children), removed CMS-V5 duplicate",
+        "Route /cms-v5/, backend, CSS, JS, auth untouched"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1303",
       "pr_number": 1303,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1303",
