@@ -2,6 +2,7 @@
 {% import "macros/img.html" as img %}
 {% import "macros/premium.html" as premium %}
 {% import "macros/pagination.html" as pager %}
+{% import "macros/placement.html" as placement %}
 
 {% block title %}{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân{% endblock %}
 
@@ -35,6 +36,8 @@
 <header class="section-header">
     <h2 class="section-header__title">BÀI VIẾT MỚI</h2>
 </header>
+
+{{ placement::render(id="home_hero_after", page=page | default(value=false), section=section | default(value=false)) }}
 
 <div class="post-list">
     {% for page in pages %}
