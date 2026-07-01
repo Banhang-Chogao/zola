@@ -1222,6 +1222,37 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
 
 **NOT auto-merge** — luôn pending tới khi user gõ `manual #X` / `prm` / `gg`.
 
+### `kt9` — Kiểm tra trạng thái tất cả PR + auto-fix gate
+
+**Mục đích**: Rà soát toàn bộ open PRs — kiểm tra QA check, conflict, gatekeeper, failed runs. Báo cáo chi tiết. Kèm chế độ auto-fix cho lỗi an toàn.
+
+**Hành động**:
+
+1. Chạy script `python3 scripts/pr_status_check.py` (stdlib, không cần pip).
+2. Script quét:
+   - Tất cả open PRs (mergeable, mergeStateStatus, statusCheckRollup)
+   - QA Gatekeeper (qa-check, rule-check)
+   - Merge conflict status
+   - Failed workflow runs gần đây (24h)
+3. Output bảng báo cáo markdown (giống lần chạy trước):
+
+   | PR | Branch | Mergeable | QA Check | Conflict | Gatekeeper |
+   |---|---|---|---|---|---|
+   | #1271 | Google-Deepmind | ✅ MERGEABLE | 🔄 running | ✅ không | ✅ pass |
+
+4. Nếu có issue → đề xuất `kt9 --fix` để auto-fix an toàn.
+
+**Biến thể**:
+- `kt9 --fix` — check + auto-fix các pattern đã biết (qa_pair missing, rerun failed checks)
+- `kt9 --pr=1271` — chỉ kiểm tra một PR cụ thể
+
+**Tích hợp pre-commit gate**:
+- Workflow `.github/workflows/pr-status-gate.yml` chạy script này như một status check trên mọi PR
+- Nếu phát hiện failed check hoặc conflict → gate đỏ → chặn auto-merge
+- Pattern an toàn được auto-fix và rerun CI
+
+**Script**: `scripts/pr_status_check.py` · Test: `python3 scripts/pr_status_check.py`
+
 ### `ff9` — Smart Conflict Resolver (Python-powered)
 
 **Mục đích**: Tự động detect + analyze + resolve git conflicts trong open PRs.

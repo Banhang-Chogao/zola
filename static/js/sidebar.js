@@ -26,6 +26,9 @@
  *   - Reset data:    localStorage.removeItem("zola-events")
  */
 (function () {
+  // Personalised desktop rail is excluded from the mobile content-first path.
+  if (window.matchMedia("(max-width: 767px)").matches) return;
+
   const STORAGE_KEY = "zola-events";
   const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
   const RANDOM_COUNT = 5;

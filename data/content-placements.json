@@ -120,48 +120,5 @@
       "enabled": true
     }
   ],
-  "blocks": [
-    {
-      "id": "tools_momo_admin_notice_default",
-      "placement_id": "tools_momo_admin_notice",
-      "type": "notice",
-      "enabled": true,
-      "title": "Content Placement System",
-      "body": "Quản lý vị trí hiển thị và content block qua tab Vị trí hiển thị / Content blocks. Tài liệu: /content-placement-system/",
-      "button_text": "Xem tài liệu",
-      "url": "https://seomoney.org/content-placement-system/",
-      "style": "compact",
-      "priority": 10,
-      "pages": ["/tools/momo-url/"],
-      "exclude_pages": []
-    },
-    {
-      "id": "momo_donate_header_cta",
-      "placement_id": "global_header_below",
-      "type": "momo_cta",
-      "enabled": false,
-      "title": "Ủng hộ SEOMONEY qua MoMo",
-      "body": "Nếu nội dung hữu ích, bạn có thể ủng hộ blog để mình tiếp tục viết bài chất lượng.",
-      "button_text": "Ủng hộ qua MoMo",
-      "url": "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG",
-      "style": "compact",
-      "priority": 10,
-      "pages": ["*"],
-      "exclude_pages": ["/editor/", "/admin-author/", "/tools/momo-url/", "/tools/content-placement/"]
-    },
-    {
-      "id": "post_donate_footer_cta",
-      "placement_id": "post_after_content",
-      "type": "donate_box",
-      "enabled": false,
-      "title": "Bài viết hữu ích?",
-      "body": "Mời mình một ly cà phê qua MoMo để có thêm động lực viết tiếp nhé.",
-      "button_text": "Ủng hộ qua MoMo",
-      "url": "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG",
-      "style": "default",
-      "priority": 20,
-      "pages": ["*"],
-      "exclude_pages": ["/editor/", "/admin-author/"]
-    }
-  ]
+  "blocks": []
 }

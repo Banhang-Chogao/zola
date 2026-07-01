@@ -6,6 +6,9 @@
 (function () {
   "use strict";
 
+  // Desktop-only module: avoid timers and DOM work on the mobile reading UI.
+  if (window.matchMedia("(max-width: 767px)").matches) return;
+
   var root = document.querySelector("[data-countdown-root]");
   if (!root) return;
 

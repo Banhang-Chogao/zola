@@ -1637,6 +1637,8 @@ Frontmatter tùy chọn (`[extra]`):
 
 Chạy `python3 scripts/build_references.py` trước `zola build` (CI tự chạy).
 
+> ⚠ **KHÔNG hardcode footer blocks trong markdown body.** Các heading `## Liên kết bên ngoài được sử dụng trong bài viết`, `## Liên kết nội bộ liên quan`, `## Tuyên bố bản quyền`/`## Bản quyền & Ghi nguồn`, `## FAQ - Câu hỏi thường gặp`, `## Tham khảo` (cuối bài) đã được macro `references::section` và FAQ block trong `page.html` render tự động. Viết thủ công các block này vào body markdown → tạo duplicate footer. Mọi dữ liệu cần thiết (external links, internal links, copyright text, FAQ) đều được cấu hình qua frontmatter `[extra]` — không cần thêm vào thân bài. `qa_check.py` có check warning nếu phát hiện các heading này trong body.
+
 ## Quy tắc Category (BẮT BUỘC)
 
 - Category **"Tất cả"** là category mặc định của MỌI bài viết (slug `tat-ca`,

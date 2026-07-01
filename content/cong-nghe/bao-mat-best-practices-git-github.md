@@ -1,6 +1,6 @@
 +++
-title = "Bảo mật và best practices với Git/GitHub"
-description = "Bảo mật Git GitHub: tránh lộ secret, .gitignore, 2FA, SSH, signed commit, branch protection và thói quen tốt. Series Git & GitHub — Bài 15/15."
+title = "Bảo mật và best practices với Git/GitHub - Duy Nguyen"
+description = "Duy Nguyen hướng dẫn bảo mật Git GitHub: tránh lộ secret, .gitignore, 2FA, SSH, signed commit, branch protection. Series Git & GitHub Bài 15/15 — SEO cho lập trình viên và affiliate công cụ developer."
 date = 2026-06-18
 aliases = ["/bao-mat-best-practices-git-github/",
   "/posting/bao-mat-best-practices-git-github/"

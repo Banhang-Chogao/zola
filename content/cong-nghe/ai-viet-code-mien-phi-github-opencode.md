@@ -1,6 +1,6 @@
 +++
-title = "AI viết code miễn phí với GitHub và OpenCode từ số 0"
-description = "Hướng dẫn bắt đầu AI viết code miễn phí GitHub bằng OpenCode, Copilot Free và repo cá nhân, có giới hạn rõ ràng và quy trình an toàn."
+title = "AI viết code miễn phí với GitHub và OpenCode từ số 0 - Duy Nguyen"
+description = "Duy Nguyen hướng dẫn bắt đầu AI viết code miễn phí với OpenCode, Copilot Free và GitHub — nội dung SEO cho lập trình viên tự học và affiliate công cụ developer."
 date = 2026-06-30T13:00:00+07:00
 updated = 2026-06-30T13:00:00+07:00
 draft = false
@@ -43,6 +43,22 @@ a = "Không. OpenCode hỗ trợ đọc, đề xuất và sửa code; người d
 [[extra.faq]]
 q = "Dùng OpenCode có an toàn không?"
 a = "Có thể dùng an toàn hơn khi làm trên branch riêng, không đưa secret vào prompt, giới hạn quyền và luôn review lệnh cùng diff."
+[[extra.references_external]]
+title = "OpenCode — trang chính thức"
+url = "https://opencode.ai/"
+
+[[extra.references_external]]
+title = "Tài liệu bắt đầu với OpenCode"
+url = "https://opencode.ai/docs/"
+
+[[extra.references_external]]
+title = "Repository OpenCode trên GitHub"
+url = "https://github.com/anomalyco/opencode"
+
+[[extra.references_external]]
+title = "Các gói GitHub Copilot"
+url = "https://github.com/features/copilot/plans"
+
 +++
 
 > **TL;DR:** Bạn có thể bắt đầu **AI viết code miễn phí GitHub** với bốn thứ: OpenCode, tài khoản GitHub, Copilot Free hoặc một model miễn phí được hỗ trợ, và repo cá nhân. “Miễn phí” ở đây là đủ để học và sửa task nhỏ, không phải sử dụng vô hạn.
@@ -120,44 +136,3 @@ Bạn cũng nên dừng khi không còn hiểu diff. Mục tiêu của series kh
 Rào cản thử AI coding đã thấp hơn trước: công cụ mở, tài khoản GitHub phổ biến và free tier đủ cho bài tập nhỏ. Tuy nhiên, giá trị thật không nằm ở số dòng code agent tạo ra. Nó nằm ở khả năng biến một vấn đề mơ hồ thành task nhỏ, kiểm chứng được và có lịch sử thay đổi rõ ràng.
 
 Sau bài này, bước hợp lý là hiểu [OpenCode là gì và khác một chatbot code ra sao](/posting/opencode-la-gi-ai-coding-agent/). Khi hiểu vai trò của agent, bạn sẽ chọn provider, quota và workflow đúng hơn thay vì chạy theo chữ “free”.
-
-## Liên kết nội bộ
-
-- [OpenCode là gì? AI coding agent open-source](/posting/opencode-la-gi-ai-coding-agent/)
-- [Cài OpenCode trong GitHub Codespaces](/posting/cai-opencode-trong-github-codespaces/)
-- [Hiểu hạn mức GitHub Copilot Free với OpenCode](/posting/github-copilot-free-opencode-han-muc/)
-- [Workflow 30 phút mỗi ngày với OpenCode](/posting/workflow-30-phut-moi-ngay-opencode/)
-- [Hub Series trên SEOMONEY](/series/)
-
-## Liên kết bên ngoài
-
-- [OpenCode — trang chính thức](https://opencode.ai/)
-- [Tài liệu bắt đầu với OpenCode](https://opencode.ai/docs/)
-- [Repository OpenCode trên GitHub](https://github.com/anomalyco/opencode)
-- [Các gói GitHub Copilot](https://github.com/features/copilot/plans)
-
-## Bản quyền và ghi nguồn
-
-Bài viết do SEOMONEY biên tập và diễn giải độc lập từ tài liệu công khai của OpenCode và GitHub, không sao chép nguyên văn tài liệu gốc. Thông tin quota được kiểm tra ngày 30/06/2026 và có thể thay đổi. Ảnh đại diện/OG dùng fallback nội bộ của SEOMONEY, không hàm ý GitHub hay OpenCode tài trợ bài viết.
-
-## FAQ - Câu hỏi thường gặp
-
-### OpenCode có miễn phí không?
-
-Phần lõi OpenCode là mã nguồn mở và cài miễn phí. Model/provider kết nối có thể có free tier, quota hoặc phí riêng.
-
-### Có cần tài khoản GitHub không?
-
-Không bắt buộc với mọi provider, nhưng GitHub giúp bạn quản lý repo, Codespaces, branch, PR và đăng nhập Copilot.
-
-### GitHub Copilot Free có đủ để học không?
-
-Có, nếu bạn chia task nhỏ và dùng có kế hoạch. Hạn mức hiện được công bố theo tháng, không phải quota làm mới mỗi ngày.
-
-### OpenCode có thay được lập trình viên không?
-
-Không. Agent tăng tốc đọc và sửa code; con người vẫn chịu trách nhiệm yêu cầu, thiết kế, review, test và quyết định publish.
-
-### Dùng OpenCode có an toàn không?
-
-Có thể an toàn hơn khi dùng branch riêng, không đưa secret vào prompt, giới hạn quyền và kiểm tra mọi lệnh cùng diff trước khi chấp thuận.

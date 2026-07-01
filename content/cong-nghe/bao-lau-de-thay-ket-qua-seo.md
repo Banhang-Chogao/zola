@@ -1,6 +1,6 @@
 +++
-title = "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?"
-description = "Bao lâu để thấy kết quả SEO sau khi sửa title hay deploy bài mới? Series Nền tảng SEO Bài 3/15 — bám Google SEO Starter Guide."
+title = "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa? - Duy Nguyen"
+description = "Duy Nguyen trả lời bao lâu để thấy kết quả SEO sau khi chỉnh sửa title hay deploy bài mới. Series Nền tảng SEO Bài 3/15 — bám Google SEO Starter Guide, dành cho content marketing và affiliate."
 date = 2026-06-18
 aliases = ["/bao-lau-de-thay-ket-qua-seo/",
   "/posting/bao-lau-de-thay-ket-qua-seo/"

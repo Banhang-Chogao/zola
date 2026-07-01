@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-30T17:30:09Z",
+  "updated_at": "2026-06-30T22:53:17Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,36 +15,36 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "2744 broken links · 8 weak related pairs",
+      "detail": "2744 broken links · 1 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-30T12:04:16Z"
+      "updated_at": "2026-06-30T21:26:04Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 58/100 · LCP 8.1 s · needs work",
+      "detail": "Mobile 58/100 · LCP 9.2 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-30T17:10:52+00:00"
+      "updated_at": "2026-06-30T22:04:22+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 944/944 pages",
+      "detail": "15 pages missing FAQ/schema · 916/916 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-30T12:04:16Z"
+      "updated_at": "2026-06-30T21:26:04Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: feat(home): Economist-style homepage",
+      "detail": "Latest: hotfix: register google-deepmind series in series-listing.ht",
       "source": "changelog.json",
-      "updated_at": "2026-06-30T14:08:16Z"
+      "updated_at": "2026-06-30T22:50:24Z"
     },
     {
       "id": "indexing",
@@ -62,16 +62,16 @@
       "status": "running",
       "detail": "2 large file(s)",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-30T12:04:16Z"
+      "updated_at": "2026-06-30T21:26:04Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 58/100 vs desktop 72/100 (Δ14) · 944/944 ready",
+      "detail": "Mobile 58/100 vs desktop 81/100 (Δ23) · 916/916 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-30T17:10:52+00:00"
+      "updated_at": "2026-06-30T22:04:22+00:00"
     }
   ],
   "summary": {

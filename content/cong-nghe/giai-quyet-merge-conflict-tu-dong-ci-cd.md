@@ -150,9 +150,3 @@ Chỉ khi cả bốn bước xanh, mình mới commit và push. Cách này tốn
 Giải quyết merge conflict không phải là việc đoán mò. Khi bạn phân loại file theo nguồn gốc — data tự sinh, nội dung, hay code — và áp một chiến lược cố định cho từng nhóm, việc resolve trở nên deterministic và có thể tự động hóa. Quan trọng nhất là luôn cảnh giác với hai cái bẫy: link nội bộ hỏng và cú pháp template sai, vì cả hai đều lọt qua kiểm tra conflict marker nhưng vẫn làm vỡ build.
 
 **Bước tiếp theo:** nếu bạn muốn hiểu sâu hơn về phân tích code tự động và bảo mật, hãy đọc bài [CodeQL — công cụ phân tích code tự động](/posting/codeql-phan-tich-code-tu-dong-cho-lap-trinh-vien/). Hoặc xem thêm các bài cùng chủ đề tại chuyên mục [Công nghệ](/categories/cong-nghe/) và [tất cả bài viết](/categories/tat-ca/) của blog.
-
-## Tham khảo
-
-- [Git — Basic Branching and Merging](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging)
-- [GitHub Docs — Resolving a merge conflict](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/resolving-a-merge-conflict-on-github)
-- [Tera Documentation — Templates](https://keats.github.io/tera/docs/)

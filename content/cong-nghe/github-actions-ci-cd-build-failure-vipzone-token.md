@@ -295,12 +295,3 @@ Workflow failures do missing secrets là vấn đề **phổ biến nhưng dễ 
 5. **Monitor proactively** — thêm pre-flight checks để phát hiện sớm
 
 Với approach này, bạn sẽ giảm drastically số lần debug CI/CD issues do configuration problems, và tập trung hơn vào actual code quality.
-
----
-
-## Tham khảo
-
-- [GitHub Actions Secrets Documentation](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions)
-- [GitHub CLI Reference](https://cli.github.com/manual/gh_run_view)
-- [CLAUDEM.md - Vaccine Library](https://github.com/banhang-chogao/zola/blob/main/CLAUDE.md)
-- Post liên quan: [CI/CD Pipeline Best Practices](/categories/cong-nghe/)

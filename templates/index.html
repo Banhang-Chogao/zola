@@ -19,30 +19,41 @@
 {% block main %}
 <h1 class="visually-hidden">{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân</h1>
 
-{% set _idx_posting = get_section(path="posting/_index.md") %}
-{% set _idx_baochi = get_section(path="baochi/_index.md") %}
-{% set _idx_amthuc = get_section(path="am-thuc/_index.md") %}
-{% set _idx_congnghe = get_section(path="cong-nghe/_index.md") %}
-{% set _idx_hoctienghan = get_section(path="hoc-tieng-han/_index.md") %}
-{% set _idx_khoahoc = get_section(path="khoa-hoc/_index.md") %}
-{% set _idx_dulich = get_section(path="du-lich/_index.md") %}
-{% set _idx_nganhang = get_section(path="ngan-hang/_index.md") %}
-{% set _idx_seo = get_section(path="seo/_index.md") %}
-{% set _idx_thethao = get_section(path="the-thao/_index.md") %}
-{% set _idx_worldcup = get_section(path="world-cup-2026/_index.md") %}
-{% set _idx_doisong = get_section(path="doi-song/_index.md") %}
-{% set _idx_baohiem = get_section(path="bao-hiem/_index.md") %}
-{% set _idx_thegioi = get_section(path="the-gioi/_index.md") %}
 {% set_global all_pages = [] %}
-{% for page in _idx_posting.pages | concat(with=_idx_baochi.pages) | concat(with=_idx_amthuc.pages) | concat(with=_idx_congnghe.pages) | concat(with=_idx_hoctienghan.pages) | concat(with=_idx_khoahoc.pages) | concat(with=_idx_dulich.pages) | concat(with=_idx_nganhang.pages) | concat(with=_idx_seo.pages) | concat(with=_idx_thethao.pages) | concat(with=_idx_worldcup.pages) | concat(with=_idx_doisong.pages) | concat(with=_idx_baohiem.pages) | concat(with=_idx_thegioi.pages) %}
-    {% if not page.extra.feed_anchor %}
-        {% set_global all_pages = all_pages | concat(with=[page]) %}
+{# Article sections are included by default. System/tool sections opt out with
+   `extra.skip_feed = true` in their _index.md front matter. #}
+{% for subsection_path in section.subsections %}
+    {% set child_section = get_section(path=subsection_path) %}
+    {% if not child_section.extra.skip_feed | default(value=false) %}
+        {% for page in child_section.pages %}
+            {% if page.title and page.date and not page.extra.feed_anchor | default(value=false) and not page.extra.hide_from_home | default(value=false) %}
+                {% set_global all_pages = all_pages | concat(with=[page]) %}
+            {% endif %}
+        {% endfor %}
     {% endif %}
 {% endfor %}
 {% set all_pages = all_pages | sort(attribute="date") | reverse %}
 
+{# Git-versioned Editorial Desk configuration. Slugs are resolved only against
+   real Zola pages; missing/renamed posts fall through to the safe rules below. #}
+{% set editorial_slots = load_data(path="data/editorial_slots.json", required=false) %}
 {% set_global featured_post = false %}
 {% set_global sticky_post = false %}
+{% set_global secondary_posts = [] %}
+{% set_global sidebar_featured_post = false %}
+{% if editorial_slots %}
+    {% for page in all_pages %}
+        {% if editorial_slots.lead_story and page.slug == editorial_slots.lead_story %}{% set_global sticky_post = page %}{% endif %}
+        {% if editorial_slots.featured and page.slug == editorial_slots.featured %}{% set_global featured_post = page %}{% endif %}
+        {% if editorial_slots.sidebar_featured and page.slug == editorial_slots.sidebar_featured %}{% set_global sidebar_featured_post = page %}{% endif %}
+    {% endfor %}
+    {# Preserve the explicit order chosen in CMS-V2. #}
+    {% for secondary_slug in editorial_slots.secondary | default(value=[]) %}
+        {% for page in all_pages %}
+            {% if page.slug == secondary_slug %}{% set_global secondary_posts = secondary_posts | concat(with=[page]) %}{% endif %}
+        {% endfor %}
+    {% endfor %}
+{% endif %}
 {% for page in all_pages %}
     {% if page.extra.sticky and not sticky_post %}{% set_global sticky_post = page %}{% endif %}
     {% if page.extra.featured and not featured_post %}{% set_global featured_post = page %}{% endif %}
@@ -61,7 +72,12 @@
 
 {% set_global feed = [] %}
 {% for page in all_pages %}
-    {% if page.slug != sticky_post.slug and page.slug != featured_post.slug %}
+    {% set_global is_pinned = page.slug == sticky_post.slug or page.slug == featured_post.slug %}
+    {% if sidebar_featured_post and page.slug == sidebar_featured_post.slug %}{% set_global is_pinned = true %}{% endif %}
+    {% for secondary_post in secondary_posts %}
+        {% if page.slug == secondary_post.slug %}{% set_global is_pinned = true %}{% endif %}
+    {% endfor %}
+    {% if not is_pinned %}
         {% set_global feed = feed | concat(with=[page]) %}
     {% endif %}
 {% endfor %}
@@ -158,13 +174,12 @@
     {# ========================================================================
        HERO 2-COLUMN
        ======================================================================== #}
-    {% set hero_left = false %}
+    {% set hero_left = featured_post %}
     {% set hero_right = false %}
-    {% if feed | length > 0 %}
-        {% set_global hero_left = feed[0] %}
-    {% endif %}
-    {% if feed | length > 1 %}
-        {% set_global hero_right = feed[1] %}
+    {% if secondary_posts | length > 0 %}
+        {% set_global hero_right = secondary_posts[0] %}
+    {% elif feed | length > 0 %}
+        {% set_global hero_right = feed[0] %}
     {% endif %}
 
     {% if hero_left %}
@@ -225,7 +240,12 @@
     {# ========================================================================
        TIMELINE SECTION — 3-col posts + 1-col ad
        ======================================================================== #}
-    {% set_global timeline_pool = feed | slice(start=2) %}
+    {% if secondary_posts | length > 0 %}
+        {% set_global timeline_pool = secondary_posts | slice(start=1) | concat(with=feed) %}
+    {% else %}
+        {# feed[0] is used as the hero-right fallback. #}
+        {% set_global timeline_pool = feed | slice(start=1) %}
+    {% endif %}
     {% if timeline_pool | length > 0 %}
     <section class="eco-timeline-section" aria-label="Bài viết mới">
         <div class="eco-container">

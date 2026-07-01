@@ -1,6 +1,491 @@
 {
   "items": [
     {
+      "id": "pr-1294",
+      "pr_number": 1294,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1294",
+      "title": "[bb] Phân tích EquiLibre đưa AI poker vào giao dịch",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T09:34:34Z",
+      "merge_commit_sha": "624cd1cf4c6f",
+      "stats": {
+        "additions": 156,
+        "deletions": 0
+      },
+      "highlights": [
+        "Thêm bài phân tích độc lập về EquiLibre và AI giao dịch học tăng cường.",
+        "Dẫn nguồn gốc TechCrunch do người dùng cung cấp.",
+        "Thêm metadata nguồn bb/baochi, FAQ, disclaimer và liên kết nội bộ.",
+        "Không sử dụng ảnh báo gốc.",
+        "SEO QA: 100/100 (A+), 2.063 từ."
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1293",
+      "pr_number": 1293,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1293",
+      "title": "[codex] add CMS-V5 UI prototype",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T09:06:46Z",
+      "merge_commit_sha": "8254be9ef02f",
+      "stats": {
+        "additions": 415,
+        "deletions": 1
+      },
+      "highlights": [
+        "add a standalone CMS-V5 UI prototype at /cms-v5/",
+        "add dashboard metrics, editorial queue, quick actions, and headless architecture overview",
+        "add UI-only Block Editor with article settings and mock publishing controls",
+        "add Media Library, taxonomy manager, and independent frontend preview screens",
+        "add responsive CMS-V5-scoped Sass for desktop, tablet, and mobile"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1292",
+      "pr_number": 1292,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1292",
+      "title": "[codex] update blog background image",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T07:54:49Z",
+      "merge_commit_sha": "4ef04e13cd2e",
+      "stats": {
+        "additions": 1,
+        "deletions": 1
+      },
+      "highlights": [
+        "replace the existing blog body background image with the requested Unsplash image",
+        "preserve the current cover sizing, repeat, and positioning behavior",
+        "git diff --check — PASS",
+        "full build intentionally skipped per request"
+      ],
+      "verified": true
+    },
+    {
+      "id": "commit-68f9802e04d2",
+      "pr_number": 0,
+      "pr_url": "",
+      "title": "content-placement: delete block post_donate_footer_cta",
+      "tag": "remove",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T06:09:51Z",
+      "merge_commit_sha": "68f9802e04d2",
+      "stats": {
+        "additions": 1,
+        "deletions": 21
+      },
+      "highlights": [],
+      "verified": true
+    },
+    {
+      "id": "commit-700c8f3da35f",
+      "pr_number": 0,
+      "pr_url": "",
+      "title": "content-placement: delete block tools_momo_admin_notice_default",
+      "tag": "remove",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T06:09:41Z",
+      "merge_commit_sha": "700c8f3da35f",
+      "stats": {
+        "additions": 16,
+        "deletions": 18
+      },
+      "highlights": [],
+      "verified": true
+    },
+    {
+      "id": "commit-205a4c27dff4",
+      "pr_number": 0,
+      "pr_url": "",
+      "title": "CMS-V2: update homepage editorial slots",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T06:09:12Z",
+      "merge_commit_sha": "205a4c27dff4",
+      "stats": {
+        "additions": 7,
+        "deletions": 2
+      },
+      "highlights": [],
+      "verified": true
+    },
+    {
+      "id": "commit-49c18cbd2955",
+      "pr_number": 0,
+      "pr_url": "",
+      "title": "CMS-V2: update homepage editorial slots",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T04:21:48Z",
+      "merge_commit_sha": "49c18cbd2955",
+      "stats": {
+        "additions": 2,
+        "deletions": 2
+      },
+      "highlights": [],
+      "verified": true
+    },
+    {
+      "id": "pr-1289",
+      "pr_number": 1289,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1289",
+      "title": "fix(content): standardize article footer macro",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T04:03:10Z",
+      "merge_commit_sha": "f29527ca2615",
+      "stats": {
+        "additions": 579,
+        "deletions": 812
+      },
+      "highlights": [
+        "consolidate external links, internal links, copyright/source, and FAQ into one canonical end-of-article macro",
+        "add safe fallbacks for all four sections, including valid previous/next article links",
+        "cover the alternate left-sidebar article render path",
+        "expand reference extraction from 4 directories to all 15 article sections plus pages",
+        "remove duplicate hardcoded footer blocks from 19 articles while preserving 70 external sources in frontmatter"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1288",
+      "pr_number": 1288,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1288",
+      "title": "GCF footer stock widget",
+      "tag": "remove",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T04:02:48Z",
+      "merge_commit_sha": "21f7032cdedb",
+      "stats": {
+        "additions": 272,
+        "deletions": 308
+      },
+      "highlights": [
+        "remove the GCF stock widget render from the global footer path",
+        "remove its dedicated fetch/init script and SCSS",
+        "preserve all other footer widgets and stock-related content",
+        "searched repository source for GCF/stock/co-phieu/ticker references",
+        "confirmed no remaining GCF footer render, init, or fetch references outside historical reports/build output"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1287",
+      "pr_number": 1287,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1287",
+      "title": "Mobile V2: content-first S-DNA layout",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T03:52:06Z",
+      "merge_commit_sha": "1498cafc18ab",
+      "stats": {
+        "additions": 274,
+        "deletions": 6
+      },
+      "highlights": [
+        "add a scoped Mobile V2 layout for homepage and article pages",
+        "apply S-DNA hierarchy, whitespace, light borders, and restrained colour",
+        "prevent GoogleRank and Countdown scripts from downloading or initialising below 768px",
+        "keep sidebar personalisation and GCF widget out of the mobile reading path",
+        "Dart Sass compile (no errors; existing deprecation warnings only)"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1286",
+      "pr_number": 1286,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1286",
+      "title": "feat(cms): connect Editorial Desk slots to homepage",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T03:50:42Z",
+      "merge_commit_sha": "6eea626c10d6",
+      "stats": {
+        "additions": 419,
+        "deletions": 9
+      },
+      "highlights": [
+        "add Git-versioned homepage editorial slot schema",
+        "add authenticated CMS-V2 controls backed by real repository articles",
+        "validate broken and duplicate slots before committing through the existing GitHub save flow",
+        "make homepage consume Lead, Featured, Secondary, and Sidebar slot configuration with safe fallbacks",
+        "exclude pinned articles from the latest feed"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1284",
+      "pr_number": 1284,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1284",
+      "title": "fix(auto-merge): add missing checkout step in deploy_check job",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T03:28:50Z",
+      "merge_commit_sha": "03ec68aef603",
+      "stats": {
+        "additions": 3,
+        "deletions": 0
+      },
+      "highlights": [
+        "python3 scripts/validate_workflows.py — đảm bảo YAML hợp lệ"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1285",
+      "pr_number": 1285,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1285",
+      "title": "feat(deploy): add 60s cooldown between deploy runs",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T03:28:26Z",
+      "merge_commit_sha": "027b764a9d1f",
+      "stats": {
+        "additions": 10,
+        "deletions": 0
+      },
+      "highlights": [
+        "✅  +  (queue)",
+        "✅ Exponential backoff retry (0s→60s→120s) cho từng run",
+        "✅ Smart Deploy Queue preflight (skip LOW_VALUE khi busy)",
+        "✅ Auto-merge deploy check (không merge khi busy)",
+        "name: Deploy queue cooldown (60s gap between runs)"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1283",
+      "pr_number": 1283,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1283",
+      "title": "series GCF — 3 bài phân tích cổ phiếu GCF (chứng khoán)",
+      "tag": "feat",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T03:28:06Z",
+      "merge_commit_sha": "a0744ad9af48",
+      "stats": {
+        "additions": 432,
+        "deletions": 1
+      },
+      "highlights": [
+        "— section mới",
+        "— Bài 1: tổng quan & ưu điểm",
+        "— Bài 2: lịch sử giá",
+        "— Bài 3: kịch bản vượt 20.000",
+        "— series manifest"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1282",
+      "pr_number": 1282,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1282",
+      "title": "feat(series): BHYT — 5 bài tra cứu giá trị sử dụng thẻ",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T02:53:04Z",
+      "merge_commit_sha": "a49c53a9a917",
+      "stats": {
+        "additions": 558,
+        "deletions": 2
+      },
+      "highlights": [
+        "Series manifest: data/bhyt-gia-tri-su-dung-series.json",
+        "Register template: series-listing.html, series-nav.html, page.html",
+        "Cập nhật bài trụ cột: thêm link dẫn vào series"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1278",
+      "pr_number": 1278,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1278",
+      "title": "remove duplicate end-of-article hardcoded footer blocks",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T02:52:27Z",
+      "merge_commit_sha": "fd72e73047b8",
+      "stats": {
+        "additions": 77,
+        "deletions": 369
+      },
+      "highlights": [
+        "scripts/seo-rank-autofix.py — stopped detecting/inserting hardcoded footer headings (## Liên kết nội bộ, ## Liên kết bên ngoài, ## Bản quyền và trích dẫn nguồn, etc.) into body markdown. Macros handle",
+        "scripts/ai_writer_dispatch_worker.py — updated system prompt: AI no longer instructed to add \"Tham khảo & Nguồn dữ liệu\" section at end of article.",
+        "qa_check.py — added check_duplicate_footer(): warns if content .md files contain hardcoded duplicate footer headings.",
+        "CLAUDE.md — added rule in \"Quy tắc Tham chiếu cuối bài\" warning against hardcoding footer blocks in body.",
+        "6 Brave series articles (external links, internal links, copyright, FAQ)"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1281",
+      "pr_number": 1281,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1281",
+      "title": "feat(series): 7 bài Google DeepMind science series — fix 7 URL 404",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T02:20:03Z",
+      "merge_commit_sha": "d8308cd79c75",
+      "stats": {
+        "additions": 995,
+        "deletions": 74
+      },
+      "highlights": [
+        "data/google-deepmind-series.json — 7 parts: AlphaFold, AlphaFold 3, AlphaMissense, AlphaProteo, AlphaGenome P1/P2, series landing"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1274",
+      "pr_number": 1274,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1274",
+      "title": "kt9 - PR status check shortcut + auto-fix gate + pre-merge workflow",
+      "tag": "feat",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T00:53:28Z",
+      "merge_commit_sha": "15bc60615a17",
+      "stats": {
+        "additions": 322,
+        "deletions": 0
+      },
+      "highlights": [
+        "kt9 — check + report",
+        "kt9 --fix — check + auto-fix an toàn (qa_pair missing, rerun failed checks)",
+        "kt9 --pr=1271 — check 1 PR cụ thể",
+        "Open PRs (mergeable, statusCheckRollup, reviewDecision)",
+        "QA Gatekeeper / qa-check status"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1276",
+      "pr_number": 1276,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1276",
+      "title": "add Google DeepMind pillar article (company overview) + hub_series support",
+      "tag": "feat",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T00:13:29Z",
+      "merge_commit_sha": "906fb1cb4681",
+      "stats": {
+        "additions": 109,
+        "deletions": 8
+      },
+      "highlights": [
+        "content/cong-nghe/google-deepmind-la-gi.md - bài mới, trục cột chính cho content DeepMind trên blog",
+        "templates/macros/series-hub.html - them hub_series = google-deepmind",
+        "templates/page.html - related articles tu series khoa hoc"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1272",
+      "pr_number": 1272,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1272",
+      "title": "Bài viết: Google DeepMind Nano Banana - Gia đình mô hình tạo ảnh AI 2026",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T00:01:19Z",
+      "merge_commit_sha": "3749f448a9a8",
+      "stats": {
+        "additions": 190,
+        "deletions": 0
+      },
+      "highlights": [
+        "Giới thiệu Nano Banana là gì",
+        "So sánh 4 phiên bản (tính năng, giá cả, benchmark)",
+        "SynthID và bảo vệ bản quyền",
+        "Cách bắt đầu sử dụng (Gemini app, AI Studio, API, Vertex AI)",
+        "Bảng so sánh tính năng chi tiết"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1275",
+      "pr_number": 1275,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1275",
+      "title": "Bài viết: Gemini 3.5 có gì mới - Frontier intelligence với action",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T22:56:16Z",
+      "merge_commit_sha": "3d528be798cf",
+      "stats": {
+        "additions": 145,
+        "deletions": 0
+      },
+      "highlights": [
+        "4 năng lực chính: agentic coding, multimodal, long horizon tasks, multi-step problem-solving",
+        "Bảng benchmark so sánh với GPT-5.5, Claude Opus 4.7, Gemini 3 Flash",
+        "Agentic coding (MCP Atlas 83.6%, OSWorld 78.4%, Terminal-bench 76.2%)",
+        "Multimodal (MMMU-Pro 83.6%, CharXiv 84.2%)",
+        "Long context và reasoning"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1273",
+      "pr_number": 1273,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1273",
+      "title": "Bài viết: Nano Banana 2 Lite và Gemini Omni Flash - tạo ảnh siêu nhanh, video hội thoại",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T22:55:57Z",
+      "merge_commit_sha": "4e0e5d9cce4e",
+      "stats": {
+        "additions": 147,
+        "deletions": 0
+      },
+      "highlights": [
+        "Nano Banana 2 Lite — ảnh 4 giây, giá /bin/zsh.034/1K, so sánh trong family",
+        "Gemini Omni Flash — video 10 giây, conversational editing",
+        "Kết hợp cả hai qua Interactions API (demo Anywhere, Space Lift, Omni Product Studio)",
+        "SynthID và an toàn nội dung",
+        "Góc nhìn cá nhân về chiến lược của Google DeepMind"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1277",
+      "pr_number": 1277,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1277",
+      "title": "hotfix: register google-deepmind series in series-listing.html",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T22:50:24Z",
+      "merge_commit_sha": "7499cf16ebfc",
+      "stats": {
+        "additions": 2,
+        "deletions": 1
+      },
+      "highlights": [],
+      "verified": true
+    },
+    {
+      "id": "pr-1270",
+      "pr_number": 1270,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1270",
+      "title": "feat(brand): đổi blog name thành Duy Nguyen, focus SEO & Affiliate",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T22:16:23Z",
+      "merge_commit_sha": "6eee6badc493",
+      "stats": {
+        "additions": 4799,
+        "deletions": 94
+      },
+      "highlights": [
+        "Blog name: SEOMONEY → Duy Nguyen",
+        "Tagline: → Mô Hình Kiếm Tiền Từ Blog - SEO & Affiliate",
+        "Meta description trang chủ: viết lại tập trung SEO & affiliate",
+        "Author box: name = Duy Nguyen, bio = Chuyên gia SEO & Content Marketing",
+        "Thêm jobTitle: Chuyên gia SEO & Content Marketing vào Person schema"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1269",
       "pr_number": 1269,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1269",

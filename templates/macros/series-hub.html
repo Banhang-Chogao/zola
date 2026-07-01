@@ -3,7 +3,9 @@
 {% macro callout(page) %}
 {% if page.extra and page.extra.hub_series is defined %}
     {% set manifest = false %}
-    {% if page.extra.hub_series == "science-uranium" %}
+    {% if page.extra.hub_series == "google-deepmind" %}
+        {% set manifest = load_data(path="data/google-deepmind-series.json", required=false) %}
+    {% elif page.extra.hub_series == "science-uranium" %}
         {% set manifest = load_data(path="data/science-uranium-series.json", required=false) %}
     {% endif %}
     {% if manifest %}
