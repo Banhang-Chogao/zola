@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-01T10:58:30Z",
+  "updated_at": "2026-07-01T18:20:13Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,9 +15,9 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "431 broken links · 1 weak related pairs",
+      "detail": "1320 broken links · 1 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-30T21:26:04Z"
+      "updated_at": "2026-07-01T12:59:21Z"
     },
     {
       "id": "page_speed",
@@ -33,27 +33,27 @@
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 916/916 pages",
+      "detail": "15 pages missing FAQ/schema · 1026/1026 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-30T21:26:04Z"
+      "updated_at": "2026-07-01T12:59:21Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: [bb] Phân tích EquiLibre đưa AI poker vào giao dịch",
+      "detail": "Latest: feat(cms): add S-DNA CMS-V6 with GitHub OAuth",
       "source": "changelog.json",
-      "updated_at": "2026-07-01T09:34:34Z"
+      "updated_at": "2026-07-01T17:52:39Z"
     },
     {
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "running",
-      "detail": "431 broken of 1407 links",
+      "detail": "1320 broken of 1490 links",
       "source": "qa-404-report.json",
-      "updated_at": "2026-07-01T00:03:03Z"
+      "updated_at": "2026-07-01T11:51:41Z"
     },
     {
       "id": "image_opt",
@@ -62,14 +62,14 @@
       "status": "running",
       "detail": "2 large file(s)",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-30T21:26:04Z"
+      "updated_at": "2026-07-01T12:59:21Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 58/100 vs desktop 76/100 (Δ18) · 916/916 ready",
+      "detail": "Mobile 58/100 vs desktop 76/100 (Δ18) · 1026/1026 ready",
       "source": "pagespeed.json",
       "updated_at": "2026-07-01T10:56:49+00:00"
     }
