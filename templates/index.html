@@ -246,6 +246,7 @@
         {# feed[0] is used as the hero-right fallback. #}
         {% set_global timeline_pool = feed | slice(start=1) %}
     {% endif %}
+    {% set_global timeline_pool = timeline_pool | sort(attribute="date") | reverse %}
     {% if timeline_pool | length > 0 %}
     <section class="eco-timeline-section" aria-label="Bài viết mới">
         <div class="eco-container">
@@ -270,7 +271,7 @@
                 <a class="eco-timeline-section__item" href="{{ page.permalink }}">
                     {% if tl_cat %}<span class="eco-timeline-section__item-cat">{{ tl_cat }}</span>{% endif %}
                     <h4 class="eco-timeline-section__item-title">{{ page.title }}</h4>
-                    <span class="eco-timeline-section__time">{{ page.date | date(format="%H:%M %d/%m", timezone="Asia/Ho_Chi_Minh") }}</span>
+                    <span class="eco-timeline-section__time">{% if page.date is containing("T") %}{{ page.date | date(format="%H:%M", timezone="Asia/Ho_Chi_Minh") }} {% endif %}{{ page.date | date(format="%d/%m", timezone="Asia/Ho_Chi_Minh") }}</span>
                 </a>
                 {% endfor %}
             </div>
@@ -288,7 +289,7 @@
                 <a class="eco-timeline-section__item" href="{{ page.permalink }}">
                     {% if tl_cat %}<span class="eco-timeline-section__item-cat">{{ tl_cat }}</span>{% endif %}
                     <h4 class="eco-timeline-section__item-title">{{ page.title }}</h4>
-                    <span class="eco-timeline-section__time">{{ page.date | date(format="%H:%M %d/%m", timezone="Asia/Ho_Chi_Minh") }}</span>
+                    <span class="eco-timeline-section__time">{% if page.date is containing("T") %}{{ page.date | date(format="%H:%M", timezone="Asia/Ho_Chi_Minh") }} {% endif %}{{ page.date | date(format="%d/%m", timezone="Asia/Ho_Chi_Minh") }}</span>
                 </a>
                 {% endfor %}
             </div>
@@ -306,7 +307,7 @@
                 <a class="eco-timeline-section__item" href="{{ page.permalink }}">
                     {% if tl_cat %}<span class="eco-timeline-section__item-cat">{{ tl_cat }}</span>{% endif %}
                     <h4 class="eco-timeline-section__item-title">{{ page.title }}</h4>
-                    <span class="eco-timeline-section__time">{{ page.date | date(format="%H:%M %d/%m", timezone="Asia/Ho_Chi_Minh") }}</span>
+                    <span class="eco-timeline-section__time">{% if page.date is containing("T") %}{{ page.date | date(format="%H:%M", timezone="Asia/Ho_Chi_Minh") }} {% endif %}{{ page.date | date(format="%d/%m", timezone="Asia/Ho_Chi_Minh") }}</span>
                 </a>
                 {% endfor %}
             </div>
