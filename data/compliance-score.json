@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-30T21:26:04Z",
+  "updated_at": "2026-07-01T12:59:21Z",
   "score": 91.3,
   "grade": "A",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "858/916 in range"
+          "detail": "932/1026 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "916/916 complete"
+          "detail": "1026/1026 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "916/916 set"
+          "detail": "1026/1026 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "912/916 single H1"
+          "detail": "1022/1026 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "916/916 with lang"
+          "detail": "1026/1026 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "916/916 ready"
+          "detail": "1026/1026 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "916/916 pages"
+          "detail": "1026/1026 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "914/916 pages covered"
+          "detail": "1024/1026 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "16/16 articles"
+          "detail": "20/20 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "16/16 tagged"
+          "detail": "20/20 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "16/16 substantive"
+          "detail": "20/20 substantive"
         },
         {
           "label": "Unique titles",
@@ -171,7 +171,7 @@
         {
           "label": "GitHub Pages base path",
           "status": "fail",
-          "detail": "178 href(s) missing /zola/"
+          "detail": "186 href(s) missing /zola/"
         }
       ]
     },
@@ -186,7 +186,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "912/916 pages"
+          "detail": "1022/1026 pages"
         },
         {
           "label": "Skip navigation",
@@ -222,8 +222,8 @@
       "text": "Metadata: Canonical URLs"
     }
   ],
-  "pages_scanned": 916,
-  "articles_scanned": 23,
+  "pages_scanned": 1026,
+  "articles_scanned": 27,
   "fix_log": [
     {
       "category": "Media",
@@ -231,7 +231,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (2 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-30T21:26:04Z"
+      "at": "2026-07-01T12:59:21Z"
     },
     {
       "category": "Media",
@@ -239,15 +239,15 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 heavy PNG/GIF). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-30T21:26:04Z"
+      "at": "2026-07-01T12:59:21Z"
     },
     {
       "category": "Links",
       "label": "GitHub Pages base path",
       "check_status": "fail",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (178 href(s) missing /zola/). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-30T21:26:04Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (186 href(s) missing /zola/). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-07-01T12:59:21Z"
     }
   ],
   "fix_summary": {
