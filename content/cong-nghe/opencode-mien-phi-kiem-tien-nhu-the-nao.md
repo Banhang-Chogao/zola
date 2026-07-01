@@ -37,6 +37,18 @@ a = "Không; phần miễn phí có thể tạo distribution, còn người dùn
 [[extra.faq]]
 q = "Có cần trả phí để học OpenCode không?"
 a = "Không nhất thiết; người mới có thể bắt đầu bằng free tier hợp lệ và chỉ nâng cấp khi workload chứng minh nhu cầu."
+[[extra.references_external]]
+title = "OpenCode Zen"
+url = "https://opencode.ai/zen"
+
+[[extra.references_external]]
+title = "OpenCode Black"
+url = "https://opencode.ai/black"
+
+[[extra.references_external]]
+title = "OpenCode"
+url = "https://opencode.ai/"
+
 +++
 
 > **TL;DR:** OpenCode có thể giữ lõi open-source để xây cộng đồng, đồng thời bán lớp dịch vụ cho nhu cầu cao hơn: Go dạng subscription giá thấp, Zen theo usage, Black cho model cao cấp và Enterprise cho tổ chức. Miễn phí là chiến lược phân phối, không phải cam kết không doanh thu.
@@ -107,45 +119,3 @@ Series này không dạy bypass thanh toán. Khi free tier hết, lựa chọn h
 Miễn phí không đối lập business model. Nó có thể là lớp adoption của một hệ thống nơi usage cao, reliability và tổ chức tạo doanh thu. OpenCode cho thấy open-source và thương mại có thể bổ trợ nếu ranh giới minh bạch.
 
 Trước khi nâng cấp, ghi lại usage trong hai tuần: task nào hoàn thành, quota nào chạm, thời gian nào tiết kiệm. Dữ liệu đó tốt hơn cảm giác FOMO.
-
-## Liên kết nội bộ
-
-- [OpenCode là gì?](/posting/opencode-la-gi-ai-coding-agent/)
-- [Lịch sử OpenCode](/posting/lich-su-opencode-ai-coding-open-source/)
-- [Hiểu hạn mức Copilot Free](/posting/github-copilot-free-opencode-han-muc/)
-- [So sánh công cụ AI coding](/posting/opencode-so-voi-cursor-claude-code-copilot/)
-- [Lộ trình 14 ngày](/posting/lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github/)
-- [Hub Series](/series/)
-
-## Liên kết bên ngoài
-
-- [OpenCode Go](https://opencode.ai/go)
-- [OpenCode Zen](https://opencode.ai/zen)
-- [OpenCode Black](https://opencode.ai/black)
-- [OpenCode](https://opencode.ai/)
-
-## Bản quyền và ghi nguồn
-
-SEOMONEY phân tích độc lập từ các trang sản phẩm OpenCode, kiểm tra ngày 30/06/2026. Giá/tính năng có thể thay đổi; bài không affiliate và không sao chép nguyên văn. Ảnh OG dùng fallback nội bộ.
-
-## FAQ - Câu hỏi thường gặp
-
-### OpenCode có miễn phí không?
-
-Lõi là open-source; model và dịch vụ thương mại là lớp riêng.
-
-### OpenCode Go là gì?
-
-Go được giới thiệu là subscription chi phí thấp cho model open-source và capacity cao hơn free.
-
-### OpenCode Zen là gì?
-
-Zen cung cấp model đã tuyển chọn cho coding agent theo usage/balance ở thời điểm viết.
-
-### Miễn phí có nghĩa không có business model không?
-
-Không. Free core tạo distribution; usage cao, reliability và enterprise có thể tạo doanh thu.
-
-### Có cần trả phí để học OpenCode không?
-
-Không nhất thiết. Hãy bắt đầu với free tier hợp lệ và chỉ nâng cấp khi có nhu cầu đo được.

@@ -9,6 +9,42 @@ tags = ["deepmind", "nano-banana", "ai-image-generation", "gemini", "google-ai",
 seo_keyword = "Google DeepMind Nano Banana"
 thumbnail = "/img/og-fallbacks/og-fallback-3.svg"
 toc = true
+
+[[extra.faq]]
+q = "Nano Banana có miễn phí không?"
+a = "Có. Nano Banana 2 có sẵn miễn phí qua Gemini app và Google Flow. Google AI Studio yêu cầu API key (có free tier). Riêng API trả phí tính theo số lượng ảnh sinh ra."
+
+[[extra.faq]]
+q = "Nano Banana có hỗ trợ tiếng Việt không?"
+a = "Có. Nano Banana hiểu prompt đa ngôn ngữ, bao gồm tiếng Việt. Bạn có thể viết prompt bằng tiếng Việt và nhận kết quả phù hợp. Tính năng in-image text rendering cũng hỗ trợ tiếng Việt."
+
+[[extra.faq]]
+q = "Khác biệt giữa Nano Banana 2 và Nano Banana Pro là gì?"
+a = "Nano Banana 2 nhanh hơn, rẻ hơn, hỗ trợ image grounding (tra cứu ảnh thật từ web), thinking mode và tới 14 ảnh tham chiếu. Nano Banana Pro có chất lượng và độ chính xác nghệ thuật cao hơn, kiểm soát thương hiệu tốt hơn, phù hợp với studio chuyên nghiệp."
+
+[[extra.faq]]
+q = "Làm sao để nhận biết ảnh do Nano Banana tạo ra?"
+a = "Google gắn SynthID watermark vô hình lên mọi ảnh từ Nano Banana, đồng thời hỗ trợ C2PA Content Credentials. Bạn có thể kiểm tra bằng các công cụ do Google cung cấp."
+
+[[extra.faq]]
+q = "Nano Banana 2 Lite có đủ tốt cho dự án thương mại không?"
+a = "Có. Với giá chỉ $0.034/1K ảnh và tốc độ 4 giây/ảnh, Nano Banana 2 Lite là lựa chọn tuyệt vời cho prototyping, tạo ảnh hàng loạt và các dự án cần tối ưu chi phí. Tuy nhiên, nếu cần chất lượng cao hoặc độ phân giải 4K, hãy dùng Nano Banana 2 hoặc Pro."
+[[extra.references_external]]
+title = "Google DeepMind — Nano Banana 2"
+url = "https://deepmind.google/models/gemini-image/flash/"
+
+[[extra.references_external]]
+title = "Google Cloud Blog — Nano Banana 2 và Nano Banana Pro GA"
+url = "https://cloud.google.com/blog/products/ai-machine-learning/nano-banana-2-and-nano-banana-pro-are-generally-available"
+
+[[extra.references_external]]
+title = "Google AI for Developers — Nano Banana Image Generation"
+url = "https://ai.google.dev/gemini-api/docs/image-generation"
+
+[[extra.references_external]]
+title = "Nano Banana 2: Google's latest AI image generation model"
+url = "https://blog.google/innovation-and-ai/technology/ai/nano-banana-2/"
+
 +++
 
 Tháng 8 năm 2025, Google DeepMind trình làng **Nano Banana**, mô hình tạo ảnh gốc (native image generation) tích hợp trong Gemini — và nó nhanh chóng trở thành hiện tượng trong giới AI. Chưa đầy một năm sau, gia đình Nano Banana đã mở rộng lên bốn phiên bản, từ Lite giá rẻ cho tới Pro studio-quality, phục vụ từ nhà phát triển cá nhân tới doanh nghiệp lớn.
@@ -139,46 +175,3 @@ Nano Banana đang được sử dụng rộng rãi trong nhiều lĩnh vực:
 - **Sáng tạo nội dung**: Tạo infographics, biểu đồ dữ liệu, diagram từ ghi chú
 - **Giải trí**: Storyboarding, tạo ảnh truyện tranh với tỷ lệ 8:1, 1:8
 - **E-commerce**: Tạo ảnh sản phẩm, thumbnail video quảng cáo
-
-## Liên kết nội bộ
-
-Bạn có thể quan tâm các bài viết khác về AI và công nghệ trên blog:
-- [OpenCode: AI Coding Agent miễn phí cho mọi lập trình viên](/cong-nghe/opencode-la-gi-ai-coding-agent/)
-- [Sentence Transformers SBERT: Mô hình AI xử lý ngôn ngữ tự nhiên](/cong-nghe/sentence-transformers-sbert-deep-dive/)
-- [Tạo blog tĩnh với Zola — Hướng dẫn từ A đến Z](/cong-nghe/tao-blog-voi-zola/)
-- [SEO là gì? Hướng dẫn SEO Google từ cơ bản](/cong-nghe/seo-la-gi-huong-dan-co-ban-google-search/)
-- [GitHub Actions CI/CD cho người mới bắt đầu](/cong-nghe/github-actions-ci-cd-cho-nguoi-moi/)
-
-## Liên kết bên ngoài
-
-- [Google DeepMind — Nano Banana 2](https://deepmind.google/models/gemini-image/flash/)
-- [Google Cloud Blog — Nano Banana 2 và Nano Banana Pro GA](https://cloud.google.com/blog/products/ai-machine-learning/nano-banana-2-and-nano-banana-pro-are-generally-available)
-- [Google AI for Developers — Nano Banana Image Generation](https://ai.google.dev/gemini-api/docs/image-generation)
-- [Nano Banana 2: Google's latest AI image generation model](https://blog.google/innovation-and-ai/technology/ai/nano-banana-2/)
-
-## Bản quyền và ghi nguồn
-
-Bài viết được SEOMONEY biên tập và tổng hợp từ các nguồn chính thức của Google DeepMind và Google AI for Developers. Thông tin về giá cả và tính năng có thể thay đổi theo thời gian. Vui lòng kiểm tra tài liệu chính thức của Google để cập nhật mới nhất. Ảnh đại diện sử dụng fallback OG image của SEOMONEY.
-
-## FAQ - Câu hỏi thường gặp
-
-**Nano Banana có miễn phí không?**
-
-Có. Nano Banana 2 có sẵn miễn phí qua Gemini app và Google Flow. Google AI Studio yêu cầu API key (có free tier). Riêng API trả phí tính theo số lượng ảnh sinh ra.
-
-**Nano Banana có hỗ trợ tiếng Việt không?**
-
-Có. Nano Banana hiểu prompt đa ngôn ngữ, bao gồm tiếng Việt. Bạn có thể viết prompt bằng tiếng Việt và nhận kết quả phù hợp. Tính năng in-image text rendering cũng hỗ trợ tiếng Việt.
-
-**Khác biệt giữa Nano Banana 2 và Nano Banana Pro là gì?**
-
-Nano Banana 2 nhanh hơn, rẻ hơn, hỗ trợ image grounding (tra cứu ảnh thật từ web), thinking mode và tới 14 ảnh tham chiếu. Nano Banana Pro có chất lượng và độ chính xác nghệ thuật cao hơn, kiểm soát thương hiệu tốt hơn, phù hợp với studio chuyên nghiệp.
-
-**Làm sao để nhận biết ảnh do Nano Banana tạo ra?**
-
-Google gắn SynthID watermark vô hình lên mọi ảnh từ Nano Banana, đồng thời hỗ trợ C2PA Content Credentials. Bạn có thể kiểm tra bằng các công cụ do Google cung cấp.
-
-**Nano Banana 2 Lite có đủ tốt cho dự án thương mại không?**
-
-Có. Với giá chỉ $0.034/1K ảnh và tốc độ 4 giây/ảnh, Nano Banana 2 Lite là lựa chọn tuyệt vời cho prototyping, tạo ảnh hàng loạt và các dự án cần tối ưu chi phí. Tuy nhiên, nếu cần chất lượng cao hoặc độ phân giải 4K, hãy dùng Nano Banana 2 hoặc Pro.
-+++
