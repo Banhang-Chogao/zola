@@ -1,0 +1,88 @@
+{% set gsc = load_data(path="data/gsc-stats.json", required=false) %}
+{% set ps = load_data(path="data/pagespeed.json", required=false) %}
+{% set ga = load_data(path="data/ga-stats.json", required=false) %}
+
+<section class="google-snapshot" aria-label="Google Snapshot">
+    <div class="container">
+        <h2 class="google-snapshot__heading">🔍 Google Snapshot</h2>
+        <div class="google-snapshot__grid">
+
+            {# — Health status badge — #}
+            <div class="google-snapshot__card google-snapshot__card--health">
+                {% set perf = ps.mobile.performance | default(value=0) %}
+                {% set health = "good" %}
+                {% set health_label = "Good" %}
+                {% if perf < 50 %}
+                    {% set health = "critical" %}
+                    {% set health_label = "Critical" %}
+                {% elif perf < 90 %}
+                    {% set health = "attention" %}
+                    {% set health_label = "Needs Attention" %}
+                {% endif %}
+                <span class="google-snapshot__badge google-snapshot__badge--{{ health }}">{{ health_label }}</span>
+                <span class="google-snapshot__label">Google Health</span>
+                {% if ps.updated_at %}
+                <span class="google-snapshot__meta">Updated {{ ps.updated_at | date(format="%H:%M %d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                {% endif %}
+            </div>
+
+            {# — Search Performance — #}
+            <div class="google-snapshot__card google-snapshot__card--search">
+                <span class="google-snapshot__label">Search (7d)</span>
+                <div class="google-snapshot__metrics">
+                    <div class="google-snapshot__metric">
+                        <strong class="google-snapshot__value">{{ gsc.totals.clicks | default(value="—") }}</strong>
+                        <span class="google-snapshot__sublabel">Clicks</span>
+                    </div>
+                    <div class="google-snapshot__metric">
+                        <strong class="google-snapshot__value">{{ gsc.totals.impressions | default(value="—") }}</strong>
+                        <span class="google-snapshot__sublabel">Impressions</span>
+                    </div>
+                    <div class="google-snapshot__metric">
+                        <strong class="google-snapshot__value">{{ gsc.totals.ctr_pct | default(value="—") }}%</strong>
+                        <span class="google-snapshot__sublabel">CTR</span>
+                    </div>
+                    <div class="google-snapshot__metric">
+                        <strong class="google-snapshot__value">{{ gsc.totals.position | default(value="—") }}</strong>
+                        <span class="google-snapshot__sublabel">Avg Position</span>
+                    </div>
+                </div>
+            </div>
+
+            {# — Site Speed — #}
+            <div class="google-snapshot__card google-snapshot__card--speed">
+                <span class="google-snapshot__label">Site Speed (Mobile)</span>
+                <div class="google-snapshot__score-wrap">
+                    <span class="google-snapshot__score {% if ps.mobile.performance and ps.mobile.performance >= 90 %}google-snapshot__score--good{% elif ps.mobile.performance and ps.mobile.performance >= 50 %}google-snapshot__score--ok{% else %}google-snapshot__score--poor{% endif %}">
+                        {{ ps.mobile.performance | default(value="—") }}/100
+                    </span>
+                </div>
+                {% if ps.mobile.lcp %}
+                <div class="google-snapshot__metric">
+                    <span class="google-snapshot__sublabel">LCP</span>
+                    <strong class="google-snapshot__value">{{ ps.mobile.lcp }}</strong>
+                </div>
+                {% endif %}
+            </div>
+
+            {# — Top Page — #}
+            <div class="google-snapshot__card google-snapshot__card--top">
+                <span class="google-snapshot__label">Top Page (7d)</span>
+                {% if gsc.top_page %}
+                <a class="google-snapshot__top-link" href="{{ gsc.top_page | default(value='/') }}" target="_blank" rel="noopener">
+                    {{ gsc.top_page | default(value="—") | trim_start_matches(pat="/") | truncate(length=40) }}
+                </a>
+                {% else %}
+                <span class="google-snapshot__top-link google-snapshot__top-link--empty">—</span>
+                {% endif %}
+                {% if ga.organic %}
+                <div class="google-snapshot__metric">
+                    <span class="google-snapshot__sublabel">Organic Traffic (30d)</span>
+                    <strong class="google-snapshot__value">{{ ga.organic }}</strong>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</section>
