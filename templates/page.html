@@ -355,6 +355,8 @@
                 {% set series_manifest = load_data(path="data/xgboost-model-la-gi-series.json", required=false) %}
             {% elif page.extra.series == "google-deepmind" %}
                 {% set series_manifest = load_data(path="data/google-deepmind-series.json", required=false) %}
+            {% elif page.extra.series == "bhyt-gia-tri-su-dung" %}
+                {% set series_manifest = load_data(path="data/bhyt-gia-tri-su-dung-series.json", required=false) %}
             {% endif %}
             {% if series_manifest and page.extra.series == series_manifest.id %}
                 {% for item in series_manifest.parts %}
