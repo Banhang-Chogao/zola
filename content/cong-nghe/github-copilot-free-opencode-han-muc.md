@@ -37,6 +37,22 @@ a = "Không nên; hãy tuân thủ điều khoản, chờ chu kỳ mới hoặc 
 [[extra.faq]]
 q = "OpenCode có thay lập trình viên không?"
 a = "Không, quota AI chỉ hỗ trợ thao tác; năng lực review và quyết định kỹ thuật vẫn thuộc người dùng."
+[[extra.references_external]]
+title = "Các gói GitHub Copilot"
+url = "https://github.com/features/copilot/plans"
+
+[[extra.references_external]]
+title = "Tài liệu GitHub Copilot"
+url = "https://docs.github.com/en/copilot"
+
+[[extra.references_external]]
+title = "OpenCode"
+url = "https://opencode.ai/"
+
+[[extra.references_external]]
+title = "Tài liệu provider OpenCode"
+url = "https://opencode.ai/docs/providers/"
+
 +++
 
 > **TL;DR:** GitHub hiện ghi Copilot Free có 2.000 code completions và 50 chat requests mỗi tháng. Đây không phải quota ngày cố định. Người mới có thể chia nhỏ để học hằng ngày, nhưng cần kiểm tra trang chính thức vì cách tính và tính năng có thể đổi.
@@ -116,48 +132,3 @@ Bạn cũng nên ghi nhật ký ngắn: prompt nào rõ, agent hiểu sai ở đ
 Copilot Free đủ để mở cửa, không phải để che giấu chi phí inference. OpenCode cho bạn giao diện agent linh hoạt; GitHub đặt điều kiện cho dịch vụ Copilot. Tách rõ hai vai trò giúp bạn không đổ lỗi sai sản phẩm khi quota, model hay authentication thay đổi.
 
 Muốn dùng hằng ngày, hãy chia task nhỏ, ưu tiên plan, tự làm bước cơ học và dừng khi hết ngân sách. Tinh thần này cũng là nền tảng của [lộ trình 14 ngày](/posting/lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github/).
-
-## Liên kết nội bộ
-
-- [Bắt đầu AI viết code miễn phí với GitHub](/posting/ai-viet-code-mien-phi-github-opencode/)
-- [Cài OpenCode trong Codespaces](/posting/cai-opencode-trong-github-codespaces/)
-- [Workflow 30 phút mỗi ngày](/posting/workflow-30-phut-moi-ngay-opencode/)
-- [OpenCode miễn phí kiếm tiền thế nào](/posting/opencode-mien-phi-kiem-tien-nhu-the-nao/)
-- [Hub Series](/series/)
-
-## Liên kết bên ngoài
-
-- [Các gói GitHub Copilot](https://github.com/features/copilot/plans)
-- [Tài liệu GitHub Copilot](https://docs.github.com/en/copilot)
-- [OpenCode](https://opencode.ai/)
-- [Tài liệu provider OpenCode](https://opencode.ai/docs/providers/)
-
-## Bản quyền và ghi nguồn
-
-SEOMONEY tổng hợp và diễn giải từ trang pricing/tài liệu chính thức GitHub và OpenCode, kiểm tra ngày 30/06/2026. Không sao chép nguyên văn dài, không hướng dẫn vượt quota. Ảnh OG là fallback nội bộ SEOMONEY.
-
-## FAQ - Câu hỏi thường gặp
-
-### GitHub Copilot Free hiện có hạn mức nào?
-
-GitHub công bố 2.000 completions và 50 chat requests mỗi tháng tại thời điểm bài viết; hãy kiểm tra trang chính thức trước khi dùng.
-
-### Quota có làm mới mỗi ngày không?
-
-Không nên hiểu như quota ngày. GitHub mô tả hạn mức tháng; việc chia đều chỉ là kế hoạch cá nhân.
-
-### Copilot Free có đủ để học OpenCode không?
-
-Đủ cho task nhỏ nếu plan trước, giới hạn phạm vi và tránh hỏi lặp.
-
-### Có cần tài khoản GitHub không?
-
-Có nếu bạn muốn dùng Copilot Free và repo/Codespaces trên GitHub.
-
-### OpenCode có thay được lập trình viên không?
-
-Không. Agent không thay khả năng review, test, thiết kế và trách nhiệm của người dùng.
-
-### Có nên tìm cách vượt quota không?
-
-Không. Hãy chờ chu kỳ, dùng lựa chọn miễn phí hợp lệ hoặc trả phí khi nhu cầu thực sự cần.

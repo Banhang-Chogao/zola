@@ -9,6 +9,42 @@ tags = ["google deepmind", "nano banana", "gemini omni flash", "ai image generat
 seo_keyword = "Nano Banana 2 Lite Gemini Omni Flash"
 thumbnail = "/img/og-fallbacks/og-fallback-7.svg"
 toc = true
+
+[[extra.faq]]
+q = "Nano Banana 2 Lite khác gì Nano Banana 2?"
+a = "Lite nhanh hơn (4 giây so với khoảng 6-10 giây), rẻ hơn đáng kể ($0.034/1K so với ~$0.05-0.15/1K của NB2), nhưng chỉ hỗ trợ độ phân giải 1K và không có Thinking mode. NB2 là lựa chọn đa năng, Lite là chuyên dụng cho tốc độ và chi phí thấp."
+
+[[extra.faq]]
+q = "Gemini Omni Flash có thể tạo video bao lâu?"
+a = "Hiện tại tối đa 10 giây cho mỗi lần tạo. Google đang phát triển bản hỗ trợ video dài hơn."
+
+[[extra.faq]]
+q = "Tôi có thể dùng Nano Banana 2 Lite ở đâu?"
+a = "Có sẵn trên Google AI Studio, Gemini API, và các sản phẩm tiêu dùng của Google như AI Mode trong Search, Gemini App, Google Photos, Google Flow."
+
+[[extra.faq]]
+q = "Omni Flash có giá bao nhiêu?"
+a = "$0.10 cho mỗi giây video. Ví dụ, một video 10 giây sẽ tốn $1. Đây là mức giá tương đương với Veo 3.1 Fast."
+
+[[extra.faq]]
+q = "Có thể dùng cả hai model cùng lúc không?"
+a = "Có. Đây chính là điểm mạnh của hệ sinh thái Google DeepMind. Bạn có thể dùng Nano Banana 2 Lite để tạo ảnh, sau đó dùng ảnh đó làm reference cho Omni Flash để tạo video — tất cả qua Interactions API với context được giữ xuyên suốt."
+[[extra.references_external]]
+title = "Google Blog — Start building with Nano Banana 2 Lite and Gemini Omni Flash"
+url = "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni-flash-nano-banana-2-lite/"
+
+[[extra.references_external]]
+title = "Google DeepMind — Gemini Omni Flash"
+url = "https://deepmind.google/models/gemini-omni/"
+
+[[extra.references_external]]
+title = "Google DeepMind — Nano Banana 2 Lite"
+url = "https://deepmind.google/models/gemini-image/flash-lite/"
+
+[[extra.references_external]]
+title = "Google AI Studio — Nano Banana"
+url = "https://aistudio.google.com/models/nano-banana"
+
 +++
 
 Tuần này Google DeepMind vừa có hai bản phát hành khiến mình khá hào hứng: **Nano Banana 2 Lite** — mô hình tạo ảnh nhanh nhất và rẻ nhất của họ từ trước tới nay, và **Gemini Omni Flash** — đưa khả năng tạo video hội thoại ra tay các nhà phát triển.
@@ -104,44 +140,3 @@ Như mọi mô hình của Google DeepMind, cả Nano Banana 2 Lite và Omni Fla
 **Thứ ba**, việc kết hợp ảnh + video trong cùng một ecosystem cho thấy tầm nhìn dài hạn: AI tạo sinh không chỉ là tạo ra nội dung, mà là **quản lý cả một quy trình sáng tạo** từ ý tưởng đến sản phẩm cuối.
 
 Nếu bạn muốn dùng thử, Google AI Studio là điểm khởi đầu nhanh nhất. Cả hai model đều có sẵn trong playground để bạn tự trải nghiệm.
-
-## Liên kết nội bộ
-
-- [Google DeepMind là gì? Câu chuyện về phòng thí nghiệm AI hàng đầu thế giới](/cong-nghe/google-deepmind-la-gi/)
-- [OpenCode là gì? AI Coding Agent miễn phí cho mọi lập trình viên](/cong-nghe/opencode-la-gi-ai-coding-agent/)
-- [Sentence Transformers SBERT: Mô hình AI xử lý ngôn ngữ tự nhiên](/cong-nghe/sentence-transformers-sbert-deep-dive/)
-- [Tên miền .AI và hòn đảo 16.000 dân hốt bạc nhờ AI](/cong-nghe/ten-mien-ai-hon-dao-anguilla-hot-bac/)
-
-## Liên kết bên ngoài
-
-- [Google Blog — Start building with Nano Banana 2 Lite and Gemini Omni Flash](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni-flash-nano-banana-2-lite/)
-- [Google DeepMind — Gemini Omni Flash](https://deepmind.google/models/gemini-omni/)
-- [Google DeepMind — Nano Banana 2 Lite](https://deepmind.google/models/gemini-image/flash-lite/)
-- [Google AI Studio — Nano Banana](https://aistudio.google.com/models/nano-banana)
-
-## Bản quyền và ghi nguồn
-
-Bài viết được Duy Nguyen biên tập và tổng hợp từ bài đăng chính thức của Google DeepMind ngày 30/06/2026, cùng tài liệu kỹ thuật từ Google AI for Developers. Thông tin giá cả và tính năng có thể thay đổi theo thời gian; vui lòng kiểm tra tài liệu chính thức của Google để cập nhật mới nhất. Ảnh đại diện là fallback OG của Duy Nguyen.
-
-## FAQ - Câu hỏi thường gặp
-
-**Nano Banana 2 Lite khác gì Nano Banana 2?**
-
-Lite nhanh hơn (4 giây so với khoảng 6-10 giây), rẻ hơn đáng kể ($0.034/1K so với ~$0.05-0.15/1K của NB2), nhưng chỉ hỗ trợ độ phân giải 1K và không có Thinking mode. NB2 là lựa chọn đa năng, Lite là chuyên dụng cho tốc độ và chi phí thấp.
-
-**Gemini Omni Flash có thể tạo video bao lâu?**
-
-Hiện tại tối đa 10 giây cho mỗi lần tạo. Google đang phát triển bản hỗ trợ video dài hơn.
-
-**Tôi có thể dùng Nano Banana 2 Lite ở đâu?**
-
-Có sẵn trên Google AI Studio, Gemini API, và các sản phẩm tiêu dùng của Google như AI Mode trong Search, Gemini App, Google Photos, Google Flow.
-
-**Omni Flash có giá bao nhiêu?**
-
-$0.10 cho mỗi giây video. Ví dụ, một video 10 giây sẽ tốn $1. Đây là mức giá tương đương với Veo 3.1 Fast.
-
-**Có thể dùng cả hai model cùng lúc không?**
-
-Có. Đây chính là điểm mạnh của hệ sinh thái Google DeepMind. Bạn có thể dùng Nano Banana 2 Lite để tạo ảnh, sau đó dùng ảnh đó làm reference cho Omni Flash để tạo video — tất cả qua Interactions API với context được giữ xuyên suốt.
-+++

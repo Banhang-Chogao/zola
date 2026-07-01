@@ -1,7 +1,7 @@
 """
 Build per-post reference index from markdown links (external + internal).
 
-Scans content/posting, content/baochi, content/pages → data/references.json
+Scans every article section plus content/pages → data/references.json
 for templates/macros/references.html at end of articles.
 
 Run before `zola build` (deploy.yml, qa.yml, build-related.yml).
@@ -19,12 +19,12 @@ ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "data" / "references.json"
 BASE_URL = "https://seomoney.org"
 
-CONTENT_DIRS = (
-    ROOT / "content" / "posting",
-    ROOT / "content" / "baochi",
-    ROOT / "content" / "du-lich",
-    ROOT / "content" / "pages",
+ARTICLE_SECTIONS = (
+    "posting", "baochi", "am-thuc", "hoc-tieng-han", "seo",
+    "world-cup-2026", "cong-nghe", "ngan-hang", "du-lich", "khoa-hoc",
+    "the-thao", "bao-hiem", "the-gioi", "doi-song", "dien-anh",
 )
+CONTENT_DIRS = tuple(ROOT / "content" / name for name in (*ARTICLE_SECTIONS, "pages"))
 
 # Markdown links — exclude image syntax leading !
 LINK_MD_RE = re.compile(r"(?<!!)\[([^\]]*)\]\(([^)]+)\)")

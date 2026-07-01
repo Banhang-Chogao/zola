@@ -14,6 +14,38 @@ tags = ["adsense", "responsive-design", "static-site-generator", "template-engin
 seo_keyword = "zola responsive layout context detection tera template"
 thumbnail = "/img/placeholder/placeholder.svg"
 author_note = "Từ lỗi build đến giải pháp kiến trúc bền vững — kinh nghiệm thực tế xây dựng template linh hoạt cho Zola"
+
+[[extra.faq]]
+q = "Context detection có ảnh hưởng hiệu suất build không?"
+a = "Không. Context detection chỉ là 'is defined' check tại compile time, không có runtime overhead."
+
+[[extra.faq]]
+q = "Có thể dùng context detection cho canonical URL hay og:image không?"
+a = "Có. Bất kỳ biến nào có thể khác nhau giữa context type đều có thể được bảo vệ bằng context detection."
+
+[[extra.faq]]
+q = "Khi nào nên tạo template riêng thay vì dùng context detection?"
+a = "Nếu layout hoàn toàn khác nhau (VD: gallery vs blog), tạo template riêng có ý nghĩa hơn. Nhưng nếu 80% logic chung, context detection là lựa chọn tốt hơn."
+
+[[extra.faq]]
+q = "Zola có cung cấp helper function cho context detection không?"
+a = "Không, bạn phải tự viết logic 'is defined' check. Đó là sự linh hoạt của Tera template language."
+[[extra.references_external]]
+title = "Zola Documentation - Templates"
+url = "https://www.getzola.org/documentation/templates/overview/"
+
+[[extra.references_external]]
+title = "Tera Template Language - Conditionals"
+url = "https://tera.netlify.app/docs/#conditionals"
+
+[[extra.references_external]]
+title = "Google AdSense - Layout Shift Guidelines"
+url = "https://support.google.com/adsense/answer/10734659"
+
+[[extra.references_external]]
+title = "Web Vitals - Cumulative Layout Shift"
+url = "https://web.dev/articles/cls"
+
 +++
 
 ## Zola responsive layout context detection Tera template
@@ -220,34 +252,3 @@ Template được kiểm chứng trên:
 Việc thiết kế template **thông minh** không chỉ giải quyết vấn đề hiện tại, mà còn tạo nền tảng vững chắc cho phát triển sau này. Context detection trong Tera không phức tạp nhưng rất hiệu quả để tạo template **tái sử dụng** và **bền vững**.
 
 Nếu bạn đang làm việc với Zola và gặp vấn đề tương tự, tôi khuyên bạn **hãy sử dụng context detection** thay vì tạo nhiều template hoặc dùng workaround tạm thời. Đó là cách hiểu sâu hơn về template engine và xây dựng cơ sở dự án bền vững hơn.
-
----
-
-## FAQ
-
-**Q: Context detection có ảnh hưởng hiệu suất build không?**
-A: Không. Context detection chỉ là `is defined` check tại compile time, không có runtime overhead.
-
-**Q: Có thể dùng context detection cho canonical URL hay og:image không?**
-A: Có. Bất kỳ biến nào có thể khác nhau giữa context type đều có thể được bảo vệ bằng context detection.
-
-**Q: Khi nào nên tạo template riêng thay vì dùng context detection?**
-A: Nếu layout hoàn toàn khác nhau (VD: gallery vs blog), tạo template riêng có ý nghĩa hơn. Nhưng nếu 80% logic chung, context detection là lựa chọn tốt hơn.
-
-**Q: Zola có cung cấp helper function cho context detection không?**
-A: Không, bạn phải tự viết logic `is defined` check. Đó là sự linh hoạt của Tera template language.
-
----
-
-## Tham khảo & Nguồn
-
-- [Zola Documentation - Templates](https://www.getzola.org/documentation/templates/overview/)
-- [Tera Template Language - Conditionals](https://tera.netlify.app/docs/#conditionals)
-- [Google AdSense - Layout Shift Guidelines](https://support.google.com/adsense/answer/10734659)
-- [Web Vitals - Cumulative Layout Shift](https://web.dev/articles/cls)
-
-Bạn có câu hỏi hay muốn thảo luận thêm về Zola template design? Hãy để lại comment bên dưới hoặc liên hệ qua email.
-
----
-
-*Bài viết này được viết dựa trên kinh nghiệm thực tế xây dựng blog layout với Zola. Hy vọng nó giúp bạn hiểu sâu hơn về template context và thiết kế template linh hoạt.*

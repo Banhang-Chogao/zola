@@ -9,6 +9,42 @@ tags = ["gemini-3-5", "google deepmind", "gemini flash", "agentic ai", "multimod
 seo_keyword = "Gemini 3.5 có gì mới"
 thumbnail = "/img/og-fallbacks/og-fallback-15.svg"
 toc = true
+
+[[extra.faq]]
+q = "Gemini 3.5 khác gì so với Gemini 3.1 Pro?"
+a = "Gemini 3.5 Flash tập trung vào agentic workflows — khả năng tự động hoá tác vụ, coding, điều khiển công cụ. Gemini 3.1 Pro mạnh về complex tasks và creative concepts. 3.5 Flash nhanh hơn, rẻ hơn, nhưng 3.1 Pro vẫn là lựa chọn tốt cho các tác vụ cần chất lượng suy luận sâu. Bản 3.5 Pro (sắp ra mắt) hứa hẹn kết hợp cả hai."
+
+[[extra.faq]]
+q = "Gemini 3.5 Flash có sẵn chưa?"
+a = "Có. Gemini 3.5 Flash đã có sẵn trên Gemini app, Google AI Studio, Gemini API và Gemini Enterprise Agent Platform."
+
+[[extra.faq]]
+q = "Gemini 3.5 Pro bao giờ ra mắt?"
+a = "Google DeepMind công bố '3.5 Pro coming soon' trên trang sản phẩm chính thức. Chưa có ngày cụ thể."
+
+[[extra.faq]]
+q = "Gemini 3.5 Flash có miễn phí không?"
+a = "Có sẵn qua Gemini app (miễn phí). Google AI Studio và Gemini API có free tier và tính phí theo usage."
+
+[[extra.faq]]
+q = "Gemini 3.5 có hỗ trợ tiếng Việt không?"
+a = "Có. Gemini hỗ trợ đa ngôn ngữ, bao gồm tiếng Việt, ở cả đầu vào và đầu ra. Các benchmark MMMU-Pro và CharXiv đã kiểm tra khả năng đa ngôn ngữ."
+[[extra.references_external]]
+title = "Google DeepMind — Gemini 3.5"
+url = "https://deepmind.google/models/gemini/gemini-3-5/"
+
+[[extra.references_external]]
+title = "Google AI for Developers — Gemini API"
+url = "https://ai.google.dev/gemini-api/docs"
+
+[[extra.references_external]]
+title = "Google AI Studio"
+url = "https://aistudio.google.com/"
+
+[[extra.references_external]]
+title = "Google DeepMind — Gemini 3.5 Evals Methodology"
+url = "https://deepmind.google/models/evals-methodology/gemini-3-5-flash"
+
 +++
 
 Google DeepMind vừa chính thức trình làng **Gemini 3.5** — dòng mô hình mới nhất đánh dấu bước chuyển từ "AI trả lời câu hỏi" sang "AI hành động". Đây không phải là một bản nâng cấp thông thường về benchmark. Cách họ định vị Gemini 3.5 nói lên nhiều điều: "Frontier intelligence with action."
@@ -102,44 +138,3 @@ Google cũng giới thiệu **Google Antigravity** — nền tảng phát triể
 Về điểm yếu, long context (đặc biệt ở 1M tokens) vẫn là khoảng cách lớn với GPT-5.5 và Claude Opus. Và trên các benchmark reasoning thuần tuý, 3.5 Flash vẫn chưa phải số một — nhưng đó là nhiệm vụ của bản Pro.
 
 Nếu bạn muốn dùng thử, Gemini 3.5 Flash đã có trên Google AI Studio. Hãy dùng thử với các tác vụ coding hoặc agentic để tự cảm nhận sự khác biệt.
-
-## Liên kết nội bộ
-
-- [Google DeepMind là gì? Câu chuyện về phòng thí nghiệm AI hàng đầu thế giới](/cong-nghe/google-deepmind-la-gi/)
-- [OpenCode là gì? AI Coding Agent miễn phí cho mọi lập trình viên](/cong-nghe/opencode-la-gi-ai-coding-agent/)
-- [Lộ trình 14 ngày tự học AI coding miễn phí với OpenCode](/cong-nghe/lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github/)
-- [Sentence Transformers SBERT: Mô hình AI xử lý ngôn ngữ tự nhiên](/cong-nghe/sentence-transformers-sbert-deep-dive/)
-
-## Liên kết bên ngoài
-
-- [Google DeepMind — Gemini 3.5](https://deepmind.google/models/gemini/gemini-3-5/)
-- [Google AI for Developers — Gemini API](https://ai.google.dev/gemini-api/docs)
-- [Google AI Studio](https://aistudio.google.com/)
-- [Google DeepMind — Gemini 3.5 Evals Methodology](https://deepmind.google/models/evals-methodology/gemini-3-5-flash)
-
-## Bản quyền và ghi nguồn
-
-Bài viết được Duy Nguyen biên tập và tổng hợp từ trang sản phẩm chính thức của Google DeepMind và các nguồn benchmark công khai. Số liệu benchmark có thể thay đổi theo phương pháp đánh giá. Thông tin về Gemini 3.5 Pro dựa trên công bố "coming soon" của Google DeepMind. Ảnh đại diện là fallback OG của Duy Nguyen.
-
-## FAQ - Câu hỏi thường gặp
-
-**Gemini 3.5 khác gì so với Gemini 3.1 Pro?**
-
-Gemini 3.5 Flash tập trung vào agentic workflows — khả năng tự động hoá tác vụ, coding, điều khiển công cụ. Gemini 3.1 Pro mạnh về complex tasks và creative concepts. 3.5 Flash nhanh hơn, rẻ hơn, nhưng 3.1 Pro vẫn là lựa chọn tốt cho các tác vụ cần chất lượng suy luận sâu. Bản 3.5 Pro (sắp ra mắt) hứa hẹn kết hợp cả hai.
-
-**Gemini 3.5 Flash có sẵn chưa?**
-
-Có. Gemini 3.5 Flash đã có sẵn trên Gemini app, Google AI Studio, Gemini API và Gemini Enterprise Agent Platform.
-
-**Gemini 3.5 Pro bao giờ ra mắt?**
-
-Google DeepMind công bố "3.5 Pro coming soon" trên trang sản phẩm chính thức. Chưa có ngày cụ thể.
-
-**Gemini 3.5 Flash có miễn phí không?**
-
-Có sẵn qua Gemini app (miễn phí). Google AI Studio và Gemini API có free tier và tính phí theo usage.
-
-**Gemini 3.5 có hỗ trợ tiếng Việt không?**
-
-Có. Gemini hỗ trợ đa ngôn ngữ, bao gồm tiếng Việt, ở cả đầu vào và đầu ra. Các benchmark MMMU-Pro và CharXiv đã kiểm tra khả năng đa ngôn ngữ.
-+++

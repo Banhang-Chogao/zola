@@ -5,6 +5,7 @@
 {% import "macros/premium.html" as premium %}
 {% import "macros/pagination.html" as pager %}
 {% import "macros/series-nav.html" as series_nav %}
+{% import "macros/references.html" as references %}
 
 {# CONTEXT DETECTION (page vs section) lives INSIDE the blocks below.
    In an extending template, top-level statements outside {% block %} are not
@@ -242,6 +243,7 @@
                 {% if page.extra.premium %}{{ premium::badge() }}{% endif %}
                 <h1>{{ page.title }}</h1>
                 {{ page.content | safe }}
+                {{ references::section(page=page) }}
             </article>
             {% endif %}
 

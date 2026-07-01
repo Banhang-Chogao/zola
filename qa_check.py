@@ -440,15 +440,20 @@ def parse_frontmatter(content):
 
 
 # Duplicate footer heading patterns — these are rendered automatically by the
-# references::section macro and the FAQ block in page.html. Hardcoding them in
+# canonical references::section macro. Hardcoding them in
 # markdown body creates duplicate blocks at the end of articles.
 DUPLICATE_FOOTER_HEADINGS = [
     re.compile(r"^## Liên kết bên ngoài được sử dụng trong bài viết\s*$", re.MULTILINE),
     re.compile(r"^## Liên kết nội bộ liên quan\s*$", re.MULTILINE),
+    re.compile(r"^## Liên kết nội bộ\s*$", re.MULTILINE),
+    re.compile(r"^## Liên kết bên ngoài\s*$", re.MULTILINE),
     re.compile(r"^## Tuyên bố bản quyền\s*$", re.MULTILINE),
     re.compile(r"^## Bản quyền & Ghi nguồn\s*$", re.MULTILINE),
+    re.compile(r"^## Bản quyền và ghi nguồn\s*$", re.MULTILINE),
+    re.compile(r"^## Bản quyền & nguồn tham khảo\s*$", re.MULTILINE),
     re.compile(r"^## FAQ - Câu hỏi thường gặp\s*$", re.MULTILINE),
     re.compile(r"^## FAQ: Câu hỏi thường gặp\s*$", re.MULTILINE),
+    re.compile(r"^## Tham khảo & Nguồn\s*$", re.MULTILINE),
     re.compile(r"^### Tham khảo & Nguồn dữ liệu\s*$", re.MULTILINE),
     re.compile(r"^### Liên kết nội bộ liên quan\s*$", re.MULTILINE),
     re.compile(r"^### Bản quyền & Ghi nguồn\s*$", re.MULTILINE),
@@ -460,7 +465,7 @@ _THAM_KHAO_LAST_H2_RE = re.compile(r"^## Tham khảo\s*$", re.MULTILINE)
 
 def check_duplicate_footer(path, content):
     """Check .md files in content/ for hardcoded duplicate footer headings
-    that conflict with the references::section macro and FAQ block.
+    that conflict with the canonical references::section macro.
     Return list[Issue] (warning — not a build blocker)."""
     if path.suffix != ".md":
         return []
@@ -479,7 +484,7 @@ def check_duplicate_footer(path, content):
             heading = m.group().strip()
             issues.append(Issue("warning", path, line,
                 f"Footer: hardcoded '{heading}' trong body — "
-                f"references::section macro và FAQ block đã render tự động. "
+                f"references::section macro đã render tự động. "
                 f"Nên xoá khỏi markdown body."))
 
     # Check "## Tham khảo" — only if it's the last H2 in the file

@@ -1,11 +1,10 @@
-{# Auto-generated references block (scripts/build_references.py → data/references.json).
+{# Canonical end-of-article footer (scripts/build_references.py → data/references.json).
    Usage: {{ references::section(page=page) }}
-   Frontmatter overrides: extra.references_skip, references_copyright,
-   references_skip_copyright, references_external[], references_internal[] #}
+   Frontmatter data: references_copyright, references_external[],
+   references_internal[], faq[]. All four sections always render. #}
 
 {% macro section(page) %}
-{% set editorial_footer_source = page.extra.editorial_footer_source | default(value="") %}
-{% if page and not page.extra.references_skip and editorial_footer_source != "markdown" %}
+{% if page %}
     {% set ref_data = load_data(path="data/references.json", required=false) %}
     {% set_global refs = false %}
     {% if ref_data %}
@@ -33,12 +32,12 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-    {% if refs and (refs.external or refs.internal or refs.copyright) %}
     <section class="post-references" aria-labelledby="post-references-heading">
 
-        {% if refs.external and refs.external | length > 0 %}
+        {#==== 1. External links — luôn render, fallback khi không có dữ liệu ====#}
         <div class="post-references__block">
             <h2 class="post-references__subtitle" id="post-references-heading">Liên kết bên ngoài được sử dụng trong bài viết</h2>
+            {% if refs and refs.external and refs.external | length > 0 %}
             <ul class="post-references__list post-references__list--external">
                 {% for item in refs.external %}
                 <li>
@@ -48,12 +47,15 @@
                 </li>
                 {% endfor %}
             </ul>
+            {% else %}
+            <p class="post-references__fallback">Bài viết hiện chưa có nguồn ngoài được khai báo riêng.</p>
+            {% endif %}
         </div>
-        {% endif %}
 
-        {% if refs.internal and refs.internal | length > 0 %}
+        {#==== 2. Internal links — luôn render, fallback khi không có dữ liệu ====#}
         <div class="post-references__block">
             <h2 class="post-references__subtitle">Liên kết nội bộ liên quan</h2>
+            {% if refs and refs.internal and refs.internal | length > 0 %}
             <ul class="post-references__list post-references__list--internal">
                 {% for item in refs.internal %}
                 <li>
@@ -61,18 +63,43 @@
                 </li>
                 {% endfor %}
             </ul>
+            {% else %}
+            <ul class="post-references__list post-references__list--internal">
+                {% if page.lower %}<li><a href="{{ page.lower.permalink }}">{{ page.lower.title }}</a></li>{% endif %}
+                {% if page.higher %}<li><a href="{{ page.higher.permalink }}">{{ page.higher.title }}</a></li>{% endif %}
+            </ul>
+            {% if not page.lower and not page.higher %}
+            <p class="post-references__fallback">Chưa có bài liên quan phù hợp để hiển thị.</p>
+            {% endif %}
+            {% endif %}
         </div>
-        {% endif %}
 
-        {% if refs.copyright %}
+        {#==== 3. Copyright / Ghi nguồn — luôn render với text mặc định ====#}
         <div class="post-references__block post-references__block--copyright">
             <h2 class="post-references__subtitle">Bản quyền &amp; Ghi nguồn</h2>
             <blockquote class="post-references__copyright">
+                {% if refs and refs.copyright %}
                 <p>{{ refs.copyright }}</p>
+                {% else %}
+                <p>Bài viết được biên tập và tổng hợp bởi Duy Nguyen/SEOMONEY. Nội dung chỉ mang tính tham khảo, không thay thế nguồn chính thức hoặc tư vấn chuyên môn.</p>
+                {% endif %}
             </blockquote>
         </div>
-        {% endif %}
+
+        {#==== 4. FAQ — dữ liệu thật hoặc fallback trung lập, không tự bịa Q&A ====#}
+        <div class="post-references__block faq" aria-labelledby="post-faq-heading">
+            <h2 class="post-references__subtitle faq__title" id="post-faq-heading">FAQ - Câu hỏi thường gặp</h2>
+            {% if page.extra.faq %}
+                {% for item in page.extra.faq %}
+                <details class="faq__item"{% if loop.first %} open{% endif %}>
+                    <summary class="faq__q">{{ item.q }}</summary>
+                    <div class="faq__a">{{ item.a }}</div>
+                </details>
+                {% endfor %}
+            {% else %}
+            <p class="post-references__fallback">FAQ đang được cập nhật cho bài viết này.</p>
+            {% endif %}
+        </div>
     </section>
-    {% endif %}
 {% endif %}
 {% endmacro %}
