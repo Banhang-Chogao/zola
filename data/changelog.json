@@ -1,6 +1,27 @@
 {
   "items": [
     {
+      "id": "pr-1311",
+      "pr_number": 1311,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1311",
+      "title": "feat(content): THPT 2026 exam score series (5 posts)",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T16:26:22Z",
+      "merge_commit_sha": "604a3b52923f",
+      "stats": {
+        "additions": 706,
+        "deletions": 14
+      },
+      "highlights": [
+        "categories.json: thêm category \"Giáo dục\"",
+        "data/tra-cuu-diem-thi-thpt-2026-series.json: series manifest mới (5 parts)",
+        "content/giao-duc/: section _index.md + 5 bài viết",
+        "5 templates: series-listing, series-nav, page, base, series — thêm elif blocks cho series mới"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1314",
       "pr_number": 1314,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1314",
