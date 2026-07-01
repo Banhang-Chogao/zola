@@ -1,37 +1,41 @@
 {
-  "generated_at": "2026-07-01T10:57:12.477671+00:00",
-  "generated_at_display": "17:57 01/07/2026",
+  "generated_at": "2026-07-01T13:51:07.361098+00:00",
+  "generated_at_display": "20:51 01/07/2026",
   "source": "build_prod_snapshot.py",
   "shortcut": "??",
   "main": {
-    "sha": "b2b35f3b0cbfd8246f72e135fc796d3ab293ace8",
-    "sha_short": "b2b35f3",
-    "title": "main @ b2b35f3",
-    "url": "https://github.com/Banhang-Chogao/zola/commit/b2b35f3b0cbfd8246f72e135fc796d3ab293ace8"
+    "sha": "903c75c951c08be95c28447d631df939a22196a3",
+    "sha_short": "903c75c",
+    "title": "main @ 903c75c",
+    "url": "https://github.com/Banhang-Chogao/zola/commit/903c75c951c08be95c28447d631df939a22196a3"
   },
   "deploy": {
-    "sha": "b2b35f3b0cbfd8246f72e135fc796d3ab293ace8",
-    "sha_short": "b2b35f3",
-    "status": "green",
-    "deployed_at": "2026-07-01T10:04:34Z",
-    "deployed_at_display": "17:04 01/07/2026",
-    "run_number": 1586,
-    "status_line": "✅ last success #1586",
-    "deploying": false
+    "sha": "abe4fda8f3decc1276f6a3d668e5fa4cfa90a90d",
+    "sha_short": "abe4fda",
+    "status": "yellow",
+    "deployed_at": "2026-07-01T13:50:58Z",
+    "deployed_at_display": "20:50 01/07/2026",
+    "run_number": 1597,
+    "status_line": "🔄 #1598 đang chạy · ✅ last success #1597",
+    "deploying": true
   },
   "backend": {
-    "ok": false,
-    "error": "TimeoutError"
+    "ok": true,
+    "sha": "99b758bae7b79f216d762f837ac2669c4df0955a",
+    "sha_short": "99b758b",
+    "comments_mounted": true,
+    "oauth_configured": true,
+    "url": "https://blog-vipzone-api.onrender.com"
   },
   "drift": {
-    "status": "green",
-    "status_vi": "Đồng bộ",
-    "hint": "Main, deploy và backend khớp (hoặc chỉ lệch bot data không ảnh hưởng UI).",
-    "main_ahead_of_deploy": false,
-    "backend_behind_main": false,
-    "status_line": "main b2b35f3 · deploy b2b35f3"
+    "status": "yellow",
+    "status_vi": "Đang deploy",
+    "hint": "Có commit đang chờ hoặc deploy đang chạy — đợi workflow xanh.",
+    "main_ahead_of_deploy": true,
+    "backend_behind_main": true,
+    "status_line": "main 903c75c · deploy abe4fda · backend 99b758b"
   },
-  "open_prs_count": 0,
+  "open_prs_count": 1,
   "deploy_monitor_stale": false,
   "deploy_monitor_ok": true
 }
