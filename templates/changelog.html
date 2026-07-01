@@ -46,6 +46,13 @@
                     </div>
                 </li>
             </template>
+
+            <nav class="staging-queue__pagination" data-staging-pagination aria-label="Phân trang deploy queue">
+                <button type="button" data-staging-prev disabled>← Trang trước</button>
+                <span data-staging-page-numbers></span>
+                <button type="button" data-staging-next disabled>Trang sau →</button>
+                <span data-staging-page-status aria-live="polite"></span>
+            </nav>
         </aside>
 
         <section class="changelog__history" aria-labelledby="changelog-history-title">
@@ -57,7 +64,7 @@
             {% if items | length == 0 %}
                 <p class="changelog__empty">Chưa có cập nhật nào trong lịch sử.</p>
             {% else %}
-                <ol class="changelog__list" data-changelog-list data-page-size="15">
+                <ol class="changelog__list" data-changelog-list data-page-size="10">
                     {% for item in items %}
                     <li class="changelog__item changelog__item--success" data-changelog-item>
                         <div class="changelog__badge" aria-label="Meta Verified" title="Meta Verified">
@@ -128,10 +135,10 @@
                     {% endfor %}
                 </ol>
 
-                <nav class="changelog__pagination" data-changelog-pagination hidden aria-label="Phân trang changelog">
-                    <button type="button" data-page-prev disabled>Trang trước</button>
+                <nav class="changelog__pagination" data-changelog-pagination aria-label="Phân trang changelog">
+                    <button type="button" data-page-prev disabled>← Trang trước</button>
                     <span data-page-numbers></span>
-                    <button type="button" data-page-next disabled>Trang sau</button>
+                    <button type="button" data-page-next disabled>Trang sau →</button>
                     <span data-page-status aria-live="polite"></span>
                 </nav>
             {% endif %}
