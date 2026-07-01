@@ -1,5 +1,5 @@
 // Content Placement System — UI-only dashboard.
-// All selectors are scoped to .cps-page to avoid affecting public article layouts.
+// Scoped to .cps-page so the page stays inside the blog container.
 .cps-page {
   --cps-bg: #f7f8fa;
   --cps-card: #fff;
@@ -11,10 +11,13 @@
   color: var(--cps-text);
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 14px;
-  margin: -1.75rem calc(50% - 50vw) -3rem;
-  padding: 48px max(32px, calc((100vw - 1500px) / 2 + 24px)) 32px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 32px 0 24px;
   background: var(--cps-bg);
-  min-height: 100vh;
+  min-height: 100%;
+  overflow-x: clip;
 
   *, *::before, *::after { box-sizing: border-box; }
   button, input { font: inherit; }
@@ -270,7 +273,7 @@
   .cps-guides .cps-guide:last-child { grid-column: 1 / -1; }
 }
 @media (max-width: 720px) {
-  .cps-page { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); padding: 32px 16px 24px; }
+  .cps-page { padding: 24px 0 20px; }
   .cps-header h1 { font-size: 28px; }
   .cps-header__title-row { align-items: flex-start; }
   .cps-card { padding: 18px; }

@@ -86,6 +86,7 @@ Format bắt buộc:
 | Shortcut | Mục đích |
 |---|---|
 | `gg` | Merge open PRs to production |
+| `kt9` | PR/deploy health check + auto-fix failed runs/conflicts |
 | `ad` | Full blog audit (perf+sec+seo+a11y) |
 | `ff` | Full Fix & Deploy comprehensive |
 | `cautruc9` | Show ASCII folder tree của blog |
@@ -637,6 +638,44 @@ mà tính năng chưa thấy trên blog real". Claude PHẢI:
    - Nếu D nhưng user vẫn không thấy → hard reload + clear CDN cache
 
 KHÔNG hỏi user, exec ngay.
+
+### `kt9` — PR / deploy health check + auto-fix failed runs/conflicts
+
+Mục đích: kiểm tra toàn bộ tình trạng PR, tình trạng deploy, và các failed run
+liên quan deploy. Nếu gặp conflict hoặc failure có thể fix an toàn thì Claude
+phải tự xử lý ngay, sau đó đẩy lại branch/PR tương ứng.
+
+Hành động:
+
+1. **Scan PR hiện có**
+   - List toàn bộ open PRs.
+   - Với từng PR, kiểm tra `mergeable`, review state, required checks,
+     conflict markers, và trạng thái CI mới nhất.
+   - Ghi rõ PR nào đang chờ review, PR nào bị conflict, PR nào fail check.
+
+2. **Scan deploy**
+   - Lấy các workflow run mới nhất của `deploy.yml` và đối chiếu với merge
+     commit tương ứng.
+   - Phân loại từng commit/PR thành `queued`, `in_progress`, `success`,
+     `failure`, hoặc `cancelled`.
+   - Nếu có nhiều run cho cùng SHA, chọn run mới nhất làm trạng thái chuẩn.
+
+3. **Tự fix nếu safe**
+   - Conflict file / merge conflict markers → ưu tiên giải quyết bằng chiến
+     lược safe merge, giữ logic đúng nhất theo branch main và branch feature.
+   - Failed deploy do pattern đã biết → áp dụng fixer phù hợp, tái kiểm tra
+     bằng QA/check hiện có.
+   - Nếu fix tạo thay đổi mới → commit, push lên đúng branch, và cập nhật PR.
+
+4. **Escalate nếu không an toàn**
+   - Nếu failure mang tính logic, data loss, hoặc không xác định được root cause
+     một cách chắc chắn → dừng auto-fix, nêu rõ file/run/PR gây lỗi.
+
+5. **Báo cáo cuối**
+   - Output bảng: PR | Conflict | CI | Deploy | Action.
+   - Nếu có PR đã được fix an toàn → nêu branch/commit đã push.
+   - Không auto-merge; chỉ fix và refresh PR, merge theo luồng `manual #X`,
+     `prm`, hoặc `gg` khi user yêu cầu.
 
 ### `score` — Trigger workflow Build Semantic Related Posts
 
