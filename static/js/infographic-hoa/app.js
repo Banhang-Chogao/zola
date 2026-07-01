@@ -1,287 +1,94 @@
+/* ============================================================================
+   app.js — INFographic hoá S-DNA infographic generator
+   Full editor with template selector, preview, export.
+   Depends on: sdna-tokens.js, sdna-layout.js, sdna-templates.js, sdna-export.js
+   ============================================================================ */
+
 (function (global) {
   "use strict";
 
-  var BRAND = "SEOMONEY";
-  var BRAND_TAG = "S-DNA \u25C7";
+  var T = SDNA.Tokens;
+  var TMPL = SDNA.Templates;
+  var EXP = SDNA.Export;
 
-  function el(id) { return document.getElementById(id); }
-  function qs(s, p) { return (p || document).querySelector(s); }
-  function qsa(s, p) { return (p || document).querySelectorAll(s); }
+  /* ---- DOM helpers ---- */
+  var $ = function (id) { return document.getElementById(id); };
+  var qs = function (s, p) { return (p || document).querySelector(s); };
+  var qsa = function (s, p) { return (p || document).querySelectorAll(s); };
 
-  function escHtml(s) {
-    if (!s) return "";
-    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-  }
-  function escAttr(s) { return escHtml(s).replace(/"/g, "&quot;"); }
+  /* ---- State ---- */
+  var state = {
+    currentSVG: null,
+    currentTemplate: "cover",
+    currentSize: "cover",
+    currentPalette: T.PALETTES[0],
+    seed: Date.now(),
+    isGenerating: false
+  };
 
-  function shorten(s, max) {
-    if (!s) return "";
-    return s.length > max ? s.slice(0, max) + "\u2026" : s;
-  }
-
-  function extractBullets(text) {
-    if (!text) return [];
-    var lines = text.split("\n").map(function (l) { return l.replace(/^[-*]\s*/, "").replace(/^#+\s*/, "").trim(); }).filter(Boolean);
-    if (lines.length < 3) {
-      lines = text.match(/[^.!?]+[.!?]+/g) || [text];
-      lines = lines.map(function (l) { return l.trim(); }).filter(Boolean);
+  /* ---- Render preview from SVG string ---- */
+  function renderPreview(svg) {
+    var container = $("ih-preview");
+    if (!container) return;
+    container.innerHTML = "";
+    if (!svg) {
+      container.innerHTML = '<div class="ih-preview__empty"><span class="ih-preview__empty-icon">\u25C7</span><p>Nh\u1EADp n\u1ED9i dung v\u00E0 nh\u1EA5n <strong>T\u1EA1o</strong> \u0111\u1EC3 xem tr\u01B0\u1EDBc</p></div>';
+      return;
     }
-    return lines.slice(0, 6);
+    var img = document.createElement("img");
+    img.src = EXP.svgToDataURL(svg);
+    img.alt = "Infographic preview";
+    img.className = "ih-preview__img";
+    container.appendChild(img);
+    state.currentSVG = svg;
   }
 
-  function wrapSvgText(svg, text, x, y, maxWidth, lineHeight, maxLines, color, fontSize, fontWeight) {
-    var words = text.split("");
-    var lines = [];
-    var current = "";
-    for (var i = 0; i < words.length; i++) {
-      var test = current + words[i];
-      svg += '      <text x="' + x + '" y="' + y + '" font-family="system-ui,sans-serif" font-size="' + fontSize + '" font-weight="' + (fontWeight || 400) + '" fill="' + color + '">' + escHtml(current) + '</text>\n';
-      current = words[i];
-      y += lineHeight;
-    }
-    return { svg: svg, linesCount: 1, y: y };
-  }
-
-  function wordWrap(text, maxChars) {
-    var words = text.split(" ");
-    var lines = [];
-    var current = "";
-    for (var i = 0; i < words.length; i++) {
-      if ((current + " " + words[i]).trim().length <= maxChars) {
-        current = (current + " " + words[i]).trim();
-      } else {
-        if (current) lines.push(current);
-        current = words[i];
-      }
-    }
-    if (current) lines.push(current);
-    return lines;
-  }
-
-  function generateCoverSVG(title, description) {
-    var w = 800, h = 500;
-    var bg = "#0f172a";
-    var accent = "#38bdf8";
-    var textColor = "#ffffff";
-
-    var titleLines = wordWrap(title || "Infographic", 35);
-    var desc = description ? shorten(description, 120) : "";
-
-    var y = 180;
-    var titleSvg = "";
-    titleLines.slice(0, 3).forEach(function (line) {
-      titleSvg += '    <text x="400" y="' + y + '" text-anchor="middle" font-family="system-ui,sans-serif" font-size="36" font-weight="700" fill="' + textColor + '">' + escHtml(line) + '</text>\n';
-      y += 46;
-    });
-
-    return '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">\n' +
-      '  <defs>\n' +
-      '    <linearGradient id="cover-bg" x1="0%" y1="0%" x2="100%" y2="100%">\n' +
-      '      <stop offset="0%" stop-color="#0f172a"/>\n' +
-      '      <stop offset="100%" stop-color="#1e293b"/>\n' +
-      '    </linearGradient>\n' +
-      '  </defs>\n' +
-      '  <rect width="' + w + '" height="' + h + '" fill="url(#cover-bg)"/>\n' +
-      '  <circle cx="680" cy="80" r="180" fill="' + accent + '" opacity="0.08"/>\n' +
-      '  <circle cx="120" cy="420" r="140" fill="' + accent + '" opacity="0.06"/>\n' +
-      '  <line x1="50" y1="100" x2="200" y2="100" stroke="' + accent + '" stroke-width="3" opacity="0.5"/>\n' +
-      '  <text x="400" y="140" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" font-weight="600" fill="' + accent + '" letter-spacing="4">INFOGRAPHIC</text>\n' +
-      titleSvg +
-      (desc ? '    <text x="400" y="' + (y + 30) + '" text-anchor="middle" font-family="system-ui,sans-serif" font-size="15" fill="#94a3b8">' + escHtml(desc) + '</text>\n' : '') +
-      '  <text x="400" y="460" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#475569">' + BRAND + ' \u25C7 ' + BRAND_TAG + '</text>\n' +
-      '</svg>';
-  }
-
-  function generateQuoteSVG(title, content) {
-    var w = 600, h = 500;
-    var quote = shorten(content || title || "", 200);
-    var source = title || "Infographic";
-
-    return '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">\n' +
-      '  <rect width="' + w + '" height="' + h + '" fill="#ffffff"/>\n' +
-      '  <rect x="0" y="0" width="8" height="' + h + '" fill="#38bdf8"/>\n' +
-      '  <text x="60" y="100" font-family="Georgia,serif" font-size="72" fill="#38bdf8" opacity="0.3">\u201C</text>\n' +
-      '  <text x="60" y="180" font-family="system-ui,sans-serif" font-size="22" font-weight="600" fill="#0f172a" width="480">' + escHtml(shorten(quote, 150)) + '</text>\n' +
-      '  <text x="60" y="420" font-family="system-ui,sans-serif" font-size="14" fill="#64748b">\u2014 ' + escHtml(shorten(source, 60)) + '</text>\n' +
-      '  <text x="60" y="460" font-family="system-ui,sans-serif" font-size="10" fill="#cbd5e1">' + BRAND + ' \u25C7 ' + BRAND_TAG + '</text>\n' +
-      '</svg>';
-  }
-
-  function generateInsightSVG(title, content) {
-    var w = 800, h = 500;
-    var bullets = extractBullets(content || "");
-    if (bullets.length === 0) bullets = ["N\u1ED9i dung ch\u01B0a \u0111\u01B0\u1EE3c nh\u1EADp"];
-
-    var bulletSvg = "";
-    var by = 155;
-    bullets.slice(0, 5).forEach(function (b) {
-      var lines = wordWrap(b, 55);
-      lines.slice(0, 2).forEach(function (line) {
-        bulletSvg += '    <text x="80" y="' + by + '" font-family="system-ui,sans-serif" font-size="13" fill="#334155">\u2022 ' + escHtml(line) + '</text>\n';
-        by += 22;
-      });
-    });
-
-    return '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">\n' +
-      '  <rect width="' + w + '" height="' + h + '" fill="#f8fafc"/>\n' +
-      '  <rect x="0" y="0" width="' + w + '" height="4" fill="url(#insight-accent)"/>\n' +
-      '  <defs>\n' +
-      '    <linearGradient id="insight-accent" x1="0%" y1="0%" x2="100%" y2="0%">\n' +
-      '      <stop offset="0%" stop-color="#38bdf8"/>\n' +
-      '      <stop offset="100%" stop-color="#1d4ed8"/>\n' +
-      '    </linearGradient>\n' +
-      '  </defs>\n' +
-      '  <text x="40" y="55" font-family="system-ui,sans-serif" font-size="11" font-weight="600" fill="#38bdf8" letter-spacing="3">PH\u00C2N T\u00CDCH</text>\n' +
-      '  <text x="40" y="85" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#0f172a">' + escHtml(shorten(title || "Infographic", 60)) + '</text>\n' +
-      '  <line x1="40" y1="105" x2="180" y2="105" stroke="#e2e8f0" stroke-width="2"/>\n' +
-      bulletSvg +
-      '  <text x="40" y="470" font-family="system-ui,sans-serif" font-size="10" fill="#94a3b8">' + BRAND + ' \u25C7 ' + BRAND_TAG + '</text>\n' +
-      '</svg>';
-  }
-
-  function generateSummarySVG(title, content) {
-    var w = 800, h = 500;
-    var bullets = extractBullets(content || "");
-    if (bullets.length === 0) bullets = ["Ch\u01B0a c\u00F3 n\u1ED9i dung"];
-
-    var bulletSvg = "";
-    var by = 155;
-    bullets.slice(0, 5).forEach(function (b) {
-      var lines = wordWrap(b, 50);
-      lines.slice(0, 2).forEach(function (line) {
-        var num = bullets.indexOf(b) + 1;
-        bulletSvg += '    <circle cx="55" cy="' + (by - 5) + '" r="10" fill="#38bdf8" opacity="0.15"/>\n';
-        bulletSvg += '    <text x="55" y="' + (by + 2) + '" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#0284c7">' + num + '</text>\n';
-        bulletSvg += '    <text x="80" y="' + by + '" font-family="system-ui,sans-serif" font-size="13" fill="#334155">' + escHtml(line) + '</text>\n';
-        by += 26;
-      });
-    });
-
-    return '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">\n' +
-      '  <rect width="' + w + '" height="' + h + '" fill="#ffffff"/>\n' +
-      '  <rect x="0" y="0" width="' + w + '" height="120" fill="#0f172a"/>\n' +
-      '  <text x="40" y="45" font-family="system-ui,sans-serif" font-size="11" font-weight="600" fill="#38bdf8" letter-spacing="3">T\u1ED4NG K\u1EBET</text>\n' +
-      '  <text x="40" y="80" font-family="system-ui,sans-serif" font-size="22" font-weight="700" fill="#ffffff">' + escHtml(shorten(title || "Infographic", 50)) + '</text>\n' +
-      bulletSvg +
-      '  <text x="40" y="475" font-family="system-ui,sans-serif" font-size="10" fill="#94a3b8">' + BRAND + ' \u25C7 ' + BRAND_TAG + '</text>\n' +
-      '</svg>';
-  }
-
-  function generateBannerSVG(title) {
-    var w = 800, h = 200;
-    return '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">\n' +
-      '  <rect width="' + w + '" height="' + h + '" fill="url(#banner-bg)"/>\n' +
-      '  <defs>\n' +
-      '    <linearGradient id="banner-bg" x1="0%" y1="0%" x2="100%" y2="0%">\n' +
-      '      <stop offset="0%" stop-color="#1e293b"/>\n' +
-      '      <stop offset="100%" stop-color="#0f172a"/>\n' +
-      '    </linearGradient>\n' +
-      '  </defs>\n' +
-      '  <circle cx="700" cy="100" r="120" fill="#38bdf8" opacity="0.06"/>\n' +
-      '  <text x="50" y="65" font-family="system-ui,sans-serif" font-size="13" font-weight="600" fill="#38bdf8" letter-spacing="3">INFOGRAPHIC</text>\n' +
-      '  <text x="50" y="110" font-family="system-ui,sans-serif" font-size="26" font-weight="700" fill="#ffffff">' + escHtml(shorten(title || "Infographic", 70)) + '</text>\n' +
-      '  <text x="50" y="175" font-family="system-ui,sans-serif" font-size="10" fill="#475569">' + BRAND + ' \u25C7 ' + BRAND_TAG + '</text>\n' +
-      '</svg>';
-  }
-
-  function svgToBlobURL(svg) {
-    var blob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
-    return URL.createObjectURL(blob);
-  }
-
-  function svgToDataURL(svg) {
-    return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-  }
-
-  function downloadURL(url, filename) {
-    var a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
-
-  function downloadPNG(svg, filename) {
-    var img = new Image();
-    var canvas = document.createElement("canvas");
-    var ctx = canvas.getContext("2d");
-    var svgBlob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
-    var url = URL.createObjectURL(svgBlob);
-
-    img.onload = function () {
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      ctx.drawImage(img, 0, 0);
-      canvas.toBlob(function (blob) {
-        if (blob) {
-          var blobUrl = URL.createObjectURL(blob);
-          downloadURL(blobUrl, filename.replace(/\.svg$/i, ".png"));
-          URL.revokeObjectURL(blobUrl);
-        }
-      }, "image/png");
-      URL.revokeObjectURL(url);
-    };
-    img.src = url;
-  }
-
-  var generators = [
-    { type: "cover",     label: "Cover",       fn: generateCoverSVG },
-    { type: "quote",     label: "Tr\u00EDch d\u1EABn", fn: generateQuoteSVG },
-    { type: "insight",   label: "Ph\u00E2n t\u00EDch", fn: generateInsightSVG },
-    { type: "summary",   label: "T\u1ED5ng k\u1EBFt",   fn: generateSummarySVG },
-    { type: "banner",    label: "Banner",      fn: generateBannerSVG },
-  ];
-
-  var generatedImages = [];
-
-  function renderGallery(title, description, content) {
-    var panel = el("ih-result-panel");
-    panel.hidden = false;
-
-    var gallery = el("ih-gallery");
+  /* ---- Gallery rendering ---- */
+  function renderGallery(results) {
+    var gallery = $("ih-gallery");
+    if (!gallery) return;
     gallery.innerHTML = "";
 
-    var group = document.createElement("div");
-    group.className = "ih-gallery__grid";
+    var grid = document.createElement("div");
+    grid.className = "ih-gallery__grid";
 
-    generators.forEach(function (gen) {
-      var svg = gen.fn(title, description || content);
-      var svgUrl = svgToDataURL(svg);
-
+    results.forEach(function (r) {
       var card = document.createElement("div");
       card.className = "ih-gallery__card";
 
       var preview = document.createElement("div");
       preview.className = "ih-gallery__preview";
       var img = document.createElement("img");
-      img.src = svgUrl;
-      img.alt = gen.label + " infographic";
+      img.src = EXP.svgToDataURL(r.svg);
+      img.alt = r.label + " infographic";
       img.loading = "lazy";
-      img.decoding = "async";
-      img.width = 400;
-      img.height = 250;
       preview.appendChild(img);
 
       var meta = document.createElement("div");
       meta.className = "ih-gallery__meta";
-      meta.innerHTML = '<span class="ih-gallery__type">' + gen.label + '</span><span class="ih-gallery__palette">SVG</span>';
+      meta.innerHTML = '<span class="ih-gallery__type">' + r.label + '</span><span class="ih-gallery__desc">' + r.desc + '</span>';
 
       var actions = document.createElement("div");
       actions.className = "ih-gallery__actions";
       var svgBtn = document.createElement("button");
       svgBtn.className = "ih-btn ih-btn--sm ih-btn--ghost";
       svgBtn.textContent = "SVG";
-      svgBtn.addEventListener("click", function () {
-        var url = svgToDataURL(svg);
-        downloadURL(url, "infographic-" + gen.type + ".svg");
-      });
+      svgBtn.addEventListener("click", function (svgCopy) {
+        return function () { EXP.downloadSVG(svgCopy, "infographic-" + r.id + ".svg"); };
+      }(r.svg));
       var pngBtn = document.createElement("button");
-      pngBtn.className = "ih-btn ih-btn--sm ih-btn--outline";
+      pngBtn.className = "ih-btn ih-btn--sm ih-btn--primary";
       pngBtn.textContent = "PNG";
-      pngBtn.addEventListener("click", function () {
-        downloadPNG(svg, "infographic-" + gen.type + ".svg");
-      });
+      pngBtn.addEventListener("click", function (svgCopy) {
+        return function () {
+          var sz = T.SIZES[state.currentSize] || T.SIZES.cover;
+          pngBtn.disabled = true;
+          pngBtn.textContent = "...";
+          EXP.downloadPNG(svgCopy, "infographic-" + r.id + ".svg", sz.w, sz.h)
+            .then(function () { pngBtn.disabled = false; pngBtn.textContent = "PNG"; })
+            ["catch"](function () { pngBtn.disabled = false; pngBtn.textContent = "PNG"; });
+        };
+      }(r.svg));
 
       actions.appendChild(svgBtn);
       actions.appendChild(pngBtn);
@@ -289,70 +96,203 @@
       card.appendChild(preview);
       card.appendChild(meta);
       card.appendChild(actions);
-      group.appendChild(card);
-
-      generatedImages.push({ type: gen.type, svg: svg, svgUrl: svgUrl });
+      grid.appendChild(card);
     });
 
-    gallery.appendChild(group);
-
-    var downloadAllBtn = document.createElement("div");
-    downloadAllBtn.className = "ih-gallery__all";
-    downloadAllBtn.innerHTML = '<button type="button" class="ih-btn ih-btn--primary" id="ih-download-all"><span aria-hidden="true">\u2B07</span> T\u1EA3i xu\u1ED1ng t\u1EA5t c\u1EA3 PNG</button>';
-    gallery.appendChild(downloadAllBtn);
-
-    el("ih-download-all").addEventListener("click", function () {
-      generatedImages.forEach(function (gi) {
-        downloadPNG(gi.svg, "infographic-" + gi.type + ".svg");
-      });
-    });
+    gallery.appendChild(grid);
   }
 
-  function onSubmit(e) {
-    e.preventDefault();
+  /* ---- Generate infographic from form data ---- */
+  function generate() {
+    if (state.isGenerating) return;
+    state.isGenerating = true;
 
-    var title = el("ih-title").value.trim();
-    var description = el("ih-description").value.trim();
-    var content = el("ih-content").value.trim();
+    var title = $("ih-title").value.trim();
+    var subtitle = $("ih-subtitle").value.trim();
+    var content = $("ih-content").value.trim();
+    var customBullets = $("ih-bullets").value.trim();
+    var kpiRaw = $("ih-kpis").value.trim();
 
-    if (!title) {
-      el("ih-title").focus();
+    if (!title && !content && !subtitle && !customBullets) {
+      $("ih-title").focus();
+      state.isGenerating = false;
       return;
     }
 
-    var submitBtn = el("ih-submit");
+    // Show progress
+    var submitBtn = $("ih-generate-btn");
+    var progress = $("ih-progress");
     submitBtn.disabled = true;
     submitBtn.textContent = "\u25B6 \u0110ang t\u1EA1o\u2026";
-
-    var progress = el("ih-progress");
     progress.hidden = false;
-    el("ih-progress-bar").style.width = "20%";
-    el("ih-progress-text").textContent = "\u0110ang t\u1EA1o infographic\u2026";
+    $("ih-progress-bar").style.width = "20%";
+    $("ih-progress-text").textContent = "\u0110ang x\u1EED l\u00FD\u2026";
 
+    // Defer to next tick for UI update
     setTimeout(function () {
-      el("ih-progress-bar").style.width = "60%";
-    }, 100);
+      // Parse KPI values
+      var kpis = [];
+      if (kpiRaw) {
+        var kpiLines = kpiRaw.split("\n").filter(Boolean);
+        kpiLines.forEach(function (line) {
+          var parts = line.split("|").map(function (s) { return s.trim(); });
+          if (parts.length >= 1) {
+            kpis.push({
+              value: parts[0] || "\u2014",
+              unit: parts[1] || "",
+              label: parts[2] || "",
+              icon: parts[3] || "chart"
+            });
+          }
+        });
+      }
 
-    setTimeout(function () {
-      generatedImages = [];
-      renderGallery(title, description, content);
-      el("ih-progress-bar").style.width = "100%";
-      el("ih-progress-text").textContent = "Ho\u00E0n t\u1EA5t!";
+      // Parse custom bullets
+      var bullets = [];
+      if (customBullets) {
+        bullets = customBullets.split("\n").map(function (l) { return l.replace(/^[-*\u2022]\s*/, "").trim(); }).filter(Boolean);
+      }
 
-      submitBtn.disabled = false;
-      submitBtn.textContent = "\u25C6 T\u1EA1o infographic";
+      // Build data
+      var data = {
+        title: title || "Infographic",
+        subtitle: subtitle
+      };
+      if (bullets.length > 0) {
+        data.bullets = bullets.slice(0, 5);
+      }
+      if (kpis.length > 0) {
+        data.kpis = kpis.slice(0, 4);
+      }
+      // If no explicit bullets, extract from content
+      if (!data.bullets && content) {
+        var parsed = TMPL.parseInput(title, subtitle, content, kpis, "");
+        data.bullets = parsed.bullets;
+        data.summaryRows = parsed.summaryRows;
+      }
+      if (data.bullets && !data.summaryRows) {
+        data.summaryRows = data.bullets.map(function (b) { return { label: b, value: "" }; });
+      }
+
+      // Determine template
+      var templateMode = $("ih-template-select").value;
+      var templateId;
+      if (templateMode === "auto") {
+        templateId = TMPL.autoSelectTemplate(data);
+      } else {
+        templateId = templateMode;
+      }
+      state.currentTemplate = templateId;
+
+      // Determine size
+      var sizeKey = $("ih-size-select").value;
+      state.currentSize = sizeKey;
+      var size = T.SIZES[sizeKey] || T.SIZES.cover;
+
+      // Determine palette (use seed for deterministic random)
+      var seed = parseInt($("ih-seed").value, 10) || Date.now();
+      state.seed = seed;
+      state.currentPalette = T.randomPalette(seed + templateId.length);
+
+      $("ih-progress-bar").style.width = "60%";
+      $("ih-progress-text").textContent = "\u0110ang d\u1EF1ng SVG\u2026";
 
       setTimeout(function () {
-        progress.hidden = true;
-        el("ih-progress-bar").style.width = "0%";
-        el("ih-progress-bar").style.background = "";
-      }, 2000);
-    }, 400);
+        // Generate
+        var svg = TMPL.generate(templateId, data, state.currentPalette, size);
+
+        // Validate
+        var validResult = SDNA.Layout.validateLayout(svg, size.w, size.h);
+        if (!validResult.valid) {
+          $("ih-progress-text").textContent = "C\u1EA3nh b\u00E1o b\u1ED1 c\u1EE5c: " + validResult.issues.join("; ");
+        }
+
+        // Render preview + gallery
+        renderPreview(svg);
+
+        // Generate all templates for gallery
+        var allResults = TMPL.generateAll(data, state.currentPalette, size);
+        renderGallery(allResults);
+
+        $("ih-result-panel").hidden = false;
+        $("ih-progress-bar").style.width = "100%";
+        $("ih-progress-text").textContent = "Ho\u00E0n t\u1EA5t!";
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = "\u25C6 T\u1EA1o infographic";
+        state.isGenerating = false;
+
+        setTimeout(function () {
+          progress.hidden = true;
+          $("ih-progress-bar").style.width = "0%";
+        }, 1500);
+      }, 150);
+    }, 50);
   }
 
+  /* ---- Download current preview ---- */
+  function downloadCurrentPNG() {
+    if (!state.currentSVG) return;
+    var sz = T.SIZES[state.currentSize] || T.SIZES.cover;
+    var btn = $("ih-dl-png");
+    btn.disabled = true;
+    btn.textContent = "...";
+    EXP.downloadPNG(state.currentSVG, "infographic-" + state.currentTemplate + ".png", sz.w, sz.h)
+      .then(function () { btn.disabled = false; btn.textContent = "PNG"; })
+      ["catch"](function () { btn.disabled = false; btn.textContent = "PNG"; });
+  }
+
+  function downloadCurrentSVG() {
+    if (!state.currentSVG) return;
+    EXP.downloadSVG(state.currentSVG, "infographic-" + state.currentTemplate + ".svg");
+  }
+
+  /* ---- Regenerate variant (new seed) ---- */
+  function regenerateVariant() {
+    var seedInput = $("ih-seed");
+    var current = parseInt(seedInput.value, 10) || Date.now();
+    seedInput.value = String(current + 1);
+    generate();
+  }
+
+  /* ---- Initialize UI ---- */
   function init() {
-    var form = el("ih-form");
-    if (form) form.addEventListener("submit", onSubmit);
+    // Form submit
+    var form = $("ih-form");
+    if (form) form.addEventListener("submit", function (e) { e.preventDefault(); generate(); });
+
+    // Generate button
+    var genBtn = $("ih-generate-btn");
+    if (genBtn) genBtn.addEventListener("click", function (e) { e.preventDefault(); generate(); });
+
+    // Download buttons
+    var dlPNG = $("ih-dl-png");
+    if (dlPNG) dlPNG.addEventListener("click", downloadCurrentPNG);
+    var dlSVG = $("ih-dl-svg");
+    if (dlSVG) dlSVG.addEventListener("click", downloadCurrentSVG);
+
+    // Regenerate variant
+    var regenBtn = $("ih-regen");
+    if (regenBtn) regenBtn.addEventListener("click", regenerateVariant);
+
+    // Seed: set random initial
+    var seedInput = $("ih-seed");
+    if (seedInput && !seedInput.value) seedInput.value = String(Math.floor(Math.random() * 100000));
+
+    // Size selector change → regenerate if preview exists
+    var sizeSel = $("ih-size-select");
+    if (sizeSel) sizeSel.addEventListener("change", function () {
+      if (state.currentSVG) generate();
+    });
+
+    // Template selector change → regenerate if preview exists
+    var tmplSel = $("ih-template-select");
+    if (tmplSel) tmplSel.addEventListener("change", function () {
+      if (state.currentSVG) generate();
+    });
+
+    // Initial empty preview
+    renderPreview(null);
   }
 
   document.addEventListener("DOMContentLoaded", init);

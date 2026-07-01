@@ -9,65 +9,139 @@
 {% block main %}
 <div id="ih-app" class="ih-app">
 
-    <div class="ih-dashboard">
+  {# ===== HEADER ===== #}
+  <header class="ih-head">
+    <div class="ih-head__row">
+      <h1 class="ih-head__title">INFographic hoá</h1>
+      <span class="ih-head__badge">S-DNA Generator</span>
+    </div>
+    <p class="ih-head__desc">
+      Tạo ảnh infographic chuẩn S-DNA — nhập nội dung, chọn mẫu, tải SVG hoặc PNG.
+      Mọi thứ xử lý hoàn toàn trên trình duyệt, không cần đăng nhập.
+    </p>
+  </header>
 
-        <header class="ih-head">
-            <div class="ih-head__row">
-                <h1 class="ih-head__title">INFographic hoá</h1>
-                <span class="ih-head__badge">S-DNA Branded</span>
-            </div>
-            <p class="ih-head__desc">
-                Tạo ảnh infographic từ nội dung của bạn — không cần đăng nhập, mọi thứ xử lý hoàn toàn trên trình duyệt.
-                Tải ảnh về máy và sử dụng tuỳ ý (bài viết, mạng xã hội, CMS…).
-            </p>
-        </header>
+  {# ===== EDITOR LAYOUT ===== #}
+  <div class="ih-editor-layout">
 
-        {# ===== FORM ===== #}
-        <section class="ih-panel ih-form-panel">
-            <h2 class="ih-panel__title">Nhập nội dung</h2>
+    {# --- LEFT: Controls --- #}
+    <div class="ih-editor-controls">
 
-            <form class="ih-form" id="ih-form">
-                <label class="ih-field">
-                    <span class="ih-field__label">Tiêu đề <span class="ih-field__required">*</span></span>
-                    <input type="text" class="ih-field__input" id="ih-title" name="title" required maxlength="300" placeholder="Nhập tiêu đề nội dung…">
-                </label>
+      <section class="ih-panel">
+        <h2 class="ih-panel__title">Nội dung</h2>
 
-                <label class="ih-field">
-                    <span class="ih-field__label">Mô tả ngắn</span>
-                    <textarea class="ih-field__input ih-field__input--area" id="ih-description" name="description" rows="3" maxlength="2000" placeholder="Mô tả tóm tắt nội dung…"></textarea>
-                </label>
+        <form class="ih-form" id="ih-form">
+          <label class="ih-field">
+            <span class="ih-field__label">Tiêu đề <span class="ih-field__required">*</span></span>
+            <input type="text" class="ih-field__input" id="ih-title" name="title" maxlength="300" placeholder="Tiêu đề chính…">
+          </label>
 
-                <label class="ih-field">
-                    <span class="ih-field__label">Nội dung chi tiết</span>
-                    <textarea class="ih-field__input ih-field__input--area" id="ih-content" name="content" rows="8" maxlength="20000" placeholder="Dán nội dung bài viết / ghi chú / markdown… (sẽ trích ý chính làm infographic)"></textarea>
-                </label>
+          <label class="ih-field">
+            <span class="ih-field__label">Mô tả / Phụ đề</span>
+            <input type="text" class="ih-field__input" id="ih-subtitle" name="subtitle" maxlength="500" placeholder="Dòng mô tả ngắn…">
+          </label>
 
-                <div class="ih-form__actions">
-                    <button type="submit" class="ih-btn ih-btn--primary ih-btn--lg" id="ih-submit" data-ih-action="generate">
-                        <span aria-hidden="true">◇</span> Tạo infographic
-                    </button>
-                    <p class="ih-form__hint" id="ih-form-hint">Sẽ tạo 5 ảnh: Cover · Trích dẫn · Phân tích · Tổng kết · Banner</p>
-                </div>
-            </form>
+          <label class="ih-field">
+            <span class="ih-field__label">Nội dung chi tiết</span>
+            <textarea class="ih-field__input ih-field__input--area" id="ih-content" rows="4" maxlength="20000" placeholder="Dán nội dung bài viết… (sẽ trích ý chính)"></textarea>
+          </label>
 
-            <div class="ih-progress" id="ih-progress" hidden>
-                <div class="ih-progress__bar-wrap">
-                    <div class="ih-progress__bar" id="ih-progress-bar"></div>
-                </div>
-                <p class="ih-progress__text" id="ih-progress-text">Đang tạo ảnh…</p>
-            </div>
-        </section>
+          <label class="ih-field">
+            <span class="ih-field__label">Danh sách gạch đầu dòng (mỗi dòng 1 ý)</span>
+            <textarea class="ih-field__input ih-field__input--area" id="ih-bullets" rows="3" maxlength="2000" placeholder="Ý chính 1&#10;Ý chính 2&#10;Ý chính 3…"></textarea>
+          </label>
 
-        {# ===== RESULT GALLERY ===== #}
-        <section class="ih-panel ih-result-panel" id="ih-result-panel" hidden>
-            <h2 class="ih-panel__title">Ảnh đã tạo</h2>
-            <div class="ih-gallery" id="ih-gallery"></div>
-        </section>
+          <label class="ih-field">
+            <span class="ih-field__label">Chỉ số KPI (mỗi dòng: Giá trị | Đơn vị | Nhãn | icon)</span>
+            <textarea class="ih-field__input ih-field__input--area" id="ih-kpis" rows="2" maxlength="1000" placeholder="12.5 | triệu | Người dùng | users&#10;85% | | Tăng trưởng | trendingUp"></textarea>
+          </label>
+        </form>
+      </section>
+
+      <section class="ih-panel">
+        <h2 class="ih-panel__title">Tuỳ chọn</h2>
+
+        <div class="ih-options-row">
+          <label class="ih-field ih-field--inline">
+            <span class="ih-field__label">Mẫu</span>
+            <select class="ih-field__input ih-field__select" id="ih-template-select">
+              <option value="auto">Tự động</option>
+              <option value="cover">Cover / Hero</option>
+              <option value="kpi">Chỉ số KPI</option>
+              <option value="analysis">Phân tích</option>
+              <option value="quote">Trích dẫn</option>
+              <option value="summary">Tóm tắt</option>
+              <option value="banner">Banner</option>
+            </select>
+          </label>
+
+          <label class="ih-field ih-field--inline">
+            <span class="ih-field__label">Kích thước</span>
+            <select class="ih-field__input ih-field__select" id="ih-size-select">
+              <option value="cover">Cover 1200×630</option>
+              <option value="square">Square 1080×1080</option>
+              <option value="banner">Banner 1600×900</option>
+            </select>
+          </label>
+
+          <label class="ih-field ih-field--inline">
+            <span class="ih-field__label">Seed</span>
+            <input type="number" class="ih-field__input" id="ih-seed" min="0" step="1" value="">
+          </label>
+        </div>
+
+        <div class="ih-actions">
+          <button type="button" class="ih-btn ih-btn--primary ih-btn--lg" id="ih-generate-btn">
+            <span aria-hidden="true">◇</span> Tạo infographic
+          </button>
+          <button type="button" class="ih-btn ih-btn--ghost" id="ih-regen">
+            ↻ Biến thể
+          </button>
+        </div>
+      </section>
+
+      <div class="ih-progress" id="ih-progress" hidden>
+        <div class="ih-progress__bar-wrap">
+          <div class="ih-progress__bar" id="ih-progress-bar"></div>
+        </div>
+        <p class="ih-progress__text" id="ih-progress-text">Đang tạo ảnh…</p>
+      </div>
+
+      {# Download buttons visible after generation #}
+      <div class="ih-download-bar" id="ih-download-bar">
+        <button type="button" class="ih-btn ih-btn--primary" id="ih-dl-png">⬇ Tải PNG</button>
+        <button type="button" class="ih-btn ih-btn--ghost" id="ih-dl-svg">⬇ Tải SVG</button>
+      </div>
 
     </div>
+
+    {# --- RIGHT: Preview --- #}
+    <div class="ih-editor-preview">
+      <div class="ih-preview" id="ih-preview">
+        <div class="ih-preview__empty">
+          <span class="ih-preview__empty-icon">◇</span>
+          <p>Nhập nội dung và nhấn <strong>Tạo</strong> để xem trước</p>
+        </div>
+      </div>
+
+      <div class="ih-label">Template gallery</div>
+    </div>
+
+  </div>
+
+  {# ===== RESULT GALLERY ===== #}
+  <section class="ih-panel ih-result-panel" id="ih-result-panel" hidden>
+    <h2 class="ih-panel__title">Tất cả mẫu</h2>
+    <div class="ih-gallery" id="ih-gallery"></div>
+  </section>
+
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
+    <script src="{{ get_url(path='js/infographic-hoa/sdna-tokens.js') }}" defer></script>
+    <script src="{{ get_url(path='js/infographic-hoa/sdna-layout.js') }}" defer></script>
+    <script src="{{ get_url(path='js/infographic-hoa/sdna-templates.js') }}" defer></script>
+    <script src="{{ get_url(path='js/infographic-hoa/sdna-export.js') }}" defer></script>
     <script src="{{ get_url(path='js/infographic-hoa/app.js') }}" defer></script>
 {% endblock %}
