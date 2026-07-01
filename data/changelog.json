@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1287",
+      "pr_number": 1287,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1287",
+      "title": "Mobile V2: content-first S-DNA layout",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T03:52:06Z",
+      "merge_commit_sha": "1498cafc18ab",
+      "stats": {
+        "additions": 274,
+        "deletions": 6
+      },
+      "highlights": [
+        "add a scoped Mobile V2 layout for homepage and article pages",
+        "apply S-DNA hierarchy, whitespace, light borders, and restrained colour",
+        "prevent GoogleRank and Countdown scripts from downloading or initialising below 768px",
+        "keep sidebar personalisation and GCF widget out of the mobile reading path",
+        "Dart Sass compile (no errors; existing deprecation warnings only)"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1286",
       "pr_number": 1286,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1286",
