@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1274",
+      "pr_number": 1274,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1274",
+      "title": "kt9 - PR status check shortcut + auto-fix gate + pre-merge workflow",
+      "tag": "feat",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T00:53:28Z",
+      "merge_commit_sha": "15bc60615a17",
+      "stats": {
+        "additions": 322,
+        "deletions": 0
+      },
+      "highlights": [
+        "kt9 — check + report",
+        "kt9 --fix — check + auto-fix an toàn (qa_pair missing, rerun failed checks)",
+        "kt9 --pr=1271 — check 1 PR cụ thể",
+        "Open PRs (mergeable, statusCheckRollup, reviewDecision)",
+        "QA Gatekeeper / qa-check status"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1276",
       "pr_number": 1276,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1276",
