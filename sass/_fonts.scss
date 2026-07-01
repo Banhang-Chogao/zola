@@ -1,18 +1,15 @@
 /* ===== Typography stack =====
-   Inter (body) + IBM Plex Sans (headings) + Be Vietnam Pro (Việt fallback).
-   Inter: x-height cao, trung tính → tối ưu đọc văn bản dài.
-   IBM Plex Sans: cá tính, mạnh mẽ → tạo điểm nhấn cho tiêu đề.
-   Web fonts load qua một <link> Google Fonts dùng chung trong base.html. */
+   Ericsson Hilda (self-hosted WOFF2) + system-ui fallback. */
 
-$font-body:    "Inter", "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-$font-heading: "IBM Plex Sans", "Inter", "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-$font-ui:      "Inter", "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-$font-meta:    "Inter", "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$font-body:    "Ericsson Hilda", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$font-heading: "Ericsson Hilda", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$font-ui:      "Ericsson Hilda", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$font-meta:    "Ericsson Hilda", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 $font-mono:    "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 
 :root {
-  --font-body: "Inter", "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-heading: "IBM Plex Sans", "Inter", "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-body: "Ericsson Hilda", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-heading: "Ericsson Hilda", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-serif: Georgia, "Times New Roman", serif;
   --font-mono: "JetBrains Mono", "Fira Code", Consolas, monospace;
   --font-weight-regular: 400;
