@@ -1,33 +1,155 @@
 {
-  "generated_at": "2026-06-30T21:19:45.564899+00:00",
+  "generated_at": "2026-07-01T20:59:52.686518+00:00",
   "timezone_note": "Scheduled 22:00 Asia/Ho_Chi_Minh (15:00 UTC)",
   "fixed_applied": true,
   "summary": {
-    "total_posts": 3,
+    "total_posts": 7,
     "before": {
       "high": 0,
-      "mid": 2,
-      "low": 1
+      "mid": 5,
+      "low": 2
     },
     "after": {
       "high": 0,
-      "mid": 2,
-      "low": 1
+      "mid": 5,
+      "low": 2
     },
     "fixed_count": 0,
-    "still_orange": 2,
-    "still_red": 1,
+    "still_orange": 5,
+    "still_red": 2,
     "green_count": 0
   },
   "fixed_slugs": [],
   "still_orange_slugs": [
+    "deepmind-nano-banana",
+    "gemini-3-5-co-gi-moi",
+    "nano-banana-2-lite-gemini-omni-flash",
     "kinh-hubble-mat-ma-vu-tru",
     "tau-con-thoi-atlantis"
   ],
   "still_red_slugs": [
+    "chao-mung-den-voi-duy-nguyen",
     "nha-tranh"
   ],
   "posts": [
+    {
+      "slug": "gemini-3-5-co-gi-moi",
+      "section": "posting",
+      "title": "Gemini 3.5 có gì mới? Google DeepMind vừa ra mắt mô hình frontier với khả năng hành động",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.5564,
+      "score_after": 0.5564,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.6241,
+          "slug": "nano-banana-2-lite-gemini-omni-flash"
+        },
+        {
+          "score": 0.4886,
+          "slug": "deepmind-nano-banana"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "nano-banana-2-lite-gemini-omni-flash",
+          "score": 0.6241
+        },
+        {
+          "slug": "deepmind-nano-banana",
+          "score": 0.4886
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-2 = 0.56 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "nano-banana-2-lite-gemini-omni-flash",
+      "section": "posting",
+      "title": "Nano Banana 2 Lite và Gemini Omni Flash: Google DeepMind mở cửa tạo ảnh siêu nhanh và video AI",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.5228,
+      "score_after": 0.5228,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7972,
+          "slug": "deepmind-nano-banana"
+        },
+        {
+          "score": 0.6241,
+          "slug": "gemini-3-5-co-gi-moi"
+        },
+        {
+          "score": 0.147,
+          "slug": "chao-mung-den-voi-duy-nguyen"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "deepmind-nano-banana",
+          "score": 0.7972
+        },
+        {
+          "slug": "gemini-3-5-co-gi-moi",
+          "score": 0.6241
+        },
+        {
+          "slug": "chao-mung-den-voi-duy-nguyen",
+          "score": 0.147
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-3 = 0.52 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "deepmind-nano-banana",
+      "section": "posting",
+      "title": "Google DeepMind Nano Banana: Gia đình mô hình tạo ảnh AI mới nhất 2026",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.5003,
+      "score_after": 0.5003,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7972,
+          "slug": "nano-banana-2-lite-gemini-omni-flash"
+        },
+        {
+          "score": 0.4886,
+          "slug": "gemini-3-5-co-gi-moi"
+        },
+        {
+          "score": 0.2152,
+          "slug": "chao-mung-den-voi-duy-nguyen"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "nano-banana-2-lite-gemini-omni-flash",
+          "score": 0.7972
+        },
+        {
+          "slug": "gemini-3-5-co-gi-moi",
+          "score": 0.4886
+        },
+        {
+          "slug": "chao-mung-den-voi-duy-nguyen",
+          "score": 0.2152
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-3 = 0.50 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
     {
       "slug": "kinh-hubble-mat-ma-vu-tru",
       "section": "baochi",
@@ -79,6 +201,40 @@
       ],
       "action": "unchanged",
       "cannot_green_reason": "Top semantic score thấp (0.44) — nội dung quá khác biệt trong cluster."
+    },
+    {
+      "slug": "chao-mung-den-voi-duy-nguyen",
+      "section": "posting",
+      "title": "Chào mừng đến với Duy Nguyen - Hành trình kiếm tiền từ blog",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "low",
+      "tier_after": "low",
+      "score_before": 0.1811,
+      "score_after": 0.1811,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.2152,
+          "slug": "deepmind-nano-banana"
+        },
+        {
+          "score": 0.147,
+          "slug": "nano-banana-2-lite-gemini-omni-flash"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "deepmind-nano-banana",
+          "score": 0.2152
+        },
+        {
+          "slug": "nano-banana-2-lite-gemini-omni-flash",
+          "score": 0.147
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Top semantic score thấp (0.22) — nội dung quá khác biệt trong cluster."
     },
     {
       "slug": "nha-tranh",
