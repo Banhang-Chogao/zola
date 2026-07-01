@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1285",
+      "pr_number": 1285,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1285",
+      "title": "feat(deploy): add 60s cooldown between deploy runs",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T03:28:26Z",
+      "merge_commit_sha": "027b764a9d1f",
+      "stats": {
+        "additions": 10,
+        "deletions": 0
+      },
+      "highlights": [
+        "✅  +  (queue)",
+        "✅ Exponential backoff retry (0s→60s→120s) cho từng run",
+        "✅ Smart Deploy Queue preflight (skip LOW_VALUE khi busy)",
+        "✅ Auto-merge deploy check (không merge khi busy)",
+        "name: Deploy queue cooldown (60s gap between runs)"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1283",
       "pr_number": 1283,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1283",
