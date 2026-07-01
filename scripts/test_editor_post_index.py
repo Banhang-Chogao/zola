@@ -83,24 +83,25 @@ def test_baochi_article_in_editor():
 
     print("✓ Editor template loops through all_posts (posting + baochi)")
 
-def test_homepage_uses_dynamic_categories():
-    """Test that homepage template uses dynamic categories data."""
+def test_homepage_uses_post_list_feed():
+    """Test that homepage renders the standard blog feed UI."""
     index_html = Path("templates/index.html")
     with open(index_html, "r", encoding="utf-8") as f:
         content = f.read()
 
-    assert "homepage_categories" in content, "Should load homepage-categories.json"
-    assert "for cat_item in homepage_categories.categories" in content, "Should loop categories"
-    assert 'data-filter-category="{{ cat_item.name }}"' in content, "Should use dynamic category name"
+    assert 'class="post-list"' in content, "Should use post-list layout"
+    assert 'class="post-card"' in content, "Should use post-card items"
+    assert "pager::page_href" in content, "Should paginate at canonical root"
+    assert "home-economist" not in content, "Should not use landing-page modules"
 
-    print("✓ Homepage template uses dynamic categories data")
+    print("✓ Homepage template uses post-list blog feed")
 
 def main():
     try:
         test_editor_includes_baochi()
         test_categories_file_generated()
         test_baochi_article_in_editor()
-        test_homepage_uses_dynamic_categories()
+        test_homepage_uses_post_list_feed()
 
         print("\n✓ All tests passed!")
         return 0
