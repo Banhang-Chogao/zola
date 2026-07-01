@@ -220,6 +220,19 @@ def is_admin(email: str | None, username: str | None) -> bool:
     return False
 
 
+def _pick_primary_verified_email(emails: list[dict[str, Any]]) -> str | None:
+    """Prefer GitHub's primary verified email; otherwise use any verified email."""
+    for entry in emails:
+        email = (entry.get("email") or "").strip().lower()
+        if email and entry.get("verified") and entry.get("primary"):
+            return email
+    for entry in emails:
+        email = (entry.get("email") or "").strip().lower()
+        if email and entry.get("verified"):
+            return email
+    return None
+
+
 def normalize_return_to(return_to: str) -> str:
     """Normalize and validate return_to URL (same-origin only).
 
@@ -572,13 +585,8 @@ async def auth_callback(code: str = "", state: str = "") -> RedirectResponse:
 
         emails = emails_res.json()
         user = user_res.json()
-        verified_emails = {
-            (e.get("email") or "").lower()
-            for e in emails
-            if e.get("verified") and e.get("email")
-        }
         username = user.get("login", "")
-        matched_email = next(iter(verified_emails), None)
+        matched_email = _pick_primary_verified_email(emails)
         is_super = await check_repo_superadmin(client, access_token, username)
 
     sid = db.create_cms_session(

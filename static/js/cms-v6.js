@@ -93,21 +93,49 @@
   }
 
   function getSid() {
-    var sid = sessionStorage.getItem(SID_KEY);
-    if (sid) return sid;
-    var match = location.hash.match(/sid=([^&]+)/);
-    if (match) {
-      sid = decodeURIComponent(match[1]);
-      sessionStorage.setItem(SID_KEY, sid);
-      history.replaceState(null, "", location.pathname + location.search);
-      return sid;
+    try {
+      return localStorage.getItem(SID_KEY) || sessionStorage.getItem(SID_KEY) || null;
+    } catch (e) {
+      return null;
     }
-    return null;
+  }
+
+  function saveSid(sid) {
+    if (!sid) return;
+    try { localStorage.setItem(SID_KEY, sid); } catch (e) {}
+    try { sessionStorage.setItem(SID_KEY, sid); } catch (e) {}
+  }
+
+  function readHashSid() {
+    if (!location.hash) return "";
+    var match = location.hash.match(/(?:^|[#&])sid=([A-Za-z0-9_-]+)/);
+    return match ? decodeURIComponent(match[1]) : "";
+  }
+
+  function consumeAuthParams() {
+    var params = new URLSearchParams(location.search);
+    var sid = readHashSid();
+    var authError = params.get("auth_error") || "";
+    var changed = false;
+
+    if (sid) {
+      saveSid(sid);
+      changed = true;
+    }
+    if (params.has("success") || params.has("auth_error")) {
+      params.delete("success");
+      params.delete("auth_error");
+      changed = true;
+    }
+    if (changed) {
+      history.replaceState(null, "", location.pathname + (params.toString() ? "?" + params.toString() : ""));
+    }
+    return authError;
   }
 
   function clearSid() {
-    sessionStorage.removeItem(SID_KEY);
-    localStorage.removeItem(SID_KEY);
+    try { sessionStorage.removeItem(SID_KEY); } catch (e) {}
+    try { localStorage.removeItem(SID_KEY); } catch (e) {}
   }
 
   function isAuthorizedProfile(profile) {
@@ -183,6 +211,16 @@
     });
   }
 
+  function fetchMeWithFallback(sid) {
+    return fetchMe(sid).catch(function (err) {
+      if (!sid) throw err;
+      return fetchMe(null);
+    }).then(function (profile) {
+      if (profile || !sid) return profile;
+      return fetchMe(null);
+    });
+  }
+
   function showReadOnlyDashboard(message, title) {
     currentProfile = null;
     showView("dashboard");
@@ -191,6 +229,7 @@
   }
 
   function initAuth() {
+    var authError = consumeAuthParams();
     var sid = getSid();
 
     if (!AUTH_API) {
@@ -199,12 +238,7 @@
       return;
     }
 
-    if (!sid) {
-      showReadOnlyDashboard();
-      return;
-    }
-
-    fetchMe(sid).then(function (profile) {
+    fetchMeWithFallback(sid).then(function (profile) {
       if (isAuthorizedProfile(profile)) {
         currentProfile = profile;
         renderUserbar(profile);
@@ -219,10 +253,9 @@
         );
       } else {
         clearSid();
-        showReadOnlyDashboard();
+        showReadOnlyDashboard(authError ? "Login failed: " + authError + ". Try GitHub login again." : undefined);
       }
     }).catch(function (err) {
-      clearSid();
       showReadOnlyDashboard("Session unavailable. Browse in read-only mode or log in again.");
     });
   }

@@ -246,6 +246,33 @@ class VipzoneApiTests(unittest.TestCase):
         self.assertEqual(body["role"], "user")
         self.assertFalse(body["is_super"])
 
+    def test_pick_primary_verified_email_prefers_primary(self) -> None:
+        from cms_auth import _pick_primary_verified_email
+
+        self.assertEqual(
+            _pick_primary_verified_email(
+                [
+                    {"email": "secondary@example.com", "verified": True, "primary": False},
+                    {"email": "primary@example.com", "verified": True, "primary": True},
+                ]
+            ),
+            "primary@example.com",
+        )
+        self.assertEqual(
+            _pick_primary_verified_email(
+                [
+                    {"email": "secondary@example.com", "verified": True, "primary": False},
+                    {"email": "other@example.com", "verified": False, "primary": True},
+                ]
+            ),
+            "secondary@example.com",
+        )
+        self.assertIsNone(
+            _pick_primary_verified_email(
+                [{"email": "other@example.com", "verified": False, "primary": True}]
+            )
+        )
+
     def test_auth_me_vip_role(self) -> None:
         db = get_db()
         db.upsert_vip("vip@example.com", "monthly", "2099-01-01T00:00:00Z")
