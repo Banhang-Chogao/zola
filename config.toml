@@ -57,9 +57,7 @@ bền vững. Cùng tôi biến đam mê viết lách thành nguồn thu nhập 
 # Item KHÔNG có 'children' = link đơn bình thường (tương thích ngược).
 # Thêm/bớt mục = sửa mảng 'children' tương ứng (giữ pattern url + name).
 menu = [
-    { name = "Trang chủ", url = "$BASE_URL/", children = [
-        { url = "$BASE_URL/cms-v5", name = "CMS-V5" },
-    ] },
+    { name = "Trang chủ", url = "$BASE_URL/" },
     # "Bài viết" dùng MEGA MENU: 'groups' = các nhóm chuyên mục (mỗi nhóm có
     # heading + children). base.html render groups → mega menu nhiều cột (desktop)
     # / accordion (mobile). KHÔNG đổi URL category nào — chỉ nhóm lại theo biên tập
