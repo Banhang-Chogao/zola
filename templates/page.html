@@ -305,7 +305,9 @@
         {% set_global related = [] %}
 
         {# Hub series (bài báo gốc): ưu tiên toàn bộ series khoa học. #}
-        {% if page.extra and page.extra.hub_series is defined and page.extra.hub_series == "science-uranium" %}
+        {% if page.extra and page.extra.hub_series is defined and page.extra.hub_series == "google-deepmind" %}
+            {% set hub_manifest = load_data(path="data/google-deepmind-series.json", required=false) %}
+        {% elif page.extra and page.extra.hub_series is defined and page.extra.hub_series == "science-uranium" %}
             {% set hub_manifest = load_data(path="data/science-uranium-series.json", required=false) %}
             {% if hub_manifest %}
                 {% for item in hub_manifest.parts %}
@@ -351,6 +353,8 @@
                 {% set series_manifest = load_data(path="data/opencode-ai-viet-code-mien-phi-series.json", required=false) %}
             {% elif page.extra.series == "xgboost-model-la-gi" %}
                 {% set series_manifest = load_data(path="data/xgboost-model-la-gi-series.json", required=false) %}
+            {% elif page.extra.series == "google-deepmind" %}
+                {% set series_manifest = load_data(path="data/google-deepmind-series.json", required=false) %}
             {% endif %}
             {% if series_manifest and page.extra.series == series_manifest.id %}
                 {% for item in series_manifest.parts %}
