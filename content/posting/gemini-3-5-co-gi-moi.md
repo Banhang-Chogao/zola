@@ -1,10 +1,11 @@
 +++
 title = "Gemini 3.5 có gì mới? Google DeepMind vừa ra mắt mô hình frontier với khả năng hành động"
 date = 2026-07-01T17:00:00+07:00
+aliases = ["/gemini-3-5-co-gi-moi/"]
 description = "Gemini 3.5 Flash vừa ra mắt với khả năng agentic coding, multimodal, long horizon tasks. So sánh benchmark với Claude, GPT-5.5 và góc nhìn chi tiết."
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["gemini-3-5", "google deepmind", "gemini flash", "agentic ai", "multimodal", "gemini 3.5 flash", "ai benchmarks"]
+tags = ["agentic ai", "ai benchmarks", "gemini 3.5 flash", "gemini flash", "gemini-3-5", "google deepmind", "multimodal"]
 [extra]
 seo_keyword = "Gemini 3.5 có gì mới"
 thumbnail = "/img/og-fallbacks/og-fallback-15.svg"

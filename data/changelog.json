@@ -1,6 +1,66 @@
 {
   "items": [
     {
+      "id": "pr-1298",
+      "pr_number": 1298,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1298",
+      "title": "fix(cps): keep dashboard within blog container",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T11:47:59Z",
+      "merge_commit_sha": "4e86b62893ab",
+      "stats": {
+        "additions": 84,
+        "deletions": 29
+      },
+      "highlights": [
+        "Add the CPS page and scoped stylesheet.",
+        "Remove the full-bleed container behavior that was clipping the left edge.",
+        "Keep the table, preview, and card grid inside the blog content width.",
+        ".cps-page used negative horizontal margins and viewport-based padding, which pushed the page outside the blog container and caused clipping when the body hid horizontal overflow.",
+        "git diff --cached --check ✅"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1297",
+      "pr_number": 1297,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1297",
+      "title": "[codex] move CMS-V5 under Công cụ nav",
+      "tag": "refactor",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T11:47:38Z",
+      "merge_commit_sha": "601118a5281b",
+      "stats": {
+        "additions": 28,
+        "deletions": 23
+      },
+      "highlights": [
+        "Move CMS-V5 out of the top-level navbar and place it under Công cụ as a direct child.",
+        "Restore the /cms-v5/ source page so the route continues to render.",
+        "python3 qa_check.py config.toml content/cms-v5.md templates/cms-v5.html sass/_cms-v5.scss: PASS",
+        "Skipped final zola build by workflow rule.",
+        "Desktop and mobile nav both use the shared menu config in config.toml."
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1296",
+      "pr_number": 1296,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1296",
+      "title": "chore(vaccine): Daily Vaccine Autofixer run",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T11:40:03Z",
+      "merge_commit_sha": "70ccf864df27",
+      "stats": {
+        "additions": 81,
+        "deletions": 12
+      },
+      "highlights": [],
+      "verified": true
+    },
+    {
       "id": "pr-1294",
       "pr_number": 1294,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1294",

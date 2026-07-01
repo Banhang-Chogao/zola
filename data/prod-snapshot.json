@@ -1,37 +1,37 @@
 {
-  "generated_at": "2026-06-30T22:02:28.143007+00:00",
-  "generated_at_display": "05:02 01/07/2026",
+  "generated_at": "2026-07-01T10:57:12.477671+00:00",
+  "generated_at_display": "17:57 01/07/2026",
   "source": "build_prod_snapshot.py",
   "shortcut": "??",
   "main": {
-    "sha": "ca8c952c16b7dea5e8df509c6617f7a92badcd76",
-    "sha_short": "ca8c952",
-    "title": "main @ ca8c952",
-    "url": "https://github.com/Banhang-Chogao/zola/commit/ca8c952c16b7dea5e8df509c6617f7a92badcd76"
+    "sha": "b2b35f3b0cbfd8246f72e135fc796d3ab293ace8",
+    "sha_short": "b2b35f3",
+    "title": "main @ b2b35f3",
+    "url": "https://github.com/Banhang-Chogao/zola/commit/b2b35f3b0cbfd8246f72e135fc796d3ab293ace8"
   },
   "deploy": {
-    "sha": "06e214eab8e211cf9fcd97ba465c6d1a40625609",
-    "sha_short": "06e214e",
+    "sha": "b2b35f3b0cbfd8246f72e135fc796d3ab293ace8",
+    "sha_short": "b2b35f3",
     "status": "green",
-    "deployed_at": "2026-06-30T21:27:45Z",
-    "deployed_at_display": "04:27 01/07/2026",
-    "run_number": 1548,
-    "status_line": "✅ last success #1548",
+    "deployed_at": "2026-07-01T10:04:34Z",
+    "deployed_at_display": "17:04 01/07/2026",
+    "run_number": 1586,
+    "status_line": "✅ last success #1586",
     "deploying": false
   },
   "backend": {
     "ok": false,
-    "error": "HTTPError"
+    "error": "TimeoutError"
   },
   "drift": {
-    "status": "yellow",
-    "status_vi": "Main mới hơn production",
-    "hint": "Code đã merge nhưng GitHub Pages chưa ship bản mới — đợi deploy hoặc dispatch deploy.yml.",
-    "main_ahead_of_deploy": true,
+    "status": "green",
+    "status_vi": "Đồng bộ",
+    "hint": "Main, deploy và backend khớp (hoặc chỉ lệch bot data không ảnh hưởng UI).",
+    "main_ahead_of_deploy": false,
     "backend_behind_main": false,
-    "status_line": "main ca8c952 · deploy 06e214e"
+    "status_line": "main b2b35f3 · deploy b2b35f3"
   },
-  "open_prs_count": 1,
+  "open_prs_count": 0,
   "deploy_monitor_stale": false,
   "deploy_monitor_ok": true
 }

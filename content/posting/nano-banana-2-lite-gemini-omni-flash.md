@@ -1,10 +1,11 @@
 +++
 title = "Nano Banana 2 Lite và Gemini Omni Flash: Google DeepMind mở cửa tạo ảnh siêu nhanh và video AI"
 date = 2026-07-01T16:00:00+07:00
+aliases = ["/nano-banana-2-lite-gemini-omni-flash/"]
 description = "Google DeepMind vừa ra mắt Nano Banana 2 Lite (tạo ảnh 4 giây, $0.034/1K ảnh) và Gemini Omni Flash (tạo video hội thoại). Mình tìm hiểu và tổng hợp những thứ đáng chú ý nhất."
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["google deepmind", "nano banana", "gemini omni flash", "ai image generation", "ai video", "nano banana 2 lite", "gemini api", "google ai studio"]
+tags = ["ai image generation", "ai video", "gemini api", "gemini omni flash", "google ai studio", "google deepmind", "nano banana", "nano banana 2 lite"]
 [extra]
 seo_keyword = "Nano Banana 2 Lite Gemini Omni Flash"
 thumbnail = "/img/og-fallbacks/og-fallback-7.svg"

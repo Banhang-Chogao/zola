@@ -1,10 +1,11 @@
 +++
 title = "Google DeepMind Nano Banana: Gia đình mô hình tạo ảnh AI mới nhất 2026"
 date = 2026-07-01T14:30:00+07:00
+aliases = ["/deepmind-nano-banana/"]
 description = "Tổng quan về gia đình mô hình tạo ảnh Nano Banana của Google DeepMind — Nano Banana 2 Lite, Nano Banana 2, Nano Banana Pro. So sánh tính năng, giá cả, benchmark và cách bắt đầu sử dụng."
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["deepmind", "nano-banana", "ai-image-generation", "gemini", "google-ai", "nano-banana-2", "ai-tao-anh"]
+tags = ["ai-image-generation", "ai-tao-anh", "deepmind", "gemini", "google-ai", "nano-banana", "nano-banana-2"]
 [extra]
 seo_keyword = "Google DeepMind Nano Banana"
 thumbnail = "/img/og-fallbacks/og-fallback-3.svg"
