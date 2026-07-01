@@ -4,6 +4,7 @@
 {% import "macros/hot-search.html" as hot_search %}
 {% import "macros/google-rank.html" as google_rank %}
 {% import "macros/placement.html" as placement %}
+{% import "partials/ad-slot.html" as ad_slot %}
 
 {% block title %}{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân{% endblock %}
 
@@ -163,16 +164,9 @@
        ======================================================================== #}
     {{ placement::render(id="home_hero_after", page=page | default(value=false), section=section | default(value=false)) }}
     {{ placement::render(id="home_top_banner_below", page=page | default(value=false), section=section | default(value=false)) }}
-    {% if not config.extra.ads or config.extra.ads.enabled == false %}
-    <div class="eco-ad-slot eco-ad-slot--native" aria-label="Quảng cáo">
-        <div class="eco-container">
-            <div class="eco-ad-slot__inner">
-                <strong>Bài viết tài trợ</strong>
-                <span>Quảng cáo native — AdSense Auto Ad</span>
-            </div>
-        </div>
+    <div class="eco-container">
+        {{ ad_slot::render(key="home_top", id="home-ad-top", type="home-top", label="Quảng cáo", wrapper_class="eco-ad-slot eco-ad-slot--native") }}
     </div>
-    {% endif %}
 
     {# ========================================================================
        HERO 2-COLUMN
@@ -317,10 +311,7 @@
             {% endif %}
 
             <aside class="eco-timeline-section__ad" aria-label="Quảng cáo">
-                <div class="eco-ad-slot__inner">
-                    <strong>Quảng cáo</strong>
-                    <span>160×600 hoặc 300×250</span>
-                </div>
+                {{ ad_slot::render(key="home_sidebar", id="home-ad-sidebar", type="home-sidebar", label="Quảng cáo", min_height="320px") }}
             </aside>
         </div>
     </section>
@@ -329,16 +320,9 @@
     {# ========================================================================
        AD SLOT 2 — In-Article
        ======================================================================== #}
-    {% if not config.extra.ads or config.extra.ads.enabled == false %}
-    <div class="eco-ad-slot eco-ad-slot--inarticle" aria-label="Quảng cáo">
-        <div class="eco-container">
-            <div class="eco-ad-slot__inner">
-                <strong>Bài viết tài trợ bởi [Brand]</strong>
-                <span>AdSense In-Article Ad — Nội dung quảng cáo tích hợp</span>
-            </div>
-        </div>
+    <div class="eco-container">
+        {{ ad_slot::render(key="home_inarticle", id="home-ad-inarticle", type="article-inline", label="Quảng cáo", wrapper_class="eco-ad-slot eco-ad-slot--inarticle") }}
     </div>
-    {% endif %}
 
     {# ========================================================================
        CATEGORIES 3-COLUMN
@@ -397,16 +381,9 @@
     {# ========================================================================
        AD SLOT 3 — Full-Width Banner
        ======================================================================== #}
-    {% if not config.extra.ads or config.extra.ads.enabled == false %}
-    <div class="eco-ad-slot eco-ad-slot--banner" aria-label="Quảng cáo">
-        <div class="eco-container">
-            <div class="eco-ad-slot__inner">
-                <strong>AdSense Banner 728×90</strong>
-                <span>Đặt trước chân trang</span>
-            </div>
-        </div>
+    <div class="eco-container">
+        {{ ad_slot::render(key="home_banner", id="home-ad-banner", type="home-banner", label="Quảng cáo", min_height="90px", wrapper_class="eco-ad-slot eco-ad-slot--banner") }}
     </div>
-    {% endif %}
 
     {# ========================================================================
        WEEKLY EDITION — Series highlight

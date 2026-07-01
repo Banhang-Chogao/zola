@@ -8,6 +8,7 @@
 {% import "macros/series-hub.html" as series_hub %}
 {% import "macros/premium.html" as premium %}
 {% import "macros/placement.html" as placement %}
+{% import "partials/ad-slot.html" as ad_slot %}
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
 {% block extra_head %}
@@ -160,6 +161,8 @@
             {# Content placement hook: post_after_intro (before main body). #}
             {{ placement::render(id="post_after_intro", page=page) }}
 
+            {{ ad_slot::render(key="article_inline", id="article-ad-inline", type="article-inline", label="Quảng cáo", page=page) }}
+
             {{ page.content | safe }}
         </div>
 
@@ -256,6 +259,8 @@
                 {% endif %}
             </div>
         </aside>
+
+        {{ ad_slot::render(key="article_end", id="article-ad-end", type="article-end", label="Quảng cáo", page=page) }}
 
         {# Content placement hook: post_before_related. #}
         {{ placement::render(id="post_before_related", page=page) }}

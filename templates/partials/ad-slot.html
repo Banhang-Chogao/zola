@@ -1,0 +1,59 @@
+{# ============================================================
+   AdSense slot — placeholder OR live unit (CLS-safe min-height).
+
+   Usage:
+     {% import "partials/ad-slot.html" as ad_slot %}
+     {{ ad_slot::render(key="article_inline", id="article-ad-inline", type="article-inline", page=page) }}
+
+   Config (config.toml):
+     [extra.ads] enabled, placeholders, publisher_id, require_cwv_gate
+     [extra.ads.slots] home_top, home_inarticle, home_banner, home_sidebar,
+                       article_inline, article_end
+   ============================================================ #}
+
+{% import "partials/ad-placeholder.html" as ad_ph %}
+
+{% macro render(key, id, type="generic", label="Quảng cáo", desktop_only=false, mobile_only=false, min_height=false, page=false, wrapper_class="") %}
+  {%- set ads = config.extra.ads | default(value=false) -%}
+  {%- if ads -%}
+    {%- set slot_id = "" -%}
+    {%- if ads.slots is defined and ads.slots[key] is defined -%}
+      {%- set slot_id = ads.slots[key] -%}
+    {%- endif -%}
+
+    {%- set publisher = ads.publisher_id | default(value="") -%}
+    {%- set skip_premium = page and page.extra.premium | default(value=false) -%}
+    {%- set show_live = ads.enabled and publisher != "" and slot_id != "" and not skip_premium -%}
+    {%- set show_placeholder = ads.placeholders and not show_live and not skip_premium -%}
+
+    {%- if show_live -%}
+      {%- set default_height = "250px" -%}
+      {%- if type == "home-top" %}{% set default_height = "300px" %}{% endif -%}
+      {%- if type == "home-banner" %}{% set default_height = "90px" %}{% endif -%}
+      {%- if type == "home-sidebar" %}{% set default_height = "320px" %}{% endif -%}
+      {%- if type == "article-inline" %}{% set default_height = "250px" %}{% endif -%}
+      {%- if type == "article-end" %}{% set default_height = "280px" %}{% endif -%}
+      {%- set final_height = min_height | default(value=default_height) -%}
+      {%- set css_class = "ad-slot ad-slot--live ad-slot--" ~ type -%}
+      {%- if wrapper_class != "" %}{% set css_class = css_class ~ " " ~ wrapper_class %}{% endif -%}
+      {%- if desktop_only %}{% set css_class = css_class ~ " ad-slot--desktop-only" %}{% endif -%}
+      {%- if mobile_only %}{% set css_class = css_class ~ " ad-slot--mobile-only" %}{% endif -%}
+
+      <div class="{{ css_class }}"
+           id="{{ id }}"
+           data-ad-slot="{{ key }}"
+           data-ad-live="true"
+           style="min-height: {{ final_height }}; --ad-min-height: {{ final_height }};">
+        <ins class="adsbygoogle"
+             style="display:block; min-height: {{ final_height }};"
+             data-ad-client="{{ publisher }}"
+             data-ad-slot="{{ slot_id }}"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    {%- elif show_placeholder -%}
+      {{ ad_ph::placeholder(id=id, type=type, label=label, desktop_only=desktop_only, mobile_only=mobile_only, min_height=min_height) }}
+    {%- endif -%}
+  {%- endif -%}
+{% endmacro render %}
