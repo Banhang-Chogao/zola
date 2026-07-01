@@ -1,6 +1,24 @@
 {
   "items": [
     {
+      "id": "pr-1284",
+      "pr_number": 1284,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1284",
+      "title": "fix(auto-merge): add missing checkout step in deploy_check job",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T03:28:50Z",
+      "merge_commit_sha": "03ec68aef603",
+      "stats": {
+        "additions": 3,
+        "deletions": 0
+      },
+      "highlights": [
+        "python3 scripts/validate_workflows.py — đảm bảo YAML hợp lệ"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1285",
       "pr_number": 1285,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1285",
