@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1286",
+      "pr_number": 1286,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1286",
+      "title": "feat(cms): connect Editorial Desk slots to homepage",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T03:50:42Z",
+      "merge_commit_sha": "6eea626c10d6",
+      "stats": {
+        "additions": 419,
+        "deletions": 9
+      },
+      "highlights": [
+        "add Git-versioned homepage editorial slot schema",
+        "add authenticated CMS-V2 controls backed by real repository articles",
+        "validate broken and duplicate slots before committing through the existing GitHub save flow",
+        "make homepage consume Lead, Featured, Secondary, and Sidebar slot configuration with safe fallbacks",
+        "exclude pinned articles from the latest feed"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1284",
       "pr_number": 1284,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1284",
