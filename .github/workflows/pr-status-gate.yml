@@ -54,11 +54,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          REPORT=$(cat /tmp/pr-status-report.md)
-          gh pr comment ${{ github.event.pull_request.number }} \
-            --body "## 🔍 Kt9 PR Status Check
-
-$REPORT" || echo "Comment failed (may be first time)"
+          printf '## \xF0\x9F\x94\x8D Kt9 PR Status Check\n\n' > /tmp/pr-status-body.md
+          cat /tmp/pr-status-report.md >> /tmp/pr-status-body.md
+          gh pr comment "${{ github.event.pull_request.number }}" \
+            --body-file /tmp/pr-status-body.md \
+            || echo "Comment failed (may be first time)"
 
       - name: Upload report artifact
         uses: actions/upload-artifact@v4
