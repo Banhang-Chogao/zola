@@ -50,6 +50,16 @@ Một sản phẩm "xanh" nghe có vẻ thiện nguyện, nhưng đằng sau Eco
 
 ## Phí thường niên – Dòng tiền ổn định
 
+<!-- IMAGE – ECO DEBIT CARD -->
+<figure style="margin: 20px auto; max-width: 100%; text-align: center;">
+  <img src="/img/posting/techcombank-eco-card/Techcomnbank-eco-debitcard-2026.webp" 
+       alt="Techcombank Eco Debit Card - Thiết kế thẻ xanh thân thiện môi trường" 
+       style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+  <figcaption style="font-size: 0.85rem; color: #666; margin-top: 8px; font-style: italic;">
+    Techcombank Eco Debit Card – Mẫu thẻ vật lý với thiết kế xanh, biểu tượng của dòng sản phẩm hướng đến phát triển bền vững
+  </figcaption>
+</figure>
+
 Eco Card có cấu trúc phí thường niên phân tầng:
 
 - **Thẻ phi vật lý:** Miễn phí trọn đời – chi phí vận hành gần như bằng 0.
