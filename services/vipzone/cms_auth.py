@@ -580,7 +580,19 @@ async def auth_callback(code: str = "", state: str = "") -> RedirectResponse:
         },
         SESSION_TTL,
     )
-    response = RedirectResponse(github_success_return_to(return_to), status_code=302)
+    # Include #sid= in the redirect fragment so the frontend can store the sid in
+    # localStorage/sessionStorage and use Authorization: Bearer <sid> for all API
+    # calls, rather than relying solely on the HttpOnly cookie (which can fail under
+    # cross-origin restrictions or third-party cookie blocking).  The Google callback
+    # already uses this pattern — this makes the GitHub flow consistent.
+    safe_url = normalize_github_return_to(return_to)
+    parsed = urlsplit(safe_url)
+    query = parse_qsl(parsed.query, keep_blank_values=True)
+    query.append(("success", "1"))
+    redirect_url = urlunsplit(
+        (parsed.scheme, parsed.netloc, parsed.path, urlencode(query), f"sid={sid}")
+    )
+    response = RedirectResponse(redirect_url, status_code=302)
     attach_session_cookie(response, sid)
     return response
 
