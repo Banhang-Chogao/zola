@@ -28,37 +28,18 @@ def test_cse_siteSearch_in_editor():
 
     print("✓ Editor adds site:seomoney.org restriction to CSE queries")
 
-def test_homepage_uses_real_categories():
-    """Verify homepage uses dynamically generated categories."""
+def test_homepage_is_blog_feed():
+    """Verify homepage is a paginated post feed, not a discovery landing page."""
     index_html = Path("templates/index.html")
     with open(index_html, "r", encoding="utf-8") as f:
         content = f.read()
 
-    # Check for dynamic category loading
-    assert "homepage-categories.json" in content, "Should load homepage-categories.json"
-    assert "homepage_categories" in content, "Should use homepage_categories variable"
-    assert "for cat_item in homepage_categories.categories" in content, "Should loop through categories"
+    assert 'class="post-list"' in content, "Should render post-list feed"
+    assert "home-discovery" not in content, "Should not use discovery landing layout"
+    assert "home-economist" not in content, "Should not use economist landing layout"
+    assert "for subsection_path in section.subsections" in content, "Should discover article sections dynamically"
 
-    # Verify no hardcoded "AI WebOps" or "case-study"
-    # (these were in the original hardcoded list but don't exist as real categories)
-    lines = content.split('\n')
-    in_topics_section = False
-    hardcoded_bad_cats = ["AI WebOps", "case-study", "Tài chính cá nhân"]
-
-    for i, line in enumerate(lines):
-        if 'id="home-filter-panel"' in line or 'class="home-discovery__topics"' in line:
-            in_topics_section = True
-
-        if in_topics_section and 'for cat_item in homepage_categories' in line:
-            # Now we're in the dynamic section, OK
-            break
-
-        if in_topics_section and any(cat in line for cat in hardcoded_bad_cats):
-            # Check if it's in the fallback section (which is OK for backwards compat)
-            if "else:" not in lines[max(0, i-10):i] and "fallback" not in "".join(lines[max(0, i-5):i]):
-                raise AssertionError(f"Found hardcoded category '{[c for c in hardcoded_bad_cats if c in line][0]}' in main filter")
-
-    print("✓ Homepage filter uses real categories from data/homepage-categories.json")
+    print("✓ Homepage is a dynamic blog feed at canonical root")
 
 def test_categories_exclude_synthetic():
     """Verify homepage-categories.json doesn't include synthetic categories."""
@@ -80,7 +61,7 @@ def main():
     try:
         test_cse_configuration()
         test_cse_siteSearch_in_editor()
-        test_homepage_uses_real_categories()
+        test_homepage_is_blog_feed()
         test_categories_exclude_synthetic()
 
         print("\n✓ All search configuration tests passed!")
