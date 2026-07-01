@@ -3,8 +3,7 @@
 html, body { margin: 0; padding: 0; }
 
 /* ===== TYPOGRAPHY DESKTOP (global) =====
-   Inter + Be Vietnam Pro → tăng size 17px (từ 16) + line-height 1.7
-   để dễ đọc nhưng vẫn cân đối. letter-spacing 0. */
+   Be Vietnam Pro (OFL) → 17px body + line-height 1.7 cho đọc tiếng Việt. */
 .skip-link {
   position: absolute;
   left: -9999px;
@@ -46,7 +45,7 @@ a:hover { color: var(--c-accent); }
 h1, h2, h3, h4, h5, h6 {
   font-family: $font-heading;
   font-weight: 700;
-  /* IBM Plex Sans: hơi tighter để headings không bị thưa */
+  /* Sans headings: hơi tighter để không bị thưa */
   letter-spacing: -0.015em;
   margin: 0;
   line-height: 1.2;

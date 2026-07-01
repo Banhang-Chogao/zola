@@ -1,0 +1,25 @@
+/* Nokia Pure — specimen only (font-nokia page). Not used on public blog UI. */
+
+@font-face {
+  font-family: 'Nokia Pure';
+  src: url('fonts/nokia-pure/NokiaPureText-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nokia Pure';
+  src: url('fonts/nokia-pure/NokiaPureText-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nokia Pure Headline';
+  src: url('fonts/nokia-pure/NokiaPureHeadline-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
