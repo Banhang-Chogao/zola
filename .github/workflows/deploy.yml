@@ -265,6 +265,16 @@ jobs:
       # Lấy URL từ lần deploy nào thành công (||  trả operand truthy đầu tiên).
       url: ${{ steps.deploy_attempt_1.outputs.page_url || steps.deploy_attempt_2.outputs.page_url || steps.deploy_attempt_3.outputs.page_url }}
     steps:
+      # Cooldown 60s giữa các deploy run — đảm bảo luôn có gap tối thiểu giữa 2 lần
+      # deploy liên tiếp, tránh dồn dập gây Pages API rate limit. Kết hợp với
+      # concurrency queue, mỗi run trong hàng đợi chờ thêm 60s kể từ khi run trước
+      # kết thúc → giảm tải quota installation theo giờ.
+      - name: Deploy queue cooldown (60s gap between runs)
+        run: |
+          echo "⏳ Cooldown 60s giữa các deploy run..."
+          echo "   (Tránh Pages API rate limit khi nhiều deploy queue dồn dập)"
+          sleep 60
+
       # V5 (mở rộng) — "API rate limit exceeded for installation" KHÔNG chỉ xảy ra ở
       # configure-pages (build job) mà còn ở chính bước tạo Pages deployment của
       # actions/deploy-pages (createPagesDeployment → 403). Action chính thức KHÔNG
