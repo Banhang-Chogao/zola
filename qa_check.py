@@ -439,6 +439,62 @@ def parse_frontmatter(content):
     return fm, body
 
 
+# Duplicate footer heading patterns — these are rendered automatically by the
+# references::section macro and the FAQ block in page.html. Hardcoding them in
+# markdown body creates duplicate blocks at the end of articles.
+DUPLICATE_FOOTER_HEADINGS = [
+    re.compile(r"^## Liên kết bên ngoài được sử dụng trong bài viết\s*$", re.MULTILINE),
+    re.compile(r"^## Liên kết nội bộ liên quan\s*$", re.MULTILINE),
+    re.compile(r"^## Tuyên bố bản quyền\s*$", re.MULTILINE),
+    re.compile(r"^## Bản quyền & Ghi nguồn\s*$", re.MULTILINE),
+    re.compile(r"^## FAQ - Câu hỏi thường gặp\s*$", re.MULTILINE),
+    re.compile(r"^## FAQ: Câu hỏi thường gặp\s*$", re.MULTILINE),
+    re.compile(r"^### Tham khảo & Nguồn dữ liệu\s*$", re.MULTILINE),
+    re.compile(r"^### Liên kết nội bộ liên quan\s*$", re.MULTILINE),
+    re.compile(r"^### Bản quyền & Ghi nguồn\s*$", re.MULTILINE),
+]
+
+# For "## Tham khảo", only flag if it's the last H2 heading in the file (likely a footer).
+_THAM_KHAO_LAST_H2_RE = re.compile(r"^## Tham khảo\s*$", re.MULTILINE)
+
+
+def check_duplicate_footer(path, content):
+    """Check .md files in content/ for hardcoded duplicate footer headings
+    that conflict with the references::section macro and FAQ block.
+    Return list[Issue] (warning — not a build blocker)."""
+    if path.suffix != ".md":
+        return []
+    rel = str(path).replace("\\", "/")
+    if "content/" not in rel:
+        return []
+    if path.name.startswith("_"):
+        return []
+
+    issues = []
+
+    # Check exact duplicate footer patterns
+    for pattern in DUPLICATE_FOOTER_HEADINGS:
+        for m in pattern.finditer(content):
+            line = content[:m.start()].count("\n") + 1
+            heading = m.group().strip()
+            issues.append(Issue("warning", path, line,
+                f"Footer: hardcoded '{heading}' trong body — "
+                f"references::section macro và FAQ block đã render tự động. "
+                f"Nên xoá khỏi markdown body."))
+
+    # Check "## Tham khảo" — only if it's the last H2 in the file
+    all_h2 = list(re.finditer(r"^## .+$", content, re.MULTILINE))
+    if all_h2:
+        last_h2 = all_h2[-1]
+        if _THAM_KHAO_LAST_H2_RE.match(last_h2.group()):
+            line = content[:last_h2.start()].count("\n") + 1
+            issues.append(Issue("warning", path, line,
+                f"Footer: hardcoded '## Tham khảo' là heading H2 cuối cùng trong bài — "
+                f"references::section macro đã render tự động. Nên xoá khỏi markdown body."))
+
+    return issues
+
+
 def check_seo(path, content):
     """SEO basic checks cho .md trong content/posting/. Return list[Issue]."""
     # Skip _index.md (section index, không phải bài viết)
@@ -937,6 +993,7 @@ def main():
         all_issues.extend(check_scss_syntax(rel, content))
         if path.suffix == ".md":
             all_issues.extend(check_seo(rel, content))
+            all_issues.extend(check_duplicate_footer(rel, content))
             # Detect fixable issues riêng cho posting
             if "content/posting" in str(rel).replace("\\", "/") and not path.name.startswith("_"):
                 fm, _ = parse_frontmatter(content)

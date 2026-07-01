@@ -335,27 +335,3 @@ git merge-base --is-ancestor <commit> origin/main
 Và một nguyên tắc: **kiểm tra queue trước dispatch, kiểm tra production sau deploy, kiểm tra commit trước khi báo live.**
 
 Tham khảo thêm cách vận hành CI/CD cho Zola trong bài [tự động deploy Zola với GitHub Actions](/posting/tu-dong-deploy-zola-github-actions/) và kinh nghiệm xử lý [merge conflict tự động trong CI/CD](/posting/giai-quyet-merge-conflict-tu-dong-ci-cd/).
-
----
-
-### Tham khảo & Nguồn dữ liệu
-
-- [GitHub Actions — Workflow syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
-- [GitHub Actions — Concurrency](https://docs.github.com/en/actions/using-jobs/using-concurrency)
-- [GitHub Pages — Deployment history](https://docs.github.com/en/pages)
-- [GitHub CLI — gh run](https://cli.github.com/manual/gh_run_list)
-- Deploy log thực tế từ blog seomoney.org (run #1405–#1410, Deploy Guard #45–#47)
-
-### Liên kết nội bộ liên quan
-
-- [Kiểm tra trạng thái PR sau khi merge](/posting/kiem-tra-trang-thai-pr-sau-khi-merge/)
-- [Tự động deploy Zola với GitHub Actions](/posting/tu-dong-deploy-zola-github-actions/)
-- [Giải quyết merge conflict tự động trong CI/CD](/posting/giai-quyet-merge-conflict-tu-dong-ci-cd/)
-- [GitHub Actions CI/CD cho người mới](/posting/github-actions-ci-cd-cho-nguoi-moi/)
-- [Xử lý lỗi pipeline GitHub Actions](/posting/github-actions-ci-cd-build-failure-vipzone-token/)
-- [Invalid workflow file YAML case study](/posting/loi-yaml-github-actions-workflow-invalid-case-study/)
-
-### Bản quyền & Ghi nguồn
-
-Bài viết dựa trên kinh nghiệm vận hành thực tế blog seomoney.org. Minh hoạ terminal và log đã được sanitize để bảo vệ token và thông tin nhạy cảm. Toàn bộ nội dung thuộc sở hữu của tác giả.
-+++
