@@ -327,7 +327,7 @@
                 "thumbnail": {{ page.extra.thumbnail | default(value="") | json_encode | safe }},
                 "image": {{ page.extra.image | default(value="") | json_encode | safe }},
                 "draft": {% if page.draft %}true{% else %}false{% endif %},
-                "premium": {% if page.extra.premium or page_cat == "premium" %}true{% else %}false{% endif %},
+                "premium": {% if page.extra.premium or (page.taxonomies.categories and "premium" in page.taxonomies.categories) %}true{% else %}false{% endif %},
                 "publish_at": {{ page.extra.publish_at | default(value="") | json_encode | safe }},
                 "reading_time": {% if page.extra.reading_time %}{{ page.extra.reading_time }}{% elif page.reading_time %}{{ page.reading_time }}{% else %}null{% endif %},
                 "featured": {% if page.extra.featured %}true{% else %}false{% endif %},
