@@ -126,6 +126,10 @@
   border-color: var(--c-border-strong);
 }
 
+.cmsv6-is-locked {
+  opacity: 0.72;
+}
+
 /* ─── Dashboard Layout ─── */
 
 .cmsv6-dashboard {
@@ -329,6 +333,45 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
+.cmsv6-sidebar__guest {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: auto;
+}
+
+.cmsv6-sidebar__guest-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.cmsv6-sidebar__guest-copy strong {
+  font-size: 0.8125rem;
+  color: var(--cmsv6-text-sidebar-active);
+  font-weight: 500;
+}
+
+.cmsv6-sidebar__guest-copy span {
+  font-size: 0.6875rem;
+  color: var(--cmsv6-text-sidebar);
+  line-height: 1.45;
+}
+
+.cmsv6-sidebar__guest-login {
+  width: 100%;
+  justify-content: center;
+  border-color: rgba(255, 255, 255, 0.14);
+  color: #f8fafc;
+}
+
+.cmsv6-sidebar__guest-login:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
 /* ─── Main Content ─── */
 
 .cmsv6-main {
@@ -373,6 +416,10 @@
   gap: 0.5rem;
 }
 
+.cmsv6-topbar__login {
+  font-size: 0.8125rem;
+}
+
 .cmsv6-topbar__icon {
   background: none;
   border: 1px solid var(--c-border);
@@ -393,6 +440,41 @@
 
 .cmsv6-posts {
   padding: 1.5rem;
+}
+
+.cmsv6-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(29, 78, 216, 0.04));
+}
+
+.cmsv6-notice__body {
+  min-width: 0;
+}
+
+.cmsv6-notice__title {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--c-text-heading);
+  margin-bottom: 0.1875rem;
+}
+
+.cmsv6-notice__copy {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--c-text-muted);
+  line-height: 1.45;
+}
+
+.cmsv6-notice__action {
+  flex-shrink: 0;
 }
 
 /* Tabs */
@@ -1115,6 +1197,11 @@
   }
 
   .cmsv6-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cmsv6-notice {
     flex-direction: column;
     align-items: stretch;
   }
