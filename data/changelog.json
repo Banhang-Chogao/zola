@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1314",
+      "pr_number": 1314,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1314",
+      "title": "fix(style): remove Unsplash background image, restore default",
+      "tag": "remove",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T16:26:11Z",
+      "merge_commit_sha": "546e7ad4cafc",
+      "stats": {
+        "additions": 0,
+        "deletions": 5
+      },
+      "highlights": [
+        "background-image: url('https://images.unsplash.com/...');",
+        "background-size: cover;",
+        "background-repeat: no-repeat;",
+        "background-position: center top;",
+        "background-attachment: fixed;"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1313",
       "pr_number": 1313,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1313",
