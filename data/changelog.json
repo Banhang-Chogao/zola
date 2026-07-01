@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1289",
+      "pr_number": 1289,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1289",
+      "title": "fix(content): standardize article footer macro",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T04:03:10Z",
+      "merge_commit_sha": "f29527ca2615",
+      "stats": {
+        "additions": 579,
+        "deletions": 812
+      },
+      "highlights": [
+        "consolidate external links, internal links, copyright/source, and FAQ into one canonical end-of-article macro",
+        "add safe fallbacks for all four sections, including valid previous/next article links",
+        "cover the alternate left-sidebar article render path",
+        "expand reference extraction from 4 directories to all 15 article sections plus pages",
+        "remove duplicate hardcoded footer blocks from 19 articles while preserving 70 external sources in frontmatter"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1288",
       "pr_number": 1288,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1288",
