@@ -1,6 +1,6 @@
-<div class="faq-pair">
-  <details>
-    <summary><strong>{{ q }}</strong></summary>
-    <p>{{ a }}</p>
-  </details>
-</div>
+<details class="faq__item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+  <summary class="faq__q" itemprop="name">{{ q | markdown(inline=true) | safe }}</summary>
+  <div class="faq__a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+    <div itemprop="text">{{ a | markdown | safe }}</div>
+  </div>
+</details>
