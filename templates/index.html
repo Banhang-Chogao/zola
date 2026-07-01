@@ -19,24 +19,17 @@
 {% block main %}
 <h1 class="visually-hidden">{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân</h1>
 
-{% set _idx_posting = get_section(path="posting/_index.md") %}
-{% set _idx_baochi = get_section(path="baochi/_index.md") %}
-{% set _idx_amthuc = get_section(path="am-thuc/_index.md") %}
-{% set _idx_congnghe = get_section(path="cong-nghe/_index.md") %}
-{% set _idx_hoctienghan = get_section(path="hoc-tieng-han/_index.md") %}
-{% set _idx_khoahoc = get_section(path="khoa-hoc/_index.md") %}
-{% set _idx_dulich = get_section(path="du-lich/_index.md") %}
-{% set _idx_nganhang = get_section(path="ngan-hang/_index.md") %}
-{% set _idx_seo = get_section(path="seo/_index.md") %}
-{% set _idx_thethao = get_section(path="the-thao/_index.md") %}
-{% set _idx_worldcup = get_section(path="world-cup-2026/_index.md") %}
-{% set _idx_doisong = get_section(path="doi-song/_index.md") %}
-{% set _idx_baohiem = get_section(path="bao-hiem/_index.md") %}
-{% set _idx_thegioi = get_section(path="the-gioi/_index.md") %}
 {% set_global all_pages = [] %}
-{% for page in _idx_posting.pages | concat(with=_idx_baochi.pages) | concat(with=_idx_amthuc.pages) | concat(with=_idx_congnghe.pages) | concat(with=_idx_hoctienghan.pages) | concat(with=_idx_khoahoc.pages) | concat(with=_idx_dulich.pages) | concat(with=_idx_nganhang.pages) | concat(with=_idx_seo.pages) | concat(with=_idx_thethao.pages) | concat(with=_idx_worldcup.pages) | concat(with=_idx_doisong.pages) | concat(with=_idx_baohiem.pages) | concat(with=_idx_thegioi.pages) %}
-    {% if not page.extra.feed_anchor %}
-        {% set_global all_pages = all_pages | concat(with=[page]) %}
+{# Article sections are included by default. System/tool sections opt out with
+   `extra.skip_feed = true` in their _index.md front matter. #}
+{% for subsection_path in section.subsections %}
+    {% set child_section = get_section(path=subsection_path) %}
+    {% if not child_section.extra.skip_feed | default(value=false) %}
+        {% for page in child_section.pages %}
+            {% if page.title and page.date and not page.extra.feed_anchor | default(value=false) and not page.extra.hide_from_home | default(value=false) %}
+                {% set_global all_pages = all_pages | concat(with=[page]) %}
+            {% endif %}
+        {% endfor %}
     {% endif %}
 {% endfor %}
 {% set all_pages = all_pages | sort(attribute="date") | reverse %}
