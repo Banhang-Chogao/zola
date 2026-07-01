@@ -927,8 +927,6 @@
         </div>
     </section>
 
-    {% include "partials/gcf-stock-widget.html" %}
-
     {# Cloudflare Turnstile — chống spam bình luận. #}
     {% include "partials/turnstile_footer.html" %}
 
@@ -943,8 +941,7 @@
       var sources = [
         "{{ get_url(path='js/sidebar.js') }}?v={{ asset_version }}",
         "{{ get_url(path='js/google-rank.js') }}?v={{ asset_version }}",
-        "{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}",
-        "{{ get_url(path='js/gcf-stock-widget.js') }}?v={{ asset_version }}"
+        "{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}"
       ];
       sources.forEach(function (source) {
         var script = document.createElement('script');
