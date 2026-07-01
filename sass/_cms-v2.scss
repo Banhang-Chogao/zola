@@ -34,7 +34,7 @@ main.container:has(.cms-v2) {
   position: relative;
   isolation: isolate;
   color: var(--c-text-body);
-  font-family: $hilda-font-family;
+  font-family: $font-body;
   background:
     radial-gradient(circle at top left, rgba(0, 55, 132, 0.06), transparent 34%),
     radial-gradient(circle at top right, rgba(255, 152, 0, 0.06), transparent 30%),

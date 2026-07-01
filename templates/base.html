@@ -54,7 +54,7 @@
     <meta charset="UTF-8">
     {# Zero-flash theme + font preload: đọc localStorage trước paint.
        Mặc định hilda; nokia khi user đã chọn. Preload font theo theme. #}
-    <script>(function(){try{var t='hilda';try{var s=localStorage.getItem('blog-theme');if(s==='nokia')t='nokia';}catch(e){}document.documentElement.setAttribute('data-theme',t);var f=t==='nokia'?['{{ get_url(path='fonts/nokia-pure/NokiaPureText-Regular.ttf') }}','{{ get_url(path='fonts/nokia-pure/NokiaPureHeadline-Bold.ttf') }}']:['{{ get_url(path='fonts/EricssonHilda-Medium.woff2') }}','{{ get_url(path='fonts/EricssonHilda-Bold.woff2') }}'];for(var i=0;i<f.length;i++){var l=document.createElement('link');l.rel='preload';l.as='font';l.type=t==='nokia'?'font/ttf':'font/woff2';l.crossOrigin='anonymous';l.href=f[i];document.head.appendChild(l);}}catch(e){}})();</script>
+    <script>(function(){try{var t='hilda';try{var s=localStorage.getItem('blog-theme');if(s==='nokia')t='nokia';}catch(e){}document.documentElement.setAttribute('data-theme',t);var f=['{{ get_url(path='fonts/be-vietnam-pro/BeVietnamPro-Regular.woff2') }}'];for(var i=0;i<f.length;i++){var l=document.createElement('link');l.rel='preload';l.as='font';l.type='font/woff2';l.crossOrigin='anonymous';l.href=f[i];document.head.appendChild(l);}}catch(e){}})();</script>
     {# Ảnh thumbnail lỗi/404 (cover hỏng, link chết…) → tự thay bằng placeholder
        thương hiệu, tránh icon "ảnh vỡ". Bổ trợ cho fallback server-side (chỉ bắt
        bài THIẾU thumbnail): listener này bắt cả ảnh CÓ src nhưng load fail. Dùng
@@ -899,29 +899,29 @@
                 <div class="font-showcase__grid">
                     <div class="font-showcase__card font-showcase__card--heading">
                         <span class="font-showcase__label">Headings</span>
-                        <strong class="font-showcase__name">IBM Plex Sans</strong>
+                        <strong class="font-showcase__name">Be Vietnam Pro</strong>
                         <p class="font-showcase__sample">Đẳng cấp &amp; Cá tính — cho mọi tiêu đề</p>
                         <div class="font-showcase__meta">
-                            <span>Weight 700</span>
+                            <span>Weight 700 · OFL</span>
                             <span>Letter-spacing -0.015em</span>
                         </div>
                     </div>
                     <div class="font-showcase__card font-showcase__card--body">
                         <span class="font-showcase__label">Body Text</span>
-                        <strong class="font-showcase__name">Inter</strong>
-                        <p class="font-showcase__sample">X-height cao, trung tính — tối ưu đọc văn bản dài. Hỗ trợ đầy đủ glyph tiếng Việt.</p>
+                        <strong class="font-showcase__name">Be Vietnam Pro</strong>
+                        <p class="font-showcase__sample">Thiết kế cho tiếng Việt — dấu và tone rõ, đọc văn bản dài thoải mái trên mobile.</p>
                         <div class="font-showcase__meta">
-                            <span>Weight 400</span>
+                            <span>Weight 400 · self-hosted</span>
                             <span>Line-height 1.7</span>
                         </div>
                     </div>
                     <div class="font-showcase__card font-showcase__card--mono">
                         <span class="font-showcase__label">Code</span>
-                        <strong class="font-showcase__name">JetBrains Mono</strong>
+                        <strong class="font-showcase__name">System monospace</strong>
                         <p class="font-showcase__sample">const fn = (x: number) =&gt; x * 2;</p>
                         <div class="font-showcase__meta">
-                            <span>Weight 500</span>
-                            <span>Ligatures</span>
+                            <span>ui-monospace</span>
+                            <span>Không tải font ngoài</span>
                         </div>
                     </div>
                 </div>

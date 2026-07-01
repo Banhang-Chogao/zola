@@ -81,7 +81,7 @@
     color: rgba(255, 255, 255, 0.65);
 
     .font-showcase__card--heading & {
-      font-family: "IBM Plex Sans", "Inter", "Be Vietnam Pro", system-ui, sans-serif;
+      font-family: "Be Vietnam Pro", system-ui, sans-serif;
       font-weight: 600;
       font-size: 1.1rem;
       letter-spacing: -0.02em;
@@ -89,12 +89,12 @@
     }
 
     .font-showcase__card--body & {
-      font-family: "Inter", "Be Vietnam Pro", system-ui, -apple-system, sans-serif;
+      font-family: "Be Vietnam Pro", system-ui, sans-serif;
       font-weight: 400;
     }
 
     .font-showcase__card--mono & {
-      font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       font-size: 0.85rem;
       letter-spacing: -0.01em;
       color: rgba(255, 255, 255, 0.75);

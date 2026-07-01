@@ -24,7 +24,7 @@ $fg-border:      #e3e3e3;
 $fg-paper:       #ffffff;
 $fg-soft:        #f5f5f5;
 
-$fg-specimen: $font-body;
+$fg-specimen: 'Ericsson Hilda', system-ui, sans-serif;
 
 /* ============================================================
    ===== DESKTOP (global) =====
@@ -35,7 +35,7 @@ $fg-specimen: $font-body;
   margin: 0 auto 5rem;
   padding: 0 2rem;
   color: $fg-body;
-  font-family: $font-body;
+  font-family: $fg-specimen;
   -webkit-font-smoothing: antialiased;
 
   /* Mỗi block phân tách bằng đường kẻ mảnh — nhịp foundry */

@@ -1,17 +1,18 @@
 /* ===== Typography stack =====
-   Ericsson Hilda (self-hosted WOFF2) + system-ui fallback. */
+   Be Vietnam Pro (OFL, Vietnamese subset WOFF2) + system-ui fallback.
+   Fast LCP, license-safe for public monetized blog. */
 
-$font-body:    "Ericsson Hilda", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-$font-heading: "Ericsson Hilda", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-$font-ui:      "Ericsson Hilda", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-$font-meta:    "Ericsson Hilda", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-$font-mono:    "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+$font-body:    "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$font-heading: "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$font-ui:      "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$font-meta:    "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$font-mono:    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 
 :root {
-  --font-body: "Ericsson Hilda", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-heading: "Ericsson Hilda", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-heading: "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-serif: Georgia, "Times New Roman", serif;
-  --font-mono: "JetBrains Mono", "Fira Code", Consolas, monospace;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
