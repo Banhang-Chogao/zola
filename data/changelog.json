@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1321",
+      "pr_number": 1321,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1321",
+      "title": "fix(home): replace landing page with paginated blog feed at /",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T19:02:34Z",
+      "merge_commit_sha": "8c2687449117",
+      "stats": {
+        "additions": 108,
+        "deletions": 491
+      },
+      "highlights": [
+        "Reuses the existing post-list / post-card UI from section.html",
+        "Keeps dynamic subsection discovery (skip_feed, feed_anchor, hide_from_home)",
+        "Removes decorative homepage modules (breaking banner, hero 2-col, timeline, category grid, weekly series, ad placeholders)",
+        "Adds paginate_by = 10 on content/_index.md for canonical root pagination (/, /page/2/, …)",
+        "Updates build_feed_pagination.py to count all home-feed sections (not just posting+baochi) so pager routes match the merged feed"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1317",
       "pr_number": 1317,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1317",
