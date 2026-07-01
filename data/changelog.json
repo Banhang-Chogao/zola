@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1316",
+      "pr_number": 1316,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1316",
+      "title": "fix(infographic-hoa): remove auth gate, fully client-side SVG generator",
+      "tag": "remove",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T16:45:52Z",
+      "merge_commit_sha": "0cf960fef335",
+      "stats": {
+        "additions": 301,
+        "deletions": 295
+      },
+      "highlights": [
+        "Cover — gradient background, centered title",
+        "Quote — white card with accent bar, large quote",
+        "Insight — light background, bullet-point analysis",
+        "Summary — dark header, numbered key points",
+        "Banner — wide horizontal format"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1315",
       "pr_number": 1315,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1315",
