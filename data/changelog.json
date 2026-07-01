@@ -1,6 +1,26 @@
 {
   "items": [
     {
+      "id": "pr-1324",
+      "pr_number": 1324,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1324",
+      "title": "fix(seo): FAQ schema validation for top 20 high-value posts",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T19:15:20Z",
+      "merge_commit_sha": "27b0d24fb3b8",
+      "stats": {
+        "additions": 186,
+        "deletions": 35
+      },
+      "highlights": [
+        "Fix add_faq_schema_top_posts.py URL/slug resolution (/ngan-hang/, /cong-nghe/, not only /posting/)",
+        "Add scripts/check_faq_top_posts.py gate (3–8 FAQ, q=/a= fields)",
+        "Update scripts/test_faq_schema.py for migrated paths"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1322",
       "pr_number": 1322,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1322",
