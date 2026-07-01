@@ -200,6 +200,14 @@ main.container:has(.cms5) { max-width: none; padding: 0; }
   .cms5-feature-post{grid-template-columns:1fr}.cms5-feature-post>div{min-height:130px}.cms5-post-grid{grid-template-columns:1fr}.cms5-browser__bar>div{width:auto;flex:1}
 }
 
+// Force [hidden] to always win over display:grid/flex — V20 vaccine pattern.
+// Without this, .cms5 { display:grid } overrides the native [hidden] attribute,
+// making the entire CMS shell visible before JS auth check completes.
+.cms5[hidden],
+.cms5-gate[hidden] {
+  display: none !important;
+}
+
 // CMS-V5 uses the same Inter typography scale as the public SEOMONEY blog.
 // The prototype intentionally used 7–11px labels; operational controls must
 // remain readable during long editorial sessions.
