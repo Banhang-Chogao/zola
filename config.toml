@@ -187,6 +187,19 @@ max_length = 1500
 [extra.ads]
 enabled = false
 placeholders = true
+# Publisher ID from AdSense (ca-pub-XXXXXXXXXXXXXXXX). Fill before go-live.
+publisher_id = ""
+# Block enabled=true in CI until CWV hygiene passes (see scripts/check_cwv_hygiene.py).
+require_cwv_gate = true
+
+# Ad unit slot IDs — create units in AdSense console, paste IDs here.
+[extra.ads.slots]
+home_top = ""
+home_inarticle = ""
+home_banner = ""
+home_sidebar = ""
+article_inline = ""
+article_end = ""
 
 # ============= GOOGLE SNAPSHOT FOOTER WIDGET =============
 # Bật/tắt widget Google Snapshot ở footer.

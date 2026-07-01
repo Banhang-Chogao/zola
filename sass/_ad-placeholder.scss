@@ -110,9 +110,37 @@
   -webkit-user-select: none;
 }
 
+// Live AdSense unit wrapper (same CLS rules as placeholder)
+.ad-slot {
+  display: block;
+  margin: 2rem 0;
+  min-height: var(--ad-min-height, 250px);
+  contain: layout style paint;
+  box-sizing: border-box;
+
+  &--desktop-only {
+    @media (max-width: 720px) {
+      display: none;
+    }
+  }
+
+  &--mobile-only {
+    @media (min-width: 721px) {
+      display: none;
+    }
+  }
+
+  .adsbygoogle {
+    display: block;
+    width: 100%;
+    min-height: inherit;
+  }
+}
+
 // Print media: hide placeholders when printing
 @media print {
-  .ad-placeholder {
+  .ad-placeholder,
+  .ad-slot {
     display: none !important;
   }
 }
