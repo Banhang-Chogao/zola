@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1309",
+      "pr_number": 1309,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1309",
+      "title": "fix(cms-v5): enable GitHub admin login",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T15:37:00Z",
+      "merge_commit_sha": "bf88d857e9e4",
+      "stats": {
+        "additions": 13,
+        "deletions": 1
+      },
+      "highlights": [
+        "Cross-origin restrictions (api.seomoney.org → seomoney.org)",
+        "Third-party cookie blocking by browsers",
+        "SameSite strict-mode configurations",
+        "✅ Tests pass: 6/6 (full CMS-V5 test suite)",
+        "✅ Visiting https://seomoney.org/cms-v5/ while logged out shows GitHub login CTA"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1308",
       "pr_number": 1308,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1308",
