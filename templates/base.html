@@ -933,11 +933,27 @@
     {% include "partials/turnstile_footer.html" %}
 
     <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/sidebar.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/google-rank.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/auth.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/gcf-stock-widget.js') }}?v={{ asset_version }}" defer></script>
+    {# Desktop-only enhancements. A normal script tag would still download on
+       mobile even when CSS hides its widget, so opt in after the viewport
+       check. The scripts also carry their own guard as defence in depth. #}
+    <script>
+    (function () {
+      if (window.matchMedia('(max-width: 767px)').matches) return;
+      var sources = [
+        "{{ get_url(path='js/sidebar.js') }}?v={{ asset_version }}",
+        "{{ get_url(path='js/google-rank.js') }}?v={{ asset_version }}",
+        "{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}",
+        "{{ get_url(path='js/gcf-stock-widget.js') }}?v={{ asset_version }}"
+      ];
+      sources.forEach(function (source) {
+        var script = document.createElement('script');
+        script.src = source;
+        script.defer = true;
+        document.body.appendChild(script);
+      });
+    })();
+    </script>
     <script src="{{ get_url(path='js/ga-improvement-progress.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/staging-queue.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/navbar-mobile.js') }}?v={{ asset_version }}" defer></script>
