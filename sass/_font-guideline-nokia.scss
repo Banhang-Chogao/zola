@@ -1,0 +1,53 @@
+/* Font guideline — Nokia Pure specimen page */
+$nk-blue:   #124191;
+$nk-cyan:   #00c9ff;
+$nk-ink:    #001135;
+$nk-body:   #2d3748;
+$nk-muted:  #5c6b7a;
+$nk-border: #d8dde6;
+$nk-specimen: 'Nokia Pure', $font-body;
+
+.fontguide--nokia {
+  font-family: $nk-specimen;
+  color: $nk-body;
+
+  .fontguide__eyebrow,
+  .fontguide__section-title {
+    color: $nk-blue;
+  }
+
+  .fontguide__wordmark,
+  .fontguide__section-title,
+  .fontguide__weight-sample,
+  .fontguide__scale-sample,
+  .fontguide__tester-preview,
+  .fontguide__glyphs,
+  .fontguide__pangram,
+  .fontguide__glyph-row {
+    font-family: $nk-specimen;
+  }
+
+  .fontguide__wordmark {
+    font-family: 'Nokia Pure Headline', $nk-specimen;
+    color: $nk-ink;
+  }
+
+  .fontguide__weight-sample--400,
+  .fontguide__tester-preview { font-weight: 400; }
+
+  .fontguide__weight-sample--700 { font-weight: 700; }
+
+  .fontguide__swatch-info code { color: $nk-blue; }
+
+  .fontguide__tester-w.is-active {
+    background: $nk-blue;
+    border-color: $nk-blue;
+    color: #fff;
+  }
+
+  .fontguide__usage-col--do h3 { color: $nk-blue; }
+
+  .fontguide__award-dot { background: $nk-cyan; }
+
+  a { color: $nk-blue; }
+}

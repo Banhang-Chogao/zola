@@ -331,6 +331,31 @@
   );
 }
 
+/* ===== NOKIA BLOG — editorial cards, softer radius ===== */
+:root[data-theme="nokia"] {
+  @include theme-overrides(
+    $radius-card:        12px,
+    $radius-tag:         999px,
+    $shadow-card:        0 2px 8px rgba(18, 65, 145, 0.08),
+    $shadow-card-hover:  0 12px 24px rgba(18, 65, 145, 0.14),
+    $kicker-spacing:     0.06em,
+    $heading-ls:         -0.02em
+  );
+
+  .read-more {
+    border-radius: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  .navbar {
+    border-bottom-color: var(--c-border);
+  }
+
+  .post-card:hover {
+    transform: translateY(-3px);
+  }
+}
+
 /* ============================================================
    ===== HILDA UX POLISH — interaction states (guideline) =====
    ============================================================

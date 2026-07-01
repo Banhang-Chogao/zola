@@ -1,0 +1,73 @@
+/* Nokia branding guideline page — scoped tokens (luôn Nokia Blue dù theme site) */
+$nk-blue:       #124191;
+$nk-blue-dark:  #0d2f66;
+$nk-cyan:       #00c9ff;
+$nk-ink:        #001135;
+$nk-body:       #2d3748;
+$nk-muted:      #5c6b7a;
+$nk-border:     #d8dde6;
+$nk-paper:      #ffffff;
+$nk-soft:       #f0f4fa;
+
+.brandx--nokia {
+  color: $nk-body;
+
+  .brandx__logo-mark { color: $nk-blue; }
+
+  .brandx__nav a:hover,
+  .brandx__nav a:focus-visible {
+    color: $nk-blue;
+    background: rgba($nk-blue, 0.08);
+  }
+
+  .brandx__manifesto-eyebrow,
+  .brandx__section-num,
+  .brandx__group-label {
+    color: $nk-blue;
+  }
+
+  .brandx__manifesto-title,
+  .brandx__section-title,
+  .brandx__comp h4 {
+    color: $nk-ink;
+    font-family: 'Nokia Pure Headline', 'Nokia Pure', $font-heading;
+  }
+
+  .brandx__swatch-info code,
+  .brandx__type-meta code {
+    color: $nk-blue;
+  }
+
+  .brandx-btn--primary,
+  .brandx__comp-demo--icons span {
+    background: $nk-blue;
+    border-color: $nk-blue;
+    color: #fff;
+  }
+
+  .brandx-btn--primary:hover {
+    background: $nk-blue-dark;
+    border-color: $nk-blue-dark;
+  }
+
+  .brandx-btn--secondary:hover,
+  .brandx-btn--ghost:hover {
+    border-color: $nk-blue;
+    color: $nk-blue;
+  }
+
+  .brandx-card,
+  .brandx__swatch,
+  .brandx__comp,
+  .brandx__type-row,
+  .brandx__rationale {
+    border-radius: 12px;
+  }
+
+  .brandx__grid-demo div {
+    background: rgba($nk-blue, 0.12);
+    border-radius: 6px;
+  }
+
+  .brandx__foot a { color: $nk-blue; }
+}

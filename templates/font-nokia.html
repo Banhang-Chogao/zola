@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block title %}Font Guideline — Nokia Pure | {{ config.title }}{% endblock %}
+{% block description %}Hướng dẫn typeface Nokia Pure & Nokia Pure Headline: lịch sử, weights, type scale và quy tắc sử dụng theo Nokia Design System.{% endblock %}
+
+{% block main %}
+<article class="fontguide fontguide--nokia">
+
+    <header class="fontguide__hero">
+        <p class="fontguide__eyebrow">Dalton Maag · Nokia Design System</p>
+        <h1 class="fontguide__wordmark">Nokia Pure</h1>
+        <p class="fontguide__hero-sub">Humanist sans-serif — clear, modern, built for screens.</p>
+
+        <dl class="fontguide__meta">
+            <div class="fontguide__meta-item"><dt>Foundry</dt><dd>Dalton Maag</dd></div>
+            <div class="fontguide__meta-item"><dt>Năm</dt><dd>2012</dd></div>
+            <div class="fontguide__meta-item"><dt>Phạm vi</dt><dd>nokia.com · Nokia Blog</dd></div>
+            <div class="fontguide__meta-item"><dt>Biến thể</dt><dd>Pure Text · Pure Headline</dd></div>
+            <div class="fontguide__meta-item"><dt>Độ đậm</dt><dd>Regular · Bold (+ Headline)</dd></div>
+        </dl>
+    </header>
+
+    <section class="fontguide__section">
+        <p class="fontguide__statement">
+            Typeface được thiết kế cho <em>giao diện kỹ thuật và editorial</em> — rõ ràng trên màn hình, thân thiện khi đọc dài.
+        </p>
+    </section>
+
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">01 — Câu chuyện</p>
+        <div class="fontguide__about-grid">
+            <div class="fontguide__prose">
+                <p>
+                    <strong>Nokia Pure</strong> ra mắt năm 2012 khi Nokia tái định vị thương hiệu,
+                    do <strong>Dalton Maag</strong> thiết kế. Đây là humanist sans-serif tối ưu cho
+                    UI và nội dung web — dùng rộng rãi trên <a href="https://www.nokia.com/blog/" target="_blank" rel="noopener">Nokia Blog</a>
+                    và hệ sinh thái Nokia Design System.
+                </p>
+                <p>
+                    Bộ gồm <strong>Nokia Pure Text</strong> (body, UI) và <strong>Nokia Pure Headline</strong>
+                    (tiêu đề lớn, display). Chữ có x-height cao, counter rộng — đọc tốt trên mobile và desktop.
+                </p>
+                <p>
+                    Blog này self-host 3 file TTF trong <code>static/fonts/nokia-pure/</code> cho theme Nokia
+                    và export PDF dashboard. Xem thêm
+                    <a href="{{ get_url(path='branding-nokia/') }}">Nokia Branding Guideline</a>.
+                </p>
+            </div>
+            <dl class="fontguide__facts">
+                <div><dt>Tên đầy đủ</dt><dd>Nokia Pure</dd></div>
+                <div><dt>Phân loại</dt><dd>Humanist Sans-serif</dd></div>
+                <div><dt>Headline</dt><dd>Nokia Pure Headline Bold</dd></div>
+                <div><dt>Định hướng</dt><dd>Screen-first / Editorial</dd></div>
+                <div><dt>Bản quyền</dt><dd>Proprietary (Nokia)</dd></div>
+            </dl>
+        </div>
+    </section>
+
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">02 — Specimen</p>
+        <p class="fontguide__glyph-row">Aa</p>
+        <p class="fontguide__pangram">The quick brown fox jumps over the lazy dog. 0123456789</p>
+    </section>
+
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">03 — Độ đậm</p>
+        <h2 class="fontguide__section-title">Pure Text &amp; Headline</h2>
+
+        <div class="fontguide__weights">
+            <div class="fontguide__weight">
+                <div class="fontguide__weight-name">Regular<span>Weight 400</span></div>
+                <div class="fontguide__weight-sample fontguide__weight-sample--400">Technology for all</div>
+            </div>
+            <div class="fontguide__weight">
+                <div class="fontguide__weight-name">Bold<span>Weight 700</span></div>
+                <div class="fontguide__weight-sample fontguide__weight-sample--700">Technology for all</div>
+            </div>
+            <div class="fontguide__weight">
+                <div class="fontguide__weight-name">Headline Bold<span>Display</span></div>
+                <div class="fontguide__weight-sample fontguide__weight-sample--700" style="font-family:'Nokia Pure Headline',sans-serif;">Technology for all</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">04 — Type scale</p>
+        <h2 class="fontguide__section-title">Thang kích thước (Nokia Blog)</h2>
+
+        <div class="fontguide__scale-row">
+            <div class="fontguide__scale-sample" style="font-family:'Nokia Pure Headline',sans-serif;font-size:3rem;font-weight:700;">Display</div>
+            <div class="fontguide__scale-spec"><strong>Display</strong>48px · Headline</div>
+        </div>
+        <div class="fontguide__scale-row">
+            <div class="fontguide__scale-sample" style="font-size:2.25rem;font-weight:700;">Heading 1</div>
+            <div class="fontguide__scale-spec"><strong>H1</strong>36px · Bold</div>
+        </div>
+        <div class="fontguide__scale-row">
+            <div class="fontguide__scale-sample" style="font-size:1.75rem;font-weight:700;">Heading 2</div>
+            <div class="fontguide__scale-spec"><strong>H2</strong>28px · Bold</div>
+        </div>
+        <div class="fontguide__scale-row">
+            <div class="fontguide__scale-sample" style="font-size:1rem;font-weight:400;">Body — editorial prose on Nokia Blog.</div>
+            <div class="fontguide__scale-spec"><strong>Body</strong>16px · Regular · lh 1.65</div>
+        </div>
+        <div class="fontguide__scale-row">
+            <div class="fontguide__scale-sample" style="font-size:0.82rem;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;color:#5c6b7a;">TOPIC · META</div>
+            <div class="fontguide__scale-spec"><strong>Caption</strong>13px · uppercase</div>
+        </div>
+    </section>
+
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">05 — Type tester</p>
+        <h2 class="fontguide__section-title">Gõ thử</h2>
+
+        <div class="fontguide__tester-controls">
+            <input class="fontguide__tester-input" data-tester-input type="text"
+                   value="Nokia Pure" aria-label="Nội dung gõ thử">
+            <div class="fontguide__tester-weights" data-tester-weights>
+                <button type="button" class="fontguide__tester-w is-active" data-w="400">R</button>
+                <button type="button" class="fontguide__tester-w" data-w="700">B</button>
+            </div>
+            <label class="fontguide__tester-size">
+                Size
+                <input type="range" min="24" max="120" value="64" data-tester-range>
+                <span data-tester-val>64px</span>
+            </label>
+        </div>
+        <p class="fontguide__tester-preview" data-tester-preview>Nokia Pure</p>
+    </section>
+
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">06 — Palette thương hiệu</p>
+        <h2 class="fontguide__section-title">Màu đi kèm typography</h2>
+
+        <div class="fontguide__colors">
+            <div class="fontguide__swatch">
+                <div class="fontguide__swatch-chip" style="background:#124191"></div>
+                <div class="fontguide__swatch-info"><strong>Nokia Blue</strong><code>#124191</code><span>Links, CTA</span></div>
+            </div>
+            <div class="fontguide__swatch">
+                <div class="fontguide__swatch-chip" style="background:#00c9ff"></div>
+                <div class="fontguide__swatch-info"><strong>Signal Cyan</strong><code>#00c9ff</code><span>Accent</span></div>
+            </div>
+            <div class="fontguide__swatch">
+                <div class="fontguide__swatch-chip" style="background:#001135"></div>
+                <div class="fontguide__swatch-info"><strong>Navy Ink</strong><code>#001135</code><span>Headlines</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">07 — Quy tắc sử dụng</p>
+        <h2 class="fontguide__section-title">Nên &amp; Không nên</h2>
+
+        <div class="fontguide__usage">
+            <div class="fontguide__usage-col fontguide__usage-col--do">
+                <h3>Nên</h3>
+                <ul>
+                    <li>Headline cho hero và H1; Pure Regular cho body.</li>
+                    <li>Giữ line-height 1.6–1.65 cho prose dài.</li>
+                    <li>Dùng uppercase + letter-spacing cho topic/meta nhỏ.</li>
+                    <li>Kết hợp palette Nokia Blue trên nền trắng/xám nhạt.</li>
+                </ul>
+            </div>
+            <div class="fontguide__usage-col fontguide__usage-col--dont">
+                <h3>Không nên</h3>
+                <ul>
+                    <li>Không synthetic bold/italic nếu thiếu file font.</li>
+                    <li>Không trộn quá nhiều display size trong một card.</li>
+                    <li>Không dùng Headline cho đoạn văn dài.</li>
+                    <li>Không nhồi cyan accent — giữ calm enterprise.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer class="fontguide__credits">
+        <p class="fontguide__eyebrow">Credits</p>
+        <p>Typeface <strong>Nokia Pure</strong> — thiết kế bởi <strong>Dalton Maag</strong> cho Nokia.</p>
+        <p>Tham chiếu: <a href="https://www.nokia.com/blog/" target="_blank" rel="noopener">Nokia Blog</a> ·
+           <a href="https://designsystem.nokia.com/" target="_blank" rel="noopener">Nokia Design System</a></p>
+        <p class="fontguide__note">
+            Nokia Pure là typeface độc quyền của Nokia. Trang này chỉ mang tính giới thiệu và hướng dẫn
+            nội bộ cho theme blog — không phải tài liệu phân phối font chính thức.
+        </p>
+    </footer>
+
+</article>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+<script>
+(function () {
+  var root = document.querySelector('.fontguide--nokia');
+  if (!root) return;
+  var input   = root.querySelector('[data-tester-input]');
+  var preview = root.querySelector('[data-tester-preview]');
+  var range   = root.querySelector('[data-tester-range]');
+  var val     = root.querySelector('[data-tester-val]');
+  var wWrap   = root.querySelector('[data-tester-weights]');
+  if (!input || !preview) return;
+  input.addEventListener('input', function () {
+    preview.textContent = input.value || 'Nokia Pure';
+  });
+  if (range && val) {
+    range.addEventListener('input', function () {
+      preview.style.fontSize = range.value + 'px';
+      val.textContent = range.value + 'px';
+    });
+  }
+  if (wWrap) {
+    wWrap.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-w]');
+      if (!btn) return;
+      wWrap.querySelectorAll('.fontguide__tester-w').forEach(function (b) {
+        b.classList.remove('is-active');
+      });
+      btn.classList.add('is-active');
+      preview.style.fontWeight = btn.getAttribute('data-w');
+    });
+  }
+})();
+</script>
+{% endblock extra_scripts %}
