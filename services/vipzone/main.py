@@ -200,6 +200,11 @@ except Exception as exc:  # pragma: no cover - defensive: keep the rest of the A
 
 # Declare AI_WRITER_MOUNTED early so the health endpoint can refer to it.
 AI_WRITER_MOUNTED: bool = bool(os.getenv("CONTENT_CREATOR_AI_API_KEY"))
+# These modules were intentionally removed with the retired Calendar/Whiteboard
+# and AI Writer dispatch tools. Keep explicit health flags instead of leaving
+# stale undefined names that crash both `/` and `/health`.
+PERSONAL_MOUNTED = False
+AI_WRITER_DISPATCH_MOUNTED = False
 
 # ============= CMS repo-write routes (save-post / bulk-delete / categories) =============
 # The blog editor (static/js/editor.js) commits posts to GitHub via
@@ -223,6 +228,27 @@ try:
 except Exception as exc:  # pragma: no cover - defensive: keep the rest of the API up
     CMS_REPO_MOUNTED = False
     print(f"[vipzone] CMS repo router not mounted: {exc!r}")
+
+# ============= CMS-V5 operational API =============
+# Uses the same GitHub OAuth session as CMS-V2, while keeping drafts, workflow
+# state, taxonomy and media metadata in the persistent VIPZone database.
+try:
+    import cms_v5
+
+    cms_v5.configure(get_db=get_db)
+    app.include_router(cms_v5.router)
+    CMS_V5_MOUNTED = True
+
+    @app.on_event("startup")
+    async def _start_cms_v5_scheduler() -> None:
+        cms_v5.start_scheduler()
+
+    @app.on_event("shutdown")
+    async def _stop_cms_v5_scheduler() -> None:
+        await cms_v5.stop_scheduler()
+except Exception as exc:  # pragma: no cover - keep the rest of VIPZone available
+    CMS_V5_MOUNTED = False
+    print(f"[vipzone] CMS-V5 router not mounted: {exc!r}")
 
 
 # ============= Native comments (Google-auth, moderated) =============
@@ -430,7 +456,14 @@ class VipContentOut(BaseModel):
 # Routes the production frontend (config.toml → vipzone_api_url) calls on THIS
 # deployed service. If any returns 404 the static site ↔ backend has split-brain
 # (V24): routes added only to the undeployed services/visitor-counter never serve.
-CRITICAL_ROUTES = ("/health", "/gsc/status", "/gsc/oauth/start", "/cms/save-post")
+CRITICAL_ROUTES = (
+    "/health",
+    "/gsc/status",
+    "/gsc/oauth/start",
+    "/cms/save-post",
+    "/api/cms-v5/dashboard",
+    "/api/cms-v5/media",
+)
 
 
 def _registered_paths() -> set[str]:
@@ -478,6 +511,7 @@ def _health_payload() -> dict[str, Any]:
         "premium_content": PRIVATE_CONTENT.is_dir(),
         "gsc_mounted": GSC_MOUNTED,
         "cms_mounted": CMS_REPO_MOUNTED,
+        "cms_v5_mounted": CMS_V5_MOUNTED,
         "personal_mounted": PERSONAL_MOUNTED,
         "comments_mounted": COMMENTS_MOUNTED,
         "reports_mounted": REPORTS_MOUNTED,
@@ -728,5 +762,3 @@ except ImportError:
     from wd_heartbeat import router as wd_heartbeat_router
 
 app.include_router(wd_heartbeat_router)
-
-

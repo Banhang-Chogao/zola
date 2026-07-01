@@ -175,6 +175,79 @@ class VipzoneDB:
                 );
                 CREATE INDEX IF NOT EXISTS idx_web_vitals_metric ON web_vitals(metric, created_at);
                 CREATE INDEX IF NOT EXISTS idx_web_vitals_created ON web_vitals(created_at);
+
+                -- CMS-V5 operational data. Content stays editable in the database
+                -- until an explicit publish action writes a Zola Markdown file to
+                -- GitHub. Media binaries live on the persistent Render disk; this
+                -- table stores their safe public metadata and storage path.
+                CREATE TABLE IF NOT EXISTS cms_v5_posts (
+                    id TEXT PRIMARY KEY,
+                    slug TEXT NOT NULL UNIQUE,
+                    title TEXT NOT NULL,
+                    excerpt TEXT NOT NULL DEFAULT '',
+                    blocks_json TEXT NOT NULL DEFAULT '[]',
+                    category TEXT NOT NULL DEFAULT '',
+                    tags_json TEXT NOT NULL DEFAULT '[]',
+                    featured_media_id TEXT,
+                    status TEXT NOT NULL DEFAULT 'draft',
+                    visibility TEXT NOT NULL DEFAULT 'public',
+                    scheduled_at TEXT,
+                    author_username TEXT NOT NULL DEFAULT '',
+                    author_name TEXT NOT NULL DEFAULT '',
+                    publisher_sid TEXT,
+                    published_url TEXT NOT NULL DEFAULT '',
+                    published_commit TEXT NOT NULL DEFAULT '',
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL,
+                    published_at TEXT
+                );
+                CREATE INDEX IF NOT EXISTS idx_cms_v5_posts_status
+                    ON cms_v5_posts(status, updated_at);
+                CREATE INDEX IF NOT EXISTS idx_cms_v5_posts_schedule
+                    ON cms_v5_posts(status, scheduled_at);
+
+                CREATE TABLE IF NOT EXISTS cms_v5_media (
+                    id TEXT PRIMARY KEY,
+                    filename TEXT NOT NULL,
+                    stored_name TEXT NOT NULL UNIQUE,
+                    content_type TEXT NOT NULL,
+                    media_type TEXT NOT NULL,
+                    size_bytes INTEGER NOT NULL,
+                    alt_text TEXT NOT NULL DEFAULT '',
+                    storage_path TEXT NOT NULL,
+                    uploaded_by TEXT NOT NULL DEFAULT '',
+                    created_at TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS idx_cms_v5_media_created
+                    ON cms_v5_media(created_at DESC);
+
+                CREATE TABLE IF NOT EXISTS cms_v5_categories (
+                    id TEXT PRIMARY KEY,
+                    name TEXT NOT NULL UNIQUE,
+                    slug TEXT NOT NULL UNIQUE,
+                    description TEXT NOT NULL DEFAULT '',
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS cms_v5_tags (
+                    id TEXT PRIMARY KEY,
+                    name TEXT NOT NULL UNIQUE,
+                    slug TEXT NOT NULL UNIQUE,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
+
+                -- Daily aggregates keep analytics real without retaining visitor
+                -- identifiers or one row per request.
+                CREATE TABLE IF NOT EXISTS cms_v5_analytics (
+                    day TEXT NOT NULL,
+                    page_path TEXT NOT NULL,
+                    metric TEXT NOT NULL,
+                    count INTEGER NOT NULL DEFAULT 0,
+                    PRIMARY KEY (day, page_path, metric)
+                );
+                CREATE INDEX IF NOT EXISTS idx_cms_v5_analytics_metric
+                    ON cms_v5_analytics(metric, day);
                 """
             )
 

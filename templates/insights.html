@@ -610,6 +610,7 @@
                 (function() {
                   'use strict';
 
+                  /* Sort tracks: in_progress first, then success, then the rest */
                   var tracksContainer = document.querySelector('[data-deploy-tracks]');
                   if (tracksContainer) {
                     var tracks = Array.prototype.slice.call(tracksContainer.children);
@@ -622,6 +623,7 @@
                     tracks.forEach(function(t) { tracksContainer.appendChild(t); });
                   }
 
+                  /* Highlight same-status tracks on hover */
                   var allTracks = document.querySelectorAll('.deploy-progress__track');
                   allTracks.forEach(function(t) {
                     t.addEventListener('mouseenter', function() {
@@ -643,6 +645,7 @@
                     });
                   });
 
+                  /* Confetti burst on click for success tracks */
                   function burstConfetti(x, y) {
                     var colors = ['#00b894', '#00cec9', '#fdcb6e', '#00d2ff', '#b721ff', '#ff6b6b', '#fff'];
                     var container = document.createElement('div');
