@@ -310,22 +310,3 @@ Làm WebOps không chỉ là biết sửa. Đôi khi là biết nói:
 **“Chưa đủ bằng chứng để merge.”**
 
 Và đó là một kỹ năng rất đáng học.
-
-## Liên kết bên ngoài được sử dụng trong bài viết
-
-Không sử dụng liên kết bên ngoài trong bài viết này. Nội dung được viết lại từ trải nghiệm vận hành nội bộ và log terminal đã được biên tập, không trích dẫn tài liệu bên ngoài.
-
-## Liên kết nội bộ liên quan
-
-* [SEOMONEY](https://seomoney.org/)
-* [Branding Guideline](https://seomoney.org/branding-guideline/)
-* [S-DNA](https://seomoney.org/tools/s-dna/)
-* [Font](https://seomoney.org/font/)
-
-## Tuyên bố bản quyền
-
-Bài viết này là nội dung gốc của SEOMONEY, được biên tập lại từ trải nghiệm vận hành blog thực tế. Không sao chép nguyên văn log terminal, không công khai thông tin nhạy cảm, không chia sẻ token, secret, đường dẫn riêng tư hoặc dữ liệu nội bộ không cần thiết.
-
-## Ghi chú biên tập
-
-Case study này nên được publish sau khi task homepage chính thức hoàn tất hoặc được ghi rõ là “bài học từ một phiên refactor chưa merge”. Nếu sau này build pass và PR homepage được merge, có thể cập nhật thêm phần hậu kiểm production.

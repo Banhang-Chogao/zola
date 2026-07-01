@@ -96,12 +96,11 @@ STATUS_VI = {
     "manual_review": "CẦN DUYỆT THỦ CÔNG",
 }
 
-SECTION_MARKERS = {
-    "missing_external_reference": "## Nguồn tham khảo",
-    "missing_internal_links": "## Liên kết nội bộ",
-    "missing_external_reference_section": "## Liên kết bên ngoài",
-    "missing_copyright_section": "## Bản quyền và trích dẫn nguồn",
-}
+# NOTE: Footer sections (internal links, external links, copyright) are now
+# rendered automatically by the references::section macro in page.html.
+# Do NOT add hardcoded heading sections to body markdown.
+# Detection/fix for these sections is handled by qa_check.py's footer check.
+SECTION_MARKERS: dict[str, str] = {}
 
 BROKEN_LINK_REWRITES: dict[str, str] = {
     "/zola/pages/privacy/": f"{SITE_PREFIX}/privacy/",
@@ -343,12 +342,8 @@ def _detect_issues(doc: ArticleDoc, catalog: dict[str, dict[str, str]]) -> list[
             impact_estimate=impact("missing_external_reference"),
         ))
 
-    if doc.section in POST_SECTIONS and not _has_section(body, SECTION_MARKERS["missing_copyright_section"]):
-        issues.append(Issue(
-            "missing_copyright_section", rel,
-            reason="Thiếu mục bản quyền/trích dẫn",
-            impact_estimate=impact("missing_copyright_section"),
-        ))
+    # Footer sections (copyright, internal/external link lists) are rendered
+    # automatically by the references::section macro. No need to check body.
 
     for raw in links:
         for bad, good in BROKEN_LINK_REWRITES.items():
@@ -515,40 +510,21 @@ def _apply_fix(doc: ArticleDoc, issue: Issue, catalog: dict[str, dict[str, str]]
         lines = _related_links(doc.slug, catalog)
         if not lines:
             return False, "Không có related posts để gợi ý link"
-        content = "\n".join(lines)
-        if not _has_section(body, SECTION_MARKERS["missing_internal_links"]):
-            body = _append_section(body, SECTION_MARKERS["missing_internal_links"], content)
-        else:
-            body = body.rstrip() + "\n" + content + "\n"
+        # Add internal links inline in the main content rather than as a footer section.
+        # Footer sections are rendered automatically by the references::section macro.
+        body = body.rstrip() + "\n\n" + "\n".join(lines) + "\n"
         changed = True
         reason = "Added internal links from related.json"
 
     elif issue.type == "missing_external_reference":
-        if not _has_section(body, SECTION_MARKERS["missing_external_reference"]):
-            body = _append_section(
-                body,
-                SECTION_MARKERS["missing_external_reference"],
-                "*Bổ sung nguồn tham khảo uy tín khi xuất bản — không tự động thêm link ngoài.*\n",
-            )
-            changed = True
-            reason = "Added Nguồn tham khảo placeholder (không bịa link)"
-        if not _has_section(body, "## Liên kết bên ngoài"):
-            body = _append_section(
-                body,
-                "## Liên kết bên ngoài",
-                "*Liên kết ra nguồn gốc (Google, Wikipedia, tài liệu chính thức) khi có.*\n",
-            )
-            changed = True
-            reason = reason or "Added Liên kết bên ngoài section"
+        # Footer sections are rendered automatically by the references::section macro.
+        # No need to add hardcoded headings to body markdown.
+        return False, "Footer sections handled by references::section macro"
 
     elif issue.type == "missing_copyright_section":
-        body = _append_section(
-            body,
-            SECTION_MARKERS["missing_copyright_section"],
-            "Nội dung thuộc bản quyền tác giả blog. Khi trích dẫn, vui lòng ghi rõ nguồn và liên kết về bài gốc.\n",
-        )
-        changed = True
-        reason = "Added copyright/attribution section"
+        # Footer sections are rendered automatically by the references::section macro.
+        # No need to add hardcoded headings to body markdown.
+        return False, "Footer sections handled by references::section macro"
 
     else:
         return False, "Không có rule auto-fix cho loại này"
@@ -694,8 +670,8 @@ def _task_label(issue_type: str) -> str:
         "missing_img_alt": "Adding missing image alt text",
         "duplicate_h1": "Fixing duplicate H1 headings",
         "missing_internal_links": "Adding internal links from related posts",
-        "missing_external_reference": "Adding reference sections",
-        "missing_copyright_section": "Adding copyright sections",
+        "missing_external_reference": "Checking external reference (macro handles display)",
+        "missing_copyright_section": "Checking copyright (macro handles display)",
     }
     return labels.get(issue_type, f"Processing {issue_type}")
 

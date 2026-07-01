@@ -418,13 +418,3 @@ GitHub Actions Secrets là powerful tool để manage sensitive data an toàn. M
 ✅ **Document rõ** secret name và cách get/update
 
 Với best practices trên, bạn sẽ tránh được hầu hết security issues liên quan đến credentials trong CI/CD pipeline.
-
----
-
-## Tham khảo
-
-- [GitHub Actions Secrets Documentation](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions)
-- [GitHub Actions Environment Variables](https://docs.github.com/en/actions/learn-github-actions/environment-variables)
-- [Security Hardening for GitHub Actions](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions)
-- Bài viết liên quan: [Troubleshooting GitHub Actions Build Failures](/posting/github-actions-ci-cd-build-failure-vipzone-token/)
-+++
