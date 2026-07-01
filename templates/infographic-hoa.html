@@ -9,39 +9,7 @@
 {% block main %}
 <div id="ih-app" class="ih-app">
 
-    {# ===== LOGIN GATE (GitHub OAuth — giống CMS) ===== #}
-    <section class="ih-login-view" data-ih-view="login">
-        <div class="ih-login" role="dialog" aria-labelledby="ih-login-title">
-            <div class="ih-login__card">
-                <div class="ih-login__icon" aria-hidden="true">◇</div>
-                <h2 class="ih-login__title" id="ih-login-title">INFographic hoá — Xác thực</h2>
-                <p class="ih-login__sub">
-                    Đăng nhập GitHub (cùng tài khoản CMS). Chỉ admin white-list mới truy cập được.
-                    Ảnh infographic được lưu vào <strong>CMS-V5 Asset Library</strong>.
-                </p>
-                <p class="ih-login__error" data-ih-login-error role="alert" hidden></p>
-                <button type="button" class="ih-btn ih-btn--primary ih-login__btn" data-ih-action="github-login">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
-                        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-                    </svg>
-                    Đăng nhập với GitHub
-                </button>
-                <p class="ih-login__hint" data-ih-login-hint hidden>⚠ Backend auth chưa cấu hình. Liên hệ admin.</p>
-            </div>
-        </div>
-    </section>
-
-    {# ===== TOOL (sau khi đăng nhập) ===== #}
-    <section class="ih-dashboard" data-ih-view="dashboard" hidden>
-
-        <div class="ih-user-bar" data-ih-user-bar hidden data-media-guard-skip>
-            <img class="ih-user-bar__avatar" data-ih-user-avatar src="" alt="Ảnh đại diện" width="32" height="32" loading="lazy" decoding="async">
-            <span class="ih-user-bar__info">
-                <strong data-ih-user-name></strong>
-                <span class="ih-user-bar__email" data-ih-user-email></span>
-            </span>
-            <button type="button" class="ih-btn ih-btn--ghost ih-user-bar__logout" data-ih-action="logout">Đăng xuất</button>
-        </div>
+    <div class="ih-dashboard">
 
         <header class="ih-head">
             <div class="ih-head__row">
@@ -49,8 +17,8 @@
                 <span class="ih-head__badge">S-DNA Branded</span>
             </div>
             <p class="ih-head__desc">
-                Tạo ảnh infographic từ nội dung — cover, trích dẫn, phân tích chủ đề, tổng kết.
-                Ảnh được lưu vào <strong>CMS-V5 Asset Library</strong> và có thể dùng lại ở bất kỳ bài viết nào.
+                Tạo ảnh infographic từ nội dung của bạn — không cần đăng nhập, mọi thứ xử lý hoàn toàn trên trình duyệt.
+                Tải ảnh về máy và sử dụng tuỳ ý (bài viết, mạng xã hội, CMS…).
             </p>
         </header>
 
@@ -70,8 +38,8 @@
                 </label>
 
                 <label class="ih-field">
-                    <span class="ih-field__label">Nội dung chi tiết (sẽ phân tích chủ đề)</span>
-                    <textarea class="ih-field__input ih-field__input--area" id="ih-content" name="content" rows="8" maxlength="20000" placeholder="Dán nội dung bài viết / ghi chú / markdown…"></textarea>
+                    <span class="ih-field__label">Nội dung chi tiết</span>
+                    <textarea class="ih-field__input ih-field__input--area" id="ih-content" name="content" rows="8" maxlength="20000" placeholder="Dán nội dung bài viết / ghi chú / markdown… (sẽ trích ý chính làm infographic)"></textarea>
                 </label>
 
                 <div class="ih-form__actions">
@@ -96,15 +64,7 @@
             <div class="ih-gallery" id="ih-gallery"></div>
         </section>
 
-        {# ===== HISTORY ===== #}
-        <section class="ih-panel ih-history-panel">
-            <h2 class="ih-panel__title">Lịch sử</h2>
-            <div class="ih-history" id="ih-history">
-                <p class="ih-history__empty">Chưa có lần tạo infographic nào.</p>
-            </div>
-        </section>
-
-    </section>
+    </div>
 </div>
 {% endblock %}
 
