@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1278",
+      "pr_number": 1278,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1278",
+      "title": "remove duplicate end-of-article hardcoded footer blocks",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T02:52:27Z",
+      "merge_commit_sha": "fd72e73047b8",
+      "stats": {
+        "additions": 77,
+        "deletions": 369
+      },
+      "highlights": [
+        "scripts/seo-rank-autofix.py — stopped detecting/inserting hardcoded footer headings (## Liên kết nội bộ, ## Liên kết bên ngoài, ## Bản quyền và trích dẫn nguồn, etc.) into body markdown. Macros handle",
+        "scripts/ai_writer_dispatch_worker.py — updated system prompt: AI no longer instructed to add \"Tham khảo & Nguồn dữ liệu\" section at end of article.",
+        "qa_check.py — added check_duplicate_footer(): warns if content .md files contain hardcoded duplicate footer headings.",
+        "CLAUDE.md — added rule in \"Quy tắc Tham chiếu cuối bài\" warning against hardcoding footer blocks in body.",
+        "6 Brave series articles (external links, internal links, copyright, FAQ)"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1281",
       "pr_number": 1281,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1281",
