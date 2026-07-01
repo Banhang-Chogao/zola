@@ -248,6 +248,29 @@ class VipzoneDB:
                 );
                 CREATE INDEX IF NOT EXISTS idx_cms_v5_analytics_metric
                     ON cms_v5_analytics(metric, day);
+
+                CREATE TABLE IF NOT EXISTS infographic_generations (
+                    id TEXT PRIMARY KEY,
+                    title TEXT NOT NULL DEFAULT '',
+                    image_count INTEGER NOT NULL DEFAULT 0,
+                    created_by TEXT NOT NULL DEFAULT '',
+                    created_at TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS idx_infographic_gen_created
+                    ON infographic_generations(created_at DESC);
+
+                CREATE TABLE IF NOT EXISTS infographic_images (
+                    id TEXT PRIMARY KEY,
+                    generation_id TEXT NOT NULL REFERENCES infographic_generations(id),
+                    image_type TEXT NOT NULL,
+                    alt_text TEXT NOT NULL DEFAULT '',
+                    alt_slug TEXT NOT NULL DEFAULT '',
+                    palette_label TEXT NOT NULL DEFAULT '',
+                    cms_media_id TEXT,
+                    created_at TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS idx_infographic_images_gen
+                    ON infographic_images(generation_id);
                 """
             )
 
