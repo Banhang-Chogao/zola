@@ -122,27 +122,6 @@
   ],
   "blocks": [
     {
-      "id": "momo_donate_header_cta",
-      "placement_id": "global_header_below",
-      "type": "momo_cta",
-      "enabled": false,
-      "title": "Ủng hộ SEOMONEY qua MoMo",
-      "body": "Nếu nội dung hữu ích, bạn có thể ủng hộ blog để mình tiếp tục viết bài chất lượng.",
-      "button_text": "Ủng hộ qua MoMo",
-      "url": "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG",
-      "style": "compact",
-      "priority": 10,
-      "pages": [
-        "*"
-      ],
-      "exclude_pages": [
-        "/editor/",
-        "/admin-author/",
-        "/tools/momo-url/",
-        "/tools/content-placement/"
-      ]
-    },
-    {
       "id": "post_donate_footer_cta",
       "placement_id": "post_after_content",
       "type": "donate_box",
