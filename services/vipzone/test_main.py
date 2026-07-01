@@ -138,9 +138,22 @@ class VipzoneApiTests(unittest.TestCase):
             "/cms-v2/&",
             github_success_return_to("https://seomoney.org/cms-v2/"),
         )
+        self.assertEqual(
+            github_success_return_to("https://seomoney.org/cms-v6/"),
+            "https://seomoney.org/cms-v6/?success=1",
+        )
 
     def test_github_return_to_rejects_non_cms_paths_and_hosts(self) -> None:
         from cms_auth import normalize_github_return_to
+
+        self.assertEqual(
+            normalize_github_return_to("/cms-v6/"),
+            "https://seomoney.org/cms-v6/",
+        )
+        self.assertEqual(
+            normalize_github_return_to("https://seomoney.org/cms-v6/"),
+            "https://seomoney.org/cms-v6/",
+        )
 
         for unsafe in (
             "https://evil.example/cms-v2/",

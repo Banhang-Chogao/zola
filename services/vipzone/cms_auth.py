@@ -19,7 +19,7 @@ from roles import resolve_role, username_is_superadmin
 SESSION_COOKIE_NAME = os.getenv("VIPZONE_SESSION_COOKIE", "zola_cms_sid")
 CMS_V2_RETURN_TO = "https://seomoney.org/cms-v2/"
 CMS_RETURN_TO_HOST = "seomoney.org"
-CMS_GITHUB_RETURN_PATHS = ("/cms-v2", "/cms-v5", "/tools/infographic-hoa")
+CMS_GITHUB_RETURN_PATHS = ("/cms-v2", "/cms-v5", "/cms-v6", "/tools/infographic-hoa")
 
 BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://seomoney.org").rstrip("/")
 _IS_PRODUCTION = os.getenv("ENVIRONMENT", "").strip().lower() == "production" or bool(

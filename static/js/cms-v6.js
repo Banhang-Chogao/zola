@@ -29,7 +29,7 @@
     error: app.querySelector('[data-cmsv6-error]'),
     hint: app.querySelector('[data-cmsv6-hint]'),
     deniedDetail: app.querySelector('[data-cmsv6-denied-detail]'),
-    gateBtn: app.querySelector('[data-cmsv6-action="github-login"]'),
+    loginBtns: app.querySelectorAll('[data-cmsv6-action="github-login"]'),
     logoutBtns: app.querySelectorAll('[data-cmsv6-action="logout"]'),
     search: app.querySelector('[data-cmsv6-search]'),
     sort: app.querySelector('[data-cmsv6-sort]'),
@@ -45,6 +45,11 @@
     avatar: app.querySelector('[data-cmsv6-avatar]'),
     username: app.querySelector('[data-cmsv6-username]'),
     useremail: app.querySelector('[data-cmsv6-useremail]'),
+    guestbar: app.querySelector('[data-cmsv6-guestbar]'),
+    guestTitle: app.querySelector('[data-cmsv6-guest-title]'),
+    guestCopy: app.querySelector('[data-cmsv6-guest-copy]'),
+    readonlyBanner: app.querySelector('[data-cmsv6-readonly-banner]'),
+    readonlyCopy: app.querySelector('[data-cmsv6-readonly-copy]'),
     refreshBtn: app.querySelector('[data-cmsv6-action="refresh"]'),
     sidebarTabs: app.querySelector('[data-cmsv6-sidebar-tabs]'),
     sidebarTabBtns: app.querySelectorAll('[data-cmsv6-sidebar-tab]'),
@@ -75,6 +80,7 @@
   var currentFilter = "published";
   var currentSort = "date-desc";
   var currentPost = null;
+  var currentProfile = null;
 
   /* ─── Auth ─── */
 
@@ -103,11 +109,70 @@
     localStorage.removeItem(SID_KEY);
   }
 
+  function isAuthorizedProfile(profile) {
+    return !!(
+      profile &&
+      profile.authenticated &&
+      (profile.is_admin || profile.is_super)
+    );
+  }
+
+  function hasWriteAccess() {
+    return isAuthorizedProfile(currentProfile);
+  }
+
+  function getProfileHandle(profile) {
+    if (!profile) return "unknown";
+    return profile.username || profile.login || profile.email || "unknown";
+  }
+
+  function defaultReadonlyMessage() {
+    return "Browse published metadata and open posts. Log in to create and publish.";
+  }
+
+  function updateReadonlyUI(message, title) {
+    var canWrite = hasWriteAccess();
+    var readonlyMessage = message || defaultReadonlyMessage();
+    if (els.userbar) els.userbar.hidden = !canWrite;
+    if (els.guestbar) els.guestbar.hidden = canWrite;
+    if (els.readonlyBanner) els.readonlyBanner.hidden = canWrite;
+
+    if (els.guestTitle) {
+      els.guestTitle.textContent = canWrite ? "" : (title || "Read-only mode");
+    }
+    if (els.guestCopy) {
+      els.guestCopy.textContent = canWrite ? "" : readonlyMessage;
+    }
+    if (els.readonlyCopy) {
+      els.readonlyCopy.textContent = readonlyMessage;
+    }
+
+    els.loginBtns.forEach(function (btn) {
+      btn.hidden = canWrite || !AUTH_API;
+    });
+    els.logoutBtns.forEach(function (btn) {
+      btn.hidden = !canWrite;
+    });
+
+    if (els.editorPublishBtn) {
+      els.editorPublishBtn.disabled = !canWrite;
+      els.editorPublishBtn.title = canWrite ? "Publish post" : "Log in to publish";
+    }
+
+    document.querySelectorAll('[data-cmsv6-action="new-post"]').forEach(function (btn) {
+      btn.classList.toggle("cmsv6-is-locked", !canWrite);
+      btn.setAttribute("aria-disabled", canWrite ? "false" : "true");
+      btn.title = canWrite ? "Create a new post" : "Log in to create and publish";
+    });
+  }
+
   function fetchMe(sid) {
     if (!AUTH_API) return Promise.reject(new Error("No auth API"));
+    var headers = {};
+    if (sid) headers.Authorization = "Bearer " + sid;
     return fetch(AUTH_API + "/auth/me", {
       credentials: "include",
-      headers: { Authorization: "Bearer " + sid },
+      headers: headers,
     }).then(function (r) {
       if (!r.ok) {
         if (r.status === 401 || r.status === 403) return null;
@@ -117,53 +182,61 @@
     });
   }
 
+  function showReadOnlyDashboard(message, title) {
+    currentProfile = null;
+    showView("dashboard");
+    updateReadonlyUI(message, title);
+    initDashboard();
+  }
+
   function initAuth() {
     var sid = getSid();
 
-    if (!sid && !AUTH_API) {
-      showView("login");
+    if (!AUTH_API) {
+      showReadOnlyDashboard("Browse published metadata. Backend auth is not configured for writing.");
       if (els.hint) els.hint.hidden = false;
       return;
     }
 
     if (!sid) {
-      showView("login");
+      showReadOnlyDashboard();
       return;
     }
 
     fetchMe(sid).then(function (profile) {
-      if (profile && profile.login) {
+      if (isAuthorizedProfile(profile)) {
+        currentProfile = profile;
         renderUserbar(profile);
         showView("dashboard");
+        updateReadonlyUI();
         initDashboard();
+      } else if (profile) {
+        clearSid();
+        showReadOnlyDashboard(
+          "Logged in as " + getProfileHandle(profile) + ". This account can browse CMS-V6, but create and publish are restricted.",
+          "Read-only account"
+        );
       } else {
         clearSid();
-        showView("denied");
-        if (profile && els.deniedDetail) {
-          els.deniedDetail.textContent =
-            "Logged in as " + (profile.email || profile.login || "unknown") +
-            ". Your account is not in the admin allowlist.";
-        }
+        showReadOnlyDashboard();
       }
     }).catch(function (err) {
       clearSid();
-      showView("login");
-      if (els.error) {
-        els.error.textContent = "Session error. Please log in again.";
-        els.error.hidden = false;
-      }
+      showReadOnlyDashboard("Session unavailable. Browse in read-only mode or log in again.");
     });
   }
 
   function renderUserbar(profile) {
+    if (els.userbar) els.userbar.hidden = false;
+    if (els.guestbar) els.guestbar.hidden = true;
     if (els.avatar) els.avatar.src = profile.avatar_url || "";
-    if (els.username) els.username.textContent = profile.name || profile.login || "";
+    if (els.username) els.username.textContent = profile.name || getProfileHandle(profile);
     if (els.useremail) els.useremail.textContent = profile.email || "";
   }
 
   function startLogin() {
     if (!AUTH_API) return;
-    var returnTo = "/cms-v6/";
+    var returnTo = location.pathname + location.search;
     window.location.href =
       AUTH_API + "/auth/login?return_to=" + encodeURIComponent(returnTo);
   }
@@ -178,8 +251,12 @@
       }).catch(function () {});
     }
     clearSid();
-    showView("login");
-    if (els.error) els.error.hidden = true;
+    currentProfile = null;
+    showReadOnlyDashboard();
+    if (els.error) {
+      els.error.hidden = true;
+      els.error.textContent = "";
+    }
   }
 
   /* ─── Dashboard ─── */
@@ -274,6 +351,7 @@
   function renderPostList() {
     loadPostsData().then(function (posts) {
       updateCounts(posts);
+      var canWrite = hasWriteAccess();
       var query = els.search ? els.search.value.trim() : "";
       var filtered = filterPosts(posts, currentFilter, query);
       var sorted = sortPosts(filtered, currentSort);
@@ -284,9 +362,11 @@
           '<div class="cmsv6-list__empty">' +
           '<svg viewBox="0 0 20 20" width="32" height="32" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/></svg>' +
           "<p>No " + currentFilter + " posts" + (query ? ' matching "' + query + '"' : "") + ".</p>" +
-          '<button type="button" class="cmsv6-btn cmsv6-btn--primary" data-cmsv6-action="new-post">Create your first post</button>' +
+          (canWrite
+            ? '<button type="button" class="cmsv6-btn cmsv6-btn--primary" data-cmsv6-action="new-post">Create your first post</button>'
+            : (AUTH_API ? '<button type="button" class="cmsv6-btn cmsv6-btn--primary" data-cmsv6-action="github-login">Log in to create</button>' : "")) +
           "</div>";
-        bindNewPostBtns();
+        updateReadonlyUI();
         return;
       }
 
@@ -312,6 +392,24 @@
           ? '<img class="cmsv6-list__thumb" src="' + thumb + '" alt="" width="40" height="30" loading="lazy" decoding="async">'
           : '<div class="cmsv6-list__thumb cmsv6-list__thumb--placeholder"><span>S</span></div>';
 
+        var actionsHtml = canWrite
+          ? (
+              '<button type="button" class="cmsv6-list__action" data-action="edit" data-slug="' + p.slug + '" title="Edit">' +
+              '<svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>' +
+              "</button>" +
+              '<a class="cmsv6-list__action" href="' + p.permalink + '" target="_blank" title="View" rel="noopener">' +
+              '<svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 100-2H5z"/></svg>' +
+              "</a>" +
+              '<button type="button" class="cmsv6-list__action" data-action="more" data-slug="' + p.slug + '" title="More">' +
+              '<svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/></svg>' +
+              "</button>"
+            )
+          : (
+              '<a class="cmsv6-list__action" href="' + p.permalink + '" target="_blank" title="View" rel="noopener">' +
+              '<svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 100-2H5z"/></svg>' +
+              "</a>"
+            );
+
         html += '<div class="cmsv6-list__row" role="listitem" data-slug="' + p.slug + '">' +
           '<div class="cmsv6-list__cell cmsv6-list__cell--title">' +
           thumbHtml +
@@ -330,15 +428,7 @@
           '<span class="cmsv6-list__cat">' + escapeHtml(p.category || "") + "</span>" +
           "</div>" +
           '<div class="cmsv6-list__cell cmsv6-list__cell--actions">' +
-          '<button type="button" class="cmsv6-list__action" data-action="edit" data-slug="' + p.slug + '" title="Edit">' +
-          '<svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>' +
-          "</button>" +
-          '<a class="cmsv6-list__action" href="' + p.permalink + '" target="_blank" title="View" rel="noopener">' +
-          '<svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 100-2H5z"/></svg>' +
-          "</a>" +
-          '<button type="button" class="cmsv6-list__action" data-action="more" data-slug="' + p.slug + '" title="More">' +
-          '<svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/></svg>' +
-          "</button>" +
+          actionsHtml +
           "</div>" +
           "</div>";
       });
@@ -346,7 +436,7 @@
       els.list.innerHTML = html;
 
       bindPostActions();
-      bindNewPostBtns();
+      updateReadonlyUI();
     });
   }
 
@@ -360,6 +450,8 @@
   function bindPostActions() {
     var list = els.list;
     if (!list) return;
+    if (list.__cmsv6PostActionsBound) return;
+    list.__cmsv6PostActionsBound = true;
     list.addEventListener("click", function (e) {
       var target = e.target.closest("[data-action]");
       if (!target) return;
@@ -383,12 +475,6 @@
           }
         }
       }
-    });
-  }
-
-  function bindNewPostBtns() {
-    document.querySelectorAll('[data-cmsv6-action="new-post"]').forEach(function (btn) {
-      btn.onclick = null;
     });
   }
 
@@ -428,6 +514,10 @@
   var currentEditingSlug = null;
 
   function openEditor(slug) {
+    if (!hasWriteAccess()) {
+      startLogin();
+      return;
+    }
     currentEditingSlug = slug;
     showView("editor");
 
@@ -609,9 +699,13 @@
   /* ─── Publish via GitHub API ─── */
 
   function publishPost() {
+    if (!hasWriteAccess()) {
+      startLogin();
+      return;
+    }
     var sid = getSid();
     if (!sid) {
-      alert("Not authenticated. Please log in.");
+      startLogin();
       return;
     }
 
@@ -659,7 +753,7 @@
     /* Get SHA if file exists */
     var token = null;
     fetchMe(sid).then(function (profile) {
-      if (!profile || !profile.login) throw new Error("Auth failed");
+      if (!isAuthorizedProfile(profile)) throw new Error("Auth failed");
       /* Use the sid as Bearer token for GitHub API */
       return fetch("https://api.github.com/user", {
         headers: {
@@ -734,6 +828,10 @@
   }
 
   function createNewPost() {
+    if (!hasWriteAccess()) {
+      startLogin();
+      return;
+    }
     currentEditingSlug = null;
     showView("editor");
     if (els.editorTitleDisplay) els.editorTitleDisplay.textContent = "New Post";
@@ -786,9 +884,6 @@
   /* ─── Event binding ─── */
 
   function bindEvents() {
-    /* Login */
-    if (els.gateBtn) els.gateBtn.addEventListener("click", startLogin);
-
     /* Logout */
     els.logoutBtns.forEach(function (btn) {
       btn.addEventListener("click", logout);
@@ -838,6 +933,12 @@
 
     /* New post (via create button) */
     app.addEventListener("click", function (e) {
+      var loginTarget = e.target.closest('[data-cmsv6-action="github-login"]');
+      if (loginTarget) {
+        e.preventDefault();
+        startLogin();
+        return;
+      }
       var target = e.target.closest('[data-cmsv6-action="new-post"]');
       if (target) createNewPost();
     });
@@ -937,9 +1038,11 @@
     if (editSlug) {
       /* Defer until auth is ready */
       var checkInterval = setInterval(function () {
-        if (!views.dashboard.hidden) {
+        if (!views.dashboard.hidden && hasWriteAccess()) {
           clearInterval(checkInterval);
           openEditor(editSlug);
+        } else if (!views.dashboard.hidden && !hasWriteAccess()) {
+          clearInterval(checkInterval);
         }
       }, 100);
     }
