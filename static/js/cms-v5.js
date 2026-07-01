@@ -25,6 +25,10 @@
       .replace(/đ/g, "d").replace(/Đ/g, "D").toLowerCase()
       .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 90);
   }
+  function showAuthStatus(message, kind) {
+    text(el.authStatus, message);
+    el.authStatus.className = "cms5-alert" + (kind ? " is-" + kind : "");
+  }
   function getSid() {
     try { return localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) || ""; }
     catch (_) { return ""; }
@@ -144,6 +148,7 @@
   }
 
   function startLogin() {
+    clearSid();
     var url = new URL(API + "/auth/login");
     url.searchParams.set("return_to", RETURN_TO);
     location.assign(url.toString());
@@ -151,7 +156,7 @@
 
   async function authenticate() {
     var authError = consumeAuthResult();
-    if (authError) text(el.authStatus, "Đăng nhập thất bại: " + authError);
+    if (authError) showAuthStatus("Đăng nhập thất bại: " + authError, "error");
     hidden(el.gate, false);
     hidden(el.shell, true);
     try {
@@ -159,7 +164,7 @@
       var timeout = setTimeout(function () { controller.abort(); }, 8000);
       var user = await request(API + "/auth/me", { signal: controller.signal });
       clearTimeout(timeout);
-      if (user.provider !== "github") throw new Error("CMS-V5 chỉ chấp nhận GitHub OAuth");
+      if (user.provider !== "github") throw new Error("CMS-V5 chỉ chấp nhận GitHub OAuth. Vui lòng đăng nhập bằng GitHub bên dưới.");
       if (!user.is_admin && !user.is_super) throw new Error("Tài khoản không có quyền quản trị CMS");
       state.user = user;
       text(el.userName, user.name || user.username);
@@ -176,15 +181,15 @@
       hidden(el.shell, true);
       hidden(el.gate, false);
       if (error.name === "AbortError") {
-        text(el.authStatus, "Không thể kết nối đến máy chủ xác thực. Vui lòng thử lại sau.");
+        showAuthStatus("Không thể kết nối đến máy chủ xác thực. Vui lòng thử lại sau.", "error");
       } else if (error.status === 401) {
-        text(el.authStatus, "Bạn cần đăng nhập để truy cập CMS-V5.");
+        showAuthStatus("Bạn cần đăng nhập để truy cập CMS-V5.", "info");
       } else if (error.status === 403) {
-        text(el.authStatus, error.message);
+        showAuthStatus(error.message, "error");
       } else if (error.status === 0 || error.message === "Failed to fetch" || error.message.indexOf("NetworkError") >= 0) {
-        text(el.authStatus, "Không thể kết nối đến máy chủ API. Kiểm tra kết nối mạng hoặc thử lại sau.");
+        showAuthStatus("Không thể kết nối đến máy chủ API. Kiểm tra kết nối mạng hoặc thử lại sau.", "error");
       } else {
-        text(el.authStatus, error.message);
+        showAuthStatus(error.message, "error");
       }
     }
   }
