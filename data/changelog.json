@@ -1,6 +1,26 @@
 {
   "items": [
     {
+      "id": "pr-1282",
+      "pr_number": 1282,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1282",
+      "title": "feat(series): BHYT — 5 bài tra cứu giá trị sử dụng thẻ",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T02:53:04Z",
+      "merge_commit_sha": "a49c53a9a917",
+      "stats": {
+        "additions": 558,
+        "deletions": 2
+      },
+      "highlights": [
+        "Series manifest: data/bhyt-gia-tri-su-dung-series.json",
+        "Register template: series-listing.html, series-nav.html, page.html",
+        "Cập nhật bài trụ cột: thêm link dẫn vào series"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1278",
       "pr_number": 1278,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1278",
