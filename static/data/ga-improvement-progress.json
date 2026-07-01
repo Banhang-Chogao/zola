@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-01T18:20:13Z",
+  "updated_at": "2026-07-01T22:56:49Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,45 +15,45 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "1320 broken links · 1 weak related pairs",
+      "detail": "1369 broken links · 2 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-07-01T12:59:21Z"
+      "updated_at": "2026-07-01T21:09:39Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 58/100 · LCP 12.4 s · needs work",
+      "detail": "Mobile 51/100 · LCP 8.1 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-07-01T10:56:49+00:00"
+      "updated_at": "2026-07-01T18:27:39+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 1026/1026 pages",
+      "detail": "15 pages missing FAQ/schema · 1081/1081 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-07-01T12:59:21Z"
+      "updated_at": "2026-07-01T21:09:39Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: feat(cms): add S-DNA CMS-V6 with GitHub OAuth",
+      "detail": "Latest: fix(cms-v6): allow v6 auth and public read-only browsing",
       "source": "changelog.json",
-      "updated_at": "2026-07-01T17:52:39Z"
+      "updated_at": "2026-07-01T22:52:26Z"
     },
     {
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "running",
-      "detail": "1320 broken of 1490 links",
+      "detail": "1369 broken of 1553 links",
       "source": "qa-404-report.json",
-      "updated_at": "2026-07-01T11:51:41Z"
+      "updated_at": "2026-07-01T18:43:18Z"
     },
     {
       "id": "image_opt",
@@ -62,16 +62,16 @@
       "status": "running",
       "detail": "2 large file(s)",
       "source": "compliance-score.json",
-      "updated_at": "2026-07-01T12:59:21Z"
+      "updated_at": "2026-07-01T21:09:39Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 58/100 vs desktop 76/100 (Δ18) · 1026/1026 ready",
+      "detail": "Mobile 51/100 vs desktop 83/100 (Δ32) · 1081/1081 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-07-01T10:56:49+00:00"
+      "updated_at": "2026-07-01T18:27:39+00:00"
     }
   ],
   "summary": {
