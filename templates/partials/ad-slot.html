@@ -23,7 +23,8 @@
 
     {%- set publisher = ads.publisher_id | default(value="") -%}
     {%- set skip_premium = page and page.extra.premium | default(value=false) -%}
-    {%- set show_live = ads.enabled and publisher != "" and slot_id != "" and not skip_premium -%}
+    {%- set consent_ready = ads.consent_cmp_ready | default(value=false) -%}
+    {%- set show_live = ads.enabled and consent_ready and publisher != "" and slot_id != "" and not skip_premium -%}
     {%- set show_placeholder = ads.placeholders and not show_live and not skip_premium -%}
 
     {%- if show_live -%}

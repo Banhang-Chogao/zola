@@ -18,6 +18,16 @@ class TestAdSenseViewability(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("enabled: False", result.stdout)
+        self.assertIn("homepage_max_slots: 3", result.stdout)
+
+    def test_homepage_template_slot_cap(self):
+        result = subprocess.run(
+            ["python3", "scripts/check_adsense_viewability.py"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+        )
+        self.assertNotIn("homepage-too-many-slots", result.stdout)
 
     def test_detects_missing_slots_when_enabled(self):
         config = ROOT / "config.toml"

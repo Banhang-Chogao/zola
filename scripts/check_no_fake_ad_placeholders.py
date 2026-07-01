@@ -13,11 +13,14 @@ FAKE_AD_PATTERNS = [
     "Đặt banner quảng cáo",
     "Khu vực này sẽ hiển thị quảng cáo",
     "adsense placeholder",
+    "adsense banner",
     "ad placeholder",
     "manual ad",
     "sponsored placeholder",
     "Nhấp để về trang chủ",
     "banner quảng cáo của bạn tại đây",
+    "đặt banner của bạn",
+    "brand slot",
 ]
 
 def check_file(file_path):
