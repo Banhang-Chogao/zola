@@ -17,9 +17,18 @@ from github_repo import check_repo_superadmin
 from roles import resolve_role, username_is_superadmin
 
 SESSION_COOKIE_NAME = os.getenv("VIPZONE_SESSION_COOKIE", "zola_cms_sid")
-CMS_V2_RETURN_TO = "https://seomoney.org/cms-v2/"
+CMS_V6_RETURN_TO = "https://seomoney.org/cms-v6/"
 CMS_RETURN_TO_HOST = "seomoney.org"
-CMS_GITHUB_RETURN_PATHS = ("/cms-v2", "/cms-v5", "/cms-v6", "/tools/infographic-hoa")
+CMS_GITHUB_ALLOWED_RETURN_PATHS = (
+    "/cms-v6",
+    "/tools/infographic-hoa",
+)
+CMS_GITHUB_LEGACY_RETURN_PATHS = (
+    "/cms-v2",
+    "/cms-v5",
+    "/cms",
+    "/editor",
+)
 
 BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://seomoney.org").rstrip("/")
 _IS_PRODUCTION = os.getenv("ENVIRONMENT", "").strip().lower() == "production" or bool(
@@ -247,29 +256,38 @@ def normalize_return_to(return_to: str) -> str:
     return "/editor/"
 
 
+def _path_matches(path: str, bases: tuple[str, ...]) -> bool:
+    return any(path == base or path.startswith(base + "/") for base in bases)
+
+
 def normalize_github_return_to(return_to: str) -> str:
-    """Return an absolute allowlisted CMS URL for the GitHub OAuth round trip."""
+    """Return an absolute allowlisted CMS URL for the GitHub OAuth round trip.
+
+    CMS-V6 is now the only active publishing UI.
+    Legacy CMS/editor return targets are intentionally canonicalized to CMS-V6
+    so old login buttons, stale links, or saved states cannot send users back
+    into CMS-V2/CMS-V5/editor loops.
+    """
     rt = (return_to or "").strip()
     if not rt:
-        return CMS_V2_RETURN_TO
+        return CMS_V6_RETURN_TO
 
     parsed = urlparse(rt)
-    if (
-        parsed.scheme == "https"
-        and parsed.netloc == CMS_RETURN_TO_HOST
-        and parsed.hostname == CMS_RETURN_TO_HOST
-        and any(parsed.path == base or parsed.path.startswith(base + "/") for base in CMS_GITHUB_RETURN_PATHS)
-    ):
-        return parsed._replace(fragment="").geturl()
+    if parsed.scheme == "https" and parsed.netloc == CMS_RETURN_TO_HOST and parsed.hostname == CMS_RETURN_TO_HOST:
+        if _path_matches(parsed.path, CMS_GITHUB_LEGACY_RETURN_PATHS):
+            return CMS_V6_RETURN_TO
+        if _path_matches(parsed.path, CMS_GITHUB_ALLOWED_RETURN_PATHS):
+            return parsed._replace(fragment="").geturl()
+        return CMS_V6_RETURN_TO
 
-    if (
-        rt.startswith("/")
-        and not rt.startswith("//")
-        and any(parsed.path == base or parsed.path.startswith(base + "/") for base in CMS_GITHUB_RETURN_PATHS)
-    ):
-        return f"https://{CMS_RETURN_TO_HOST}{rt}"
+    if rt.startswith("/") and not rt.startswith("//"):
+        parsed_path = urlparse(rt).path
+        if _path_matches(parsed_path, CMS_GITHUB_LEGACY_RETURN_PATHS):
+            return CMS_V6_RETURN_TO
+        if _path_matches(parsed_path, CMS_GITHUB_ALLOWED_RETURN_PATHS):
+            return f"https://{CMS_RETURN_TO_HOST}{rt}"
 
-    return CMS_V2_RETURN_TO
+    return CMS_V6_RETURN_TO
 
 
 def github_success_return_to(return_to: str) -> str:
@@ -477,7 +495,7 @@ def session_role_payload(db: VipzoneDB, profile: dict[str, Any]) -> dict[str, An
     response_class=RedirectResponse,
     responses={302: {"description": "Redirect to GitHub authorize"}, 500: {"description": "OAuth environment missing"}},
 )
-async def auth_login(return_to: str = CMS_V2_RETURN_TO) -> RedirectResponse:
+async def auth_login(return_to: str = CMS_V6_RETURN_TO) -> RedirectResponse:
     require_github_oauth_env()
     from main import get_db
 

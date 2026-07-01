@@ -6,15 +6,15 @@
  *
  * Flow:
  *   1. User click [data-auth-trigger] (link Admin ở footer)
- *   2. Redirect đến BACKEND/auth/login?return_to=/editor/
+ *   2. Redirect đến BACKEND/auth/login?return_to=https://seomoney.org/cms-v6/
  *   3. Backend redirect GitHub authorize
  *   4. User authorize → GitHub redirect BACKEND/auth/callback
- *   5. Backend check email whitelist → redirect BLOG_URL/editor/#sid=...
- *   6. /editor/ load editor.js, đọc #sid, lưu sessionStorage, validate qua /auth/me
+ *   5. Backend check email whitelist → redirect BLOG_URL/cms-v6/?success=1#sid=...
+ *   6. CMS-V6 load cms-v6.js, đọc #sid, lưu sessionStorage, validate qua /auth/me
  *
  * Config:
  *   - Backend URL bake từ <meta name="zola-cms-auth-api">
- *   - Nếu meta tag trống → user vào /editor/ thẳng, editor.js tự handle login UI
+ *   - Nếu meta tag trống → user vào CMS trực tiếp, page-level JS tự handle login UI
  *
  * Security:
  *   - KHÔNG OTP modal trên trang chủ (đã bỏ)
@@ -29,6 +29,7 @@
 
   const meta = document.querySelector('meta[name="zola-cms-auth-api"]');
   const apiUrl = (meta && meta.getAttribute("content")) || "";
+  const CMS_V6_RETURN_TO = "https://seomoney.org/cms-v6/";
 
   // Chọn endpoint OAuth start theo provider đang bật (hỏi /auth/config).
   // dual/google → Google start; github → GitHub start. Lỗi fetch → GitHub
@@ -48,22 +49,13 @@
 
   triggers.forEach(function (el) {
     el.addEventListener("click", function (e) {
-      // Nếu backend chưa configure → fallback navigate thẳng /editor/,
-      // editor.js sẽ hiển thị thông báo "chưa config auth".
+      // Nếu backend chưa configure thì giữ nguyên hành vi hiện tại của trang.
       if (!apiUrl) return;
 
       e.preventDefault();
-      const returnTo = el.getAttribute("href") || "/editor/";
-      // Chỉ truyền path tương đối — backend cũng validate lại để chống open redirect.
-      let returnPath = "/editor/";
-      try {
-        const u = new URL(returnTo, location.origin);
-        if (u.origin === location.origin) returnPath = u.pathname + u.search;
-      } catch (err) { /* invalid href → giữ default */ }
-
       resolveStartPath().then(function (startPath) {
         window.location.href =
-          apiUrl + startPath + "?return_to=" + encodeURIComponent(returnPath);
+          apiUrl + startPath + "?return_to=" + encodeURIComponent(CMS_V6_RETURN_TO);
       });
     });
   });

@@ -27,7 +27,7 @@
      OAuth flow (replaces OTP):
        1. User click "Đăng nhập GitHub" → redirect BACKEND/auth/login
        2. GitHub OAuth → BACKEND callback → check email white-list
-       3. Backend set cookie HttpOnly + redirect /editor/#sid=... → JS đọc hash
+       3. Backend set cookie HttpOnly + redirect /cms-v6/?success=1#sid=... → JS đọc hash
           → lưu localStorage (Bearer fallback)
        4. /auth/me validate session mỗi page load (credentials:include → cookie)
        5. Save bài = download .md (DRAFT-ONLY mode giữ nguyên từ PR #34)
@@ -61,6 +61,7 @@
     if (m2 && m2.getAttribute("content")) return m2.getAttribute("content");
     return "https://blog-vipzone-api.onrender.com";
   })();
+  const CMS_V6_RETURN_TO = "https://seomoney.org/cms-v6/";
 
   let currentUser = null; // { email, username, name, avatar }
 
@@ -1167,8 +1168,7 @@ tags = ${tagsStr}
   // ============= LOGIN BUTTONS → REDIRECT OAUTH (GitHub / Google) =============
   function startOAuth(startPath) {
     if (!AUTH_API) { showLoginHint(); return; }
-    const returnTo = location.pathname + location.search;
-    location.href = AUTH_API + startPath + "?return_to=" + encodeURIComponent(returnTo);
+    location.href = AUTH_API + startPath + "?return_to=" + encodeURIComponent(CMS_V6_RETURN_TO);
   }
 
   const loginBtn = $("[data-action='github-login']");

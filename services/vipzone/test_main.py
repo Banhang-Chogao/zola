@@ -118,7 +118,7 @@ class VipzoneApiTests(unittest.TestCase):
             state = parse_qs(urlparse(loc).query)["state"][0]
             self.assertEqual(
                 get_db().pop_oauth_state(state),
-                "https://seomoney.org/cms-v2/",
+                "https://seomoney.org/cms-v6/",
             )
         finally:
             auth_mod.GH_CLIENT_ID, auth_mod.GH_CLIENT_SECRET = old_id, old_secret
@@ -128,22 +128,22 @@ class VipzoneApiTests(unittest.TestCase):
 
         self.assertEqual(
             github_success_return_to("https://seomoney.org/cms-v2/"),
-            "https://seomoney.org/cms-v2/?success=1",
+            "https://seomoney.org/cms-v6/?success=1",
         )
         self.assertEqual(
             github_success_return_to("https://seomoney.org/cms-v2/?draft=1"),
-            "https://seomoney.org/cms-v2/?draft=1&success=1",
+            "https://seomoney.org/cms-v6/?success=1",
         )
         self.assertNotIn(
             "/cms-v2/&",
             github_success_return_to("https://seomoney.org/cms-v2/"),
         )
         self.assertEqual(
-            github_success_return_to("https://seomoney.org/cms-v6/"),
-            "https://seomoney.org/cms-v6/?success=1",
+            github_success_return_to("https://seomoney.org/cms-v6/?draft=1"),
+            "https://seomoney.org/cms-v6/?draft=1&success=1",
         )
 
-    def test_github_return_to_rejects_non_cms_paths_and_hosts(self) -> None:
+    def test_github_return_to_canonicalizes_legacy_paths_and_rejects_unsafe_hosts(self) -> None:
         from cms_auth import normalize_github_return_to
 
         self.assertEqual(
@@ -155,16 +155,31 @@ class VipzoneApiTests(unittest.TestCase):
             "https://seomoney.org/cms-v6/",
         )
 
+        for legacy in (
+            "/cms-v2/",
+            "/cms-v5/",
+            "/cms/",
+            "/editor/",
+            "https://seomoney.org/cms-v2/",
+            "https://seomoney.org/cms-v5/",
+            "https://seomoney.org/cms/",
+            "https://seomoney.org/editor/",
+        ):
+            with self.subTest(return_to=legacy):
+                self.assertEqual(
+                    normalize_github_return_to(legacy),
+                    "https://seomoney.org/cms-v6/",
+                )
+
         for unsafe in (
             "https://evil.example/cms-v2/",
-            "https://seomoney.org/editor/",
             "https://seomoney.org.evil.example/cms-v2/",
             "https://seomoney.org:443/cms-v2/",
         ):
             with self.subTest(return_to=unsafe):
                 self.assertEqual(
                     normalize_github_return_to(unsafe),
-                    "https://seomoney.org/cms-v2/",
+                    "https://seomoney.org/cms-v6/",
                 )
 
     def test_auth_me_requires_token(self) -> None:

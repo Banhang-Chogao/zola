@@ -162,16 +162,16 @@ class CmsV5Tests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         publish.assert_awaited_once_with(post_id, "github-test-token")
 
-    def test_github_oauth_allows_cms_v5_return(self) -> None:
+    def test_github_oauth_canonicalizes_cms_v5_return_to_cms_v6(self) -> None:
         from cms_auth import github_success_return_to, normalize_github_return_to
 
         self.assertEqual(
             normalize_github_return_to("https://seomoney.org/cms-v5/"),
-            "https://seomoney.org/cms-v5/",
+            "https://seomoney.org/cms-v6/",
         )
         self.assertEqual(
             github_success_return_to("https://seomoney.org/cms-v5/?draft=1"),
-            "https://seomoney.org/cms-v5/?draft=1&success=1",
+            "https://seomoney.org/cms-v6/?success=1",
         )
 
 

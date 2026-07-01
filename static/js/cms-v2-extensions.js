@@ -13,6 +13,7 @@
   var DRAFT_KEY = "seomoney.cmsv2.draft.v1";
   var HISTORY_KEY = "seomoney.cmsv2.publish-history.v1";
   var AUTOGEN_DEBOUNCE_MS = 350;
+  var CMS_RETURN_TO = "https://seomoney.org/cms-v6/";
 
   var field = {
     title: root.querySelector("[data-cms-v2-title]"),
@@ -983,7 +984,7 @@
         }
         if (AUTH_API) {
           var url = new URL("/auth/login", AUTH_API);
-          url.searchParams.set("return_to", location.href);
+          url.searchParams.set("return_to", CMS_RETURN_TO);
           location.href = url.toString();
         }
       });

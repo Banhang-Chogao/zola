@@ -23,7 +23,7 @@
   var SESSION_KEY = "zola-cms-session-id";
   var DRAFT_KEY = "seomoney.cmsv2.draft.v1";
   var HISTORY_KEY = "seomoney.cmsv2.publish-history.v1";
-  var CMS_RETURN_TO = "https://seomoney.org/cms-v2/";
+  var CMS_RETURN_TO = "https://seomoney.org/cms-v6/";
   var AUTH_TIMEOUT_MS = 10000;
   var MARKED = window.marked || null;
 

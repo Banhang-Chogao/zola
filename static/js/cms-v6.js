@@ -11,6 +11,7 @@
     return (m && m.getAttribute("content")) || "";
   })();
   var SID_KEY = "zola-cms-session-id";
+  var CMS_V6_RETURN_TO = "https://seomoney.org/cms-v6/";
   var GH_OWNER = "Banhang-Chogao";
   var GH_REPO = "zola";
   var GH_BRANCH = "main";
@@ -236,9 +237,8 @@
 
   function startLogin() {
     if (!AUTH_API) return;
-    var returnTo = location.pathname + location.search;
     window.location.href =
-      AUTH_API + "/auth/login?return_to=" + encodeURIComponent(returnTo);
+      AUTH_API + "/auth/login?return_to=" + encodeURIComponent(CMS_V6_RETURN_TO);
   }
 
   function logout() {

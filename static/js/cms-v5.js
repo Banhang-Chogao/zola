@@ -8,7 +8,7 @@
   var apiMeta = document.querySelector('meta[name="zola-cms-auth-api"]');
   var API = (apiMeta && apiMeta.content ? apiMeta.content : "https://api.seomoney.org").replace(/\/$/, "");
   var CMS_API = API + "/api/cms-v5";
-  var RETURN_TO = window.location.origin + "/cms-v5/";
+  var RETURN_TO = "https://seomoney.org/cms-v6/";
   var SESSION_KEY = "zola-cms-session-id";
 
   function q(selector, scope) { return (scope || root).querySelector(selector); }
