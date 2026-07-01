@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1322",
+      "pr_number": 1322,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1322",
+      "title": "perf(cwv): remove Google Fonts and trim dead homepage CSS",
+      "tag": "remove",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T19:12:44Z",
+      "merge_commit_sha": "29c44e98bd2a",
+      "stats": {
+        "additions": 170,
+        "deletions": 30
+      },
+      "highlights": [
+        "Remove blocking Google Fonts (Inter + IBM Plex) from base.html",
+        "Use self-hosted Ericsson Hilda WOFF2 only (Medium + Bold preloaded)",
+        "Fix Hilda theme --hilda-font-family to 'Ericsson Hilda'",
+        "Trim dead SCSS imports: home-momo, home-discovery, home-magazine, home-economist",
+        "Add scripts/check_cwv_hygiene.py gate (P0 exit 2 on regressions)"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1321",
       "pr_number": 1321,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1321",
