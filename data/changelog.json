@@ -1,6 +1,24 @@
 {
   "items": [
     {
+      "id": "pr-1281",
+      "pr_number": 1281,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1281",
+      "title": "feat(series): 7 bài Google DeepMind science series — fix 7 URL 404",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T02:20:03Z",
+      "merge_commit_sha": "d8308cd79c75",
+      "stats": {
+        "additions": 995,
+        "deletions": 74
+      },
+      "highlights": [
+        "data/google-deepmind-series.json — 7 parts: AlphaFold, AlphaFold 3, AlphaMissense, AlphaProteo, AlphaGenome P1/P2, series landing"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1274",
       "pr_number": 1274,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1274",
