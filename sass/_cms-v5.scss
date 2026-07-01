@@ -6,9 +6,11 @@ main.container:has(.cms5) { max-width: none; padding: 0; }
   align-items:center;background:#f5f7fb;display:flex;justify-content:center;min-height:70vh;padding:32px 16px;
   &__card{background:#fff;border:1px solid #e4e8ef;border-radius:16px;box-shadow:0 18px 50px rgba(23,32,51,.09);max-width:460px;padding:36px;text-align:center;width:100%}
   .cms5-brand__mark{margin:0 auto 18px}.cms5-kicker{margin-bottom:8px}.cms5-kicker+h1{font-size:28px;margin:0 0 10px}.cms5-kicker+h1+p{color:#697386;font-size:13px;line-height:1.65;margin:0 0 18px}
-  .cms5-btn{font-size:12px;min-width:210px}
+  .cms5-btn{font-size:15px;min-width:240px;padding:12px 24px}
 }
-.cms5-alert{background:#f8fafc;border:1px solid #e4e8ef;border-radius:9px;color:#697386;font-size:11px;margin:0 0 14px;padding:10px}
+.cms5-alert{background:#f8fafc;border:1px solid #e4e8ef;border-radius:6px;color:#697386;font-size:11px;margin:0 0 14px;padding:8px 10px;text-align:left;line-height:1.55;word-break:break-word}
+.cms5-alert.is-error{background:#fff8f8;border-color:#fecaca;border-left:3px solid #dc2626;color:#b42318}
+.cms5-alert.is-info{background:#f0f5ff;border-color:#d6e3ff;border-left:3px solid #3568e8;color:#1d4ed8}
 .cms5-toast{background:#172033;border-radius:9px;bottom:20px;box-shadow:0 10px 30px rgba(0,0,0,.2);color:#fff;font-size:12px;max-width:min(420px,calc(100vw - 32px));padding:12px 16px;position:fixed;right:20px;z-index:1000;&.is-error{background:#b42318}&.is-success{background:#067647}}
 
 .cms5 {
