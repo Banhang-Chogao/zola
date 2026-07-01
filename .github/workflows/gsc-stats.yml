@@ -1,0 +1,45 @@
+name: Fetch GSC Stats
+
+# Hourly: fetch Google Search Console stats via VIPZone backend → data/gsc-stats.json.
+# Widget templates/partials/google-snapshot.html reads the file for Search Performance
+# and Top Page cards.
+#
+# Backend API at blog-vipzone-api.onrender.com/gsc/metrics is public (aggregate stats).
+# No secrets required — URL is the only config.
+
+on:
+  schedule:
+    - cron: '0 * * * *'   # mỗi giờ đầu phút 0
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: gsc-stats
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Fetch GSC stats
+        run: python scripts/fetch_gsc_stats.py
+
+      - name: Push to main if changed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh \
+            "Cập nhật: refresh GSC stats ($(date -u +%FT%TZ))" \
+            data/gsc-stats.json
