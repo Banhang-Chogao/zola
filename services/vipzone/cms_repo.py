@@ -62,11 +62,14 @@ CMS_REPO_BRANCH = os.getenv("CMS_REPO_BRANCH", "main")
 # the slug regex already blocks '../').
 CMS_CONTENT_DIR = "content/posting"
 CMS_CATEGORIES_PATH = "categories.json"
+CMS_EDITORIAL_SLOTS_PATH = "data/editorial_slots.json"
 
 # All valid article sections. Used when demoting featured/sticky across the entire
 # site (not just content/posting/). Match the sections in templates/editor.html & config.toml.
 ARTICLE_SECTIONS = [
-    "content/posting", "content/baochi", "content/khoa-hoc",
+    "content/posting", "content/baochi", "content/am-thuc",
+    "content/hoc-tieng-han", "content/seo", "content/world-cup-2026",
+    "content/khoa-hoc",
     "content/the-gioi", "content/cong-nghe", "content/du-lich",
     "content/ngan-hang", "content/bao-hiem", "content/doi-song",
     "content/the-thao",
@@ -97,6 +100,80 @@ _FEATURED_AT_LINE_RE = re.compile(r'(?m)^featured_at\s*=\s*"[^"]*"\s*\n?')
 # auto-clears sticky on every other post (mirrors featured semantics).
 _STICKY_TRUE_RE = re.compile(r"(?m)^sticky\s*=\s*true\s*$")
 _STICKY_LINE_RE = re.compile(r"(?m)^sticky\s*=\s*true\s*\n?")
+
+_EDITORIAL_SLOT_KEYS = ("lead_story", "featured", "sidebar_featured")
+
+
+def _empty_editorial_slots() -> dict:
+    return {
+        "version": 1,
+        "lead_story": None,
+        "featured": None,
+        "secondary": [],
+        "sidebar_featured": None,
+        "allow_duplicates": False,
+    }
+
+
+def _normalize_editorial_slots(value: object) -> dict:
+    """Return the small, versioned public schema; reject unknown value shapes."""
+    if not isinstance(value, dict):
+        raise HTTPException(400, "invalid_editorial_slots")
+    slots = _empty_editorial_slots()
+    for key in _EDITORIAL_SLOT_KEYS:
+        raw = value.get(key)
+        slots[key] = str(raw).strip().lower() if raw else None
+        if slots[key] and not _SLUG_RE.match(slots[key]):
+            raise HTTPException(400, f"invalid_slug: {key}")
+    secondary = value.get("secondary", [])
+    if not isinstance(secondary, list) or len(secondary) > 4:
+        raise HTTPException(400, "secondary_must_have_0_to_4_items")
+    slots["secondary"] = [str(item).strip().lower() for item in secondary if item]
+    if any(not _SLUG_RE.match(slug) for slug in slots["secondary"]):
+        raise HTTPException(400, "invalid_slug: secondary")
+    slots["allow_duplicates"] = value.get("allow_duplicates") is True
+    return slots
+
+
+async def _repo_article_index(client: httpx.AsyncClient, token: str) -> dict:
+    articles = {}
+    for section in ARTICLE_SECTIONS:
+        for entry in await _gh_list_dir(client, section, token):
+            name = str(entry.get("name", ""))
+            if entry.get("type") == "file" and name.endswith(".md") and not name.startswith("_"):
+                articles.setdefault(name[:-3], str(entry.get("path", "")))
+    return articles
+
+
+async def _repo_article_slugs(client: httpx.AsyncClient, token: str) -> set:
+    return set((await _repo_article_index(client, token)).keys())
+
+
+async def _article_commit_metadata(client: httpx.AsyncClient, paths: dict, token: str) -> dict:
+    metadata = {}
+    for slug, path in paths.items():
+        res = await client.get(
+            f"https://api.github.com/repos/{CMS_REPO_OWNER}/{CMS_REPO_NAME}/commits",
+            params={"sha": CMS_REPO_BRANCH, "path": path, "per_page": 1},
+            headers=_gh_headers(token),
+        )
+        if res.status_code != 200 or not isinstance(res.json(), list) or not res.json():
+            continue
+        commit = res.json()[0]
+        detail = commit.get("commit", {})
+        metadata[slug] = {
+            "sha": str(commit.get("sha", ""))[:12],
+            "timestamp": detail.get("committer", {}).get("date", ""),
+            "url": commit.get("html_url", ""),
+        }
+    return metadata
+
+
+def _slot_slug_list(slots: dict) -> list:
+    return [slug for slug in (
+        slots.get("lead_story"), slots.get("featured"),
+        *(slots.get("secondary") or []), slots.get("sidebar_featured"),
+    ) if slug]
 
 
 def _gh_headers(token: str) -> dict:
@@ -334,6 +411,67 @@ async def categories_add(
         await _gh_put_file(client, CMS_CATEGORIES_PATH, new_text, sha,
                            f"CMS: thêm category '{name}'", token)
     return {"ok": True, "categories": cats, "added": True}
+
+
+# ============= Homepage Editorial Slots =============
+@router.get("/cms/editorial-slots")
+async def editorial_slots_get(
+    authorization: str = Header(default=""),
+    cookie_sid: Optional[str] = Cookie(default=None, alias=SESSION_COOKIE_NAME),
+):
+    """Read the Git-versioned homepage slot configuration and flag broken slugs."""
+    token = await _token(authorization, cookie_sid)
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        sha, text = await _gh_get_file(client, CMS_EDITORIAL_SLOTS_PATH, token)
+        try:
+            slots = _normalize_editorial_slots(json.loads(text)) if text else _empty_editorial_slots()
+        except json.JSONDecodeError:
+            raise HTTPException(502, "invalid_editorial_slots_in_repo")
+        article_index = await _repo_article_index(client, token)
+        selected = set(_slot_slug_list(slots))
+        commit_metadata = await _article_commit_metadata(
+            client, {slug: article_index[slug] for slug in selected if slug in article_index}, token,
+        )
+    broken = sorted(selected - set(article_index))
+    return {"ok": True, "slots": slots, "sha": sha or "", "broken": broken, "commit_metadata": commit_metadata}
+
+
+@router.put("/cms/editorial-slots")
+async def editorial_slots_put(
+    request: Request,
+    authorization: str = Header(default=""),
+    cookie_sid: Optional[str] = Cookie(default=None, alias=SESSION_COOKIE_NAME),
+):
+    """Validate real content slugs, then commit homepage slots to GitHub."""
+    token = await _token(authorization, cookie_sid)
+    try:
+        body = await request.json()
+    except json.JSONDecodeError:
+        raise HTTPException(400, "invalid_json")
+    slots = _normalize_editorial_slots(body.get("slots", body))
+    selected = _slot_slug_list(slots)
+    duplicates = sorted({slug for slug in selected if selected.count(slug) > 1})
+    if duplicates and not slots["allow_duplicates"]:
+        raise HTTPException(409, "duplicate_editorial_slots: " + ", ".join(duplicates))
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        existing = await _repo_article_slugs(client, token)
+        broken = sorted(set(selected) - existing)
+        if broken:
+            raise HTTPException(409, "broken_editorial_slots: " + ", ".join(broken))
+        current_sha, _ = await _gh_get_file(client, CMS_EDITORIAL_SLOTS_PATH, token)
+        text = json.dumps(slots, ensure_ascii=False, indent=2) + "\n"
+        result = await _gh_put_file(
+            client, CMS_EDITORIAL_SLOTS_PATH, text, current_sha,
+            "CMS-V2: update homepage editorial slots", token,
+        )
+    return {
+        "ok": True,
+        "slots": slots,
+        "commit_sha": result.get("commit", {}).get("sha", ""),
+        "commit_url": result.get("commit", {}).get("html_url", ""),
+        "deploy_eta": "1-2 phút (GitHub Actions auto-build + deploy)",
+    }
 
 
 # ============= Save Post =============

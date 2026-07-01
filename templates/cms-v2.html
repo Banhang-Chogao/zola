@@ -147,6 +147,31 @@
                         </div>
                     </article>
                 </div>
+
+                <section class="editorial-desk" data-editorial-desk>
+                    <header class="editorial-desk__header">
+                        <div>
+                            <p class="cms-v2__eyebrow">Homepage / Editorial Slots</p>
+                            <h3>Điều khiển layout trang chủ</h3>
+                            <p>Chọn bài thật trong repo. Lưu sẽ commit <code>data/editorial_slots.json</code> và kích hoạt deploy hiện có.</p>
+                        </div>
+                        <div class="cms-v2__action-row">
+                            <button type="button" class="cms-v2__button cms-v2__button--ghost" data-editorial-sync>Sync metadata</button>
+                            <button type="button" class="cms-v2__button cms-v2__button--primary" data-editorial-save>Lưu &amp; deploy</button>
+                        </div>
+                    </header>
+                    <p class="editorial-desk__status" data-editorial-status role="status">Đang chờ xác thực…</p>
+                    <div class="editorial-desk__slots" data-editorial-slots></div>
+                    <label class="editorial-desk__duplicate"><input type="checkbox" data-editorial-duplicates> Cho phép cố ý dùng trùng bài (UI sẽ cảnh báo)</label>
+                    <section class="editorial-desk__queue">
+                        <div class="editorial-desk__queue-head">
+                            <div><p class="cms-v2__eyebrow">Article queue</p><strong data-editorial-count></strong></div>
+                            <input class="cms-v2__input" type="search" placeholder="Search bài viết / slug / category…" data-editorial-search>
+                        </div>
+                        <div data-editorial-queue></div>
+                    </section>
+                    <datalist id="editorial-post-catalog"></datalist>
+                </section>
             </section>
 
             <section class="cms-v2__panel cms-v2__panel--write" data-cms-v2-panel="write" hidden>
@@ -632,10 +657,30 @@
         </div>
     </section>
 </div>
+
+{% set editorial_sections = ["posting", "baochi", "am-thuc", "hoc-tieng-han", "seo", "world-cup-2026", "khoa-hoc", "the-gioi", "cong-nghe", "du-lich", "ngan-hang", "bao-hiem", "doi-song", "the-thao"] %}
+{% set editorial_posts = [] %}
+{% for section_name in editorial_sections %}
+    {% set editorial_section = get_section(path=section_name ~ "/_index.md") %}
+    {% if editorial_section %}{% set_global editorial_posts = editorial_posts | concat(with=editorial_section.pages) %}{% endif %}
+{% endfor %}
+{% set editorial_posts = editorial_posts | sort(attribute="date") | reverse %}
+<script type="application/json" id="editorial-posts-metadata">[
+{% for page in editorial_posts %}{
+  "slug": {{ page.slug | json_encode | safe }},
+  "section": {{ page.components.0 | default(value="posting") | json_encode | safe }},
+  "title": {{ page.title | json_encode | safe }},
+  "permalink": {{ page.permalink | json_encode | safe }},
+  "date": {{ page.date | json_encode | safe }},
+  "category": {{ page.taxonomies.categories.0 | default(value="") | json_encode | safe }},
+  "thumbnail": {{ page.extra.thumbnail | default(value="") | json_encode | safe }}
+}{% if not loop.last %},{% endif %}{% endfor %}
+]</script>
 {% endblock %}
 
 {% block extra_scripts %}
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
     <script src="{{ get_url(path='js/cms-v2.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/cms-v2-extensions.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/editorial-desk.js') }}?v={{ asset_version }}" defer></script>
 {% endblock %}
