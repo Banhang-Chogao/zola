@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1288",
+      "pr_number": 1288,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1288",
+      "title": "GCF footer stock widget",
+      "tag": "remove",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T04:02:48Z",
+      "merge_commit_sha": "21f7032cdedb",
+      "stats": {
+        "additions": 272,
+        "deletions": 308
+      },
+      "highlights": [
+        "remove the GCF stock widget render from the global footer path",
+        "remove its dedicated fetch/init script and SCSS",
+        "preserve all other footer widgets and stock-related content",
+        "searched repository source for GCF/stock/co-phieu/ticker references",
+        "confirmed no remaining GCF footer render, init, or fetch references outside historical reports/build output"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1287",
       "pr_number": 1287,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1287",
