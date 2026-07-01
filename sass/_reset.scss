@@ -30,7 +30,12 @@ html, body { margin: 0; padding: 0; }
 
 body {
   font-family: $font-body;
-  background: var(--c-bg-page);
+  background-color: var(--c-bg-page);
+  background-image: url('https://static.mediacdn.vn/50NamTPHCM/images/banner--top-main2v10.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-attachment: fixed;
   color: var(--c-text-body);
   font-size: 17px;
   line-height: 1.7;
