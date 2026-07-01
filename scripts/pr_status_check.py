@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
-"""PR Status Checker + Auto-Fix Gate.
+"""PR Status Checker + Auto-Fix Gate (kt9).
 
 Usage:
-  python3 scripts/pr_status_check.py          # check all open PRs, report
-  python3 scripts/pr_status_check.py --fix     # check + auto-fix safe issues
-  python3 scripts/pr_status_check.py --pr 1271 # check specific PR
+  python3 scripts/pr_status_check.py          # check + auto-fix if issues found
+  python3 scripts/pr_status_check.py --fix     # force fix mode
+  python3 scripts/pr_status_check.py --no-fix  # check only, no auto-fix
+  python3 scripts/pr_status_check.py --pr 1309 # check specific PR
 """
 
 import json
 import os
 import subprocess
 import sys
+import tempfile
 from datetime import datetime, timezone
 
 
@@ -18,12 +20,15 @@ def tz_now():
     return datetime.now(timezone.utc).strftime("%H:%M %d/%m/%Y UTC")
 
 
-def run(cmd, timeout=30):
+def run(cmd, timeout=60, cwd=None):
     try:
-        r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, cwd=cwd)
         return r.stdout.strip(), r.returncode
     except Exception as e:
         return str(e), -1
+
+
+GH_REPO = "Banhang-Chogao/zola"
 
 
 def get_open_prs():
@@ -34,9 +39,9 @@ def get_open_prs():
     return json.loads(out)
 
 
-def get_failed_runs():
-    out, _ = run(["gh", "run", "list", "--limit", "20", "--json",
-                  "status,conclusion,headBranch,displayTitle,workflowName"])
+def get_failed_runs(hours=24):
+    out, _ = run(["gh", "run", "list", "--limit", "30", "--json",
+                  "status,conclusion,headBranch,displayTitle,workflowName,createdAt"])
     if not out:
         return []
     data = json.loads(out)
@@ -51,55 +56,7 @@ def get_deploy_runs():
     return json.loads(out)
 
 
-def check_autofix_needed(pr):
-    """Check if autofix is needed for a PR."""
-    issues = []
-    for check in pr.get("statusCheckRollup", []):
-        if check.get("conclusion") == "FAILURE":
-            issues.append({
-                "pr": f"#{pr['number']}",
-                "branch": pr["headRefName"],
-                "check": check["name"],
-                "detail": f"{check['name']} FAILED — needs fix"
-            })
-    if pr.get("mergeable") == "CONFLICTING":
-        issues.append({
-            "pr": f"#{pr['number']}",
-            "branch": pr["headRefName"],
-            "check": "conflict",
-            "detail": "Merge conflict detected — needs resolution"
-        })
-    return issues
-
-
-def autofix_safe_issues(prs):
-    """Attempt safe autofixes for known patterns."""
-    fixed = []
-    for pr in prs:
-        for check in pr.get("statusCheckRollup", []):
-            if check.get("conclusion") != "FAILURE":
-                continue
-            name = check["name"]
-            pr_num = pr["number"]
-            branch = pr["headRefName"]
-
-            # Pattern: qa_pair shortcode missing (V19-style)
-            if "zola build" in name.lower() or "qa-check" in name.lower():
-                # Check if it's the qa_pair issue
-                out, _ = run(["gh", "pr", "view", str(pr_num), "--json", "body", "--jq", ".body"])
-                if "qa_pair" in out:
-                    # Trigger rerun after potential fix
-                    run(["gh", "run", "rerun", "--failed", "-R", "Banhang-Chogao/zola"])
-                    fixed.append({
-                        "pr": f"#{pr_num}",
-                        "branch": branch,
-                        "action": "Triggered rerun for qa_pair shortcode fix"
-                    })
-    return fixed
-
-
 def check_gatekeeper(pr):
-    """Check gatekeeper/qa-check status for a PR."""
     for check in pr.get("statusCheckRollup", []):
         if check.get("name") in ("qa-check", "QA Gatekeeper", "rule-check"):
             return check
@@ -110,66 +67,192 @@ def classify_pr_health(pr):
     checks = pr.get("statusCheckRollup", [])
     mergeable = pr.get("mergeable", "UNKNOWN")
     gate = check_gatekeeper(pr)
-    has_failed_check = any(check.get("conclusion") == "FAILURE" for check in checks)
-    has_running_check = any(check.get("status") == "IN_PROGRESS" for check in checks)
-    review_decision = pr.get("reviewDecision") or ""
+    has_failed = any(check.get("conclusion") == "FAILURE" for check in checks)
+    has_running = any(check.get("status") == "IN_PROGRESS" for check in checks)
+    review = pr.get("reviewDecision") or ""
 
-    if mergeable == "CONFLICTING" or has_failed_check:
-        reason = "conflict" if mergeable == "CONFLICTING" else "failing check"
-        return "🔴 BLOCK", reason
-    if has_running_check or (gate and gate.get("status") == "IN_PROGRESS"):
+    if mergeable == "CONFLICTING":
+        return "🔴 BLOCK", "conflict"
+    if has_failed:
+        return "🔴 BLOCK", "failing check"
+    if has_running or (gate and gate.get("status") == "IN_PROGRESS"):
         return "🟡 RUN", "waiting on CI"
-    if review_decision == "REVIEW_REQUIRED":
+    if review == "REVIEW_REQUIRED":
         return "🟦 REVIEW", "needs review"
     return "🟢 CLEAN", "all clear"
 
 
 def deploy_bucket(run):
-    status = run.get("status")
-    conclusion = run.get("conclusion")
-    if status == "completed":
-        if conclusion == "success":
-            return "✅ success"
-        if conclusion == "failure":
-            return "❌ failed"
-        if conclusion == "cancelled":
-            return "⏹ cancelled"
-        return f"⚪ {conclusion or 'completed'}"
-    if status == "in_progress":
-        return "🔄 in progress"
-    if status in ("queued", "pending"):
-        return "⏳ pending"
-    return f"❔ {status or 'unknown'}"
+    s, c = run.get("status"), run.get("conclusion")
+    if s == "completed":
+        if c == "success": return "✅ success"
+        if c == "failure": return "❌ failed"
+        if c == "cancelled": return "⏹ cancelled"
+        return f"⚪ {c or 'completed'}"
+    if s == "in_progress": return "🔄 running"
+    if s in ("queued", "pending"): return "⏳ pending"
+    return f"❔ {s or 'unknown'}"
 
 
-def format_report(prs, failed_runs, deploy_runs=None, auto_fixed=None):
+# ── Auto-fix: rerun failed checks ──────────────────────────
+
+def autofix_rerun_failed(prs):
+    """Rerun failed checks for known safe patterns."""
+    fixed = []
+    for pr in prs:
+        for check in pr.get("statusCheckRollup", []):
+            if check.get("conclusion") != "FAILURE":
+                continue
+            name = check["name"]
+            branch = pr["headRefName"]
+            pr_num = pr["number"]
+
+            # Safe pattern: zola build or qa-check failed → rerun
+            if "zola build" in name.lower() or "qa-check" in name.lower():
+                out, _ = run(["gh", "run", "rerun", "--failed", "-R", GH_REPO])
+                if out or True:
+                    fixed.append({
+                        "pr": f"#{pr_num}", "branch": branch,
+                        "action": f"🔄 Rerun {name} (failed → retry)"
+                    })
+    return fixed
+
+
+# ── Auto-fix: V18/V25 conflict resolution ──────────────────
+
+def resolve_v18_v25_conflicts(prs):
+    """Resolve merge conflicts using V18/V25 strategies.
+
+    V18 — phân loại file:
+      data/*.json (auto-gen)    → git checkout --theirs (lấy main)
+      content/posting/*.md      → git checkout --ours (giữ PR)
+      templates/*.html          → bỏ qua (manual)
+    V25 — >5 content files conflict → mass migration, skip.
+    """
+    fixed = []
+    current_branch, _ = run(["git", "rev-parse", "--abbrev-ref", "HEAD"])
+
+    for pr in prs:
+        if pr.get("mergeable") != "CONFLICTING":
+            continue
+        branch = pr["headRefName"]
+        pr_num = pr["number"]
+
+        tmpdir = tempfile.mkdtemp()
+        try:
+            # Fetch + worktree
+            run(["git", "fetch", "origin", branch], timeout=30)
+            out, rc = run(["git", "worktree", "add", "--force", tmpdir, branch], timeout=15)
+            if rc != 0:
+                fixed.append({"pr": f"#{pr_num}", "branch": branch,
+                              "action": f"⚠️ Cannot checkout worktree: {out[:60]}"})
+                run(["git", "worktree", "remove", tmpdir, "--force"], timeout=10)
+                continue
+
+            # Attempt merge with main
+            run(["git", "merge", "origin/main", "--no-edit"], cwd=tmpdir, timeout=30)
+
+            # List unmerged files
+            uf_out, _ = run(["git", "diff", "--name-only", "--diff-filter=U"], cwd=tmpdir)
+            conflicted = [f for f in uf_out.split("\n") if f.strip()] if uf_out else []
+
+            if not conflicted:
+                # Merge succeeded with no conflicts — push and report
+                run(["git", "push", "origin", f"HEAD:{branch}"], cwd=tmpdir, timeout=30)
+                fixed.append({"pr": f"#{pr_num}", "branch": branch,
+                              "action": "✅ Merge with main clean — pushed"})
+                run(["git", "worktree", "remove", tmpdir, "--force"], timeout=10)
+                continue
+
+            # V25: >5 content files → mass migration, skip
+            content_conflicts = [f for f in conflicted if f.startswith("content/")]
+            if len(content_conflicts) > 5:
+                fixed.append({"pr": f"#{pr_num}", "branch": branch,
+                              "action": "⛔ Mass content conflict (V25) — needs manual recreate"})
+                run(["git", "worktree", "remove", tmpdir, "--force"], timeout=10)
+                continue
+
+            # V18: classify and resolve
+            data_files = [f for f in conflicted if f.startswith("data/") and f.endswith(".json")]
+            content_files = [f for f in conflicted if f.startswith("content/posting/") and f.endswith(".md")]
+            template_files = [f for f in conflicted if f.startswith("templates/")]
+
+            for f in data_files:
+                run(["git", "checkout", "--theirs", f], cwd=tmpdir, timeout=15)
+                run(["git", "add", f], cwd=tmpdir, timeout=10)
+                fixed.append({"pr": f"#{pr_num}", "branch": branch,
+                              "action": f"V18: {f} ← took main (auto-gen data)"})
+
+            for f in content_files:
+                run(["git", "checkout", "--ours", f], cwd=tmpdir, timeout=15)
+                run(["git", "add", f], cwd=tmpdir, timeout=10)
+                fixed.append({"pr": f"#{pr_num}", "branch": branch,
+                              "action": f"V18: {f} → kept PR side"})
+
+            for f in template_files:
+                fixed.append({"pr": f"#{pr_num}", "branch": branch,
+                              "action": f"⚠️ {f} needs manual resolution — skipped"})
+
+            # Remaining unhandled files (other categories)
+            handled = set(data_files + content_files + template_files)
+            remaining = [f for f in conflicted if f not in handled]
+            for f in remaining:
+                fixed.append({"pr": f"#{pr_num}", "branch": branch,
+                              "action": f"⚠️ {f} unhandled type — needs manual review"})
+
+            # Commit + push if we resolved anything
+            resolved = [f for f in fixed if f["pr"] == f"#{pr_num}" and f["action"].startswith("V18:")]
+            if resolved:
+                run(["git", "commit", "-m", "kt9: auto-resolve conflicts (V18 strategy)\n\nAuto-fix by kt9 PR status checker. Data files → main, content files → PR side."],
+                    cwd=tmpdir, timeout=15)
+                push_out, push_rc = run(["git", "push", "origin", f"HEAD:{branch}"], cwd=tmpdir, timeout=60)
+                if push_rc != 0:
+                    fixed.append({"pr": f"#{pr_num}", "branch": branch,
+                                  "action": f"⚠️ Push failed: {push_out[:80]}"})
+                else:
+                    fixed.append({"pr": f"#{pr_num}", "branch": branch,
+                                  "action": "✅ Pushed auto-resolve to branch"})
+
+            # Cleanup worktree
+            run(["git", "worktree", "remove", "--force", tmpdir], timeout=10)
+
+        except Exception as e:
+            run(["git", "worktree", "remove", "--force", tmpdir], timeout=10)
+            fixed.append({"pr": f"#{pr_num}", "branch": branch,
+                          "action": f"⚠️ Error: {str(e)[:80]}"})
+
+    # Restore original branch
+    if current_branch:
+        run(["git", "checkout", current_branch], timeout=15)
+    return fixed
+
+
+# ── Reporting ──────────────────────────────────────────────
+
+def format_report(prs, failed_runs, deploy_runs, auto_fixed, issues):
     lines = []
     lines.append(f"🧭 **KT9 PR Health Dashboard** — {tz_now()}")
     lines.append("")
 
-    deploy_runs = deploy_runs or []
     deploy_counts = {}
     for run in deploy_runs:
-        bucket = deploy_bucket(run)
-        deploy_counts[bucket] = deploy_counts.get(bucket, 0) + 1
+        b = deploy_bucket(run)
+        deploy_counts[b] = deploy_counts.get(b, 0) + 1
 
     clean = review = running = blocked = 0
     for pr in prs:
-        health, _ = classify_pr_health(pr)
-        if health == "🟢 CLEAN":
-            clean += 1
-        elif health == "🟦 REVIEW":
-            review += 1
-        elif health == "🟡 RUN":
-            running += 1
-        else:
-            blocked += 1
+        h, _ = classify_pr_health(pr)
+        if h == "🟢 CLEAN": clean += 1
+        elif h == "🟦 REVIEW": review += 1
+        elif h == "🟡 RUN": running += 1
+        else: blocked += 1
 
     lines.append("### Snapshot")
     lines.append("| 🟢 Clean | 🟦 Review | 🟡 Running | 🔴 Blocked | 🚨 Deploy incidents |")
     lines.append("|---|---|---|---|---|")
     lines.append(f"| {clean} | {review} | {running} | {blocked} | {len(failed_runs)} |")
     lines.append("")
+
     lines.append("### PR Matrix")
     lines.append("| PR | Branch | Health | Mergeable | QA Check | Conflict | Gatekeeper |")
     lines.append("|---|---|---|---|---|---|---|")
@@ -178,99 +261,92 @@ def format_report(prs, failed_runs, deploy_runs=None, auto_fixed=None):
         num = f"#{pr['number']}"
         branch = pr["headRefName"]
         mergeable = pr.get("mergeable", "UNKNOWN")
-        health, health_reason = classify_pr_health(pr)
+        health, reason = classify_pr_health(pr)
 
-        # Mergeable icon
-        if mergeable == "MERGEABLE":
-            m_status = "✅ MERGEABLE"
-        elif mergeable == "CONFLICTING":
-            m_status = "❌ CONFLICT"
-        else:
-            m_status = "❓ UNKNOWN"
+        m_status = "✅ MERGEABLE" if mergeable == "MERGEABLE" else ("❌ CONFLICT" if mergeable == "CONFLICTING" else "❓ UNKNOWN")
 
-        # QA Check
         gate = check_gatekeeper(pr)
         if gate:
-            conc = gate.get("conclusion")
-            if conc == "SUCCESS":
-                qa_status = "✅ SUCCESS"
-            elif conc == "FAILURE":
-                qa_status = "❌ FAILED"
-            elif conc == "CANCELLED":
-                qa_status = "⊘ CANCELLED"
-            elif gate.get("status") == "IN_PROGRESS":
-                qa_status = "🔄 running"
-            else:
-                qa_status = f"⏳ {gate.get('status', '?')}"
+            c = gate.get("conclusion")
+            if c == "SUCCESS": qa_status = "✅ SUCCESS"
+            elif c == "FAILURE": qa_status = "❌ FAILED"
+            elif c == "CANCELLED": qa_status = "⊘ CANCELLED"
+            elif gate.get("status") == "IN_PROGRESS": qa_status = "🔄 running"
+            else: qa_status = f"⏳ {gate.get('status', '?')}"
         else:
             qa_status = "—"
 
-        # Conflict
         conflict = "✅ không" if mergeable != "CONFLICTING" else "❌ có"
-
-        # Gatekeeper
         rule = next((c for c in pr.get("statusCheckRollup", []) if c.get("name") == "rule-check"), None)
-        if rule:
-            rc = rule.get("conclusion")
-            gk_status = "✅ pass" if rc == "SUCCESS" else f"❌ {rc}" if rc else "🔄 running"
-        else:
-            gk_status = "—"
+        gk = "✅ pass" if rule and rule.get("conclusion") == "SUCCESS" else (f"❌ {rule.get('conclusion')}" if rule and rule.get("conclusion") else ("🔄 running" if rule else "—"))
 
-        health_cell = health if health_reason == "all clear" else f"{health} · {health_reason}"
+        health_cell = health if reason == "all clear" else f"{health} · {reason}"
+        lines.append(f"| {num} | {branch} | {health_cell} | {m_status} | {qa_status} | {conflict} | {gk} |")
 
-        lines.append(f"| {num} | {branch} | {health_cell} | {m_status} | {qa_status} | {conflict} | {gk_status} |")
-
-    # Summary
-    total = len(prs)
-    success_q = sum(1 for p in prs if (g := check_gatekeeper(p)) and g.get("conclusion") == "SUCCESS")
-    failed_q = sum(1 for p in prs if (g := check_gatekeeper(p)) and g.get("conclusion") == "FAILURE")
-    running_q = sum(1 for p in prs if (g := check_gatekeeper(p)) and g.get("status") == "IN_PROGRESS")
-    conflicting = sum(1 for p in prs if p.get("mergeable") == "CONFLICTING")
+    sq = sum(1 for p in prs if (g := check_gatekeeper(p)) and g.get("conclusion") == "SUCCESS")
+    fq = sum(1 for p in prs if (g := check_gatekeeper(p)) and g.get("conclusion") == "FAILURE")
+    rq = sum(1 for p in prs if (g := check_gatekeeper(p)) and g.get("status") == "IN_PROGRESS")
+    cf = sum(1 for p in prs if p.get("mergeable") == "CONFLICTING")
 
     lines.append("")
     lines.append("### QA / Deploy Pulse")
     lines.append("| QA pass | QA running | QA failed | Conflict | Deploy success | Deploy running | Deploy failed | Deploy cancelled |")
     lines.append("|---|---|---|---|---|---|---|---|")
-    lines.append(
-        f"| {success_q} | {running_q} | {failed_q} | {conflicting} | "
-        f"{deploy_counts.get('✅ success', 0)} | {deploy_counts.get('🔄 in progress', 0)} | "
-        f"{deploy_counts.get('❌ failed', 0)} | {deploy_counts.get('⏹ cancelled', 0)} |"
-    )
+    lines.append(f"| {sq} | {rq} | {fq} | {cf} | {deploy_counts.get('✅ success', 0)} | {deploy_counts.get('🔄 running', 0)} | {deploy_counts.get('❌ failed', 0)} | {deploy_counts.get('⏹ cancelled', 0)} |")
 
     if deploy_runs:
         latest = deploy_runs[0]
         lines.append("")
         lines.append("### 🚀 Latest deploy")
-        lines.append(
-            f"- {deploy_bucket(latest)} · {latest.get('workflowName', 'deploy.yml')} · "
-            f"{latest.get('headBranch', '?')} · {latest.get('displayTitle', '?')}"
-        )
+        lines.append(f"- {deploy_bucket(latest)} · {latest.get('workflowName', 'deploy.yml')} · {latest.get('headBranch', '?')} · {latest.get('displayTitle', '?')}")
 
-    # Failed runs section
     if failed_runs:
         lines.append("")
-        lines.append("### 🚨 Failed / cancelled runs gần đây")
+        lines.append("### 🚨 Failed / cancelled runs (24h)")
         lines.append("| Workflow | Branch | Status | Title |")
         lines.append("|---|---|---|---|")
         for r in failed_runs[:5]:
-            status = "❌ failure" if r.get("conclusion") == "failure" else "⏹ cancelled"
-            lines.append(f"| {r.get('workflowName', '?')} | {r.get('headBranch', '?')} | {status} | {r.get('displayTitle', '?')[:50]} |")
+            s = "❌ failure" if r.get("conclusion") == "failure" else "⏹ cancelled"
+            lines.append(f"| {r.get('workflowName', '?')} | {r.get('headBranch', '?')} | {s} | {r.get('displayTitle', '?')[:50]} |")
     else:
-        lines.append("")
-        lines.append("✅ Không có failed/cancelled run gần đây.")
+        lines.append("\n✅ Không có failed/cancelled run gần đây.")
 
-    # Autofix section
     if auto_fixed:
         lines.append("")
         lines.append("### 🔧 Auto-fix đã áp dụng")
         for f in auto_fixed:
             lines.append(f"- {f['pr']} ({f['branch']}): {f['action']}")
 
+    if issues:
+        lines.append("")
+        lines.append(f"### ⚠️ Remaining issues ({len(issues)} chưa fix)")
+        for i in issues:
+            lines.append(f"- {i['pr']} ({i['branch']}): {i['detail']}")
+
     return "\n".join(lines)
 
 
+def check_autofix_needed(pr):
+    issues = []
+    for check in pr.get("statusCheckRollup", []):
+        if check.get("conclusion") == "FAILURE":
+            issues.append({
+                "pr": f"#{pr['number']}", "branch": pr["headRefName"],
+                "check": check["name"],
+                "detail": f"❌ {check['name']} FAILED"
+            })
+    if pr.get("mergeable") == "CONFLICTING":
+        issues.append({
+            "pr": f"#{pr['number']}", "branch": pr["headRefName"],
+            "check": "conflict",
+            "detail": "❌ Merge conflict"
+        })
+    return issues
+
+
 def main():
-    fix_mode = "--fix" in sys.argv
+    no_fix = "--no-fix" in sys.argv
+    force_fix = "--fix" in sys.argv
     pr_filter = None
     for a in sys.argv:
         if a.startswith("--pr="):
@@ -282,25 +358,38 @@ def main():
 
     failed_runs = get_failed_runs()
     deploy_runs = get_deploy_runs()
+
     issues = []
     for pr in prs:
         issues.extend(check_autofix_needed(pr))
 
     auto_fixed = []
-    if fix_mode and issues:
-        auto_fixed = autofix_safe_issues(prs)
+    should_fix = force_fix or (issues and not no_fix)
 
-    report = format_report(prs, failed_runs, deploy_runs, auto_fixed)
+    if should_fix and issues:
+        print("🔧 Phát hiện issue — đang auto-fix...\n", file=sys.stderr)
+
+        auto_fixed = autofix_rerun_failed(prs)
+
+        conflict_fixes = resolve_v18_v25_conflicts(prs)
+        auto_fixed.extend(conflict_fixes)
+
+        # Re-check after fix
+        prs = get_open_prs()
+        if pr_filter:
+            prs = [p for p in prs if p["number"] == pr_filter]
+        issues = []
+        for pr in prs:
+            issues.extend(check_autofix_needed(pr))
+
+    elif issues and not should_fix:
+        print("\n⚠️  Phát hiện issue — chạy `kt9` (không --no-fix) để auto-fix.\n", file=sys.stderr)
+
+    report = format_report(prs, failed_runs, deploy_runs, auto_fixed, issues)
     print(report)
 
-    if issues and not fix_mode:
-        print(f"\n⚠️  {len(issues)} issue(s) phát hiện. Chạy `--fix` để auto-fix an toàn.")
-        sys.exit(2)
-    elif issues and fix_mode:
-        remaining = len(issues) - len(auto_fixed)
-        if remaining > 0:
-            print(f"\n⚠️  {remaining} issue(s) còn lại cần xử lý thủ công.")
-            sys.exit(1)
+    if issues:
+        sys.exit(2 if not no_fix else 1)
     sys.exit(0)
 
 

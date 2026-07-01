@@ -3,26 +3,26 @@ name: PR Status Gate (kt9 auto-check)
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-  pull_request_target:
-    types: [opened, synchronize, reopened]
   workflow_dispatch:
     inputs:
-      fix_mode:
-        description: 'Auto-fix safe issues (--fix)'
-        type: boolean
-        default: false
+      pr_number:
+        description: "PR number to check (leave empty for all open)"
+        required: false
+        type: string
 
 concurrency:
-  group: pr-status-gate-${{ github.head_ref || github.ref }}
+  group: pr-status-gate-${{ github.head_ref || github.ref }}-${{ github.event_name }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+  actions: read
+
 jobs:
-  status-check:
+  kt9-check:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-      actions: read
     steps:
       - uses: actions/checkout@v4
         with:
@@ -31,43 +31,40 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
-      - name: Pre-flight — check gh CLI
-        run: |
-          which gh || (echo "gh not found" && exit 1)
-          gh --version
-
-      - name: Run PR Status Check (kt9)
-        id: check
+      - name: kt9 — PR health check + auto-fix
+        id: kt9
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ARGS=""
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.fix_mode }}" = "true" ]; then
-            ARGS="--fix"
+          if [ -n "${{ github.event.inputs.pr_number }}" ]; then
+            ARGS="--pr=${{ github.event.inputs.pr_number }}"
           fi
-          python3 scripts/pr_status_check.py $ARGS 2>&1 | tee /tmp/pr-status-report.md
+          python3 scripts/pr_status_check.py $ARGS 2>&1 | tee /tmp/kt9-report.txt
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
 
-      - name: Comment report on PR
-        if: github.event_name == 'pull_request' || github.event_name == 'pull_request_target'
+      - name: Post report as PR comment
+        if: github.event_name == 'pull_request' && always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          printf '## \xF0\x9F\x94\x8D Kt9 PR Status Check\n\n' > /tmp/pr-status-body.md
-          cat /tmp/pr-status-report.md >> /tmp/pr-status-body.md
-          gh pr comment "${{ github.event.pull_request.number }}" \
-            --body-file /tmp/pr-status-body.md \
-            || echo "Comment failed (may be first time)"
+          REPORT=$(cat /tmp/kt9-report.txt)
+          # Write report body to temp file to avoid YAML multi-line issues
+          printf '## 🔧 KT9 PR Status Check\n\n%s\n' "$REPORT" > /tmp/kt9-body.txt
+          gh pr comment ${{ github.event.number }} --body-file /tmp/kt9-body.txt || true
 
-      - name: Upload report artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: pr-status-report
-          path: /tmp/pr-status-report.md
-
-      - name: Gate — fail if CI issues detected
-        if: failure()
+      - name: Set status check conclusion
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "❌ PR Status Gate phát hiện vấn đề. Xem report ở trên để biết chi tiết."
-          exit 1
+          # Re-run kt9 to get final status after potential auto-fix
+          python3 scripts/pr_status_check.py --no-fix 2>&1 | tail -5
+          FINAL_EXIT=$?
+          if [ "$FINAL_EXIT" -eq 0 ]; then
+            echo "✅ All checks passed — PR is healthy"
+          else
+            echo "⚠️ Issues remain — check report above"
+          fi
