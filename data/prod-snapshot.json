@@ -1,41 +1,41 @@
 {
-  "generated_at": "2026-07-01T13:51:07.361098+00:00",
-  "generated_at_display": "20:51 01/07/2026",
+  "generated_at": "2026-07-01T18:19:59.220785+00:00",
+  "generated_at_display": "01:19 02/07/2026",
   "source": "build_prod_snapshot.py",
   "shortcut": "??",
   "main": {
-    "sha": "903c75c951c08be95c28447d631df939a22196a3",
-    "sha_short": "903c75c",
-    "title": "main @ 903c75c",
-    "url": "https://github.com/Banhang-Chogao/zola/commit/903c75c951c08be95c28447d631df939a22196a3"
+    "sha": "46dfcf88d868f4a0284e1f9618ac445c7251ecbe",
+    "sha_short": "46dfcf8",
+    "title": "main @ 46dfcf8",
+    "url": "https://github.com/Banhang-Chogao/zola/commit/46dfcf88d868f4a0284e1f9618ac445c7251ecbe"
   },
   "deploy": {
-    "sha": "abe4fda8f3decc1276f6a3d668e5fa4cfa90a90d",
-    "sha_short": "abe4fda",
-    "status": "yellow",
-    "deployed_at": "2026-07-01T13:50:58Z",
-    "deployed_at_display": "20:50 01/07/2026",
-    "run_number": 1597,
-    "status_line": "🔄 #1598 đang chạy · ✅ last success #1597",
-    "deploying": true
+    "sha": "b80a53682a5c7a2fcac035ed77e2fc3d0d27ccb8",
+    "sha_short": "b80a536",
+    "status": "red",
+    "deployed_at": "2026-07-01T18:01:04Z",
+    "deployed_at_display": "01:01 02/07/2026",
+    "run_number": 1613,
+    "status_line": "✅ last success #1613",
+    "deploying": false
   },
   "backend": {
     "ok": true,
-    "sha": "99b758bae7b79f216d762f837ac2669c4df0955a",
-    "sha_short": "99b758b",
+    "sha": "6d74ad2d4f071979653d471df9d276690d193fcb",
+    "sha_short": "6d74ad2",
     "comments_mounted": true,
     "oauth_configured": true,
     "url": "https://blog-vipzone-api.onrender.com"
   },
   "drift": {
-    "status": "yellow",
-    "status_vi": "Đang deploy",
-    "hint": "Có commit đang chờ hoặc deploy đang chạy — đợi workflow xanh.",
+    "status": "red",
+    "status_vi": "Deploy lỗi",
+    "hint": "Chạy ff để chẩn đoán log deploy.yml.",
     "main_ahead_of_deploy": true,
     "backend_behind_main": true,
-    "status_line": "main 903c75c · deploy abe4fda · backend 99b758b"
+    "status_line": "main 46dfcf8 · deploy b80a536 · backend 6d74ad2"
   },
-  "open_prs_count": 1,
+  "open_prs_count": 3,
   "deploy_monitor_stale": false,
   "deploy_monitor_ok": true
 }
