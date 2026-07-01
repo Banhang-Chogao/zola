@@ -1,6 +1,26 @@
 {
   "items": [
     {
+      "id": "pr-1312",
+      "pr_number": 1312,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1312",
+      "title": "Eco debit card image into post mô hình kiếm tiền Eco Card",
+      "tag": "feat",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T16:05:41Z",
+      "merge_commit_sha": "07da4e3c2488",
+      "stats": {
+        "additions": 10,
+        "deletions": 0
+      },
+      "highlights": [
+        "Convert JPG → WebP (watermarked: de6efd15-seomoney.org)",
+        "Đặt vào static/img/posting/techcombank-eco-card/",
+        "QA pass, không block"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1310",
       "pr_number": 1310,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1310",
