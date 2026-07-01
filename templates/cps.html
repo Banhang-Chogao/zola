@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+{% import "macros/cps.html" as cps %}
+
+{% block title %}Content Placement System (CPS) | {{ config.title }}{% endblock %}
+
+{% block main %}
+<div class="cps-page">
+  <header class="cps-header">
+    <div class="cps-header__eyebrow">Content operations</div>
+    <div class="cps-header__title-row">
+      <h1>Content Placement System (CPS)</h1>
+      <span class="cps-version">V1</span>
+    </div>
+    <p>Quản lý vị trí chèn Content/Affiliate Placement trên bài viết.</p>
+  </header>
+
+  <section class="cps-stats" aria-label="Tổng quan CPS">
+    <article class="cps-stat">
+      <span class="cps-stat__icon cps-stat__icon--blue" aria-hidden="true">⌖</span>
+      <div><span class="cps-stat__label">Tổng vị trí</span><strong>24</strong><small><b>+3</b> trong tháng này</small></div>
+    </article>
+    <article class="cps-stat">
+      <span class="cps-stat__icon cps-stat__icon--violet" aria-hidden="true">↗</span>
+      <div><span class="cps-stat__label">Affiliate Links</span><strong>7</strong><small>6 đang hoạt động</small></div>
+    </article>
+    <article class="cps-stat">
+      <span class="cps-stat__icon cps-stat__icon--green" aria-hidden="true">◉</span>
+      <div><span class="cps-stat__label">Tổng Views</span><strong>48.2K</strong><small><b>+12.4%</b> so với tháng trước</small></div>
+    </article>
+    <article class="cps-stat">
+      <span class="cps-stat__icon cps-stat__icon--amber" aria-hidden="true">↖</span>
+      <div><span class="cps-stat__label">Tổng Clicks</span><strong>3,842</strong><small><b>7.9%</b> click-through rate</small></div>
+    </article>
+  </section>
+
+  <div class="cps-workspace">
+    <div class="cps-workspace__main">
+      <section class="cps-card cps-placement-list">
+        <div class="cps-card__head">
+          <div>
+            <h2>Placement List</h2>
+            <p>Các vị trí Content/Affiliate Placement đang được cấu hình.</p>
+          </div>
+          <button class="cps-btn cps-btn--primary" type="button"><span aria-hidden="true">＋</span> Thêm Placement</button>
+        </div>
+        <div class="cps-table-wrap">
+          <table class="cps-table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" aria-label="Chọn tất cả placement"></th>
+                <th>ID</th>
+                <th>Content ID</th>
+                <th>Article</th>
+                <th>Placement Position</th>
+                <th>Position Description</th>
+                <th>Views</th>
+                <th>Clicks</th>
+                <th>Updated</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox" aria-label="Chọn placement 113"></td>
+                <td><strong>#113</strong></td>
+                <td><code>article-1</code></td>
+                <td><span class="cps-article-name">Hướng dẫn mở tài khoản Liobank</span></td>
+                <td>{{ cps::position_badge(position="pos1") }}</td>
+                <td>Đầu bài (after intro)</td>
+                <td>18,420</td>
+                <td><strong>1,524</strong></td>
+                <td><span class="cps-date">30/06/2026</span></td>
+                <td><div class="cps-actions">{{ cps::action_icon(label="Sửa", icon="✎") }}{{ cps::action_icon(label="Nhân bản", icon="▣") }}{{ cps::action_icon(label="Xóa", icon="⌫", danger=true) }}</div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" aria-label="Chọn placement 114"></td>
+                <td><strong>#114</strong></td>
+                <td><code>article-1</code></td>
+                <td><span class="cps-article-name">Hướng dẫn mở tài khoản Liobank</span></td>
+                <td>{{ cps::position_badge(position="pos2") }}</td>
+                <td>Giữa bài (section 2)</td>
+                <td>16,892</td>
+                <td><strong>1,288</strong></td>
+                <td><span class="cps-date">29/06/2026</span></td>
+                <td><div class="cps-actions">{{ cps::action_icon(label="Sửa", icon="✎") }}{{ cps::action_icon(label="Nhân bản", icon="▣") }}{{ cps::action_icon(label="Xóa", icon="⌫", danger=true) }}</div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" aria-label="Chọn placement 115"></td>
+                <td><strong>#115</strong></td>
+                <td><code>article-1</code></td>
+                <td><span class="cps-article-name">Hướng dẫn mở tài khoản Liobank</span></td>
+                <td>{{ cps::position_badge(position="pos3") }}</td>
+                <td>Cuối bài (before FAQ)</td>
+                <td>12,934</td>
+                <td><strong>1,030</strong></td>
+                <td><span class="cps-date">28/06/2026</span></td>
+                <td><div class="cps-actions">{{ cps::action_icon(label="Sửa", icon="✎") }}{{ cps::action_icon(label="Nhân bản", icon="▣") }}{{ cps::action_icon(label="Xóa", icon="⌫", danger=true) }}</div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cps-table-footer">
+          <span>Hiển thị 1–3 trong 24 vị trí</span>
+          <nav class="cps-pagination" aria-label="Phân trang placement">
+            <button type="button" aria-label="Trang trước">‹</button><button class="is-active" type="button" aria-current="page">1</button><button type="button">2</button><button type="button">3</button><button type="button" aria-label="Trang sau">›</button>
+          </nav>
+        </div>
+      </section>
+
+      <section class="cps-card">
+        <div class="cps-card__head">
+          <div><h2>Affiliate Link Library</h2><p>Thư viện liên kết dùng chung cho mọi placement.</p></div>
+          <button class="cps-btn cps-btn--secondary" type="button">Quản lý thư viện</button>
+        </div>
+        <div class="cps-link-grid">
+          <article class="cps-link-card">
+            <div class="cps-link-card__top"><span class="cps-brand cps-brand--momo">M</span><span class="cps-status"><i></i>Active</span></div>
+            <h3>MoMo</h3><p>me.momo.vn</p><code>me.momo.vn/duynguyen</code>
+            <div class="cps-link-card__foot"><span>Donate</span><div class="cps-actions">{{ cps::action_icon(label="Sửa", icon="✎") }}{{ cps::action_icon(label="Sao chép", icon="▣") }}{{ cps::action_icon(label="Xóa", icon="⌫", danger=true) }}</div></div>
+          </article>
+          <article class="cps-link-card">
+            <div class="cps-link-card__top"><span class="cps-brand cps-brand--lio">L</span><span class="cps-status"><i></i>Active</span></div>
+            <h3>Liobank</h3><p>liobank.vn</p><code>liobank.vn/ref/duy</code>
+            <div class="cps-link-card__foot"><span>Banking</span><div class="cps-actions">{{ cps::action_icon(label="Sửa", icon="✎") }}{{ cps::action_icon(label="Sao chép", icon="▣") }}{{ cps::action_icon(label="Xóa", icon="⌫", danger=true) }}</div></div>
+          </article>
+          <article class="cps-link-card">
+            <div class="cps-link-card__top"><span class="cps-brand cps-brand--shopee">S</span><span class="cps-status"><i></i>Active</span></div>
+            <h3>Shopee Affiliate</h3><p>shopee.vn</p><code>s.shopee.vn/8KxDemo</code>
+            <div class="cps-link-card__foot"><span>Marketplace</span><div class="cps-actions">{{ cps::action_icon(label="Sửa", icon="✎") }}{{ cps::action_icon(label="Sao chép", icon="▣") }}{{ cps::action_icon(label="Xóa", icon="⌫", danger=true) }}</div></div>
+          </article>
+          <article class="cps-link-card">
+            <div class="cps-link-card__top"><span class="cps-brand cps-brand--lazada">L</span><span class="cps-status"><i></i>Active</span></div>
+            <h3>Lazada</h3><p>lazada.vn</p><code>c.lazada.vn/t/demo</code>
+            <div class="cps-link-card__foot"><span>Marketplace</span><div class="cps-actions">{{ cps::action_icon(label="Sửa", icon="✎") }}{{ cps::action_icon(label="Sao chép", icon="▣") }}{{ cps::action_icon(label="Xóa", icon="⌫", danger=true) }}</div></div>
+          </article>
+          <article class="cps-link-card">
+            <div class="cps-link-card__top"><span class="cps-brand cps-brand--tiktok">T</span><span class="cps-status"><i></i>Active</span></div>
+            <h3>TikTok Shop</h3><p>shop.tiktok.com</p><code>vt.tiktok.com/demo</code>
+            <div class="cps-link-card__foot"><span>Social commerce</span><div class="cps-actions">{{ cps::action_icon(label="Sửa", icon="✎") }}{{ cps::action_icon(label="Sao chép", icon="▣") }}{{ cps::action_icon(label="Xóa", icon="⌫", danger=true) }}</div></div>
+          </article>
+          <article class="cps-link-card">
+            <div class="cps-link-card__top"><span class="cps-brand cps-brand--custom">↗</span><span class="cps-status"><i></i>Active</span></div>
+            <h3>Custom URL</h3><p>partner.example.com</p><code>partner.example.com/ref</code>
+            <div class="cps-link-card__foot"><span>Custom</span><div class="cps-actions">{{ cps::action_icon(label="Sửa", icon="✎") }}{{ cps::action_icon(label="Sao chép", icon="▣") }}{{ cps::action_icon(label="Xóa", icon="⌫", danger=true) }}</div></div>
+          </article>
+          <button class="cps-link-add" type="button"><span>＋</span><strong>Thêm mới</strong><small>Affiliate hoặc custom URL</small></button>
+        </div>
+      </section>
+
+      <section class="cps-card">
+        <div class="cps-card__head"><div><h2>CPS Settings</h2><p>Thiết lập hiển thị và tracking mặc định.</p></div><span class="cps-mock-label">Mock settings</span></div>
+        <div class="cps-settings">
+          <div class="cps-setting"><span class="cps-setting__icon">⚡</span><div><strong>Auto Placement</strong><p>Tự động hiển thị placement theo cấu hình.</p></div><label class="cps-switch"><input type="checkbox" checked aria-label="Auto Placement"><span></span></label></div>
+          <div class="cps-setting"><span class="cps-setting__icon">◎</span><div><strong>Tracking UTM</strong><p>Tự động gắn tham số UTM vào liên kết.</p></div><label class="cps-switch"><input type="checkbox" checked aria-label="Tracking UTM"><span></span></label></div>
+          <div class="cps-setting"><span class="cps-setting__icon">⌁</span><div><strong>NoFollow / Sponsored</strong><p>Thêm thuộc tính rel cho affiliate link.</p></div><label class="cps-switch"><input type="checkbox" checked aria-label="NoFollow Sponsored"><span></span></label></div>
+          <div class="cps-setting cps-setting--select"><span class="cps-setting__icon">▤</span><div><strong>Default Box Style</strong><p>Mẫu dùng khi chưa chọn style riêng.</p></div><button class="cps-select-mock" type="button">Card + Icon + Button <span>⌄</span></button></div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="cps-preview cps-card" aria-label="Xem trước vị trí hiển thị">
+      <div class="cps-preview__head">
+        <div><span class="cps-preview__live"><i></i>Live preview</span><h2>Preview</h2><p>Vị trí hiển thị trên bài viết</p></div>
+        <button class="cps-icon-btn" type="button" aria-label="Mở rộng preview">↗</button>
+      </div>
+      <div class="cps-browser">
+        <div class="cps-browser__bar"><span></span><span></span><span></span><div>seomoney.org/article-1</div></div>
+        <div class="cps-article-preview">
+          <div class="cps-timeline" aria-hidden="true"><span class="is-blue">1</span><i></i><span class="is-green">2</span><i></i><span class="is-orange">3</span><i></i><span class="is-faq">?</span></div>
+          <article>
+            <span class="cps-article-preview__category">TÀI CHÍNH CÁ NHÂN</span>
+            <h3>Hướng dẫn mở tài khoản ngân hàng số an toàn</h3>
+            <div class="cps-skeleton cps-skeleton--wide"></div><div class="cps-skeleton"></div><div class="cps-skeleton cps-skeleton--short"></div>
+            <div class="cps-preview-box cps-preview-box--lio">
+              {{ cps::position_badge(position="pos1") }}
+              <div class="cps-preview-box__brand"><span class="cps-brand cps-brand--lio">L</span><small>Affiliate</small></div>
+              <strong>Mở tài khoản Liobank</strong><p>Nhận ưu đãi dành cho khách hàng mới khi đăng ký trực tuyến.</p><button type="button">Khám phá Liobank →</button>
+            </div>
+            <h4>Quản lý tài chính thông minh</h4><div class="cps-skeleton cps-skeleton--wide"></div><div class="cps-skeleton cps-skeleton--short"></div>
+            <div class="cps-preview-box cps-preview-box--promo">
+              {{ cps::position_badge(position="pos2") }}
+              <div class="cps-preview-box__brand"><span class="cps-brand cps-brand--promo">%</span><small>Ưu đãi riêng</small></div>
+              <strong>Ưu đãi dành riêng cho bạn</strong><p>Khám phá các chương trình hoàn tiền đang diễn ra.</p><button type="button">Xem ưu đãi →</button>
+            </div>
+            <h4>Câu hỏi thường gặp</h4><div class="cps-skeleton cps-skeleton--wide"></div><div class="cps-skeleton"></div>
+            <div class="cps-preview-box cps-preview-box--momo">
+              {{ cps::position_badge(position="pos3") }}
+              <div class="cps-preview-box__brand"><span class="cps-brand cps-brand--momo">M</span><small>Ủng hộ tác giả</small></div>
+              <strong>Bạn thấy bài viết hữu ích?</strong><p>Mời tác giả một ly cà phê qua MoMo.</p><button type="button">Ủng hộ qua MoMo →</button>
+            </div>
+            <div class="cps-faq-preview"><strong>FAQ</strong><span>＋</span></div>
+          </article>
+        </div>
+      </div>
+      <div class="cps-preview__legend"><span><i class="is-blue"></i>pos1 · After intro</span><span><i class="is-green"></i>pos2 · Middle section</span><span><i class="is-orange"></i>pos3 · Before FAQ</span></div>
+    </aside>
+  </div>
+
+  <section class="cps-guides">
+    <article class="cps-card cps-guide">
+      <div class="cps-guide__icon">⌖</div><h2>Suggested Positions</h2><p>Vị trí gợi ý (Positions)</p>
+      <ul class="cps-position-guide">
+        <li>{{ cps::position_badge(position="pos1") }}<span><strong>After Intro</strong><small>Đầu bài, sau phần giới thiệu</small></span></li>
+        <li>{{ cps::position_badge(position="pos2") }}<span><strong>Middle Section</strong><small>Giữa bài, tại section X</small></span></li>
+        <li>{{ cps::position_badge(position="pos3") }}<span><strong>Before FAQ</strong><small>Cuối bài, trước FAQ</small></span></li>
+        <li>{{ cps::position_badge(position="pos4") }}<span><strong>After FAQ</strong><small>Cuối bài, sau FAQ</small></span></li>
+      </ul>
+    </article>
+    <article class="cps-card cps-guide">
+      <div class="cps-guide__icon">▤</div><h2>Box Styles</h2><p>Mẫu hiển thị (Box Style)</p>
+      <div class="cps-style-list">
+        <div class="cps-style-item"><div class="cps-style-demo cps-style-demo--card"><i>★</i><span></span><button></button></div><span><strong>Card + Icon + Button</strong><small>CTA nổi bật đầy đủ</small></span></div>
+        <div class="cps-style-item"><div class="cps-style-demo cps-style-demo--banner"><i></i><span></span><button></button></div><span><strong>Mini Banner</strong><small>Banner ngang thu gọn</small></span></div>
+        <div class="cps-style-item"><div class="cps-style-demo cps-style-demo--inline"><span></span><u></u></div><span><strong>Inline Text Link</strong><small>Liên kết trong nội dung</small></span></div>
+      </div>
+    </article>
+    <article class="cps-card cps-guide">
+      <div class="cps-guide__icon">✓</div><h2>CPS Rules</h2><p>Nguyên tắc CPS</p>
+      <ul class="cps-rules">
+        <li><i>✓</i>Một bài viết có nhiều placement.</li>
+        <li><i>✓</i>Một placement chỉ chứa một affiliate tại một thời điểm.</li>
+        <li><i>✓</i>Tất cả placement đều track Views/Clicks.</li>
+        <li><i>✓</i>Hỗ trợ mọi affiliate platform.</li>
+        <li><i>✓</i>Không giới hạn loại URL.</li>
+      </ul>
+    </article>
+  </section>
+
+  <footer class="cps-footer"><span>CPS V1 · UI Preview</span><span>Dữ liệu trên trang là mock data, chưa kết nối backend.</span></footer>
+</div>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}
