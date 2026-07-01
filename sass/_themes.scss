@@ -1,7 +1,7 @@
 /* ============================================================
-   ===== THEME SYSTEM — Hilda (Ericsson Professional) =====
+   ===== THEME SYSTEM — Hilda + Nokia Blog =====
    ============================================================
-   Single theme: Hilda (Ericsson blue professional style)
+   Default: Hilda (Ericsson). Opt-in: Nokia (nokia.com/blog style).
 
    Semantic token naming:
    - --c-bg-page       : page background
@@ -123,6 +123,67 @@ button {
     --c-focus-ring:     rgba(91, 155, 255, 0.45);
 
     /* Native form controls dark */
+    color-scheme: dark;
+  }
+}
+
+/* ===== NOKIA BLOG (nokia.com/blog — editorial B2B) ===== */
+:root[data-theme="nokia"] {
+  --c-bg-page:        #f5f5f5;
+  --c-bg-surface:     #ffffff;
+  --c-bg-soft:        #f0f4fa;
+
+  --c-text-heading:   #001135;
+  --c-text-body:      #2d3748;
+  --c-text-muted:     #5c6b7a;
+
+  --c-accent:         #124191;
+  --c-accent-hover:   #0d2f66;
+  --c-accent-soft:    rgba(18, 65, 145, 0.1);
+
+  --c-decoration:     #00c9ff;
+
+  --c-border:         #d8dde6;
+  --c-border-strong:  #b8c4d4;
+
+  --c-shadow-md:      0 2px 8px rgba(18, 65, 145, 0.08);
+  --c-shadow-lg:      0 12px 24px rgba(18, 65, 145, 0.12);
+
+  --c-success:        #00a651;
+  --c-warning:        #f5a623;
+
+  --c-focus-ring:     rgba(18, 65, 145, 0.35);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="nokia"] {
+    --c-bg-page:        #0a0f18;
+    --c-bg-surface:     #121a26;
+    --c-bg-soft:        #1a2433;
+
+    --c-text-heading:   #f0f4fa;
+    --c-text-body:      #c5d0de;
+    --c-text-muted:     #8a9bb0;
+
+    --c-accent:         #5b9bff;
+    --c-accent-hover:   #84b4ff;
+    --c-accent-soft:    rgba(91, 155, 255, 0.16);
+
+    --c-decoration:     #00c9ff;
+
+    --c-border:         #2a3544;
+    --c-border-strong:  #3a4758;
+
+    --c-shadow-md:      0 2px 8px rgba(0, 0, 0, 0.45);
+    --c-shadow-lg:      0 12px 28px rgba(0, 0, 0, 0.55);
+
+    --c-success:        #2bd87a;
+    --c-warning:        #ffb340;
+
+    --c-focus-ring:     rgba(91, 155, 255, 0.45);
+
     color-scheme: dark;
   }
 }

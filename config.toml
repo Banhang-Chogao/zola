@@ -92,6 +92,8 @@ menu = [
         { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
         { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" },
         { url = "$BASE_URL/tools/infographic-hoa", name = "INFographic hoá" },
+        { url = "$BASE_URL/branding-nokia/", name = "Nokia Branding" },
+        { url = "$BASE_URL/font-nokia/", name = "Nokia Font" },
     ] },
     # "Tiện ích" — top-level riêng (đổi tên từ nhóm cũ 'Công cụ phụ' cho gọn navbar +
     # mobile). Dropdown đơn (children). KHÔNG đổi URL tool.

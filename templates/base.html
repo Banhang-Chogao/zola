@@ -52,20 +52,9 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    {# Zero-flash font + theme (PHẢI là script đầu tiên trong <head>):
-       Hilda là theme DUY NHẤT → set data-theme="hilda" NGAY trước khi CSS
-       render để các rule [data-theme="hilda"] (font vars, smoothing, UX polish)
-       áp dụng ngay lần paint đầu, không flash.
-       Inject <link rel="preload"> font Ericsson Hilda WOFF2 (Medium = body,
-       Bold = heading/title 600-700) → chữ chuẩn hiện ngay lần paint đầu.
-       CHỈ preload 2 weight chủ đạo dạng .woff2 (~35KB/file) thay vì 3 file
-       .ttf (~95KB/file): cắt ~286KB → ~70KB font front-loaded → nhường băng
-       thông cho LCP trên mobile. ExtraBold (decorative) tải on-demand qua
-       @font-face (font-display:swap). PHẢI khớp .woff2 với @font-face để
-       browser không tải trùng .ttf.
-       CSP-safe: as="font" + nguồn 'self' (khớp font-src). crossorigin để
-       match CORS-fetch của @font-face, tránh tải 2 lần. #}
-    <script>(function(){try{document.documentElement.setAttribute('data-theme','hilda');var f=['{{ get_url(path='fonts/EricssonHilda-Medium.woff2') }}','{{ get_url(path='fonts/EricssonHilda-Bold.woff2') }}'];for(var i=0;i<f.length;i++){var l=document.createElement('link');l.rel='preload';l.as='font';l.type='font/woff2';l.crossOrigin='anonymous';l.href=f[i];document.head.appendChild(l);}}catch(e){}})();</script>
+    {# Zero-flash theme + font preload: đọc localStorage trước paint.
+       Mặc định hilda; nokia khi user đã chọn. Preload font theo theme. #}
+    <script>(function(){try{var t='hilda';try{var s=localStorage.getItem('blog-theme');if(s==='nokia')t='nokia';}catch(e){}document.documentElement.setAttribute('data-theme',t);var f=t==='nokia'?['{{ get_url(path='fonts/nokia-pure/NokiaPureText-Regular.ttf') }}','{{ get_url(path='fonts/nokia-pure/NokiaPureHeadline-Bold.ttf') }}']:['{{ get_url(path='fonts/EricssonHilda-Medium.woff2') }}','{{ get_url(path='fonts/EricssonHilda-Bold.woff2') }}'];for(var i=0;i<f.length;i++){var l=document.createElement('link');l.rel='preload';l.as='font';l.type=t==='nokia'?'font/ttf':'font/woff2';l.crossOrigin='anonymous';l.href=f[i];document.head.appendChild(l);}}catch(e){}})();</script>
     {# Ảnh thumbnail lỗi/404 (cover hỏng, link chết…) → tự thay bằng placeholder
        thương hiệu, tránh icon "ảnh vỡ". Bổ trợ cho fallback server-side (chỉ bắt
        bài THIẾU thumbnail): listener này bắt cả ảnh CÓ src nhưng load fail. Dùng
@@ -645,9 +634,28 @@
                     {% endif %}
                 {% endfor %}
             </ul>
-            {# Theme selector đã gỡ hoàn toàn theo yêu cầu — blog mặc định theme
-               Hilda (set bởi inline script ở <head>). #}
             <div class="navbar__actions">
+                <div class="theme-dropdown navbar__theme" data-theme-dropdown>
+                    <button class="theme-dropdown__trigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Chọn theme giao diện" title="Theme">
+                        <span class="navbar__theme-icon" aria-hidden="true">◈</span>
+                    </button>
+                    <ul class="theme-dropdown__menu" role="listbox" hidden>
+                        <li role="option">
+                            <button class="theme-dropdown__item" type="button" data-theme-value="hilda">
+                                <span class="theme-dropdown__check" aria-hidden="true">✓</span>
+                                <span class="theme-dropdown__name">Hilda</span>
+                                <span class="theme-dropdown__desc">Ericsson Blue</span>
+                            </button>
+                        </li>
+                        <li role="option">
+                            <button class="theme-dropdown__item" type="button" data-theme-value="nokia">
+                                <span class="theme-dropdown__check" aria-hidden="true">✓</span>
+                                <span class="theme-dropdown__name">Nokia Blog</span>
+                                <span class="theme-dropdown__desc">Nokia Pure · #124191</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
                 <button class="navbar__search" type="button" aria-label="Tìm kiếm" aria-haspopup="dialog" data-search-open>
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="7"></circle>
@@ -969,45 +977,7 @@
     <script src="{{ get_url(path='js/theme-dropdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/media-guard.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/print-watermark.js') }}?v={{ asset_version }}" defer></script>
-    {# Hook up theme toggle button to ThemeSwitcher API #}
-    <script defer>
-    (function() {
-      function setupThemeToggle() {
-        var btn = document.getElementById('theme-toggle-btn');
-        var label = document.getElementById('theme-label');
-        if (!btn) return;
 
-        // Set initial label
-        if (label && window.ThemeSwitcher) {
-          label.textContent = window.ThemeSwitcher.getTheme() === 'zx' ? 'Z-X' : 'Hilda';
-        }
-
-        // Click handler
-        btn.addEventListener('click', function() {
-          if (window.ThemeSwitcher) {
-            var nextTheme = window.ThemeSwitcher.toggleTheme();
-            if (label) {
-              label.textContent = nextTheme === 'zx' ? 'Z-X' : 'Hilda';
-            }
-          }
-        });
-
-        // Listen for external theme changes
-        document.addEventListener('themechange', function(e) {
-          if (label) {
-            label.textContent = e.detail.theme === 'zx' ? 'Z-X' : 'Hilda';
-          }
-        });
-      }
-
-      // Setup when DOM is ready
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', setupThemeToggle);
-      } else {
-        setupThemeToggle();
-      }
-    })();
-    </script>
     {% block extra_scripts %}{% endblock %}
 
     {# ===== GOOGLE ANALYTICS 4 (gtag.js mới nhất) =====

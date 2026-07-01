@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block main %}
+<section class="brandx brandx--nokia">
+    <header class="brandx__header">
+        <div class="brandx__brand">
+            <span class="brandx__logo-mark" aria-hidden="true">◈</span>
+            <span class="brandx__logo-text">Nokia Branding</span>
+        </div>
+        <nav class="brandx__nav">
+            <a href="#colors">Colors</a>
+            <a href="#typography">Typography</a>
+            <a href="#components">Components</a>
+            <a href="#blog-patterns">Blog</a>
+            <a href="#grid">Grid</a>
+        </nav>
+    </header>
+
+    <section class="brandx__manifesto">
+        <p class="brandx__manifesto-eyebrow">Design Manifesto · nokia.com/blog</p>
+        <h1 class="brandx__manifesto-title">
+            Rõ ràng. Chuyên nghiệp. Editorial-first.
+        </h1>
+        <p class="brandx__manifesto-sub">
+            Hệ nhận diện lấy cảm hứng từ <a href="https://www.nokia.com/blog/" target="_blank" rel="noopener">Nokia Blog</a>:
+            blog công nghệ B2B với typography Nokia Pure, palette Nokia Blue, card editorial
+            và khoảng trắng thoáng — phù hợp tri thức mạng, AI và hạ tầng số.
+        </p>
+    </section>
+
+    <section id="colors" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">01</span>
+            <h2 class="brandx__section-title">Color Palette</h2>
+            <p class="brandx__section-desc">
+                Nokia Blue là màu nhận diện chính; cyan accent cho điểm nhấn kỹ thuật;
+                neutral slate cho nội dung dài. Palette bám Nokia Design System.
+            </p>
+        </header>
+
+        <div class="brandx__color-group">
+            <h3 class="brandx__group-label">Primary — Brand</h3>
+            <div class="brandx__swatches">
+                <article class="brandx__swatch" style="--color: #124191">
+                    <div class="brandx__swatch-chip"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Nokia Blue</strong>
+                        <code>#124191</code>
+                        <span>Brand, link, primary CTA</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #00c9ff">
+                    <div class="brandx__swatch-chip"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Signal Cyan</strong>
+                        <code>#00c9ff</code>
+                        <span>Accent, highlight, tech signal</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #001135">
+                    <div class="brandx__swatch-chip"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Navy Ink</strong>
+                        <code>#001135</code>
+                        <span>Headlines, hero titles</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <div class="brandx__color-group">
+            <h3 class="brandx__group-label">Neutral — Content</h3>
+            <div class="brandx__swatches">
+                <article class="brandx__swatch" style="--color: #2d3748">
+                    <div class="brandx__swatch-chip"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Body Slate</strong>
+                        <code>#2d3748</code>
+                        <span>Paragraph body</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #5c6b7a">
+                    <div class="brandx__swatch-chip"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Muted</strong>
+                        <code>#5c6b7a</code>
+                        <span>Meta, date, caption</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #d8dde6">
+                    <div class="brandx__swatch-chip brandx__swatch-chip--border"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Divider</strong>
+                        <code>#d8dde6</code>
+                        <span>Borders, card outline</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <div class="brandx__color-group">
+            <h3 class="brandx__group-label">Surface — Background</h3>
+            <div class="brandx__swatches">
+                <article class="brandx__swatch" style="--color: #ffffff">
+                    <div class="brandx__swatch-chip brandx__swatch-chip--border"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Paper</strong>
+                        <code>#ffffff</code>
+                        <span>Cards, article surface</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #f0f4fa">
+                    <div class="brandx__swatch-chip brandx__swatch-chip--border"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Soft Blue</strong>
+                        <code>#f0f4fa</code>
+                        <span>Page tint, section bg</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #f5f5f5">
+                    <div class="brandx__swatch-chip brandx__swatch-chip--border"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Canvas</strong>
+                        <code>#f5f5f5</code>
+                        <span>Page background</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <aside class="brandx__rationale">
+            <strong>Tư duy:</strong> Nokia Blog ưu tiên contrast rõ trên nền trắng/xám nhạt.
+            Blue dùng cho hành động và liên kết; cyan chỉ làm accent nhỏ — không lạm dụng gradient neon.
+        </aside>
+    </section>
+
+    <section id="typography" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">02</span>
+            <h2 class="brandx__section-title">Typography</h2>
+            <p class="brandx__section-desc">
+                <strong>Nokia Pure</strong> (Dalton Maag) cho body; <strong>Nokia Pure Headline</strong>
+                cho tiêu đề hero và section. Xem chi tiết tại
+                <a href="{{ get_url(path='font-nokia/') }}">Font Guideline — Nokia Pure</a>.
+            </p>
+        </header>
+
+        <div class="brandx__type-scale">
+            <article class="brandx__type-row">
+                <div class="brandx__type-sample" style="font-family:'Nokia Pure Headline',sans-serif;font-size:3rem;font-weight:700;letter-spacing:-0.02em;line-height:1.1;">
+                    Display
+                </div>
+                <div class="brandx__type-meta">
+                    <code>3rem / Headline / -0.02em</code>
+                    <span>Hero, featured story</span>
+                </div>
+            </article>
+            <article class="brandx__type-row">
+                <div class="brandx__type-sample" style="font-family:'Nokia Pure Headline',sans-serif;font-size:2.25rem;font-weight:700;line-height:1.15;">
+                    Heading 1
+                </div>
+                <div class="brandx__type-meta">
+                    <code>2.25rem (36px) / Headline Bold</code>
+                    <span>Article title</span>
+                </div>
+            </article>
+            <article class="brandx__type-row">
+                <div class="brandx__type-sample" style="font-size:1.75rem;font-weight:700;line-height:1.2;">
+                    Heading 2
+                </div>
+                <div class="brandx__type-meta">
+                    <code>1.75rem (28px) / Pure Bold</code>
+                    <span>Section trong bài</span>
+                </div>
+            </article>
+            <article class="brandx__type-row">
+                <div class="brandx__type-sample" style="font-size:1rem;font-weight:400;line-height:1.65;">
+                    Body — Nokia Blog dùng đoạn văn thoáng, line-height 1.65, cỡ 16px cho đọc lâu trên desktop và mobile.
+                </div>
+                <div class="brandx__type-meta">
+                    <code>1rem (16px) / Pure Regular / lh 1.65</code>
+                    <span>Paragraph</span>
+                </div>
+            </article>
+            <article class="brandx__type-row">
+                <div class="brandx__type-sample" style="font-size:0.82rem;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;color:#5c6b7a;">
+                    Category · 12 Jan 2026
+                </div>
+                <div class="brandx__type-meta">
+                    <code>0.82rem / uppercase / muted</code>
+                    <span>Meta, topic label</span>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section id="components" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">03</span>
+            <h2 class="brandx__section-title">UI Components</h2>
+            <p class="brandx__section-desc">
+                Card editorial, CTA pill, category chip và link underline — pattern lặp lại trên Nokia Blog.
+            </p>
+        </header>
+
+        <div class="brandx__comp-grid">
+            <article class="brandx__comp">
+                <h4>Buttons</h4>
+                <div class="brandx__comp-demo">
+                    <button class="brandx-btn brandx-btn--primary">Read article</button>
+                    <button class="brandx-btn brandx-btn--secondary">Explore topics</button>
+                    <button class="brandx-btn brandx-btn--ghost">Subscribe</button>
+                </div>
+                <p>Primary = Nokia Blue fill. Secondary = outline. Ghost = text link style.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Editorial card</h4>
+                <div class="brandx__comp-demo">
+                    <div class="brandx-card">
+                        <strong>Accelerating AI-RAN</strong>
+                        <p>Radius 12px, shadow nhẹ, ảnh 16:9 phía trên (blog pattern).</p>
+                    </div>
+                </div>
+                <p>Card là đơn vị chính của feed — không bảng developer-style.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Topic chip</h4>
+                <div class="brandx__comp-demo">
+                    <span style="display:inline-block;padding:6px 14px;border-radius:999px;background:#f0f4fa;color:#124191;font-size:0.8rem;font-weight:600;">5G · Cloud · AI</span>
+                </div>
+                <p>Pill category — nền soft blue, chữ Nokia Blue.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Link</h4>
+                <div class="brandx__comp-demo">
+                    <a href="#" style="color:#124191;text-decoration:underline;text-underline-offset:3px;">Learn more about Nokia networks</a>
+                </div>
+                <p>Underline offset 3px — rõ ràng, accessible, không cần màu chói.</p>
+            </article>
+        </div>
+    </section>
+
+    <section id="blog-patterns" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">04</span>
+            <h2 class="brandx__section-title">Nokia Blog Patterns</h2>
+            <p class="brandx__section-desc">
+                Các pattern quan sát từ <a href="https://www.nokia.com/blog/" target="_blank" rel="noopener">nokia.com/blog</a>
+                — áp dụng có chọn lọc cho blog SEOMONEY.
+            </p>
+        </header>
+
+        <div class="brandx__comp-grid">
+            <article class="brandx__comp">
+                <h4>Featured hero</h4>
+                <p>Bài nổi bật full-width: ảnh lớn + headline Headline Bold + excerpt ngắn + CTA "Read more".</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Article grid</h4>
+                <p>Feed 2–3 cột desktop, 1 cột mobile. Card đồng nhất: thumbnail → topic → title → date.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Topic navigation</h4>
+                <p>Filter theo chủ đề (5G, AI, Cloud…) — horizontal scroll hoặc dropdown trên mobile.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>B2B editorial voice</h4>
+                <p>Giọng chuyên gia, data-driven, ít marketing fluff. Calm enterprise — không crypto-dashboard.</p>
+            </article>
+        </div>
+
+        <aside class="brandx__rationale">
+            <strong>Theme trên blog:</strong> bật theme <em>Nokia Blog</em> từ menu theme (navbar) để xem palette
+            và typography áp dụng toàn site. Mặc định vẫn là Hilda cho đến khi bạn chọn Nokia.
+        </aside>
+    </section>
+
+    <section id="grid" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">05</span>
+            <h2 class="brandx__section-title">Grid &amp; Spacing</h2>
+            <p class="brandx__section-desc">
+                12-column, max-width 1200px. Spacing 8px base. Card radius 12px (mềm hơn Hilda 4px).
+            </p>
+        </header>
+
+        <div class="brandx__grid-demo">
+            <div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div>
+        </div>
+
+        <table class="brandx__spacing-table">
+            <thead>
+                <tr><th>Token</th><th>Value</th><th>Use</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>--space-sm</code></td><td>8px</td><td>Chip gap, inline</td></tr>
+                <tr><td><code>--space-md</code></td><td>16px</td><td>Card body padding</td></tr>
+                <tr><td><code>--space-lg</code></td><td>24px</td><td>Section internal</td></tr>
+                <tr><td><code>--space-xl</code></td><td>32px</td><td>Between sections</td></tr>
+                <tr><td><code>--radius-card</code></td><td>12px</td><td>Editorial cards</td></tr>
+                <tr><td><code>--radius-pill</code></td><td>999px</td><td>Category chips</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <footer class="brandx__foot">
+        <p>Nokia Branding Guideline v1.0 — tham chiếu <a href="https://www.nokia.com/blog/" target="_blank" rel="noopener">Nokia Blog</a></p>
+        <p>Font: <a href="{{ get_url(path='font-nokia/') }}">Nokia Pure Guideline</a> · Theme: <code>data-theme="nokia"</code></p>
+    </footer>
+</section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
