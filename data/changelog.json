@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1317",
+      "pr_number": 1317,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1317",
+      "title": "feat(cms): add S-DNA CMS-V6 with GitHub OAuth",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T17:52:39Z",
+      "merge_commit_sha": "60bb90d9065e",
+      "stats": {
+        "additions": 2467,
+        "deletions": 1
+      },
+      "highlights": [
+        "content/cms-v6.md — Zola content page",
+        "templates/cms-v6.html — Full template with auth gate, dashboard, editor, baked post metadata",
+        "static/js/cms-v6.js — Client-side app (auth, dashboard CRUD, editor with toolbar/autosave/publish)",
+        "sass/_cms-v6.scss — S-DNA styled (dark sidebar, clean canvas, responsive)",
+        "config.toml — Menu: CMS-V5 → CMS-V6"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1316",
       "pr_number": 1316,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1316",
