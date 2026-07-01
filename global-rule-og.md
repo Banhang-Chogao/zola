@@ -80,9 +80,11 @@ có hiệu lực cao hơn mọi template, prompt, shortcut hay workflow riêng l
 - Unsplash, Pexels, Pixabay, Creative Commons và public domain chỉ được dùng
   sau khi kiểm tra license cho website thương mại/monetized tại trang nguồn.
 - Mỗi ảnh ngoài phải ghi nguồn/license và attribution (nếu yêu cầu) trong
-  `## Bản quyền và ghi nguồn`. Không ghi “Nguồn: Internet”, không ghi nguồn mơ
-  hồ hay nguồn chưa xác minh. **Không ghi nguồn nếu thực tế không xác minh được.**
-  Không xác minh được nguồn → không dùng ảnh đó → chuyển sang fallback OG.
+  frontmatter `[extra]` → `references_copyright` (macro tự render vào section
+  "Bản quyền & Ghi nguồn" cuối bài). Không ghi "Nguồn: Internet", không ghi
+  nguồn mơ hồ hay nguồn chưa xác minh. **Không ghi nguồn nếu thực tế không
+  xác minh được.** Không xác minh được nguồn → không dùng ảnh đó → chuyển
+  sang fallback OG.
 
 Thứ tự ưu tiên ảnh (cao → thấp):
 

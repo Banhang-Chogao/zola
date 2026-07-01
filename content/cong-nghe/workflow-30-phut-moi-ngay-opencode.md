@@ -37,6 +37,22 @@ a = "Người mới nên tự review diff rồi chủ động commit/push để 
 [[extra.faq]]
 q = "OpenCode có thay lập trình viên không?"
 a = "Không; agent hỗ trợ một vòng làm việc, còn người dùng quyết định đúng sai và chịu trách nhiệm PR."
+[[extra.references_external]]
+title = "Tài liệu agent OpenCode"
+url = "https://opencode.ai/docs/agents/"
+
+[[extra.references_external]]
+title = "Repository OpenCode"
+url = "https://github.com/anomalyco/opencode"
+
+[[extra.references_external]]
+title = "GitHub Docs về pull request"
+url = "https://docs.github.com/en/pull-requests"
+
+[[extra.references_external]]
+title = "GitHub Copilot plans"
+url = "https://github.com/features/copilot/plans"
+
 +++
 
 > **TL;DR:** Chia 30 phút thành năm chặng: chọn issue, plan, sửa nhỏ, test/review, commit/PR. Mỗi phiên chỉ theo đuổi một kết quả kiểm chứng được; hết giờ mà chưa hiểu diff thì dừng, không ép agent làm tiếp.
@@ -135,45 +151,3 @@ Workflow 30 phút tạo ba hàng rào: thời gian, phạm vi và bằng chứng
 Nếu duy trì mỗi ngày, hãy dành riêng vài phút cuối để dọn branch và ghi trạng thái. Một repo sạch cùng note rõ giúp phiên hôm sau bắt đầu từ bằng chứng, không phải yêu cầu agent đoán lại toàn bộ bối cảnh.
 
 Khi đã làm quen, hãy so sánh [OpenCode với Cursor, Claude Code và Copilot](/posting/opencode-so-voi-cursor-claude-code-copilot/) để chọn giao diện phù hợp. Quy trình plan–diff–test vẫn có giá trị dù bạn đổi tool.
-
-## Liên kết nội bộ
-
-- [Bắt đầu AI viết code miễn phí](/posting/ai-viet-code-mien-phi-github-opencode/)
-- [Hiểu hạn mức Copilot Free](/posting/github-copilot-free-opencode-han-muc/)
-- [Dùng OpenCode an toàn](/posting/dung-opencode-an-toan-khong-lo-token/)
-- [Git và GitHub cho người mới](/posting/github-la-gi-tao-repository-dau-tien/)
-- [Lộ trình 14 ngày](/posting/lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github/)
-- [Hub Series](/series/)
-
-## Liên kết bên ngoài
-
-- [Tài liệu agent OpenCode](https://opencode.ai/docs/agents/)
-- [Repository OpenCode](https://github.com/anomalyco/opencode)
-- [GitHub Docs về pull request](https://docs.github.com/en/pull-requests)
-- [GitHub Copilot plans](https://github.com/features/copilot/plans)
-
-## Bản quyền và ghi nguồn
-
-Bài do SEOMONEY biên tập từ kinh nghiệm workflow Git/PR và tài liệu chính thức OpenCode, GitHub. Ví dụ là minh họa độc lập, không sao chép tài liệu nguồn. Ảnh OG dùng fallback nội bộ.
-
-## FAQ - Câu hỏi thường gặp
-
-### 30 phút có đủ để sửa bug không?
-
-Đủ cho bug nhỏ có reproduction và test. Task lớn nên chia thành nhiều phiên có artifact riêng.
-
-### Có cần tài khoản GitHub không?
-
-Không bắt buộc cho OpenCode, nhưng cần nếu muốn dùng branch remote, PR, Codespaces và Copilot.
-
-### Copilot Free có đủ để học hằng ngày không?
-
-Có thể đủ nếu dùng task nhỏ và không hiểu quota tháng như khoản cấp lại mỗi ngày.
-
-### Có nên để OpenCode tự push không?
-
-Người mới nên tự review, stage và push để giữ điểm kiểm soát rõ ràng.
-
-### OpenCode có thay lập trình viên không?
-
-Không. Agent giúp thao tác; người dùng vẫn quyết định thiết kế, chất lượng và việc merge.

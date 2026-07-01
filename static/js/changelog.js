@@ -1,20 +1,25 @@
 (function () {
   "use strict";
 
-  const list = document.querySelector("[data-changelog-list]");
-  const pagination = document.querySelector("[data-changelog-pagination]");
+  var list = document.querySelector("[data-changelog-list]");
+  var pagination = document.querySelector("[data-changelog-pagination]");
   if (!list || !pagination) return;
 
-  const pageSize = Number(list.dataset.pageSize) || 15;
-  const items = Array.from(list.querySelectorAll("[data-changelog-item]"));
-  const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
-  const previous = pagination.querySelector("[data-page-prev]");
-  const next = pagination.querySelector("[data-page-next]");
-  const status = pagination.querySelector("[data-page-status]");
-  const numbers = pagination.querySelector("[data-page-numbers]");
-  let currentPage = 1;
+  var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  function getPageSize() {
+    var base = Number(list.dataset.pageSize) || 10;
+    return window.innerWidth < 480 ? Math.min(base, 5) : base;
+  }
+
+  var items = Array.from(list.querySelectorAll("[data-changelog-item]"));
   if (items.length === 0) return;
+
+  var previous = pagination.querySelector("[data-page-prev]");
+  var next = pagination.querySelector("[data-page-next]");
+  var status = pagination.querySelector("[data-page-status]");
+  var numbers = pagination.querySelector("[data-page-numbers]");
+  var currentPage = 1;
 
   function element(tag, className, text) {
     var node = document.createElement(tag);
@@ -36,9 +41,10 @@
   }
 
   function renderNumbers() {
+    var total = Math.max(1, Math.ceil(items.length / getPageSize()));
     numbers.replaceChildren();
     var start = Math.max(1, currentPage - 2);
-    var end = Math.min(totalPages, currentPage + 2);
+    var end = Math.min(total, currentPage + 2);
     for (var page = start; page <= end; page += 1) {
       var button = element("button", "changelog__page-number", String(page));
       button.type = "button";
@@ -55,7 +61,9 @@
   }
 
   function showPage(requestedPage, scroll) {
-    currentPage = Math.min(Math.max(1, requestedPage), totalPages);
+    var pageSize = getPageSize();
+    var total = Math.max(1, Math.ceil(items.length / pageSize));
+    currentPage = Math.min(Math.max(1, requestedPage), total);
     var start = (currentPage - 1) * pageSize;
 
     items.forEach(function (item, index) {
@@ -63,12 +71,15 @@
     });
 
     previous.disabled = currentPage === 1;
-    next.disabled = currentPage === totalPages;
-    status.textContent = "Trang " + currentPage + " / " + totalPages + " · " + items.length + " cập nhật";
+    next.disabled = currentPage === total;
+    status.textContent = "Trang " + currentPage + " / " + total + " · " + items.length + " cập nhật";
     renderNumbers();
-    pagination.hidden = totalPages <= 1;
+    pagination.hidden = total <= 1;
     setUrl(currentPage);
-    if (scroll) list.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (scroll) {
+      var behavior = prefersReducedMotion ? "instant" : "smooth";
+      list.scrollIntoView({ behavior: behavior, block: "start" });
+    }
   }
 
   previous.addEventListener("click", function () { showPage(currentPage - 1, true); });

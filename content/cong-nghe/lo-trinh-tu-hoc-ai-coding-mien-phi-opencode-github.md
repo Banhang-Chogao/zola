@@ -37,6 +37,26 @@ a = "Không; lộ trình tập trung dùng agent để học và tăng tốc dư
 [[extra.faq]]
 q = "Sau 14 ngày nên trả phí không?"
 a = "Chỉ cân nhắc khi nhật ký usage cho thấy quota/reliability thực sự cản trở workload."
+[[extra.references_external]]
+title = "OpenCode"
+url = "https://opencode.ai/"
+
+[[extra.references_external]]
+title = "Tài liệu OpenCode"
+url = "https://opencode.ai/docs/"
+
+[[extra.references_external]]
+title = "Repository OpenCode"
+url = "https://github.com/anomalyco/opencode"
+
+[[extra.references_external]]
+title = "GitHub Copilot plans"
+url = "https://github.com/features/copilot/plans"
+
+[[extra.references_external]]
+title = "GitHub Codespaces"
+url = "https://docs.github.com/en/codespaces"
+
 +++
 
 > **TL;DR:** Trong 14 ngày, bạn đi từ repo sạch và plan mode tới một PR nhỏ có test, rồi học bảo mật, so sánh tool và đánh giá business model. Mỗi ngày 20–30 phút; mục tiêu là hiểu diff và quy trình, không phải tạo thật nhiều code.
@@ -160,54 +180,3 @@ Chỉ cân nhắc trả phí nếu một giới hạn lặp lại đang cản wo
 Ngày tạo nhiều code nhất không nhất thiết là ngày học tốt nhất. Một buổi chỉ tìm được root cause nhưng chưa patch vẫn có giá trị. Nhật ký giúp bạn thấy năng lực tăng ở chất lượng câu hỏi và review, không ở mức phụ thuộc agent.
 
 Sau lộ trình, lặp lại với repo khác nhưng giữ task nhỏ. Nếu chuyển sang production/team, bổ sung policy dữ liệu, approval và security review; không bê nguyên cấu hình học tập.
-
-## Liên kết nội bộ
-
-- [Bài 1: Bắt đầu AI viết code miễn phí](/posting/ai-viet-code-mien-phi-github-opencode/)
-- [Bài 2: OpenCode là gì](/posting/opencode-la-gi-ai-coding-agent/)
-- [Bài 3: Cài trong Codespaces](/posting/cai-opencode-trong-github-codespaces/)
-- [Bài 4: Copilot Free và hạn mức](/posting/github-copilot-free-opencode-han-muc/)
-- [Bài 5: Workflow 30 phút](/posting/workflow-30-phut-moi-ngay-opencode/)
-- [Bài 6: So sánh công cụ](/posting/opencode-so-voi-cursor-claude-code-copilot/)
-- [Bài 7: Lịch sử OpenCode](/posting/lich-su-opencode-ai-coding-open-source/)
-- [Bài 8: Mô hình kinh doanh](/posting/opencode-mien-phi-kiem-tien-nhu-the-nao/)
-- [Bài 9: Dùng OpenCode an toàn](/posting/dung-opencode-an-toan-khong-lo-token/)
-- [Hub Series](/series/)
-
-## Liên kết bên ngoài
-
-- [OpenCode](https://opencode.ai/)
-- [Tài liệu OpenCode](https://opencode.ai/docs/)
-- [Repository OpenCode](https://github.com/anomalyco/opencode)
-- [GitHub Copilot plans](https://github.com/features/copilot/plans)
-- [GitHub Codespaces](https://docs.github.com/en/codespaces)
-
-## Bản quyền và ghi nguồn
-
-SEOMONEY biên tập lộ trình độc lập từ tài liệu chính thức OpenCode/GitHub và kinh nghiệm workflow Git/PR. Không sao chép dài, không affiliate, không hướng dẫn vượt quota. Thông tin được kiểm tra ngày 30/06/2026; ảnh OG dùng fallback nội bộ.
-
-## FAQ - Câu hỏi thường gặp
-
-### OpenCode có miễn phí không?
-
-Lõi là open-source; model/provider có thể miễn phí giới hạn hoặc trả phí.
-
-### Có cần biết code trước không?
-
-Không cần chuyên sâu, nhưng phải học Git, đọc diff, chạy test và không giao trách nhiệm hoàn toàn cho AI.
-
-### Copilot Free có đủ cho 14 ngày không?
-
-Có thể đủ với task nhỏ và prompt rõ. Hạn mức theo tháng, không phải quota ngày.
-
-### OpenCode có thay lập trình viên không?
-
-Không. Lộ trình dùng agent để học và tăng tốc dưới kiểm soát con người.
-
-### Dùng OpenCode có an toàn không?
-
-An toàn hơn với quyền tối thiểu, branch riêng, không chia sẻ secret và review mọi lệnh/diff.
-
-### Sau 14 ngày có nên trả phí không?
-
-Chỉ khi dữ liệu usage cho thấy quota, model hoặc reliability thực sự cản nhu cầu thường xuyên.

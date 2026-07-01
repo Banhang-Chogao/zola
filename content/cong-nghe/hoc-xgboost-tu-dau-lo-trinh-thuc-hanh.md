@@ -36,6 +36,18 @@ a = "Có. XGBoost là một trong những kỹ năng được yêu cầu nhiều
 [[extra.faq]]
 q = "Nên làm dự án gì để luyện XGBoost?"
 a = "Bắt đầu với Titanic (Kaggle), sau đó thử các bài toán thực tế: dự đoán giá nhà, phân loại khách hàng rời bỏ, phát hiện gian lận thẻ tín dụng."
+[[extra.references_external]]
+title = "XGBoost Python API Documentation"
+url = "https://xgboost.readthedocs.io/en/stable/python/python_api.html"
+
+[[extra.references_external]]
+title = "Machine Learning Coursera — Andrew Ng"
+url = "https://www.coursera.org/learn/machine-learning"
+
+[[extra.references_external]]
+title = "Kaggle XGBoost Tutorials"
+url = "https://www.kaggle.com/learn/xgboost"
+
 +++
 
 Đây là bài cuối trong series 5 phần về XGBoost. Nếu bạn đã đọc bốn bài trước, bạn đã hiểu XGBoost là gì, nó hoạt động thế nào, ai đang dùng nó và so sánh với các mô hình khác.
@@ -144,33 +156,3 @@ Qua 5 bài, bạn đã có một cái nhìn toàn diện về XGBoost:
 5. **Học từ đâu?** — Lộ trình 6–10 tuần với các dự án thực hành cụ thể
 
 Hy vọng series này giúp bạn bắt đầu hành trình với XGBoost một cách tự tin. Nếu có thắc mắc, đừng ngần ngại để lại bình luận nhé.
-
----
-
-## Liên kết nội bộ
-
-- [XGBoost model là gì?](/posting/xgboost-model-la-gi/) (Bài 1)
-- [XGBoost hoạt động như thế nào?](/posting/xgboost-hoat-dong-nhu-the-nao/) (Bài 2)
-- [Ứng dụng XGBoost trong cuộc sống](/posting/ung-dung-xgboost-trong-cuoc-song/) (Bài 3)
-- [XGBoost so với Random Forest, LightGBM, CatBoost](/posting/xgboost-so-voi-random-forest-lightgbm-catboost/) (Bài 4)
-- [Lộ trình tự học AI Coding miễn phí với OpenCode](/posting/lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github/)
-- [Khám phá tất cả series hữu ích →](/series/)
-
-## Liên kết bên ngoài
-
-- [XGBoost Python API Documentation](https://xgboost.readthedocs.io/en/stable/python/python_api.html)
-- [Machine Learning Coursera — Andrew Ng](https://www.coursera.org/learn/machine-learning)
-- [Kaggle XGBoost Tutorials](https://www.kaggle.com/learn/xgboost)
-
-## Bản quyền & nguồn tham khảo
-
-Bài viết biên tập dựa trên trải nghiệm cá nhân, tài liệu XGBoost chính thức, và các nguồn tham khảo công khai (Kaggle, Coursera). Lộ trình học tập là gợi ý tham khảo, không phải cam kết kết quả.
-
-## Tuyên bố miễn trừ
-
-Lộ trình học tập và các dự án gợi ý chỉ mang tính tham khảo, dựa trên kinh nghiệm cá nhân và tài liệu phổ biến trong cộng đồng. Kết quả học tập phụ thuộc vào thời gian và phương pháp của từng người. Series này không phải chương trình đào tạo chính thức và không đảm bảo việc làm sau khi hoàn thành.
-
-## Thảo luận
-
-Bạn đang ở giai đoạn nào trong lộ trình học machine learning? Bạn có câu hỏi gì về XGBoost mà series này chưa giải đáp? Hãy để lại bình luận — mình sẽ cố gắng trả lời hoặc viết bài bổ sung.
-+++

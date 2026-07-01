@@ -36,6 +36,18 @@ a = "Tài chính, ngân hàng, bảo hiểm, thương mại điện tử, viễn
 [[extra.faq]]
 q = "XGBoost có ứng dụng trong e-commerce không?"
 a = "Có. Dự đoán giá sản phẩm, phân khúc khách hàng, gợi ý sản phẩm và dự báo hàng tồn kho đều có thể dùng XGBoost."
+[[extra.references_external]]
+title = "XGBoost Applications in Finance (Towards Data Science)"
+url = "https://towardsdatascience.com/xgboost-applications-in-finance-1b8f406e9b7f"
+
+[[extra.references_external]]
+title = "Predicting Heart Disease with XGBoost — PubMed Study"
+url = "https://pubmed.ncbi.nlm.nih.gov/33285530/"
+
+[[extra.references_external]]
+title = "XGBoost Use Cases in Industry (GitHub Wiki)"
+url = "https://github.com/dmlc/xgboost/wiki/Use-Cases"
+
 +++
 
 Sau khi hiểu XGBoost là gì và cơ chế hoạt động, câu hỏi tự nhiên tiếp theo là: "Nó được dùng ở đâu trong thực tế?"
@@ -114,31 +126,3 @@ XGBoost cũng xuất hiện trong các lĩnh vực không ngờ:
 XGBoost không phải là công cụ duy nhất, nhưng là một trong những công cụ linh hoạt nhất cho dữ liệu dạng bảng. Nó hiện diện trong hầu hết các ngành: tài chính, y tế, thương mại, viễn thông, bảo hiểm, nông nghiệp.
 
 Nếu bạn đang làm trong một lĩnh vực có dữ liệu bảng và cần dự đoán, XGBoost là một trong những lựa chọn đầu tiên bạn nên thử.
-
----
-
-## Liên kết nội bộ
-
-- [XGBoost model là gì? Giải thích dễ hiểu](/posting/xgboost-model-la-gi/) (Bài 1 — bắt đầu series)
-- [XGBoost hoạt động như thế nào?](/posting/xgboost-hoat-dong-nhu-the-nao/) (Bài 2)
-- [XGBoost so với Random Forest, LightGBM, CatBoost →](/posting/xgboost-so-voi-random-forest-lightgbm-catboost/) (Bài 4)
-- [Khám phá tất cả series hữu ích →](/series/)
-
-## Liên kết bên ngoài
-
-- [XGBoost Applications in Finance (Towards Data Science)](https://towardsdatascience.com/xgboost-applications-in-finance-1b8f406e9b7f)
-- [Predicting Heart Disease with XGBoost — PubMed Study](https://pubmed.ncbi.nlm.nih.gov/33285530/)
-- [XGBoost Use Cases in Industry (GitHub Wiki)](https://github.com/dmlc/xgboost/wiki/Use-Cases)
-
-## Bản quyền & nguồn tham khảo
-
-Bài viết tổng hợp từ các nguồn tham khảo công khai: tài liệu XGBoost, các nghiên cứu trên PubMed và các bài viết từ Towards Data Science. Các ứng dụng y tế được dẫn chứng từ nghiên cứu có bình duyệt. Mọi liên kết ngoài nhằm mục đích tham khảo.
-
-## Tuyên bố miễn trừ
-
-Nội dung chỉ phục vụ mục đích giáo dục. Ví dụ về tài chính, tín dụng và y tế mang tính minh hoạ. Mô hình machine learning là công cụ hỗ trợ, không thay thế đánh giá chuyên môn của con người trong các lĩnh vực nhạy cảm. Không có mô hình nào đạt độ chính xác tuyệt đối.
-
-## Thảo luận
-
-Ngành của bạn có đang dùng XGBoost không? Bạn thấy ứng dụng nào thú vị nhất? Hãy chia sẻ ở phần bình luận — đặc biệt nếu bạn từng triển khai XGBoost thực tế, mình rất muốn nghe kinh nghiệm của bạn.
-+++

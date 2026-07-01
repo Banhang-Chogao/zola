@@ -40,6 +40,18 @@ a = "Có. Kiến trúc stack ensemble kết hợp XGBoost và mạng nơ-ron là
 [[extra.faq]]
 q = "Thư viện gradient boosting nào nhanh nhất?"
 a = "LightGBm thường nhanh nhất với dữ liệu lớn (hàng trăm nghìn dòng trở lên). Với dữ liệu vừa và nhỏ, tốc độ XGBoost và LightGBM không khác biệt đáng kể."
+[[extra.references_external]]
+title = "CatBoost vs LightGBM vs XGBoost — Towards Data Science"
+url = "https://towardsdatascience.com/catboost-vs-lightgbm-vs-xgboost-c80f40662924"
+
+[[extra.references_external]]
+title = "Grinsztajn et al. (2022): Why do tree-based models still outperform deep learning on tabular data?"
+url = "https://arxiv.org/abs/2207.08815"
+
+[[extra.references_external]]
+title = "LightGBM Documentation"
+url = "https://lightgbm.readthedocs.io/"
+
 +++
 
 Đây là câu hỏi mình gặp nhiều nhất từ người mới học machine learning: "Nên dùng XGBoost, Random Forest, LightGBM, CatBoost, hay deep learning?"
@@ -167,32 +179,3 @@ Kiến trúc này thường xuất hiện trong top giải các cuộc thi Kaggl
 5. **Chỉ dùng deep learning** khi có lý do chính đáng (dữ liệu phi cấu trúc, dữ liệu cực lớn)
 
 Không có công cụ vạn năng. Hãy thử nghiệm nhiều mô hình trên dữ liệu của bạn và chọn cái tốt nhất. Trong bài cuối cùng, mình sẽ hướng dẫn lộ trình học XGBoost từ đầu với các tài nguyên cụ thể.
-
----
-
-## Liên kết nội bộ
-
-- [XGBoost model là gì? Giải thích dễ hiểu](/posting/xgboost-model-la-gi/) (Bài 1)
-- [XGBoost hoạt động như thế nào?](/posting/xgboost-hoat-dong-nhu-the-nao/) (Bài 2)
-- [Ứng dụng XGBoost trong cuộc sống](/posting/ung-dung-xgboost-trong-cuoc-song/) (Bài 3)
-- [Học XGBoost từ đâu? Lộ trình thực hành →](/posting/hoc-xgboost-tu-dau-lo-trinh-thuc-hanh/) (Bài 5)
-- [Lộ trình tự học AI Coding miễn phí với OpenCode](/posting/lo-trinh-tu-hoc-ai-coding-mien-phi-opencode-github/)
-
-## Liên kết bên ngoài
-
-- [CatBoost vs LightGBM vs XGBoost — Towards Data Science](https://towardsdatascience.com/catboost-vs-lightgbm-vs-xgboost-c80f40662924)
-- [Grinsztajn et al. (2022): Why do tree-based models still outperform deep learning on tabular data?](https://arxiv.org/abs/2207.08815)
-- [LightGBM Documentation](https://lightgbm.readthedocs.io/)
-
-## Bản quyền & nguồn tham khảo
-
-Bài viết biên tập dựa trên tài liệu chính thức của XGBoost, LightGBM, CatBoost, nghiên cứu của Grinsztajn (2022) và các bài viết trên Towards Data Science. Bảng so sánh tổng hợp từ kinh nghiệm thực tế và tài liệu tham khảo.
-
-## Tuyên bố miễn trừ
-
-So sánh hiệu năng giữa các mô hình phụ thuộc vào dữ liệu cụ thể và cách tinh chỉnh. Kết quả có thể khác nhau tuỳ bài toán. Hãy luôn thử nghiệm trên dữ liệu của chính bạn trước khi đưa ra quyết định.
-
-## Thảo luận
-
-Bạn có kinh nghiệm chuyển từ mô hình này sang mô hình khác không? Có bài toán nào bạn thấy deep learning vượt trội XGBoost trên dữ liệu bảng không? Hãy chia sẻ nhé.
-+++

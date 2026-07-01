@@ -44,6 +44,9 @@ jobs:
     outputs:
       deploy_busy: ${{ steps.check.outputs.deploy_busy }}
     steps:
+      - name: Checkout (script from main)
+        uses: actions/checkout@v4
+
       - name: Check deploy queue status
         id: check
         env:

@@ -5,6 +5,9 @@
 (function () {
   "use strict";
 
+  // Desktop-only module: do not read storage, parse data or fetch on mobile.
+  if (window.matchMedia("(max-width: 767px)").matches) return;
+
   var CACHE_KEY = "zola-google-rank-cache";
   var TTL_MS = 12 * 60 * 60 * 1000;
 

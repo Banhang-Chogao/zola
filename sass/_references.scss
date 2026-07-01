@@ -28,6 +28,14 @@
   }
 }
 
+.post-references__fallback {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-secondary, #475569);
+  font-style: italic;
+}
+
 .post-references__list {
   margin: 0;
   padding-left: 1.25rem;
