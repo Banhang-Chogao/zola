@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1323",
+      "pr_number": 1323,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1323",
+      "title": "feat(ads): AdSense live units + viewability QA (placeholder mode)",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T19:17:42Z",
+      "merge_commit_sha": "cfe7ce4c06e9",
+      "stats": {
+        "additions": 377,
+        "deletions": 3
+      },
+      "highlights": [
+        "templates/partials/ad-slot.html — toggles placeholder vs ins.adsbygoogle by config",
+        "config.toml — publisher_id, 6 slot IDs, require_cwv_gate=true (blocks live until CWV PR merges)",
+        "Wired slots: homepage (top, sidebar, in-article, banner) + articles (inline, end)",
+        "static/ads.txt stub, CSP for AdSense domains",
+        "scripts/check_adsense_viewability.py — go-live readiness gate"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1324",
       "pr_number": 1324,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1324",
