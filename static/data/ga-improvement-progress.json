@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-30T22:53:17Z",
+  "updated_at": "2026-07-01T10:58:30Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,7 +15,7 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "2744 broken links · 1 weak related pairs",
+      "detail": "431 broken links · 1 weak related pairs",
       "source": "compliance-link-report.json",
       "updated_at": "2026-06-30T21:26:04Z"
     },
@@ -24,9 +24,9 @@
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 58/100 · LCP 9.2 s · needs work",
+      "detail": "Mobile 58/100 · LCP 12.4 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-30T22:04:22+00:00"
+      "updated_at": "2026-07-01T10:56:49+00:00"
     },
     {
       "id": "schema",
@@ -42,18 +42,18 @@
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: hotfix: register google-deepmind series in series-listing.ht",
+      "detail": "Latest: [bb] Phân tích EquiLibre đưa AI poker vào giao dịch",
       "source": "changelog.json",
-      "updated_at": "2026-06-30T22:50:24Z"
+      "updated_at": "2026-07-01T09:34:34Z"
     },
     {
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "running",
-      "detail": "2744 broken of 512 links",
+      "detail": "431 broken of 1407 links",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-30T13:51:23Z"
+      "updated_at": "2026-07-01T00:03:03Z"
     },
     {
       "id": "image_opt",
@@ -69,9 +69,9 @@
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 58/100 vs desktop 81/100 (Δ23) · 916/916 ready",
+      "detail": "Mobile 58/100 vs desktop 76/100 (Δ18) · 916/916 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-30T22:04:22+00:00"
+      "updated_at": "2026-07-01T10:56:49+00:00"
     }
   ],
   "summary": {
