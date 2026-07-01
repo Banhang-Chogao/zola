@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1310",
+      "pr_number": 1310,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1310",
+      "title": "feat(kt9): full spec implementation — auto-fix, V18/V25 conflict resolution, commit+push, gate workflow",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T15:43:00Z",
+      "merge_commit_sha": "1c3f1deb7894",
+      "stats": {
+        "additions": 283,
+        "deletions": 197
+      },
+      "highlights": [
+        "Auto-fix mặc định: khi phát hiện issue → tự động chạy fix (không cần --fix). Dùng --no-fix để chỉ check.",
+        "V18 conflict resolution: data/.json auto-gen → lấy main (--theirs), content/posting/.md → giữ PR side (--ours), templates/*.html → manual.",
+        "V25 mass migration: >5 content files conflicted → skip, báo manual recreate.",
+        "Commit + push: sau khi resolve → git commit + push lên PR branch.",
+        "Rerun failed checks: zola build / qa-check failed → gh run rerun."
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1309",
       "pr_number": 1309,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1309",
