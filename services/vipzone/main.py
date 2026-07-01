@@ -311,6 +311,20 @@ except Exception as exc:  # pragma: no cover - defensive: keep the rest of the A
     print(f"[vipzone] momo_links router not mounted: {exc!r}")
 
 
+# ============= Infographic Hoa (AI-powered branded infographics) =============
+# Generates branded SVG/WebP images from content, stores via CMS-V5 media system
+# so images appear in the CMS-V5 Asset Management library.
+try:
+    import infographic_hoa
+
+    infographic_hoa.configure(get_db=get_db)
+    app.include_router(infographic_hoa.router)
+    INFOGRAPHIC_HOA_MOUNTED = True
+except Exception as exc:  # pragma: no cover - defensive: keep the rest of the API up
+    INFOGRAPHIC_HOA_MOUNTED = False
+    print(f"[vipzone] infographic_hoa router not mounted: {exc!r}")
+
+
 # ============= Content Placement Admin (placement registry + content blocks) =============
 # Admins (Google whitelist) manage editable content blocks bound to stable
 # placement IDs; writes commit data/content-placements.json so deploy.yml rebuilds.
