@@ -26,6 +26,7 @@
   --c-bg-page:        #f4f4f4;  /* Light Gray */
   --c-bg-surface:     #ffffff;  /* White */
   --c-bg-soft:        #f4f4f4;  /* Soft background */
+  --c-bg-overlay:     rgba(255, 255, 255, 0.88); /* White overlay on bg image */
 
   /* Text — pure black to gray */
   --c-text-heading:   #000000;  /* Pure Black */
@@ -93,6 +94,7 @@ button {
     --c-bg-page:        #0e1217;
     --c-bg-surface:     #161c24;
     --c-bg-soft:        #1f2731;
+    --c-bg-overlay:     rgba(14, 18, 23, 0.82); /* Dark overlay on bg image */
 
     /* Text — trắng → xám sáng */
     --c-text-heading:   #ffffff;
