@@ -29,6 +29,8 @@
     {% set manifest = load_data(path="data/opencode-ai-viet-code-mien-phi-series.json", required=false) %}
 {% elif page.extra and page.extra.series is defined and page.extra.series == "xgboost-model-la-gi" %}
     {% set manifest = load_data(path="data/xgboost-model-la-gi-series.json", required=false) %}
+{% elif page.extra and page.extra.series is defined and page.extra.series == "bhyt-gia-tri-su-dung" %}
+    {% set manifest = load_data(path="data/bhyt-gia-tri-su-dung-series.json", required=false) %}
 {% endif %}
 {% if manifest and page.extra and page.extra.series is defined and page.extra.series == manifest.id %}
     {% set current_part = page.extra.series_part | default(value=0) %}
