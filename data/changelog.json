@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1308",
+      "pr_number": 1308,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1308",
+      "title": "feat(infographic-hoa): S-DNA branded infographic generator with CMS-V5 Asset Library",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T15:16:07Z",
+      "merge_commit_sha": "1a9805f044fd",
+      "stats": {
+        "additions": 1292,
+        "deletions": 0
+      },
+      "highlights": [
+        "POST /api/infographic-hoa/generate — nhận title/description/content → parse chủ đề → render 5 SVG (cover, quote, insight, summary, banner) → rasterize WebP → lưu vào CMS-V5 media",
+        "GET /api/infographic-hoa/images — lịch sử tạo ảnh",
+        "DB tables: infographic_generations, infographic_images",
+        "Trang /tools/infographic-hoa/ (GitHub OAuth gate, cùng session CMS)",
+        "Form nhập nội dung + progress bar"
+      ],
+      "verified": true
+    },
+    {
       "id": "commit-084c71ae72ab",
       "pr_number": 0,
       "pr_url": "",
