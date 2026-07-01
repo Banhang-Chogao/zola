@@ -122,20 +122,6 @@
   ],
   "blocks": [
     {
-      "id": "tools_momo_admin_notice_default",
-      "placement_id": "tools_momo_admin_notice",
-      "type": "notice",
-      "enabled": true,
-      "title": "Content Placement System",
-      "body": "Quản lý vị trí hiển thị và content block qua tab Vị trí hiển thị / Content blocks. Tài liệu: /content-placement-system/",
-      "button_text": "Xem tài liệu",
-      "url": "https://seomoney.org/content-placement-system/",
-      "style": "compact",
-      "priority": 10,
-      "pages": ["/tools/momo-url/"],
-      "exclude_pages": []
-    },
-    {
       "id": "momo_donate_header_cta",
       "placement_id": "global_header_below",
       "type": "momo_cta",
@@ -146,8 +132,15 @@
       "url": "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG",
       "style": "compact",
       "priority": 10,
-      "pages": ["*"],
-      "exclude_pages": ["/editor/", "/admin-author/", "/tools/momo-url/", "/tools/content-placement/"]
+      "pages": [
+        "*"
+      ],
+      "exclude_pages": [
+        "/editor/",
+        "/admin-author/",
+        "/tools/momo-url/",
+        "/tools/content-placement/"
+      ]
     },
     {
       "id": "post_donate_footer_cta",
@@ -160,8 +153,13 @@
       "url": "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG",
       "style": "default",
       "priority": 20,
-      "pages": ["*"],
-      "exclude_pages": ["/editor/", "/admin-author/"]
+      "pages": [
+        "*"
+      ],
+      "exclude_pages": [
+        "/editor/",
+        "/admin-author/"
+      ]
     }
   ]
 }
