@@ -2,7 +2,7 @@
 title = "Content Planning"
 description = "Kế hoạch nội dung hàng ngày dựa trên dữ liệu và khuyến nghị từ Ad-Report V2 — giúp tối ưu hóa chiến lược xuất bản và lấp đầy khoảng trống nội dung."
 path = "content-planning"
-template = "about.html"
+template = "content-planning.html"
 
 [extra]
 seo_keyword = "content planning"
