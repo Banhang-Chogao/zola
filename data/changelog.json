@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1325",
+      "pr_number": 1325,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1325",
+      "title": "feat(theme): Nokia Blog branding guideline, font page, and opt-in theme",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T22:20:05Z",
+      "merge_commit_sha": "75d8c1b43e1b",
+      "stats": {
+        "additions": 896,
+        "deletions": 75
+      },
+      "highlights": [
+        "Nokia Branding Guideline at /branding-nokia/ — colors, typography, components, blog patterns (based on nokia.com/blog)",
+        "Nokia Font Guideline at /font-nokia/ — Nokia Pure & Nokia Pure Headline specimen",
+        "Opt-in theme data-theme=\"nokia\" — Nokia Blue #124191, editorial 12px cards, pill tags, Nokia Pure fonts",
+        "Dashboard menu — both pages linked under Dashboard dropdown",
+        "Theme switcher restored in navbar (Hilda default · Nokia Blog opt-in)"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1323",
       "pr_number": 1323,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1323",
