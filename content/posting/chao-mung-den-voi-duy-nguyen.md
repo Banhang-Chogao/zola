@@ -77,7 +77,7 @@ SEO không phải là ma thuật. Nó là kỹ thuật có thể học được.
 
 Nếu bạn chưa biết bắt đầu từ đâu, đây là lộ trình gợi ý:
 
-1. **Tìm hiểu SEO cơ bản**: đọc series [Nền tảng SEO](https://seomoney.org/series/seo-foundation/) của mình.
+1. **Tìm hiểu SEO cơ bản**: đọc series [Nền tảng SEO](/tags/seo-foundation-series/) của mình.
 2. **Chọn chủ đề**: viết về gì bạn đam mê và có kiến thức? Đừng chạy theo hot trend — hãy chọn niche bạn có thể duy trì lâu dài.
 3. **Xây dựng blog**: chọn nền tảng (WordPress, Ghost, hoặc static site như Zola), setup hosting, domain.
 4. **Tạo nội dung chất lượng**: viết ít nhất 20-30 bài trước khi bắt đầu tối ưu kiếm tiền.

@@ -143,11 +143,11 @@ Nano Banana đang được sử dụng rộng rãi trong nhiều lĩnh vực:
 ## Liên kết nội bộ
 
 Bạn có thể quan tâm các bài viết khác về AI và công nghệ trên blog:
-- [OpenCode: AI Coding Agent miễn phí cho mọi lập trình viên](/opencode-la-gi-ai-coding-agent/)
-- [Sentence Transformers SBERT: Mô hình AI xử lý ngôn ngữ tự nhiên](/sentence-transformers-sbert-deep-dive/)
-- [Tạo blog tĩnh với Zola — Hướng dẫn từ A đến Z](/tao-blog-voi-zola/)
-- [SEO là gì? Hướng dẫn SEO Google từ cơ bản](/seo-la-gi-huong-dan-co-ban-google-search/)
-- [GitHub Actions CI/CD cho người mới bắt đầu](/github-actions-ci-cd-cho-nguoi-moi/)
+- [OpenCode: AI Coding Agent miễn phí cho mọi lập trình viên](/cong-nghe/opencode-la-gi-ai-coding-agent/)
+- [Sentence Transformers SBERT: Mô hình AI xử lý ngôn ngữ tự nhiên](/cong-nghe/sentence-transformers-sbert-deep-dive/)
+- [Tạo blog tĩnh với Zola — Hướng dẫn từ A đến Z](/cong-nghe/tao-blog-voi-zola/)
+- [SEO là gì? Hướng dẫn SEO Google từ cơ bản](/cong-nghe/seo-la-gi-huong-dan-co-ban-google-search/)
+- [GitHub Actions CI/CD cho người mới bắt đầu](/cong-nghe/github-actions-ci-cd-cho-nguoi-moi/)
 
 ## Liên kết bên ngoài
 

@@ -1,6 +1,88 @@
 {
   "items": [
     {
+      "id": "pr-1272",
+      "pr_number": 1272,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1272",
+      "title": "Bài viết: Google DeepMind Nano Banana - Gia đình mô hình tạo ảnh AI 2026",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T00:01:19Z",
+      "merge_commit_sha": "3749f448a9a8",
+      "stats": {
+        "additions": 190,
+        "deletions": 0
+      },
+      "highlights": [
+        "Giới thiệu Nano Banana là gì",
+        "So sánh 4 phiên bản (tính năng, giá cả, benchmark)",
+        "SynthID và bảo vệ bản quyền",
+        "Cách bắt đầu sử dụng (Gemini app, AI Studio, API, Vertex AI)",
+        "Bảng so sánh tính năng chi tiết"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1275",
+      "pr_number": 1275,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1275",
+      "title": "Bài viết: Gemini 3.5 có gì mới - Frontier intelligence với action",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T22:56:16Z",
+      "merge_commit_sha": "3d528be798cf",
+      "stats": {
+        "additions": 145,
+        "deletions": 0
+      },
+      "highlights": [
+        "4 năng lực chính: agentic coding, multimodal, long horizon tasks, multi-step problem-solving",
+        "Bảng benchmark so sánh với GPT-5.5, Claude Opus 4.7, Gemini 3 Flash",
+        "Agentic coding (MCP Atlas 83.6%, OSWorld 78.4%, Terminal-bench 76.2%)",
+        "Multimodal (MMMU-Pro 83.6%, CharXiv 84.2%)",
+        "Long context và reasoning"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1273",
+      "pr_number": 1273,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1273",
+      "title": "Bài viết: Nano Banana 2 Lite và Gemini Omni Flash - tạo ảnh siêu nhanh, video hội thoại",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T22:55:57Z",
+      "merge_commit_sha": "4e0e5d9cce4e",
+      "stats": {
+        "additions": 147,
+        "deletions": 0
+      },
+      "highlights": [
+        "Nano Banana 2 Lite — ảnh 4 giây, giá /bin/zsh.034/1K, so sánh trong family",
+        "Gemini Omni Flash — video 10 giây, conversational editing",
+        "Kết hợp cả hai qua Interactions API (demo Anywhere, Space Lift, Omni Product Studio)",
+        "SynthID và an toàn nội dung",
+        "Góc nhìn cá nhân về chiến lược của Google DeepMind"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pr-1277",
+      "pr_number": 1277,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1277",
+      "title": "hotfix: register google-deepmind series in series-listing.html",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-06-30T22:50:24Z",
+      "merge_commit_sha": "7499cf16ebfc",
+      "stats": {
+        "additions": 2,
+        "deletions": 1
+      },
+      "highlights": [],
+      "verified": true
+    },
+    {
       "id": "pr-1270",
       "pr_number": 1270,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1270",
