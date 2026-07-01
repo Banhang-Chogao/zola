@@ -928,7 +928,9 @@
             </div>
         </section>
 
+        {% if config.extra.google_snapshot and config.extra.google_snapshot.enabled %}
         {% include "partials/google-snapshot.html" %}
+        {% endif %}
     </div>
 
     {# Cloudflare Turnstile — chống spam bình luận. #}
