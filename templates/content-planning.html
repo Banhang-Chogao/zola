@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block main %}
+{% set plan = load_data(path="data/content-planning.json", required=false) %}
+<article class="post-single content-planning">
+    <header class="section-header">
+        <h1 class="section-header__title">{{ page.title | upper }}</h1>
+        {% if plan and plan.generated_at and plan.date %}
+        <p class="content-planning__meta">
+            Cập nhật: <time datetime="{{ plan.generated_at }}">{{ plan.generated_at | date(format="%H:%M %d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
+            · <a href="{{ config.base_url }}/ad-report-v2/">Nguồn: Ad-Report V2</a>
+        </p>
+        {% endif %}
+    </header>
+
+    <div class="post-single__content">
+
+        {% if plan %}
+
+        {# KPI stats row #}
+        {% if plan.stats %}
+        <div class="content-planning__kpi">
+            {% for s in plan.stats %}
+            <span class="content-planning__kpi-item">{{ s }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <h2>Ưu tiên xuất bản hôm nay ({{ plan.date }})</h2>
+
+        <div class="content-planning__priorities">
+            {% for p in plan.priorities %}
+            <div class="content-planning__priority content-planning__priority--{{ p.level | trim | replace(from="Cao", to="high") | replace(from="Trung", to="medium") | replace(from="Thấp", to="low") }}">
+                <span class="content-planning__priority-level">{{ p.level }}</span>
+                <div class="content-planning__priority-body">
+                    <strong class="content-planning__priority-topic">{{ p.topic }}</strong>
+                    <span class="content-planning__priority-reason">{{ p.reason }}</span>
+                    <span class="content-planning__priority-action">{{ p.action }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {# Schedule section #}
+        <h2>Lịch xuất bản đề xuất</h2>
+
+        <div class="content-planning__schedule">
+            <div class="content-planning__schedule-item">
+                <span class="content-planning__schedule-label">Hôm nay</span>
+                <span class="content-planning__schedule-value">{{ plan.schedule.today }}</span>
+            </div>
+            <div class="content-planning__schedule-item">
+                <span class="content-planning__schedule-label">Ngày mai</span>
+                <span class="content-planning__schedule-value">{{ plan.schedule.tomorrow }}</span>
+            </div>
+            {% if plan.schedule.this_week %}
+            <div class="content-planning__schedule-item">
+                <span class="content-planning__schedule-label">Trong tuần</span>
+                <ul class="content-planning__schedule-list">
+                    {% for item in plan.schedule.this_week %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+
+        {# Content gaps #}
+        {% if plan.content_gaps %}
+        <h2>Khoảng trống nội dung cần lấp đầy</h2>
+        <ul class="content-planning__gaps">
+            {% for g in plan.content_gaps %}
+            <li class="content-planning__gap">{{ g }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% else %}
+        <p><em>Chưa có dữ liệu. Chạy <code>python3 scripts/build_content_planning.py</code> để tạo kế hoạch.</em></p>
+        {{ page.content | safe }}
+        {% endif %}
+
+    </div>
+</article>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

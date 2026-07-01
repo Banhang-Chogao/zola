@@ -1,0 +1,49 @@
+{
+  "generated_at": "2026-07-02T01:03:37.097553+07:00",
+  "weekday": "Thứ Năm",
+  "date": "02/07/2026",
+  "priorities": [
+    {
+      "level": "🔴 Cao",
+      "topic": "Ngân hàng — RPM 95.0",
+      "reason": "RPM potential cao nhất, hiện có 60 bài",
+      "action": "Viết 2 bài mở rộng cluster"
+    },
+    {
+      "level": "🟡 Trung",
+      "topic": "Bảo hiểm — 6 bài, RPM 89.2",
+      "reason": "Content gap: chỉ 6 bài, cần mở rộng",
+      "action": "Tạo 3 bài cluster"
+    },
+    {
+      "level": "🟢 Thấp",
+      "topic": "Finance/Banking — 68 mentions",
+      "reason": "Keyword coverage ổn định, duy trì tần suất",
+      "action": "Duy trì tần suất hiện tại"
+    }
+  ],
+  "schedule": {
+    "today": "Viết bài cluster Ngân hàng — RPM potential cao nhất",
+    "tomorrow": "Bổ sung FAQ schema cho top posts",
+    "this_week": [
+      "Optimize Core Web Vitals — Mobile LCP 12.4 ss — trim CSS + font subsetting trước khi bậ…",
+      "Enable live AdSense units — Placeholder CSS đã có — thêm unit ID + viewability QA trước …",
+      "Mở rộng series đang có traffic intent: `ngan-hang-so` (+2–3 bài cluster).",
+      "Ưu tiên category `Ngân hàng` — RPM potential trung bình 95.0."
+    ]
+  },
+  "content_gaps": [
+    "Bảo hiểm: chỉ 6 bài, RPM 89.2 — cần 9 bài",
+    "Series: chỉ 16 bài, RPM 80.5 — cần 3 bài",
+    "Khoa học: chỉ 16 bài, RPM 79.8 — cần 3 bài",
+    "Kiến thức: chỉ 5 bài, RPM 78.8 — cần 10 bài"
+  ],
+  "stats": [
+    "Môn hóa điểm: 86/100",
+    "Mobile Performance: 58/100",
+    "LCP: 12.4 s",
+    "Site SEO: 99.8/100",
+    "Tổng bài: 202",
+    "Lượt truy cập tháng: 165"
+  ]
+}
