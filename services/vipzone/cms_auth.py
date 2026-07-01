@@ -19,6 +19,7 @@ from roles import resolve_role, username_is_superadmin
 SESSION_COOKIE_NAME = os.getenv("VIPZONE_SESSION_COOKIE", "zola_cms_sid")
 CMS_V2_RETURN_TO = "https://seomoney.org/cms-v2/"
 CMS_RETURN_TO_HOST = "seomoney.org"
+CMS_GITHUB_RETURN_PATHS = ("/cms-v2", "/cms-v5")
 
 BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://seomoney.org").rstrip("/")
 _IS_PRODUCTION = os.getenv("ENVIRONMENT", "").strip().lower() == "production" or bool(
@@ -247,7 +248,7 @@ def normalize_return_to(return_to: str) -> str:
 
 
 def normalize_github_return_to(return_to: str) -> str:
-    """Return an absolute seomoney.org CMS-V2 URL for the OAuth round trip."""
+    """Return an absolute allowlisted CMS URL for the GitHub OAuth round trip."""
     rt = (return_to or "").strip()
     if not rt:
         return CMS_V2_RETURN_TO
@@ -257,14 +258,14 @@ def normalize_github_return_to(return_to: str) -> str:
         parsed.scheme == "https"
         and parsed.netloc == CMS_RETURN_TO_HOST
         and parsed.hostname == CMS_RETURN_TO_HOST
-        and (parsed.path == "/cms-v2" or parsed.path.startswith("/cms-v2/"))
+        and any(parsed.path == base or parsed.path.startswith(base + "/") for base in CMS_GITHUB_RETURN_PATHS)
     ):
         return parsed._replace(fragment="").geturl()
 
     if (
-        rt.startswith("/cms-v2")
+        rt.startswith("/")
         and not rt.startswith("//")
-        and (parsed.path == "/cms-v2" or parsed.path.startswith("/cms-v2/"))
+        and any(parsed.path == base or parsed.path.startswith(base + "/") for base in CMS_GITHUB_RETURN_PATHS)
     ):
         return f"https://{CMS_RETURN_TO_HOST}{rt}"
 

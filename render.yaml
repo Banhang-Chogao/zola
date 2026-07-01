@@ -27,6 +27,10 @@ services:
     rootDir: services/vipzone
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    disk:
+      name: vipzone-data
+      mountPath: /var/data
+      sizeGB: 1
 
     envVars:
       - key: VIPZONE_CORS_ORIGIN
@@ -34,7 +38,9 @@ services:
       - key: VIPZONE_BLOG_URL
         value: https://seomoney.org
       - key: VIPZONE_DB_PATH
-        value: /tmp/vipzone.db
+        value: /var/data/vipzone.db
+      - key: CMS_V5_MEDIA_PATH
+        value: /var/data/cms-v5-media
       - key: VIPZONE_BACKEND_URL
         value: https://blog-vipzone-api.onrender.com
       # BACKEND_URL cũng dùng làm gốc suy ra GOOGLE_REDIRECT_URI khi không set tay.

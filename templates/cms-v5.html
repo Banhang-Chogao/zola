@@ -1,216 +1,213 @@
 {% extends "base.html" %}
 
 {% block title %}CMS-V5 | {{ config.title }}{% endblock %}
-{% block description %}CMS-V5 UI prototype for content management, block editing, media, taxonomy, and frontend preview.{% endblock %}
+{% block description %}CMS-V5 workspace quản lý nội dung, media, taxonomy và xuất bản SEOMONEY.{% endblock %}
 {% block robots %}noindex, nofollow{% endblock %}
 {% block sidebar %}{% endblock %}
 
 {% block main %}
-<div class="cms5">
-  <aside class="cms5-sidebar">
-    <a class="cms5-brand" href="#dashboard" aria-label="CMS-V5 Dashboard">
+<div data-cms5>
+  <section class="cms5-gate" data-cms5-gate>
+    <div class="cms5-gate__card">
       <span class="cms5-brand__mark">S</span>
-      <span><strong>SEOMONEY</strong><small>CMS-V5</small></span>
-    </a>
-    <nav class="cms5-nav" aria-label="Điều hướng CMS-V5">
-      <span class="cms5-nav__label">Workspace</span>
-      <a class="is-active" href="#dashboard"><i>⌂</i>Tổng quan</a>
-      <a href="#editor"><i>✎</i>Soạn thảo</a>
-      <a href="#media"><i>▧</i>Thư viện</a>
-      <a href="#taxonomy"><i>◇</i>Chuyên mục &amp; Thẻ</a>
-      <a href="#frontend"><i>◫</i>Frontend Preview</a>
-      <span class="cms5-nav__label">Quản trị</span>
-      <a href="#authors"><i>♙</i>Tác giả <span>Soon</span></a>
-      <a href="#settings"><i>⚙</i>Cài đặt <span>Soon</span></a>
-    </nav>
-    <div class="cms5-sidebar__status">
-      <span><i></i>UI prototype</span>
-      <small>Chưa kết nối API hoặc database</small>
+      <p class="cms5-kicker">Protected workspace</p>
+      <h1>SEOMONEY CMS-V5</h1>
+      <p>Đăng nhập bằng tài khoản GitHub quản trị để soạn thảo, tải media và xuất bản nội dung.</p>
+      <div class="cms5-alert" data-cms5-auth-status>Đang kiểm tra phiên đăng nhập…</div>
+      <button class="cms5-btn cms5-btn--primary" type="button" data-cms5-login>Đăng nhập với GitHub</button>
     </div>
-    <div class="cms5-user">
-      <span class="cms5-avatar">DN</span>
-      <span><strong>Duy Nguyen</strong><small>Administrator</small></span>
-      <button type="button" aria-label="Mở menu người dùng">•••</button>
-    </div>
-  </aside>
+  </section>
 
-  <div class="cms5-app">
-    <header class="cms5-topbar">
-      <div>
-        <button class="cms5-menu-button" type="button" aria-label="Mở menu">☰</button>
-        <span class="cms5-breadcrumb">CMS-V5 <b>/</b> Content workspace</span>
+  <div class="cms5" data-cms5-shell hidden>
+    <aside class="cms5-sidebar">
+      <a class="cms5-brand" href="#dashboard" aria-label="CMS-V5 Dashboard">
+        <span class="cms5-brand__mark">S</span>
+        <span><strong>SEOMONEY</strong><small>CMS-V5</small></span>
+      </a>
+      <nav class="cms5-nav" aria-label="Điều hướng CMS-V5">
+        <span class="cms5-nav__label">Workspace</span>
+        <a class="is-active" href="#dashboard" data-cms5-nav><i>⌂</i>Tổng quan</a>
+        <a href="#editor" data-cms5-nav><i>✎</i>Soạn thảo</a>
+        <a href="#media" data-cms5-nav><i>▧</i>Thư viện</a>
+        <a href="#taxonomy" data-cms5-nav><i>◇</i>Chuyên mục &amp; Thẻ</a>
+        <a href="#frontend" data-cms5-nav><i>◫</i>Frontend Preview</a>
+      </nav>
+      <div class="cms5-sidebar__status">
+        <span><i></i>API đã kết nối</span>
+        <small>Database và media storage đang hoạt động</small>
       </div>
-      <div class="cms5-topbar__actions">
-        <label class="cms5-search"><span>⌕</span><input type="search" placeholder="Tìm bài viết, file, thẻ..." aria-label="Tìm kiếm"></label>
-        <button class="cms5-icon-button" type="button" aria-label="Thông báo">♢<span></span></button>
-        <span class="cms5-topbar__hello">Chào, Duy</span>
+      <div class="cms5-user">
+        <img class="cms5-avatar" data-cms5-avatar alt="" hidden>
+        <span><strong data-cms5-user-name></strong><small>Administrator · GitHub</small></span>
+        <button type="button" aria-label="Đăng xuất" title="Đăng xuất" data-cms5-logout>↪</button>
       </div>
-    </header>
+    </aside>
 
-    <main class="cms5-content">
-      <section class="cms5-screen" id="dashboard">
-        <header class="cms5-page-head">
-          <div><span class="cms5-kicker">Content operations</span><h1>Tổng quan</h1><p>Theo dõi hoạt động và quản lý nội dung blog tại một nơi.</p></div>
-          <div class="cms5-page-head__actions">
-            <button class="cms5-btn cms5-btn--secondary" type="button">↗ Xem website</button>
-            <a class="cms5-btn cms5-btn--primary" href="#editor">＋ Tạo bài viết mới</a>
+    <div class="cms5-app">
+      <header class="cms5-topbar">
+        <div>
+          <button class="cms5-menu-button" type="button" aria-label="Mở menu">☰</button>
+          <span class="cms5-breadcrumb">CMS-V5 <b>/</b> Content workspace</span>
+        </div>
+        <div class="cms5-topbar__actions">
+          <label class="cms5-search"><span>⌕</span><input type="search" placeholder="Tìm bài viết, file, thẻ…" aria-label="Tìm kiếm" data-cms5-search></label>
+          <button class="cms5-icon-button" type="button" aria-label="Làm mới dữ liệu" data-cms5-refresh>↻</button>
+          <span class="cms5-topbar__hello">Chào, <b data-cms5-user-short></b></span>
+        </div>
+      </header>
+
+      <main class="cms5-content">
+        <section class="cms5-screen" id="dashboard">
+          <header class="cms5-page-head">
+            <div><span class="cms5-kicker">Content operations</span><h1>Tổng quan</h1><p>Số liệu trực tiếp từ database, nội dung blog và hoạt động độc giả.</p></div>
+            <div class="cms5-page-head__actions">
+              <a class="cms5-btn cms5-btn--secondary" href="{{ config.base_url | safe }}/" target="_blank" rel="noopener">↗ Xem website</a>
+              <button class="cms5-btn cms5-btn--primary" type="button" data-cms5-new>＋ Tạo bài viết mới</button>
+            </div>
+          </header>
+
+          <div class="cms5-notice"><span>✓</span><p><strong>CMS-V5 đang hoạt động.</strong> Bản nháp và media được lưu trên backend; chỉ thao tác “Xuất bản” mới ghi Markdown vào GitHub.</p><button type="button" aria-label="Đóng thông báo">×</button></div>
+
+          <div class="cms5-stats">
+            <article><span class="cms5-stat-icon is-blue">✎</span><div><small>Bài viết hôm nay</small><strong data-stat="posts_today">0</strong><p>Nội dung mới ghi nhận</p></div><em><b data-stat="posts_total">0</b> tổng</em></article>
+            <article><span class="cms5-stat-icon is-violet">◉</span><div><small>Lượt xem hôm nay</small><strong data-stat="views_today">0</strong><p>Đo từ trang blog</p></div><em><b data-stat="views_total">0</b> tổng</em></article>
+            <article><span class="cms5-stat-icon is-green">◌</span><div><small>Bình luận hôm nay</small><strong data-stat="comments_today">0</strong><p><b data-stat="comments_pending">0</b> chờ duyệt</p></div><em><b data-stat="comments_total">0</b> tổng</em></article>
+            <article><span class="cms5-stat-icon is-orange">↗</span><div><small>Tương tác hôm nay</small><strong data-stat="interactions_today">0</strong><p>Click nội dung + bình luận</p></div><em><b data-stat="interactions_total">0</b> tổng</em></article>
           </div>
-        </header>
 
-        <div class="cms5-notice"><span>i</span><p><strong>CMS-V5 đang ở chế độ UI Preview.</strong> Mọi dữ liệu và thao tác trên trang chỉ mang tính minh hoạ.</p><button type="button" aria-label="Đóng thông báo">×</button></div>
-
-        <div class="cms5-stats">
-          <article><span class="cms5-stat-icon is-blue">✎</span><div><small>Bài viết hôm nay</small><strong>3</strong><p><b>+12%</b> so với hôm qua</p></div><em>42 tổng</em></article>
-          <article><span class="cms5-stat-icon is-violet">◉</span><div><small>Lượt xem hôm nay</small><strong>150</strong><p><b>+8.4%</b> trong 24 giờ</p></div><em>48.2K tổng</em></article>
-          <article><span class="cms5-stat-icon is-green">◌</span><div><small>Bình luận hôm nay</small><strong>12</strong><p><b>9</b> đã duyệt</p></div><em>3 chờ duyệt</em></article>
-          <article><span class="cms5-stat-icon is-orange">↗</span><div><small>Tương tác hôm nay</small><strong>45</strong><p><b>7.9%</b> engagement</p></div><em>Ổn định</em></article>
-        </div>
-
-        <div class="cms5-dashboard-grid">
-          <section class="cms5-panel cms5-panel--posts">
-            <div class="cms5-panel__head"><div><h2>Bài viết cần xử lý</h2><p>Draft, review và lịch xuất bản gần nhất.</p></div><button class="cms5-text-button" type="button">Xem tất cả →</button></div>
-            <div class="cms5-table-scroll">
-              <table class="cms5-table">
-                <thead><tr><th>Trạng thái</th><th>Tiêu đề</th><th>Tác giả</th><th>Thời hạn</th><th></th></tr></thead>
-                <tbody>
-                  <tr><td><span class="cms5-status is-draft">● Bản nháp</span></td><td><strong>10 Mẹo Viết Blog Hấp Dẫn</strong><small>Cập nhật 12 phút trước</small></td><td><span class="cms5-mini-author"><i>DN</i>Duy</span></td><td>—</td><td><button>•••</button></td></tr>
-                  <tr><td><span class="cms5-status is-draft">● Bản nháp</span></td><td><strong>Review Sách: “Atomic Habits”</strong><small>Cập nhật 1 giờ trước</small></td><td><span class="cms5-mini-author"><i>DN</i>Duy</span></td><td>22/07/2026</td><td><button>•••</button></td></tr>
-                  <tr><td><span class="cms5-status is-review">● Chờ duyệt</span></td><td><strong>Cách CMS Headless Giúp Ích</strong><small>Gửi duyệt hôm nay</small></td><td><span class="cms5-mini-author"><i>AN</i>An</span></td><td>—</td><td><button>•••</button></td></tr>
-                  <tr><td><span class="cms5-status is-scheduled">● Đã lên lịch</span></td><td><strong>Lễ hội mùa hè 2026</strong><small>Lịch xuất bản tự động</small></td><td><span class="cms5-mini-author"><i>DN</i>Duy</span></td><td>01/08/2026</td><td><button>•••</button></td></tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-          <aside class="cms5-panel cms5-quick">
-            <div class="cms5-panel__head"><div><h2>Lối tắt nhanh</h2><p>Truy cập công cụ thường dùng.</p></div></div>
-            <div class="cms5-quick__grid">
-              <a href="#taxonomy"><i class="is-blue">◇</i><span><strong>Chuyên mục</strong><small>4 chuyên mục</small></span><b>›</b></a>
-              <a href="#media"><i class="is-green">▧</i><span><strong>Thư viện ảnh</strong><small>128 tệp</small></span><b>›</b></a>
-              <a href="#taxonomy"><i class="is-violet">#</i><span><strong>Quản lý thẻ</strong><small>32 thẻ</small></span><b>›</b></a>
-              <a href="#settings"><i class="is-orange">⚙</i><span><strong>Cài đặt</strong><small>Blog &amp; xuất bản</small></span><b>›</b></a>
-            </div>
-          </aside>
-        </div>
-
-        <section class="cms5-architecture">
-          <div class="cms5-architecture__side"><span>01</span><div><small>CƠ THỂ</small><strong>Content Backend</strong><p>Quản trị nội dung, media, taxonomy và lịch xuất bản.</p></div></div>
-          <div class="cms5-architecture__flow"><i>API</i><span>→</span><small>Mock data flow</small></div>
-          <div class="cms5-architecture__side"><span>02</span><div><small>ĐẦU</small><strong>Presentation Frontend</strong><p>Nhận dữ liệu và hiển thị độc lập trên mọi thiết bị.</p></div></div>
+          <div class="cms5-dashboard-grid">
+            <section class="cms5-panel cms5-panel--posts">
+              <div class="cms5-panel__head"><div><h2>Bài viết cần xử lý</h2><p>Bản nháp, chờ duyệt và lịch xuất bản.</p></div><button class="cms5-text-button" type="button" data-cms5-refresh>Đồng bộ →</button></div>
+              <div class="cms5-table-scroll">
+                <table class="cms5-table">
+                  <thead><tr><th>Trạng thái</th><th>Tiêu đề</th><th>Tác giả</th><th>Thời hạn</th><th></th></tr></thead>
+                  <tbody data-cms5-post-queue><tr><td colspan="5">Đang tải dữ liệu…</td></tr></tbody>
+                </table>
+              </div>
+            </section>
+            <aside class="cms5-panel cms5-quick">
+              <div class="cms5-panel__head"><div><h2>Lối tắt nhanh</h2><p>Dữ liệu quản trị hiện có.</p></div></div>
+              <div class="cms5-quick__grid">
+                <a href="#taxonomy"><i class="is-blue">◇</i><span><strong>Chuyên mục</strong><small><b data-count="categories">0</b> chuyên mục</small></span><b>›</b></a>
+                <a href="#media"><i class="is-green">▧</i><span><strong>Thư viện media</strong><small><b data-count="media">0</b> tệp</small></span><b>›</b></a>
+                <a href="#taxonomy"><i class="is-violet">#</i><span><strong>Quản lý thẻ</strong><small><b data-count="tags">0</b> thẻ</small></span><b>›</b></a>
+              </div>
+            </aside>
+          </div>
         </section>
-      </section>
 
-      <section class="cms5-screen" id="editor">
-        <header class="cms5-page-head">
-          <div><span class="cms5-kicker">Block Editor</span><h2>Soạn thảo bài viết mới</h2><p>Tập trung vào nội dung; giao diện website được xử lý độc lập.</p></div>
-          <div class="cms5-save-state"><i></i>Đã lưu bản nháp lúc 10:24</div>
-        </header>
-        <div class="cms5-editor-layout">
-          <article class="cms5-editor">
-            <div class="cms5-editor__fields">
-              <label><span>Tiêu đề bài viết</span><input value="Cách CMS Headless Thay Đổi Blog Của Tôi" aria-label="Tiêu đề bài viết"></label>
-              <label><span>Mô tả ngắn (Excerpt)</span><textarea rows="2" aria-label="Mô tả ngắn">Lợi ích của việc tách biệt nội dung khỏi giao diện trình bày trong một hệ thống blog hiện đại.</textarea></label>
-            </div>
-            <div class="cms5-editor__toolbar"><div><button type="button">＋ Thêm khối</button><button type="button">☷ Danh sách khối</button></div><button type="button">◉ Xem trước</button></div>
-            <div class="cms5-blocks">
-              <div class="cms5-block"><span class="cms5-block__handle">⠿</span><span class="cms5-block__type">T</span><div><small>Khối văn bản</small><p>Trong thế giới blog ngày nay, việc quản lý nội dung hiệu quả đòi hỏi một kiến trúc linh hoạt và dễ mở rộng. Headless CMS giúp người viết tập trung vào câu chuyện.</p></div><button>•••</button></div>
-              <div class="cms5-block"><span class="cms5-block__handle">⠿</span><span class="cms5-block__type is-image">▧</span><div><small>Khối hình ảnh</small><div class="cms5-image-placeholder"><span>▧</span><strong>Chọn ảnh từ thư viện</strong><em>hoặc kéo thả tệp vào đây</em></div></div><button>•••</button></div>
-              <div class="cms5-block"><span class="cms5-block__handle">⠿</span><span class="cms5-block__type is-heading">H</span><div><small>Khối tiêu đề phụ</small><h3>Lợi ích số 1: Linh hoạt</h3></div><button>•••</button></div>
-              <div class="cms5-block"><span class="cms5-block__handle">⠿</span><span class="cms5-block__type is-quote">❝</span><div><small>Khối trích dẫn</small><blockquote>“Nội dung là vua, nhưng cách chúng ta quản lý nội dung quyết định khả năng phát triển.”</blockquote></div><button>•••</button></div>
-              <div class="cms5-block"><span class="cms5-block__handle">⠿</span><span class="cms5-block__type is-list">☷</span><div><small>Khối danh sách</small><ul><li>Dễ dàng thay đổi giao diện</li><li>Bảo vệ dữ liệu nội dung an toàn</li><li>Phân phối trên nhiều nền tảng</li></ul></div><button>•••</button></div>
-              <button class="cms5-add-block" type="button">＋ <span>Thêm một khối nội dung</span></button>
-            </div>
-          </article>
-          <aside class="cms5-editor-settings">
-            <div class="cms5-editor-settings__head"><h3>Thiết lập bài viết</h3><button type="button">×</button></div>
-            <label><span>Chuyên mục</span><select><option>Công nghệ</option></select></label>
-            <label><span>Thẻ</span><div class="cms5-tags-input"><b>CMS ×</b><b>Blog ×</b><b>Headless ×</b><button>＋</button></div></label>
-            <label><span>Ảnh đại diện</span><button class="cms5-featured" type="button"><i>▧</i><b>Chọn ảnh đại diện</b><small>1200 × 630px đề xuất</small></button></label>
-            <label><span>Tác giả</span><button class="cms5-author-select" type="button"><i>DN</i><span><b>Duy Nguyen</b><small>Administrator</small></span><em>⌄</em></button></label>
-            <div class="cms5-setting-row"><span><b>Xuất bản ngay</b><small>Tự động sau khi duyệt</small></span><label class="cms5-switch"><input type="checkbox" checked><i></i></label></div>
-            <label><span>Ngày xuất bản</span><input type="text" value="01/07/2026 · 20:00"></label>
-            <fieldset><legend>Trạng thái hiển thị</legend><label><input type="radio" name="visibility" checked>Công khai</label><label><input type="radio" name="visibility">Riêng tư</label><label><input type="radio" name="visibility">Mật khẩu</label></fieldset>
-          </aside>
-        </div>
-        <footer class="cms5-editor-actions"><div><button class="cms5-btn cms5-btn--secondary" type="button">Lưu bản nháp</button><button class="cms5-btn cms5-btn--secondary" type="button">◉ Xem trước trên Web</button></div><div><button class="cms5-btn cms5-btn--secondary" type="button">Gửi duyệt</button><button class="cms5-btn cms5-btn--primary" type="button">Xuất bản</button></div></footer>
-      </section>
-
-      <section class="cms5-screen" id="media">
-        <header class="cms5-page-head">
-          <div><span class="cms5-kicker">Asset management</span><h2>Thư viện đa phương tiện</h2><p>Lưu trữ và tổ chức ảnh, video, âm thanh và file tài liệu.</p></div>
-          <div class="cms5-page-head__actions"><button class="cms5-btn cms5-btn--secondary" type="button">＋ Tạo thư mục</button><button class="cms5-btn cms5-btn--primary" type="button">Tải file lên</button></div>
-        </header>
-        <div class="cms5-storage"><div><span><b style="width:48%"></b></span><p><strong>2.4 GB</strong> trong tổng số 5 GB đã sử dụng</p></div><small>48%</small></div>
-        <div class="cms5-media-toolbar"><label class="cms5-search"><span>⌕</span><input placeholder="Tìm kiếm trong thư viện..."></label><div><button class="is-active">▦</button><button>☷</button><select><option>Ngày tải lên gần nhất</option></select></div></div>
-        <div class="cms5-media-grid">
-          <article><div class="cms5-media-thumb is-one"><span>🏙</span><i>✓</i></div><h3>anh-minh-hoa-1.jpg</h3><p>1.2 MB · 1200×800</p></article>
-          <article><div class="cms5-media-thumb is-two"><span>🌿</span></div><h3>anh-minh-hoa-2.jpg</h3><p>920 KB · 1200×800</p></article>
-          <article><div class="cms5-media-thumb is-video"><span>▶</span><em>02:18</em></div><h3>video-review.mp4</h3><p>48.5 MB · 1920×1080</p></article>
-          <article><div class="cms5-media-thumb is-book"><span>BOOK<br><b>ATOMIC<br>HABITS</b></span></div><h3>bia-sach-atomic.png</h3><p>780 KB · 800×1200</p></article>
-          <article><div class="cms5-media-thumb is-chart"><span>▥</span></div><h3>bieu-do-data.png</h3><p>640 KB · 1600×900</p></article>
-          <article><div class="cms5-media-thumb is-audio"><span>♫</span><em>04:32</em></div><h3>nhac-nen-podcast.mp3</h3><p>6.8 MB · MP3 Audio</p></article>
-          <article><div class="cms5-media-thumb is-doc"><span>PDF</span></div><h3>ebook-blog-guide.pdf</h3><p>3.4 MB · 24 trang</p></article>
-          <button class="cms5-media-upload" type="button"><span>＋</span><strong>Thêm file mới</strong><small>Ảnh, video, audio hoặc tài liệu</small></button>
-        </div>
-        <footer class="cms5-selection-bar"><span><i>✓</i><strong>1 file đã chọn</strong><small>anh-minh-hoa-1.jpg</small></span><div><button class="cms5-btn cms5-btn--secondary">Sửa thông tin</button><button class="cms5-btn cms5-btn--danger">Xóa</button><button class="cms5-btn cms5-btn--primary">Chèn vào bài viết</button></div></footer>
-      </section>
-
-      <section class="cms5-screen" id="taxonomy">
-        <header class="cms5-page-head">
-          <div><span class="cms5-kicker">Content structure</span><h2>Chuyên mục và Thẻ</h2><p>Sắp xếp nội dung blog rõ ràng, nhất quán và dễ tìm kiếm.</p></div>
-          <div class="cms5-page-head__actions"><button class="cms5-btn cms5-btn--secondary">＋ Thêm thẻ</button><button class="cms5-btn cms5-btn--primary">＋ Thêm chuyên mục</button></div>
-        </header>
-        <div class="cms5-tax-grid">
-          <section class="cms5-panel">
-            <div class="cms5-panel__head"><div><h2>Chuyên mục</h2><p>4 chuyên mục · 40 bài viết</p></div><label class="cms5-search is-small"><span>⌕</span><input placeholder="Tìm chuyên mục"></label></div>
-            <table class="cms5-table cms5-tax-table">
-              <thead><tr><th>Tên chuyên mục</th><th>Slug</th><th>Số bài</th><th>Thao tác</th></tr></thead>
-              <tbody>
-                <tr><td><span class="cms5-category"><i class="is-blue">C</i><span><strong>Công nghệ</strong><small>AI, phần mềm và kỹ thuật số</small></span></span></td><td><code>cong-nghe</code></td><td><b>15</b></td><td><button>✎</button><button>⌫</button></td></tr>
-                <tr><td><span class="cms5-category"><i class="is-green">Đ</i><span><strong>Đời sống</strong><small>Câu chuyện và trải nghiệm</small></span></span></td><td><code>doi-song</code></td><td><b>8</b></td><td><button>✎</button><button>⌫</button></td></tr>
-                <tr><td><span class="cms5-category"><i class="is-red">R</i><span><strong>Review sách</strong><small>Đánh giá và ghi chú đọc</small></span></span></td><td><code>review-sach</code></td><td><b>5</b></td><td><button>✎</button><button>⌫</button></td></tr>
-                <tr><td><span class="cms5-category"><i class="is-orange">B</i><span><strong>Hướng dẫn Blog</strong><small>Kinh nghiệm xây dựng blog</small></span></span></td><td><code>huong-dan-blog</code></td><td><b>12</b></td><td><button>✎</button><button>⌫</button></td></tr>
-              </tbody>
-            </table>
-          </section>
-          <aside class="cms5-panel cms5-tag-cloud">
-            <div class="cms5-panel__head"><div><h2>Thẻ phổ biến</h2><p>32 thẻ đang được sử dụng</p></div></div>
-            <div><button><span>#CMS</span><b>20</b></button><button><span>#SEO</span><b>15</b></button><button><span>#Headless</span><b>12</b></button><button><span>#WordPress</span><b>8</b></button><button><span>#Review</span><b>7</b></button><button><span>#Blog</span><b>18</b></button><button><span>#Content</span><b>14</b></button><button><span>#Marketing</span><b>9</b></button><button><span>#AI</span><b>11</b></button></div>
-            <button class="cms5-btn cms5-btn--secondary">Quản lý tất cả thẻ →</button>
-          </aside>
-        </div>
-      </section>
-
-      <section class="cms5-screen" id="frontend">
-        <header class="cms5-page-head">
-          <div><span class="cms5-kicker">Presentation layer</span><h2>Frontend Preview</h2><p>Giao diện độc giả độc lập hoàn toàn với CMS và Block Editor.</p></div>
-          <div class="cms5-device-switch"><button class="is-active">▱ Desktop</button><button>▯ Tablet</button><button>▯ Mobile</button></div>
-        </header>
-        <div class="cms5-browser">
-          <div class="cms5-browser__bar"><span></span><span></span><span></span><div>seomoney.org</div><button>↗</button></div>
-          <div class="cms5-site-preview">
-            <header><strong><i>S</i>SEOMONEY</strong><nav><a>Trang chủ</a><a>Công nghệ</a><a>Đời sống</a><a>Giới thiệu</a></nav><button>⌕</button></header>
-            <main>
-              <section class="cms5-site-main">
-                <span class="cms5-site-label">BÀI VIẾT NỔI BẬT</span>
-                <article class="cms5-feature-post"><div><span>HEADLESS<br>CMS</span></div><section><small>CÔNG NGHỆ · 20/07/2026</small><h3>Cách CMS Headless Thay Đổi Blog Của Tôi</h3><p>Khám phá lợi ích của việc tách biệt nội dung khỏi giao diện trình bày và cách nó giúp blog phát triển bền vững.</p><a>Đọc tiếp →</a></section></article>
-                <div class="cms5-latest-head"><h3>Bài viết mới nhất</h3><a>Xem tất cả →</a></div>
-                <div class="cms5-post-grid">
-                  <article><div class="is-tips">10<br><span>IDEAS</span></div><small>HƯỚNG DẪN BLOG</small><h4>10 Mẹo Viết Blog Hấp Dẫn</h4><p>20/07/2026</p></article>
-                  <article><div class="is-atomic">ATOMIC<br><span>HABITS</span></div><small>REVIEW SÁCH</small><h4>Review: Atomic Habits</h4><p>18/07/2026</p></article>
-                  <article><div class="is-summer">SUMMER<br><span>2026</span></div><small>ĐỜI SỐNG</small><h4>Lễ hội mùa hè 2026</h4><p>15/07/2026</p></article>
-                  <article><div class="is-seo">SEO<br><span>BASICS</span></div><small>CÔNG NGHỆ</small><h4>Hướng dẫn SEO cơ bản</h4><p>12/07/2026</p></article>
+        <section class="cms5-screen" id="editor">
+          <header class="cms5-page-head">
+            <div><span class="cms5-kicker">Block Editor</span><h2 data-cms5-editor-heading>Soạn thảo bài viết mới</h2><p>Nhập hoặc dán nội dung trực tiếp. CMS không tự viết nội dung bằng AI.</p></div>
+            <div class="cms5-save-state"><i></i><span data-cms5-save-state>Chưa lưu</span></div>
+          </header>
+          <form data-cms5-editor-form>
+            <input type="hidden" data-cms5-post-id>
+            <div class="cms5-editor-layout">
+              <article class="cms5-editor">
+                <div class="cms5-editor__fields">
+                  <label><span>Tiêu đề bài viết</span><input required placeholder="Nhập tiêu đề" aria-label="Tiêu đề bài viết" data-cms5-title></label>
+                  <label><span>Mô tả ngắn (Excerpt)</span><textarea rows="2" maxlength="500" placeholder="Tóm tắt ngắn cho trang danh sách và SEO" data-cms5-excerpt></textarea></label>
                 </div>
-              </section>
-              <aside class="cms5-site-sidebar"><section><h4>Chuyên mục</h4><a>Công nghệ <b>15</b></a><a>Đời sống <b>8</b></a><a>Review sách <b>5</b></a><a>Hướng dẫn Blog <b>12</b></a></section><section><h4>Bài viết xem nhiều</h4><a><i>1</i>Cách chọn theme blog</a><a><i>2</i>Lợi ích của Headless CMS</a><a><i>3</i>Viết nội dung chuẩn SEO</a></section></aside>
-            </main>
-            <footer><span>© 2026 SEOMONEY</span><nav>Liên hệ · Chính sách bảo mật</nav></footer>
-          </div>
-        </div>
-      </section>
+                <div class="cms5-editor__toolbar">
+                  <div>
+                    <button type="button" data-add-block="text">＋ Văn bản</button>
+                    <button type="button" data-add-block="heading">H Tiêu đề</button>
+                    <button type="button" data-add-block="quote">❝ Trích dẫn</button>
+                    <button type="button" data-add-block="list">☷ Danh sách</button>
+                    <button type="button" data-add-block="image">▧ Ảnh</button>
+                  </div>
+                  <button type="button" data-cms5-show-preview>◉ Xem trước</button>
+                </div>
+                <div class="cms5-blocks" data-cms5-blocks></div>
+              </article>
+              <aside class="cms5-editor-settings">
+                <div class="cms5-editor-settings__head"><h3>Thiết lập bài viết</h3><button type="button" data-cms5-reset>×</button></div>
+                <label><span>Slug</span><input type="text" placeholder="tu-dong-tu-tieu-de" data-cms5-slug></label>
+                <label><span>Chuyên mục</span><select data-cms5-category><option value="">Chọn chuyên mục</option></select></label>
+                <label><span>Thẻ</span><input type="text" placeholder="CMS, Blog, SEO" data-cms5-tags></label>
+                <label><span>Ảnh đại diện</span><button class="cms5-featured" type="button" data-cms5-featured><i>▧</i><b>Chọn ảnh từ thư viện</b><small data-cms5-featured-name>1200 × 630px đề xuất</small></button></label>
+                <label><span>Trạng thái lưu</span><select data-cms5-status><option value="draft">Bản nháp</option><option value="review">Chờ duyệt</option><option value="scheduled">Đã lên lịch</option></select></label>
+                <label data-cms5-schedule-wrap hidden><span>Ngày xuất bản</span><input type="datetime-local" data-cms5-scheduled-at></label>
+                <label><span>Hiển thị</span><select data-cms5-visibility><option value="public">Công khai</option><option value="private">Riêng tư</option></select></label>
+              </aside>
+            </div>
+            <footer class="cms5-editor-actions">
+              <div><button class="cms5-btn cms5-btn--secondary" type="submit">Lưu bài viết</button><button class="cms5-btn cms5-btn--secondary" type="button" data-cms5-show-preview>◉ Xem trước trên Web</button></div>
+              <div><button class="cms5-btn cms5-btn--secondary" type="button" data-cms5-review>Gửi duyệt</button><button class="cms5-btn cms5-btn--primary" type="button" data-cms5-publish>Xuất bản</button></div>
+            </footer>
+          </form>
+        </section>
 
-      <section class="cms5-screen cms5-coming" id="authors"><span>♙</span><h2>Quản lý tác giả</h2><p>Module đang được thiết kế. Đây chỉ là placeholder UI.</p></section>
-      <section class="cms5-screen cms5-coming" id="settings"><span>⚙</span><h2>Cài đặt hệ thống</h2><p>Module đang được thiết kế. Đây chỉ là placeholder UI.</p></section>
-    </main>
+        <section class="cms5-screen" id="media">
+          <header class="cms5-page-head">
+            <div><span class="cms5-kicker">Asset management</span><h2>Thư viện đa phương tiện</h2><p>Upload, xem trước và quản lý ảnh, video, audio, PDF.</p></div>
+            <div class="cms5-page-head__actions"><button class="cms5-btn cms5-btn--primary" type="button" data-cms5-open-upload>Tải file lên</button></div>
+          </header>
+          <input type="file" accept="image/*,video/mp4,video/webm,audio/*,application/pdf" multiple hidden data-cms5-file-input>
+          <div class="cms5-storage"><div><span><b data-cms5-storage-bar style="width:0"></b></span><p><strong data-cms5-storage-used>0 B</strong> đã sử dụng trên persistent storage</p></div><small data-cms5-storage-percent>0%</small></div>
+          <div class="cms5-media-toolbar"><label class="cms5-search"><span>⌕</span><input placeholder="Tìm kiếm trong thư viện…" data-cms5-media-search></label><div><button class="is-active" type="button">▦ Grid</button></div></div>
+          <div class="cms5-media-grid" data-cms5-media-grid>
+            <button class="cms5-media-upload" type="button" data-cms5-dropzone><span>＋</span><strong>Kéo thả hoặc chọn file</strong><small>Ảnh, video, audio hoặc PDF · tối đa 30 MB/file</small></button>
+          </div>
+        </section>
+
+        <section class="cms5-screen" id="taxonomy">
+          <header class="cms5-page-head">
+            <div><span class="cms5-kicker">Content structure</span><h2>Chuyên mục và Thẻ</h2><p>Taxonomy được lưu trong database và gắn trực tiếp với bài viết.</p></div>
+            <div class="cms5-page-head__actions"><button class="cms5-btn cms5-btn--secondary" type="button" data-cms5-add-tag>＋ Thêm thẻ</button><button class="cms5-btn cms5-btn--primary" type="button" data-cms5-add-category>＋ Thêm chuyên mục</button></div>
+          </header>
+          <div class="cms5-tax-grid">
+            <section class="cms5-panel">
+              <div class="cms5-panel__head"><div><h2>Chuyên mục</h2><p><b data-tax-count="categories">0</b> chuyên mục</p></div></div>
+              <div class="cms5-table-scroll">
+                <table class="cms5-table cms5-tax-table">
+                  <thead><tr><th>Tên chuyên mục</th><th>Slug</th><th>Số bài</th><th>Thao tác</th></tr></thead>
+                  <tbody data-cms5-categories><tr><td colspan="4">Đang tải…</td></tr></tbody>
+                </table>
+              </div>
+            </section>
+            <aside class="cms5-panel cms5-tag-cloud">
+              <div class="cms5-panel__head"><div><h2>Thẻ</h2><p><b data-tax-count="tags">0</b> thẻ đang quản lý</p></div></div>
+              <div data-cms5-tags-cloud></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="cms5-screen" id="frontend">
+          <header class="cms5-page-head">
+            <div><span class="cms5-kicker">Presentation layer</span><h2>Frontend Preview</h2><p>Preview dùng cấu trúc bài viết thật của blog và cập nhật từ Block Editor.</p></div>
+            <div class="cms5-device-switch"><button class="is-active" type="button" data-preview-size="desktop">▱ Desktop</button><button type="button" data-preview-size="tablet">▯ Tablet</button><button type="button" data-preview-size="mobile">▯ Mobile</button></div>
+          </header>
+          <div class="cms5-browser" data-cms5-preview-frame>
+            <div class="cms5-browser__bar"><span></span><span></span><span></span><div data-cms5-preview-url>seomoney.org/preview</div><a href="#" target="_blank" rel="noopener" data-cms5-live-url>↗</a></div>
+            <div class="cms5-site-preview cms5-post-preview">
+              <header><strong><i>S</i>SEOMONEY</strong><nav><a>Trang chủ</a><a>Công nghệ</a><a>Đời sống</a><a>Giới thiệu</a></nav><button>⌕</button></header>
+              <main>
+                <article class="post-single">
+                  <div class="post-single__hero" data-cms5-preview-hero></div>
+                  <header class="post-single__header">
+                    <nav class="breadcrumb"><ol class="breadcrumb__list"><li>Trang chủ</li><li data-cms5-preview-category>Chuyên mục</li></ol></nav>
+                    <h1 class="post-single__title" data-cms5-preview-title>Tiêu đề bài viết</h1>
+                    <div class="post-meta"><span class="post-meta__chip">SEOMONEY</span><span class="post-meta__chip" data-cms5-preview-date></span></div>
+                    <p data-cms5-preview-excerpt></p>
+                  </header>
+                  <div class="post-single__content" data-cms5-preview-content><p>Nội dung preview sẽ xuất hiện tại đây.</p></div>
+                </article>
+              </main>
+              <footer><span>© 2026 SEOMONEY</span><nav>Liên hệ · Chính sách bảo mật</nav></footer>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
   </div>
+
+  <div class="cms5-toast" role="status" aria-live="polite" data-cms5-toast hidden></div>
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+  {{ super() }}
+  <script src="{{ get_url(path='js/cms-v5.js') }}?v={{ config.extra.asset_version | default(value='1') }}" defer></script>
 {% endblock %}
