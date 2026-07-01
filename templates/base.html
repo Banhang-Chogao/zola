@@ -298,6 +298,8 @@
             {% set m = load_data(path="data/tiet-kiem-tu-dong-cua-ngan-hang-liobank-bd55c9-series.json", required=false) %}
         {% elif page.extra.series == "xgboost-model-la-gi" %}
             {% set m = load_data(path="data/xgboost-model-la-gi-series.json", required=false) %}
+        {% elif page.extra.series == "tra-cuu-diem-thi-thpt-2026" %}
+            {% set m = load_data(path="data/tra-cuu-diem-thi-thpt-2026-series.json", required=false) %}
         {% else %}
             {% set m = false %}
         {% endif %}
