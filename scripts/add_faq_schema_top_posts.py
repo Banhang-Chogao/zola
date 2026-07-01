@@ -141,20 +141,32 @@ def load_top_posts() -> List[Dict]:
     top_posts = data.get("top_adsense_candidates", [])[:20]
     return top_posts
 
-def extract_slug_from_url(url: str) -> str:
-    """Extract slug from seomoney.org URL."""
-    # Expected: https://seomoney.org/posting/{slug}/
-    match = re.search(r'/posting/([^/]+)/?$', url)
-    if match:
-        return match.group(1)
-    return ""
+def extract_slug_from_url(url: str) -> Tuple[str, str]:
+    """Extract (section, slug) from seomoney.org URL.
 
-def find_post_file(slug: str) -> Optional[Path]:
-    """Find the markdown file for a post slug."""
-    posting_dir = Path("content/posting")
-    post_file = posting_dir / f"{slug}.md"
-    if post_file.exists():
-        return post_file
+    Supports migrated paths: /ngan-hang/slug/, /cong-nghe/slug/, legacy /posting/slug/.
+    """
+    match = re.search(r'https?://[^/]+/(?:zola/)?([^/]+)/([^/]+)/?$', url)
+    if match:
+        return match.group(1), match.group(2)
+    return "", ""
+
+
+def find_post_file(slug: str, section: str = "") -> Optional[Path]:
+    """Find markdown file for slug across content/** (post-migration layout)."""
+    content = Path("content")
+    if section:
+        candidate = content / section / f"{slug}.md"
+        if candidate.exists():
+            return candidate
+    matches = sorted(content.glob(f"**/{slug}.md"))
+    # Prefer non-pages, non-_index paths
+    for path in matches:
+        if path.name == "_index.md":
+            continue
+        if "/pages/" in path.as_posix():
+            continue
+        return path
     return None
 
 def parse_frontmatter(content: str) -> Tuple[Dict, str]:
@@ -271,16 +283,16 @@ def main():
         print(f"    URL: {url}")
         print(f"    Category: {category}")
 
-        # Extract slug and find file
-        slug = extract_slug_from_url(url)
+        # Extract section/slug and find file
+        section, slug = extract_slug_from_url(url)
         if not slug:
             print(f"    ❌ Could not extract slug from URL")
             audit_report["failed"] += 1
             continue
 
-        post_file = find_post_file(slug)
+        post_file = find_post_file(slug, section)
         if not post_file:
-            print(f"    ❌ Post file not found: content/posting/{slug}.md")
+            print(f"    ❌ Post file not found for slug={slug} section={section or 'any'}")
             audit_report["failed"] += 1
             continue
 
@@ -315,14 +327,17 @@ def main():
                 audit_report["updated"] += 1
 
         # Record in audit
+        existing_faq = content.count('[[extra.faq]]') if has_faq else 0
         audit_report["posts"].append({
             "title": title,
             "url": url,
             "slug": slug,
+            "section": section,
             "category": category,
             "file": str(post_file),
-            "faq_count": len(faq_items),
-            "status": "updated" if args.apply else "pending"
+            "faq_count": existing_faq if has_faq else len(faq_items),
+            "has_faq": has_faq,
+            "status": "skipped" if has_faq else ("updated" if args.apply else "pending")
         })
 
         print()

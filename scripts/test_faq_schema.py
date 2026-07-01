@@ -25,7 +25,7 @@ class TestFAQSchema(unittest.TestCase):
 
     def test_visible_faq_block_renders(self):
         """FAQ section renders when extra.faq exists."""
-        post_file = Path("public/posting/vietinbank-v-plus-chi-tiet-quyen-loi/index.html")
+        post_file = Path("public/ngan-hang/vietinbank-v-plus-chi-tiet-quyen-loi/index.html")
         self.assertTrue(post_file.exists(), "Post file should exist")
 
         content = post_file.read_text(encoding='utf-8')
@@ -38,7 +38,7 @@ class TestFAQSchema(unittest.TestCase):
 
     def test_json_ld_faqpage_renders(self):
         """JSON-LD FAQPage schema renders when extra.faq exists."""
-        post_file = Path("public/posting/vietinbank-v-plus-chi-tiet-quyen-loi/index.html")
+        post_file = Path("public/ngan-hang/vietinbank-v-plus-chi-tiet-quyen-loi/index.html")
         content = post_file.read_text(encoding='utf-8')
 
         # Check JSON-LD schema exists
@@ -49,7 +49,7 @@ class TestFAQSchema(unittest.TestCase):
 
     def test_json_ld_is_valid_json(self):
         """JSON-LD FAQPage is valid JSON."""
-        post_file = Path("public/posting/vietinbank-v-plus-chi-tiet-quyen-loi/index.html")
+        post_file = Path("public/ngan-hang/vietinbank-v-plus-chi-tiet-quyen-loi/index.html")
         content = post_file.read_text(encoding='utf-8')
 
         # Extract all JSON-LD scripts and find FAQPage
@@ -74,7 +74,7 @@ class TestFAQSchema(unittest.TestCase):
 
     def test_json_ld_matches_visible_faq(self):
         """JSON-LD questions/answers match visible FAQ."""
-        post_file = Path("public/posting/vietinbank-v-plus-chi-tiet-quyen-loi/index.html")
+        post_file = Path("public/ngan-hang/vietinbank-v-plus-chi-tiet-quyen-loi/index.html")
         content = post_file.read_text(encoding='utf-8')
 
         # Extract all JSON-LD scripts and find FAQPage
@@ -117,16 +117,17 @@ class TestFAQSchema(unittest.TestCase):
     def test_no_faq_schema_when_no_faq(self):
         """No FAQ schema renders when no FAQ exists."""
         # Find a post without FAQ
-        posting_dir = Path("content/posting")
+        content_dir = Path("content")
         found_no_faq = False
 
-        for post_file in list(posting_dir.glob("*.md"))[:5]:
+        for post_file in list(content_dir.glob("**/*.md"))[:30]:
             content = post_file.read_text(encoding='utf-8')
             if "[[extra.faq]]" not in content:
                 found_no_faq = True
                 # Build path to public HTML
                 slug = post_file.stem
-                public_file = Path(f"public/posting/{slug}/index.html")
+                rel = post_file.relative_to(content_dir)
+                public_file = Path("public") / rel.parent / slug / "index.html"
 
                 if public_file.exists():
                     html = public_file.read_text(encoding='utf-8')
@@ -139,7 +140,7 @@ class TestFAQSchema(unittest.TestCase):
 
     def test_no_zola_in_faq_urls(self):
         """No /zola/ URLs appear in FAQ output."""
-        post_file = Path("public/posting/vietinbank-v-plus-chi-tiet-quyen-loi/index.html")
+        post_file = Path("public/ngan-hang/vietinbank-v-plus-chi-tiet-quyen-loi/index.html")
         content = post_file.read_text(encoding='utf-8')
 
         # Search for /zola/ in FAQ section
@@ -171,7 +172,7 @@ class TestFAQSchema(unittest.TestCase):
 
     def test_faq_answers_are_reasonable_length(self):
         """FAQ answers are between 40-200 words."""
-        post_file = Path("content/posting/vietinbank-v-plus-chi-tiet-quyen-loi.md")
+        post_file = Path("content/ngan-hang/vietinbank-v-plus-chi-tiet-quyen-loi.md")
         if not post_file.exists():
             self.skipTest("Test post not found")
 
@@ -194,7 +195,7 @@ class TestFAQSchema(unittest.TestCase):
 
     def test_faq_frontmatter_valid_toml(self):
         """FAQ frontmatter is valid TOML format."""
-        post_file = Path("content/posting/vietinbank-v-plus-chi-tiet-quyen-loi.md")
+        post_file = Path("content/ngan-hang/vietinbank-v-plus-chi-tiet-quyen-loi.md")
         content = post_file.read_text(encoding='utf-8')
 
         # Check TOML structure
@@ -215,13 +216,13 @@ class TestFAQIntegration(unittest.TestCase):
     def test_multiple_posts_have_faq_rendering(self):
         """Multiple posts render FAQ correctly."""
         test_posts = [
-            "vietinbank-v-plus-chi-tiet-quyen-loi",
-            "bao-lau-de-thay-ket-qua-seo",
-            "uranium-lam-giau-la-gi",
+            ("ngan-hang", "vietinbank-v-plus-chi-tiet-quyen-loi"),
+            ("cong-nghe", "bao-lau-de-thay-ket-qua-seo"),
+            ("khoa-hoc", "uranium-lam-giau-la-gi"),
         ]
 
-        for slug in test_posts:
-            post_file = Path(f"public/posting/{slug}/index.html")
+        for section, slug in test_posts:
+            post_file = Path(f"public/{section}/{slug}/index.html")
             if not post_file.exists():
                 continue
 
@@ -235,7 +236,7 @@ class TestFAQIntegration(unittest.TestCase):
 
     def test_faq_css_classes_exist(self):
         """FAQ CSS classes are properly used."""
-        post_file = Path("public/posting/vietinbank-v-plus-chi-tiet-quyen-loi/index.html")
+        post_file = Path("public/ngan-hang/vietinbank-v-plus-chi-tiet-quyen-loi/index.html")
         content = post_file.read_text(encoding='utf-8')
 
         # Check CSS classes
