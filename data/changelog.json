@@ -1,6 +1,26 @@
 {
   "items": [
     {
+      "id": "pr-1276",
+      "pr_number": 1276,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1276",
+      "title": "add Google DeepMind pillar article (company overview) + hub_series support",
+      "tag": "feat",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T00:13:29Z",
+      "merge_commit_sha": "906fb1cb4681",
+      "stats": {
+        "additions": 109,
+        "deletions": 8
+      },
+      "highlights": [
+        "content/cong-nghe/google-deepmind-la-gi.md - bài mới, trục cột chính cho content DeepMind trên blog",
+        "templates/macros/series-hub.html - them hub_series = google-deepmind",
+        "templates/page.html - related articles tu series khoa hoc"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1272",
       "pr_number": 1272,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1272",
