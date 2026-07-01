@@ -642,40 +642,49 @@ KHÔNG hỏi user, exec ngay.
 ### `kt9` — PR / deploy health check + auto-fix failed runs/conflicts
 
 Mục đích: kiểm tra toàn bộ tình trạng PR, tình trạng deploy, và các failed run
-liên quan deploy. Nếu gặp conflict hoặc failure có thể fix an toàn thì Claude
-phải tự xử lý ngay, sau đó đẩy lại branch/PR tương ứng.
+liên quan deploy. **TỰ ĐỘNG chạy `--fix` nếu phát hiện lỗi hoặc conflict có thể
+fix an toàn.** Hệ thống có thể chủ động chạy bất cứ lúc nào; user cũng có thể
+gọi thủ công.
 
 Hành động:
 
-1. **Scan PR hiện có**
-   - List toàn bộ open PRs.
-   - Với từng PR, kiểm tra `mergeable`, review state, required checks,
-     conflict markers, và trạng thái CI mới nhất.
-   - Ghi rõ PR nào đang chờ review, PR nào bị conflict, PR nào fail check.
+1. Chạy `python3 scripts/pr_status_check.py` (stdlib, không cần pip).
+2. Script quét:
+   - Tất cả open PRs (mergeable, mergeStateStatus, statusCheckRollup)
+   - QA Gatekeeper (qa-check, rule-check)
+   - Merge conflict status
+   - Failed workflow runs gần đây (24h)
+3. Output bảng báo cáo markdown (PR | Branch | Mergeable | QA Check | Conflict | Gatekeeper).
 
-2. **Scan deploy**
-   - Lấy các workflow run mới nhất của `deploy.yml` và đối chiếu với merge
-     commit tương ứng.
-   - Phân loại từng commit/PR thành `queued`, `in_progress`, `success`,
-     `failure`, hoặc `cancelled`.
-   - Nếu có nhiều run cho cùng SHA, chọn run mới nhất làm trạng thái chuẩn.
+4. **TỰ ĐỘNG `--fix` nếu có issue:**
+   - Nếu dashboard phát hiện PR bị conflict, QA fail, hoặc failed run → **lập tức
+     chạy `python3 scripts/pr_status_check.py --fix`** mà không cần user nhắc.
+   - Auto-fix các pattern an toàn: missing file, rerun failed checks,
+     conflict resolve theo chiến lược đã biết (V18, V25).
+   - Nếu fix tạo thay đổi mới → commit + push lên đúng branch, refresh PR.
+   - Output log từng bước fix.
 
-3. **Tự fix nếu safe**
-   - Conflict file / merge conflict markers → ưu tiên giải quyết bằng chiến
-     lược safe merge, giữ logic đúng nhất theo branch main và branch feature.
-   - Failed deploy do pattern đã biết → áp dụng fixer phù hợp, tái kiểm tra
-     bằng QA/check hiện có.
-   - Nếu fix tạo thay đổi mới → commit, push lên đúng branch, và cập nhật PR.
-
-4. **Escalate nếu không an toàn**
+5. **Escalate nếu không an toàn:**
    - Nếu failure mang tính logic, data loss, hoặc không xác định được root cause
      một cách chắc chắn → dừng auto-fix, nêu rõ file/run/PR gây lỗi.
 
-5. **Báo cáo cuối**
+6. **Báo cáo cuối:**
    - Output bảng: PR | Conflict | CI | Deploy | Action.
    - Nếu có PR đã được fix an toàn → nêu branch/commit đã push.
-   - Không auto-merge; chỉ fix và refresh PR, merge theo luồng `manual #X`,
-     `prm`, hoặc `gg` khi user yêu cầu.
+   - Không auto-merge; chỉ fix và refresh PR, merge theo luồng auto-merge
+     (CI xanh → tự merge).
+
+**Biến thể:**
+- `kt9 --fix` — ép chạy auto-fix (tương tự hành vi mặc định khi có issue)
+- `kt9 --pr=1271` — chỉ kiểm tra một PR cụ thể
+- `kt9 --no-fix` — chỉ check status, không auto-fix (override)
+
+**Tích hợp pre-commit gate:**
+- Workflow `.github/workflows/pr-status-gate.yml` chạy script này như một
+  status check trên mọi PR.
+- Pattern an toàn được auto-fix và rerun CI.
+
+**Script**: `scripts/pr_status_check.py` · Chạy thủ công: `python3 scripts/pr_status_check.py`
 
 ### `score` — Trigger workflow Build Semantic Related Posts
 
@@ -1263,34 +1272,27 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
 
 ### `kt9` — Kiểm tra trạng thái tất cả PR + auto-fix gate
 
-**Mục đích**: Rà soát toàn bộ open PRs — kiểm tra QA check, conflict, gatekeeper, failed runs. Báo cáo chi tiết. Kèm chế độ auto-fix cho lỗi an toàn.
+**Mục đích**: Rà soát toàn bộ open PRs — kiểm tra QA check, conflict, gatekeeper, failed runs.
+**TỰ ĐỘNG chạy `--fix` nếu phát hiện issue có thể fix an toàn.** Hệ thống active
+bất cứ lúc nào; user gọi thủ công cũng được.
 
 **Hành động**:
 
-1. Chạy script `python3 scripts/pr_status_check.py` (stdlib, không cần pip).
-2. Script quét:
-   - Tất cả open PRs (mergeable, mergeStateStatus, statusCheckRollup)
-   - QA Gatekeeper (qa-check, rule-check)
-   - Merge conflict status
-   - Failed workflow runs gần đây (24h)
-3. Output bảng báo cáo markdown (giống lần chạy trước):
-
-   | PR | Branch | Mergeable | QA Check | Conflict | Gatekeeper |
-   |---|---|---|---|---|---|
-   | #1271 | Google-Deepmind | ✅ MERGEABLE | 🔄 running | ✅ không | ✅ pass |
-
-4. Nếu có issue → đề xuất `kt9 --fix` để auto-fix an toàn.
+1. Chạy `python3 scripts/pr_status_check.py`.
+2. Script quét tất cả open PRs + QA Gatekeeper + conflict + failed runs (24h).
+3. Output bảng báo cáo markdown.
+4. **Nếu có issue → TỰ ĐỘNG chạy `python3 scripts/pr_status_check.py --fix`**,
+   commit/push fix lên branch, refresh PR. Không cần user nhắc.
+5. Escalate nếu không xác định được root cause.
 
 **Biến thể**:
-- `kt9 --fix` — check + auto-fix các pattern đã biết (qa_pair missing, rerun failed checks)
-- `kt9 --pr=1271` — chỉ kiểm tra một PR cụ thể
+- `kt9 --fix` — ép auto-fix (mặc định khi có issue)
+- `kt9 --no-fix` — chỉ check, không auto-fix
+- `kt9 --pr=1271` — chỉ 1 PR cụ thể
 
-**Tích hợp pre-commit gate**:
-- Workflow `.github/workflows/pr-status-gate.yml` chạy script này như một status check trên mọi PR
-- Nếu phát hiện failed check hoặc conflict → gate đỏ → chặn auto-merge
-- Pattern an toàn được auto-fix và rerun CI
+**Tích hợp**: `.github/workflows/pr-status-gate.yml`
 
-**Script**: `scripts/pr_status_check.py` · Test: `python3 scripts/pr_status_check.py`
+**Script**: `python3 scripts/pr_status_check.py`
 
 ### `ff9` — Smart Conflict Resolver (Python-powered)
 
