@@ -120,25 +120,5 @@
       "enabled": true
     }
   ],
-  "blocks": [
-    {
-      "id": "post_donate_footer_cta",
-      "placement_id": "post_after_content",
-      "type": "donate_box",
-      "enabled": false,
-      "title": "Bài viết hữu ích?",
-      "body": "Mời mình một ly cà phê qua MoMo để có thêm động lực viết tiếp nhé.",
-      "button_text": "Ủng hộ qua MoMo",
-      "url": "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG",
-      "style": "default",
-      "priority": 20,
-      "pages": [
-        "*"
-      ],
-      "exclude_pages": [
-        "/editor/",
-        "/admin-author/"
-      ]
-    }
-  ]
+  "blocks": []
 }
