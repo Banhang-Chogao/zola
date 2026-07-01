@@ -64,7 +64,33 @@ def is_real_post(path: Path) -> bool:
     return "draft = true" not in text and "draft=true" not in text
 
 
+SKIP_FEED_RE = re.compile(r"skip_feed\s*=\s*true", re.I)
+
+
+def section_skips_feed(section_index: Path) -> bool:
+    if not section_index.is_file():
+        return False
+    text = section_index.read_text(encoding="utf-8", errors="ignore")
+    return bool(SKIP_FEED_RE.search(text))
+
+
+def count_home_feed_posts() -> int:
+    """Match templates/index.html: all subsection pages except skip_feed sections."""
+    content = ROOT / "content"
+    count = 0
+    for sub in sorted(content.iterdir()):
+        if not sub.is_dir() or sub.name.startswith("."):
+            continue
+        if section_skips_feed(sub / "_index.md"):
+            continue
+        for md in sub.glob("*.md"):
+            if is_real_post(md):
+                count += 1
+    return count
+
+
 def count_published_posts() -> int:
+    """Posting listing merge (posting/ + baochi/) for posting-section anchors."""
     paths = glob.glob(str(ROOT / "content" / "posting" / "*.md"))
     paths += glob.glob(str(ROOT / "content" / "baochi" / "*.md"))
     return sum(1 for p in paths if is_real_post(Path(p)))
@@ -120,24 +146,29 @@ def write_anchors(section_dir: Path, needed: int) -> tuple[int, int]:
 
 
 def main() -> int:
-    post_count = count_published_posts()
-    pagers = feed_page_count(post_count)
+    home_post_count = count_home_feed_posts()
+    home_pagers = feed_page_count(home_post_count)
+
+    posting_post_count = count_published_posts()
+    posting_pagers = feed_page_count(posting_post_count)
 
     root_dir = ROOT / "content"
     posting_dir = ROOT / "content" / "posting"
 
     root_existing = existing_root_static_pages()
     posting_existing = count_posting_pages()
-    min_pages = min_section_pages_for_pagers(pagers)
+    root_min_pages = min_section_pages_for_pagers(home_pagers)
+    posting_min_pages = min_section_pages_for_pagers(posting_pagers)
 
-    root_needed = max(0, min_pages - root_existing)
-    posting_needed = max(0, min_pages - posting_existing)
+    root_needed = max(0, root_min_pages - root_existing)
+    posting_needed = max(0, posting_min_pages - posting_existing)
 
     root_created, root_total = write_anchors(root_dir, root_needed)
     post_created, post_total = write_anchors(posting_dir, posting_needed)
 
     print(
-        f"feed-pagination: {post_count} posts → {pagers} page(s); "
+        f"feed-pagination: home {home_post_count} posts → {home_pagers} page(s); "
+        f"posting {posting_post_count} posts → {posting_pagers} page(s); "
         f"home anchors {root_total} (+{root_created}), "
         f"posting anchors {post_total} (+{post_created})"
     )

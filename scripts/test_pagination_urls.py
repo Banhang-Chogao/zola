@@ -10,9 +10,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PUBLIC = ROOT / "public"
 BAD = re.compile(r"zolapage/", re.I)
-GOOD_HOME = re.compile(r"/zola/page/\d+/")
-
-
 class PaginationUrlBuildTest(unittest.TestCase):
     def test_macro_exists(self):
         macro = ROOT / "templates/macros/pagination.html"
@@ -48,8 +45,6 @@ class PaginationPublicOutputTest(unittest.TestCase):
 
     def test_homepage_page2_link(self):
         index = (PUBLIC / "index.html").read_text(encoding="utf-8")
-        # Zola HTML-escapes slashes in href (&#x2F;)
-        self.assertIn("zola", index)
         self.assertIn("page/2/", index)
         self.assertNotIn("zolapage", index.lower())
 
