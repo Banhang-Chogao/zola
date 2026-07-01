@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1297",
+      "pr_number": 1297,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1297",
+      "title": "[codex] move CMS-V5 under Công cụ nav",
+      "tag": "refactor",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T11:47:38Z",
+      "merge_commit_sha": "601118a5281b",
+      "stats": {
+        "additions": 28,
+        "deletions": 23
+      },
+      "highlights": [
+        "Move CMS-V5 out of the top-level navbar and place it under Công cụ as a direct child.",
+        "Restore the /cms-v5/ source page so the route continues to render.",
+        "python3 qa_check.py config.toml content/cms-v5.md templates/cms-v5.html sass/_cms-v5.scss: PASS",
+        "Skipped final zola build by workflow rule.",
+        "Desktop and mobile nav both use the shared menu config in config.toml."
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1296",
       "pr_number": 1296,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1296",
