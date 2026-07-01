@@ -34,25 +34,28 @@
 {% endfor %}
 {% set all_pages = all_pages | sort(attribute="date") | reverse %}
 
-{# Git-versioned Editorial Desk configuration. Slugs are resolved only against
-   real Zola pages; missing/renamed posts fall through to the safe rules below. #}
-{% set editorial_slots = load_data(path="data/editorial_slots.json", required=false) %}
 {% set_global featured_post = false %}
 {% set_global sticky_post = false %}
 {% set_global secondary_posts = [] %}
 {% set_global sidebar_featured_post = false %}
+
+{% set editorial_slots_enabled = config.extra.editorial_slots and config.extra.editorial_slots.enabled %}
+
+{# Git-versioned Editorial Desk configuration (only if feature flag enabled). #}
+{% if editorial_slots_enabled %}
+{% set editorial_slots = load_data(path="data/editorial_slots.json", required=false) %}
 {% if editorial_slots %}
     {% for page in all_pages %}
         {% if editorial_slots.lead_story and page.slug == editorial_slots.lead_story %}{% set_global sticky_post = page %}{% endif %}
         {% if editorial_slots.featured and page.slug == editorial_slots.featured %}{% set_global featured_post = page %}{% endif %}
         {% if editorial_slots.sidebar_featured and page.slug == editorial_slots.sidebar_featured %}{% set_global sidebar_featured_post = page %}{% endif %}
     {% endfor %}
-    {# Preserve the explicit order chosen in CMS-V2. #}
     {% for secondary_slug in editorial_slots.secondary | default(value=[]) %}
         {% for page in all_pages %}
             {% if page.slug == secondary_slug %}{% set_global secondary_posts = secondary_posts | concat(with=[page]) %}{% endif %}
         {% endfor %}
     {% endfor %}
+{% endif %}
 {% endif %}
 {% for page in all_pages %}
     {% if page.extra.sticky and not sticky_post %}{% set_global sticky_post = page %}{% endif %}

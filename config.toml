@@ -64,7 +64,7 @@ menu = [
     # cho gọn (thay 1 list dọc dài). Mỗi group là 1 inline-table 1 dòng (TOML:
     # inline table không xuống dòng được). Premium tách riêng nhóm "Đặc biệt".
     { name = "Bài viết", url = "$BASE_URL/categories/tat-ca", groups = [
-        { name = "Tổng quan", children = [ { url = "$BASE_URL/categories/tat-ca", name = "Tất cả bài viết" } ] },
+        { name = "Tổng quan", children = [ { url = "$BASE_URL/categories/tat-ca", name = "Tất cả bài viết" }, { url = "$BASE_URL/content-planning", name = "Content Planning" } ] },
         { name = "Chủ đề tri thức", children = [ { url = "$BASE_URL/categories/khoa-hoc", name = "Khoa học" }, { url = "$BASE_URL/categories/the-gioi", name = "Thế giới" }, { url = "$BASE_URL/categories/cong-nghe", name = "Công nghệ" } ] },
         { name = "Đời sống", children = [ { url = "$BASE_URL/categories/du-lich", name = "Du lịch" }, { url = "$BASE_URL/categories/am-thuc", name = "Ẩm thực" }, { url = "$BASE_URL/categories/the-thao", name = "Thể thao" } ] },
         { name = "Tài chính cá nhân", children = [ { url = "$BASE_URL/categories/ngan-hang", name = "Ngân hàng" }, { url = "$BASE_URL/categories/bao-hiem", name = "Bảo hiểm" } ] },
@@ -186,3 +186,15 @@ max_length = 1500
 [extra.ads]
 enabled = false
 placeholders = true
+
+# ============= GOOGLE SNAPSHOT FOOTER WIDGET =============
+# Bật/tắt widget Google Snapshot ở footer.
+# enabled = false → không render widget (giữ nguyên source code & dữ liệu).
+[extra.google_snapshot]
+enabled = false
+
+# ============= EDITORIAL SLOTS (homepage curation) =============
+# Bật/tắt hệ thống editorial slots điều phối bài viết trang chủ.
+# enabled = false → homepage dùng cơ chế mechanical fallback (sticky/featured flags).
+[extra.editorial_slots]
+enabled = false
