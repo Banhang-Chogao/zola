@@ -42,10 +42,10 @@ services:
       - key: CMS_V5_MEDIA_PATH
         value: /var/data/cms-v5-media
       - key: VIPZONE_BACKEND_URL
-        value: https://blog-vipzone-api.onrender.com
+        value: https://api.seomoney.org
       # BACKEND_URL cũng dùng làm gốc suy ra GOOGLE_REDIRECT_URI khi không set tay.
       - key: BACKEND_URL
-        value: https://blog-vipzone-api.onrender.com
+        value: https://api.seomoney.org
       - key: ADMIN_EMAILS
         value: 292648126+banhang-chogao@users.noreply.github.com
       - key: ADMIN_USERNAMES
@@ -68,7 +68,7 @@ services:
       - key: AUTH_PROVIDER
         value: dual
 
-      # ----- GitHub OAuth (callback https://blog-vipzone-api.onrender.com/auth/callback) -----
+      # ----- GitHub OAuth (callback https://api.seomoney.org/auth/callback) -----
       # Sync=false → điền sau, KHÔNG bake secret vào blueprint public.
       - key: GITHUB_CLIENT_ID
         sync: false
@@ -83,7 +83,7 @@ services:
       - key: GOOGLE_CLIENT_SECRET
         sync: false
       - key: GOOGLE_REDIRECT_URI
-        value: https://blog-vipzone-api.onrender.com/auth/google/callback
+        value: https://api.seomoney.org/auth/google/callback
       # Email Google được phép vào CMS — comma-separated. BẮT BUỘC để dùng Google login.
       # Để trống → fallback ADMIN_EMAILS (GitHub noreply email), không dùng Google được.
       # VD: "duy.nguyen@gmail.com" hoặc "duy.nguyen@gmail.com,admin@company.com"

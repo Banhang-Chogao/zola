@@ -123,13 +123,15 @@
     if (options.body && !(options.body instanceof FormData) && !headers.has("Content-Type")) {
       headers.set("Content-Type", "application/json");
     }
-    var response = await fetch((path.indexOf("http") === 0 ? "" : CMS_API) + path, {
+    var fetchOpts = {
       method: options.method || "GET",
       headers: headers,
       body: options.body,
       credentials: "include",
       mode: "cors",
-    });
+    };
+    if (options.signal) fetchOpts.signal = options.signal;
+    var response = await fetch((path.indexOf("http") === 0 ? "" : CMS_API) + path, fetchOpts);
     var data = null;
     try { data = await response.json(); } catch (_) {}
     if (!response.ok) {
@@ -150,8 +152,13 @@
   async function authenticate() {
     var authError = consumeAuthResult();
     if (authError) text(el.authStatus, "Đăng nhập thất bại: " + authError);
+    hidden(el.gate, false);
+    hidden(el.shell, true);
     try {
-      var user = await request(API + "/auth/me");
+      var controller = new AbortController();
+      var timeout = setTimeout(function () { controller.abort(); }, 8000);
+      var user = await request(API + "/auth/me", { signal: controller.signal });
+      clearTimeout(timeout);
       if (user.provider !== "github") throw new Error("CMS-V5 chỉ chấp nhận GitHub OAuth");
       if (!user.is_admin && !user.is_super) throw new Error("Tài khoản không có quyền quản trị CMS");
       state.user = user;
@@ -168,7 +175,17 @@
     } catch (error) {
       hidden(el.shell, true);
       hidden(el.gate, false);
-      text(el.authStatus, error.status === 401 ? "Bạn cần đăng nhập để truy cập CMS-V5." : error.message);
+      if (error.name === "AbortError") {
+        text(el.authStatus, "Không thể kết nối đến máy chủ xác thực. Vui lòng thử lại sau.");
+      } else if (error.status === 401) {
+        text(el.authStatus, "Bạn cần đăng nhập để truy cập CMS-V5.");
+      } else if (error.status === 403) {
+        text(el.authStatus, error.message);
+      } else if (error.status === 0 || error.message === "Failed to fetch" || error.message.indexOf("NetworkError") >= 0) {
+        text(el.authStatus, "Không thể kết nối đến máy chủ API. Kiểm tra kết nối mạng hoặc thử lại sau.");
+      } else {
+        text(el.authStatus, error.message);
+      }
     }
   }
 
