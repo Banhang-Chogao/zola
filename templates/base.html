@@ -892,40 +892,44 @@
         </div>
     </footer>
 
-    <section class="font-showcase" aria-label="Font stack blog">
-        <div class="container">
-            <h2 class="font-showcase__heading">📐 Font Stack</h2>
-            <div class="font-showcase__grid">
-                <div class="font-showcase__card font-showcase__card--heading">
-                    <span class="font-showcase__label">Headings</span>
-                    <strong class="font-showcase__name">IBM Plex Sans</strong>
-                    <p class="font-showcase__sample">Đẳng cấp &amp; Cá tính — cho mọi tiêu đề</p>
-                    <div class="font-showcase__meta">
-                        <span>Weight 700</span>
-                        <span>Letter-spacing -0.015em</span>
+    <div class="footer-extras">
+        <section class="font-showcase" aria-label="Font stack blog">
+            <div class="container">
+                <h2 class="font-showcase__heading">📐 Font Stack</h2>
+                <div class="font-showcase__grid">
+                    <div class="font-showcase__card font-showcase__card--heading">
+                        <span class="font-showcase__label">Headings</span>
+                        <strong class="font-showcase__name">IBM Plex Sans</strong>
+                        <p class="font-showcase__sample">Đẳng cấp &amp; Cá tính — cho mọi tiêu đề</p>
+                        <div class="font-showcase__meta">
+                            <span>Weight 700</span>
+                            <span>Letter-spacing -0.015em</span>
+                        </div>
                     </div>
-                </div>
-                <div class="font-showcase__card font-showcase__card--body">
-                    <span class="font-showcase__label">Body Text</span>
-                    <strong class="font-showcase__name">Inter</strong>
-                    <p class="font-showcase__sample">X-height cao, trung tính — tối ưu đọc văn bản dài. Hỗ trợ đầy đủ glyph tiếng Việt.</p>
-                    <div class="font-showcase__meta">
-                        <span>Weight 400</span>
-                        <span>Line-height 1.7</span>
+                    <div class="font-showcase__card font-showcase__card--body">
+                        <span class="font-showcase__label">Body Text</span>
+                        <strong class="font-showcase__name">Inter</strong>
+                        <p class="font-showcase__sample">X-height cao, trung tính — tối ưu đọc văn bản dài. Hỗ trợ đầy đủ glyph tiếng Việt.</p>
+                        <div class="font-showcase__meta">
+                            <span>Weight 400</span>
+                            <span>Line-height 1.7</span>
+                        </div>
                     </div>
-                </div>
-                <div class="font-showcase__card font-showcase__card--mono">
-                    <span class="font-showcase__label">Code</span>
-                    <strong class="font-showcase__name">JetBrains Mono</strong>
-                    <p class="font-showcase__sample">const fn = (x: number) =&gt; x * 2;</p>
-                    <div class="font-showcase__meta">
-                        <span>Weight 500</span>
-                        <span>Ligatures</span>
+                    <div class="font-showcase__card font-showcase__card--mono">
+                        <span class="font-showcase__label">Code</span>
+                        <strong class="font-showcase__name">JetBrains Mono</strong>
+                        <p class="font-showcase__sample">const fn = (x: number) =&gt; x * 2;</p>
+                        <div class="font-showcase__meta">
+                            <span>Weight 500</span>
+                            <span>Ligatures</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        {% include "partials/google-snapshot.html" %}
+    </div>
 
     {# Cloudflare Turnstile — chống spam bình luận. #}
     {% include "partials/turnstile_footer.html" %}

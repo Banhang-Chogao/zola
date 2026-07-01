@@ -1,0 +1,168 @@
+/* ============================================================
+   ===== GOOGLE SNAPSHOT — /footer/google-snapshot widget =====
+   ============================================================ */
+
+/* Wrapper: Font Stack + Google Snapshot side by side */
+.footer-extras {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+  .font-showcase {
+    border-top: none;
+  }
+
+  .google-snapshot {
+    border-top: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .footer-extras {
+    grid-template-columns: 1fr;
+  }
+}
+
+.google-snapshot {
+  background: linear-gradient(180deg, rgba(10, 57, 104, 0.98), rgba(6, 40, 75, 0.98));
+  padding: 2.5rem 0 3rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+  &__heading {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 1.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  &__card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-height: 160px;
+  }
+
+  &__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  &__meta {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.35);
+    margin-top: auto;
+  }
+
+  /* Metrics row */
+  &__metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  &__metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  &__value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+  }
+
+  &__sublabel {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* Health badge */
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    width: fit-content;
+
+    &--good {
+      background: rgba(76, 175, 80, 0.2);
+      color: #81C784;
+      &::before { content: "●"; color: #4CAF50; }
+    }
+    &--attention {
+      background: rgba(255, 193, 7, 0.2);
+      color: #FFD54F;
+      &::before { content: "●"; color: #FFC107; }
+    }
+    &--critical {
+      background: rgba(244, 67, 54, 0.2);
+      color: #E57373;
+      &::before { content: "●"; color: #F44336; }
+    }
+  }
+
+  /* Speed score circle */
+  &__score-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__score {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+
+    &--good { color: #81C784; }
+    &--ok { color: #FFD54F; }
+    &--poor { color: #E57373; }
+  }
+
+  /* Top page link */
+  &__top-link {
+    font-size: 0.85rem;
+    color: #64B5F6;
+    word-break: break-all;
+    line-height: 1.4;
+    &:hover { color: #90CAF9; text-decoration: underline; }
+    &--empty { color: rgba(255, 255, 255, 0.3); }
+  }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .google-snapshot__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .google-snapshot__grid {
+    grid-template-columns: 1fr;
+  }
+  .google-snapshot__card {
+    min-height: auto;
+  }
+}
