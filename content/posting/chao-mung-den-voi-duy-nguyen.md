@@ -5,7 +5,7 @@ date = 2026-07-01
 aliases = ["/welcome/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["blog", "content marketing", "seo", "affiliate", "duy nguyen", "blogging", "kiem tien online"]
+tags = ["affiliate", "blog", "blogging", "content marketing", "duy nguyen", "kiem tien online", "seo"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "kiếm tiền từ blog duy nguyen"
