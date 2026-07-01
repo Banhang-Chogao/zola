@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1301",
+      "pr_number": 1301,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1301",
+      "title": "feat(ui): deploy progress dashboard with animated bar, PR timeline, confetti",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T13:01:30Z",
+      "merge_commit_sha": "8d4c2d05b31b",
+      "stats": {
+        "additions": 751,
+        "deletions": 0
+      },
+      "highlights": [
+        "Main Progress Bar: Thanh gradient động (xanh lá/vàng/đỏ theo %), hiệu ứng DNA shimmer, hiển thị % giữa thanh",
+        "Stats Badges: 🚀 Đang chạy · ✅ Thành công · ❌ Thất bại · ⏸ Bị huỷ",
+        "Timeline Tracks: Mỗi build là 1 track với icon, commit ID, title, thanh tiến độ, status",
+        "Confetti: Click vào track thành công → confetti burst",
+        "Tự động sắp xếp: đang chạy → thành công → thất bại/huỷ"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1298",
       "pr_number": 1298,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1298",
