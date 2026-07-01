@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1299",
+      "pr_number": 1299,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1299",
+      "title": "feat(cms-v5): backend API, full JS SPA, auth gate, search, scheduling",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T13:30:25Z",
+      "merge_commit_sha": "99b758bae7b7",
+      "stats": {
+        "additions": 2075,
+        "deletions": 204
+      },
+      "highlights": [
+        "Full SPA: dashboard stats, block editor, media library, taxonomy UI, frontend preview",
+        "Auth gate with GitHub OAuth + session management (localStorage + sessionStorage)",
+        "Post search bar wired to backend with 300ms debounce",
+        "Active nav link management",
+        "Unsaved changes warning on browser close"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1300",
       "pr_number": 1300,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1300",
