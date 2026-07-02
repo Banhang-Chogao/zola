@@ -1,6 +1,27 @@
 {
   "items": [
     {
+      "id": "pr-1343",
+      "pr_number": 1343,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1343",
+      "title": "fix(seo): add internal links to weak and orphan articles",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-02T11:16:09Z",
+      "merge_commit_sha": "925dde8ae577",
+      "stats": {
+        "additions": 808,
+        "deletions": 18379
+      },
+      "highlights": [
+        "Priority #2 from the content roadmap: fix internal linking deficiencies on 7 weak/orphan articles.",
+        "Cross-linked the tech/AI cluster (Nano Banana, Nano Banana 2 Lite + Gemini Omni Flash, Gemini 3.5) and the \"Kiến thức\" science cluster (Hubble, Atlantis), both now pointing back to the blog intro hub.",
+        "Rescued the orphaned nha-tranh (thatched house) article by linking it into the Kiến thức cluster and the blog hub.",
+        "Every touched article now has ≥5 internal links (Atlantis has 6, counting its 2 pre-existing links)."
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1340",
       "pr_number": 1340,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1340",
