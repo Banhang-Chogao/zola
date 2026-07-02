@@ -1,0 +1,406 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} — Kakao Design DNA | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block extra_head %}
+    {{ super() }}
+    {# Self-contained stylesheet — không phụ thuộc site.css/tools.css. #}
+    <link rel="stylesheet" href="{{ get_url(path='k-dna.css') }}?v={{ now(timestamp=true) }}">
+{% endblock %}
+
+{% block main %}
+<section class="kdna">
+
+    {# ===== HEADER ===== #}
+    <header class="kdna__header">
+        <div class="kdna__brand">
+            <span class="kdna__logo-mark" aria-hidden="true">K</span>
+            <span class="kdna__logo-text">K-DNA</span>
+        </div>
+        <nav class="kdna__nav">
+            <a href="#philosophy">Philosophy</a>
+            <a href="#colors">Colors</a>
+            <a href="#typography">Typography</a>
+            <a href="#logo">Logo</a>
+            <a href="#components">Components</a>
+            <a href="#shape">Shape &amp; Icons</a>
+            <a href="#motion">Motion</a>
+            <a href="#anti-patterns">Anti-patterns</a>
+            <a href="#compatibility">Compatibility</a>
+        </nav>
+    </header>
+
+    {# ===== MANIFESTO ===== #}
+    <section class="kdna__manifesto">
+        <p class="kdna__manifesto-eyebrow">Kakao Design DNA</p>
+        <h1 class="kdna__manifesto-title">
+            Ấm áp. Bo tròn. Đặt nội dung &amp; kết nối lên trước.
+        </h1>
+        <p class="kdna__manifesto-sub">
+            K-DNA là tài liệu tham khảo <strong>font &amp; branding</strong> lấy cảm hứng từ hệ nhận diện
+            công khai của <strong>Kakao</strong> và bộ <strong>Kakao Font</strong> mã nguồn mở. Đây là
+            <strong>documentation only</strong> — một lựa chọn thiết kế thứ ba bên cạnh
+            <a href="{{ get_url(path='branding-guideline/') }}">Branding Guideline</a> (Hilda/Ericsson) và
+            <a href="{{ get_url(path='tools/s-dna/') }}">S-DNA</a> (Sembcorp). Không phải redesign, không phải
+            component library, không áp dụng toàn cục.
+        </p>
+        <p class="kdna__manifesto-sub" style="margin-top: 0.85rem; font-size: 0.9rem; color: #8A8A8A;">
+            Nguồn tham khảo: <a href="https://www.kakaocorp.com/page/detail/12067" target="_blank" rel="noopener">Kakao Corp — Brand</a> ·
+            <a href="https://github.com/kakao/kakao-font" target="_blank" rel="noopener">Kakao Font (OFL-1.1)</a> ·
+            <a href="https://fonts.adobe.com/foundries/kakao" target="_blank" rel="noopener">Adobe Fonts — Kakao</a>.
+            Các nhãn hiệu Kakao thuộc về Kakao Corp; trang này chỉ dùng cho mục đích tham chiếu thiết kế nội bộ.
+        </p>
+    </section>
+
+    <aside class="kdna__rationale" style="margin-bottom: 3rem;">
+        <strong>Core anchor:</strong> Think <strong>KakaoTalk × Toss × Notion × Apple</strong> —
+        warm, friendly, rounded, content-forward. <em>Không</em> phải AdminLTE, crypto dashboard,
+        neon UI hay glassmorphism nặng.<br>
+        <strong>One sentence:</strong> Sự thân thiện đến từ hình bo tròn, màu vàng ấm và khoảng thở —
+        không phải từ hiệu ứng hay đổ bóng.
+    </aside>
+
+    {# ===== 01. PHILOSOPHY ===== #}
+    <section id="philosophy" class="kdna__section">
+        <header class="kdna__section-head">
+            <span class="kdna__section-num">01</span>
+            <h2 class="kdna__section-title">Design Philosophy</h2>
+            <p class="kdna__section-desc">
+                Kakao là ngôn ngữ thiết kế <strong>flat, ấm, content-forward</strong>: bề mặt phẳng, ít
+                đổ bóng và gradient, mã màu mạnh qua sắc vàng đặc trưng cùng nền trung tính sạch. Cảm giác
+                như một ứng dụng nhắn tin thân thiện — gần gũi nhưng vẫn rõ ràng, dễ đọc.
+            </p>
+        </header>
+
+        <div class="kdna__grid">
+            <article class="kdna__card"><h4>Friendly first</h4><p>Giao diện thân thiện, gần gũi. Bo tròn mềm, màu vàng ấm, ngôn ngữ đời thường thay vì trang trọng cứng nhắc.</p></article>
+            <article class="kdna__card"><h4>Content-forward</h4><p>Nội dung dẫn dắt. Trang trí lùi lại phía sau. Bề mặt phẳng, ít nhiễu thị giác.</p></article>
+            <article class="kdna__card"><h4>Rounded &amp; soft</h4><p>Bo góc là chữ ký. K-DNA dùng card 16–20px, nút và ô nhập ~12px — gợi tinh thần bo tròn của Kakao. Không góc nhọn gắt.</p></article>
+            <article class="kdna__card"><h4>Warm color coding</h4><p>Một sắc vàng chủ đạo (#FEE500) làm điểm nhấn hành động, phần còn lại là trung tính sạch.</p></article>
+            <article class="kdna__card"><h4>Whitespace breathes</h4><p>Khoảng thở rộng rãi. Phân vân thì thêm spacing, đừng thêm màu hay bóng.</p></article>
+            <article class="kdna__card"><h4>Connection as motif</h4><p>Bong bóng chat (speech bubble) là hình mẫu nhận diện — biểu tượng của kết nối con người.</p></article>
+        </div>
+    </section>
+
+    {# ===== 02. COLOR SYSTEM ===== #}
+    <section id="colors" class="kdna__section">
+        <header class="kdna__section-head">
+            <span class="kdna__section-num">02</span>
+            <h2 class="kdna__section-title">Color System</h2>
+            <p class="kdna__section-desc">
+                Một màu thương hiệu duy nhất — <strong>Kakao Yellow</strong> — trên nền trung tính và
+                <strong>Near Black</strong>. Chữ đặt trên nền vàng luôn là <strong>#333333</strong>,
+                <em>không bao giờ</em> dùng chữ trắng trên vàng (tương phản kém).
+            </p>
+        </header>
+
+        <div class="kdna__color-group">
+            <h3 class="kdna__group-label">Primary &amp; Brand base</h3>
+            <div class="kdna__swatches">
+                <article class="kdna__swatch" style="--color: #FEE500">
+                    <div class="kdna__swatch-chip"></div>
+                    <div class="kdna__swatch-info"><strong>Kakao Yellow</strong><code>#FEE500</code><span>Màu chính · nút CTA · điểm nhấn</span></div>
+                </article>
+                <article class="kdna__swatch" style="--color: #FDD835">
+                    <div class="kdna__swatch-chip"></div>
+                    <div class="kdna__swatch-info"><strong>Yellow Deep</strong><code>#FDD835</code><span>Trạng thái hover / pressed</span></div>
+                </article>
+                <article class="kdna__swatch" style="--color: #1E1E1E">
+                    <div class="kdna__swatch-chip"></div>
+                    <div class="kdna__swatch-info"><strong>Near Black</strong><code>#1E1E1E</code><span>Wordmark · brand base · biểu tượng trên nền vàng</span></div>
+                </article>
+            </div>
+        </div>
+
+        <div class="kdna__color-group">
+            <h3 class="kdna__group-label">Text on yellow</h3>
+            <div class="kdna__swatches">
+                <article class="kdna__swatch" style="--color: #333333">
+                    <div class="kdna__swatch-chip"></div>
+                    <div class="kdna__swatch-info"><strong>On-Yellow Text</strong><code>#333333</code><span>Chữ trên nền vàng — KHÔNG dùng trắng</span></div>
+                </article>
+            </div>
+        </div>
+
+        <div class="kdna__color-group">
+            <h3 class="kdna__group-label">Neutrals</h3>
+            <div class="kdna__swatches">
+                <article class="kdna__swatch" style="--color: #4A4A4A"><div class="kdna__swatch-chip"></div><div class="kdna__swatch-info"><strong>Body</strong><code>#4A4A4A</code><span>Đoạn văn</span></div></article>
+                <article class="kdna__swatch" style="--color: #8A8A8A"><div class="kdna__swatch-chip"></div><div class="kdna__swatch-info"><strong>Muted</strong><code>#8A8A8A</code><span>Nhãn · caption</span></div></article>
+                <article class="kdna__swatch" style="--color: #ECECEC"><div class="kdna__swatch-chip kdna__swatch-chip--border"></div><div class="kdna__swatch-info"><strong>Border</strong><code>#ECECEC</code><span>Viền card · divider</span></div></article>
+                <article class="kdna__swatch" style="--color: #FFFDF3"><div class="kdna__swatch-chip kdna__swatch-chip--border"></div><div class="kdna__swatch-info"><strong>Cream Canvas</strong><code>#FFFDF3</code><span>Nền trang (ám vàng nhẹ)</span></div></article>
+            </div>
+        </div>
+
+        <div class="kdna__color-group">
+            <h3 class="kdna__group-label">Semantic (muted)</h3>
+            <div class="kdna__swatches">
+                <article class="kdna__swatch" style="--color: #12B886"><div class="kdna__swatch-chip"></div><div class="kdna__swatch-info"><strong>Success</strong><code>#12B886</code><span>Thành công</span></div></article>
+                <article class="kdna__swatch" style="--color: #4B8BF4"><div class="kdna__swatch-chip"></div><div class="kdna__swatch-info"><strong>Info</strong><code>#4B8BF4</code><span>Thông tin</span></div></article>
+                <article class="kdna__swatch" style="--color: #F59E0B"><div class="kdna__swatch-chip"></div><div class="kdna__swatch-info"><strong>Warning</strong><code>#F59E0B</code><span>Cảnh báo</span></div></article>
+                <article class="kdna__swatch" style="--color: #E8635E"><div class="kdna__swatch-chip"></div><div class="kdna__swatch-info"><strong>Danger</strong><code>#E8635E</code><span>Lỗi · nguy hiểm</span></div></article>
+            </div>
+        </div>
+
+        <aside class="kdna__rationale">
+            <strong>Color philosophy:</strong> Một màu thương hiệu, không cầu vồng. Vàng ấm cho hành động,
+            trung tính cho phần còn lại. <strong>Chữ trên vàng = #333333, không bao giờ trắng.</strong>
+            Đen thương hiệu là <em>near-black</em> (#1E1E1E), không phải đen tuyền #000.
+        </aside>
+    </section>
+
+    {# ===== 03. TYPOGRAPHY / FONT GUIDELINE ===== #}
+    <section id="typography" class="kdna__section">
+        <header class="kdna__section-head">
+            <span class="kdna__section-num">03</span>
+            <h2 class="kdna__section-title">Typography — Kakao Font</h2>
+            <p class="kdna__section-desc">
+                <strong>Kakao Font</strong> (phát hành miễn phí, giấy phép <strong>SIL Open Font License 1.1</strong>,
+                © Kakao Corp) gồm hai họ chữ sans-serif tối ưu cho môi trường số. Font chữ thương hiệu dùng cho
+                brand &amp; marketing; UI chức năng dùng system font. Chữ Kakao có nét đều, bo mềm, khoảng chữ
+                rộng rãi và chữ thường (lowercase) giàu tính thân thiện.
+            </p>
+        </header>
+
+        <div class="kdna__specimen">
+            <p class="kdna__specimen-word">kakao</p>
+            <p class="kdna__specimen-sub">Rounded sans-serif · uniform stroke · soft curves · generous spacing</p>
+        </div>
+
+        <div class="kdna__grid" style="margin-bottom: 1.5rem;">
+            <article class="kdna__card kdna__card--accent">
+                <h4>Kakao Big Sans</h4>
+                <p>Cấu trúc chắc, ổn định, module bám chặt — truyền tải thông tin rõ ràng ở cả <strong>tiêu đề</strong>
+                và <strong>body</strong>. Ba độ đậm: <strong>Regular</strong> (body), <strong>Bold</strong> và
+                <strong>ExtraBold</strong> (title / large display).</p>
+            </article>
+            <article class="kdna__card">
+                <h4>Kakao Small Sans</h4>
+                <p>Khoảng chữ (letter-spacing) rộng và bụng chữ (counter) mở lớn → dễ đọc trên
+                <strong>màn hình nhỏ</strong>, cỡ chữ bé. Dùng cho caption, label, chú thích, UI mật độ cao.</p>
+            </article>
+            <article class="kdna__card">
+                <h4>Coverage &amp; License</h4>
+                <p>Hangul (Hàn) · Latin · Cyrillic · Japanese kana · symbols. Giấy phép <strong>OFL-1.1</strong> —
+                miễn phí cho cả dùng cá nhân lẫn thương mại.</p>
+            </article>
+        </div>
+
+        <h3 class="kdna__group-label">Weights — Kakao Big Sans</h3>
+        <div class="kdna__weights" style="margin-bottom: 1.75rem;">
+            <div class="kdna__weight kdna__weight--r"><b>Aa 가</b><span>Regular / 400 · body</span></div>
+            <div class="kdna__weight kdna__weight--b"><b>Aa 가</b><span>Bold / 700 · title</span></div>
+            <div class="kdna__weight kdna__weight--xb"><b>Aa 가</b><span>ExtraBold / 800 · display</span></div>
+        </div>
+
+        <h3 class="kdna__group-label">Type scale (hierarchy)</h3>
+        <div class="kdna__type-scale">
+            <article class="kdna__type-row">
+                <p class="kdna__type-sample" style="font-size: 2.6rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em;">Kết nối mọi người</p>
+                <div class="kdna__type-meta"><code>2.6rem / 800 / Big Sans ExtraBold</code><span>Display · hero title</span></div>
+            </article>
+            <article class="kdna__type-row">
+                <p class="kdna__type-sample" style="font-size: 1.6rem; font-weight: 700; line-height: 1.25;">Tiêu đề mục nội dung</p>
+                <div class="kdna__type-meta"><code>1.6rem / 700 / Big Sans Bold</code><span>Section title (H2)</span></div>
+            </article>
+            <article class="kdna__type-row">
+                <p class="kdna__type-sample" style="font-size: 1rem; font-weight: 400; line-height: 1.7; font-family: 'Inter', system-ui, sans-serif;">Đoạn văn body dùng Big Sans Regular — nét đều, dễ đọc, khoảng dòng thoáng để giảm mỏi mắt trên màn hình.</p>
+                <div class="kdna__type-meta"><code>1rem / 400 / line-height 1.7</code><span>Body — Big Sans Regular</span></div>
+            </article>
+            <article class="kdna__type-row">
+                <p class="kdna__type-sample" style="font-size: 0.78rem; font-weight: 600; color: #8A8A8A; font-family: 'Inter', system-ui, sans-serif;">CAPTION · LABEL · CHÚ THÍCH NHỎ</p>
+                <div class="kdna__type-meta"><code>0.78rem / Small Sans</code><span>Caption — Small Sans, spacing rộng</span></div>
+            </article>
+        </div>
+
+        <div class="kdna__grid" style="margin-top: 1.75rem;">
+            <article class="kdna__card"><h4>Do</h4><p>Big Sans cho title + body; Small Sans cho chữ nhỏ. Chữ thường (lowercase) cho wordmark. Khoảng dòng thoáng (1.6–1.75).</p></article>
+            <article class="kdna__card"><h4>Don't</h4><p>Không viết HOA toàn bộ tiêu đề dài. Không nhồi nhiều weight lạ. Không kéo giãn / bóp méo chữ. Không chữ trắng trên vàng.</p></article>
+            <article class="kdna__card"><h4>Trên blog này</h4><p>K-DNA là <em>tham chiếu</em>. Blog vẫn dùng font hệ thống Inter/Hilda; specimen ở trên hiển thị bằng stack bo tròn dự phòng để gợi tinh thần Kakao.</p></article>
+        </div>
+
+        <aside class="kdna__rationale">
+            <strong>Rule:</strong> Hierarchy bằng cỡ chữ + độ đậm, không bằng màu. Big Sans thống trị tiêu đề;
+            Small Sans lo phần chữ nhỏ; khoảng thở là bạn của khả năng đọc. Tải font gốc:
+            <a href="https://github.com/kakao/kakao-font" target="_blank" rel="noopener">github.com/kakao/kakao-font</a> (OFL-1.1).
+        </aside>
+    </section>
+
+    {# ===== 04. LOGO & WORDMARK ===== #}
+    <section id="logo" class="kdna__section">
+        <header class="kdna__section-head">
+            <span class="kdna__section-num">04</span>
+            <h2 class="kdna__section-title">Logo &amp; Wordmark</h2>
+            <p class="kdna__section-desc">
+                Wordmark viết <strong>chữ thường</strong> bằng một sans-serif bo tròn riêng: nét đều, đường cong
+                mềm, khoảng cách chữ rộng rãi. Biểu tượng là <strong>bong bóng chat</strong> — nét nhận diện của
+                kết nối con người.
+            </p>
+        </header>
+
+        <div class="kdna__btns" style="margin-bottom: 1.5rem;">
+            <span class="kdna__logo-mark" aria-hidden="true">K</span>
+            <span style="font-family: ui-rounded, 'SF Pro Rounded', system-ui, sans-serif; font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; color: #1E1E1E;">kakao</span>
+        </div>
+
+        <div class="kdna__grid">
+            <article class="kdna__card"><h4>Lowercase &amp; rounded</h4><p>Wordmark luôn chữ thường, bo mềm, nét đồng đều. Không in hoa, không nghiêng, không thêm bóng đổ.</p></article>
+            <article class="kdna__card"><h4>Speech-bubble symbol</h4><p>Bong bóng chat sẫm màu (near-black) trên nền vàng — biểu tượng cốt lõi. Góc bong bóng bo mềm, một góc nhọn nhẹ gợi "đuôi" bóng thoại.</p></article>
+            <article class="kdna__card"><h4>Clear space</h4><p>Chừa khoảng trống quanh logo tối thiểu bằng chiều cao chữ "k". Không đặt logo sát mép hay chồng lên ảnh nhiễu.</p></article>
+            <article class="kdna__card kdna__card--dark"><h4>On dark</h4><p>Trên nền tối, dùng wordmark vàng hoặc trắng; giữ bong bóng nhận diện. Luôn ưu tiên tương phản đủ.</p></article>
+        </div>
+    </section>
+
+    {# ===== 05. COMPONENTS ===== #}
+    <section id="components" class="kdna__section">
+        <header class="kdna__section-head">
+            <span class="kdna__section-num">05</span>
+            <h2 class="kdna__section-title">Components</h2>
+            <p class="kdna__section-desc">
+                Nút vàng CTA, card bo tròn phẳng, và <strong>bong bóng chat</strong> — ngôn ngữ UI đặc trưng
+                của KakaoTalk: bong bóng vàng cho "tôi", bong bóng trắng cho "người khác".
+            </p>
+        </header>
+
+        <h3 class="kdna__group-label">Buttons</h3>
+        <div class="kdna__btns">
+            <button type="button" class="kdna__btn kdna__btn--primary">Bắt đầu</button>
+            <button type="button" class="kdna__btn kdna__btn--dark">Xem thêm</button>
+            <button type="button" class="kdna__btn kdna__btn--ghost">Huỷ</button>
+        </div>
+
+        <h3 class="kdna__group-label" style="margin-top: 1.75rem;">Chat bubbles</h3>
+        <div class="kdna__bubbles" role="img" aria-label="Ví dụ bong bóng chat kiểu KakaoTalk">
+            <div class="kdna__bubble kdna__bubble--them">Cuối tuần này rảnh không? ☕</div>
+            <div class="kdna__bubble kdna__bubble--me">Rảnh! Hẹn cà phê nhé 😄</div>
+            <div class="kdna__bubble kdna__bubble--them">Ok, 10 giờ sáng thứ Bảy!</div>
+        </div>
+
+        <div class="kdna__grid" style="margin-top: 1.75rem;">
+            <article class="kdna__card"><h4>Primary button</h4><p>Nền <code>#FEE500</code>, chữ <code>#333</code>, bo 12px. Hành động chính duy nhất mỗi màn hình.</p></article>
+            <article class="kdna__card"><h4>Flat cards</h4><p>Nền trắng, viền 1px mảnh, bo 16–20px, gần như không đổ bóng. Nội dung trước, trang trí sau.</p></article>
+            <article class="kdna__card"><h4>Bubbles</h4><p>"Tôi" = bong bóng vàng canh phải; "người khác" = bong bóng trắng canh trái. Một góc bo nhỏ (4px) tạo "đuôi".</p></article>
+        </div>
+    </section>
+
+    {# ===== 06. SHAPE & ICONS ===== #}
+    <section id="shape" class="kdna__section">
+        <header class="kdna__section-head">
+            <span class="kdna__section-num">06</span>
+            <h2 class="kdna__section-title">Shape &amp; Iconography</h2>
+            <p class="kdna__section-desc">
+                Hình học <strong>bo tròn</strong> xuyên suốt. Icon thân thiện, nét mềm, đầu nét bo (round cap),
+                đơn giản dễ hiểu — không sắc lạnh, không kỹ thuật cứng nhắc.
+            </p>
+        </header>
+
+        <table class="kdna__table">
+            <thead><tr><th>Token</th><th>Giá trị</th><th>Dùng cho</th></tr></thead>
+            <tbody>
+                <tr><td>Radius · container</td><td><code>12px</code></td><td>Hộp nội dung, ô nhập, khối chính</td></tr>
+                <tr><td>Radius · card</td><td><code>16–20px</code></td><td>Card, panel, module lớn</td></tr>
+                <tr><td>Radius · button</td><td><code>12px</code></td><td>Nút bấm</td></tr>
+                <tr><td>Radius · pill</td><td><code>999px</code></td><td>Chip, tag, nav item</td></tr>
+                <tr><td>Icon style</td><td><code>rounded</code></td><td>Nét mềm, round cap, friendly</td></tr>
+                <tr><td>Elevation</td><td><code>flat</code></td><td>Bóng rất nhẹ hoặc không bóng; ưu tiên viền</td></tr>
+            </tbody>
+        </table>
+
+        <aside class="kdna__rationale">
+            <strong>Lưu ý:</strong> token bo góc ở bảng trên là quy ước của K-DNA (gợi tinh thần bo tròn của Kakao), không phải spec chính thức Kakao công bố.<br>
+            <strong>Icon:</strong> ưu tiên set bo tròn, thân thiện (vd Phosphor, Iconoir, hoặc rounded variant).
+            <strong>Tránh:</strong> icon quá kỹ thuật, sắc nhọn, 3D, hoặc emoji lộn xộn nhiều màu.
+        </aside>
+    </section>
+
+    {# ===== 07. MOTION ===== #}
+    <section id="motion" class="kdna__section">
+        <header class="kdna__section-head">
+            <span class="kdna__section-num">07</span>
+            <h2 class="kdna__section-title">Motion</h2>
+            <p class="kdna__section-desc">
+                Chuyển động nhẹ nhàng, vui tươi nhưng không gây xao nhãng. Bong bóng "nảy" nhẹ khi xuất hiện,
+                nút phản hồi tức thì. Thời lượng ngắn, easing mềm.
+            </p>
+        </header>
+
+        <div class="kdna__grid">
+            <article class="kdna__card"><h4>Duration</h4><p>150–250ms cho phần lớn transition. Micro-interaction ≤ 120ms để cảm giác tức thì.</p></article>
+            <article class="kdna__card"><h4>Easing</h4><p>Ease-out mềm cho vào; nhẹ nhàng cho ra. Có thể thêm chút "bounce" nhỏ cho bong bóng/toast.</p></article>
+            <article class="kdna__card"><h4>Tránh</h4><p>Animation dài, parallax nặng, scale transform lớn, hiệu ứng "đòi chú ý" liên tục.</p></article>
+        </div>
+    </section>
+
+    {# ===== 08. ANTI-PATTERNS ===== #}
+    <section id="anti-patterns" class="kdna__section">
+        <header class="kdna__section-head">
+            <span class="kdna__section-num">08</span>
+            <h2 class="kdna__section-title">Anti-patterns</h2>
+            <p class="kdna__section-desc">Những gì K-DNA <strong>không</strong> là. Tránh khi borrow selectively cho page tương lai.</p>
+        </header>
+
+        <div class="kdna__grid">
+            <article class="kdna__card"><h4>Chữ trắng trên vàng</h4><p>Tương phản kém — luôn dùng #333 trên nền vàng.</p></article>
+            <article class="kdna__card"><h4>Đen tuyền #000</h4><p>Dùng near-black #1E1E1E cho cảm giác mềm, ấm hơn.</p></article>
+            <article class="kdna__card"><h4>Góc nhọn gắt</h4><p>Bo tròn là chữ ký — tránh card/nút góc vuông 0px.</p></article>
+            <article class="kdna__card"><h4>Cầu vồng nhiều màu</h4><p>Một sắc vàng thương hiệu là đủ; đừng thêm 5–6 màu nhấn.</p></article>
+            <article class="kdna__card"><h4>Bóng đổ nặng</h4><p>Flat + viền mảnh; tránh drop-shadow 20px+.</p></article>
+            <article class="kdna__card"><h4>Glassmorphism</h4><p>Blur/frosted làm mất sự rõ ràng, phá cảm giác flat ấm.</p></article>
+            <article class="kdna__card"><h4>Neon / crypto UI</h4><p>Glow, nền tối rực — ngược hoàn toàn tinh thần thân thiện.</p></article>
+            <article class="kdna__card"><h4>Chữ giãn / bóp méo</h4><p>Giữ tỉ lệ chữ gốc; không stretch, không condense thủ công.</p></article>
+        </div>
+    </section>
+
+    {# ===== 09. COMPATIBILITY ===== #}
+    <section id="compatibility" class="kdna__section">
+        <header class="kdna__section-head">
+            <span class="kdna__section-num">09</span>
+            <h2 class="kdna__section-title">Compatibility Rule</h2>
+            <p class="kdna__section-desc">
+                K-DNA là <strong>optional theme — documentation &amp; inspiration</strong>. Không redesign trang
+                hiện có, không SCSS migration, không tự động áp dụng.
+            </p>
+        </header>
+
+        <table class="kdna__table">
+            <thead><tr><th>Ưu tiên</th><th>Nguồn</th><th>Vai trò</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Branding Guideline (Hilda)</td><td>Design DNA mặc định — luôn ưu tiên cao nhất</td></tr>
+                <tr><td>2</td><td>Existing Design DNA (CLAUDE.md)</td><td>Pattern đã triển khai trên blog</td></tr>
+                <tr><td>3</td><td>Existing component library</td><td>Reuse trước khi tạo mới</td></tr>
+                <tr><td>4</td><td>S-DNA / K-DNA (trang này)</td><td>Optional — borrow selectively</td></tr>
+            </tbody>
+        </table>
+
+        <div class="kdna__grid" style="margin-top: 1.5rem;">
+            <article class="kdna__card"><h4>Dùng K-DNA khi</h4><p>Trang cần cảm giác thân thiện, cộng đồng: onboarding vui tươi, landing sản phẩm nhẹ nhàng, tool tương tác, khối "trò chuyện"/feedback, chip/tag.</p></article>
+            <article class="kdna__card"><h4>KHÔNG dùng K-DNA cho</h4><p>Bài blog thường · navbar · footer · sidebar · dashboard tài chính (đã theo S-DNA) · redesign trang hiện có · đổi theme toàn cục.</p></article>
+        </div>
+
+        <aside class="kdna__rationale">
+            📌 <strong>Trang này là documentation only.</strong><br>
+            • Không áp K-DNA toàn cục.<br>
+            • Không redesign trang hiện có chỉ vì Kakao trông dễ thương.<br>
+            • Borrow selectively khi có page thật sự cần cảm giác friendly/community.<br>
+            • <strong>Preserve consistency above novelty.</strong><br>
+            <strong>No global theme swap · No SCSS migration · No layout changes ở trang khác.</strong>
+        </aside>
+
+        <aside class="kdna__rationale" style="margin-top: 1rem;">
+            <strong>“Guidelines first. Components later.”</strong><br>
+            <strong>“Evolution, not proliferation.”</strong><br>
+            <strong>“Sự thân thiện đến từ hình bo tròn, màu vàng ấm và khoảng thở — không phải hiệu ứng.”</strong>
+        </aside>
+    </section>
+
+    <footer class="kdna__foot">
+        <p>K-DNA — Kakao Design DNA v1.0 · Documentation only · Inspired by public Kakao brand &amp; Kakao Font (OFL-1.1)</p>
+        <p>Companion to <a href="{{ get_url(path='branding-guideline/') }}">Branding Guideline</a> ·
+           <a href="{{ get_url(path='tools/s-dna/') }}">S-DNA</a> ·
+           <a href="{{ get_url(path='font/') }}">Font Guideline</a></p>
+    </footer>
+</section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

@@ -1,0 +1,531 @@
+@charset "utf-8";
+
+/* ============================================================================
+   k-dna.scss — K-DNA · Kakao Design DNA (documentation-only guideline page)
+   ----------------------------------------------------------------------------
+   Trang tài liệu tham khảo thiết kế + font, lấy cảm hứng từ hệ nhận diện công
+   khai của Kakao (kakaocorp.com brand page) và bộ "Kakao Font" mã nguồn mở
+   (github.com/kakao/kakao-font, OFL-1.1). Đây là DESIGN DNA thứ ba bên cạnh
+   Branding Guideline (Hilda/Ericsson) và S-DNA (Sembcorp) — documentation only,
+   KHÔNG áp dụng toàn cục, KHÔNG redesign trang hiện có.
+
+   Đây là TOP-LEVEL stylesheet (không có underscore) → Zola compile ra
+   `/k-dna.css`. `k-dna.html` tự link file này qua {% block extra_head %} nên
+   trang luôn có style, không phụ thuộc site.css/tools.css.
+
+   Toàn bộ selector scope dưới `.kdna` (fixed light brand canvas như
+   _font-guideline.scss). Palette Kakao cố định để tái hiện thương hiệu trung
+   thực; KHÔNG ghi đè token var(--c-*) của site.
+   ============================================================================ */
+
+/* ===== Kakao palette (fixed, self-contained) ===== */
+$k-yellow:       #FEE500;  /* Kakao Yellow — primary */
+$k-yellow-deep:  #FDD835;  /* hover / pressed */
+$k-yellow-soft:  #FFFBE0;  /* pale yellow surface */
+$k-cream:        #FFFDF3;  /* yellow-tinted page canvas */
+$k-ink:          #1E1E1E;  /* Near Black — wordmark / brand base */
+$k-on-yellow:    #333333;  /* text ON yellow — never white */
+
+$k-body:         #4A4A4A;
+$k-muted:        #8A8A8A;
+$k-border:       #ECECEC;
+$k-line:         #E2E2E2;
+$k-paper:        #FFFFFF;
+$k-soft:         #F7F7F8;
+
+/* Semantic hues (muted, warm) live inline in the template swatches
+   (#12B886 success · #4B8BF4 info · #F59E0B warning · #E8635E danger). */
+
+/* radii — K-DNA rounded scale (inspired by Kakao's rounded language) */
+$k-r-sm:   12px;
+$k-r-md:   16px;
+$k-r-lg:   20px;
+$k-r-pill: 999px;
+
+$k-display: ui-rounded, "SF Pro Rounded", "Apple SD Gothic Neo", "Varela Round",
+            "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
+$k-text:    "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$k-mono:    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+/* ============================================================================
+   ===== DESKTOP (global) =====
+   ============================================================================ */
+.kdna {
+  max-width: 1120px;
+  margin: 1.5rem auto 4rem;
+  padding: 0 1.5rem;
+  font-family: $k-text;
+  color: $k-body;
+  background: $k-cream;
+  -webkit-font-smoothing: antialiased;
+
+  a { color: $k-on-yellow; }
+
+  /* ===== HEADER ===== */
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid $k-line;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: $k-display;
+  }
+
+  &__logo-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: $k-yellow;
+    color: $k-ink;
+    border-radius: 14px 14px 14px 4px; /* speech-bubble corner */
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  &__logo-text {
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: $k-ink;
+  }
+
+  &__nav {
+    display: flex;
+    gap: 0.2rem;
+    flex-wrap: wrap;
+
+    a {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: $k-body;
+      padding: 0.4rem 0.8rem;
+      text-decoration: none;
+      border-radius: $k-r-pill;
+      transition: color .15s ease, background .15s ease;
+
+      &:hover { color: $k-ink; background: $k-yellow-soft; }
+    }
+  }
+
+  /* ===== MANIFESTO ===== */
+  &__manifesto {
+    max-width: 820px;
+    margin-bottom: 3.5rem;
+  }
+
+  &__manifesto-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: $k-on-yellow;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 0 0 0.85rem;
+
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 0.7rem;
+      height: 0.7rem;
+      background: $k-yellow;
+      border-radius: 4px;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+  }
+
+  &__manifesto-title {
+    font-family: $k-display;
+    font-size: 2.6rem;
+    font-weight: 800;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    color: $k-ink;
+    margin: 0 0 1rem;
+  }
+
+  &__manifesto-sub {
+    font-size: 1.05rem;
+    color: $k-body;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* ===== SECTION ===== */
+  &__section {
+    margin-bottom: 4rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid $k-line;
+
+    &:last-of-type { border-bottom: 0; }
+  }
+
+  &__section-head {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1.5rem;
+    margin-bottom: 2.25rem;
+    align-items: baseline;
+  }
+
+  &__section-num {
+    font-family: $k-mono;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: $k-on-yellow;
+    background: $k-yellow;
+    padding: 0.15rem 0.5rem;
+    border-radius: 8px;
+    grid-row: span 2;
+    align-self: start;
+    margin-top: 0.35rem;
+  }
+
+  &__section-title {
+    font-family: $k-display;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: $k-ink;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.5rem;
+  }
+
+  &__section-desc {
+    font-size: 0.95rem;
+    color: $k-body;
+    line-height: 1.7;
+    margin: 0;
+    grid-column: 2;
+  }
+
+  /* ===== GENERIC CARD GRID ===== */
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.1rem;
+  }
+
+  &__card {
+    padding: 1.4rem 1.5rem;
+    border: 1px solid $k-border;
+    border-radius: $k-r-md;
+    background: $k-paper;
+
+    h4 {
+      font-family: $k-display;
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: $k-ink;
+      margin: 0 0 0.6rem;
+    }
+
+    p {
+      font-size: 0.85rem;
+      color: $k-muted;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    &--accent { background: $k-yellow-soft; border-color: $k-yellow-deep; }
+    &--dark   { background: $k-ink; h4 { color: #fff; } p { color: #C9C9C9; } }
+  }
+
+  /* ===== COLOR SYSTEM ===== */
+  &__color-group { margin-bottom: 2rem; }
+
+  &__group-label {
+    font-size: 0.76rem;
+    font-weight: 800;
+    color: $k-muted;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 0.85rem;
+  }
+
+  &__swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1rem;
+  }
+
+  &__swatch {
+    background: $k-paper;
+    border: 1px solid $k-border;
+    border-radius: $k-r-md;
+    overflow: hidden;
+    transition: transform .15s ease, box-shadow .15s ease;
+
+    &:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(30,30,30,0.08); }
+  }
+
+  &__swatch-chip {
+    height: 92px;
+    background: var(--color);
+
+    &--border { border-bottom: 1px solid $k-border; }
+  }
+
+  &__swatch-info {
+    padding: 0.85rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+
+    strong { font-family: $k-display; font-size: 0.92rem; color: $k-ink; font-weight: 800; }
+    code   { font-family: $k-mono; font-size: 0.78rem; color: $k-on-yellow; }
+    span   { font-size: 0.78rem; color: $k-muted; margin-top: 0.15rem; }
+  }
+
+  /* ===== TYPOGRAPHY — big specimen ===== */
+  &__specimen {
+    background: $k-yellow;
+    border-radius: $k-r-lg;
+    padding: 2.5rem 2rem;
+    margin-bottom: 1.5rem;
+    color: $k-on-yellow;
+    overflow: hidden;
+  }
+
+  &__specimen-word {
+    font-family: $k-display;
+    font-size: clamp(3rem, 12vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin: 0;
+    color: $k-ink;
+  }
+
+  &__specimen-sub {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0.85rem 0 0;
+    color: $k-on-yellow;
+  }
+
+  &__type-scale {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__type-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding: 1.1rem 1.35rem;
+    background: $k-paper;
+    border: 1px solid $k-border;
+    border-radius: $k-r-md;
+  }
+
+  &__type-sample {
+    color: $k-ink;
+    font-family: $k-display;
+    margin: 0;
+  }
+
+  &__type-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    code { font-family: $k-mono; font-size: 0.78rem; color: $k-on-yellow; }
+    span { font-size: 0.78rem; color: $k-muted; }
+  }
+
+  /* ===== WEIGHTS ===== */
+  &__weights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.85rem;
+  }
+
+  &__weight {
+    padding: 1.25rem 1.35rem;
+    border: 1px solid $k-border;
+    border-radius: $k-r-md;
+    background: $k-paper;
+
+    b {
+      display: block;
+      font-family: $k-display;
+      font-size: 2rem;
+      line-height: 1.1;
+      color: $k-ink;
+      margin-bottom: 0.4rem;
+    }
+    span { font-size: 0.76rem; color: $k-muted; font-family: $k-mono; }
+
+    &--r  b { font-weight: 400; }
+    &--b  b { font-weight: 700; }
+    &--xb b { font-weight: 800; }
+  }
+
+  /* ===== CHAT BUBBLES (Kakao signature UI) ===== */
+  &__bubbles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 1.5rem;
+    background: #B2C7DA; /* KakaoTalk chat backdrop (documented) */
+    border-radius: $k-r-lg;
+    max-width: 480px;
+  }
+
+  &__bubble {
+    max-width: 78%;
+    padding: 0.6rem 0.85rem;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    border-radius: 14px;
+
+    &--them {
+      align-self: flex-start;
+      background: $k-paper;
+      color: $k-ink;
+      border-top-left-radius: 4px;
+    }
+    &--me {
+      align-self: flex-end;
+      background: $k-yellow;
+      color: $k-on-yellow;
+      border-top-right-radius: 4px;
+    }
+  }
+
+  /* ===== BUTTON ATOMS ===== */
+  &__btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+
+  &__btn {
+    font-family: $k-display;
+    font-size: 0.92rem;
+    font-weight: 700;
+    padding: 0.7rem 1.35rem;
+    border-radius: $k-r-sm;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all .15s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    &--primary { background: $k-yellow; color: $k-on-yellow; &:hover { background: $k-yellow-deep; } }
+    &--dark    { background: $k-ink; color: #fff; &:hover { background: #000; } }
+    &--ghost   { background: transparent; color: $k-ink; border-color: $k-line; &:hover { background: $k-soft; } }
+  }
+
+  /* ===== TABLE ===== */
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    background: $k-paper;
+    border: 1px solid $k-border;
+    border-radius: $k-r-md;
+    overflow: hidden;
+
+    th, td {
+      text-align: left;
+      padding: 0.7rem 0.9rem;
+      border-bottom: 1px solid $k-border;
+    }
+    tr:last-child td { border-bottom: 0; }
+
+    th {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: $k-muted;
+      background: $k-soft;
+    }
+
+    code { font-family: $k-mono; color: $k-on-yellow; }
+  }
+
+  /* ===== RATIONALE callout ===== */
+  &__rationale {
+    margin-top: 1.5rem;
+    padding: 1.1rem 1.35rem;
+    background: $k-yellow-soft;
+    border-left: 4px solid $k-yellow;
+    border-radius: 0 $k-r-sm $k-r-sm 0;
+    font-size: 0.9rem;
+    color: $k-body;
+    line-height: 1.7;
+
+    strong { color: $k-ink; }
+    a { color: $k-on-yellow; font-weight: 600; }
+  }
+
+  /* ===== FOOTER ===== */
+  &__foot {
+    padding-top: 2rem;
+    text-align: center;
+    color: $k-muted;
+    font-size: 0.85rem;
+
+    p { margin: 0.25rem 0; }
+    a { color: $k-on-yellow; font-weight: 600; &:hover { text-decoration: underline; } }
+  }
+}
+
+/* ============================================================================
+   ===== MOBILE (≤ 720px) =====
+   ============================================================================ */
+@media (max-width: 720px) {
+  .kdna {
+    padding: 0 1rem;
+
+    &__manifesto-title { font-size: 1.85rem; }
+    &__manifesto-sub   { font-size: 0.95rem; }
+
+    &__section { margin-bottom: 3rem; padding-bottom: 3rem; }
+    &__section-head {
+      grid-template-columns: 1fr;
+      column-gap: 0;
+      gap: 0.5rem;
+    }
+    &__section-num { grid-row: 1; justify-self: start; margin-top: 0; }
+    &__section-title { font-size: 1.45rem; }
+    &__section-desc { grid-column: 1; font-size: 0.9rem; }
+
+    &__swatches { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    &__swatch-chip { height: 72px; }
+
+    &__specimen { padding: 1.75rem 1.25rem; }
+
+    &__type-row {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+      padding: 1rem 1.15rem;
+    }
+
+    &__grid { grid-template-columns: 1fr; }
+
+    &__bubbles { max-width: 100%; }
+  }
+}
+
+@media (max-width: 380px) {
+  .kdna__swatches { grid-template-columns: 1fr; }
+}
