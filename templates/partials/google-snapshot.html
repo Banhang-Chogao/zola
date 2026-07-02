@@ -75,10 +75,11 @@
                 {% else %}
                 <span class="google-snapshot__top-link google-snapshot__top-link--empty">—</span>
                 {% endif %}
-                {% if ga.organic %}
+                {% if ga.organic and ga.organic.sessions %}
                 <div class="google-snapshot__metric">
                     <span class="google-snapshot__sublabel">Organic Traffic (30d)</span>
-                    <strong class="google-snapshot__value">{{ ga.organic }}</strong>
+                    <strong class="google-snapshot__value">{{ ga.organic.sessions }}</strong>
+                    {% if ga.organic.percent %}<span class="google-snapshot__sublabel">{{ ga.organic.percent }}% sessions</span>{% endif %}
                 </div>
                 {% endif %}
             </div>
