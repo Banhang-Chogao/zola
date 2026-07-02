@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-02T19:05:41.678484+07:00",
+  "updated_at": "2026-07-02T19:05:57.502397+07:00",
   "posts": {
     "content/baochi/tau-con-thoi-atlantis.md": {
       "title": "Tàu con thoi Atlantis: huyền thoại vũ trụ của NASA",
@@ -4371,21 +4371,21 @@
       ]
     },
     "content/cong-nghe/giam-deploy-fail-voi-deploy-guard-va-snapshot-production.md": {
-      "title": "Giảm Deploy Fail Từ Hàng Chục Xuống Gần 0: Case Study Deploy Guard",
+      "title": "Giảm Deploy Fail Với Deploy Guard: Case Study Thực Tế",
       "slug": "giam-deploy-fail-voi-deploy-guard-va-snapshot-production",
       "keyword": "giảm deploy fail deploy guard",
-      "score": 91.0,
-      "grade": "A",
-      "word_count": 1760,
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 1762,
       "published": true,
-      "scored_at": "2026-07-02T19:05:31.459569+07:00",
+      "scored_at": "2026-07-02T19:05:55.271855+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
           "max": 8
         },
         "title_length": {
-          "got": 3.0,
+          "got": 6.0,
           "max": 6
         },
         "description": {
@@ -4405,7 +4405,7 @@
           "max": 6
         },
         "kw_heading": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "headings": {
@@ -4445,34 +4445,41 @@
           "max": 3
         }
       },
-      "issues": [
-        "title 66 ký tự (nên 20–65)",
-        "từ khoá 'giảm deploy fail deploy guard' chưa xuất hiện trong heading H2 nào"
-      ],
+      "issues": [],
       "history": [
         {
           "scored_at": "2026-07-02T19:05:31.459569+07:00",
           "score": 91.0,
           "grade": "A"
+        },
+        {
+          "scored_at": "2026-07-02T19:05:52.401552+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-07-02T19:05:55.271855+07:00",
+          "score": 100.0,
+          "grade": "A+"
         }
       ]
     },
     "content/cong-nghe/checklist-theo-doi-deploy-sau-khi-merge-den-production-200.md": {
-      "title": "Checklist Theo Dõi Deploy Sau Khi Merge: Đến Khi Production Trả 200 OK",
+      "title": "Checklist Theo Dõi Deploy Sau Khi Merge Tới Production 200 OK",
       "slug": "checklist-theo-doi-deploy-sau-khi-merge-den-production-200",
       "keyword": "checklist theo dõi deploy sau khi merge",
-      "score": 97.0,
+      "score": 100.0,
       "grade": "A+",
       "word_count": 1279,
       "published": true,
-      "scored_at": "2026-07-02T19:05:41.678484+07:00",
+      "scored_at": "2026-07-02T19:05:57.502397+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
           "max": 8
         },
         "title_length": {
-          "got": 3.0,
+          "got": 6.0,
           "max": 6
         },
         "description": {
@@ -4532,13 +4539,16 @@
           "max": 3
         }
       },
-      "issues": [
-        "title 70 ký tự (nên 20–65)"
-      ],
+      "issues": [],
       "history": [
         {
           "scored_at": "2026-07-02T19:05:41.678484+07:00",
           "score": 97.0,
+          "grade": "A+"
+        },
+        {
+          "scored_at": "2026-07-02T19:05:57.502397+07:00",
+          "score": 100.0,
           "grade": "A+"
         }
       ]
