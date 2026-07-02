@@ -8,7 +8,8 @@
 {% import "macros/references.html" as references %}
 
 {# CONTEXT DETECTION (page vs section) lives INSIDE the blocks below.
-   In an extending template, top-level statements outside {% block %} are not
+   In an extending template, top-level statements outside {% block page_css %}{% endblock page_css %}
+{% block %} are not
    executed when the parent renders, and a {% set %} inside an if/elif is scoped
    to that branch only — so the title is computed inline and the context vars are
    set at the top of {% block main %} (non-nested → visible through the block). #}
