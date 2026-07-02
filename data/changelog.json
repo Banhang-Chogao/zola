@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1348",
+      "pr_number": 1348,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1348",
+      "title": "content(cong-nghe): mở rộng cụm Google DeepMind AI với 4 bài supporting",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-02T11:56:37Z",
+      "merge_commit_sha": "1ae4d970b05a",
+      "stats": {
+        "additions": 1231,
+        "deletions": 13702
+      },
+      "highlights": [
+        "content/posting/gemini-3-5-dung-de-lam-gi.md — Gemini 3.5 dùng để làm gì? 6 ứng dụng thực tế",
+        "content/posting/gemini-3-5-so-sanh-chatgpt-claude.md — Gemini 3.5 so với ChatGPT và Claude: nên dùng AI nào?",
+        "content/posting/cach-tao-anh-ai-bang-nano-banana.md — Cách tạo ảnh AI bằng Nano Banana: hướng dẫn cho người mới",
+        "content/posting/nano-banana-so-sanh-midjourney-dalle.md — Nano Banana so với Midjourney và DALL-E: nên dùng gì?",
+        "python3 qa_check.py → PASS (0 blocker, 7 warning pre-existing không liên quan)"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1346",
       "pr_number": 1346,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1346",
