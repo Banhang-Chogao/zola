@@ -1,8 +1,24 @@
 name: PR Status Gate (kt9 auto-check)
 
+# Trigger matrix (2026-07-02 — full automation):
+#   pull_request   → PR mở/push/reopen: check ngay trên PR đó
+#   workflow_run    → QA Gatekeeper hoặc deploy.yml chạy xong (bất kể conclusion)
+#                      → quét lại TOÀN BỘ open PR (bắt conflict/QA fail phát sinh
+#                      từ merge khác, không cần PR đó có push mới)
+#   schedule        → quét định kỳ mỗi 20' — bắt case không có event nào bắn
+#                      (vd conflict do PR khác merge, QA fail âm thầm)
+#   workflow_dispatch → chạy tay, tuỳ chọn 1 PR cụ thể
+
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_run:
+    workflows:
+      - "QA Gatekeeper"
+      - "Build and deploy Zola site to GitHub Pages"
+    types: [completed]
+  schedule:
+    - cron: '*/20 * * * *'
   workflow_dispatch:
     inputs:
       pr_number:
@@ -11,11 +27,11 @@ on:
         type: string
 
 concurrency:
-  group: pr-status-gate-${{ github.head_ref || github.ref }}-${{ github.event_name }}
-  cancel-in-progress: true
+  group: pr-status-gate-${{ github.head_ref || github.ref }}
+  cancel-in-progress: false
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
   checks: write
   actions: read
