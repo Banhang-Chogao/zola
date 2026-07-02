@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1333",
+      "pr_number": 1333,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1333",
+      "title": "fix(css): khôi phục style trang bài viết bị rớt khi refactor font (cf03c3f)",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-02T05:22:17Z",
+      "merge_commit_sha": "86c4c963eba0",
+      "stats": {
+        "additions": 12,
+        "deletions": 0
+      },
+      "highlights": [
+        "Badge chuyên mục .cat-tag (position:absolute) văng lên góc trái trang, đè logo vì .post-single__hero { position: relative } (trong _single.scss) không còn được biên dịch.",
+        "Sidebar bài viết (FEATURED POST / TODAY HOT SEARCH / RANDOM POSTS) mất card (chỉ còn label đen trần).",
+        "breadcrumb · TOC · FAQ · references · prev/next mất style.",
+        "zola build PASS (EXIT 0). Compiled site.css có lại: .post-single__hero{position:relative}, .breadcrumb__list, .sidebar-label, .random-item, .post-nav, references block.",
+        "qa_check.py PASS (0 P0/P1) · check_internal_links.py OK."
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1332",
       "pr_number": 1332,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1332",
