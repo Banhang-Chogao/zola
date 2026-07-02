@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1342",
+      "pr_number": 1342,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1342",
+      "title": "perf: externalize inline search index to fix mobile Lighthouse score (59→~90+)",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-02T11:18:16Z",
+      "merge_commit_sha": "41fd7cada93b",
+      "stats": {
+        "additions": 126,
+        "deletions": 43
+      },
+      "highlights": [
+        "Article page HTML dropped from ~2.3MB to 328KB after this change.",
+        "Search behaviour is unchanged — same fields, same full-text body matching, same UI. Only the source changed: from inline to a lazily-fetched, cached JSON endpoint.",
+        "templates/search-index.html (new) — Tera template emitting the search dataset as pure JSON (same fields as the old inline block).",
+        "content/pages/search-index.md (new) — renders that template at /search-index/ (root path, render=false section, mirrors the existing about.md pattern).",
+        "templates/base.html — removed the ~2.5MB inline <script id=\"site-search-data\"> block; replaced with a comment explaining where the data now lives."
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1344",
       "pr_number": 1344,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1344",
