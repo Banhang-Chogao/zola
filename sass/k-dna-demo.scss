@@ -1,0 +1,449 @@
+@charset "utf-8";
+
+/* ============================================================================
+   k-dna-demo.scss — K-DNA Demo: bố cục blog mô phỏng (navbar/hero/card/sidebar)
+   ----------------------------------------------------------------------------
+   Mục đích: cho user XEM TRƯỚC cảm giác Kakao Design DNA áp lên bố cục blog
+   thật (navbar, thẻ bài viết, sidebar, pagination, footer) mà KHÔNG đụng tới
+   CSS/theme hiện tại của trang.
+
+   Đây là TOP-LEVEL stylesheet (không underscore) → Zola compile ra
+   `/k-dna-demo.css`. `k-dna-demo.html` tự link file này, KHÔNG import vào
+   `site.scss`, KHÔNG dùng token `var(--c-*)` của site — 100% cô lập, xoá file
+   này không ảnh hưởng bất kỳ trang nào khác.
+   ============================================================================ */
+
+$k-yellow:       #FEE500;
+$k-yellow-deep:  #FDD835;
+$k-yellow-soft:  #FFFBE0;
+$k-cream:        #FFFDF3;
+$k-ink:          #1E1E1E;
+$k-on-yellow:    #333333;
+
+$k-body:   #4A4A4A;
+$k-muted:  #8A8A8A;
+$k-border: #ECECEC;
+$k-line:   #E2E2E2;
+$k-paper:  #FFFFFF;
+$k-soft:   #F7F7F8;
+
+$k-tone-1: #FFF3D6;
+$k-tone-2: #E6F0FF;
+$k-tone-3: #E9F9F1;
+
+$k-r-sm:   12px;
+$k-r-md:   16px;
+$k-r-lg:   20px;
+$k-r-pill: 999px;
+
+$k-display: ui-rounded, "SF Pro Rounded", "Apple SD Gothic Neo", "Varela Round",
+            "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
+$k-text:    "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+/* ============================================================================
+   ===== DESKTOP (global) =====
+   ============================================================================ */
+.kdemo {
+  max-width: 1160px;
+  margin: 1.5rem auto 4rem;
+  padding: 0 1.5rem;
+  font-family: $k-text;
+  color: $k-body;
+  background: $k-cream;
+  -webkit-font-smoothing: antialiased;
+
+  a { color: $k-on-yellow; text-decoration: none; }
+
+  &__notice {
+    background: $k-yellow-soft;
+    border-left: 4px solid $k-yellow;
+    border-radius: 0 $k-r-sm $k-r-sm 0;
+    padding: 1rem 1.25rem;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: $k-body;
+    margin-bottom: 2rem;
+
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.82rem; color: $k-on-yellow; }
+    a { font-weight: 700; }
+  }
+
+  /* ===== NAVBAR ===== */
+  &__navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: $k-paper;
+    border: 1px solid $k-border;
+    border-radius: $k-r-lg;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  &__navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  &__navbar-title {
+    font-family: $k-display;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: $k-ink;
+  }
+
+  &__navbar-links {
+    display: flex;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+
+    a {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: $k-body;
+      padding: 0.5rem 0.9rem;
+      border-radius: $k-r-pill;
+      transition: background .15s ease, color .15s ease;
+
+      &:hover { background: $k-yellow-soft; color: $k-ink; }
+      &.is-active { background: $k-yellow; color: $k-on-yellow; }
+    }
+  }
+
+  &__logo-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: $k-yellow;
+    color: $k-ink;
+    border-radius: 13px 13px 13px 4px;
+    font-family: $k-display;
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  /* ===== HERO ===== */
+  &__hero {
+    max-width: 760px;
+    margin-bottom: 2.5rem;
+  }
+
+  &__hero-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: $k-on-yellow;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 0.75rem;
+  }
+
+  &__hero-title {
+    font-family: $k-display;
+    font-size: 2.3rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: $k-ink;
+    margin: 0 0 1rem;
+  }
+
+  &__hero-sub {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: $k-body;
+    margin: 0 0 1.5rem;
+  }
+
+  &__hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+  /* ===== BUTTONS ===== */
+  &__btn {
+    font-family: $k-display;
+    font-size: 0.92rem;
+    font-weight: 700;
+    padding: 0.75rem 1.4rem;
+    border-radius: $k-r-sm;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background .15s ease;
+
+    &--primary { background: $k-yellow; color: $k-on-yellow; &:hover { background: $k-yellow-deep; } }
+    &--ghost   { background: transparent; color: $k-ink; border-color: $k-line; &:hover { background: $k-soft; } }
+  }
+
+  /* ===== PILLS (category filter) ===== */
+  &__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  &__pill {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.5rem 1.1rem;
+    border-radius: $k-r-pill;
+    background: $k-paper;
+    border: 1px solid $k-border;
+    color: $k-body;
+    transition: background .15s ease, color .15s ease;
+
+    &:hover { background: $k-yellow-soft; color: $k-ink; }
+    &.is-active { background: $k-yellow; color: $k-on-yellow; border-color: $k-yellow; }
+    &--sm { font-size: 0.78rem; padding: 0.4rem 0.85rem; }
+  }
+
+  /* ===== LAYOUT: main + sidebar ===== */
+  &__layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 2.25rem;
+    align-items: start;
+  }
+
+  &__section-title {
+    font-family: $k-display;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: $k-ink;
+    margin: 0 0 1.25rem;
+  }
+
+  /* ===== POST CARDS ===== */
+  &__cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  &__card {
+    background: $k-paper;
+    border: 1px solid $k-border;
+    border-radius: $k-r-md;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform .15s ease, box-shadow .15s ease;
+
+    &:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(30,30,30,0.08); }
+  }
+
+  &__card-thumb {
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &--tone1 { background: $k-tone-1; }
+    &--tone2 { background: $k-tone-2; }
+    &--tone3 { background: $k-tone-3; }
+  }
+
+  &__card-thumb-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    background: $k-yellow;
+    color: $k-ink;
+    border-radius: 15px 15px 15px 5px;
+    font-family: $k-display;
+    font-size: 1.3rem;
+    font-weight: 800;
+    opacity: 0.9;
+  }
+
+  &__card-body {
+    padding: 1.15rem 1.25rem 1.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+
+  &__card-cat {
+    align-self: flex-start;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: $k-on-yellow;
+    background: $k-yellow-soft;
+    padding: 0.25rem 0.65rem;
+    border-radius: $k-r-pill;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &__card-title {
+    font-family: $k-display;
+    font-size: 1.02rem;
+    font-weight: 800;
+    color: $k-ink;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  &__card-excerpt {
+    font-size: 0.86rem;
+    color: $k-muted;
+    line-height: 1.6;
+    margin: 0;
+    flex: 1;
+  }
+
+  &__card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: $k-muted;
+    margin-top: 0.4rem;
+  }
+
+  &__card-link { font-weight: 700; color: $k-on-yellow; }
+
+  /* ===== PAGINATION ===== */
+  &__pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+  }
+
+  &__page {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 0.75rem;
+    border-radius: $k-r-pill;
+    background: $k-paper;
+    border: 1px solid $k-border;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: $k-body;
+
+    &:hover { background: $k-yellow-soft; color: $k-ink; }
+    &.is-active { background: $k-yellow; color: $k-on-yellow; border-color: $k-yellow; }
+    &--dots { border: none; background: transparent; }
+    &--next { padding: 0 1rem; }
+  }
+
+  /* ===== SIDEBAR ===== */
+  &__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  &__widget {
+    background: $k-paper;
+    border: 1px solid $k-border;
+    border-radius: $k-r-md;
+    padding: 1.35rem;
+
+    p { font-size: 0.85rem; color: $k-muted; line-height: 1.6; margin: 0 0 1rem; }
+
+    &--cta { background: $k-yellow-soft; border-color: $k-yellow-deep; }
+  }
+
+  &__widget-title {
+    font-family: $k-display;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: $k-ink;
+    margin: 0 0 1rem;
+  }
+
+  &__widget-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    a {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: $k-body;
+      line-height: 1.5;
+
+      &:hover { color: $k-on-yellow; }
+    }
+  }
+
+  &__widget-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* ===== FOOTER ===== */
+  &__footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid $k-line;
+    text-align: center;
+  }
+
+  &__footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: $k-display;
+    font-weight: 800;
+    color: $k-ink;
+    margin-bottom: 0.5rem;
+  }
+
+  &__footer-note {
+    font-size: 0.8rem;
+    color: $k-muted;
+    margin: 0;
+  }
+
+  /* ===== VERDICT CALLOUT ===== */
+  &__verdict {
+    margin-top: 2.5rem;
+    padding: 1.25rem 1.5rem;
+    background: $k-paper;
+    border: 1px dashed $k-line;
+    border-radius: $k-r-md;
+
+    h4 { font-family: $k-display; font-size: 0.98rem; font-weight: 800; color: $k-ink; margin: 0 0 0.6rem; }
+    p { font-size: 0.86rem; color: $k-body; line-height: 1.7; margin: 0; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.82rem; color: $k-on-yellow; }
+  }
+}
+
+/* ============================================================================
+   ===== MOBILE (≤ 720px) =====
+   ============================================================================ */
+@media (max-width: 720px) {
+  .kdemo {
+    padding: 0 1rem;
+
+    &__navbar { flex-direction: column; align-items: flex-start; }
+    &__navbar-cta { width: 100%; }
+    &__navbar-links { width: 100%; justify-content: flex-start; }
+
+    &__hero-title { font-size: 1.7rem; }
+
+    &__layout { grid-template-columns: 1fr; }
+
+    &__cards { grid-template-columns: 1fr; }
+  }
+}
