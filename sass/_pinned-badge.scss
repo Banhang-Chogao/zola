@@ -1,0 +1,37 @@
+/* "Bài Đáng Xem" pinned-post badge — homepage-only pin ribbon.
+   Deliberately playful (multi-tone gradient + slight tilt), unlike the calm
+   accent palette used elsewhere — sits top-right on .post-card__image so it
+   never collides with .cat-tag / .premium-badge which anchor top-left. */
+.post-card__badge--pinned {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.32rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: #fff;
+  background: linear-gradient(120deg, #ff5da2 0%, #ff9a3c 45%, #7c5cff 100%);
+  box-shadow: 0 3px 10px rgba(124, 92, 255, 0.35);
+  transform: rotate(-3deg);
+  transition: transform 0.2s ease;
+  white-space: nowrap;
+}
+
+.post-card:hover .post-card__badge--pinned {
+  transform: rotate(-3deg) scale(1.06);
+}
+
+@media (max-width: 720px) {
+  .post-card__badge--pinned {
+    top: 0.6rem;
+    right: 0.6rem;
+    padding: 0.26rem 0.6rem;
+    font-size: 0.65rem;
+  }
+}
