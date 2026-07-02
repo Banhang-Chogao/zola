@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1344",
+      "pr_number": 1344,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1344",
+      "title": "feat(k-dna): add isolated demo page applying K-DNA to a mock blog layout",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-02T11:17:35Z",
+      "merge_commit_sha": "120b36462bb5",
+      "stats": {
+        "additions": 643,
+        "deletions": 0
+      },
+      "highlights": [
+        "Adds /k-dna-demo/ — a self-contained page showing K-DNA (Kakao Design DNA) applied to a mock blog layout: navbar, hero, category pills, post-card grid, pagination, sidebar widgets, footer.",
+        "New template templates/k-dna-demo.html (extends base.html, empty sidebar block) + top-level stylesheet sass/k-dna-demo.scss (compiles to its own /k-dna-demo.css), fully scoped under .kdemo. No shared ",
+        "Links added from /tools/k-dna/ to the new demo for discoverability.",
+        "Content-only addition: no changes to site.scss, base.html styling, or any existing component.",
+        "var(--c-accent) is used as a background with color: #fff in ~20+ places (buttons, category badges, active nav/tab states, comment submit button, archive filters). K-DNA's own rule is \"never white text"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1343",
       "pr_number": 1343,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1343",
