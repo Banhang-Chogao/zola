@@ -24,6 +24,9 @@ Allow: /
 
 # Utility / admin — không cần index
 Disallow: /editor/
+Disallow: /cms-v5/
+Disallow: /cms-v6/
+Disallow: /cms-v7/
 Disallow: /worldcup-content-manager/
 Disallow: /admin-author/
 Disallow: /admin/paywall/

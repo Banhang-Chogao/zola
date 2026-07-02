@@ -229,26 +229,13 @@ except Exception as exc:  # pragma: no cover - defensive: keep the rest of the A
     CMS_REPO_MOUNTED = False
     print(f"[vipzone] CMS repo router not mounted: {exc!r}")
 
-# ============= CMS-V5 operational API =============
-# Uses the same GitHub OAuth session as CMS-V2, while keeping drafts, workflow
-# state, taxonomy and media metadata in the persistent VIPZone database.
-try:
-    import cms_v5
-
-    cms_v5.configure(get_db=get_db)
-    app.include_router(cms_v5.router)
-    CMS_V5_MOUNTED = True
-
-    @app.on_event("startup")
-    async def _start_cms_v5_scheduler() -> None:
-        cms_v5.start_scheduler()
-
-    @app.on_event("shutdown")
-    async def _stop_cms_v5_scheduler() -> None:
-        await cms_v5.stop_scheduler()
-except Exception as exc:  # pragma: no cover - keep the rest of VIPZone available
-    CMS_V5_MOUNTED = False
-    print(f"[vipzone] CMS-V5 router not mounted: {exc!r}")
+# ============= CMS-V5 operational API — DISABLED (2026-07-02) =============
+# CMS-V5 (and the CMS-V6/V7 frontends) were retired in favour of CMS-V2 only.
+# cms_v5.py is kept in the tree for reference but no longer mounted, so
+# /api/cms-v5/* is gone. CMS-V2 does not depend on this router — it only
+# needs the shared GitHub OAuth session (cms_auth) and the save-post repo
+# writer (cms_repo) mounted above, both of which stay active.
+CMS_V5_MOUNTED = False
 
 
 # ============= Native comments (Google-auth, moderated) =============
