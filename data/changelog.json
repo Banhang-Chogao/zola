@@ -1,6 +1,27 @@
 {
   "items": [
     {
+      "id": "pr-1338",
+      "pr_number": 1338,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1338",
+      "title": "feat(guideline): add K-DNA — Kakao Design DNA font & branding guideline",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-02T08:46:15Z",
+      "merge_commit_sha": "4e5f23c1e019",
+      "stats": {
+        "additions": 945,
+        "deletions": 1
+      },
+      "highlights": [
+        "content/tools/k-dna.md — page (aliases /k-dna/, /tools/k-dna)",
+        "templates/k-dna.html — philosophy, color system (Kakao Yellow #FEE500, near-black #1E1E1E, text-on-yellow #333), typography/font guideline (Kakao Big Sans Regular/Bold/ExtraBold + Small Sans, OFL-1.1)",
+        "sass/k-dna.scss — self-contained, .kdna-scoped -> /k-dna.css, linked via extra_head (no dependency on the unlinked tools.css)",
+        "config.toml — K-DNA added to \"Hệ thống & guideline\" menu"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1337",
       "pr_number": 1337,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1337",
