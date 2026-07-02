@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+/* ============================================================
+   ===== SE-DNA — standalone stylesheet =====
+   ============================================================
+   Compiled → public/se-dna.css. Linked qua {% block extra_head %}
+   trên đúng 2 trang guideline (branding-se-dna.html, font-se-dna.html).
+   KHÔNG nhồi vào site.css (chỉ 2 trang cần) → giữ site.css gọn.
+
+   Self-contained: chỉ phụ thuộc tokens SCSS local (_se-dna-tokens).
+   Font 'Inter' đã có sẵn @font-face trong site.css (link ở mọi trang). */
+
+@import "se-dna-tokens";
+@import "font-guideline-se-dna";
+@import "branding-se-dna";
+
+/* Trang guideline ẩn sidebar (block sidebar rỗng) → cho main-column tràn
+   full width. Scoped bằng :has() nên CHỈ áp trang SE-DNA, không đụng
+   layout-grid global của trang khác (giống _font-guideline.scss). */
+.main-column:has(.sedna),
+.main-column:has(.sedna-font) { grid-column: 1 / -1; }
