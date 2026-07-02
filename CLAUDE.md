@@ -1348,6 +1348,20 @@ script Python sinh nội dung public).
 - Nếu có → áp dụng 2 rule trên trước khi commit.
 - Sửa code cũ có English format (`%b`, `%B`, `Jan/Feb/...`) → convert sang VN.
 
+### 4. Báo cáo của agent (chat/report) — LUÔN quy đổi sang GMT+7 (BẮT BUỘC)
+
+> Yêu cầu user (02/07/2026): mọi mốc thời gian agent **xác nhận trong report** phải
+> được quy đổi sang GMT+7, KHÔNG để nguyên UTC.
+
+- Khi report cho user (deploy time, merge time, CI run time, commit time, workflow
+  timestamp…), LUÔN convert giá trị UTC/`...Z` từ GitHub API/`git`/CI sang
+  **GMT+7 (Asia/Ho_Chi_Minh)** trước khi hiển thị.
+- Định dạng: `HH:MM dd/mm/yyyy (GMT+7)` — vd `02:24Z` → `09:24 02/07/2026 (GMT+7)`.
+- Áp dụng cho MỌI shortcut/report (`kt9`, `??`, deploy status, merge report…) và
+  văn bản trả lời thường. Nội bộ có thể giữ ISO/UTC để tính toán; chỉ **giá trị
+  hiển thị cuối** cần GMT+7.
+- KHÔNG hiển thị timestamp trần `...Z`/UTC cho user nữa.
+
 ## Quy tắc Git / Pull Request
 
 Bắt buộc với MỌI task có thay đổi code (đã commit + push).
