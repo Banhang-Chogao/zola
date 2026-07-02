@@ -1,6 +1,27 @@
 {
   "items": [
     {
+      "id": "pr-1346",
+      "pr_number": 1346,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1346",
+      "title": "disable legacy CMS routes/links, keep CMS-V2 only",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-02T11:45:17Z",
+      "merge_commit_sha": "0b63a6fa45c4",
+      "stats": {
+        "additions": 19,
+        "deletions": 24
+      },
+      "highlights": [
+        "Disable /editor, /cms-v5, /cms-v6, /cms-v7 via draft = true so they no longer build or route on production — only /cms-v2/ remains live.",
+        "Repoint the \"Công cụ\" nav link and the per-article \"Sửa bài\" quick-edit button from /editor to /cms-v2; remove the CMS-V6/CMS-V7 entries from the nav submenu.",
+        "Remove the site-wide CMS-V5 analytics beacon script from base.html and add the retired paths to robots.txt.",
+        "Unmount the CMS-V5-only API router (/api/cms-v5/*) in the shared VIPZone backend (services/vipzone/main.py). The shared GitHub OAuth session (cms_auth) and save-post repo writer (cms_repo) stay mounte"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1341",
       "pr_number": 1341,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1341",
