@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-07-01T21:09:39Z",
-  "score": 91.3,
-  "grade": "A",
+  "updated_at": "2026-07-02T12:01:33Z",
+  "score": 95.5,
+  "grade": "A+",
   "mood": "good",
   "stats": {
     "pass": 20,
     "warn": 2,
-    "fail": 1,
-    "total": 23
+    "fail": 0,
+    "total": 22
   },
   "categories": [
     {
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "978/1081 in range"
+          "detail": "982/1086 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "1080/1081 complete"
+          "detail": "1083/1086 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "1081/1081 set"
+          "detail": "1085/1086 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "1076/1081 single H1"
+          "detail": "1081/1086 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "1081/1081 with lang"
+          "detail": "1085/1086 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "1081/1081 ready"
+          "detail": "1085/1086 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "1081/1081 pages"
+          "detail": "1085/1086 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "1077/1081 pages covered"
+          "detail": "1085/1086 pages covered"
         },
         {
           "label": "Image weight",
@@ -158,20 +158,15 @@
     {
       "id": "links",
       "label": "Links",
-      "score": 50.0,
+      "score": 100.0,
       "pass": 1,
       "warn": 0,
-      "fail": 1,
+      "fail": 0,
       "items": [
         {
           "label": "Internal links",
           "status": "pass",
           "detail": "all valid"
-        },
-        {
-          "label": "GitHub Pages base path",
-          "status": "fail",
-          "detail": "192 href(s) missing /zola/"
         }
       ]
     },
@@ -186,7 +181,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "1077/1081 pages"
+          "detail": "1081/1086 pages"
         },
         {
           "label": "Skip navigation",
@@ -206,10 +201,6 @@
       "text": "Media: Image formats"
     },
     {
-      "type": "fail",
-      "text": "Links: GitHub Pages base path"
-    },
-    {
       "type": "pass",
       "text": "Metadata: Page titles"
     },
@@ -220,10 +211,14 @@
     {
       "type": "pass",
       "text": "Metadata: Canonical URLs"
+    },
+    {
+      "type": "pass",
+      "text": "Structure: Heading focus"
     }
   ],
-  "pages_scanned": 1081,
-  "articles_scanned": 28,
+  "pages_scanned": 1086,
+  "articles_scanned": 30,
   "fix_log": [
     {
       "category": "Media",
@@ -231,7 +226,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (2 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-07-01T21:09:39Z"
+      "at": "2026-07-02T12:01:33Z"
     },
     {
       "category": "Media",
@@ -239,21 +234,13 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 heavy PNG/GIF). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-07-01T21:09:39Z"
-    },
-    {
-      "category": "Links",
-      "label": "GitHub Pages base path",
-      "check_status": "fail",
-      "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (192 href(s) missing /zola/). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-07-01T21:09:39Z"
+      "at": "2026-07-02T12:01:33Z"
     }
   ],
   "fix_summary": {
-    "attempted": 3,
+    "attempted": 2,
     "fixed": 0,
-    "failed": 3,
+    "failed": 2,
     "skipped": 0
   }
 }
