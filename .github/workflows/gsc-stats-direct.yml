@@ -1,0 +1,64 @@
+name: Fetch GSC Stats (Direct)
+
+# Fetch Google Search Console stats TRỰC TIẾP từ GSC API
+# (không cần VIPZone backend)
+#
+# Setup:
+#   1. Tạo Service Account từ Google Cloud Console
+#   2. Download credentials JSON
+#   3. Base64 encode và add vào GitHub Secrets: GSC_CREDENTIALS_B64
+#   4. Workflow sẽ decode + fetch + publish
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # mỗi giờ
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: gsc-stats-direct
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install google-auth google-auth-httplib2 google-api-python-client
+
+      - name: Decode credentials
+        env:
+          GSC_CREDENTIALS_B64: ${{ secrets.GSC_CREDENTIALS_B64 }}
+        run: |
+          if [ -z "$GSC_CREDENTIALS_B64" ]; then
+            echo "ERROR: GSC_CREDENTIALS_B64 secret not set"
+            exit 1
+          fi
+          echo "$GSC_CREDENTIALS_B64" | base64 -d > ~/.gsc-credentials.json
+          echo "✓ Credentials decoded to ~/.gsc-credentials.json"
+
+      - name: Fetch GSC stats directly
+        env:
+          GSC_CREDENTIALS_PATH: ~/.gsc-credentials.json
+          GSC_PROPERTY_URL: sc-domain:seomoney.org
+        run: python scripts/fetch_gsc_direct.py
+
+      - name: Push to main if changed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh \
+            "Cập nhật: GSC stats direct ($(date -u +%FT%TZ))" \
+            data/gsc-stats.json
