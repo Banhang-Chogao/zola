@@ -63,6 +63,8 @@ SEO không phải là ma thuật. Nó là kỹ thuật có thể học được.
 - **Kỹ thuật viết bài chuẩn SEO**: từ nghiên cứu từ khóa đến tối ưu chuyển đổi.
 - **Tự động hóa quy trình**: dùng công cụ để tiết kiệm thời gian và tăng năng suất.
 
+Ngoài SEO và affiliate, blog cũng có những bài mình viết vì tò mò và muốn chia sẻ kiến thức rộng hơn — ví dụ [Nano Banana 2 Lite và Gemini Omni Flash](/posting/nano-banana-2-lite-gemini-omni-flash/) (công nghệ AI tạo ảnh/video), [kính viễn vọng Hubble](/baochi/kinh-hubble-mat-ma-vu-tru/) (khoa học vũ trụ), hay [kiến trúc nhà tranh truyền thống](/baochi/nha-tranh/) (văn hoá, đời sống).
+
 ## Giá trị cốt lõi
 
 1. **Thực chiến**: mọi kiến thức đều được kiểm chứng qua trải nghiệm thật. Không có chỗ cho lý thuyết sáo rỗng ở đây.

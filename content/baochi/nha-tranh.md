@@ -52,7 +52,7 @@ title = "Wikipedia (English) — Thatching"
 url = "https://en.wikipedia.org/wiki/Thatching"
 +++
 
-Có những hình ảnh mà chỉ cần nhắc tên là cả một miền ký ức ùa về. Với mình, đó là mái nhà tranh thấp thoáng sau lũy tre xanh — một biểu tượng không thể trộn lẫn của làng quê Việt Nam xưa.
+Có những hình ảnh mà chỉ cần nhắc tên là cả một miền ký ức ùa về. Với mình, đó là mái nhà tranh thấp thoáng sau lũy tre xanh — một biểu tượng không thể trộn lẫn của làng quê Việt Nam xưa. Đây là bài mình viết trong chuyên mục [Kiến thức](/categories/kien-thuc/) của blog — nơi mình tổng hợp lại những chủ đề mình tò mò, từ kiến trúc dân gian đến khoa học vũ trụ.
 
 <!-- more -->
 
@@ -121,6 +121,10 @@ Một điểm thú vị: vào năm 2015, UNESCO đã ghi danh **nghề lợp má
 Nhà tranh không chỉ là một kiểu nhà — nó là một phần ký ức tập thể của người Việt. Mỗi lần thấy một mái tranh cũ kỹ bên đường, mình lại nhớ về những câu chuyện bà kể, về tuổi thơ nơi làng quê. Có thể bạn không sống ở đó, nhưng chắc hẳn trong ký ức của mỗi người Việt, hình ảnh mái nhà tranh vẫn gợi lên một điều gì đó rất thân thương.
 
 Nếu có dịp về miền Tây hoặc lên vùng cao, bạn hãy thử tìm một mái nhà tranh còn nguyên vẹn, ngồi lại một chút và cảm nhận — những giá trị xưa cũ đôi khi vẫn tồn tại âm thầm ngay bên cạnh cuộc sống hiện đại.
+
+## Đọc thêm
+
+Nếu bạn thích những bài kiểu này, mình cũng có [kính viễn vọng Hubble và hành trình khám phá vũ trụ](/baochi/kinh-hubble-mat-ma-vu-tru/), hoặc [tàu con thoi Atlantis — huyền thoại của NASA](/baochi/tau-con-thoi-atlantis/). Xem thêm [toàn bộ bài viết trên blog](/categories/tat-ca/), hoặc [tìm hiểu về mình](/posting/chao-mung-den-voi-duy-nguyen/) nếu đây là lần đầu bạn ghé thăm.
 
 ---
 

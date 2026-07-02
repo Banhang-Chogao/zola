@@ -50,13 +50,13 @@ url = "https://aistudio.google.com/models/nano-banana"
 
 Tuần này Google DeepMind vừa có hai bản phát hành khiến mình khá hào hứng: **Nano Banana 2 Lite** — mô hình tạo ảnh nhanh nhất và rẻ nhất của họ từ trước tới nay, và **Gemini Omni Flash** — đưa khả năng tạo video hội thoại ra tay các nhà phát triển.
 
-Mình đã dành thời gian đọc tài liệu, so sánh số liệu và suy nghĩ về bức tranh tổng thể. Bài này mình sẽ chia sẻ lại những gì tìm hiểu được — không phải bản dịch thông cáo báo chí, mà là góc nhìn của một người đang theo dõi mảng AI tạo sinh.
+Mình đã dành thời gian đọc tài liệu, so sánh số liệu và suy nghĩ về bức tranh tổng thể. Bài này mình sẽ chia sẻ lại những gì tìm hiểu được — không phải bản dịch thông cáo báo chí, mà là góc nhìn của một người đang theo dõi mảng [công nghệ AI](/categories/cong-nghe/) tạo sinh.
 
 <!-- more -->
 
 ## Nano Banana 2 Lite: Tạo ảnh 4 giây, giá không thể rẻ hơn
 
-Khi Nano Banana 2 ra mắt hồi tháng 2 năm nay, mình đã khá ấn tượng với chất lượng ảnh so với tốc độ. Nhưng Google DeepMind vẫn thấy chưa đủ — họ muốn thứ gì đó còn nhanh hơn, rẻ hơn cho những tác vụ mà tốc độ là ưu tiên số một.
+Khi [Nano Banana 2 ra mắt hồi tháng 2 năm nay](/posting/deepmind-nano-banana/), mình đã khá ấn tượng với chất lượng ảnh so với tốc độ. Nhưng Google DeepMind vẫn thấy chưa đủ — họ muốn thứ gì đó còn nhanh hơn, rẻ hơn cho những tác vụ mà tốc độ là ưu tiên số một.
 
 **Nano Banana 2 Lite** (tên API `gemini-3.1-flash-lite-image`) là câu trả lời. Mỗi ảnh chỉ mất **4 giây** để sinh, và giá chỉ **$0.034 cho 1.000 ảnh** — tức chưa tới 35 đô la cho 1 triệu ảnh. Con số này khiến nó trở thành mô hình tạo ảnh rẻ nhất của Google từ trước đến nay.
 
@@ -124,7 +124,7 @@ Google DeepMind giới thiệu ba demo app để minh hoạ:
 
 Công nghệ đằng sau là **Interactions API** — cho phép giữ session history và context xuyên suốt quá trình chỉnh sửa. Người dùng có thể stack tới 3 lần chỉnh sửa liên tiếp mà không mất ngữ cảnh.
 
-Với mình, đây là hướng đi đúng. AI tạo sinh không nên là những công cụ rời rạc — bạn tạo ảnh ở chỗ này, tạo video ở chỗ kia, rồi ghép tay. Luồng làm việc lý tưởng là: ý tưởng → hình ảnh → video chuyển động, tất cả trong một hệ sinh thái duy nhất. Google DeepMind đang xây dựng thứ đó.
+Với mình, đây là hướng đi đúng. AI tạo sinh không nên là những công cụ rời rạc — bạn tạo ảnh ở chỗ này, tạo video ở chỗ kia, rồi ghép tay. Luồng làm việc lý tưởng là: ý tưởng → hình ảnh → video chuyển động, tất cả trong một hệ sinh thái duy nhất. Google DeepMind đang xây dựng thứ đó — cùng hướng đi với [Gemini 3.5 và các mô hình agentic](/posting/gemini-3-5-co-gi-moi/) mà mình cũng vừa tìm hiểu.
 
 ## SynthID và vấn đề an toàn
 
@@ -141,3 +141,7 @@ Như mọi mô hình của Google DeepMind, cả Nano Banana 2 Lite và Omni Fla
 **Thứ ba**, việc kết hợp ảnh + video trong cùng một ecosystem cho thấy tầm nhìn dài hạn: AI tạo sinh không chỉ là tạo ra nội dung, mà là **quản lý cả một quy trình sáng tạo** từ ý tưởng đến sản phẩm cuối.
 
 Nếu bạn muốn dùng thử, Google AI Studio là điểm khởi đầu nhanh nhất. Cả hai model đều có sẵn trong playground để bạn tự trải nghiệm.
+
+## Đọc thêm
+
+Nếu đây là lần đầu bạn ghé blog, [tìm hiểu thêm về mình](/posting/chao-mung-den-voi-duy-nguyen/) hoặc xem [toàn bộ bài viết trên blog](/categories/tat-ca/) để khám phá thêm các chủ đề khác.

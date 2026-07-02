@@ -50,7 +50,7 @@ url = "https://deepmind.google/models/evals-methodology/gemini-3-5-flash"
 
 Google DeepMind vừa chính thức trình làng **Gemini 3.5** — dòng mô hình mới nhất đánh dấu bước chuyển từ "AI trả lời câu hỏi" sang "AI hành động". Đây không phải là một bản nâng cấp thông thường về benchmark. Cách họ định vị Gemini 3.5 nói lên nhiều điều: "Frontier intelligence with action."
 
-Mình đã dành thời gian đọc tài liệu, soi từng con số benchmark và xem các demo use case để hiểu xem Gemini 3.5 thực sự có gì mới, và quan trọng hơn — nó khác gì so với Gemini 3.1 Pro hay thậm chí GPT-5.5 hay Claude Opus 4.7.
+Mình đã dành thời gian đọc tài liệu, soi từng con số benchmark và xem các demo use case để hiểu xem Gemini 3.5 thực sự có gì mới, và quan trọng hơn — nó khác gì so với Gemini 3.1 Pro hay thậm chí GPT-5.5 hay Claude Opus 4.7. Đây cũng là mảng [công nghệ AI](/categories/cong-nghe/) mình theo dõi song song với gia đình [Nano Banana — mô hình tạo ảnh của Google DeepMind](/posting/deepmind-nano-banana/).
 
 <!-- more -->
 
@@ -139,3 +139,7 @@ Google cũng giới thiệu **Google Antigravity** — nền tảng phát triể
 Về điểm yếu, long context (đặc biệt ở 1M tokens) vẫn là khoảng cách lớn với GPT-5.5 và Claude Opus. Và trên các benchmark reasoning thuần tuý, 3.5 Flash vẫn chưa phải số một — nhưng đó là nhiệm vụ của bản Pro.
 
 Nếu bạn muốn dùng thử, Gemini 3.5 Flash đã có trên Google AI Studio. Hãy dùng thử với các tác vụ coding hoặc agentic để tự cảm nhận sự khác biệt.
+
+## Đọc thêm
+
+Google DeepMind cũng vừa kết hợp mô hình ảnh và video trong [Nano Banana 2 Lite và Gemini Omni Flash](/posting/nano-banana-2-lite-gemini-omni-flash/) — một hướng đi bổ trợ tốt cho các agent đa phương thức như Gemini 3.5. Nếu bạn mới ghé blog, [tìm hiểu thêm về mình](/posting/chao-mung-den-voi-duy-nguyen/) hoặc xem [toàn bộ bài viết trên blog](/categories/tat-ca/).
