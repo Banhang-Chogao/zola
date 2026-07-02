@@ -1,0 +1,50 @@
+/* ============================================================
+   ===== SE-DNA — Siemens-Enterprise Design DNA · tokens =====
+   ============================================================
+   Palette + type tokens dùng chung cho hai trang guideline:
+   - Branding Guideline  (.sedna)         → _branding-se-dna.scss
+   - Font Guideline       (.sedna-font)   → _font-guideline-se-dna.scss
+
+   Lấy chuẩn từ hệ nhận diện Siemens (Dynamic Petrol + Deep Blue).
+   Self-contained SCSS tokens (giống pattern _font-guideline.scss $fg-*)
+   để trang guideline giữ diện mạo Siemens ổn định, độc lập theme site. */
+
+/* ---------- Brand — Dynamic Petrol ---------- */
+$se-petrol:        #009999;   /* Siemens Petrol · PANTONE 7716 C · màu tương tác chủ đạo */
+$se-petrol-bright: #00ffb9;   /* Bright Green · đỉnh gradient Dynamic Petrol */
+$se-petrol-light:  #00cccc;
+$se-petrol-dark:   #007993;
+$se-petrol-deep:   #005159;
+
+/* ---------- Foundation — Deep Blue ---------- */
+$se-deep-blue:     #000028;   /* Siemens Deep Blue · RGB 0,0,40 · nền tối / tiêu đề */
+$se-blue-800:      #23233c;
+$se-ink:           #000028;
+
+/* ---------- Neutrals (ám sắc deep-blue) ---------- */
+$se-body:          #37374d;
+$se-muted:         #66667e;
+$se-border:        #e5e5ed;
+$se-soft:          #f3f5f6;
+$se-paper:         #ffffff;
+
+/* ---------- Semantic (Siemens IX signal colors) ---------- */
+$se-success:       #01893a;
+$se-warning:       #e9c32a;
+$se-critical:      #e8001d;   /* Siemens signal red */
+$se-info:          #007eb1;
+
+/* ---------- Type ---------- */
+/* "SE Sans" = Inter self-hosted (đã load qua site.css). Inter là humanist
+   neo-grotesque, tinh thần rõ ràng/kỹ thuật gần Siemens Sans, full tiếng Việt. */
+$se-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+$se-ui:   $se-sans;
+$se-mono: 'SFMono-Regular', ui-monospace, 'JetBrains Mono', 'Roboto Mono', 'Courier New', monospace;
+
+/* ---------- Dynamic Petrol gradient (chữ ký thương hiệu) ---------- */
+$se-gradient: linear-gradient(120deg,
+  #00ffb9 0%,
+  #00e5a0 22%,
+  #009999 55%,
+  #007993 78%,
+  #001f39 100%);
