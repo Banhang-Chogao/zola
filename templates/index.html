@@ -68,6 +68,67 @@
 {% set feed_pages = paginator.number_pagers | default(value=1) %}
 {% set pages = all_pages | slice(start=offset, end=offset + per_page) %}
 
+{# "Bài Đáng Xem" — up to 2 editor picks (extra.featured = true), most
+   recent first; back-filled from all_pages when fewer than 2 are flagged
+   so the module never renders empty. Only shown on page 1. #}
+{% set_global featured_posts = [] %}
+{% set_global featured_permalinks = [] %}
+{% if page_num == 1 %}
+    {% for p in all_pages %}
+        {% if p.extra.featured | default(value=false) and featured_posts | length < 2 %}
+            {% set_global featured_posts = featured_posts | concat(with=[p]) %}
+            {% set_global featured_permalinks = featured_permalinks | concat(with=[p.permalink]) %}
+        {% endif %}
+    {% endfor %}
+    {% if featured_posts | length < 2 %}
+        {% for p in all_pages %}
+            {% if featured_posts | length < 2 and p.permalink not in featured_permalinks %}
+                {% set_global featured_posts = featured_posts | concat(with=[p]) %}
+                {% set_global featured_permalinks = featured_permalinks | concat(with=[p.permalink]) %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endif %}
+
+{% if featured_posts | length > 0 %}
+<section class="home-featured" aria-label="Bài đáng xem">
+    <header class="section-header">
+        <h2 class="section-header__title">BÀI ĐÁNG XEM</h2>
+    </header>
+    <div class="home-featured__grid">
+        <div class="home-featured__list">
+            {% for p in featured_posts %}
+                {% set p_cats = p.taxonomies.categories | default(value=[]) %}
+                {% if p_cats | length > 1 %}
+                    {% set p_label = p_cats[1] %}
+                {% elif p_cats | length > 0 %}
+                    {% set p_label = p_cats[0] %}
+                {% else %}
+                    {% set p_label = "SEOMONEY" %}
+                {% endif %}
+                {% set p_summary = p.summary | default(value="") | safe | striptags | trim %}
+                {% if p_summary == "" %}
+                    {% set p_summary = p.description | default(value="") %}
+                {% endif %}
+                <article class="home-featured__item{% if loop.first %} home-featured__item--lead{% endif %}">
+                    <p class="home-featured__eyebrow">{{ p_label | upper }}</p>
+                    <h3 class="home-featured__title">
+                        <a href="{{ p.permalink }}">{{ p.title }}</a>
+                    </h3>
+                    <p class="home-featured__summary">{{ p_summary | truncate(length=160) }}</p>
+                </article>
+            {% endfor %}
+        </div>
+        <a class="home-featured__media" href="{{ featured_posts[0].permalink }}">
+            <img src="{{ img::cover_src(page=featured_posts[0]) }}"
+                 alt="{{ img::cover_alt(page=featured_posts[0]) }}"
+                 width="900" height="600"
+                 loading="eager" fetchpriority="high" decoding="async">
+        </a>
+    </div>
+</section>
+{% endif %}
+
 <header class="section-header">
     <h2 class="section-header__title">BÀI VIẾT MỚI</h2>
 </header>
