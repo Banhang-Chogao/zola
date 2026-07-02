@@ -106,12 +106,16 @@
                 {% else %}
                     {% set p_label = "SEOMONEY" %}
                 {% endif %}
+                {% set p_summary = p.summary | default(value="") | safe | striptags | trim %}
+                {% if p_summary == "" %}
+                    {% set p_summary = p.description | default(value="") %}
+                {% endif %}
                 <article class="home-featured__item{% if loop.first %} home-featured__item--lead{% endif %}">
                     <p class="home-featured__eyebrow">{{ p_label | upper }}</p>
                     <h3 class="home-featured__title">
                         <a href="{{ p.permalink }}">{{ p.title }}</a>
                     </h3>
-                    <p class="home-featured__summary">{{ p.summary | default(value="") | safe | striptags | truncate(length=160) }}</p>
+                    <p class="home-featured__summary">{{ p_summary | truncate(length=160) }}</p>
                 </article>
             {% endfor %}
         </div>
