@@ -82,7 +82,7 @@ menu = [
     # Khi /ad-report/ trở thành hub chứa cả V1/V2/V3, cập nhật menu link sang /ad-report/.
     { name = "Công cụ", url = "$BASE_URL/editor", groups = [
         { name = "SEO & phân tích", children = [ { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" }, { url = "$BASE_URL/insights", name = "Insights" }, { url = "$BASE_URL/tools/content-direction", name = "Content Direction" }, { url = "$BASE_URL/ad-report-v2", name = "AdSense Audit" }, { url = "$BASE_URL/scoring", name = "Scoring" }, { url = "$BASE_URL/tools/theme-log", name = "Theme log" } ] },
-        { name = "Hệ thống & guideline", children = [ { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" }, { url = "$BASE_URL/tools/s-dna", name = "S-DNA" }, { url = "$BASE_URL/cms-v6/", name = "CMS-V6" }, { url = "$BASE_URL/cms-v7/", name = "CMS-V7" }, { url = "$BASE_URL/font", name = "Font Guideline" } ] },
+        { name = "Hệ thống & guideline", children = [ { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" }, { url = "$BASE_URL/tools/s-dna", name = "S-DNA" }, { url = "$BASE_URL/font", name = "Font Guideline" } ] },
     ] },
     # "Dashboard" — top-level riêng (tách khỏi Công cụ). Dropdown đơn (children) gom
     # 4 dashboard tài chính F/L/O/H. KHÔNG đổi URL dashboard.
