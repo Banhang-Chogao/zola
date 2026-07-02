@@ -27,6 +27,8 @@ Disallow: /editor/
 Disallow: /worldcup-content-manager/
 Disallow: /admin-author/
 Disallow: /admin/paywall/
+# Search index (JSON endpoint cho ô tìm kiếm nội bộ) — không phải nội dung
+Disallow: /search-index/
 
 # Báo cáo nội bộ (đã backend-gated; robots bổ sung tín hiệu)
 Disallow: /data/reports/

@@ -6,15 +6,41 @@
   var input = dialog.querySelector("[data-search-input]");
   var form = dialog.querySelector("[data-local-search-form]");
   var resultBox = dialog.querySelector("[data-local-search-results]");
-  var searchDataEl = document.getElementById("site-search-data");
   var posts = [];
   var index = [];
   var lastFocus = null;
+  var dataLoaded = false;
+  var dataLoading = false;
 
-  try {
-    posts = JSON.parse(searchDataEl ? searchDataEl.textContent : "[]");
-  } catch (e) {
-    posts = [];
+  // Search data is no longer inlined into every page (it used to embed the full
+  // body of every post = ~2.5MB per page). It now lives at /search-index/
+  // (templates/search-index.html) and is fetched lazily the first time the user
+  // opens the search dialog, then cached in-memory for the rest of the session.
+  function searchIndexUrl() {
+    var meta = document.querySelector('meta[name="zola-base-url"]');
+    var base = meta && meta.content ? meta.content.replace(/\/+$/, "") : "";
+    return base + "/search-index/";
+  }
+
+  function ensureData() {
+    if (dataLoaded || dataLoading) return;
+    dataLoading = true;
+    fetch(searchIndexUrl(), { credentials: "omit" })
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        posts = Array.isArray(data) ? data : [];
+        buildIndex();
+        dataLoaded = true;
+        dataLoading = false;
+        refresh();
+      })
+      .catch(function () {
+        dataLoading = false;
+        if (input && tokenize(input.value).length) renderError();
+      });
   }
 
   function normalize(value) {
@@ -131,6 +157,29 @@
       '<p class="site-search__note">Nhập từ khóa để tìm trực tiếp trong nội dung blog. Search chạy nội bộ, không dùng Google index.</p>';
   }
 
+  function renderLoading() {
+    if (!resultBox) return;
+    resultBox.innerHTML =
+      '<p class="site-search__note">Đang tải dữ liệu tìm kiếm…</p>';
+  }
+
+  function renderError() {
+    if (!resultBox) return;
+    resultBox.innerHTML =
+      '<p class="site-search__note">Không tải được dữ liệu tìm kiếm. Kiểm tra kết nối rồi thử lại.</p>';
+  }
+
+  // Render the right state depending on whether the index has loaded yet.
+  function refresh() {
+    if (!dataLoaded) {
+      if (input && tokenize(input.value).length) renderLoading();
+      else renderEmpty();
+      return;
+    }
+    if (input) renderResults(input.value);
+    else renderEmpty();
+  }
+
   function renderNoResults(query) {
     resultBox.innerHTML =
       '<div class="site-search__summary" role="status">' +
@@ -198,10 +247,10 @@
     lastFocus = document.activeElement;
     dialog.hidden = false;
     document.body.classList.add("search-open");
+    ensureData();
     window.setTimeout(function () {
       if (input) input.focus();
-      if (input && input.value) renderResults(input.value);
-      else renderEmpty();
+      refresh();
     }, 80);
   }
 
@@ -210,8 +259,6 @@
     document.body.classList.remove("search-open");
     if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
   }
-
-  buildIndex();
 
   openers.forEach(function (btn) {
     btn.addEventListener("click", openSearch);
@@ -224,13 +271,15 @@
   if (form) {
     form.addEventListener("submit", function (event) {
       event.preventDefault();
-      if (input) renderResults(input.value);
+      ensureData();
+      refresh();
     });
   }
 
   if (input) {
     input.addEventListener("input", function () {
-      renderResults(input.value);
+      ensureData();
+      refresh();
     });
   }
 
