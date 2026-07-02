@@ -1,35 +1,129 @@
 {
+  "cach-tao-anh-ai-bang-nano-banana": [
+    {
+      "score": 0.8201,
+      "slug": "deepmind-nano-banana"
+    },
+    {
+      "score": 0.7265,
+      "slug": "nano-banana-so-sanh-midjourney-dalle"
+    },
+    {
+      "score": 0.7258,
+      "slug": "nano-banana-2-lite-gemini-omni-flash"
+    },
+    {
+      "score": 0.3834,
+      "slug": "gemini-3-5-dung-de-lam-gi"
+    },
+    {
+      "score": 0.3649,
+      "slug": "gemini-3-5-co-gi-moi"
+    }
+  ],
   "chao-mung-den-voi-duy-nguyen": [
     {
       "score": 0.2152,
       "slug": "deepmind-nano-banana"
     },
     {
+      "score": 0.1477,
+      "slug": "nano-banana-so-sanh-midjourney-dalle"
+    },
+    {
       "score": 0.147,
       "slug": "nano-banana-2-lite-gemini-omni-flash"
+    },
+    {
+      "score": 0.1235,
+      "slug": "gemini-3-5-dung-de-lam-gi"
     }
   ],
   "deepmind-nano-banana": [
     {
+      "score": 0.8201,
+      "slug": "cach-tao-anh-ai-bang-nano-banana"
+    },
+    {
       "score": 0.7972,
       "slug": "nano-banana-2-lite-gemini-omni-flash"
+    },
+    {
+      "score": 0.6833,
+      "slug": "nano-banana-so-sanh-midjourney-dalle"
     },
     {
       "score": 0.4886,
       "slug": "gemini-3-5-co-gi-moi"
     },
     {
-      "score": 0.2152,
-      "slug": "chao-mung-den-voi-duy-nguyen"
+      "score": 0.4119,
+      "slug": "gemini-3-5-so-sanh-chatgpt-claude"
     }
   ],
   "gemini-3-5-co-gi-moi": [
+    {
+      "score": 0.8507,
+      "slug": "gemini-3-5-so-sanh-chatgpt-claude"
+    },
+    {
+      "score": 0.8046,
+      "slug": "gemini-3-5-dung-de-lam-gi"
+    },
     {
       "score": 0.6241,
       "slug": "nano-banana-2-lite-gemini-omni-flash"
     },
     {
       "score": 0.4886,
+      "slug": "deepmind-nano-banana"
+    },
+    {
+      "score": 0.3915,
+      "slug": "nano-banana-so-sanh-midjourney-dalle"
+    }
+  ],
+  "gemini-3-5-dung-de-lam-gi": [
+    {
+      "score": 0.8046,
+      "slug": "gemini-3-5-co-gi-moi"
+    },
+    {
+      "score": 0.7833,
+      "slug": "gemini-3-5-so-sanh-chatgpt-claude"
+    },
+    {
+      "score": 0.4694,
+      "slug": "nano-banana-2-lite-gemini-omni-flash"
+    },
+    {
+      "score": 0.3834,
+      "slug": "cach-tao-anh-ai-bang-nano-banana"
+    },
+    {
+      "score": 0.3594,
+      "slug": "nano-banana-so-sanh-midjourney-dalle"
+    }
+  ],
+  "gemini-3-5-so-sanh-chatgpt-claude": [
+    {
+      "score": 0.8507,
+      "slug": "gemini-3-5-co-gi-moi"
+    },
+    {
+      "score": 0.7833,
+      "slug": "gemini-3-5-dung-de-lam-gi"
+    },
+    {
+      "score": 0.4477,
+      "slug": "nano-banana-2-lite-gemini-omni-flash"
+    },
+    {
+      "score": 0.4146,
+      "slug": "nano-banana-so-sanh-midjourney-dalle"
+    },
+    {
+      "score": 0.4119,
       "slug": "deepmind-nano-banana"
     }
   ],
@@ -45,12 +139,42 @@
       "slug": "deepmind-nano-banana"
     },
     {
+      "score": 0.7258,
+      "slug": "cach-tao-anh-ai-bang-nano-banana"
+    },
+    {
+      "score": 0.6248,
+      "slug": "nano-banana-so-sanh-midjourney-dalle"
+    },
+    {
       "score": 0.6241,
       "slug": "gemini-3-5-co-gi-moi"
     },
     {
-      "score": 0.147,
-      "slug": "chao-mung-den-voi-duy-nguyen"
+      "score": 0.4694,
+      "slug": "gemini-3-5-dung-de-lam-gi"
+    }
+  ],
+  "nano-banana-so-sanh-midjourney-dalle": [
+    {
+      "score": 0.7265,
+      "slug": "cach-tao-anh-ai-bang-nano-banana"
+    },
+    {
+      "score": 0.6833,
+      "slug": "deepmind-nano-banana"
+    },
+    {
+      "score": 0.6248,
+      "slug": "nano-banana-2-lite-gemini-omni-flash"
+    },
+    {
+      "score": 0.4146,
+      "slug": "gemini-3-5-so-sanh-chatgpt-claude"
+    },
+    {
+      "score": 0.3915,
+      "slug": "gemini-3-5-co-gi-moi"
     }
   ],
   "nha-tranh": [],
