@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1337",
+      "pr_number": 1337,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1337",
+      "title": "fix(css): load tools.css on tool/dashboard pages (fix unstyled UI)",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-02T07:37:05Z",
+      "merge_commit_sha": "4f38f13c41de",
+      "stats": {
+        "additions": 18,
+        "deletions": 1
+      },
+      "highlights": [
+        "base.html: thêm block page_css nạp tools.css mặc định → mọi trang tool/dashboard/admin (kể cả trang dựng DOM bằng JS) tự có style, không thể sót.",
+        "12 template nội dung nhẹ (index, page, section, taxonomy_single, taxonomy_list, series, archive, feed-anchor, 404, about, premium-locked, posting-left-sidebar) override block rỗng → giữ site.css lean ",
+        "zola build PASS (EXIT 0) · qa_check.py PASS (0 P0/P1) · check_internal_links.py OK.",
+        "Coverage audit: 0/12 loại trang thiếu bundle của mình (không class nào chỉ được định nghĩa trong bundle không nạp).",
+        "Screenshot (Chromium) 7 trang:"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1333",
       "pr_number": 1333,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1333",

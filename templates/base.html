@@ -440,6 +440,11 @@
 
     {% set asset_version = now(timestamp=true) %}
     <link rel="stylesheet" href="{{ get_url(path='site.css') }}?v={{ asset_version }}">
+    {# tools.css = heavy dashboard/editor/tool-page styles (~460KB). Loaded by
+       default so every tool/dashboard/CMS/admin page is styled; lean content
+       templates (article/home/section/taxonomy…) override this block to skip it
+       and keep the CWV-critical pages small. See _tools bundle in sass/tools.scss. #}
+    {% block page_css %}<link rel="stylesheet" href="{{ get_url(path='tools.css') }}?v={{ asset_version }}">{% endblock page_css %}
 
     {# Speed Insights tracking — đo Core Web Vitals mọi page, gửi RUM tới GA4 +
        VIPZone backend (không phụ thuộc localStorage). API base + GA id bake từ config. #}

@@ -1,0 +1,510 @@
+/* ============================================================
+   ===== SE-DNA FONT GUIDELINE — "SE Sans" specimen page =====
+   ============================================================
+   Namespace .sedna-font. Phong cách foundry: nhiều khoảng trắng,
+   chữ lớn tự trình diễn. Tokens từ _se-dna-tokens.scss.
+
+   "SE Sans" = Inter self-hosted (đã có @font-face trong site.css),
+   lấy tinh thần kỹ thuật/rõ ràng từ Siemens Sans (proprietary).
+
+   ===== DESKTOP (global) ===== */
+
+.sedna-font {
+  max-width: 1180px;
+  margin: 0 auto 5rem;
+  padding: 0 2rem;
+  color: $se-body;
+  font-family: $se-sans;
+  -webkit-font-smoothing: antialiased;
+
+  &__section {
+    padding: 4.5rem 0;
+    border-top: 1px solid $se-border;
+  }
+
+  &__eyebrow {
+    font-family: $se-ui;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: $se-petrol;
+    margin: 0 0 1.25rem;
+  }
+
+  /* ---------- HERO ---------- */
+  &__hero {
+    padding: 3.5rem 0 4rem;
+    text-align: center;
+  }
+
+  &__wordmark {
+    font-family: $se-sans;
+    font-weight: 800;
+    font-size: clamp(4rem, 17vw, 12rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: $se-ink;
+    margin: 0;
+
+    /* Dynamic Petrol áp lên wordmark — chữ ký thương hiệu */
+    background: $se-gradient;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  &__hero-sub {
+    font-family: $se-sans;
+    font-weight: 300;
+    font-size: clamp(1.1rem, 3vw, 1.9rem);
+    color: $se-muted;
+    margin: 1.5rem auto 0;
+    max-width: 40ch;
+    letter-spacing: -0.01em;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 3.5rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid $se-border;
+  }
+
+  &__meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.5rem 0;
+
+    dt {
+      font-family: $se-ui;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: $se-muted;
+    }
+    dd {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: $se-ink;
+    }
+  }
+
+  /* ---------- BIG STATEMENT ---------- */
+  &__statement {
+    font-family: $se-sans;
+    font-weight: 300;
+    font-size: clamp(1.6rem, 4.6vw, 3.3rem);
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    color: $se-ink;
+    margin: 0;
+    max-width: 17ch;
+
+    em {
+      font-style: normal;
+      font-weight: 700;
+      color: $se-petrol-dark;
+    }
+  }
+
+  /* ---------- ABOUT ---------- */
+  &__about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 3.5rem;
+  }
+
+  &__prose {
+    font-size: 1.05rem;
+    line-height: 1.75;
+
+    p { margin: 0 0 1.1rem; }
+    p:last-child { margin-bottom: 0; }
+    strong { color: $se-ink; font-weight: 700; }
+  }
+
+  &__facts {
+    margin: 0;
+    border-top: 2px solid $se-ink;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid $se-border;
+    }
+    dt {
+      font-family: $se-ui;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: $se-muted;
+    }
+    dd {
+      margin: 0;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $se-ink;
+      text-align: right;
+    }
+  }
+
+  /* ---------- SPECIMEN ---------- */
+  &__glyph-row {
+    font-family: $se-sans;
+    font-weight: 800;
+    font-size: clamp(5rem, 22vw, 18rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: $se-petrol;
+    margin: 0 0 1.5rem;
+  }
+
+  &__pangram {
+    font-family: $se-sans;
+    font-weight: 300;
+    font-size: clamp(1.4rem, 4vw, 2.5rem);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: $se-body;
+    margin: 0;
+  }
+
+  /* ---------- WEIGHTS ---------- */
+  &__weights {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  &__weight {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    align-items: baseline;
+    gap: 2rem;
+    padding: 1.6rem 0;
+    border-bottom: 1px solid $se-border;
+
+    &:last-child { border-bottom: 0; }
+  }
+
+  &__weight-name {
+    font-family: $se-ui;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: $se-ink;
+
+    span {
+      display: block;
+      font-weight: 500;
+      font-size: 0.74rem;
+      letter-spacing: 0.04em;
+      color: $se-muted;
+      margin-top: 0.25rem;
+    }
+  }
+
+  &__weight-sample {
+    font-family: $se-sans;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: $se-ink;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &--400 { font-weight: 400; }
+    &--500 { font-weight: 500; }
+    &--600 { font-weight: 600; }
+    &--700 { font-weight: 700; }
+    &--800 { font-weight: 800; }
+  }
+
+  /* ---------- TYPE SCALE ---------- */
+  &__scale-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    align-items: baseline;
+    gap: 2rem;
+    padding: 1.4rem 0;
+    border-bottom: 1px solid $se-border;
+  }
+
+  &__scale-sample {
+    font-family: $se-sans;
+    color: $se-ink;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__scale-spec {
+    font-family: $se-mono;
+    font-size: 0.8rem;
+    color: $se-muted;
+    text-align: right;
+
+    strong {
+      display: block;
+      font-family: $se-ui;
+      font-size: 0.82rem;
+      color: $se-ink;
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  /* ---------- CHARACTER SET ---------- */
+  &__charset {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  &__charset-block h3 {
+    font-family: $se-ui;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: $se-muted;
+    margin: 0 0 1rem;
+  }
+
+  &__glyphs {
+    font-family: $se-sans;
+    font-weight: 500;
+    font-size: clamp(1.5rem, 4vw, 2.6rem);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: $se-ink;
+    word-spacing: 0.15em;
+    margin: 0;
+  }
+
+  /* ---------- TYPE TESTER ---------- */
+  &__tester-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  &__tester-input {
+    flex: 1 1 320px;
+    font-family: $se-sans;
+    font-size: 0.95rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid $se-border;
+    border-radius: 4px;
+    color: $se-ink;
+    background: $se-paper;
+
+    &:focus {
+      outline: none;
+      border-color: $se-petrol;
+      box-shadow: 0 0 0 3px rgba(0, 153, 153, 0.18);
+    }
+  }
+
+  &__tester-size {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: $se-mono;
+    font-size: 0.8rem;
+    color: $se-muted;
+
+    input[type="range"] { accent-color: $se-petrol; width: 160px; }
+  }
+
+  &__tester-weights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  &__tester-w {
+    font-family: $se-ui;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 0.4rem 0.7rem;
+    border: 1px solid $se-border;
+    border-radius: 4px;
+    background: $se-paper;
+    color: $se-muted;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover { border-color: $se-petrol; color: $se-petrol; }
+    &.is-active { background: $se-petrol; border-color: $se-petrol; color: #fff; }
+  }
+
+  &__tester-preview {
+    font-family: $se-sans;
+    font-weight: 500;
+    font-size: 4rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: $se-ink;
+    margin: 0;
+    word-break: break-word;
+    min-height: 1.2em;
+  }
+
+  /* ---------- COLOR ---------- */
+  &__colors {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  &__swatch {
+    border: 1px solid $se-border;
+    border-radius: 4px;
+    overflow: hidden;
+
+    &-chip { height: 120px; }
+
+    &-info {
+      padding: 0.9rem 1rem 1.1rem;
+      strong { display: block; font-size: 0.92rem; color: $se-ink; }
+      code {
+        display: block;
+        font-family: $se-mono;
+        font-size: 0.8rem;
+        color: $se-muted;
+        margin-top: 0.3rem;
+      }
+      span { display: block; font-size: 0.78rem; color: $se-muted; margin-top: 0.35rem; }
+    }
+  }
+
+  /* ---------- USAGE (Do / Don't) ---------- */
+  &__usage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  &__usage-col {
+    border-top: 3px solid;
+    padding-top: 1.25rem;
+
+    &--do { border-color: $se-petrol; }
+    &--dont { border-color: $se-critical; }
+
+    h3 {
+      font-family: $se-ui;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      margin: 0 0 1rem;
+    }
+    &--do h3 { color: $se-petrol-dark; }
+    &--dont h3 { color: $se-critical; }
+
+    ul { margin: 0; padding: 0; list-style: none; }
+    li {
+      position: relative;
+      padding: 0.55rem 0 0.55rem 1.6rem;
+      font-size: 0.96rem;
+      line-height: 1.55;
+      border-bottom: 1px solid $se-border;
+    }
+    li::before {
+      position: absolute;
+      left: 0;
+      top: 0.55rem;
+      font-weight: 800;
+    }
+    &--do li::before { content: "✓"; color: $se-petrol-dark; }
+    &--dont li::before { content: "✕"; color: $se-critical; }
+  }
+
+  /* ---------- CREDITS / FOOTER ---------- */
+  &__credits {
+    text-align: center;
+    padding-top: 4rem;
+
+    p { margin: 0.4rem 0; font-size: 0.95rem; color: $se-muted; }
+    strong { color: $se-ink; }
+    a { color: $se-petrol-dark; text-decoration: none; border-bottom: 1px solid currentColor; }
+  }
+
+  &__note {
+    margin-top: 2rem !important;
+    font-size: 0.82rem !important;
+    color: $se-muted;
+    max-width: 62ch;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+}
+
+/* Section title/desc chung cho specimen page */
+.sedna-font__section-title {
+  font-family: $se-sans;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: $se-ink;
+  margin: 0 0 0.75rem;
+}
+
+.sedna-font__section-desc {
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: $se-muted;
+  max-width: 58ch;
+  margin: 0 0 2.5rem;
+}
+
+/* ============================================================
+   ===== MOBILE (≤ 720px) =====
+   ============================================================ */
+@media (max-width: 720px) {
+  .sedna-font {
+    padding: 0 1.25rem;
+    margin-bottom: 3rem;
+
+    &__section { padding: 3rem 0; }
+    &__hero { padding: 2rem 0 2.5rem; }
+
+    &__meta { gap: 0 1.75rem; margin-top: 2rem; }
+
+    &__about-grid { grid-template-columns: 1fr; gap: 2rem; }
+
+    &__weight {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      padding: 1.2rem 0;
+    }
+    &__weight-sample { white-space: normal; }
+
+    &__scale-row {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      padding: 1.2rem 0;
+    }
+    &__scale-sample { white-space: normal; }
+    &__scale-spec { text-align: left; }
+
+    &__colors { grid-template-columns: repeat(2, 1fr); }
+
+    &__usage { grid-template-columns: 1fr; gap: 1.5rem; }
+
+    &__tester-preview { font-size: 2.6rem; }
+  }
+}

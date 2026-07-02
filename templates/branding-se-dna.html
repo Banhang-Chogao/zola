@@ -1,0 +1,389 @@
+{% extends "base.html" %}
+
+{% block title %}SE-DNA Branding Guideline | {{ config.title }}{% endblock %}
+{% block description %}SE-DNA — Siemens-Enterprise Design DNA: hệ nhận diện lấy cảm hứng từ Siemens. Dynamic Petrol + Deep Blue, typography SE Sans, UI components, grid spacing và design language cho blog.{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ get_url(path='se-dna.css') }}?v={{ now(timestamp=true) }}">
+{% endblock %}
+
+{% block main %}
+<section class="sedna">
+    {# ===== HEADER nội bộ ===== #}
+    <header class="sedna__header">
+        <div class="sedna__brand">
+            <span class="sedna__logo-mark" aria-hidden="true">◈</span>
+            <span class="sedna__logo-text">SE-DNA</span>
+        </div>
+        <nav class="sedna__nav">
+            <a href="#gradient">Petrol</a>
+            <a href="#colors">Colors</a>
+            <a href="#typography">Typography</a>
+            <a href="#components">Components</a>
+            <a href="#grid">Grid</a>
+            <a href="#logo">Logo</a>
+        </nav>
+    </header>
+
+    {# ===== HERO / MANIFESTO — Dynamic Petrol canvas ===== #}
+    <div class="sedna__hero">
+        <p class="sedna__hero-eyebrow">Siemens-Enterprise Design DNA</p>
+        <h1 class="sedna__hero-title">Công nghệ để chuyển hoá điều thường nhật.</h1>
+        <p class="sedna__hero-sub">
+            SE-DNA là hệ nhận diện lấy cảm hứng từ <strong>Siemens</strong> — calm engineering: bình tĩnh,
+            chính xác, đáng tin cậy và hướng tới con người. Petrol là tiếng nói; Deep Blue là nền móng;
+            khoảng trắng là chất liệu.
+        </p>
+    </div>
+
+    {# ===== 01. DYNAMIC PETROL ===== #}
+    <section id="gradient" class="sedna__section">
+        <header class="sedna__section-head">
+            <span class="sedna__section-num">01</span>
+            <h2 class="sedna__section-title">Dynamic Petrol</h2>
+            <p class="sedna__section-desc">
+                Chữ ký thương hiệu của Siemens: màu Petrol truyền thống được nâng thành một gradient sống động,
+                chuyển từ xanh lá tươi qua Petrol tới Deep Blue. Dùng tiết chế — cho hero, wordmark, điểm nhấn lớn;
+                <strong>không</strong> rải gradient lên chữ nhỏ hay nền toàn trang.
+            </p>
+        </header>
+
+        <div class="sedna__gradient" role="img" aria-label="Dynamic Petrol gradient"></div>
+        <div class="sedna__gradient-stops">
+            <span><i style="background:#00ffb9"></i> #00FFB9</span>
+            <span><i style="background:#00e5a0"></i> #00E5A0</span>
+            <span><i style="background:#009999"></i> #009999</span>
+            <span><i style="background:#007993"></i> #007993</span>
+            <span><i style="background:#001f39"></i> #001F39</span>
+        </div>
+
+        <aside class="sedna__rationale">
+            <strong>Tư duy:</strong> một chữ ký thị giác đủ mạnh để không cần nhiều màu khác. Petrol dẫn dắt,
+            phần còn lại là neutral để nội dung được thở.
+        </aside>
+    </section>
+
+    {# ===== 02. COLOR PALETTE ===== #}
+    <section id="colors" class="sedna__section">
+        <header class="sedna__section-head">
+            <span class="sedna__section-num">02</span>
+            <h2 class="sedna__section-title">Color Palette</h2>
+            <p class="sedna__section-desc">
+                Petrol làm màu tương tác/nhận diện chính, Deep Blue làm nền tảng và tiêu đề, neutral ám sắc
+                deep-blue cho nội dung, và bộ signal color cho trạng thái.
+            </p>
+        </header>
+
+        <div class="sedna__color-group">
+            <h3 class="sedna__group-label">Brand — Dynamic Petrol</h3>
+            <div class="sedna__swatches">
+                <article class="sedna__swatch" style="--color:#009999">
+                    <div class="sedna__swatch-chip"></div>
+                    <div class="sedna__swatch-info"><strong>Petrol</strong><code>#009999</code><span>Brand · link · primary CTA</span></div>
+                </article>
+                <article class="sedna__swatch" style="--color:#00ffb9">
+                    <div class="sedna__swatch-chip"></div>
+                    <div class="sedna__swatch-info"><strong>Bright Green</strong><code>#00FFB9</code><span>Đỉnh gradient · accent</span></div>
+                </article>
+                <article class="sedna__swatch" style="--color:#007993">
+                    <div class="sedna__swatch-chip"></div>
+                    <div class="sedna__swatch-info"><strong>Dark Petrol</strong><code>#007993</code><span>Hover · text-on-light</span></div>
+                </article>
+            </div>
+        </div>
+
+        <div class="sedna__color-group">
+            <h3 class="sedna__group-label">Foundation — Deep Blue</h3>
+            <div class="sedna__swatches">
+                <article class="sedna__swatch" style="--color:#000028">
+                    <div class="sedna__swatch-chip"></div>
+                    <div class="sedna__swatch-info"><strong>Deep Blue</strong><code>#000028</code><span>Nền tối · tiêu đề · ink</span></div>
+                </article>
+                <article class="sedna__swatch" style="--color:#37374d">
+                    <div class="sedna__swatch-chip"></div>
+                    <div class="sedna__swatch-info"><strong>Body</strong><code>#37374D</code><span>Đoạn văn</span></div>
+                </article>
+                <article class="sedna__swatch" style="--color:#66667e">
+                    <div class="sedna__swatch-chip"></div>
+                    <div class="sedna__swatch-info"><strong>Muted</strong><code>#66667E</code><span>Metadata · caption</span></div>
+                </article>
+            </div>
+        </div>
+
+        <div class="sedna__color-group">
+            <h3 class="sedna__group-label">Signal — Semantic</h3>
+            <div class="sedna__swatches">
+                <article class="sedna__swatch" style="--color:#01893a">
+                    <div class="sedna__swatch-chip"></div>
+                    <div class="sedna__swatch-info"><strong>Success</strong><code>#01893A</code><span>Thành công</span></div>
+                </article>
+                <article class="sedna__swatch" style="--color:#e9c32a">
+                    <div class="sedna__swatch-chip"></div>
+                    <div class="sedna__swatch-info"><strong>Warning</strong><code>#E9C32A</code><span>Cảnh báo</span></div>
+                </article>
+                <article class="sedna__swatch" style="--color:#e8001d">
+                    <div class="sedna__swatch-chip"></div>
+                    <div class="sedna__swatch-info"><strong>Critical</strong><code>#E8001D</code><span>Signal red · lỗi</span></div>
+                </article>
+                <article class="sedna__swatch" style="--color:#007eb1">
+                    <div class="sedna__swatch-chip"></div>
+                    <div class="sedna__swatch-info"><strong>Info</strong><code>#007EB1</code><span>Thông tin</span></div>
+                </article>
+            </div>
+        </div>
+
+        <div class="sedna__color-group">
+            <h3 class="sedna__group-label">Surface — Neutral</h3>
+            <div class="sedna__swatches">
+                <article class="sedna__swatch" style="--color:#ffffff">
+                    <div class="sedna__swatch-chip sedna__swatch-chip--border"></div>
+                    <div class="sedna__swatch-info"><strong>Snow</strong><code>#FFFFFF</code><span>Nền mặc định</span></div>
+                </article>
+                <article class="sedna__swatch" style="--color:#f3f5f6">
+                    <div class="sedna__swatch-chip sedna__swatch-chip--border"></div>
+                    <div class="sedna__swatch-info"><strong>Soft</strong><code>#F3F5F6</code><span>Nền section mềm</span></div>
+                </article>
+                <article class="sedna__swatch" style="--color:#e5e5ed">
+                    <div class="sedna__swatch-chip sedna__swatch-chip--border"></div>
+                    <div class="sedna__swatch-info"><strong>Edge</strong><code>#E5E5ED</code><span>Border · divider</span></div>
+                </article>
+            </div>
+        </div>
+
+        <aside class="sedna__rationale">
+            <strong>Tư duy:</strong> Petrol (#009999, PANTONE 7716 C) là nhận diện; Deep Blue là nền móng;
+            signal color chỉ dùng đúng trạng thái. Palette ưu tiên tương phản cao (WCAG AA/AAA), tránh đen tuyền
+            và tương phản gắt.
+        </aside>
+    </section>
+
+    {# ===== 03. TYPOGRAPHY ===== #}
+    <section id="typography" class="sedna__section">
+        <header class="sedna__section-head">
+            <span class="sedna__section-num">03</span>
+            <h2 class="sedna__section-title">Typography</h2>
+            <p class="sedna__section-desc">
+                Trục chữ là <strong>SE Sans</strong> — hệ chữ web dựng trên Inter (self-hosted), lấy chuẩn tinh
+                thần từ Siemens Sans. Xem chi tiết weights, specimen, type tester ở
+                <a href="{{ get_url(path='font-se-dna') }}">Font Guideline</a>.
+            </p>
+        </header>
+
+        <div class="sedna__type-scale">
+            <article class="sedna__type-row">
+                <div class="sedna__type-sample" style="font-size: 3rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;">Display</div>
+                <div class="sedna__type-meta"><code>48px · 800 · -0.03em</code><span>Hero, landing headline</span></div>
+            </article>
+            <article class="sedna__type-row">
+                <div class="sedna__type-sample" style="font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2;">Heading 1</div>
+                <div class="sedna__type-meta"><code>32px · 700 · -0.02em</code><span>Page title</span></div>
+            </article>
+            <article class="sedna__type-row">
+                <div class="sedna__type-sample" style="font-size: 1.5rem; font-weight: 600; line-height: 1.25;">Heading 2</div>
+                <div class="sedna__type-meta"><code>24px · 600</code><span>Section title</span></div>
+            </article>
+            <article class="sedna__type-row">
+                <div class="sedna__type-sample" style="font-size: 1rem; font-weight: 400; line-height: 1.65;">Body — kỹ thuật rõ ràng, đọc thoải mái ở line-height 1.65.</div>
+                <div class="sedna__type-meta"><code>16px · 400 · lh 1.65</code><span>Paragraph body</span></div>
+            </article>
+            <article class="sedna__type-row">
+                <div class="sedna__type-sample" style="font-size: 0.85rem; font-weight: 500; color:#66667e; letter-spacing: 0.04em;">CAPTION / LABEL</div>
+                <div class="sedna__type-meta"><code>13.6px · 500 · 0.04em</code><span>Metadata, captions</span></div>
+            </article>
+        </div>
+
+        <aside class="sedna__rationale">
+            <strong>Tư duy:</strong> humanist sans đặt sự rõ ràng lên trước. Heading dùng letter-spacing âm nhẹ;
+            body giữ spacing tự nhiên để đọc lâu không mỏi. Không trộn quá nhiều weight trong một khối.
+        </aside>
+    </section>
+
+    {# ===== 04. UI COMPONENTS ===== #}
+    <section id="components" class="sedna__section">
+        <header class="sedna__section-head">
+            <span class="sedna__section-num">04</span>
+            <h2 class="sedna__section-title">UI Components</h2>
+            <p class="sedna__section-desc">
+                4 atom cơ bản: Button, Card, Input, Icon. Mọi composition phức tạp xây từ 4 atom này.
+            </p>
+        </header>
+
+        <div class="sedna__comp-grid">
+            <article class="sedna__comp">
+                <h4>Buttons</h4>
+                <div class="sedna__comp-demo">
+                    <button class="sedna-btn sedna-btn--primary">Primary action</button>
+                    <button class="sedna-btn sedna-btn--secondary">Secondary</button>
+                    <button class="sedna-btn sedna-btn--ghost">Ghost</button>
+                </div>
+                <p>3 tier: Primary (Petrol, 1 per view), Secondary (viền), Ghost (tertiary/cancel).</p>
+            </article>
+
+            <article class="sedna__comp">
+                <h4>Card</h4>
+                <div class="sedna__comp-demo">
+                    <div class="sedna-card">
+                        <strong>Card title</strong>
+                        <p>Viền mảnh, không shadow lúc nghỉ. Hover nâng +2px.</p>
+                    </div>
+                </div>
+                <p>Phẳng lúc nghỉ, có chiều sâu khi tương tác. Radius 6–8px.</p>
+            </article>
+
+            <article class="sedna__comp">
+                <h4>Input</h4>
+                <div class="sedna__comp-demo">
+                    <label class="sedna-field">
+                        <span>Email address</span>
+                        <input type="email" placeholder="you@se-dna.example" class="sedna-input">
+                    </label>
+                </div>
+                <p>Label xếp trên, một đường viền, focus ring 3px Petrol.</p>
+            </article>
+
+            <article class="sedna__comp">
+                <h4>Icon</h4>
+                <div class="sedna__comp-demo sedna__comp-demo--icons">
+                    <span aria-hidden="true">○</span>
+                    <span aria-hidden="true">△</span>
+                    <span aria-hidden="true">□</span>
+                    <span aria-hidden="true">◇</span>
+                </div>
+                <p>Stroke 2px, viewbox 24×24. Ưu tiên hình học cơ bản, đường nét sạch.</p>
+            </article>
+        </div>
+    </section>
+
+    {# ===== 05. GRID & SPACING ===== #}
+    <section id="grid" class="sedna__section">
+        <header class="sedna__section-head">
+            <span class="sedna__section-num">05</span>
+            <h2 class="sedna__section-title">Grid &amp; Spacing</h2>
+            <p class="sedna__section-desc">
+                12-column grid, max-width 1280px. Spacing scale base 8px. Mobile-first responsive.
+            </p>
+        </header>
+
+        <div class="sedna__grid-demo">
+            <div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div>
+        </div>
+
+        <table class="sedna__spacing-table">
+            <thead>
+                <tr><th>Token</th><th>Value</th><th>Use</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>--space-xs</code></td><td>4px</td><td>Icon gap, tight inline</td></tr>
+                <tr><td><code>--space-sm</code></td><td>8px</td><td>Card body gap</td></tr>
+                <tr><td><code>--space-md</code></td><td>16px</td><td>Standard rhythm</td></tr>
+                <tr><td><code>--space-lg</code></td><td>24px</td><td>Section internal</td></tr>
+                <tr><td><code>--space-xl</code></td><td>32px</td><td>Section gap</td></tr>
+                <tr><td><code>--space-2xl</code></td><td>48px</td><td>Major section divide</td></tr>
+            </tbody>
+        </table>
+
+        <aside class="sedna__rationale">
+            <strong>Tư duy:</strong> base 8px chia chẵn cho mọi viewport; 12 cột chia hết cho 2/3/4/6 — linh hoạt
+            mọi layout. Max-width 1280px tối ưu đọc, vẫn còn margin cho màn hình 1440p+.
+        </aside>
+    </section>
+
+    {# ===== 06. LOGO / WORDMARK ===== #}
+    <section id="logo" class="sedna__section">
+        <header class="sedna__section-head">
+            <span class="sedna__section-num">06</span>
+            <h2 class="sedna__section-title">Logo &amp; Wordmark</h2>
+            <p class="sedna__section-desc">
+                Wordmark SE-DNA dùng SE Sans ExtraBold + dấu ◈ mang Dynamic Petrol. Giữ khoảng bảo vệ rộng rãi;
+                chỉ đặt trên nền có tương phản đủ. <strong>Không</strong> kéo giãn, đổ bóng hay xoay logo.
+            </p>
+        </header>
+
+        <div class="sedna__logo-grid">
+            <figure class="sedna__logo-tile">
+                <span class="sedna__logo-lockup"><i>◈</i> SE-DNA</span>
+                <figcaption>Trên nền sáng (mặc định)</figcaption>
+            </figure>
+            <figure class="sedna__logo-tile sedna__logo-tile--dark">
+                <span class="sedna__logo-lockup sedna__logo-lockup--on-dark"><i>◈</i> SE-DNA</span>
+                <figcaption>Trên Deep Blue</figcaption>
+            </figure>
+            <figure class="sedna__logo-tile sedna__logo-tile--petrol">
+                <span class="sedna__logo-lockup sedna__logo-lockup--on-petrol"><i>◈</i> SE-DNA</span>
+                <figcaption>Trên Petrol</figcaption>
+            </figure>
+        </div>
+
+        <aside class="sedna__rationale">
+            <strong>Tư duy:</strong> một dấu ◈ + wordmark là đủ. Sự nhận diện đến từ tính nhất quán của Petrol
+            và khoảng trắng, không phải từ hiệu ứng.
+        </aside>
+    </section>
+
+    {# ===== 07. DESIGN LANGUAGE ===== #}
+    <section id="design-language" class="sedna__section">
+        <header class="sedna__section-head">
+            <span class="sedna__section-num">07</span>
+            <h2 class="sedna__section-title">Design Language</h2>
+            <p class="sedna__section-desc">
+                Calm engineering — bình tĩnh, chính xác, hướng con người. Áp dụng cho mọi page, dashboard, tool,
+                widget, report, article. Học tinh thần rồi tái sử dụng, không clone pixel-by-pixel.
+            </p>
+        </header>
+
+        <div class="sedna__comp-grid">
+            <article class="sedna__comp">
+                <h4>Calm engineering</h4>
+                <p>Chính xác hơn hoa mỹ. Tránh shadow nặng, gradient mạnh (ngoài Dynamic Petrol có chủ đích), neon, animation thừa. Ưu tiên whitespace · typography · hierarchy.</p>
+            </article>
+            <article class="sedna__comp">
+                <h4>One signature colour</h4>
+                <p>Petrol dẫn dắt toàn bộ. Signal color chỉ dùng đúng trạng thái. Phần còn lại là neutral để nội dung được thở.</p>
+            </article>
+            <article class="sedna__comp">
+                <h4>Cards before tables</h4>
+                <p>Card là primitive mặc định. Radius 6–8px cho component, 12–16px cho panel; border mảnh, nền mềm, padding rộng rãi.</p>
+            </article>
+            <article class="sedna__comp">
+                <h4>Typography creates hierarchy</h4>
+                <p>Section title lớn → content title vừa → secondary label nhỏ/nhạt. Số liệu KPI: lớn hơn + đậm hơn.</p>
+            </article>
+            <article class="sedna__comp">
+                <h4>Whitespace is a feature</h4>
+                <p>Không nén thông tin. Phân vân thì thêm spacing, đừng thêm element.</p>
+            </article>
+            <article class="sedna__comp">
+                <h4>Human-centric</h4>
+                <p>"Transform the everyday" — thiết kế phục vụ tác vụ thật của người dùng, dễ quét, dễ hành động, accessible (WCAG AA/AAA).</p>
+            </article>
+            <article class="sedna__comp">
+                <h4>Motion</h4>
+                <p>Tinh tế: duration 150–250ms. Tránh bounce, scale transform lớn. Animation hỗ trợ đọc.</p>
+            </article>
+            <article class="sedna__comp">
+                <h4>Information density</h4>
+                <p>Trung bình — như Bloomberg terminal × premium annual report. KHÔNG crypto dashboard · gaming UI · Material overload.</p>
+            </article>
+        </div>
+
+        <aside class="sedna__rationale">
+            <strong>SE-DNA rút gọn:</strong> 1) Calm engineering · 2) One signature colour (Petrol) ·
+            3) Cards before tables · 4) Whitespace is a feature · 5) Typography creates hierarchy ·
+            6) Human-centric &amp; accessible · 7) Soft over saturated · 8) Reuse before creating.<br>
+            Ưu tiên: Branding Guideline → Design DNA → component library → mở rộng có chọn lọc.
+        </aside>
+    </section>
+
+    {# ===== FOOTER ===== #}
+    <footer class="sedna__foot">
+        <p>SE-DNA — Siemens-Enterprise Design DNA v1.0</p>
+        <p>Cảm hứng từ <a href="https://www.siemens.com/en-us/company/about/" target="_blank" rel="noopener">Siemens</a> ·
+           Typography: <a href="{{ get_url(path='font-se-dna') }}">SE Sans Font Guideline</a></p>
+        <p>Maintained by <a href="{{ get_url(path='about') }}">Duy Nguyen</a></p>
+    </footer>
+</section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

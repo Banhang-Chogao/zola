@@ -15,6 +15,26 @@ series = "google-deepmind"
 series_part = 7
 series_total = 7
 toc = true
+
+[[extra.faq]]
+q = "Tôi không có kiến thức sinh học, có đọc được không?"
+a = "Có. Series được viết cho người không chuyên, không yêu cầu kiến thức sinh học hay lập trình. Mỗi thuật ngữ chuyên ngành đều được giải thích."
+
+[[extra.faq]]
+q = "Cần đọc theo thứ tự không?"
+a = "Không bắt buộc. Mỗi bài đọc được độc lập. Nhưng đọc từ bài 1 đến bài 6 sẽ cho bạn bức tranh tiến hoá rõ ràng nhất."
+
+[[extra.faq]]
+q = "Series này khác gì bài tổng quan?"
+a = "Bài tổng quan Google DeepMind là gì nói về lịch sử, sản phẩm và tầm nhìn chung. Series này đi vào chi tiết kỹ thuật và khoa học đằng sau mỗi mô hình Alpha."
+
+[[extra.faq]]
+q = "Series gồm những mô hình AI nào của Google DeepMind?"
+a = "Series giới thiệu năm mô hình trong gia đình Alpha: AlphaFold (dự đoán cấu trúc protein), AlphaFold 3 (tương tác protein–DNA–RNA–thuốc), AlphaMissense (phân loại đột biến gen người), AlphaProteo (thiết kế protein mới) và AlphaGenome (đọc vùng điều hoà trong bộ gen), chia thành 6 bài chi tiết."
+
+[[extra.faq]]
+q = "Các mô hình Alpha giải quyết bài toán gì?"
+a = "Chúng đi theo một lộ trình: từ AI hiểu cấu trúc protein (AlphaFold), sang hiểu chức năng của đột biến (AlphaMissense), tới thiết kế protein mới (AlphaProteo), rồi đọc và dự đoán cách DNA điều khiển cơ thể (AlphaGenome) — tức từ hiểu đến thiết kế và đọc bộ gen."
 +++
 
 > 🧬 **Series Khoa học — Google DeepMind & AI Sinh học (Bài 7/7)** — Bạn đã đọc [bài tổng quan về Google DeepMind](/cong-nghe/google-deepmind-la-gi/) và muốn đi sâu vào từng mô hình AI mà họ từng công bố? Series này dành cho bạn — giải thích bằng ngôn ngữ đời thường, không yêu cầu kiến thức sinh học hay lập trình.
@@ -59,15 +79,8 @@ Nếu bạn không phải nhà sinh học, những thuật ngữ như *protein f
 
 Mỗi bài trong series được viết độc lập — bạn có thể đọc bất kỳ bài nào mà không cần đọc bài trước. Nhưng nếu đọc tuần tự, bạn sẽ thấy bức tranh toàn cảnh về cách DeepMind đang xây dựng "ngôn ngữ sự sống" từ những khối Lego phân tử nhỏ nhất.
 
-{{ qa_pair(q = "Tôi không có kiến thức sinh học, có đọc được không?", a = "Có. Series được viết cho người không chuyên, không yêu cầu kiến thức sinh học hay lập trình. Mỗi thuật ngữ chuyên ngành đều được giải thích.") }}
-
-{{ qa_pair(q = "Cần đọc theo thứ tự không?", a = "Không bắt buộc. Mỗi bài đọc được độc lập. Nhưng đọc từ bài 1 đến bài 6 sẽ cho bạn bức tranh tiến hoá rõ ràng nhất.") }}
-
-{{ qa_pair(q = "Series này khác gì bài tổng quan?", a = "Bài tổng quan Google DeepMind là gì nói về lịch sử, sản phẩm và tầm nhìn chung. Series này đi vào chi tiết kỹ thuật và khoa học đằng sau mỗi mô hình Alpha.") }}
-
 ## Tóm lại
 
 **Google DeepMind** đang xây dựng một thư viện công cụ AI để đọc, hiểu và thiết kế ngôn ngữ sự sống — từ protein, gen đến toàn bộ bộ gen. Bảy bài trong series này là hành trang để bạn bước vào thế giới đó, không cần lab coat hay bằng tiến sĩ.
 
 Hãy bắt đầu từ [Bài 1: AlphaFold là gì?](/khoa-hoc/alphafold-la-gi-cau-truc-protein/) — câu chuyện AI giải bài toán 50 năm.
-+++

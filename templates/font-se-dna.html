@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+
+{% block title %}SE-DNA Font Guideline — SE Sans | {{ config.title }}{% endblock %}
+{% block description %}Hướng dẫn typeface của SE-DNA (Siemens-Enterprise Design DNA): triết lý "SE Sans", các độ đậm, type scale, bộ ký tự và quy tắc sử dụng. Lấy chuẩn tinh thần từ Siemens Sans.{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ get_url(path='se-dna.css') }}?v={{ now(timestamp=true) }}">
+{% endblock %}
+
+{% block main %}
+<article class="sedna-font">
+
+    {# ===== HERO ===== #}
+    <header class="sedna-font__hero">
+        <p class="sedna-font__eyebrow">Siemens-Enterprise Design DNA · Type system</p>
+        <h1 class="sedna-font__wordmark">SE&nbsp;Sans</h1>
+        <p class="sedna-font__hero-sub">Chữ dành cho công nghệ — rõ ràng, kỹ thuật, và biến điều phức tạp thành thứ dễ đọc.</p>
+
+        <dl class="sedna-font__meta">
+            <div class="sedna-font__meta-item"><dt>Hệ chữ web</dt><dd>Inter (self-hosted)</dd></div>
+            <div class="sedna-font__meta-item"><dt>Chuẩn tham chiếu</dt><dd>Siemens Sans</dd></div>
+            <div class="sedna-font__meta-item"><dt>Phân loại</dt><dd>Humanist Sans</dd></div>
+            <div class="sedna-font__meta-item"><dt>Bảng chữ</dt><dd>Latin · Latin-ext · Vietnamese</dd></div>
+            <div class="sedna-font__meta-item"><dt>Độ đậm</dt><dd>5 weights</dd></div>
+        </dl>
+    </header>
+
+    {# ===== BIG STATEMENT ===== #}
+    <section class="sedna-font__section">
+        <p class="sedna-font__statement">
+            Một hệ chữ vẽ cho <em>màn hình trước tiên</em> — trung tính, chính xác, đặt sự dễ đọc lên hàng đầu.
+        </p>
+    </section>
+
+    {# ===== ABOUT / STORY ===== #}
+    <section class="sedna-font__section">
+        <p class="sedna-font__eyebrow">01 — Câu chuyện</p>
+        <div class="sedna-font__about-grid">
+            <div class="sedna-font__prose">
+                <p>
+                    <strong>SE-DNA</strong> (Siemens-Enterprise Design DNA) là hệ nhận diện lấy cảm hứng từ
+                    thương hiệu <strong>Siemens</strong> — tập đoàn công nghệ Đức thành lập năm 1847. Tinh thần
+                    thị giác của Siemens là <em>calm engineering</em>: bình tĩnh, chính xác, đáng tin cậy, và
+                    luôn hướng tới con người — <strong>"We create technology to transform the everyday."</strong>
+                </p>
+                <p>
+                    Trục typography của Siemens là <strong>Siemens Sans</strong> — một superfamily độc quyền
+                    (proprietary) do <strong>Hans-Jürg Hunziker</strong> thiết kế, gồm cả Siemens Serif và
+                    Siemens Slab. Đây là sans-serif nhân văn (humanist), tối ưu cho giao diện phần mềm và ấn phẩm
+                    toàn cầu. Siemens Sans <strong>không cấp phép công khai</strong>, nên không thể (và không nên)
+                    nhúng trực tiếp vào một blog tĩnh.
+                </p>
+                <p>
+                    Vì vậy hệ chữ web của SE-DNA — gọi là <strong>"SE Sans"</strong> — được dựng trên
+                    <strong>Inter</strong> (self-hosted, giấy phép SIL OFL). Inter là một neo-grotesque nhân văn
+                    mang cùng tinh thần rõ ràng và trung tính kỹ thuật, lại hỗ trợ đầy đủ tiếng Việt — một lựa chọn
+                    mã nguồn mở thay thế trung thực cho Siemens Sans trong môi trường web công khai.
+                </p>
+            </div>
+            <dl class="sedna-font__facts">
+                <div><dt>Hệ thống</dt><dd>SE-DNA</dd></div>
+                <div><dt>Cảm hứng</dt><dd>Siemens</dd></div>
+                <div><dt>Chuẩn tham chiếu</dt><dd>Siemens Sans</dd></div>
+                <div><dt>Hệ chữ web</dt><dd>Inter</dd></div>
+                <div><dt>Phân loại</dt><dd>Humanist Sans</dd></div>
+                <div><dt>Giấy phép web</dt><dd>SIL Open Font License</dd></div>
+                <div><dt>Định hướng</dt><dd>Digital-first / GUI</dd></div>
+            </dl>
+        </div>
+    </section>
+
+    {# ===== SPECIMEN ===== #}
+    <section class="sedna-font__section">
+        <p class="sedna-font__eyebrow">02 — Specimen</p>
+        <p class="sedna-font__glyph-row">Aa</p>
+        <p class="sedna-font__pangram">Kỹ thuật biến điều phức tạp thành thứ dễ đọc. The quick brown fox — 0123456789</p>
+    </section>
+
+    {# ===== WEIGHTS ===== #}
+    <section class="sedna-font__section">
+        <p class="sedna-font__eyebrow">03 — Độ đậm</p>
+        <h2 class="sedna-font__section-title">Năm weights</h2>
+        <p class="sedna-font__section-desc">
+            Dải độ đậm từ Regular tới ExtraBold — đủ để dựng một hệ thống phân cấp rõ ràng cho cả tiêu đề lớn
+            lẫn nội dung giao diện. Ưu tiên SemiBold/Bold cho heading, Regular/Medium cho body.
+        </p>
+
+        <div class="sedna-font__weights">
+            <div class="sedna-font__weight">
+                <div class="sedna-font__weight-name">Regular<span>Weight 400</span></div>
+                <div class="sedna-font__weight-sample sedna-font__weight-sample--400">Engineering</div>
+            </div>
+            <div class="sedna-font__weight">
+                <div class="sedna-font__weight-name">Medium<span>Weight 500</span></div>
+                <div class="sedna-font__weight-sample sedna-font__weight-sample--500">Engineering</div>
+            </div>
+            <div class="sedna-font__weight">
+                <div class="sedna-font__weight-name">SemiBold<span>Weight 600</span></div>
+                <div class="sedna-font__weight-sample sedna-font__weight-sample--600">Engineering</div>
+            </div>
+            <div class="sedna-font__weight">
+                <div class="sedna-font__weight-name">Bold<span>Weight 700</span></div>
+                <div class="sedna-font__weight-sample sedna-font__weight-sample--700">Engineering</div>
+            </div>
+            <div class="sedna-font__weight">
+                <div class="sedna-font__weight-name">ExtraBold<span>Weight 800</span></div>
+                <div class="sedna-font__weight-sample sedna-font__weight-sample--800">Engineering</div>
+            </div>
+        </div>
+    </section>
+
+    {# ===== TYPE SCALE ===== #}
+    <section class="sedna-font__section">
+        <p class="sedna-font__eyebrow">04 — Type scale</p>
+        <h2 class="sedna-font__section-title">Thang kích thước</h2>
+        <p class="sedna-font__section-desc">
+            Thang typographic gợi ý cho web — heading dùng letter-spacing âm để chữ chắc chắn hơn về thị giác,
+            body giữ spacing tự nhiên để đọc thoải mái.
+        </p>
+
+        <div class="sedna-font__scale-row">
+            <div class="sedna-font__scale-sample" style="font-size: 3.25rem; font-weight: 800;">Display</div>
+            <div class="sedna-font__scale-spec"><strong>Display</strong>52px · 800 · -0.03em</div>
+        </div>
+        <div class="sedna-font__scale-row">
+            <div class="sedna-font__scale-sample" style="font-size: 2.25rem; font-weight: 700;">Heading 1</div>
+            <div class="sedna-font__scale-spec"><strong>H1</strong>36px · 700 · -0.02em</div>
+        </div>
+        <div class="sedna-font__scale-row">
+            <div class="sedna-font__scale-sample" style="font-size: 1.6rem; font-weight: 600;">Heading 2</div>
+            <div class="sedna-font__scale-spec"><strong>H2</strong>26px · 600 · -0.01em</div>
+        </div>
+        <div class="sedna-font__scale-row">
+            <div class="sedna-font__scale-sample" style="font-size: 1.2rem; font-weight: 600;">Heading 3</div>
+            <div class="sedna-font__scale-spec"><strong>H3</strong>19px · 600</div>
+        </div>
+        <div class="sedna-font__scale-row">
+            <div class="sedna-font__scale-sample" style="font-size: 1rem; font-weight: 400; letter-spacing: 0;">Body — kỹ thuật rõ ràng, đọc thoải mái.</div>
+            <div class="sedna-font__scale-spec"><strong>Body</strong>16px · 400 · lh 1.6</div>
+        </div>
+        <div class="sedna-font__scale-row">
+            <div class="sedna-font__scale-sample" style="font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em; color: #66667e;">CAPTION / LABEL</div>
+            <div class="sedna-font__scale-spec"><strong>Caption</strong>13px · 500 · 0.04em</div>
+        </div>
+    </section>
+
+    {# ===== CHARACTER SET ===== #}
+    <section class="sedna-font__section">
+        <p class="sedna-font__eyebrow">05 — Bộ ký tự</p>
+        <h2 class="sedna-font__section-title">Character set</h2>
+        <p class="sedna-font__section-desc">
+            Bộ ký tự Latin đầy đủ, chữ số, dấu câu và <strong>dấu thanh tiếng Việt</strong> — SE Sans (Inter)
+            phủ trọn Latin, Latin-ext và Vietnamese cho nội dung song ngữ.
+        </p>
+
+        <div class="sedna-font__charset">
+            <div class="sedna-font__charset-block">
+                <h3>Uppercase</h3>
+                <p class="sedna-font__glyphs">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</p>
+            </div>
+            <div class="sedna-font__charset-block">
+                <h3>Lowercase</h3>
+                <p class="sedna-font__glyphs">a b c d e f g h i j k l m n o p q r s t u v w x y z</p>
+            </div>
+            <div class="sedna-font__charset-block">
+                <h3>Vietnamese</h3>
+                <p class="sedna-font__glyphs">à á ả ã ạ ă ằ ắ â ầ ấ đ è é ê ế ì í ĩ ị ò ó ô ố ơ ớ ù ú ũ ư ừ ứ ỳ ý</p>
+            </div>
+            <div class="sedna-font__charset-block">
+                <h3>Numerals &amp; Punctuation</h3>
+                <p class="sedna-font__glyphs">0 1 2 3 4 5 6 7 8 9 &amp; @ # % ( ) ? ! . , : ; — “ ”</p>
+            </div>
+        </div>
+    </section>
+
+    {# ===== TYPE TESTER ===== #}
+    <section class="sedna-font__section">
+        <p class="sedna-font__eyebrow">06 — Type tester</p>
+        <h2 class="sedna-font__section-title">Gõ thử</h2>
+        <p class="sedna-font__section-desc">Nhập nội dung, đổi độ đậm và kích thước để xem SE Sans hoạt động trực tiếp.</p>
+
+        <div class="sedna-font__tester-controls">
+            <input class="sedna-font__tester-input" data-tester-input type="text"
+                   value="Chuyển hoá điều thường nhật" aria-label="Nội dung gõ thử">
+            <div class="sedna-font__tester-weights" data-tester-weights>
+                <button type="button" class="sedna-font__tester-w" data-w="400">R</button>
+                <button type="button" class="sedna-font__tester-w" data-w="500">M</button>
+                <button type="button" class="sedna-font__tester-w is-active" data-w="600">SB</button>
+                <button type="button" class="sedna-font__tester-w" data-w="700">B</button>
+                <button type="button" class="sedna-font__tester-w" data-w="800">XB</button>
+            </div>
+            <label class="sedna-font__tester-size">
+                Size
+                <input type="range" min="24" max="120" value="64" data-tester-range>
+                <span data-tester-val>64px</span>
+            </label>
+        </div>
+        <p class="sedna-font__tester-preview" data-tester-preview>Chuyển hoá điều thường nhật</p>
+    </section>
+
+    {# ===== COLOR ===== #}
+    <section class="sedna-font__section">
+        <p class="sedna-font__eyebrow">07 — Màu sắc</p>
+        <h2 class="sedna-font__section-title">Palette thương hiệu</h2>
+        <p class="sedna-font__section-desc">
+            Petrol là màu chủ đạo; Deep Blue là nền tảng. Chữ đạt độ tương phản cao trên nền trắng (WCAG AA/AAA).
+        </p>
+
+        <div class="sedna-font__colors">
+            <div class="sedna-font__swatch">
+                <div class="sedna-font__swatch-chip" style="background:#009999"></div>
+                <div class="sedna-font__swatch-info"><strong>Petrol</strong><code>#009999</code><span>Màu chủ đạo</span></div>
+            </div>
+            <div class="sedna-font__swatch">
+                <div class="sedna-font__swatch-chip" style="background:#000028"></div>
+                <div class="sedna-font__swatch-info"><strong>Deep Blue</strong><code>#000028</code><span>Nền tảng / tiêu đề</span></div>
+            </div>
+            <div class="sedna-font__swatch">
+                <div class="sedna-font__swatch-chip" style="background:#00ffb9"></div>
+                <div class="sedna-font__swatch-info"><strong>Bright Green</strong><code>#00ffb9</code><span>Đỉnh gradient</span></div>
+            </div>
+            <div class="sedna-font__swatch">
+                <div class="sedna-font__swatch-chip" style="background:#e8001d"></div>
+                <div class="sedna-font__swatch-info"><strong>Signal Red</strong><code>#e8001d</code><span>CTA / cảnh báo</span></div>
+            </div>
+        </div>
+    </section>
+
+    {# ===== USAGE (Do / Don't) ===== #}
+    <section class="sedna-font__section">
+        <p class="sedna-font__eyebrow">08 — Quy tắc sử dụng</p>
+        <h2 class="sedna-font__section-title">Nên &amp; Không nên</h2>
+
+        <div class="sedna-font__usage">
+            <div class="sedna-font__usage-col sedna-font__usage-col--do">
+                <h3>Nên</h3>
+                <ul>
+                    <li>Dùng SemiBold/Bold cho tiêu đề, Regular/Medium cho nội dung.</li>
+                    <li>Áp letter-spacing âm nhẹ cho heading cỡ lớn (≥ 24px).</li>
+                    <li>Giữ độ tương phản cao — chữ tối trên nền sáng.</li>
+                    <li>Ưu tiên sự rõ ràng và khoảng trắng rộng rãi.</li>
+                </ul>
+            </div>
+            <div class="sedna-font__usage-col sedna-font__usage-col--dont">
+                <h3>Không nên</h3>
+                <ul>
+                    <li>Không kéo giãn (stretch/condense) hay nghiêng giả lập chữ.</li>
+                    <li>Không trộn quá nhiều weight trong một khối nội dung.</li>
+                    <li>Không đặt chữ mảnh ở cỡ nhỏ trên nền nhiễu.</li>
+                    <li>Không dùng letter-spacing dương cho đoạn văn dài.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    {# ===== CREDITS ===== #}
+    <footer class="sedna-font__credits">
+        <p class="sedna-font__eyebrow">Credits</p>
+        <p>Hệ nhận diện <strong>SE-DNA</strong> lấy cảm hứng từ thương hiệu <strong>Siemens</strong></p>
+        <p>Chuẩn tham chiếu: <strong>Siemens Sans</strong> (Hans-Jürg Hunziker) · Hệ chữ web: <strong>Inter</strong> (SIL OFL)</p>
+        <p>Tham khảo: <a href="https://www.siemens.com/en-us/company/about/" target="_blank" rel="noopener">siemens.com/company/about</a></p>
+        <p class="sedna-font__note">
+            Lưu ý: Siemens Sans và thương hiệu Siemens là tài sản độc quyền của Siemens AG. Trang này chỉ mang
+            tính giới thiệu &amp; hướng dẫn (font guideline) cho hệ SE-DNA, dựng theo phong cách trình bày
+            typeface chuẩn foundry — <strong>không</strong> nhúng hay phân phối lại Siemens Sans. Hệ chữ hiển thị
+            thực tế là Inter (mã nguồn mở).
+        </p>
+    </footer>
+
+</article>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+<script>
+(function () {
+  var root = document.querySelector('.sedna-font');
+  if (!root) return;
+
+  var input   = root.querySelector('[data-tester-input]');
+  var preview = root.querySelector('[data-tester-preview]');
+  var range   = root.querySelector('[data-tester-range]');
+  var val     = root.querySelector('[data-tester-val]');
+  var wWrap   = root.querySelector('[data-tester-weights]');
+  if (!input || !preview) return;
+
+  var DEFAULT = 'Chuyển hoá điều thường nhật';
+  function syncText() {
+    preview.textContent = input.value || DEFAULT;
+  }
+  input.addEventListener('input', syncText);
+
+  if (range && val) {
+    range.addEventListener('input', function () {
+      preview.style.fontSize = range.value + 'px';
+      val.textContent = range.value + 'px';
+    });
+  }
+
+  if (wWrap) {
+    wWrap.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-w]');
+      if (!btn) return;
+      wWrap.querySelectorAll('.sedna-font__tester-w').forEach(function (b) {
+        b.classList.remove('is-active');
+      });
+      btn.classList.add('is-active');
+      preview.style.fontWeight = btn.getAttribute('data-w');
+    });
+  }
+})();
+</script>
+{% endblock extra_scripts %}

@@ -17,6 +17,26 @@ hub_series = "google-deepmind"
 [[extra.references_external]]
 title = "Wikipedia (Tiếng Việt) — Google DeepMind"
 url = "https://vi.wikipedia.org/wiki/DeepMind"
+
+[[extra.faq]]
+q = "Google DeepMind khác gì OpenAI?"
+a = "Cả hai đều là tổ chức AI hàng đầu nhưng khác nhau về mô hình: DeepMind là công ty con của Alphabet (Google) từ 2014, trong khi OpenAI ban đầu là phi lợi nhuận rồi chuyển sang capped-profit. DeepMind nổi tiếng với nghiên cứu khoa học cơ bản (AlphaFold) và tích hợp sâu vào hệ sinh thái Google, còn OpenAI gắn liền với ChatGPT và các sản phẩm đại chúng."
+
+[[extra.faq]]
+q = "DeepMind có kiếm được tiền không?"
+a = "Theo báo cáo tài chính, DeepMind lỗ trong nhiều năm nhưng đến năm 2024 đã có lãi 174 triệu bảng. Tuy nhiên, giá trị chiến lược của DeepMind với Alphabet nằm ở công nghệ hơn là lợi nhuận trực tiếp — các mô hình của họ được tích hợp vào Google Search, Cloud, và các sản phẩm khác."
+
+[[extra.faq]]
+q = "AlphaFold có miễn phí không?"
+a = "Có. Cơ sở dữ liệu AlphaFold với hơn 200 triệu cấu trúc protein được cung cấp miễn phí cho cộng đồng nghiên cứu. Mã nguồn và trọng số của AlphaFold 3 cũng đã được phát hành cho mục đích học thuật từ tháng 11 năm 2024."
+
+[[extra.faq]]
+q = "Tôi có thể dùng Gemini miễn phí không?"
+a = "Có, Google cung cấp Gemini qua giao diện web và ứng dụng di động miễn phí. Phiên bản Gemini Advanced với khả năng mạnh hơn (Gemini Ultra) có phí qua gói Google One AI Premium."
+
+[[extra.faq]]
+q = "Demis Hassabis còn làm CEO không?"
+a = "Có. Demis Hassabis vẫn là CEO của Google DeepMind tính đến 2026. Ông cũng dẫn dắt nhóm phát triển Gemini và định hướng chiến lược AI cho Alphabet."
 +++
 
 AI giờ ở khắp nơi: trong chiếc điện thoại bạn đang cầm, trong công cụ tìm kiếm, trong cách Netflix gợi ý phim. Nhưng ít ai biết rằng một trong những phòng thí nghiệm AI có ảnh hưởng nhất thế giới lại khởi đầu từ một căn phòng nhỏ ở Luân Đôn, và từng suýt phá sản trước khi Google mua lại.
@@ -71,18 +91,6 @@ Ngoài Gemini, Google DeepMind còn phát triển:
 - **Lyria** — tạo nhạc bằng AI
 
 Với khoảng **6.000 nhân viên** (tính đến 2025) và các trung tâm nghiên cứu ở Mỹ, Canada, Pháp, Đức và Thuỵ Sĩ, Google DeepMind hiện là một trong những tổ chức nghiên cứu AI lớn và có ảnh hưởng nhất hành tinh.
-
-## FAQ
-
-{{ qa_pair(q = "Google DeepMind khác gì OpenAI?", a = "Cả hai đều là tổ chức AI hàng đầu nhưng khác nhau về mô hình: DeepMind là công ty con của Alphabet (Google) từ 2014, trong khi OpenAI ban đầu là phi lợi nhuận rồi chuyển sang capped-profit. DeepMind nổi tiếng với nghiên cứu khoa học cơ bản (AlphaFold) và tích hợp sâu vào hệ sinh thái Google, còn OpenAI gắn liền với ChatGPT và các sản phẩm đại chúng.") }}
-
-{{ qa_pair(q = "DeepMind có kiếm được tiền không?", a = "Theo báo cáo tài chính, DeepMind lỗ trong nhiều năm nhưng đến năm 2024 đã có lãi 174 triệu bảng. Tuy nhiên, giá trị chiến lược của DeepMind với Alphabet nằm ở công nghệ hơn là lợi nhuận trực tiếp — các mô hình của họ được tích hợp vào Google Search, Cloud, và các sản phẩm khác.") }}
-
-{{ qa_pair(q = "AlphaFold có miễn phí không?", a = "Có. Cơ sở dữ liệu AlphaFold với hơn 200 triệu cấu trúc protein được cung cấp miễn phí cho cộng đồng nghiên cứu. Mã nguồn và trọng số của AlphaFold 3 cũng đã được phát hành cho mục đích học thuật từ tháng 11 năm 2024.") }}
-
-{{ qa_pair(q = "Tôi có thể dùng Gemini miễn phí không?", a = "Có, Google cung cấp Gemini qua giao diện web và ứng dụng di động miễn phí. Phiên bản Gemini Advanced với khả năng mạnh hơn (Gemini Ultra) có phí qua gói Google One AI Premium.") }}
-
-{{ qa_pair(q = "Demis Hassabis còn làm CEO không?", a = "Có. Demis Hassabis vẫn là CEO của Google DeepMind tính đến 2026. Ông cũng dẫn dắt nhóm phát triển Gemini và định hướng chiến lược AI cho Alphabet.") }}
 
 ## Lời kết
 
