@@ -1,0 +1,342 @@
+{% extends "base.html" %}
+
+{% block title %}CMS-V7 | {{ config.title }}{% endblock %}
+
+{% block extra_head %}
+    <meta name="zola-base-url" content="{{ config.base_url | safe }}">
+    <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
+{% block main %}
+<div class="cmsv7" id="cmsv7-app">
+
+    {# ===== AUTH GATE (GitHub OAuth) ===== #}
+    <section class="cmsv7-gate" data-cmsv7-view="login" hidden>
+        <div class="cmsv7-gate__card">
+            <span class="cmsv7-gate__mark" aria-hidden="true">S</span>
+            <p class="cmsv7-gate__kicker">SEOMONEY · Publishing</p>
+            <h2 class="cmsv7-gate__title">CMS-V7</h2>
+            <p class="cmsv7-gate__sub">Đăng nhập bằng GitHub để tạo và xuất bản nội dung. Người dùng chưa đăng nhập vẫn có thể xem danh sách bài ở chế độ chỉ đọc.</p>
+            <p class="cmsv7-gate__error" data-cmsv7-error role="alert" hidden></p>
+            <button type="button" class="cmsv7-btn cmsv7-btn--primary cmsv7-gate__btn" data-cmsv7-action="github-login">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                </svg>
+                Tiếp tục với GitHub
+            </button>
+            <button type="button" class="cmsv7-btn cmsv7-btn--ghost cmsv7-gate__btn" data-cmsv7-action="browse-readonly">Xem ở chế độ chỉ đọc</button>
+            <p class="cmsv7-gate__hint" data-cmsv7-hint hidden>Backend xác thực chưa được cấu hình. Liên hệ quản trị viên.</p>
+        </div>
+    </section>
+
+    {# ===== ACCESS DENIED ===== #}
+    <section class="cmsv7-gate" data-cmsv7-view="denied" hidden>
+        <div class="cmsv7-gate__card">
+            <span class="cmsv7-gate__mark cmsv7-gate__mark--warn" aria-hidden="true">!</span>
+            <h2 class="cmsv7-gate__title">Không có quyền truy cập</h2>
+            <p class="cmsv7-gate__sub">Tài khoản GitHub của bạn không nằm trong danh sách được phép chỉnh sửa CMS-V7.</p>
+            <p class="cmsv7-gate__detail" data-cmsv7-denied-detail></p>
+            <button type="button" class="cmsv7-btn cmsv7-btn--ghost cmsv7-gate__btn" data-cmsv7-action="browse-readonly">Xem ở chế độ chỉ đọc</button>
+            <button type="button" class="cmsv7-btn cmsv7-btn--ghost cmsv7-gate__btn" data-cmsv7-action="logout">Đăng xuất</button>
+        </div>
+    </section>
+
+    {# ===== APP (dashboard + editor) ===== #}
+    <div class="cmsv7-app" data-cmsv7-view="app">
+
+        {# ─── Brand rail (Ericsson blue) ─── #}
+        <aside class="cmsv7-rail" data-cmsv7-rail>
+            <div class="cmsv7-rail__brand">
+                <span class="cmsv7-rail__mark" aria-hidden="true">S</span>
+                <span class="cmsv7-rail__brand-text">
+                    <strong>SEOMONEY</strong>
+                    <em class="cmsv7-rail__ver">CMS-V7</em>
+                </span>
+            </div>
+
+            <nav class="cmsv7-rail__nav" aria-label="Điều hướng CMS">
+                <button type="button" class="cmsv7-rail__item is-active" data-cmsv7-nav="overview">
+                    <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7A1 1 0 003 11h1v6a1 1 0 001 1h4a1 1 0 001-1v-4h2v4a1 1 0 001 1h4a1 1 0 001-1v-6h1a1 1 0 00.707-1.707l-7-7z"/></svg>
+                    <span>Tổng quan</span>
+                </button>
+                <button type="button" class="cmsv7-rail__item" data-cmsv7-nav="posts">
+                    <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
+                    <span>Bài viết</span>
+                </button>
+                <button type="button" class="cmsv7-rail__item cmsv7-rail__item--cta" data-cmsv7-action="new-post">
+                    <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/></svg>
+                    <span>Viết bài mới</span>
+                </button>
+                <a class="cmsv7-rail__item" href="{{ config.base_url }}" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 100-2H5z"/></svg>
+                    <span>Xem website</span>
+                </a>
+            </nav>
+
+            <div class="cmsv7-rail__foot">
+                <div class="cmsv7-rail__user" data-cmsv7-userbar hidden>
+                    <img class="cmsv7-rail__avatar" data-cmsv7-avatar src="" alt="" width="32" height="32" loading="lazy" decoding="async">
+                    <span class="cmsv7-rail__user-info">
+                        <strong data-cmsv7-username></strong>
+                        <em data-cmsv7-useremail></em>
+                    </span>
+                    <button type="button" class="cmsv7-rail__logout" data-cmsv7-action="logout" title="Đăng xuất" aria-label="Đăng xuất">
+                        <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/></svg>
+                    </button>
+                </div>
+                <div class="cmsv7-rail__guest" data-cmsv7-guestbar>
+                    <strong>Chế độ chỉ đọc</strong>
+                    <span>Đăng nhập GitHub để tạo và xuất bản.</span>
+                    <button type="button" class="cmsv7-btn cmsv7-btn--ghost cmsv7-btn--sm cmsv7-rail__guest-login" data-cmsv7-action="github-login">Đăng nhập</button>
+                </div>
+            </div>
+        </aside>
+
+        {# ─── Main surface ─── #}
+        <main class="cmsv7-surface">
+
+            <header class="cmsv7-topbar">
+                <button type="button" class="cmsv7-topbar__burger" data-cmsv7-action="toggle-rail" aria-label="Mở menu">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+                <h1 class="cmsv7-topbar__title" data-cmsv7-topbar-title>Tổng quan</h1>
+                <div class="cmsv7-topbar__spacer"></div>
+                <button type="button" class="cmsv7-btn cmsv7-btn--ghost cmsv7-btn--sm cmsv7-topbar__login" data-cmsv7-action="github-login">Đăng nhập GitHub</button>
+                <button type="button" class="cmsv7-topbar__icon" data-cmsv7-action="refresh" title="Tải lại" aria-label="Tải lại">
+                    <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/></svg>
+                </button>
+                <button type="button" class="cmsv7-btn cmsv7-btn--primary cmsv7-btn--sm cmsv7-topbar__new" data-cmsv7-action="new-post">
+                    <svg viewBox="0 0 20 20" width="15" height="15" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/></svg>
+                    Viết bài
+                </button>
+            </header>
+
+            {# ── Dashboard panel ── #}
+            <div class="cmsv7-panel" data-cmsv7-panel="dashboard">
+
+                <section class="cmsv7-notice" data-cmsv7-readonly-banner>
+                    <div>
+                        <strong class="cmsv7-notice__title">Bạn đang xem ở chế độ công khai</strong>
+                        <p class="cmsv7-notice__copy" data-cmsv7-readonly-copy>Duyệt metadata các bài đã xuất bản và mở bài trên site. Đăng nhập GitHub để tạo và xuất bản.</p>
+                    </div>
+                    <button type="button" class="cmsv7-btn cmsv7-btn--primary cmsv7-btn--sm" data-cmsv7-action="github-login">Tiếp tục với GitHub</button>
+                </section>
+
+                {# KPI overview — annual-report style #}
+                <section class="cmsv7-kpis" data-cmsv7-kpis aria-label="Thống kê nội dung">
+                    <article class="cmsv7-kpi">
+                        <span class="cmsv7-kpi__icon cmsv7-kpi__icon--accent" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/></svg>
+                        </span>
+                        <span class="cmsv7-kpi__label">Tổng bài viết</span>
+                        <strong class="cmsv7-kpi__value" data-cmsv7-kpi="total">0</strong>
+                        <span class="cmsv7-kpi__sub" data-cmsv7-kpi-sub="total">trên toàn bộ chuyên mục</span>
+                    </article>
+                    <article class="cmsv7-kpi">
+                        <span class="cmsv7-kpi__icon cmsv7-kpi__icon--green" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                        </span>
+                        <span class="cmsv7-kpi__label">Đã xuất bản</span>
+                        <strong class="cmsv7-kpi__value" data-cmsv7-kpi="published">0</strong>
+                        <span class="cmsv7-kpi__sub">công khai trên site</span>
+                    </article>
+                    <article class="cmsv7-kpi">
+                        <span class="cmsv7-kpi__icon cmsv7-kpi__icon--amber" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                        </span>
+                        <span class="cmsv7-kpi__label">Lên lịch</span>
+                        <strong class="cmsv7-kpi__value" data-cmsv7-kpi="scheduled">0</strong>
+                        <span class="cmsv7-kpi__sub">chờ đến giờ đăng</span>
+                    </article>
+                    <article class="cmsv7-kpi">
+                        <span class="cmsv7-kpi__icon cmsv7-kpi__icon--gray" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>
+                        </span>
+                        <span class="cmsv7-kpi__label">Bản nháp</span>
+                        <strong class="cmsv7-kpi__value" data-cmsv7-kpi="drafts">0</strong>
+                        <span class="cmsv7-kpi__sub">chưa xuất bản</span>
+                    </article>
+                    <article class="cmsv7-kpi">
+                        <span class="cmsv7-kpi__icon cmsv7-kpi__icon--teal" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.958a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.367 2.446a1 1 0 00-.364 1.118l1.287 3.957c.3.922-.755 1.688-1.54 1.118l-3.366-2.446a1 1 0 00-1.176 0l-3.366 2.446c-.784.57-1.838-.196-1.539-1.118l1.286-3.957a1 1 0 00-.363-1.118L2.05 9.385c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.958z"/></svg>
+                        </span>
+                        <span class="cmsv7-kpi__label">Điểm SEO trung bình</span>
+                        <strong class="cmsv7-kpi__value" data-cmsv7-kpi="seo">—</strong>
+                        <span class="cmsv7-kpi__sub" data-cmsv7-kpi-sub="seo">theo seo-qa-scores</span>
+                    </article>
+                </section>
+
+                {# Post list card #}
+                <section class="cmsv7-card">
+                    <header class="cmsv7-card__head">
+                        <h2 class="cmsv7-card__title">Bài viết</h2>
+                        <div class="cmsv7-tabs" role="tablist" aria-label="Lọc theo trạng thái">
+                            <button type="button" class="cmsv7-tab is-active" role="tab" data-cmsv7-filter="all" aria-selected="true">Tất cả <span class="cmsv7-tab__count" data-cmsv7-count="all">0</span></button>
+                            <button type="button" class="cmsv7-tab" role="tab" data-cmsv7-filter="published" aria-selected="false">Đã đăng <span class="cmsv7-tab__count" data-cmsv7-count="published">0</span></button>
+                            <button type="button" class="cmsv7-tab" role="tab" data-cmsv7-filter="scheduled" aria-selected="false">Lên lịch <span class="cmsv7-tab__count" data-cmsv7-count="scheduled">0</span></button>
+                            <button type="button" class="cmsv7-tab" role="tab" data-cmsv7-filter="drafts" aria-selected="false">Nháp <span class="cmsv7-tab__count" data-cmsv7-count="drafts">0</span></button>
+                        </div>
+                    </header>
+
+                    <div class="cmsv7-toolbar">
+                        <div class="cmsv7-search">
+                            <svg class="cmsv7-search__icon" viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+                            <input type="search" class="cmsv7-search__input" data-cmsv7-search placeholder="Tìm bài theo tiêu đề, slug, chuyên mục…" aria-label="Tìm bài viết">
+                        </div>
+                        <select class="cmsv7-select" data-cmsv7-sort aria-label="Sắp xếp">
+                            <option value="date-desc">Mới nhất</option>
+                            <option value="date-asc">Cũ nhất</option>
+                            <option value="title-asc">Tiêu đề A → Z</option>
+                            <option value="title-desc">Tiêu đề Z → A</option>
+                            <option value="seo-desc">Điểm SEO cao → thấp</option>
+                        </select>
+                    </div>
+
+                    <div class="cmsv7-list" data-cmsv7-list role="list">
+                        <div class="cmsv7-list__loading">Đang tải danh sách bài…</div>
+                    </div>
+                </section>
+            </div>
+
+            {# ── Editor panel ── #}
+            <div class="cmsv7-panel" data-cmsv7-panel="editor" hidden>
+                <div class="cmsv7-editor">
+                    <header class="cmsv7-editor__bar">
+                        <button type="button" class="cmsv7-editor__back" data-cmsv7-action="back" aria-label="Quay lại">
+                            <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
+                            Quay lại
+                        </button>
+                        <span class="cmsv7-editor__status" data-cmsv7-save-status>Đã lưu nháp</span>
+                        <div class="cmsv7-editor__bar-spacer"></div>
+                        <button type="button" class="cmsv7-btn cmsv7-btn--ghost cmsv7-btn--sm" data-cmsv7-action="preview-toggle">
+                            <svg viewBox="0 0 20 20" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+                            <span data-cmsv7-preview-label>Xem trước</span>
+                        </button>
+                        <button type="button" class="cmsv7-btn cmsv7-btn--primary cmsv7-btn--sm" data-cmsv7-action="publish">
+                            <svg viewBox="0 0 20 20" width="15" height="15" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Xuất bản
+                        </button>
+                    </header>
+
+                    <div class="cmsv7-editor__canvas">
+                        <div class="cmsv7-editor__toolbar" role="toolbar" aria-label="Định dạng">
+                            <button type="button" class="cmsv7-editor__tool" data-cmsv7-md="bold" title="Đậm (Ctrl+B)" aria-label="Đậm"><b>B</b></button>
+                            <button type="button" class="cmsv7-editor__tool" data-cmsv7-md="italic" title="Nghiêng (Ctrl+I)" aria-label="Nghiêng"><i>I</i></button>
+                            <button type="button" class="cmsv7-editor__tool" data-cmsv7-md="heading" title="Tiêu đề H2" aria-label="Tiêu đề">H2</button>
+                            <button type="button" class="cmsv7-editor__tool" data-cmsv7-md="quote" title="Trích dẫn" aria-label="Trích dẫn">&ldquo;&rdquo;</button>
+                            <button type="button" class="cmsv7-editor__tool" data-cmsv7-md="bullet-list" title="Danh sách" aria-label="Danh sách">&bull;</button>
+                            <button type="button" class="cmsv7-editor__tool" data-cmsv7-md="numbered-list" title="Danh sách số" aria-label="Danh sách số">1.</button>
+                            <button type="button" class="cmsv7-editor__tool" data-cmsv7-md="code" title="Mã inline" aria-label="Mã">&lt;/&gt;</button>
+                            <button type="button" class="cmsv7-editor__tool" data-cmsv7-md="link" title="Liên kết (Ctrl+K)" aria-label="Liên kết">🔗</button>
+                            <button type="button" class="cmsv7-editor__tool" data-cmsv7-md="image" title="Ảnh" aria-label="Ảnh">🖼</button>
+                        </div>
+
+                        <div class="cmsv7-editor__grid">
+                            <div class="cmsv7-editor__col-main">
+                                <input type="text" class="cmsv7-editor__title" data-cmsv7-field="title" placeholder="Tiêu đề bài viết" autocomplete="off">
+                                <input type="text" class="cmsv7-editor__subtitle" data-cmsv7-field="description" placeholder="Mô tả ngắn / meta description (50–160 ký tự)" autocomplete="off">
+
+                                <textarea class="cmsv7-editor__body" data-cmsv7-field="body" placeholder="Bắt đầu viết bằng Markdown…"></textarea>
+
+                                <div class="cmsv7-editor__preview" data-cmsv7-preview hidden>
+                                    <div class="cmsv7-editor__preview-body" data-cmsv7-preview-body></div>
+                                </div>
+                            </div>
+
+                            <aside class="cmsv7-editor__col-side">
+                                <div class="cmsv7-side-group">
+                                    <label class="cmsv7-side-label" for="cmsv7-slug">Slug (đường dẫn)</label>
+                                    <input type="text" id="cmsv7-slug" class="cmsv7-side-input" data-cmsv7-field="slug" placeholder="slug-khong-dau" autocomplete="off">
+                                </div>
+                                <div class="cmsv7-side-group">
+                                    <label class="cmsv7-side-label" for="cmsv7-section">Chuyên mục (thư mục)</label>
+                                    <select id="cmsv7-section" class="cmsv7-side-input" data-cmsv7-field="section"></select>
+                                </div>
+                                <div class="cmsv7-side-group">
+                                    <label class="cmsv7-side-label" for="cmsv7-category">Danh mục hiển thị</label>
+                                    <select id="cmsv7-category" class="cmsv7-side-input" data-cmsv7-field="category">
+                                        <option value="">— Chọn danh mục —</option>
+                                    </select>
+                                    <p class="cmsv7-side-hint">&ldquo;Tất cả&rdquo; luôn được thêm tự động ở đầu.</p>
+                                </div>
+                                <div class="cmsv7-side-group">
+                                    <label class="cmsv7-side-label" for="cmsv7-tags">Thẻ (tags)</label>
+                                    <input type="text" id="cmsv7-tags" class="cmsv7-side-input" data-cmsv7-field="tags" placeholder="thẻ 1, thẻ 2, thẻ 3" autocomplete="off">
+                                </div>
+                                <div class="cmsv7-side-group">
+                                    <label class="cmsv7-side-label" for="cmsv7-cover">Ảnh bìa (URL, tuỳ chọn)</label>
+                                    <input type="url" id="cmsv7-cover" class="cmsv7-side-input" data-cmsv7-field="cover" placeholder="/img/... hoặc https://…" autocomplete="off">
+                                </div>
+                                <p class="cmsv7-side-note" data-cmsv7-editor-note hidden></p>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    {# Bake post metadata as JSON — the standard Zola mechanism for exposing
+       build-time content data to client-side JS on a static site. #}
+    {% set article_sections = ["posting", "baochi", "am-thuc", "hoc-tieng-han", "seo", "world-cup-2026", "khoa-hoc", "the-gioi", "cong-nghe", "du-lich", "ngan-hang", "bao-hiem", "doi-song", "the-thao"] %}
+    {% set all_posts = [] %}
+    {% for section_name in article_sections %}
+        {% set section_path = section_name ~ "/_index.md" %}
+        {% set section = get_section(path=section_path, required=false) %}
+        {% if section %}
+            {% set_global all_posts = all_posts | concat(with=section.pages) %}
+        {% endif %}
+    {% endfor %}
+    {% set all_posts = all_posts | sort(attribute="date") | reverse %}
+    {% set seo_data = load_data(path="data/seo-qa-scores.json", required=false) %}
+    <script type="application/json" id="cmsv7-posts-data">
+        [{% for page in all_posts -%}
+            {% set section_dir = page.components.0 | default(value="posting") %}
+            {% set content_path = "content/" ~ section_dir ~ "/" ~ page.slug ~ ".md" %}
+            {% set_global seo_post = false %}
+            {% if seo_data and seo_data.posts and seo_data.posts[content_path] %}
+                {% set_global seo_post = seo_data.posts[content_path] %}
+            {% endif %}
+            {
+                "slug": {{ page.slug | json_encode | safe }},
+                "section": {{ section_dir | json_encode | safe }},
+                "title": {{ page.title | json_encode | safe }},
+                "permalink": {{ page.permalink | json_encode | safe }},
+                "date": {{ page.date | json_encode | safe }},
+                "description": {{ page.description | default(value="") | json_encode | safe }},
+                "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
+                "categories": [{% if page.taxonomies.categories %}{% for cat in page.taxonomies.categories %}{{ cat | json_encode | safe }}{% if not loop.last %},{% endif %}{% endfor %}{% endif %}],
+                "tags": [{% if page.taxonomies.tags %}{% for tag in page.taxonomies.tags %}{{ tag | json_encode | safe }}{% if not loop.last %},{% endif %}{% endfor %}{% endif %}],
+                "thumbnail": {{ page.extra.thumbnail | default(value="") | json_encode | safe }},
+                "image": {{ page.extra.image | default(value="") | json_encode | safe }},
+                "draft": {% if page.draft %}true{% else %}false{% endif %},
+                "publish_at": {{ page.extra.publish_at | default(value="") | json_encode | safe }},
+                "featured": {% if page.extra.featured %}true{% else %}false{% endif %},
+                "sticky": {% if page.extra.sticky %}true{% else %}false{% endif %},
+                "seo_score": {% if seo_post %}{{ seo_post.score | round(precision=0) }}{% else %}null{% endif %},
+                "seo_grade": {% if seo_post %}{{ seo_post.grade | json_encode | safe }}{% else %}null{% endif %}
+            }{% if not loop.last %},{% endif %}
+        {%- endfor %}]
+    </script>
+
+    <script type="application/json" id="cmsv7-categories-data">
+        {% set cats = get_taxonomy(kind="categories") %}
+        [{% for c in cats.items -%}
+            {{ c.name | json_encode | safe }}{% if not loop.last %},{% endif %}
+        {%- endfor %}]
+    </script>
+
+    <script type="application/json" id="cmsv7-sections-data">
+        [{% for s in article_sections -%}{{ s | json_encode | safe }}{% if not loop.last %},{% endif %}{%- endfor %}]
+    </script>
+
+    {% set cmsv7_asset_version = now(timestamp=true) %}
+    <script src="{{ get_url(path='js/cms-v7.js') }}?v={{ cmsv7_asset_version }}" defer></script>
+{% endblock %}
