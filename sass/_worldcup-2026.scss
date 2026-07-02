@@ -73,7 +73,7 @@
     box-shadow: 0 6px 18px rgba(255, 77, 109, 0.45); animation: wc-spin 6s linear infinite;
   }
   &__logo-text b { background: var(--wc-grad1); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  &__logo-text small { display: block; font-size: 0.6rem; font-weight: 600; letter-spacing: 1.5px; color: var(--wc-soft); font-family: 'Be Vietnam Pro'; }
+  &__logo-text small { display: block; font-size: 0.6rem; font-weight: 600; letter-spacing: 1.5px; color: var(--wc-soft); font-family: 'Inter', system-ui, sans-serif; }
 
   &__menu { display: flex; gap: 0.3rem; flex: 1; flex-wrap: wrap; justify-content: center; }
   &__menu-link {
@@ -321,7 +321,7 @@
   &__scorer-goals {
     font-family: 'Baloo 2'; font-weight: 800; font-size: 1.35rem; text-align: center;
     background: var(--wc-grad1); -webkit-background-clip: text; background-clip: text; color: transparent;
-    small { display: block; font-size: 0.62rem; color: var(--wc-soft); font-family: 'Be Vietnam Pro'; -webkit-text-fill-color: var(--wc-soft); }
+    small { display: block; font-size: 0.62rem; color: var(--wc-soft); font-family: 'Inter', system-ui, sans-serif; -webkit-text-fill-color: var(--wc-soft); }
   }
 
   /* ===== Editorials ===== */
