@@ -679,10 +679,17 @@ Hành động:
 - `kt9 --pr=1271` — chỉ kiểm tra một PR cụ thể
 - `kt9 --no-fix` — chỉ check status, không auto-fix (override)
 
-**Tích hợp pre-commit gate:**
+**Tích hợp pre-commit gate — TỰ ĐỘNG hoàn toàn (2026-07-02):**
 - Workflow `.github/workflows/pr-status-gate.yml` chạy script này như một
-  status check trên mọi PR.
-- Pattern an toàn được auto-fix và rerun CI.
+  status check trên mọi PR (`opened`/`synchronize`/`reopened`).
+- **`workflow_run`** — chạy lại NGAY khi `QA Gatekeeper` hoặc `deploy.yml`
+  (`Build and deploy Zola site to GitHub Pages`) chạy xong (bất kể pass/fail)
+  → quét lại toàn bộ open PR, bắt conflict/QA fail phát sinh từ merge khác mà
+  PR đó không có push mới.
+- **`schedule` mỗi 20 phút** — quét định kỳ toàn bộ open PR, phòng trường hợp
+  không event nào bắn (vd deploy fail âm thầm ngoài giờ, conflict do batch merge).
+- Pattern an toàn được auto-fix (rerun failed check, resolve conflict V18/V25)
+  và push thẳng lên branch PR — không cần user gõ `kt9` thủ công.
 
 **Script**: `scripts/pr_status_check.py` · Chạy thủ công: `python3 scripts/pr_status_check.py`
 
@@ -1273,8 +1280,10 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
 ### `kt9` — Kiểm tra trạng thái tất cả PR + auto-fix gate
 
 **Mục đích**: Rà soát toàn bộ open PRs — kiểm tra QA check, conflict, gatekeeper, failed runs.
-**TỰ ĐỘNG chạy `--fix` nếu phát hiện issue có thể fix an toàn.** Hệ thống active
-bất cứ lúc nào; user gọi thủ công cũng được.
+**TỰ ĐỘNG chạy `--fix` nếu phát hiện issue có thể fix an toàn.** Chạy tự động qua
+3 trigger (không cần user gõ lệnh): `pull_request` (push/open/reopen PR) ·
+`workflow_run` (ngay sau `QA Gatekeeper`/`deploy.yml` chạy xong) · `schedule` mỗi
+20 phút. User gọi thủ công `kt9` cũng được (chạy local, không cần CI).
 
 **Hành động**:
 
