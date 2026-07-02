@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-02T17:53:02.143466+07:00",
+  "updated_at": "2026-07-02T19:04:49.259612+07:00",
   "posts": {
     "content/baochi/tau-con-thoi-atlantis.md": {
       "title": "Tàu con thoi Atlantis: huyền thoại vũ trụ của NASA",
@@ -3986,6 +3986,364 @@
           "scored_at": "2026-07-02T15:38:49.141821+07:00",
           "score": 94.0,
           "grade": "A"
+        }
+      ]
+    },
+    "content/cong-nghe/snapshot-production-v2-theo-doi-deploy-status-la-gi.md": {
+      "title": "Snapshot Production V2: Theo Dõi Deploy Status Sau Khi Deploy",
+      "slug": "snapshot-production-v2-theo-doi-deploy-status-la-gi",
+      "keyword": "theo dõi deploy status sau khi deploy",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 1592,
+      "published": true,
+      "scored_at": "2026-07-02T19:01:01.990666+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [],
+      "history": [
+        {
+          "scored_at": "2026-07-02T19:00:53.988338+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-07-02T19:01:01.990666+07:00",
+          "score": 100.0,
+          "grade": "A+"
+        }
+      ]
+    },
+    "content/cong-nghe/merged-khong-co-nghia-da-len-production.md": {
+      "title": "Merged Is Not Live: Vì Sao PR Merge Xong Chưa Chắc Đã Lên Production",
+      "slug": "merged-khong-co-nghia-da-len-production",
+      "keyword": "merged is not live production",
+      "score": 85.0,
+      "grade": "B",
+      "word_count": 1698,
+      "published": true,
+      "scored_at": "2026-07-02T19:04:05.555914+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 3.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 0.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 0.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "title 68 ký tự (nên 20–65)",
+        "từ khoá 'merged is not live production' chưa có trong đoạn mở đầu",
+        "từ khoá 'merged is not live production' chưa xuất hiện trong heading H2 nào"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-07-02T19:04:05.555914+07:00",
+          "score": 85.0,
+          "grade": "B"
+        }
+      ]
+    },
+    "content/cong-nghe/doc-bang-deploy-history-d-b-a-f.md": {
+      "title": "Đọc Bảng Deploy History D/B/A/F: Chẩn Đoán Deploy Status Nhanh",
+      "slug": "doc-bang-deploy-history-d-b-a-f",
+      "keyword": "đọc bảng deploy history D B A F",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 1778,
+      "published": true,
+      "scored_at": "2026-07-02T19:04:27.318352+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [],
+      "history": [
+        {
+          "scored_at": "2026-07-02T19:04:23.333132+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-07-02T19:04:27.318352+07:00",
+          "score": 100.0,
+          "grade": "A+"
+        }
+      ]
+    },
+    "content/cong-nghe/backend-tut-sau-main-phat-hien-production-drift.md": {
+      "title": "Backend Tụt Sau Main: Phát Hiện Production Drift",
+      "slug": "backend-tut-sau-main-phat-hien-production-drift",
+      "keyword": "backend tụt sau main production drift",
+      "score": 88.0,
+      "grade": "B",
+      "word_count": 1666,
+      "published": true,
+      "scored_at": "2026-07-02T19:04:49.259612+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 0.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 0.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "từ khoá 'backend tụt sau main production drift' chưa có trong đoạn mở đầu",
+        "từ khoá 'backend tụt sau main production drift' chưa xuất hiện trong heading H2 nào"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-07-02T19:04:37.491512+07:00",
+          "score": 85.0,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-07-02T19:04:49.259612+07:00",
+          "score": 88.0,
+          "grade": "B"
         }
       ]
     }
