@@ -1,4 +1,53 @@
 {
+  "content/posting/cach-tao-anh-ai-bang-nano-banana.md": {
+    "external": [
+      {
+        "title": "Google AI for Developers — Image Generation",
+        "url": "https://ai.google.dev/gemini-api/docs/image-generation",
+        "kind": "external"
+      },
+      {
+        "title": "Google AI Studio",
+        "url": "https://aistudio.google.com/",
+        "kind": "external"
+      },
+      {
+        "title": "Google DeepMind",
+        "url": "https://deepmind.google/models/gemini-image/flash",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "bài tổng quan gia đình Nano Banana",
+        "url": "https://seomoney.org/posting/deepmind-nano-banana/",
+        "kind": "internal"
+      },
+      {
+        "title": "công nghệ AI",
+        "url": "https://seomoney.org/categories/cong-nghe/",
+        "kind": "internal"
+      },
+      {
+        "title": "so sánh Nano Banana với Midjourney và DALL-E",
+        "url": "https://seomoney.org/posting/nano-banana-so-sanh-midjourney-dalle/",
+        "kind": "internal"
+      },
+      {
+        "title": "Nano Banana 2 Lite kết hợp Gemini Omni Flash tạo video",
+        "url": "https://seomoney.org/posting/nano-banana-2-lite-gemini-omni-flash/",
+        "kind": "internal"
+      },
+      {
+        "title": "tìm hiểu thêm về mình",
+        "url": "https://seomoney.org/posting/chao-mung-den-voi-duy-nguyen/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Google AI for Developers — Image Generation, Google AI Studio và Google DeepMind. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
+    "internal_count": 5
+  },
   "content/posting/chao-mung-den-voi-duy-nguyen.md": {
     "external": [
       {
@@ -146,6 +195,119 @@
     "external_count": 4,
     "internal_count": 5
   },
+  "content/posting/gemini-3-5-dung-de-lam-gi.md": {
+    "external": [
+      {
+        "title": "Google AI for Developers",
+        "url": "https://ai.google.dev/gemini-api/docs",
+        "kind": "external"
+      },
+      {
+        "title": "Google AI Studio",
+        "url": "https://aistudio.google.com/",
+        "kind": "external"
+      },
+      {
+        "title": "Google DeepMind — Gemini 3.5",
+        "url": "https://deepmind.google/models/gemini/gemini-3-5",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "bài phân tích benchmark Gemini 3.5",
+        "url": "https://seomoney.org/posting/gemini-3-5-co-gi-moi/",
+        "kind": "internal"
+      },
+      {
+        "title": "Gemini 3.5 so với ChatGPT và Claude",
+        "url": "https://seomoney.org/posting/gemini-3-5-so-sanh-chatgpt-claude/",
+        "kind": "internal"
+      },
+      {
+        "title": "công nghệ AI",
+        "url": "https://seomoney.org/categories/cong-nghe/",
+        "kind": "internal"
+      },
+      {
+        "title": "Nano Banana",
+        "url": "https://seomoney.org/posting/deepmind-nano-banana/",
+        "kind": "internal"
+      },
+      {
+        "title": "Google DeepMind là gì",
+        "url": "https://seomoney.org/cong-nghe/google-deepmind-la-gi/",
+        "kind": "internal"
+      },
+      {
+        "title": "tìm hiểu thêm về mình",
+        "url": "https://seomoney.org/posting/chao-mung-den-voi-duy-nguyen/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Google AI for Developers, Google AI Studio và Google DeepMind — Gemini 3.5. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
+    "internal_count": 6
+  },
+  "content/posting/gemini-3-5-so-sanh-chatgpt-claude.md": {
+    "external": [
+      {
+        "title": "Anthropic",
+        "url": "https://www.anthropic.com/claude",
+        "kind": "external"
+      },
+      {
+        "title": "Google AI Studio",
+        "url": "https://aistudio.google.com/",
+        "kind": "external"
+      },
+      {
+        "title": "Google DeepMind — Gemini 3.5",
+        "url": "https://deepmind.google/models/gemini/gemini-3-5",
+        "kind": "external"
+      },
+      {
+        "title": "Google DeepMind — Gemini 3.5 Evals Methodology",
+        "url": "https://deepmind.google/models/evals-methodology/gemini-3-5-flash",
+        "kind": "external"
+      },
+      {
+        "title": "OpenAI",
+        "url": "https://openai.com/",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Gemini 3.5",
+        "url": "https://seomoney.org/posting/gemini-3-5-co-gi-moi/",
+        "kind": "internal"
+      },
+      {
+        "title": "công nghệ AI",
+        "url": "https://seomoney.org/categories/cong-nghe/",
+        "kind": "internal"
+      },
+      {
+        "title": "Gemini 3.5 dùng để làm gì trong thực tế",
+        "url": "https://seomoney.org/posting/gemini-3-5-dung-de-lam-gi/",
+        "kind": "internal"
+      },
+      {
+        "title": "Google DeepMind là gì",
+        "url": "https://seomoney.org/cong-nghe/google-deepmind-la-gi/",
+        "kind": "internal"
+      },
+      {
+        "title": "tìm hiểu thêm về mình",
+        "url": "https://seomoney.org/posting/chao-mung-den-voi-duy-nguyen/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Anthropic, Google AI Studio, Google DeepMind — Gemini 3.5, Google DeepMind — Gemini 3.5 Evals Methodology và OpenAI. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 5,
+    "internal_count": 5
+  },
   "content/posting/nano-banana-2-lite-gemini-omni-flash.md": {
     "external": [
       {
@@ -198,6 +360,55 @@
     ],
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Google AI Studio — Nano Banana, Google Blog — Start building with Nano Banana 2 Lite and Gemini Omni Flash, Google DeepMind — Gemini Omni Flash và Google DeepMind — Nano Banana 2 Lite. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 4,
+    "internal_count": 5
+  },
+  "content/posting/nano-banana-so-sanh-midjourney-dalle.md": {
+    "external": [
+      {
+        "title": "Google DeepMind — Nano Banana 2",
+        "url": "https://deepmind.google/models/gemini-image/flash",
+        "kind": "external"
+      },
+      {
+        "title": "Midjourney",
+        "url": "https://www.midjourney.com/",
+        "kind": "external"
+      },
+      {
+        "title": "OpenAI — DALL-E",
+        "url": "https://openai.com/index/dall-e-3",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "công nghệ AI",
+        "url": "https://seomoney.org/categories/cong-nghe/",
+        "kind": "internal"
+      },
+      {
+        "title": "hướng dẫn cách tạo ảnh AI bằng Nano Banana",
+        "url": "https://seomoney.org/posting/cach-tao-anh-ai-bang-nano-banana/",
+        "kind": "internal"
+      },
+      {
+        "title": "tổng quan gia đình mô hình Nano Banana",
+        "url": "https://seomoney.org/posting/deepmind-nano-banana/",
+        "kind": "internal"
+      },
+      {
+        "title": "Gemini 3.5 so với ChatGPT và Claude",
+        "url": "https://seomoney.org/posting/gemini-3-5-so-sanh-chatgpt-claude/",
+        "kind": "internal"
+      },
+      {
+        "title": "tìm hiểu thêm về mình",
+        "url": "https://seomoney.org/posting/chao-mung-den-voi-duy-nguyen/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Google DeepMind — Nano Banana 2, Midjourney và OpenAI — DALL-E. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 3,
     "internal_count": 5
   },
   "content/baochi/kinh-hubble-mat-ma-vu-tru.md": {
