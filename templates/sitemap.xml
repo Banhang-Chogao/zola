@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+{#- Custom sitemap: identical to Zola's built-in output, but excludes the
+    /search-index/ JSON endpoint (a search data file, not indexable content).
+    Also disallowed in robots.txt. Every other page/section/taxonomy URL is
+    emitted exactly as the default does. -#}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    {%- for sitemap_entry in entries %}
+    {%- if not sitemap_entry.permalink is ending_with("/search-index/") %}
+    <url>
+        <loc>{{ sitemap_entry.permalink | safe }}</loc>
+        {%- if sitemap_entry.updated %}
+        <lastmod>{{ sitemap_entry.updated }}</lastmod>
+        {%- endif %}
+    </url>
+    {%- endif %}
+    {%- endfor %}
+</urlset>

@@ -698,38 +698,12 @@
             </div>
         </section>
     </div>
-    {% set _search_posting = get_section(path="posting/_index.md") %}
-    {% set _search_baochi = get_section(path="baochi/_index.md") %}
-    {% set _search_amthuc = get_section(path="am-thuc/_index.md") %}
-    {% set _search_congnghe = get_section(path="cong-nghe/_index.md") %}
-    {% set _search_hoctienghan = get_section(path="hoc-tieng-han/_index.md") %}
-    {% set _search_khoahoc = get_section(path="khoa-hoc/_index.md") %}
-    {% set _search_dulich = get_section(path="du-lich/_index.md") %}
-    {% set _search_nganhang = get_section(path="ngan-hang/_index.md") %}
-    {% set _search_seo = get_section(path="seo/_index.md") %}
-    {% set _search_thethao = get_section(path="the-thao/_index.md") %}
-    {% set _search_worldcup = get_section(path="world-cup-2026/_index.md") %}
-    {% set _search_doisong = get_section(path="doi-song/_index.md") %}
-    {% set _search_baohiem = get_section(path="bao-hiem/_index.md") %}
-    {% set _search_thegioi = get_section(path="the-gioi/_index.md") %}
-    {% set search_pages = _search_posting.pages | concat(with=_search_baochi.pages) | concat(with=_search_amthuc.pages) | concat(with=_search_congnghe.pages) | concat(with=_search_hoctienghan.pages) | concat(with=_search_khoahoc.pages) | concat(with=_search_dulich.pages) | concat(with=_search_nganhang.pages) | concat(with=_search_seo.pages) | concat(with=_search_thethao.pages) | concat(with=_search_worldcup.pages) | concat(with=_search_doisong.pages) | concat(with=_search_baohiem.pages) | concat(with=_search_thegioi.pages) | sort(attribute="date") | reverse %}
-    <script type="application/json" id="site-search-data">
-    [
-    {%- for page in search_pages -%}
-        {
-            "title": {{ page.title | json_encode | safe }},
-            "url": {{ page.permalink | json_encode | safe }},
-            "date": {{ page.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") | json_encode | safe }},
-            "description": {{ page.description | default(value="") | json_encode | safe }},
-            "summary": {{ page.summary | default(value="") | striptags | json_encode | safe }},
-            "body": {{ page.content | striptags | json_encode | safe }},
-            "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
-            "tags": {% if page.taxonomies.tags %}{{ page.taxonomies.tags | join(sep=" ") | json_encode | safe }}{% else %}""{% endif %},
-            "keyword": {{ page.extra.seo_keyword | default(value="") | json_encode | safe }}
-        }{%- if not loop.last -%},{%- endif -%}
-    {%- endfor -%}
-    ]
-    </script>
+    {# PERF: search data is no longer inlined here. It previously embedded the
+       full striptags body of ALL posts (~2.5MB) into every single page's HTML,
+       which crippled mobile load / LCP / TBT. It is now generated once at
+       /search-index/ (templates/search-index.html) and lazy-fetched by
+       site-search.js the first time the user opens the search dialog. Search
+       behaviour (fields + full-text body) is unchanged. #}
 
     <main id="main-content" class="container">
         <div class="layout-grid">
