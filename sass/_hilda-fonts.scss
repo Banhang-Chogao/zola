@@ -1,12 +1,12 @@
 /* ============================================================
    ===== HILDA THEME — typography scale (Ericsson Blue palette) =====
    ============================================================
-   Site font: Be Vietnam Pro (OFL) — see _bevietnam-fonts.scss.
+   Site font: Inter (OFL) — see _inter-fonts.scss.
    Ericsson Hilda @font-face is specimen-only (_ericsson-specimen-fonts.scss). */
 
 /* ===== Apply font stack to Hilda theme ===== */
 :root[data-theme="hilda"] {
-  --hilda-font-family: 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --hilda-font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-family: var(--hilda-font-family);
 }
 

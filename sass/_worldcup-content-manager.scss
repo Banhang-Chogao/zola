@@ -59,7 +59,7 @@
   }
   &__spacer { flex: 1; }
   &__btn {
-    border: none; cursor: pointer; font-family: 'Be Vietnam Pro'; font-weight: 600; font-size: 0.88rem;
+    border: none; cursor: pointer; font-family: 'Inter', system-ui, sans-serif; font-weight: 600; font-size: 0.88rem;
     padding: 0.55rem 1rem; border-radius: 999px; transition: 0.2s; white-space: nowrap;
     &--primary { background: var(--wcm-grad); color: #fff; box-shadow: 0 6px 16px rgba(255, 77, 109, 0.28); }
     &--soft { background: var(--wcm-soft-bg); color: var(--wcm-accent); }
@@ -79,7 +79,7 @@
   &__tabs { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem; }
   &__tab {
     border: 1.5px solid var(--wcm-border); background: var(--wcm-surface); color: var(--wcm-ink);
-    font-family: 'Be Vietnam Pro'; font-weight: 600; font-size: 0.88rem; cursor: pointer;
+    font-family: 'Inter', system-ui, sans-serif; font-weight: 600; font-size: 0.88rem; cursor: pointer;
     padding: 0.5rem 0.9rem; border-radius: 999px; transition: 0.2s; display: inline-flex; align-items: center; gap: 0.4rem;
     &:hover { transform: translateY(-2px); border-color: var(--wcm-purple); }
     &--active { background: var(--wcm-grad); color: #fff; border-color: transparent; }
@@ -105,7 +105,7 @@
   &__card-head {
     width: 100%; text-align: left; border: none; background: transparent; cursor: pointer;
     padding: 0.85rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;
-    font-family: 'Be Vietnam Pro'; color: var(--wcm-ink);
+    font-family: 'Inter', system-ui, sans-serif; color: var(--wcm-ink);
   }
   &__card-sum { font-weight: 600; font-size: 0.94rem; }
   &__card-toggle { opacity: 0.5; transition: 0.2s; }
@@ -127,7 +127,7 @@
   }
   &__input, textarea.wcm__input, select.wcm__input {
     width: 100%; padding: 0.55rem 0.7rem; border: 1.5px solid var(--wcm-border); border-radius: 10px;
-    background: var(--wcm-bg); color: var(--wcm-ink); font-family: 'Be Vietnam Pro'; font-size: 0.9rem; outline: none;
+    background: var(--wcm-bg); color: var(--wcm-ink); font-family: 'Inter', system-ui, sans-serif; font-size: 0.9rem; outline: none;
     transition: 0.15s;
     &:focus { border-color: var(--wcm-accent); background: #fff; box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.12); }
   }
