@@ -1,0 +1,29 @@
+/* ============================================================
+   Affiliate banners (Trip.com) — home right sidebar
+
+   Fixed-size ad iframes (320×320, 300×250) must not be distorted, so we never
+   force max-width on them. Instead the wrapper centers the unit inside the
+   sidebar block and — on the rare narrow desktop where the ad is wider than
+   the column — allows a quiet horizontal scroll rather than clipping.
+
+   Calm enterprise: reuses the existing .sidebar-block surface; no extra shadow,
+   gradient or motion. Desktop-only (the global .sidebar is hidden < 768px).
+   ============================================================ */
+.sidebar-block--affiliate {
+  .affiliate-banner {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--c-border) transparent;
+
+    iframe {
+      /* margin-inline: auto centers the fixed-size unit when it fits and
+         collapses to 0 when it overflows → scrollable from the left edge,
+         never clipped. */
+      display: block;
+      margin-inline: auto;
+      border: 0;
+      max-width: none;
+    }
+  }
+}

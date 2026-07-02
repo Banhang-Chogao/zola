@@ -7,7 +7,40 @@
 
 {% block title %}{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân{% endblock %}
 
-{% block sidebar %}{% endblock %}
+{% block sidebar %}
+    {# Home right sidebar — Trip.com affiliate banners. Desktop-only: the global
+       .sidebar is hidden below 768px (see _mobile-v2.scss), same as every other
+       sidebar widget, so these ads never crowd the mobile reading path. #}
+    <aside class="sidebar sidebar--home-ads">
+        {# Affiliate 1 — Trip.com flight search (320×320). #}
+        <section class="sidebar-block sidebar-block--affiliate" data-widget="affiliate-flight">
+            <h3 class="sidebar-label">Tìm kiếm chuyến bay</h3>
+            <div class="affiliate-banner">
+                <iframe src="https://www.trip.com/partners/ad/S18400699?Allianceid=9016169&amp;SID=322423732&amp;trip_sub1="
+                        id="S18400699"
+                        title="Tìm kiếm chuyến bay giá tốt — Trip.com"
+                        width="320" height="320"
+                        style="width:320px;height:320px;border:none"
+                        loading="lazy" scrolling="no" frameborder="0"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </section>
+
+        {# Affiliate 2 — Trip.com cheap travel deals (300×250). #}
+        <section class="sidebar-block sidebar-block--affiliate" data-widget="affiliate-travel">
+            <h3 class="sidebar-label">Quảng cáo: DU LỊCH GIÁ RẺ</h3>
+            <div class="affiliate-banner">
+                <iframe src="https://www.trip.com/partners/ad/SB18400650?Allianceid=9016169&amp;SID=322423732&amp;trip_sub1="
+                        id="SB18400650"
+                        title="Ưu đãi du lịch giá rẻ — Trip.com"
+                        width="300" height="250"
+                        style="width:300px;height:250px;border:none"
+                        loading="lazy" scrolling="no" frameborder="0"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </section>
+    </aside>
+{% endblock sidebar %}
 
 {% block main %}
 <h1 class="visually-hidden">{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân</h1>
