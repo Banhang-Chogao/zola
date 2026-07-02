@@ -856,7 +856,7 @@
     const body = m[2] || "";
 
     const fm = {
-      title: "", date: "", category: "Posting", tags: [], thumbnail: "",
+      title: "", date: "", description: "", category: "Posting", tags: [], thumbnail: "",
       featured: false, featured_at: "", sticky: false,
       premium: false, momo_payment_link: "",
     };
@@ -883,6 +883,7 @@
       if (section === "root") {
         if (key === "title") fm.title = val;
         else if (key === "date") fm.date = val;
+        else if (key === "description") fm.description = val;
       } else if (section === "taxonomies") {
         if (key === "categories" && Array.isArray(val)) fm.category = val[0] || "Posting";
         else if (key === "tags") fm.tags = Array.isArray(val) ? val : [];
@@ -904,7 +905,11 @@
     let fmText = `+++
 title = "${fm.title.replace(/"/g, '\\"')}"
 date = ${fm.date}
-
+`;
+    // Subtitle Substack-style → root `description` (meta description SEO,
+    // KHÔNG để Zola tự cắt summary — xem CLAUDE.md §SEO QA).
+    if (fm.description) fmText += `description = "${fm.description.replace(/"/g, '\\"')}"\n`;
+    fmText += `
 [taxonomies]
 categories = ["${(fm.category || "Posting").replace(/"/g, '\\"')}"]
 tags = ${tagsStr}
@@ -933,7 +938,10 @@ tags = ${tagsStr}
     if (isFeatured) featuredAt = new Date().toISOString();
 
     const fm = {
-      title: form.title.value.trim(),
+      // Paste-only content: bỏ mọi newline lọt vào ô title/subtitle (textarea
+      // autosize không chặn Enter tuyệt đối trên mọi trình duyệt) để TOML luôn hợp lệ.
+      title: form.title.value.trim().replace(/\s*\n\s*/g, " "),
+      description: form.subtitle ? form.subtitle.value.trim().replace(/\s*\n\s*/g, " ") : "",
       // Đóng dấu thời gian thực (GMT+7) khi đăng hôm nay; giữ timestamp gốc khi sửa
       // bài cũ mà không đổi ngày → "Đăng: HH:MM" hiển thị giờ thật, không phải 00:00.
       date: resolvePublishDate(form.date.value, state.editing && state.editing.originalDate),
@@ -1557,10 +1565,14 @@ tags = ${tagsStr}
       state.editing = null;
       slugLocked = false;
       form.title.value = fm.title;
+      if (form.subtitle) form.subtitle.value = fm.description || "";
+      autosizeField(titleInput);
+      autosizeField(subtitleInput);
       form.slug.value = newSlug;
       form.date.value = todayIso();
       rebuildCategoryOptions(fm.category);
       form.tags.value = (fm.tags || []).join(", ");
+      renderTagChips();
       form.thumbnail.value = fm.thumbnail || "";
       form.body.value = body.trim();
       if (form.sticky) form.sticky.checked = false;
@@ -1898,37 +1910,6 @@ tags = ${tagsStr}
     });
   }
 
-  const importBtn = $("[data-action='import']");
-  const importFile = $("[data-import-file]");
-  if (importBtn && importFile) {
-    importBtn.addEventListener("click", () => importFile.click());
-    importFile.addEventListener("change", () => {
-      const file = importFile.files && importFile.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        const text = String(reader.result || "");
-        const parsed = parseFrontmatter(text);
-        showView("edit");
-        const form = $("[data-form='post']");
-        form.reset();
-        state.editing = null;
-        slugLocked = false;
-        const fm = parsed.fm;
-        form.title.value = fm.title || file.name.replace(/\.md$/i, "");
-        form.slug.value = slugify(form.title.value);
-        form.date.value = String(fm.date || "").slice(0, 10) || todayIso();
-        rebuildCategoryOptions(fm.category || "Tất cả");
-        form.tags.value = (fm.tags || []).join(", ");
-        form.thumbnail.value = fm.thumbnail || "";
-        form.body.value = (parsed.body || "").trim();
-        showToast("Đã nhập file — kiểm tra và lưu.", "success");
-        importFile.value = "";
-      };
-      reader.readAsText(file, "UTF-8");
-    });
-  }
-
   async function bulkSetPlacement(mode) {
     if (selectedSlugs.size !== 1) {
       showToast("Chỉ chọn đúng 1 bài để đặt Sticky/Featured.", "error");
@@ -2022,6 +2003,113 @@ tags = ${tagsStr}
     // User chủ động sửa slug → khoá auto-fill. Xoá rỗng → mở khoá.
     slugLocked = slugInput.value.trim().length > 0;
   });
+
+  // ============= HEADLINE BLOCK (Substack-style) =============
+  // Title/Subtitle là <textarea rows="1"> tự giãn theo nội dung (giống headline
+  // Substack) thay vì <input> 1 dòng cố định. Enter KHÔNG xuống dòng (frontmatter
+  // TOML là single-line string) — Enter chuyển focus sang field kế tiếp.
+  function autosizeField(el) {
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = el.scrollHeight + "px";
+  }
+
+  const subtitleInput = $("[name='subtitle']");
+  $$("[data-autosize]").forEach((el) => {
+    el.addEventListener("input", () => autosizeField(el));
+    autosizeField(el);
+  });
+
+  titleInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (subtitleInput) subtitleInput.focus();
+    }
+  });
+  if (subtitleInput) {
+    subtitleInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const tagInputEl = $("[data-tag-input]");
+        if (tagInputEl) tagInputEl.focus();
+      }
+    });
+  }
+
+  // ============= TAG CHIPS (Substack-style) =============
+  // Nguồn dữ liệu thật vẫn là <input name="tags" hidden> (giữ nguyên contract
+  // "cách nhau bởi dấu phẩy" cho collectFormFrontmatter/autosave/draft). Chip UI
+  // chỉ là lớp hiển thị phía trên — mọi nơi set form.tags.value bằng tay phải
+  // gọi renderTagChips() ngay sau đó để đồng bộ.
+  const tagChipsWrap = $("[data-tag-chips]");
+  const tagsHiddenInput = $("[name='tags']");
+  const tagInput = $("[data-tag-input]");
+
+  function getTagsArray() {
+    return (tagsHiddenInput.value || "").split(",").map((t) => t.trim()).filter(Boolean);
+  }
+
+  function setTagsArray(arr) {
+    const seen = new Set();
+    const clean = [];
+    arr.forEach((t) => {
+      const k = normalizeStr(t);
+      if (t && !seen.has(k)) { seen.add(k); clean.push(t); }
+    });
+    tagsHiddenInput.value = clean.join(", ");
+    tagsHiddenInput.dispatchEvent(new Event("input", { bubbles: true }));
+    renderTagChips();
+  }
+
+  function renderTagChips() {
+    if (!tagChipsWrap || !tagInput) return;
+    tagChipsWrap.querySelectorAll(".ecms-tags__chip").forEach((el) => el.remove());
+    getTagsArray().forEach((tag, idx) => {
+      const chip = document.createElement("span");
+      chip.className = "ecms-tags__chip";
+      const label = document.createElement("span");
+      label.className = "ecms-tags__chip-label";
+      label.textContent = tag;
+      const removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "ecms-tags__chip-remove";
+      removeBtn.setAttribute("aria-label", "Xoá thẻ " + tag);
+      removeBtn.textContent = "×";
+      removeBtn.addEventListener("click", () => {
+        const arr = getTagsArray();
+        arr.splice(idx, 1);
+        setTagsArray(arr);
+        tagInput.focus();
+      });
+      chip.appendChild(label);
+      chip.appendChild(removeBtn);
+      tagChipsWrap.insertBefore(chip, tagInput);
+    });
+  }
+
+  // Split theo dấu phẩy → hỗ trợ dán nhiều tag cùng lúc ("zola, github, cms"),
+  // không chỉ gõ từng tag rồi Enter.
+  function commitTagInput() {
+    const raw = tagInput.value;
+    tagInput.value = "";
+    const parts = raw.split(",").map((t) => t.trim()).filter(Boolean);
+    if (!parts.length) return;
+    setTagsArray(getTagsArray().concat(parts));
+  }
+
+  if (tagInput) {
+    tagInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === ",") {
+        e.preventDefault();
+        commitTagInput();
+      } else if (e.key === "Backspace" && !tagInput.value) {
+        const arr = getTagsArray();
+        if (arr.length) { arr.pop(); setTagsArray(arr); }
+      }
+    });
+    tagInput.addEventListener("blur", commitTagInput);
+  }
+  renderTagChips(); // initial render (rỗng khi vào trang)
 
   // ============= CATEGORY DROPDOWN =============
   // Source of truth: categories.json trong repo (qua backend
@@ -2198,7 +2286,7 @@ tags = ${tagsStr}
 
     if (!path) {
       // New post
-      $("[data-target='edit-title']").textContent = "VIẾT BÀI MỚI";
+      $("[data-target='edit-title']").textContent = "Bài mới";
       $("[data-action='delete']").hidden = true;
       form.date.value = todayIso();
       state.editing = null;
@@ -2207,6 +2295,9 @@ tags = ${tagsStr}
       const momoInputNew = form.querySelector("[name='momo_link']");
       if (momoInputNew) momoInputNew.value = "";
       toggleMomoField("Posting");
+      renderTagChips(); // form.reset() đã xoá hidden tags → clear chip UI theo
+      autosizeField(titleInput);
+      autosizeField(subtitleInput);
       updateCounter();
       lastRenderedBody = null;
       renderPreview();
@@ -2216,7 +2307,7 @@ tags = ${tagsStr}
     }
 
     // Edit existing
-    $("[data-target='edit-title']").textContent = "SỬA BÀI";
+    $("[data-target='edit-title']").textContent = "Sửa bài";
     $("[data-action='delete']").hidden = false;
     setStatus("save-status", "Đang tải nội dung…", "info");
     showView("edit");
@@ -2231,6 +2322,9 @@ tags = ${tagsStr}
       // Edit bài đã có slug → khoá auto-fill để không phá URL hiện tại khi đổi title
       slugLocked = true;
       form.title.value = fm.title;
+      if (subtitleInput) subtitleInput.value = fm.description || "";
+      autosizeField(titleInput);
+      autosizeField(subtitleInput);
       // Loại prefix folder (content/<section>/) khỏi slug input
       const slug = data.path.replace(/^content\/[^/]+\//, "").replace(/\.md$/, "");
       form.slug.value = slug;
@@ -2239,6 +2333,7 @@ tags = ${tagsStr}
       form.date.value = String(fm.date || "").slice(0, 10);
       rebuildCategoryOptions(fm.category);
       form.tags.value = fm.tags.join(", ");
+      renderTagChips();
       form.thumbnail.value = fm.thumbnail;
       form.featured.checked = fm.featured;
       if (form.sticky) form.sticky.checked = fm.sticky;
@@ -2436,12 +2531,32 @@ tags = ${tagsStr}
     }
   });
 
-  $("[data-action='back']").addEventListener("click", () => {
-    enterDashboard();
+  $$("[data-action='back']").forEach((btn) => {
+    btn.addEventListener("click", () => enterDashboard());
   });
 
-  // ============= MARKDOWN TOOLBAR + SHORTCUTS + COUNTER =============
+  // ============= MARKDOWN FORMATTING (slash menu + shortcuts) + COUNTER =============
+  // Không còn thanh toolbar icon cố định — applyMdAction() giờ chỉ được gọi từ
+  // slash command menu ("/") và phím tắt Ctrl+B/I/K/E (xem bên dưới).
   const bodyTextarea = $("[name='body']");
+
+  // Paste-only content: CMS này chỉ nhận VIẾT bằng cách dán text thuần, KHÔNG
+  // hỗ trợ import file .md. Textarea vốn chỉ chấp nhận plain text khi paste,
+  // nhưng ta chủ động đọc "text/plain" + tự chèn để loại mọi edge-case rich
+  // text (paste từ Word/Docs kèm thẻ ẩn) và giữ nguyên vị trí con trỏ.
+  bodyTextarea.addEventListener("paste", (e) => {
+    if (!e.clipboardData) return; // để browser tự xử lý (fallback an toàn)
+    e.preventDefault();
+    const text = e.clipboardData.getData("text/plain") || "";
+    if (!text) return;
+    const ta = bodyTextarea;
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    ta.value = ta.value.slice(0, start) + text + ta.value.slice(end);
+    const pos = start + text.length;
+    ta.selectionStart = ta.selectionEnd = pos;
+    ta.dispatchEvent(new Event("input", { bubbles: true }));
+  });
 
   // Bọc/unbọc selection bằng prefix+suffix. Toggle off nếu selection đã wrapped.
   // Selection rỗng → insert placeholder + highlight để user gõ đè ngay.
@@ -2520,13 +2635,6 @@ tags = ${tagsStr}
     if (cfg.type === "inline") wrapInline(cfg.prefix, cfg.suffix, cfg.placeholder);
     else togglePrefix(cfg.prefix);
   }
-
-  $$("[data-md]").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      applyMdAction(btn.dataset.md);
-    });
-  });
 
   // Keyboard shortcuts — scope: editForm only (tránh hijack browser khi user
   // ở list/login view). Ctrl+S = save anywhere trong form. Ctrl+B/I/K/E = MD
@@ -2706,6 +2814,7 @@ tags = ${tagsStr}
     const payload = {
       timestamp: Date.now(),
       title: form.title.value,
+      subtitle: form.subtitle ? form.subtitle.value : "",
       slug: slug,
       date: form.date.value,
       category: fmDraft.category,
@@ -2762,9 +2871,13 @@ tags = ${tagsStr}
   function applyDraftToForm(draft) {
     const form = editForm;
     form.title.value = draft.title || "";
+    if (form.subtitle) form.subtitle.value = draft.subtitle || "";
+    autosizeField(titleInput);
+    autosizeField(subtitleInput);
     form.slug.value = draft.slug || "";
     form.date.value = draft.date || "";
     form.tags.value = draft.tags || "";
+    renderTagChips();
     form.thumbnail.value = draft.thumbnail || "";
     form.featured.checked = !!draft.featured;
     if (form.sticky) form.sticky.checked = !!draft.sticky;
