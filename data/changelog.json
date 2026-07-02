@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1332",
+      "pr_number": 1332,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1332",
+      "title": "feat(home): add Trip.com affiliate banners to homepage right sidebar",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-02T04:53:27Z",
+      "merge_commit_sha": "7bfa9acc3fb6",
+      "stats": {
+        "additions": 65,
+        "deletions": 2
+      },
+      "highlights": [
+        "\"Tìm kiếm chuyến bay\" — flight search unit (320×320, S18400699)",
+        "\"Quảng cáo: DU LỊCH GIÁ RẺ\" — cheap-travel deals unit (300×250, SB18400650)",
+        "templates/index.html: override the home sidebar block with two sidebar-block--affiliate sections wrapping the Trip.com iframes. Desktop only — the global .sidebar is hidden below 768px (same as every ",
+        "templates/base.html: allowlist https://www.trip.com in the CSP frame-src directive so the iframes are permitted to render.",
+        "sass/_affiliate-banner.scss: scoped styling — center the fixed-size units in the column, never distort them, and allow a quiet horizontal scroll instead of clipping on narrow widths. Imported in site."
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1331",
       "pr_number": 1331,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1331",
