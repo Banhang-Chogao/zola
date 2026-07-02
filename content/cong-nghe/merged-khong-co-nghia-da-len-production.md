@@ -1,5 +1,5 @@
 +++
-title = "Merged Is Not Live: Vì Sao PR Merge Xong Chưa Chắc Đã Lên Production"
+title = "Merged Is Not Live: Vì Sao PR Merge Chưa Chắc Đã Lên Production"
 description = "PR đã merged không có nghĩa đã lên production — tìm hiểu 3 trạng thái deploy và cách Snapshot Production V2 kiểm chứng thật."
 date = 2026-07-02T10:05:00+07:00
 updated = 2026-07-02T10:05:00+07:00
@@ -45,7 +45,7 @@ title = "GitHub REST API — Deployment statuses"
 url = "https://docs.github.com/en/rest/deployments/statuses"
 +++
 
-> **TL;DR:** PR hiện chữ "Merged" màu tím trên GitHub không có nghĩa là code đó đã chạy trên production. Giữa merged và live còn một bước deploy, và bước đó có thể fail vì rate limit, bị huỷ ngang bởi merge khác, hoặc đơn giản là chưa chạy tới. Cách duy nhất để biết chắc là so SHA đã deploy với SHA mới nhất trên main — đúng như cách [Snapshot Production V2](/tools/snapshot-production-v2/) đang làm.
+> **TL;DR:** PR hiện chữ "Merged" màu tím trên GitHub không có nghĩa là code đó đã chạy trên production. Giữa merged và live còn một bước deploy, và bước đó có thể fail vì rate limit, bị huỷ ngang bởi merge khác, hoặc đơn giản là chưa chạy tới. Tinh thần cốt lõi ở đây là **"merged is not live"** — cách duy nhất để biết chắc là so SHA đã deploy với SHA mới nhất trên main, đúng như cách [Snapshot Production V2](/tools/snapshot-production-v2/) đang làm.
 
 Mình từng report với sếp (thật ra là tự report với chính mình, vì đây là blog cá nhân) rằng một route mới "đã live" chỉ vì thấy PR merge thành công. Hai tiếng sau mở URL thật ra vẫn 404. Từ đó mình mới hiểu merged và live là hai chuyện hoàn toàn khác nhau, và viết loạt bài này một phần cũng để tự nhắc bản thân đừng lặp lại sai lầm đó.
 
@@ -83,7 +83,7 @@ Bảng dưới tóm tắt lại ba sự cố cho dễ nhớ:
 | Rate limit khi deploy thật | `actions/deploy-pages` | Retry riêng: 0 → 60s → 120s |
 | Batch merge huỷ ngang deploy | Toàn bộ workflow deploy | `cancel-in-progress: false` + Deploy Guard chạy hàng giờ |
 
-## Vì sao CI xanh không đồng nghĩa đã lên production
+## Merged Is Not Live: vì sao CI xanh không đồng nghĩa đã lên production
 
 Mình nghĩ gốc rễ của sự nhầm lẫn này nằm ở chỗ CI và deploy trông giống nhau trên giao diện GitHub — đều là mấy dấu tick xanh — nhưng bản chất khác hẳn nhau.
 

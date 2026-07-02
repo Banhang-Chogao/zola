@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-02T19:04:49.259612+07:00",
+  "updated_at": "2026-07-02T19:05:41.678484+07:00",
   "posts": {
     "content/baochi/tau-con-thoi-atlantis.md": {
       "title": "Tàu con thoi Atlantis: huyền thoại vũ trụ của NASA",
@@ -4079,21 +4079,21 @@
       ]
     },
     "content/cong-nghe/merged-khong-co-nghia-da-len-production.md": {
-      "title": "Merged Is Not Live: Vì Sao PR Merge Xong Chưa Chắc Đã Lên Production",
+      "title": "Merged Is Not Live: Vì Sao PR Merge Chưa Chắc Đã Lên Production",
       "slug": "merged-khong-co-nghia-da-len-production",
       "keyword": "merged is not live production",
-      "score": 85.0,
-      "grade": "B",
-      "word_count": 1698,
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 1713,
       "published": true,
-      "scored_at": "2026-07-02T19:04:05.555914+07:00",
+      "scored_at": "2026-07-02T19:05:12.837409+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
           "max": 8
         },
         "title_length": {
-          "got": 3.0,
+          "got": 6.0,
           "max": 6
         },
         "description": {
@@ -4109,11 +4109,11 @@
           "max": 8
         },
         "kw_intro": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "kw_heading": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "headings": {
@@ -4153,16 +4153,27 @@
           "max": 3
         }
       },
-      "issues": [
-        "title 68 ký tự (nên 20–65)",
-        "từ khoá 'merged is not live production' chưa có trong đoạn mở đầu",
-        "từ khoá 'merged is not live production' chưa xuất hiện trong heading H2 nào"
-      ],
+      "issues": [],
       "history": [
         {
           "scored_at": "2026-07-02T19:04:05.555914+07:00",
           "score": 85.0,
           "grade": "B"
+        },
+        {
+          "scored_at": "2026-07-02T19:05:03.168032+07:00",
+          "score": 88.0,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-07-02T19:05:09.631529+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-07-02T19:05:12.837409+07:00",
+          "score": 100.0,
+          "grade": "A+"
         }
       ]
     },
@@ -4259,11 +4270,11 @@
       "title": "Backend Tụt Sau Main: Phát Hiện Production Drift",
       "slug": "backend-tut-sau-main-phat-hien-production-drift",
       "keyword": "backend tụt sau main production drift",
-      "score": 88.0,
-      "grade": "B",
-      "word_count": 1666,
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 1705,
       "published": true,
-      "scored_at": "2026-07-02T19:04:49.259612+07:00",
+      "scored_at": "2026-07-02T19:05:29.351445+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -4286,7 +4297,111 @@
           "max": 8
         },
         "kw_intro": {
-          "got": 0.0,
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [],
+      "history": [
+        {
+          "scored_at": "2026-07-02T19:04:37.491512+07:00",
+          "score": 85.0,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-07-02T19:04:49.259612+07:00",
+          "score": 88.0,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-07-02T19:05:02.990062+07:00",
+          "score": 88.0,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-07-02T19:05:26.101071+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-07-02T19:05:29.351445+07:00",
+          "score": 100.0,
+          "grade": "A+"
+        }
+      ]
+    },
+    "content/cong-nghe/giam-deploy-fail-voi-deploy-guard-va-snapshot-production.md": {
+      "title": "Giảm Deploy Fail Từ Hàng Chục Xuống Gần 0: Case Study Deploy Guard",
+      "slug": "giam-deploy-fail-voi-deploy-guard-va-snapshot-production",
+      "keyword": "giảm deploy fail deploy guard",
+      "score": 91.0,
+      "grade": "A",
+      "word_count": 1760,
+      "published": true,
+      "scored_at": "2026-07-02T19:05:31.459569+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 3.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
           "max": 6
         },
         "kw_heading": {
@@ -4331,19 +4446,100 @@
         }
       },
       "issues": [
-        "từ khoá 'backend tụt sau main production drift' chưa có trong đoạn mở đầu",
-        "từ khoá 'backend tụt sau main production drift' chưa xuất hiện trong heading H2 nào"
+        "title 66 ký tự (nên 20–65)",
+        "từ khoá 'giảm deploy fail deploy guard' chưa xuất hiện trong heading H2 nào"
       ],
       "history": [
         {
-          "scored_at": "2026-07-02T19:04:37.491512+07:00",
-          "score": 85.0,
-          "grade": "B"
+          "scored_at": "2026-07-02T19:05:31.459569+07:00",
+          "score": 91.0,
+          "grade": "A"
+        }
+      ]
+    },
+    "content/cong-nghe/checklist-theo-doi-deploy-sau-khi-merge-den-production-200.md": {
+      "title": "Checklist Theo Dõi Deploy Sau Khi Merge: Đến Khi Production Trả 200 OK",
+      "slug": "checklist-theo-doi-deploy-sau-khi-merge-den-production-200",
+      "keyword": "checklist theo dõi deploy sau khi merge",
+      "score": 97.0,
+      "grade": "A+",
+      "word_count": 1279,
+      "published": true,
+      "scored_at": "2026-07-02T19:05:41.678484+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
         },
+        "title_length": {
+          "got": 3.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "title 70 ký tự (nên 20–65)"
+      ],
+      "history": [
         {
-          "scored_at": "2026-07-02T19:04:49.259612+07:00",
-          "score": 88.0,
-          "grade": "B"
+          "scored_at": "2026-07-02T19:05:41.678484+07:00",
+          "score": 97.0,
+          "grade": "A+"
         }
       ]
     }

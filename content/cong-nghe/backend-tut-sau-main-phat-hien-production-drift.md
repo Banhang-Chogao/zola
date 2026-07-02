@@ -47,15 +47,15 @@ title = "Render — Health Checks"
 url = "https://render.com/docs/health-checks"
 +++
 
-> **TL;DR:** Frontend deploy xong không có nghĩa backend đã theo kịp. Vì hai bên chạy hai pipeline riêng trên hai nền tảng riêng, chúng có thể lệch pha — đó là production drift. Snapshot Production V2 phát hiện tình trạng này bằng cách so SHA backend, kiểm tra `/health` thật sự (không chỉ 200 OK), và phân biệt rõ cold-start Render với sự cố thật. Bài này giải thích vì sao drift nguy hiểm hơn cả sập hẳn, và cách xử lý khi thấy chỉ báo đỏ.
+> **TL;DR:** Backend tụt sau main — tức backend chưa deploy kịp commit mới nhất trên main — là nguyên nhân phổ biến nhất gây ra production drift. Frontend deploy xong không có nghĩa backend đã theo kịp: hai bên chạy hai pipeline riêng trên hai nền tảng riêng, hoàn toàn có thể lệch pha nhau. Snapshot Production V2 phát hiện tình trạng này bằng cách so SHA backend, kiểm tra `/health` thật sự (không chỉ 200 OK), và phân biệt rõ cold-start Render với sự cố thật. Bài này giải thích vì sao drift nguy hiểm hơn cả sập hẳn, và cách xử lý khi thấy chỉ báo đỏ.
 
 <!-- more -->
 
-Có một lần mình ngồi xem lại log lỗi trên blog và phát hiện một thứ khá kỳ: giao diện load bình thường, mọi trang public đều mở được, nhưng phần bình luận lại im lặng không hiện gì cả — không lỗi to đùng, không trắng trang, chỉ là… không có gì xảy ra. Hoá ra frontend đã đổi sang gọi một route mới, còn backend thì vẫn đang chạy bản cũ chưa kịp deploy. Hai bên nói chuyện với nhau bằng hai "ngôn ngữ" khác version.
+Có một lần mình ngồi xem lại log lỗi trên blog và phát hiện một thứ khá kỳ: giao diện load bình thường, mọi trang public đều mở được, nhưng phần bình luận lại im lặng không hiện gì cả — không lỗi to đùng, không trắng trang, chỉ là… không có gì xảy ra. Hoá ra frontend đã đổi sang gọi một route mới, còn **backend tụt sau main** — vẫn đang chạy bản cũ chưa kịp deploy. Hai bên nói chuyện với nhau bằng hai "ngôn ngữ" khác version, và đó chính là kiểu **production drift** mình muốn mổ xẻ trong bài này.
 
 Đó chính là thứ mình muốn nói trong bài này: **production drift**. Nếu bạn chưa đọc bài mở đầu series, nên ghé qua [Snapshot Production V2 theo dõi deploy status là gì](/cong-nghe/snapshot-production-v2-theo-doi-deploy-status-la-gi/) trước, vì bài đó giải thích tổng quan công cụ và lý do mình xây nó ngay từ đầu.
 
-## Vì sao deploy tách rời lại dễ lệch nhau
+## Backend tụt sau main: vì sao production drift dễ xảy ra
 
 Blog này chạy trên kiến trúc khá phổ biến với nhiều dự án hiện đại: phần frontend là một site tĩnh (Zola build ra HTML, deploy lên GitHub Pages), còn phần backend là một service FastAPI riêng biệt chạy trên Render, lo mấy việc như bình luận, đăng nhập, paywall, đo hiệu năng thực (RUM).
 
