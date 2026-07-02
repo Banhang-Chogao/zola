@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1341",
+      "pr_number": 1341,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1341",
+      "title": "fix(compliance): retire stale GitHub Pages base path check",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-02T11:45:03Z",
+      "merge_commit_sha": "33e3ae49aa54",
+      "stats": {
+        "additions": 27,
+        "deletions": 13
+      },
+      "highlights": [
+        "The Auto-fix panel flagged Links: GitHub Pages base path (check: fail) — 192 href(s) missing /zola/. Investigated scripts/compliance_audit.py and found it hardcoded BASE_URL = \"https://banhang-chogao.",
+        "Production has been https://seomoney.org at root path since the canonical base URL migration (see CLAUDE.md §\"SEOMONEY Production Base URL\"), and /zola/ is now explicitly forbidden in active URLs. scr",
+        "Fix: derive BASE_URL/SITE_PREFIX from config.toml's base_url via the existing site_link_prefix.py helper (same one compliance_fix.py uses), and skip the \"GitHub Pages base path\" check entirely when th",
+        "No changes to generated report data (data/compliance-score.json, data/compliance-link-report.json) per repo policy — those regenerate on the next scheduled/CI run.",
+        "Public CLAUDE.md: No (already documented via \"SEOMONEY Production Base URL — Canonical Rules\"; this PR brings compliance_audit.py into compliance with that existing rule)"
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1345",
       "pr_number": 1345,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1345",
