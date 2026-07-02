@@ -50,7 +50,7 @@ url = "https://blog.google/innovation-and-ai/technology/ai/nano-banana-2/"
 
 Tháng 8 năm 2025, Google DeepMind trình làng **Nano Banana**, mô hình tạo ảnh gốc (native image generation) tích hợp trong Gemini — và nó nhanh chóng trở thành hiện tượng trong giới AI. Chưa đầy một năm sau, gia đình Nano Banana đã mở rộng lên bốn phiên bản, từ Lite giá rẻ cho tới Pro studio-quality, phục vụ từ nhà phát triển cá nhân tới doanh nghiệp lớn.
 
-Bài viết này mình sẽ tổng hợp toàn bộ gia đình Nano Banana — các phiên bản, tính năng nổi bật, benchmark hiệu năng, bảng giá và cách bắt đầu sử dụng ngay hôm nay.
+Bài viết này mình sẽ tổng hợp toàn bộ gia đình Nano Banana — các phiên bản, tính năng nổi bật, benchmark hiệu năng, bảng giá và cách bắt đầu sử dụng ngay hôm nay. Đây là một phần trong loạt bài mình theo dõi về [công nghệ AI](/categories/cong-nghe/) của Google DeepMind, cùng nhà với [Gemini 3.5 và khả năng agentic mới nhất](/posting/gemini-3-5-co-gi-moi/) mà mình cũng vừa viết.
 
 <!-- more -->
 
@@ -80,7 +80,7 @@ Ra mắt cuối tháng 6/2026, **Nano Banana 2 Lite** là mô hình nhanh nhất
 - Ứng dụng cần độ trễ thấp
 - Budget-tight projects
 
-Hỗ trợ 15 tỷ lệ khung hình, đầu ra tối đa 1K resolution. Đây là bản thay thế trực tiếp cho Nano Banana 1 (Gemini 2.5 Flash Image) với chất lượng tốt hơn và giá thấp hơn.
+Hỗ trợ 15 tỷ lệ khung hình, đầu ra tối đa 1K resolution. Đây là bản thay thế trực tiếp cho Nano Banana 1 (Gemini 2.5 Flash Image) với chất lượng tốt hơn và giá thấp hơn. Mình có một bài riêng phân tích sâu hơn về [Nano Banana 2 Lite kết hợp cùng Gemini Omni Flash để tạo video](/posting/nano-banana-2-lite-gemini-omni-flash/), nếu bạn muốn tìm hiểu luồng làm việc ảnh + video trong cùng hệ sinh thái.
 
 ### 2. Nano Banana 2 — Con át chủ bài
 
@@ -176,3 +176,7 @@ Nano Banana đang được sử dụng rộng rãi trong nhiều lĩnh vực:
 - **Sáng tạo nội dung**: Tạo infographics, biểu đồ dữ liệu, diagram từ ghi chú
 - **Giải trí**: Storyboarding, tạo ảnh truyện tranh với tỷ lệ 8:1, 1:8
 - **E-commerce**: Tạo ảnh sản phẩm, thumbnail video quảng cáo
+
+## Đọc thêm
+
+Nếu đây là lần đầu bạn ghé blog, [tìm hiểu thêm về mình và các chủ đề mình viết](/posting/chao-mung-den-voi-duy-nguyen/). Bạn cũng có thể xem [toàn bộ bài viết trên blog](/categories/tat-ca/) để khám phá thêm các chủ đề khác ngoài AI.
