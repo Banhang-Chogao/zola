@@ -1,0 +1,166 @@
+/* ============================================================================
+   _editor-substack.scss — Substack-style compose UI cho /editor/ (edit view).
+
+   Bổ sung cho _editor.scss (giữ nguyên form/grid/slash-menu cũ). Phạm vi:
+     - .ecms-compose-bar  — thanh trên cùng: Quay lại · trạng thái · Xem trước · Đăng bài
+     - .ecms-headline     — Title lớn + Subtitle + Tags dạng chip (thay field cũ)
+   Dùng semantic token var(--c-*) + .ecms-btn có sẵn (_editor-cms.scss) để nhất
+   quán với phần "ecms-" hiện đại của CMS này, khác _editor.scss (hex cứng cũ).
+   ============================================================================ */
+
+.ecms-compose-bar {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.25rem;
+  margin-bottom: 1rem;
+  background: var(--c-bg-page);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.ecms-compose-bar__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--c-text-muted);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  svg { flex-shrink: 0; }
+
+  &:hover {
+    background: var(--c-bg-soft);
+    color: var(--c-text-heading);
+  }
+}
+
+.ecms-compose-bar__status {
+  color: var(--c-text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ecms-compose-bar__spacer { flex: 1; }
+
+@media (max-width: 720px) {
+  .ecms-compose-bar {
+    flex-wrap: wrap;
+    &__status { order: 3; flex: 1 1 100%; }
+  }
+}
+
+/* ============= HEADLINE BLOCK (Title / Subtitle / Tags) ============= */
+.ecms-headline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--c-border);
+}
+
+/* Reset chung cho 2 textarea auto-grow — không viền, không resize tay, nền trong suốt */
+.ecms-headline__title,
+.ecms-headline__subtitle {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  background: transparent;
+  font-family: $font-heading;
+  color: var(--c-text-heading);
+
+  &::placeholder { color: var(--c-text-muted); opacity: 0.7; }
+}
+
+.ecms-headline__title {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.ecms-headline__subtitle {
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--c-text-muted);
+}
+
+@media (max-width: 720px) {
+  .ecms-headline__title { font-size: 1.5rem; }
+  .ecms-headline__subtitle { font-size: 1rem; }
+}
+
+/* ============= TAG CHIPS ============= */
+.ecms-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+
+.ecms-tags__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.28rem 0.4rem 0.28rem 0.7rem;
+  border-radius: 999px;
+  background: var(--c-accent-soft);
+  color: var(--c-accent);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.ecms-tags__chip-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: background 0.15s ease, opacity 0.15s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.08);
+    opacity: 1;
+  }
+}
+
+.ecms-tags__input {
+  flex: 0 1 160px;
+  min-width: 110px;
+  padding: 0.3rem 0.1rem;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-size: 0.86rem;
+  color: var(--c-text-body);
+
+  &::placeholder { color: var(--c-text-muted); }
+}

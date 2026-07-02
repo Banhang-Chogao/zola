@@ -115,8 +115,6 @@
                     <p class="ecms-page-header__desc">Tạo, chỉnh sửa và quản lý nội dung trên blog SEOMONEY.</p>
                 </div>
                 <div class="ecms-page-header__actions">
-                    <input type="file" accept=".md,text/markdown" data-import-file hidden>
-                    <button type="button" class="ecms-btn ecms-btn--ghost" data-action="import">Nhập bài viết</button>
                     <button type="button" class="ecms-btn ecms-btn--primary" data-action="new">+ Viết bài mới</button>
                 </div>
             </div>
@@ -303,7 +301,20 @@
 
         {# ===== EDITOR VIEW ===== #}
         <section class="editor-view" data-view="edit" hidden>
-            <header class="section-header"><h2 class="section-header__title" data-target="edit-title">VIẾT BÀI MỚI</h2></header>
+            {# ===== SUBSTACK-STYLE COMPOSE TOP BAR =====
+               Tối giản: Quay lại bên trái, Xem trước + Đăng bài bên phải — thay
+               cho thanh toolbar nhiều icon. Mọi định dạng chuyển sang slash menu
+               ("/"") trong khung soạn thảo (xem .editor-slash-menu bên dưới). #}
+            <header class="ecms-compose-bar" data-compose-bar>
+                <button type="button" class="ecms-compose-bar__back" data-action="back" aria-label="Quay lại danh sách bài viết">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                    <span>Bài viết</span>
+                </button>
+                <span class="ecms-compose-bar__status" data-target="edit-title">Bài mới</span>
+                <div class="ecms-compose-bar__spacer"></div>
+                <button type="button" class="ecms-btn ecms-btn--ghost editor-tab" data-tab="preview">Xem trước</button>
+                <button type="button" class="ecms-btn ecms-btn--primary" data-action="publish">Đăng bài</button>
+            </header>
 
           <div class="editor-edit-layout">
             <form data-form="post" id="editor-post-form" class="editor-form">
@@ -317,12 +328,21 @@
                     <button type="button" class="editor-btn editor-btn--small editor-btn--ghost" data-action="draft-discard">Bỏ qua</button>
                 </div>
 
-                <div class="editor-grid">
-                    <label class="editor-field">
-                        <span>Tiêu đề *</span>
-                        <input type="text" name="title" required class="editor-input">
-                    </label>
+                {# ===== HEADLINE BLOCK (Substack-style) =====
+                   Title lớn không viền → Subtitle mô tả ngắn (lưu vào frontmatter
+                   `description`) → Tags dạng chip. Slug/Ngày/Category/Thumbnail
+                   chuyển xuống lưới field bên dưới. #}
+                <div class="ecms-headline">
+                    <textarea name="title" required class="ecms-headline__title" data-autosize rows="1" placeholder="Tiêu đề" aria-label="Tiêu đề bài viết"></textarea>
+                    <textarea name="subtitle" class="ecms-headline__subtitle" data-autosize rows="1" placeholder="Thêm phụ đề…" aria-label="Phụ đề (mô tả ngắn cho SEO)"></textarea>
 
+                    <div class="ecms-tags" data-tag-chips aria-label="Thẻ bài viết">
+                        <input type="text" name="tags" hidden aria-hidden="true" tabindex="-1">
+                        <input type="text" class="ecms-tags__input" data-tag-input placeholder="+ Thêm thẻ" autocomplete="off" aria-label="Thêm thẻ mới">
+                    </div>
+                </div>
+
+                <div class="editor-grid">
                     <label class="editor-field">
                         <span>Slug (URL)</span>
                         <input type="text" name="slug" placeholder="tu-dong-tu-tieu-de" class="editor-input">
@@ -352,11 +372,6 @@
                     </label>
 
                     <label class="editor-field editor-field--full">
-                        <span>Tags (cách nhau bởi dấu phẩy)</span>
-                        <input type="text" name="tags" placeholder="zola, github, cms" class="editor-input">
-                    </label>
-
-                    <label class="editor-field editor-field--full">
                         <span>Ảnh thumbnail (URL)</span>
                         <input type="url" name="thumbnail" placeholder="https://seomoney.org/img/..." class="editor-input">
                         <span class="editor-field-hint">Chỉ dùng ảnh local/owned hoặc đã xác minh license; để trống để dùng fallback SEOMONEY. Ảnh Markdown phải có alt tiếng Việt rõ nghĩa.</span>
@@ -380,47 +395,14 @@
                             <button type="button" class="editor-tab" data-tab="preview">👁 Preview</button>
                         </div>
 
-                        {# Toolbar markdown — 10 nút + 2 separator, inline SVG (Lucide style).
-                           Ẩn khi tab Preview active (toggle qua data-toolbar attr trong JS). #}
-                        <div class="editor-md-toolbar" data-toolbar role="toolbar" aria-label="Định dạng markdown">
-                        <button type="button" class="editor-md-btn" data-md="bold" title="Đậm (Ctrl+B)" aria-label="Đậm">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/></svg>
-                        </button>
-                        <button type="button" class="editor-md-btn" data-md="italic" title="Nghiêng (Ctrl+I)" aria-label="Nghiêng">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="19" x2="10" y1="4" y2="4"/><line x1="14" x2="5" y1="20" y2="20"/><line x1="15" x2="9" y1="4" y2="20"/></svg>
-                        </button>
-                        <button type="button" class="editor-md-btn" data-md="heading" title="Tiêu đề mục (##)" aria-label="Heading">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16"/><path d="M18 4v16"/><path d="M6 12h12"/></svg>
-                        </button>
-                        <span class="editor-md-sep" aria-hidden="true"></span>
-                        <button type="button" class="editor-md-btn" data-md="link" title="Link (Ctrl+K)" aria-label="Link">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                        </button>
-                        <button type="button" class="editor-md-btn" data-md="image" title="Ảnh" aria-label="Ảnh">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-                        </button>
-                        <button type="button" class="editor-md-btn" data-md="quote" title="Trích dẫn" aria-label="Trích dẫn">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
-                        </button>
-                        <span class="editor-md-sep" aria-hidden="true"></span>
-                        <button type="button" class="editor-md-btn" data-md="code" title="Code inline (Ctrl+E)" aria-label="Code inline">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                        </button>
-                        <button type="button" class="editor-md-btn" data-md="codeblock" title="Code block" aria-label="Code block">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m8 10-2 2 2 2"/><path d="m16 10 2 2-2 2"/></svg>
-                        </button>
-                        <button type="button" class="editor-md-btn" data-md="ul" title="Bullet list" aria-label="Bullet list">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
-                        </button>
-                        <button type="button" class="editor-md-btn" data-md="ol" title="Numbered list" aria-label="Numbered list">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="10" x2="21" y1="6" y2="6"/><line x1="10" x2="21" y1="12" y2="12"/><line x1="10" x2="21" y1="18" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
-                        </button>
-                        </div>
                     </div>
 
-                    {# Wrap 2 pane vào content-body để CSS grid thành 2 cột ở split mode #}
+                    {# Không còn toolbar icon cố định — dán nội dung trực tiếp vào khung
+                       bên dưới (chỉ nhận plain text, xem paste handler trong editor.js),
+                       gõ "/" để mở context menu chọn định dạng nhanh (xem
+                       .editor-slash-menu cuối trang). #}
                     <div class="editor-content-body" data-content-body>
-                        <textarea name="body" data-tab-pane="write" class="editor-input editor-textarea" placeholder="# Nội dung markdown...&#10;&#10;4 section cuối do macro tự render. Chỉ cần:&#10;- Viết link trong body (tự trích xuất)&#10;- Khai báo [[extra.faq]] trong frontmatter" required></textarea>
+                        <textarea name="body" data-tab-pane="write" class="editor-input editor-textarea" placeholder="Dán nội dung bài viết vào đây…&#10;&#10;Gõ / để chèn heading, danh sách, trích dẫn, link, ảnh… nhanh hơn thanh công cụ." required></textarea>
                         <div data-tab-pane="preview" class="editor-preview">
                             <em>Bắt đầu gõ để xem preview…</em>
                         </div>
