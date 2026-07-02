@@ -80,9 +80,11 @@ menu = [
     # Deletion 30/06/2026: xoá hẳn nhóm 'Viết & biên tập' (Viết bài, Content Creator, Prompt Support).
     # TODO (AdSense Audit): hiện link tới /ad-report-v2/ (V2 daily automated report).
     # Khi /ad-report/ trở thành hub chứa cả V1/V2/V3, cập nhật menu link sang /ad-report/.
-    { name = "Công cụ", url = "$BASE_URL/editor", groups = [
+    # CMS legacy disable (2026-07-02): /editor, CMS-V5, CMS-V6, CMS-V7 đã tắt
+    # (draft = true) — chỉ giữ lại CMS-V2. "Công cụ" trỏ thẳng /cms-v2/.
+    { name = "Công cụ", url = "$BASE_URL/cms-v2", groups = [
         { name = "SEO & phân tích", children = [ { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" }, { url = "$BASE_URL/insights", name = "Insights" }, { url = "$BASE_URL/tools/content-direction", name = "Content Direction" }, { url = "$BASE_URL/ad-report-v2", name = "AdSense Audit" }, { url = "$BASE_URL/scoring", name = "Scoring" }, { url = "$BASE_URL/tools/theme-log", name = "Theme log" } ] },
-        { name = "Hệ thống & guideline", children = [ { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" }, { url = "$BASE_URL/branding-se-dna", name = "SE-DNA Branding" }, { url = "$BASE_URL/font-se-dna", name = "SE-DNA Font" }, { url = "$BASE_URL/tools/s-dna", name = "S-DNA" }, { url = "$BASE_URL/tools/k-dna", name = "K-DNA" }, { url = "$BASE_URL/cms-v6/", name = "CMS-V6" }, { url = "$BASE_URL/cms-v7/", name = "CMS-V7" }, { url = "$BASE_URL/font", name = "Font Guideline" } ] },
+        { name = "Hệ thống & guideline", children = [ { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" }, { url = "$BASE_URL/branding-se-dna", name = "SE-DNA Branding" }, { url = "$BASE_URL/font-se-dna", name = "SE-DNA Font" }, { url = "$BASE_URL/tools/s-dna", name = "S-DNA" }, { url = "$BASE_URL/tools/k-dna", name = "K-DNA" }, { url = "$BASE_URL/font", name = "Font Guideline" } ] },
     ] },
     # "Dashboard" — top-level riêng (tách khỏi Công cụ). Dropdown đơn (children) gom
     # 4 dashboard tài chính F/L/O/H. KHÔNG đổi URL dashboard.
