@@ -353,6 +353,8 @@
                 {% set series_manifest = load_data(path="data/bhyt-gia-tri-su-dung-series.json", required=false) %}
             {% elif page.extra.series == "tra-cuu-diem-thi-thpt-2026" %}
                 {% set series_manifest = load_data(path="data/tra-cuu-diem-thi-thpt-2026-series.json", required=false) %}
+            {% elif page.extra.series == "deploy-status-monitoring" %}
+                {% set series_manifest = load_data(path="data/deploy-status-monitoring-series.json", required=false) %}
             {% endif %}
             {% if series_manifest and page.extra.series == series_manifest.id %}
                 {% for item in series_manifest.parts %}

@@ -1,0 +1,57 @@
+{
+  "id": "deploy-status-monitoring",
+  "title": "Deploy Status Monitoring Series",
+  "title_vi": "Series Theo dõi Deploy Status sau khi Deploy",
+  "description": "6 bài viết bám sát công cụ Snapshot Production V2 của SEOMONEY — vì sao theo dõi trạng thái deploy ngay sau khi merge giúp giảm downtime, phát hiện production drift sớm và rút ngắn thời gian phục hồi sự cố.",
+  "source_url": "https://seomoney.org/tools/snapshot-production-v2/",
+  "source_label": "SEOMONEY — Snapshot Production V2",
+  "section": "cong-nghe",
+  "category": "Công nghệ",
+  "tag": "deploy status monitoring series",
+  "pillar_slug": "snapshot-production-v2-theo-doi-deploy-status-la-gi",
+  "total_parts": 6,
+  "parts": [
+    {
+      "part": 1,
+      "slug": "snapshot-production-v2-theo-doi-deploy-status-la-gi",
+      "title": "Snapshot Production V2 là gì? Vì sao theo dõi Deploy Status sau khi deploy quan trọng",
+      "google_section": "Tổng quan công cụ & triết lý monitoring",
+      "status": "published"
+    },
+    {
+      "part": 2,
+      "slug": "merged-khong-co-nghia-da-len-production",
+      "title": "Merged Is Not Live: vì sao PR merge xong chưa chắc đã lên production",
+      "google_section": "Khoảng trống giữa merge và deploy thật",
+      "status": "published"
+    },
+    {
+      "part": 3,
+      "slug": "doc-bang-deploy-history-d-b-a-f",
+      "title": "Đọc bảng Deploy History D/B/A/F: hướng dẫn chẩn đoán deploy status nhanh",
+      "google_section": "Ký hiệu trạng thái & cách chẩn đoán",
+      "status": "published"
+    },
+    {
+      "part": 4,
+      "slug": "backend-tut-sau-main-phat-hien-production-drift",
+      "title": "Backend tụt sau main: phát hiện và xử lý production drift với Snapshot Production",
+      "google_section": "Drift detection frontend/backend",
+      "status": "published"
+    },
+    {
+      "part": 5,
+      "slug": "giam-deploy-fail-voi-deploy-guard-va-snapshot-production",
+      "title": "Giảm deploy fail từ hàng chục xuống gần 0: case study Deploy Guard + Snapshot Production",
+      "google_section": "Case study định lượng hiệu quả",
+      "status": "published"
+    },
+    {
+      "part": 6,
+      "slug": "checklist-theo-doi-deploy-sau-khi-merge-den-production-200",
+      "title": "Checklist theo dõi deploy sau khi merge: từ merge tới xác nhận production 200 OK",
+      "google_section": "Quy trình thực hành & checklist",
+      "status": "published"
+    }
+  ]
+}
