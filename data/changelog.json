@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1345",
+      "pr_number": 1345,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1345",
+      "title": "feat(automation): kt9 auto-fix runs on QA/deploy failure + 20-min sweep",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-02T11:24:06Z",
+      "merge_commit_sha": "586a0f676623",
+      "stats": {
+        "additions": 33,
+        "deletions": 8
+      },
+      "highlights": [
+        "pr-status-gate.yml (the kt9 gate) only fired on pull_request events (opened/synchronize/reopened). If a conflict or QA Gatekeeper failure showed up on an open PR without a new push to that PR (e.g. an",
+        "Added two new triggers so it's fully automatic:",
+        "workflow_run on QA Gatekeeper and Build and deploy Zola site to GitHub Pages completion → re-sweeps all open PRs the moment either finishes.",
+        "schedule every 20 minutes → periodic safety net (mirrors the cadence of continuous-merge-validator.yml).",
+        "Bumped permissions.contents from read → write: scripts/pr_status_check.py's V18/V25 conflict auto-resolver does git push to the PR branch, which silently fails under a read-only GITHUB_TOKEN."
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1342",
       "pr_number": 1342,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1342",
