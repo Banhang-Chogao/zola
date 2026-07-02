@@ -29,9 +29,10 @@
             {# — Search Performance — #}
             <div class="google-snapshot__card google-snapshot__card--search">
                 <span class="google-snapshot__label">Search (7d)</span>
+                {% if gsc and gsc.totals.clicks %}
                 <div class="google-snapshot__metrics">
                     <div class="google-snapshot__metric">
-                        <strong class="google-snapshot__value">{{ gsc.totals.clicks | default(value="—") }}</strong>
+                        <strong class="google-snapshot__value">{{ gsc.totals.clicks }}</strong>
                         <span class="google-snapshot__sublabel">Clicks</span>
                     </div>
                     <div class="google-snapshot__metric">
@@ -39,7 +40,7 @@
                         <span class="google-snapshot__sublabel">Impressions</span>
                     </div>
                     <div class="google-snapshot__metric">
-                        <strong class="google-snapshot__value">{{ gsc.totals.ctr_pct | default(value="—") }}%</strong>
+                        <strong class="google-snapshot__value">{% if gsc.totals.ctr_pct %}{{ gsc.totals.ctr_pct }}%{% else %}—{% endif %}</strong>
                         <span class="google-snapshot__sublabel">CTR</span>
                     </div>
                     <div class="google-snapshot__metric">
@@ -47,6 +48,12 @@
                         <span class="google-snapshot__sublabel">Avg Position</span>
                     </div>
                 </div>
+                {% else %}
+                <div class="google-snapshot__empty">
+                    <span class="google-snapshot__empty-icon">🔌</span>
+                    <span class="google-snapshot__empty-text">Search Console chưa kết nối dữ liệu.</span>
+                </div>
+                {% endif %}
             </div>
 
             {# — Site Speed — #}
