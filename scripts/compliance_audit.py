@@ -32,8 +32,16 @@ OUT_FILE = DATA / "compliance-score.json"
 LINK_REPORT_FILE = DATA / "compliance-link-report.json"
 
 VN_TZ = timezone(timedelta(hours=7))
-BASE_URL = "https://banhang-chogao.github.io/zola"
-SITE_PREFIX = "/zola"  # GitHub Pages subpath — strip from internal hrefs
+try:
+    from site_link_prefix import read_base_url, runtime_prefix
+except ImportError:
+    read_base_url = runtime_prefix = None  # type: ignore[assignment]
+
+# Derived from config.toml `base_url` — currently https://seomoney.org at root
+# path, so SITE_PREFIX is "". Falls back to the legacy GitHub Pages subpath
+# only if the import fails (should not happen when run from repo root).
+BASE_URL = read_base_url() if read_base_url else "https://seomoney.org"
+SITE_PREFIX = runtime_prefix() if runtime_prefix else ""
 
 TITLE_MIN, TITLE_MAX = 10, 65
 DESC_MIN, DESC_MAX = 50, 160
@@ -558,17 +566,23 @@ def run_audit() -> dict:
     if broken_details:
         link_item["broken"] = broken_details[:20]
     cat_items["links"].append(link_item)
-    prefix_missing = len(missing_prefix_set)
-    prefix_status = "pass" if prefix_missing == 0 else ("warn" if prefix_missing <= 5 else "fail")
-    cat_items["links"].append({
-        "label": "GitHub Pages base path",
-        "status": prefix_status,
-        "detail": (
-            f"all hrefs use {SITE_PREFIX}/"
-            if prefix_missing == 0
-            else f"{prefix_missing} href(s) missing {SITE_PREFIX}/"
-        ),
-    })
+    # Only meaningful when the site is served from a GitHub Pages subpath
+    # (SITE_PREFIX non-empty). https://seomoney.org serves from root ("")
+    # so there is no subpath prefix to enforce — skip the check entirely
+    # rather than flag every root-relative href as "missing" a prefix that
+    # no longer applies (see CLAUDE.md "SEOMONEY Production Base URL").
+    if SITE_PREFIX:
+        prefix_missing = len(missing_prefix_set)
+        prefix_status = "pass" if prefix_missing == 0 else ("warn" if prefix_missing <= 5 else "fail")
+        cat_items["links"].append({
+            "label": "GitHub Pages base path",
+            "status": prefix_status,
+            "detail": (
+                f"all hrefs use {SITE_PREFIX}/"
+                if prefix_missing == 0
+                else f"{prefix_missing} href(s) missing {SITE_PREFIX}/"
+            ),
+        })
 
     # --- Access ---
     main_ok = skip_ok = 0
