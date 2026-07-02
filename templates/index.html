@@ -9,11 +9,15 @@
 {% block title %}{{ config.title }} — SEO, AI WebOps &amp; Tài chính cá nhân{% endblock %}
 
 {% block sidebar %}
-    {# Home right sidebar — Trip.com affiliate banners. Desktop-only: the global
-       .sidebar is hidden below 768px (see _mobile-v2.scss), same as every other
-       sidebar widget, so these ads never crowd the mobile reading path. #}
+    {# Home right sidebar. Desktop-only: the global .sidebar is hidden below
+       768px (see _mobile-v2.scss), same as every other sidebar widget.
+
+       2026-07-02: Trip.com affiliate banners (flight search + cheap travel
+       deals) temporarily DISABLED per request, replaced with a "Top 10 bài
+       mới nhất" widget. Do NOT delete — uncomment the two <section> blocks
+       below to restore. #}
     <aside class="sidebar sidebar--home-ads">
-        {# Affiliate 1 — Trip.com flight search (320×320). #}
+        {# Affiliate 1 — Trip.com flight search (320×320). TEMP DISABLED.
         <section class="sidebar-block sidebar-block--affiliate" data-widget="affiliate-flight">
             <h3 class="sidebar-label">Tìm kiếm chuyến bay</h3>
             <div class="affiliate-banner">
@@ -26,8 +30,9 @@
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </section>
+        #}
 
-        {# Affiliate 2 — Trip.com cheap travel deals (300×250). #}
+        {# Affiliate 2 — Trip.com cheap travel deals (300×250). TEMP DISABLED.
         <section class="sidebar-block sidebar-block--affiliate" data-widget="affiliate-travel">
             <h3 class="sidebar-label">Quảng cáo: DU LỊCH GIÁ RẺ</h3>
             <div class="affiliate-banner">
@@ -39,6 +44,51 @@
                         loading="lazy" scrolling="no" frameborder="0"
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
+        </section>
+        #}
+
+        {# Top 10 bài mới nhất — sort theo page.date (ngày đăng), khớp quy ước
+           sort chung của toàn site (FEATURED/RANDOM POSTS ở base.html, feed
+           trang chủ đều dùng page.date). Zola/Tera bản đang dùng không hỗ trợ
+           object-literal nên không thể build key sort kết hợp date+updated;
+           đã thử `>`/`<` trực tiếp trên page.date cũng không được (Tera coi
+           datetime là toán hạng số, lỗi "used in a math operation but is not
+           a number") — chỉ filter `sort(attribute=...)` xử lý được kiểu date.
+           Cùng UI với widget RANDOM POSTS (base.html): ảnh vuông + số rank
+           overlay + tiêu đề + ngày. #}
+        {% set_global _latest_pages = [] %}
+        {% for subsection_path in section.subsections %}
+            {% set child_section = get_section(path=subsection_path) %}
+            {% if not child_section.extra.skip_feed | default(value=false) %}
+                {% for p in child_section.pages %}
+                    {% if p.title and p.date and not p.extra.feed_anchor | default(value=false) and not p.extra.hide_from_home | default(value=false) %}
+                        {% set_global _latest_pages = _latest_pages | concat(with=[p]) %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+        {% set _latest_pages = _latest_pages | sort(attribute="date") | reverse %}
+
+        <section class="sidebar-block" data-widget="top-latest">
+            <h3 class="sidebar-label">TOP 10 BÀI MỚI NHẤT</h3>
+            <ul class="random-list" data-target="top-latest">
+                {% for p in _latest_pages | slice(end=10) %}
+                    <li class="random-item">
+                        <a class="random-item__image" href="{{ p.permalink }}">
+                            <img src="{{ img::cover_src(page=p) }}" alt="{{ img::cover_alt(page=p) }}"
+                                 width="100" height="100"
+                                 loading="lazy" decoding="async">
+                            <span class="rank-overlay" aria-hidden="true">{{ loop.index }}</span>
+                        </a>
+                        <div class="random-item__body">
+                            <h5 class="random-item__title">
+                                <a href="{{ p.permalink }}">{{ p.title }}</a>
+                            </h5>
+                            <time class="random-item__date">{{ p.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
         </section>
     </aside>
 {% endblock sidebar %}
