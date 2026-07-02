@@ -7,6 +7,18 @@
 @import "layout";
 @import "navbar";
 @import "post";
+/* --- article/public-page styles dropped in the cf03c3f font refactor; restored --- */
+@import "breadcrumb";
+@import "toc";
+@import "sidebar";
+@import "google-rank";
+@import "single";
+@import "faq";
+@import "references";
+@import "post-nav";
+@import "comments";
+@import "locked-overlay";
+@import "archive";
 @import "banner";
 @import "placement";
 @import "footer";
