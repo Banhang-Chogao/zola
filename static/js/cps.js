@@ -501,7 +501,6 @@
     const block = (cpData.blocks || []).find((b) => b.id === id);
     if (!block) return;
     const clone = Object.assign({}, block, { id: uniqueId(block.id + "_copy"), enabled: false });
-    delete clone.id; clone.id = uniqueId(block.id + "_copy");
     try {
       const res = await fetch(AUTH_API + "/admin/content-blocks", { method: "POST", credentials: "include", headers: apiHeaders(true), body: JSON.stringify(clone) });
       if (!res.ok) throw new Error(await res.text());
