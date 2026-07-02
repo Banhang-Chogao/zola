@@ -100,7 +100,6 @@ menu = [
     { name = "Tiện ích", url = "$BASE_URL/converter", children = [
         { url = "$BASE_URL/converter", name = "Korean Converter" },
         { url = "$BASE_URL/changelog", name = "Changelog" },
-        { url = "$BASE_URL/tools/cps", name = "Content Placement System" },
         { url = "$BASE_URL/tools/snapshot-production-v2", name = "Snapshot Production" },
     ] },
 ]

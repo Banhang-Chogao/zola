@@ -23,11 +23,27 @@
   {%- set cur = "" -%}
   {%- if page and page.path -%}{%- set cur = page.path -%}
   {%- elif section and section.path -%}{%- set cur = section.path -%}{%- endif -%}
+  {# Scheduling reference point — evaluated once at build time. The site rebuilds
+     on every push plus hourly via Deploy Guard, so start_date/end_date take effect
+     within ~1h of the boundary date, not live per-visitor (static site, no server). #}
+  {%- set now_ts = now(timestamp=true) -%}
 
   {%- set_global pl_matched = [] -%}
   {%- for block in data.blocks -%}
     {%- if block.placement_id == id and block.enabled -%}
       {%- set_global pl_ok = true -%}
+
+      {# Schedule window: start_date/end_date are plain "YYYY-MM-DD" strings.
+         end_date is inclusive through the end of that day. #}
+      {%- if pl_ok and block.start_date -%}
+        {%- set_global cps_start_ts = block.start_date | date(format="%s") | int -%}
+        {%- if now_ts < cps_start_ts -%}{%- set_global pl_ok = false -%}{%- endif -%}
+      {%- endif -%}
+      {%- if pl_ok and block.end_date -%}
+        {%- set_global cps_end_ts = block.end_date | date(format="%s") | int -%}
+        {%- set_global cps_end_ts_excl = cps_end_ts + 86400 -%}
+        {%- if now_ts >= cps_end_ts_excl -%}{%- set_global pl_ok = false -%}{%- endif -%}
+      {%- endif -%}
 
       {# exclude_pages: hide when the current path starts with any excluded prefix #}
       {%- if cur and block.exclude_pages -%}

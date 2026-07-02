@@ -1,9 +1,3 @@
-{% macro position_badge(position) %}
-<span class="cps-pos cps-pos--{{ position }}">{{ position }}</span>
-{% endmacro position_badge %}
-
-{% macro action_icon(label, icon, danger=false) %}
-<button class="cps-icon-btn{% if danger %} cps-icon-btn--danger{% endif %}" type="button" aria-label="{{ label }}" title="{{ label }}">
-  <span aria-hidden="true">{{ icon }}</span>
-</button>
-{% endmacro action_icon %}
+{% macro scope_badge(scope) %}
+<span class="cps-scope-tag cps-scope-tag--{{ scope }}">{{ scope }}</span>
+{% endmacro scope_badge %}
