@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wireframe — Znews.vn layout cho blog Duy Nguyen</title>
+<style>
+  :root{
+    --ink:#1f2430; --muted:#8b93a4; --line:#c9cede; --box:#e4e7ef;
+    --box2:#eef1f7; --zone:#f7f8fb; --accent:#e11d63; --accent-soft:#fde3ec;
+    --page:#ffffff; --chip:#eef1f7; --note:#5b6472;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",system-ui,Arial,sans-serif;background:#eceef3;color:var(--ink);line-height:1.5}
+  .wrap{max-width:1240px;margin:0 auto;padding:28px 18px 80px}
+
+  /* ---- doc header ---- */
+  .doc-head{background:var(--page);border:1px solid var(--line);border-radius:16px;padding:22px 26px;margin-bottom:26px}
+  .doc-head h1{margin:0 0 6px;font-size:22px}
+  .doc-head p{margin:4px 0;color:var(--note);font-size:14px}
+  .tag{display:inline-block;background:var(--accent-soft);color:var(--accent);font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;margin-right:6px}
+
+  /* ---- page frame ---- */
+  .frame{background:var(--page);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:34px;box-shadow:0 4px 22px rgba(30,40,70,.06)}
+  .frame > .frame-title{display:flex;align-items:center;gap:10px;background:#1f2430;color:#fff;padding:11px 18px;font-weight:700;font-size:14px;letter-spacing:.3px}
+  .frame-title .badge{background:var(--accent);border-radius:6px;font-size:11px;padding:2px 8px}
+  .canvas{padding:18px}
+
+  /* zone wrapper + numbered annotations */
+  .zone{position:relative;border:1px dashed var(--line);border-radius:12px;background:var(--zone);padding:16px;margin:12px 0}
+  .zone-label{position:absolute;top:-11px;left:14px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px}
+  .zone-note{font-size:12px;color:var(--note);margin:0 0 10px;padding-left:2px}
+
+  /* wireframe primitives */
+  .img{background:
+      repeating-linear-gradient(135deg,#dfe3ec 0 10px,#e7ebf3 10px 20px);
+      border:1px solid var(--line);border-radius:8px;position:relative}
+  .img::after{content:"IMG";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#aab2c5;font-size:11px;font-weight:700;letter-spacing:1px}
+  .bar{height:11px;background:var(--box);border-radius:5px;margin:7px 0}
+  .bar.dark{background:#cfd4e0}
+  .bar.w90{width:90%}.bar.w75{width:75%}.bar.w60{width:60%}.bar.w45{width:45%}.bar.w30{width:30%}
+  .h-lg{height:20px;background:#c2c8d6;border-radius:5px;margin:8px 0}
+  .h-md{height:15px;background:#cbd0dd;border-radius:5px;margin:6px 0}
+  .chip{display:inline-block;height:22px;min-width:78px;background:var(--chip);border:1px solid var(--line);border-radius:999px;margin:0 6px 0 0}
+  .flex{display:flex;gap:14px}
+  .col{flex:1;min-width:0}
+
+  /* ===== HEADER ===== */
+  .hdr{display:flex;align-items:center;gap:18px}
+  .logo{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+  .logo .z{width:34px;height:34px;border-radius:7px;background:linear-gradient(135deg,#7c3aed,#e11d63);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
+  .logo .lt{font-size:10px;font-weight:800;line-height:1.15;color:#333}
+  .logo .lt small{display:block;color:var(--muted);font-weight:700}
+  .award{flex:0 0 auto;height:30px;width:70px;border:1px solid var(--line);border-radius:6px;background:#fffbe9;display:flex;align-items:center;justify-content:center;color:#b8860b;font-size:9px;font-weight:700;text-align:center}
+  .nav{display:flex;gap:16px;flex:1;flex-wrap:wrap;align-items:center;justify-content:center}
+  .nav span{font-size:13px;font-weight:600;color:#3b4252;white-space:nowrap}
+  .nav span.active{color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:2px}
+  .search{flex:0 0 auto;width:30px;height:30px;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+
+  /* trending strip */
+  .strip{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  .strip .weather{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--note);font-weight:600}
+  .strip .weather .sun{width:20px;height:20px;border-radius:50%;background:#ffe08a}
+
+  /* hero grid */
+  .hero{display:grid;grid-template-columns:1fr 2fr 1fr;gap:16px}
+  .hero-list .row{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #edf0f6}
+  .hero-list .row .th{width:64px;height:48px;flex:0 0 auto}
+  .hero-list .row .tx{flex:1}
+  .hero-center .big{aspect-ratio:16/10}
+  .hero-right .card{margin-bottom:14px}
+  .hero-right .card .ci{aspect-ratio:16/9;margin-bottom:8px}
+
+  /* section block */
+  .sec-head{display:flex;align-items:center;gap:10px;margin:6px 0 12px}
+  .sec-head .acc{width:5px;height:22px;background:var(--accent);border-radius:3px}
+  .sec-head .t{font-size:16px;font-weight:800;letter-spacing:.5px}
+  .sec-head .more{margin-left:auto;color:var(--muted);font-size:12px}
+  .carousel{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;position:relative}
+  .carousel .card .ci{aspect-ratio:4/3;margin-bottom:8px}
+  .arrow{position:absolute;right:-6px;top:38%;width:28px;height:28px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+
+  /* category page */
+  .cat-title{text-align:center;font-size:30px;font-weight:800;letter-spacing:2px;margin:12px 0 8px}
+  .cat-rule{border-top:2px solid #2c3242;margin:6px 0}
+  .cat-tabs{display:flex;gap:26px;justify-content:center;padding:12px 0;border-bottom:1px solid var(--line)}
+  .cat-tabs span{font-size:12px;font-weight:700;letter-spacing:1px;color:#4b5262}
+  .cat-body{display:grid;grid-template-columns:1.6fr 1fr;gap:22px;margin-top:18px}
+  .cat-lead .li{aspect-ratio:16/9;margin-bottom:12px}
+  .cat-rail .row{display:flex;flex-direction:column;gap:8px;padding:0 0 16px;margin-bottom:16px;border-bottom:1px solid #edf0f6}
+  .cat-rail .row .ri{aspect-ratio:16/9}
+
+  /* article page */
+  .art{display:grid;grid-template-columns:2.1fr 1fr;gap:24px}
+  .art .breadcrumb{font-size:11px;color:var(--muted);margin-bottom:8px}
+  .art .hero-img{aspect-ratio:16/9;margin:12px 0}
+  .art .meta{display:flex;gap:10px;align-items:center;margin:10px 0}
+  .art .meta .av{width:26px;height:26px;border-radius:50%;background:var(--box)}
+  .side .widget{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:16px;background:#fff}
+  .side .widget .wt{font-size:12px;font-weight:800;color:var(--accent);margin-bottom:8px;letter-spacing:.5px}
+  .side .widget .row{display:flex;gap:9px;padding:7px 0;border-bottom:1px solid #edf0f6}
+  .side .widget .row .n{color:var(--accent);font-weight:800;font-size:13px}
+  .side .widget .row .th{width:52px;height:40px;flex:0 0 auto}
+
+  /* footer */
+  .ft{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;background:#1f2430;color:#c7ccd8;padding:22px;border-radius:12px}
+  .ft .fh{font-size:12px;font-weight:800;color:#fff;margin-bottom:10px;letter-spacing:.5px}
+  .ft .fl{height:9px;background:#39404f;border-radius:4px;margin:8px 0;width:80%}
+
+  /* map / notes panel */
+  .panel{background:var(--page);border:1px solid var(--line);border-radius:16px;padding:22px 26px;margin-bottom:26px}
+  .panel h2{font-size:17px;margin:0 0 14px;display:flex;align-items:center;gap:8px}
+  .panel h2 .d{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid #eef0f5;vertical-align:top}
+  th{color:var(--note);font-size:11px;text-transform:uppercase;letter-spacing:.6px}
+  td.k{font-weight:700;white-space:nowrap}
+  ul.notes{margin:0;padding-left:18px;font-size:13.5px;color:#3b4252}
+  ul.notes li{margin:6px 0}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--note);margin-top:10px}
+  .legend b{color:var(--ink)}
+  .mini{display:inline-block;width:26px;height:12px;border-radius:3px;vertical-align:middle;margin-right:5px}
+
+  @media (max-width:820px){
+    .hero{grid-template-columns:1fr}
+    .carousel{grid-template-columns:repeat(2,1fr)}
+    .cat-body,.art,.ft{grid-template-columns:1fr}
+    .nav{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===================== DOC HEADER ===================== -->
+  <div class="doc-head">
+    <h1>🧩 Wireframe: layout Znews.vn (Tạp chí Tri thức) → áp cho blog</h1>
+    <p><span class="tag">LOW-FIDELITY</span><span class="tag">3 PAGE TYPES</span> Dựng theo 2 ảnh chụp thật user gửi (trang chủ + trang chuyên mục Công nghệ). Đây là bản khung để <b>quyết định</b> có làm theme mới hay không — chưa phải code theme.</p>
+    <div class="legend">
+      <span><span class="mini" style="background:repeating-linear-gradient(135deg,#dfe3ec 0 6px,#e7ebf3 6px 12px);border:1px solid #c9cede"></span> Ảnh / thumbnail</span>
+      <span><span class="mini" style="background:#c2c8d6"></span> Tiêu đề</span>
+      <span><span class="mini" style="background:#e4e7ef"></span> Dòng text</span>
+      <span><span class="mini" style="background:#e11d63"></span> Màu nhấn (magenta — znews)</span>
+      <span><b>Số hồng</b> = chú thích vùng bố cục</span>
+    </div>
+  </div>
+
+  <!-- ===================== PAGE 1: HOMEPAGE ===================== -->
+  <div class="frame">
+    <div class="frame-title"><span class="badge">TRANG 1</span> HOMEPAGE — Trang chủ</div>
+    <div class="canvas">
+
+      <!-- HEADER -->
+      <div class="zone">
+        <span class="zone-label">1 · Header</span>
+        <p class="zone-note">Logo + huy hiệu giải thưởng (trái) · menu chuyên mục ngang (giữa) · icon tìm kiếm (phải).</p>
+        <div class="hdr">
+          <div class="logo">
+            <div class="z">Z</div>
+            <div class="lt">TẠP CHÍ<br>TRI THỨC<small>NEWS.VN</small></div>
+          </div>
+          <div class="award">🏅 GIẢI VÀNG</div>
+          <div class="nav">
+            <span>Xuất bản</span><span>Kinh doanh</span><span>Sức khỏe</span>
+            <span>Thể thao</span><span>Đời sống</span><span>Công nghệ</span>
+            <span>Giải trí</span><span>Lifestyle</span><span>•••</span>
+          </div>
+          <div class="search">🔍</div>
+        </div>
+      </div>
+
+      <!-- TRENDING STRIP -->
+      <div class="zone">
+        <span class="zone-label">2 · Trending strip</span>
+        <p class="zone-note">Hashtag chủ đề nóng (trái) · widget thời tiết + nhiệt độ (phải).</p>
+        <div class="strip">
+          <div><span class="chip"></span><span class="chip"></span><span class="chip"></span></div>
+          <div class="weather"><span class="sun"></span> TP. Hồ Chí Minh · 32°C</div>
+        </div>
+      </div>
+
+      <!-- HERO -->
+      <div class="zone">
+        <span class="zone-label">3 · Hero — lưới 3 cột</span>
+        <p class="zone-note">Cột trái: 5 tin thứ cấp (thumbnail + tiêu đề). Cột giữa (lớn nhất): ảnh feature to + tiêu đề lớn + gạch đầu dòng phụ đề. Cột phải: 2 thẻ ảnh xếp dọc.</p>
+        <div class="hero">
+          <!-- left list -->
+          <div class="hero-list">
+            <div class="row"><div class="th img"></div><div class="tx"><div class="bar w90"></div><div class="bar w60"></div></div></div>
+            <div class="row"><div class="th img"></div><div class="tx"><div class="bar w90"></div><div class="bar w45"></div></div></div>
+            <div class="row"><div class="th img"></div><div class="tx"><div class="bar w90"></div><div class="bar w75"></div></div></div>
+            <div class="row"><div class="th img"></div><div class="tx"><div class="bar w90"></div><div class="bar w60"></div></div></div>
+            <div class="row" style="border:0"><div class="th img"></div><div class="tx"><div class="bar w90"></div><div class="bar w45"></div></div></div>
+          </div>
+          <!-- center -->
+          <div class="hero-center">
+            <div class="big img"></div>
+            <div class="h-lg" style="width:85%"></div>
+            <div class="h-md" style="width:55%"></div>
+            <div class="bar w45" style="background:var(--accent-soft)"></div>
+          </div>
+          <!-- right cards -->
+          <div class="hero-right">
+            <div class="card"><div class="ci img"></div><div class="bar w90"></div><div class="bar w75"></div></div>
+            <div class="card"><div class="ci img"></div><div class="bar w90"></div><div class="bar w60"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION BLOCK (carousel) -->
+      <div class="zone">
+        <span class="zone-label">4 · Khối chuyên mục (carousel)</span>
+        <p class="zone-note">Thanh nhấn magenta + tên mục (vd BOOKS / Công nghệ / Ngân hàng) · hàng 6 thẻ ngang cuộn được (mũi tên →). Lặp lại khối này cho từng chuyên mục.</p>
+        <div class="sec-head"><span class="acc"></span><span class="t">TÊN CHUYÊN MỤC</span><span class="more">Xem tất cả ›</span></div>
+        <div class="carousel">
+          <div class="card"><div class="ci img"></div><div class="bar w90"></div><div class="bar w60"></div></div>
+          <div class="card"><div class="ci img"></div><div class="bar w90"></div><div class="bar w75"></div></div>
+          <div class="card"><div class="ci img"></div><div class="bar w90"></div><div class="bar w45"></div></div>
+          <div class="card"><div class="ci img"></div><div class="bar w90"></div><div class="bar w60"></div></div>
+          <div class="card"><div class="ci img"></div><div class="bar w90"></div><div class="bar w75"></div></div>
+          <div class="card"><div class="ci img"></div><div class="bar w90"></div><div class="bar w45"></div></div>
+          <div class="arrow">›</div>
+        </div>
+      </div>
+
+      <!-- SECTION BLOCK 2 (lead + list, like below-fold) -->
+      <div class="zone">
+        <span class="zone-label">5 · Khối chuyên mục (lead + danh sách)</span>
+        <p class="zone-note">Biến thể: 1 tin chính ảnh lớn (trái) + danh sách tin phụ (phải). Dùng xen kẽ với khối carousel để trang chủ đỡ đơn điệu.</p>
+        <div class="sec-head"><span class="acc"></span><span class="t">CHUYÊN MỤC KHÁC</span><span class="more">Xem tất cả ›</span></div>
+        <div class="flex">
+          <div class="col" style="flex:1.6">
+            <div class="img" style="aspect-ratio:16/9;margin-bottom:10px"></div>
+            <div class="h-md" style="width:80%"></div><div class="bar w60"></div>
+          </div>
+          <div class="col">
+            <div class="row" style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #edf0f6"><div class="th img" style="width:64px;height:48px"></div><div style="flex:1"><div class="bar w90"></div><div class="bar w45"></div></div></div>
+            <div class="row" style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #edf0f6"><div class="th img" style="width:64px;height:48px"></div><div style="flex:1"><div class="bar w90"></div><div class="bar w60"></div></div></div>
+            <div class="row" style="display:flex;gap:10px;padding:8px 0"><div class="th img" style="width:64px;height:48px"></div><div style="flex:1"><div class="bar w90"></div><div class="bar w45"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="zone">
+        <span class="zone-label">6 · Footer</span>
+        <p class="zone-note">Logo + mô tả (trái) · các cột link chuyên mục · bản quyền.</p>
+        <div class="ft">
+          <div><div class="fh">Z · TẠP CHÍ TRI THỨC</div><div class="fl"></div><div class="fl"></div><div class="fl" style="width:60%"></div></div>
+          <div><div class="fh">Chuyên mục</div><div class="fl"></div><div class="fl"></div><div class="fl"></div></div>
+          <div><div class="fh">Về blog</div><div class="fl"></div><div class="fl"></div><div class="fl"></div></div>
+          <div><div class="fh">Kết nối</div><div class="fl"></div><div class="fl"></div><div class="fl"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================== PAGE 2: CATEGORY ===================== -->
+  <div class="frame">
+    <div class="frame-title"><span class="badge">TRANG 2</span> CATEGORY — Trang chuyên mục (vd: Công nghệ)</div>
+    <div class="canvas">
+
+      <div class="zone">
+        <span class="zone-label">1 · Header (giống trang chủ, mục đang xem được gạch chân)</span>
+        <div class="hdr">
+          <div class="logo"><div class="z">Z</div><div class="lt">TẠP CHÍ<br>TRI THỨC<small>NEWS.VN</small></div></div>
+          <div class="award">🏅 GIẢI VÀNG</div>
+          <div class="nav">
+            <span>Xuất bản</span><span>Kinh doanh</span><span>Sức khỏe</span>
+            <span>Thể thao</span><span>Đời sống</span><span class="active">Công nghệ</span>
+            <span>Giải trí</span><span>Lifestyle</span><span>•••</span>
+          </div>
+          <div class="search">🔍</div>
+        </div>
+      </div>
+
+      <div class="zone">
+        <span class="zone-label">2 · Tiêu đề chuyên mục + tab con</span>
+        <p class="zone-note">Tên mục CỠ LỚN canh giữa · đường kẻ · hàng tab chuyên mục con (MOBILE · INTERNET · AI · ESPORTS · GADGET) · đường kẻ.</p>
+        <div class="cat-title">CÔNG NGHỆ</div>
+        <div class="cat-rule"></div>
+        <div class="cat-tabs"><span>MOBILE</span><span>INTERNET</span><span>AI</span><span>ESPORTS</span><span>GADGET</span></div>
+      </div>
+
+      <div class="zone">
+        <span class="zone-label">3 · Nội dung — 2 cột (lead + rail)</span>
+        <p class="zone-note">Cột trái (rộng): tin dẫn — ảnh lớn + tiêu đề lớn + đoạn tóm tắt. Cột phải: danh sách tin (ảnh + tiêu đề xếp dọc). Bên dưới lặp thêm các hàng tin.</p>
+        <div class="cat-body">
+          <div class="cat-lead">
+            <div class="li img"></div>
+            <div class="h-lg" style="width:80%"></div>
+            <div class="h-md" style="width:65%"></div>
+            <div class="bar w90"></div><div class="bar w90"></div><div class="bar w60"></div>
+          </div>
+          <div class="cat-rail">
+            <div class="row"><div class="ri img"></div><div class="h-md" style="width:85%"></div><div class="bar w60"></div></div>
+            <div class="row"><div class="ri img"></div><div class="h-md" style="width:85%"></div><div class="bar w45"></div></div>
+            <div class="row" style="border:0"><div class="ri img"></div><div class="h-md" style="width:85%"></div><div class="bar w75"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================== PAGE 3: ARTICLE ===================== -->
+  <div class="frame">
+    <div class="frame-title"><span class="badge">TRANG 3</span> ARTICLE — Trang bài viết <span style="font-weight:400;opacity:.7">(suy ra theo chuẩn znews — user chưa gửi ảnh)</span></div>
+    <div class="canvas">
+
+      <div class="zone">
+        <span class="zone-label">1 · Header (như trên)</span>
+        <div class="hdr">
+          <div class="logo"><div class="z">Z</div><div class="lt">TẠP CHÍ<br>TRI THỨC<small>NEWS.VN</small></div></div>
+          <div class="award">🏅 GIẢI VÀNG</div>
+          <div class="nav"><span>Xuất bản</span><span>Kinh doanh</span><span>Sức khỏe</span><span>Thể thao</span><span>Đời sống</span><span class="active">Công nghệ</span><span>•••</span></div>
+          <div class="search">🔍</div>
+        </div>
+      </div>
+
+      <div class="zone">
+        <span class="zone-label">2 · Bài viết — nội dung (trái) + sidebar (phải)</span>
+        <p class="zone-note">Breadcrumb → tiêu đề lớn → sapo → meta (tác giả · ngày GMT+7) → ảnh cover → thân bài. Sidebar: Đọc nhiều, Video, chuyên mục liên quan.</p>
+        <div class="art">
+          <div class="main">
+            <div class="breadcrumb">Trang chủ › Công nghệ › Bài viết</div>
+            <div class="h-lg" style="width:92%;height:26px"></div>
+            <div class="h-md" style="width:70%"></div>
+            <div class="bar w75" style="background:#dfe3ec"></div>
+            <div class="meta"><div class="av"></div><div class="bar w30" style="margin:0"></div></div>
+            <div class="hero-img img"></div>
+            <div class="bar"></div><div class="bar w90"></div><div class="bar"></div><div class="bar w75"></div>
+            <div class="h-md" style="width:40%;margin-top:16px"></div>
+            <div class="bar"></div><div class="bar w90"></div><div class="bar w60"></div>
+            <div class="img" style="aspect-ratio:16/9;margin:14px 0"></div>
+            <div class="bar"></div><div class="bar w90"></div><div class="bar w45"></div>
+          </div>
+          <div class="side">
+            <div class="widget">
+              <div class="wt">ĐỌC NHIỀU</div>
+              <div class="row"><div class="n">1</div><div class="th img"></div><div style="flex:1"><div class="bar w90"></div><div class="bar w45"></div></div></div>
+              <div class="row"><div class="n">2</div><div class="th img"></div><div style="flex:1"><div class="bar w90"></div><div class="bar w60"></div></div></div>
+              <div class="row" style="border:0"><div class="n">3</div><div class="th img"></div><div style="flex:1"><div class="bar w90"></div><div class="bar w45"></div></div></div>
+            </div>
+            <div class="widget">
+              <div class="wt">VIDEO / TIN LIÊN QUAN</div>
+              <div class="img" style="aspect-ratio:16/9;margin-bottom:8px"></div>
+              <div class="bar w90"></div><div class="bar w60"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================== MAPPING PANEL ===================== -->
+  <div class="panel">
+    <h2><span class="d"></span> Ánh xạ chuyên mục Znews → blog của bạn</h2>
+    <table>
+      <tr><th>Znews (báo)</th><th>Chuyên mục blog (từ config.toml)</th><th>Ghi chú</th></tr>
+      <tr><td class="k">Xuất bản / BOOKS</td><td>Khoa học · Tri thức</td><td>Khối carousel "tri thức" hợp gu blog</td></tr>
+      <tr><td class="k">Công nghệ</td><td>Công nghệ</td><td>Có sẵn — dùng làm demo trang chuyên mục</td></tr>
+      <tr><td class="k">Kinh doanh</td><td>Ngân hàng · Bảo hiểm (Tài chính cá nhân)</td><td>Nhóm tài chính đã có trong menu</td></tr>
+      <tr><td class="k">Đời sống</td><td>Du lịch · Ẩm thực · Thể thao</td><td>Nhóm "Đời sống" trong menu blog</td></tr>
+      <tr><td class="k">Thế giới</td><td>Thế giới</td><td>Có sẵn</td></tr>
+      <tr><td class="k">(mục đặc biệt)</td><td>⭐ Premium · Series</td><td>Có thể thành khối "Đặc biệt" trên trang chủ</td></tr>
+    </table>
+  </div>
+
+  <!-- ===================== NOTES PANEL ===================== -->
+  <div class="panel">
+    <h2><span class="d"></span> Điểm mấu chốt nếu làm theme này</h2>
+    <ul class="notes">
+      <li><b>Grid dày, editorial:</b> hero 3 cột + khối chuyên mục lặp lại là điểm khác lớn nhất so với theme blog hiện tại (single column + sidebar). Cần template <code>index.html</code> mới.</li>
+      <li><b>Màu nhấn magenta</b> (#e11d63) — znews dùng rất tiết chế: thanh mục, gạch đầu dòng, tab active. Nếu áp cần thêm token <code>--c-accent</code> biến thể (không đè token brand hiện tại theo rule light/dark).</li>
+      <li><b>Trang chuyên mục</b> khác hẳn: tiêu đề lớn canh giữa + tab con + lead/rail. Cần sửa <code>section.html</code> / <code>taxonomy_single.html</code>.</li>
+      <li><b>Ảnh là trung tâm:</b> mọi thẻ đều có thumbnail. Blog cần đảm bảo mỗi bài có cover (đã có owned-cover fallback) — hợp lệ.</li>
+      <li><b>Responsive:</b> ≤820px hero 3 cột → 1 cột, carousel 6→2, nav thu về menu ☰ (theo rule R1–R8, chỉ sửa trong media query mobile).</li>
+      <li><b>Chưa động chạm gì:</b> file này nằm ở <code>wireframes/</code> (ngoài <code>content/</code> & <code>static/</code>) nên KHÔNG lên site production, chỉ để bạn xem &amp; quyết định.</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
