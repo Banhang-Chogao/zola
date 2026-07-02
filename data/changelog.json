@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1347",
+      "pr_number": 1347,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1347",
+      "title": "refactor(cms): Substack-style editor — paste-only content, slash-menu formatting",
+      "tag": "refactor",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-02T11:59:08Z",
+      "merge_commit_sha": "6c7ee08b87fd",
+      "stats": {
+        "additions": 359,
+        "deletions": 97
+      },
+      "highlights": [
+        "Redesigns the /editor/ compose view around the referenced Substack CMS: a minimal top bar (Back / Preview / Đăng bài), large auto-growing Title + Subtitle fields, and chip-style tags — replacing the o",
+        "Removes the .md file import feature — the CMS now supports writing only by pasting plain text into the body field (explicit paste handler reads text/plain only, guarding against rich-text paste from W",
+        "Removes the always-visible markdown icon toolbar. All formatting (headings, quote, code, code block, lists, image, link, bold, italic) now goes exclusively through the \"/\" slash command context menu t",
+        "Subtitle field is wired to the Zola root description frontmatter field (closes an existing gap where the CMS never wrote SEO description).",
+        "templates/editor.html: new .ecms-compose-bar sticky top bar, .ecms-headline block (title/subtitle/tag chips), dropped the md toolbar markup + import button/input."
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1348",
       "pr_number": 1348,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1348",
