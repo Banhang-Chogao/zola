@@ -184,11 +184,15 @@ max_length = 1500
 
 # ============= ADSENSE PLACEHOLDERS =============
 # Bật/tắt hệ thống placeholder quảng cáo (không phải quảng cáo thật).
-# enabled = false   → không render placeholder nào
+# enabled = false   → không render live unit (placeholder vẫn hiện khi placeholders=true)
 # placeholders = true → render placeholder UI để test vị trí, chờ gắn mã AdSense thật
+# Homepage review safety: index.html renders at most homepage_max_slots (2–3) visible slots.
+# Live ads require consent_cmp_ready=true (EEA/UK/CH CMP) before ins.adsbygoogle renders.
 [extra.ads]
 enabled = false
 placeholders = true
+homepage_max_slots = 3
+consent_cmp_ready = false
 # Publisher ID from AdSense (ca-pub-XXXXXXXXXXXXXXXX). Fill before go-live.
 publisher_id = ""
 # Block enabled=true in CI until CWV hygiene passes (see scripts/check_cwv_hygiene.py).

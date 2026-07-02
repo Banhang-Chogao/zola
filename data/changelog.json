@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1327",
+      "pr_number": 1327,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1327",
+      "title": "fix(adsense): homepage review safety — max 3 slots, Quảng cáo label only",
+      "tag": "fix",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-01T23:43:00Z",
+      "merge_commit_sha": "4f0650d83223",
+      "stats": {
+        "additions": 454,
+        "deletions": 236
+      },
+      "highlights": [
+        "Homepage slots: 4 → 3 visible placeholders (home_top, home_inarticle after card 3, home_banner before pagination). Removed home_sidebar mid-feed slot.",
+        "Label: Placeholders show only 「Quảng cáo」 — removed \"AdSense placeholder\" subtext; no uppercase styling.",
+        "Spacing: Extra margin between in-feed ads, article cards, and pagination (.ad-slot--home, .ad-slot--before-pagination).",
+        "Live ads gated: ins.adsbygoogle renders only when enabled=true and consent_cmp_ready=true (EEA/UK/CH CMP not ready yet).",
+        "Config: homepage_max_slots = 3, consent_cmp_ready = false, enabled = false unchanged."
+      ],
+      "verified": true
+    },
+    {
       "id": "commit-c722a49da8fb",
       "pr_number": 0,
       "pr_url": "",

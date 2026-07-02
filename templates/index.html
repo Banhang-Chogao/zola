@@ -39,7 +39,8 @@
 </header>
 
 {{ placement::render(id="home_hero_after", page=page | default(value=false), section=section | default(value=false)) }}
-{{ ad_slot::render(key="home_top", id="home-ad-top", type="home-top", label="Quảng cáo") }}
+{# AdSense review safety: max 3 visible homepage slots (top · in-feed · before pagination). #}
+{{ ad_slot::render(key="home_top", id="home-ad-top", type="home-top", label="Quảng cáo", wrapper_class="ad-slot--home") }}
 
 <div class="post-list">
     {% for page in pages %}
@@ -68,15 +69,12 @@
             </div>
         </article>
         {% if loop.index == 3 %}
-            {{ ad_slot::render(key="home_inarticle", id="home-ad-inarticle", type="article-inline", label="Quảng cáo") }}
-        {% endif %}
-        {% if loop.index == 6 %}
-            {{ ad_slot::render(key="home_sidebar", id="home-ad-sidebar", type="home-sidebar", label="Quảng cáo", min_height="320px") }}
+            {{ ad_slot::render(key="home_inarticle", id="home-ad-inarticle", type="article-inline", label="Quảng cáo", wrapper_class="ad-slot--home") }}
         {% endif %}
     {% endfor %}
 </div>
 
-{{ ad_slot::render(key="home_banner", id="home-ad-banner", type="home-banner", label="Quảng cáo", min_height="90px") }}
+{{ ad_slot::render(key="home_banner", id="home-ad-banner", type="home-feed", label="Quảng cáo", min_height="250px", wrapper_class="ad-slot--home ad-slot--before-pagination") }}
 
 {% if feed_pages > 1 %}
     <nav class="pagination" aria-label="Phân trang trang chủ">

@@ -1,37 +1,12 @@
 /* ============================================================
-   ===== NOKIA FONTS — Nokia Pure (self-hosted TTF) =====
+   ===== NOKIA THEME — typography (Nokia Blue palette) =====
    ============================================================
-   Nokia Pure by Dalton Maag — dùng cho theme Nokia Blog và trang
-   Font Guideline. Files trong static/fonts/nokia-pure/ (đã có sẵn
-   cho F-Dashboard PDF). url() relative so với site.css. */
-
-@font-face {
-  font-family: 'Nokia Pure';
-  src: url('fonts/nokia-pure/NokiaPureText-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Nokia Pure';
-  src: url('fonts/nokia-pure/NokiaPureText-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Nokia Pure Headline';
-  src: url('fonts/nokia-pure/NokiaPureHeadline-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
+   Blog UI uses Be Vietnam Pro (OFL). Nokia Pure TTF is reserved for
+   F-Dashboard PDF export (static/fonts/nokia-pure/) — not site CSS. */
 
 :root[data-theme="nokia"] {
-  --nokia-font-body: 'Nokia Pure', 'Inter', 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --nokia-font-headline: 'Nokia Pure Headline', 'Nokia Pure', 'Inter', system-ui, sans-serif;
+  --nokia-font-body: 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --nokia-font-headline: 'Be Vietnam Pro', system-ui, sans-serif;
   font-family: var(--nokia-font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -59,23 +34,17 @@
       font-family: var(--nokia-font-headline);
       font-size: 1.75rem;
       font-weight: 700;
-      letter-spacing: -0.015em;
     }
 
     h3 {
       font-size: 1.35rem;
-      font-weight: 700;
+      font-weight: 600;
     }
   }
 }
 
 @media (max-width: 720px) {
   :root[data-theme="nokia"] {
-    .post-single__title { font-size: 1.6rem; }
-
-    .post-single__content {
-      h2 { font-size: 1.4rem; }
-      h3 { font-size: 1.15rem; }
-    }
+    .post-single__title { font-size: 1.5rem; }
   }
 }

@@ -38,22 +38,15 @@
   &__label {
     margin: 0;
     font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: 0.025em;
-    text-transform: uppercase;
-    color: var(--c-text-body);
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--c-text-muted);
     line-height: 1.2;
   }
 
   &__text {
     display: inline-block;
-  }
-
-  &__note {
-    margin: 0;
-    font-size: 0.75rem;
-    color: var(--ad-text-color);
-    font-style: italic;
   }
 
   // Desktop only: hide on mobile and smaller devices
@@ -105,9 +98,16 @@
   -webkit-user-select: none;
 }
 
-.ad-placeholder__note {
-  user-select: none;
-  -webkit-user-select: none;
+// Homepage: keep ad-like blocks separated from cards, CTAs, and pagination.
+.post-list .ad-placeholder,
+.post-list .ad-slot {
+  margin: 2.5rem 0;
+}
+
+.ad-slot--before-pagination,
+.ad-placeholder--before-pagination {
+  margin-top: 2.5rem;
+  margin-bottom: 2.75rem;
 }
 
 // Live AdSense unit wrapper (same CLS rules as placeholder)
