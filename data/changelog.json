@@ -1,6 +1,28 @@
 {
   "items": [
     {
+      "id": "pr-1331",
+      "pr_number": 1331,
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1331",
+      "title": "docs(claude): report timestamps must be converted to GMT+7",
+      "tag": "chore",
+      "author": "Banhang-Chogao",
+      "merged_at": "2026-07-02T04:52:37Z",
+      "merge_commit_sha": "c718cffb5ad3",
+      "stats": {
+        "additions": 14,
+        "deletions": 0
+      },
+      "highlights": [
+        "CLAUDE.md → mục Quy tắc hiển thị thời gian: thêm §4 \"Báo cáo của agent (chat/report) — LUÔN quy đổi sang GMT+7\".",
+        "Convert mọi giá trị UTC/...Z từ GitHub API / git / CI sang GMT+7 (Asia/Ho_Chi_Minh) trước khi hiển thị cho user.",
+        "Định dạng: HH:MM dd/mm/yyyy (GMT+7) (vd 02:24Z → 09:24 02/07/2026 (GMT+7)).",
+        "Áp dụng cho mọi shortcut/report (kt9, ??, deploy status, merge report…) và văn bản trả lời thường.",
+        "Docs-only (chỉ CLAUDE.md); branch cắt từ main HEAD mới nhất (V9 — tránh stale base)."
+      ],
+      "verified": true
+    },
+    {
       "id": "pr-1327",
       "pr_number": 1327,
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1327",
