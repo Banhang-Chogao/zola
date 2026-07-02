@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block extra_head %}
+    {{ super() }}
+    {# Self-contained stylesheet — không phụ thuộc site.css/tools.css, không đụng var(--c-*). #}
+    <link rel="stylesheet" href="{{ get_url(path='k-dna-demo.css') }}?v={{ now(timestamp=true) }}">
+{% endblock %}
+
+{% block main %}
+<section class="kdemo">
+
+    {# ===== DEMO NOTICE ===== #}
+    <div class="kdemo__notice">
+        <strong>Đây là bản demo cô lập.</strong> Toàn bộ CSS trên trang này nằm trong 1 file riêng
+        (<code>k-dna-demo.css</code>), scope dưới <code>.kdemo</code>, không import vào
+        <code>site.scss</code> và không ghi đè token <code>var(--c-*)</code> của theme hiện tại.
+        Xem tài liệu gốc tại <a href="{{ get_url(path='tools/k-dna/') }}">K-DNA — Design DNA</a>.
+    </div>
+
+    {# ===== MOCK NAVBAR ===== #}
+    <header class="kdemo__navbar">
+        <div class="kdemo__navbar-brand">
+            <span class="kdemo__logo-mark" aria-hidden="true">K</span>
+            <span class="kdemo__navbar-title">{{ config.title | default(value="Blog") }}</span>
+        </div>
+        <nav class="kdemo__navbar-links">
+            <a href="#" class="is-active">Trang chủ</a>
+            <a href="#">Ngân hàng</a>
+            <a href="#">Công nghệ</a>
+            <a href="#">Du lịch</a>
+            <a href="#">Đời sống</a>
+        </nav>
+        <button type="button" class="kdemo__btn kdemo__btn--primary kdemo__navbar-cta">Đăng ký</button>
+    </header>
+
+    {# ===== MOCK HERO ===== #}
+    <section class="kdemo__hero">
+        <p class="kdemo__hero-eyebrow">Bản tin mỗi ngày</p>
+        <h1 class="kdemo__hero-title">Tin tức tài chính, dễ đọc và ấm áp hơn</h1>
+        <p class="kdemo__hero-sub">
+            Cùng một nội dung, chỉ đổi ngôn ngữ thiết kế: bo tròn mềm hơn, một sắc vàng chủ đạo,
+            card phẳng ít đổ bóng — cảm giác gần với ứng dụng nhắn tin hơn là bảng tin tài chính khô khan.
+        </p>
+        <div class="kdemo__hero-actions">
+            <button type="button" class="kdemo__btn kdemo__btn--primary">Khám phá ngay</button>
+            <button type="button" class="kdemo__btn kdemo__btn--ghost">Xem tài liệu K-DNA</button>
+        </div>
+    </section>
+
+    {# ===== CATEGORY PILLS ===== #}
+    <nav class="kdemo__pills" aria-label="Lọc chuyên mục (demo)">
+        <a href="#" class="kdemo__pill is-active">Tất cả</a>
+        <a href="#" class="kdemo__pill">Ngân hàng</a>
+        <a href="#" class="kdemo__pill">Công nghệ</a>
+        <a href="#" class="kdemo__pill">Du lịch</a>
+        <a href="#" class="kdemo__pill">Đời sống</a>
+        <a href="#" class="kdemo__pill">Kiến thức</a>
+    </nav>
+
+    {# ===== MAIN GRID: POST CARDS + SIDEBAR ===== #}
+    <div class="kdemo__layout">
+        <div class="kdemo__main">
+            <h2 class="kdemo__section-title">Bài viết mới</h2>
+            <div class="kdemo__cards">
+                <article class="kdemo__card">
+                    <div class="kdemo__card-thumb kdemo__card-thumb--tone1"><span class="kdemo__card-thumb-mark" aria-hidden="true">K</span></div>
+                    <div class="kdemo__card-body">
+                        <span class="kdemo__card-cat">Ngân hàng</span>
+                        <h3 class="kdemo__card-title">So sánh lãi suất tiết kiệm online tháng này</h3>
+                        <p class="kdemo__card-excerpt">Tổng hợp nhanh biểu lãi suất các ngân hàng, cập nhật theo tuần, dễ đối chiếu.</p>
+                        <div class="kdemo__card-meta"><span>02/07/2026</span><a href="#" class="kdemo__card-link">Đọc thêm →</a></div>
+                    </div>
+                </article>
+                <article class="kdemo__card">
+                    <div class="kdemo__card-thumb kdemo__card-thumb--tone2"><span class="kdemo__card-thumb-mark" aria-hidden="true">K</span></div>
+                    <div class="kdemo__card-body">
+                        <span class="kdemo__card-cat">Công nghệ</span>
+                        <h3 class="kdemo__card-title">Mẹo dùng AI để soạn báo cáo nhanh hơn</h3>
+                        <p class="kdemo__card-excerpt">Vài quy trình thực tế giúp rút ngắn thời gian soạn thảo mà vẫn giữ chất lượng.</p>
+                        <div class="kdemo__card-meta"><span>01/07/2026</span><a href="#" class="kdemo__card-link">Đọc thêm →</a></div>
+                    </div>
+                </article>
+                <article class="kdemo__card">
+                    <div class="kdemo__card-thumb kdemo__card-thumb--tone3"><span class="kdemo__card-thumb-mark" aria-hidden="true">K</span></div>
+                    <div class="kdemo__card-body">
+                        <span class="kdemo__card-cat">Du lịch</span>
+                        <h3 class="kdemo__card-title">Lịch trình 3 ngày 2 đêm tiết kiệm cho người mới bắt đầu</h3>
+                        <p class="kdemo__card-excerpt">Từ đặt vé đến chọn chỗ ở — checklist gọn cho chuyến đi đầu tiên.</p>
+                        <div class="kdemo__card-meta"><span>30/06/2026</span><a href="#" class="kdemo__card-link">Đọc thêm →</a></div>
+                    </div>
+                </article>
+                <article class="kdemo__card">
+                    <div class="kdemo__card-thumb kdemo__card-thumb--tone1"><span class="kdemo__card-thumb-mark" aria-hidden="true">K</span></div>
+                    <div class="kdemo__card-body">
+                        <span class="kdemo__card-cat">Đời sống</span>
+                        <h3 class="kdemo__card-title">5 thói quen quản lý chi tiêu cho người mới đi làm</h3>
+                        <p class="kdemo__card-excerpt">Không cần bảng Excel phức tạp, chỉ cần vài nguyên tắc đơn giản.</p>
+                        <div class="kdemo__card-meta"><span>29/06/2026</span><a href="#" class="kdemo__card-link">Đọc thêm →</a></div>
+                    </div>
+                </article>
+                <article class="kdemo__card">
+                    <div class="kdemo__card-thumb kdemo__card-thumb--tone2"><span class="kdemo__card-thumb-mark" aria-hidden="true">K</span></div>
+                    <div class="kdemo__card-body">
+                        <span class="kdemo__card-cat">Kiến thức</span>
+                        <h3 class="kdemo__card-title">Giải thích ngắn gọn về lạm phát và ảnh hưởng tới ví tiền</h3>
+                        <p class="kdemo__card-excerpt">Khái niệm tưởng khô khan nhưng ảnh hưởng trực tiếp đến quyết định chi tiêu.</p>
+                        <div class="kdemo__card-meta"><span>28/06/2026</span><a href="#" class="kdemo__card-link">Đọc thêm →</a></div>
+                    </div>
+                </article>
+                <article class="kdemo__card">
+                    <div class="kdemo__card-thumb kdemo__card-thumb--tone3"><span class="kdemo__card-thumb-mark" aria-hidden="true">K</span></div>
+                    <div class="kdemo__card-body">
+                        <span class="kdemo__card-cat">Công nghệ</span>
+                        <h3 class="kdemo__card-title">So sánh nhanh các công cụ ghi chú miễn phí</h3>
+                        <p class="kdemo__card-excerpt">Điểm mạnh, điểm yếu và gợi ý chọn công cụ phù hợp với nhu cầu cá nhân.</p>
+                        <div class="kdemo__card-meta"><span>27/06/2026</span><a href="#" class="kdemo__card-link">Đọc thêm →</a></div>
+                    </div>
+                </article>
+            </div>
+
+            {# ===== PAGINATION ===== #}
+            <nav class="kdemo__pagination" aria-label="Phân trang (demo)">
+                <a href="#" class="kdemo__page is-active">1</a>
+                <a href="#" class="kdemo__page">2</a>
+                <a href="#" class="kdemo__page">3</a>
+                <span class="kdemo__page kdemo__page--dots">…</span>
+                <a href="#" class="kdemo__page">12</a>
+                <a href="#" class="kdemo__page kdemo__page--next">Sau →</a>
+            </nav>
+        </div>
+
+        <aside class="kdemo__sidebar">
+            <div class="kdemo__widget">
+                <h4 class="kdemo__widget-title">Bài viết nổi bật</h4>
+                <ul class="kdemo__widget-list">
+                    <li><a href="#">Cách đọc sao kê ngân hàng chỉ trong 1 phút</a></li>
+                    <li><a href="#">3 sai lầm phổ biến khi đầu tư lần đầu</a></li>
+                    <li><a href="#">Checklist chuẩn bị hồ sơ vay mua nhà</a></li>
+                </ul>
+            </div>
+            <div class="kdemo__widget">
+                <h4 class="kdemo__widget-title">Chuyên mục</h4>
+                <div class="kdemo__widget-pills">
+                    <a href="#" class="kdemo__pill kdemo__pill--sm">Ngân hàng</a>
+                    <a href="#" class="kdemo__pill kdemo__pill--sm">Công nghệ</a>
+                    <a href="#" class="kdemo__pill kdemo__pill--sm">Du lịch</a>
+                    <a href="#" class="kdemo__pill kdemo__pill--sm">Đời sống</a>
+                </div>
+            </div>
+            <div class="kdemo__widget kdemo__widget--cta">
+                <h4 class="kdemo__widget-title">Nhận tin mới mỗi tuần</h4>
+                <p>Đăng ký để không bỏ lỡ bài viết mới, ngắn gọn, không spam.</p>
+                <button type="button" class="kdemo__btn kdemo__btn--primary" style="width:100%;">Đăng ký ngay</button>
+            </div>
+        </aside>
+    </div>
+
+    {# ===== MOCK FOOTER ===== #}
+    <footer class="kdemo__footer">
+        <div class="kdemo__footer-brand">
+            <span class="kdemo__logo-mark" aria-hidden="true">K</span>
+            <span>{{ config.title | default(value="Blog") }}</span>
+        </div>
+        <p class="kdemo__footer-note">Demo K-DNA — chỉ minh hoạ, không phải theme chính thức của trang.</p>
+    </footer>
+
+    <div class="kdemo__verdict">
+        <h4>Kết luận nhanh</h4>
+        <p>
+            Đây là bản mô phỏng <strong>cô lập</strong> để xem trước cảm giác thị giác. Việc áp K-DNA
+            <strong>toàn cục</strong> lên theme thật cần xử lý thêm các điểm được liệt kê trong audit
+            (contrast nút/badge dùng nền accent + chữ trắng, bo góc, font) trước khi đổi token
+            <code>var(--c-*)</code> thật sự — xem chi tiết trong báo cáo audit đi kèm.
+        </p>
+    </div>
+</section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
